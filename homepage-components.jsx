@@ -12,7 +12,8 @@ function chartX(i, n) {
   return CHART.PAD.l + (i / (n - 1)) * (CHART.W - CHART.PAD.l - CHART.PAD.r);
 }
 function chartY(v) {
-  return CHART.PAD.t + (1 - (v - CHART.Y_MIN) / (CHART.Y_MAX - CHART.Y_MIN)) * (CHART.H - CHART.PAD.t - CHART.PAD.b);
+  const norm = Math.max(0, Math.min(1, (v - CHART.Y_MIN) / (CHART.Y_MAX - CHART.Y_MIN)));
+  return CHART.PAD.t + (1 - norm) * (CHART.H - CHART.PAD.t - CHART.PAD.b);
 }
 function toPoints(arr) {
   return arr.map((v, i) => `${chartX(i, arr.length).toFixed(1)},${chartY(v).toFixed(1)}`).join(' ');
@@ -135,6 +136,7 @@ function Products({ t }) {
 function PerformanceChart({ t, dark }) {
   const c = t.perf;
   const ec = window.EQUITY_CURVE;
+  if (!ec) return null;
   const accentColor = dark ? '#00e49a' : '#009e70';
   const blueColor   = dark ? '#5b9fff' : '#3a7ef0';
   const amberColor  = dark ? '#f5a623' : '#d97706';
