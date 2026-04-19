@@ -1,3 +1,16 @@
+// Equity curve data — language-independent, 2021-05 to 2026-04 (61 points, base=100)
+// CL=F: computed from monthly_returns in multi_asset_hmm_bb_rsi_v1_cl_report.json
+// SPY/QQQ: monthly close prices normalized, index-0 = 2021-05-01 (prepended 100.0)
+window.EQUITY_CURVE = {
+  cl:  [100.0,100.0,100.0,108.88,116.75,116.75,116.75,105.12,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,119.01,125.15,123.43,119.91,119.91,119.91,124.9,124.9,126.95,135.63,135.63,135.63,135.63,142.08,142.84,144.91,144.91,144.91,144.91,144.91,146.29,153.07,154.88,159.08,162.56,162.56,162.56,162.56,162.56,164.43,160.81,160.81,174.21,174.21,174.21,174.21,179.1,182.79,184.24,191.4,191.4,191.4,191.4,191.4],
+  spy: [100.0,100.0,102.24,104.74,107.86,102.83,110.04,109.16,114.21,108.18,104.99,108.94,99.38,99.6,91.39,99.8,95.73,86.88,93.94,99.17,93.45,99.33,96.83,100.42,102.02,102.5,109.14,112.71,110.88,105.62,103.33,112.76,117.91,119.79,126.04,130.16,124.91,131.23,135.86,137.51,140.72,143.68,142.39,150.89,147.26,151.21,149.29,140.97,139.75,148.53,156.17,159.76,163.04,168.85,172.87,173.21,173.35,175.9,174.38,165.77,181.01],
+  qqq: [100.0,100.0,106.26,109.3,113.91,107.44,115.89,118.2,119.56,109.11,104.22,109.09,94.26,92.76,84.5,95.1,90.22,80.72,83.95,88.6,80.61,89.19,88.87,97.31,97.8,105.51,112.17,116.5,114.77,108.94,106.69,118.23,124.84,127.11,133.82,135.53,129.6,137.57,146.47,144.02,145.61,149.42,148.13,156.06,156.77,160.16,155.83,144.01,146.02,159.42,169.6,173.71,175.37,184.8,193.63,190.61,189.33,191.66,187.17,177.89,199.98],
+  // x-axis: indices into the 61-point arrays where each year label is positioned
+  // index 0 = 2021-05-01, index 9 = Jan 2022, index 21 = Jan 2023, index 33 = Jan 2024, index 45 = Jan 2025
+  yearLabels: ['2021','2022','2023','2024','2025'],
+  yearIndices: [0, 9, 21, 33, 45],
+};
+
 // Bilingual copy — window.COPY
 window.COPY = {
   ja: {
@@ -12,7 +25,7 @@ window.COPY = {
     },
     heroStats: [
       { val: '3', accent: false, lbl: '開発中プロダクト' },
-      { val: 'Sharpe 0.84', accent: true, lbl: 'バックテスト実績（GC=F・10年）' },
+      { val: 'Sharpe 1.09', accent: true, lbl: 'バックテスト実績（CL=F・5年）' },
       { val: '2027', accent: false, lbl: '正式リリース目標' },
     ],
     products: {
@@ -58,19 +71,30 @@ window.COPY = {
     perf: {
       label: 'パフォーマンス',
       title: 'バックテスト結果（実データ）',
-      strategy: 'GC=F（金先物）HMM + BB + RSI 平均回帰戦略',
-      period: '2016.04 – 2026.04（10年）',
-      note: '※ 実際のバックテスト結果です。手数料0.1%込み。過去の成績は将来の利益を保証しません。',
+      strategy: '原油先物（CL=F）HMM + ボリンジャーバンド + RSI 平均回帰戦略',
+      period: '2021.05 – 2026.04（5年）',
+      note: '※ 実際のバックテスト結果です。手数料0.1%込み。QQQバイ&ホールドの年率リターン（14.9%）は本戦略（13.9%）を上回ります。過去の成績は将来の利益を保証しません。',
       stats: [
-        { val: '+4.35%', label: 'CAGR', cls: 'val-pos' },
-        { val: '0.84', label: 'Sharpe Ratio', cls: 'val-neu' },
-        { val: '84.8%', label: 'Win Rate', cls: 'val-neu' },
-        { val: '-9.35%', label: 'Max Drawdown', cls: 'val-neg' },
-        { val: '33回', label: '取引回数', cls: 'val-neu' },
+        { val: '+13.9%', label: 'CAGR',        cls: 'val-pos' },
+        { val: '1.09',   label: 'Sharpe Ratio', cls: 'val-neu' },
+        { val: '86.4%',  label: 'Win Rate',     cls: 'val-neu' },
+        { val: '-17.0%', label: 'Max Drawdown', cls: 'val-neg' },
+        { val: '22回',   label: '取引回数',     cls: 'val-neu' },
       ],
       legend: [
-        { color: 'var(--accent)', label: 'エクイティカーブ（参考）' },
+        { color: 'var(--accent)',  label: '本戦略（CL=F）' },
+        { color: 'var(--blue)',    label: 'SPY B&H' },
+        { color: 'var(--amber)',   label: 'QQQ B&H' },
       ],
+      bench: {
+        label: 'vs ベンチマーク（同期間）',
+        headers: ['', 'SPY B&H', 'QQQ B&H', '本戦略'],
+        rows: [
+          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: true },
+          { metric: 'Sharpe',  spy: '≈0.5',  qqq: '≈0.5',  strat: '1.09',  stratWin: true },
+          { metric: 'Max DD',  spy: '-23.9%',qqq: '-32.6%', strat: '-17.0%',stratWin: true },
+        ],
+      },
     },
     roadmap: {
       label: 'ロードマップ',
@@ -155,7 +179,7 @@ window.COPY = {
     },
     heroStats: [
       { val: '3', accent: false, lbl: 'Products in Dev' },
-      { val: 'Sharpe 0.84', accent: true, lbl: 'Backtest Result (GC=F · 10yr)' },
+      { val: 'Sharpe 1.09', accent: true, lbl: 'Backtest Result (CL=F · 5yr)' },
       { val: '2027', accent: false, lbl: 'Target Release' },
     ],
     products: {
@@ -201,19 +225,30 @@ window.COPY = {
     perf: {
       label: 'Performance',
       title: 'Backtest Results (Live Data)',
-      strategy: 'GC=F (Gold Futures) HMM + BB + RSI Mean Reversion',
-      period: '2016.04 – 2026.04 (10 years)',
-      note: '* Real backtest result with 0.1% commission. Past results do not guarantee future performance.',
+      strategy: 'Crude Oil Futures (CL=F) HMM + Bollinger Bands + RSI Mean Reversion',
+      period: '2021.05 – 2026.04 (5 years)',
+      note: '* Real backtest result with 0.1% commission. QQQ buy-and-hold CAGR (14.9%) exceeds this strategy (13.9%). Past results do not guarantee future performance.',
       stats: [
-        { val: '+4.35%', label: 'CAGR', cls: 'val-pos' },
-        { val: '0.84', label: 'Sharpe Ratio', cls: 'val-neu' },
-        { val: '84.8%', label: 'Win Rate', cls: 'val-neu' },
-        { val: '-9.35%', label: 'Max Drawdown', cls: 'val-neg' },
-        { val: '33', label: 'Total Trades', cls: 'val-neu' },
+        { val: '+13.9%', label: 'CAGR',        cls: 'val-pos' },
+        { val: '1.09',   label: 'Sharpe Ratio', cls: 'val-neu' },
+        { val: '86.4%',  label: 'Win Rate',     cls: 'val-neu' },
+        { val: '-17.0%', label: 'Max Drawdown', cls: 'val-neg' },
+        { val: '22',     label: 'Total Trades', cls: 'val-neu' },
       ],
       legend: [
-        { color: 'var(--accent)', label: 'Equity Curve (illustrative)' },
+        { color: 'var(--accent)', label: 'This Strategy (CL=F)' },
+        { color: 'var(--blue)',   label: 'SPY B&H' },
+        { color: 'var(--amber)',  label: 'QQQ B&H' },
       ],
+      bench: {
+        label: 'vs Benchmark (same period)',
+        headers: ['', 'SPY B&H', 'QQQ B&H', 'This Strategy'],
+        rows: [
+          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: true },
+          { metric: 'Sharpe',  spy: '≈0.5',  qqq: '≈0.5',  strat: '1.09',  stratWin: true },
+          { metric: 'Max DD',  spy: '-23.9%',qqq: '-32.6%', strat: '-17.0%',stratWin: true },
+        ],
+      },
     },
     roadmap: {
       label: 'Roadmap',
