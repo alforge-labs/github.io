@@ -90,7 +90,7 @@ window.COPY = {
         label: 'vs ベンチマーク（同期間）',
         headers: ['', 'SPY B&H', 'QQQ B&H', '本戦略'],
         rows: [
-          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: true },
+          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: false },
           { metric: 'Sharpe',  spy: '≈0.5',  qqq: '≈0.5',  strat: '1.09',  stratWin: true },
           { metric: 'Max DD',  spy: '-23.9%',qqq: '-32.6%', strat: '-17.0%',stratWin: true },
         ],
@@ -244,7 +244,7 @@ window.COPY = {
         label: 'vs Benchmark (same period)',
         headers: ['', 'SPY B&H', 'QQQ B&H', 'This Strategy'],
         rows: [
-          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: true },
+          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: false },
           { metric: 'Sharpe',  spy: '≈0.5',  qqq: '≈0.5',  strat: '1.09',  stratWin: true },
           { metric: 'Max DD',  spy: '-23.9%',qqq: '-32.6%', strat: '-17.0%',stratWin: true },
         ],
