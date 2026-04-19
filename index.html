@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>alforge labs — アルゴリズムトレーディングシステム</title>
+  <meta name="description" content="次世代アルゴリズムトレーディングシステムを開発中。株式・オプション・CFD・FXに対応したAI駆動のマルチアセットトレーディング。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --border: #e4e4e0;
+      --border-strong: #c8c8c0;
+      --text: #1a1a18;
+      --text-secondary: #6b6b62;
+      --text-muted: #a0a098;
+      --accent: #2a5c45;
+      --accent-light: #e8f2ed;
+      --accent-dim: #3d7a5e;
+      --mono: 'IBM Plex Mono', monospace;
+      --serif: 'Playfair Display', serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(249,249,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-family: var(--mono);
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 7rem 0 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--accent-light);
+      border: 1px solid #b8d9c9;
+      padding: 0.3rem 0.75rem;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      max-width: 800px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.2s;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      margin-top: 1.75rem;
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 520px;
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.35s;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.5s;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2px;
+      text-decoration: none;
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      margin-top: 4rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.65s;
+    }
+
+    .stat-item { display: flex; flex-direction: column; gap: 0.25rem; }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.03em;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── PRODUCTS ── */
+    .products { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .product-card {
+      background: var(--surface);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      transition: height 0.3s ease;
+    }
+
+    .product-card:hover::after { height: 100%; }
+    .product-card:hover { background: #fafaf8; }
+
+    .product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+      width: fit-content;
+    }
+
+    .badge-dev { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+    .badge-alpha { background: #e0f2fe; color: #0c4a6e; border: 1px solid #7dd3fc; }
+    .badge-beta { background: var(--accent-light); color: var(--accent); border: 1px solid #b8d9c9; }
+
+    .product-name {
+      font-family: var(--mono);
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .product-name span { color: var(--accent); }
+
+    .product-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── ROADMAP ── */
+    .roadmap { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+
+    .roadmap-timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute;
+      left: 110px;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .roadmap-item {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 2rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      align-items: start;
+    }
+
+    .roadmap-item:last-child { border-bottom: none; }
+
+    .roadmap-item::after {
+      content: '';
+      position: absolute;
+      left: 106px;
+      top: 2.1rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--border-strong);
+      z-index: 2;
+    }
+
+    .roadmap-item.active::after {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .roadmap-item.done::after {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .roadmap-period {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      padding-top: 0.1rem;
+      text-align: right;
+      padding-right: 2rem;
+    }
+
+    .roadmap-content { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .roadmap-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .roadmap-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .roadmap-li {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .roadmap-li::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .roadmap-item.active .roadmap-li::before { background: var(--accent); }
+
+    .status-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      width: fit-content;
+    }
+
+    .status-done { background: #dcfce7; color: #166534; }
+    .status-active { background: var(--accent-light); color: var(--accent); }
+    .status-upcoming { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* ── X FEED ── */
+    .x-section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+
+    .x-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .x-info { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .x-handle {
+      font-family: var(--mono);
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .x-handle svg { color: var(--text-muted); }
+
+    .x-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    /* ── WAITLIST ── */
+    .waitlist { padding: 5rem 0; }
+
+    .waitlist-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3.5rem;
+      max-width: 640px;
+    }
+
+    .waitlist-card h2 {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .waitlist-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .form-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; min-width: 200px; }
+
+    .form-group label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.7rem 1rem;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+
+    .form-group input::placeholder { color: var(--text-muted); }
+
+    .form-submit {
+      margin-top: 1.25rem;
+      width: 100%;
+    }
+
+    .form-note {
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .success-msg {
+      display: none;
+      background: var(--accent-light);
+      border: 1px solid #b8d9c9;
+      padding: 1rem 1.25rem;
+      border-radius: 2px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--accent);
+      margin-top: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .footer-logo span { color: var(--accent); }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .container { padding: 0 1.25rem; }
+      .hero { padding: 4rem 0 3rem; }
+      .hero-stats { gap: 2rem; }
+      .roadmap-timeline::before { left: 70px; }
+      .roadmap-item { grid-template-columns: 70px 1fr; gap: 1rem; }
+      .roadmap-item::after { left: 66px; }
+      .x-card { padding: 2rem; }
+      .waitlist-card { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">alforge<span>.</span>labs</a>
+    <ul class="nav-links">
+      <li><a href="#products">プロダクト</a></li>
+      <li><a href="#roadmap">ロードマップ</a></li>
+      <li><a href="#updates">最新情報</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-tag">開発進行中</div>
+      <h1>アルゴリズムトレーディングを、<br /><em>ゼロから再設計する。</em></h1>
+      <p class="hero-desc">
+        株式・オプション・CFD・FXに対応した、AI駆動のマルチアセットトレーディングシステムを開発中。
+        体系的で、透明性が高く、本気のトレーダーのために。
+      </p>
+      <div class="hero-cta">
+        <a href="https://x.com/alforge_bot" target="_blank" rel="noopener" class="btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          開発情報をフォローする →
+        </a>
+        <a href="#roadmap" class="btn-secondary">ロードマップを見る</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value">3</span>
+          <span class="stat-label">開発中プロダクト</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">2026.10</span>
+          <span class="stat-label">リリース目標</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">AMAT</span>
+          <span class="stat-label">コアエンジン</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">プロダクト</h2>
+      </div>
+      <div class="products-grid reveal">
+
+        <div class="product-card">
+          <span class="product-badge badge-dev">開発中</span>
+          <div class="product-name"><span>alpha</span>-forge</div>
+          <p class="product-desc">
+            コアトレーディングエンジン。マルチアセットに対応した戦略構築フレームワーク。バックテスト・最適化・ライブ実行を一元管理できる。
+          </p>
+          <div class="product-tags">
+            <span class="tag">Python</span>
+            <span class="tag">バックテスト</span>
+            <span class="tag">ストラテジーエンジン</span>
+            <span class="tag">マルチアセット</span>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <span class="product-badge badge-alpha">アルファ版</span>
+          <div class="product-name"><span>alpha</span>-strategies</div>
+          <p class="product-desc">
+            厳選された定量的トレーディング戦略ライブラリ。スイングトレード・モメンタム・平均回帰など、徹底的にバックテストされた戦略をそのまま運用できる。
+          </p>
+          <div class="product-tags">
+            <span class="tag">Pine Script</span>
+            <span class="tag">スイングトレード</span>
+            <span class="tag">米国株</span>
+            <span class="tag">TradingView</span>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <span class="product-badge badge-dev">開発中</span>
+          <div class="product-name"><span>alpha</span>-strike</div>
+          <p class="product-desc">
+            AIアシスト型シグナル生成を備えたインテリジェント執行レイヤー。戦略シグナルを証券会社APIへ接続し、精密な注文管理を実現する。
+          </p>
+          <div class="product-tags">
+            <span class="tag">AI / LLM</span>
+            <span class="tag">注文執行</span>
+            <span class="tag">オプション</span>
+            <span class="tag">FX / CFD</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="roadmap" id="roadmap">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">ロードマップ</h2>
+      </div>
+
+      <div class="roadmap-timeline">
+
+        <div class="roadmap-item done reveal">
+          <div class="roadmap-period">2025年3月〜4月</div>
+          <div class="roadmap-content">
+            <span class="status-badge status-done">完了</span>
+            <div class="roadmap-title">基盤構築・各プロダクト初期開発</div>
+            <div class="roadmap-items-list">
+              <div class="roadmap-li">コアアーキテクチャ設計（AMAT）</div>
+              <div class="roadmap-li">alpha-forge 基本実装</div>
+              <div class="roadmap-li">alpha-strategies 基本実装</div>
+              <div class="roadmap-li">alpha-strike 基本実装</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item active reveal">
+          <div class="roadmap-period">2025年 Q2–Q3</div>
+          <div class="roadmap-content">
+            <span class="status-badge status-active">進行中</span>
+            <div class="roadmap-title">機能拡充・品質向上</div>
+            <div class="roadmap-items-list">
+              <div class="roadmap-li">各プロダクトの機能拡充</div>
+              <div class="roadmap-li">バックテスト精度・実行品質の向上</div>
+              <div class="roadmap-li">システム安定性・パフォーマンス改善</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item reveal">
+          <div class="roadmap-period">2025年 Q3–Q4</div>
+          <div class="roadmap-content">
+            <span class="status-badge status-upcoming">予定</span>
+            <div class="roadmap-title">投資戦略開発</div>
+            <div class="roadmap-items-list">
+              <div class="roadmap-li">定量的トレーディング戦略の研究・実装</div>
+              <div class="roadmap-li">マルチアセット対応戦略の拡充</div>
+              <div class="roadmap-li">バックテスト検証・最適化</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item reveal">
+          <div class="roadmap-period">2026年 Q1–Q2</div>
+          <div class="roadmap-content">
+            <span class="status-badge status-upcoming">予定</span>
+            <div class="roadmap-title">統合・リリース準備</div>
+            <div class="roadmap-items-list">
+              <div class="roadmap-li">全プロダクトの統合テスト</div>
+              <div class="roadmap-li">ドキュメント整備</div>
+              <div class="roadmap-li">ベータ版公開・フィードバック収集</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item reveal">
+          <div class="roadmap-period">2026年10月</div>
+          <div class="roadmap-content">
+            <span class="status-badge status-upcoming">予定</span>
+            <div class="roadmap-title">正式リリース</div>
+            <div class="roadmap-items-list">
+              <div class="roadmap-li">全プロダクト正式リリース</div>
+              <div class="roadmap-li">サポート体制の整備</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- X FEED -->
+  <section class="x-section" id="updates">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">最新情報 / X</h2>
+      </div>
+      <div class="x-card reveal">
+        <div class="x-info">
+          <div class="x-handle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            @alforge_bot
+          </div>
+          <p class="x-desc">
+            開発の進捗・戦略のパフォーマンスレポート・最新情報をXで定期的に発信しています。開発の裏側をリアルタイムで追いたい方はフォローを。
+          </p>
+        </div>
+        <a href="https://x.com/alforge_bot" target="_blank" rel="noopener" class="btn-primary">
+          X でフォローする →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">alforge<span>.</span>labs</div>
+    <div class="footer-copy">© 2025 alforge labs — All rights reserved</div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Waitlist form (demo — replace with real form service)
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('waitlist-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
