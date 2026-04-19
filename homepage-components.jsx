@@ -1,36 +1,26 @@
 // homepage-components.jsx
 // Nav, Hero, Products, PerformanceChart
 
-/* ── EQUITY CURVE DATA ── */
-function genCurves() {
-  let s = 137;
-  const rng = () => { s = (s * 1664525 + 1013904223) & 0x7fffffff; return s / 0x7fffffff; };
-  const n = 252;
-  const strategy = [100], bench = [100];
-  for (let i = 1; i < n; i++) {
-    strategy.push(strategy[i-1] * (1 + 0.00095 + 0.014 * (rng() - 0.5)));
-    bench.push(bench[i-1] * (1 + 0.00038 + 0.008 * (rng() - 0.5)));
-  }
-  return { strategy, bench, n };
-}
+/* ── PERF CHART HELPERS ── */
+const CHART = {
+  W: 480, H: 165,
+  PAD: { l: 50, r: 10, t: 18, b: 22 },
+  Y_MIN: 75, Y_MAX: 212,
+};
 
-function toSVGPath(data, W, H, pad = 16) {
-  const minV = Math.min(...data), maxV = Math.max(...data);
-  const xS = (W - pad*2) / (data.length - 1);
-  const yS = (H - pad*2) / (maxV - minV);
-  return data.map((v, i) =>
-    `${i === 0 ? 'M' : 'L'}${(pad + i*xS).toFixed(1)},${(H - pad - (v-minV)*yS).toFixed(1)}`
-  ).join(' ');
+function chartX(i, n) {
+  return CHART.PAD.l + (i / (n - 1)) * (CHART.W - CHART.PAD.l - CHART.PAD.r);
 }
-
-function toAreaPath(data, W, H, pad = 16) {
-  const minV = Math.min(...data), maxV = Math.max(...data);
-  const xS = (W - pad*2) / (data.length - 1);
-  const yS = (H - pad*2) / (maxV - minV);
-  const pts = data.map((v, i) =>
-    `${(pad + i*xS).toFixed(1)},${(H - pad - (v-minV)*yS).toFixed(1)}`
-  );
-  return `M${pts[0]} ${pts.slice(1).map(p=>'L'+p).join(' ')} L${(W-pad).toFixed(1)},${H-pad} L${pad},${H-pad} Z`;
+function chartY(v) {
+  return CHART.PAD.t + (1 - (v - CHART.Y_MIN) / (CHART.Y_MAX - CHART.Y_MIN)) * (CHART.H - CHART.PAD.t - CHART.PAD.b);
+}
+function toPoints(arr) {
+  return arr.map((v, i) => `${chartX(i, arr.length).toFixed(1)},${chartY(v).toFixed(1)}`).join(' ');
+}
+function toFillPoints(arr) {
+  const n = arr.length;
+  const bottom = (CHART.H - CHART.PAD.b + 5).toFixed(1);
+  return toPoints(arr) + ` ${chartX(n - 1, n).toFixed(1)},${bottom} ${CHART.PAD.l},${bottom}`;
 }
 
 /* ── X ICON ── */
@@ -144,36 +134,18 @@ function Products({ t }) {
 /* ── PERFORMANCE CHART ── */
 function PerformanceChart({ t, dark }) {
   const c = t.perf;
-  const svgRef = React.useRef(null);
-  const [animated, setAnimated] = React.useState(false);
-  const curves = React.useMemo(() => genCurves(), []);
-  const W = 900, H = 200, PAD = 16;
-
-  const stratPath = React.useMemo(() => toSVGPath(curves.strategy, W, H, PAD), []);
-  const stratArea = React.useMemo(() => toAreaPath(curves.strategy, W, H, PAD), []);
-  const benchPath = React.useMemo(() => toSVGPath(curves.bench, W, H, PAD), []);
-
-  // Measure path length for animation
-  const pathRef = React.useRef(null);
-  const [pathLen, setPathLen] = React.useState(2000);
-
-  React.useEffect(() => {
-    if (pathRef.current) {
-      setPathLen(pathRef.current.getTotalLength());
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (!svgRef.current) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setAnimated(true); obs.disconnect(); }
-    }, { threshold: 0.3 });
-    obs.observe(svgRef.current);
-    return () => obs.disconnect();
-  }, []);
-
+  const ec = window.EQUITY_CURVE;
   const accentColor = dark ? '#00e49a' : '#009e70';
-  const blueColor = dark ? '#5b9fff' : '#3a7ef0';
+  const blueColor   = dark ? '#5b9fff' : '#3a7ef0';
+  const amberColor  = dark ? '#f5a623' : '#d97706';
+
+  const gridLines = [
+    { v: 200, label: '+100%' },
+    { v: 170, label: '+70%'  },
+    { v: 140, label: '+40%'  },
+    { v: 110, label: '+10%'  },
+    { v: 80,  label: '-20%'  },
+  ];
 
   return (
     <section className="performance reveal" id="performance">
@@ -181,12 +153,16 @@ function PerformanceChart({ t, dark }) {
         <div className="sec-label">{c.label}</div>
         <h2 className="sec-title">{c.title}</h2>
         <div className="perf-inner" style={{ marginTop: '2.5rem' }}>
+
+          {/* Header */}
           <div className="perf-header">
             <div>
               <div className="perf-strategy">{c.strategy}</div>
               <div className="perf-period" style={{ marginTop: '0.2rem' }}>{c.period}</div>
             </div>
           </div>
+
+          {/* Stats row */}
           <div className="perf-stats">
             {c.stats.map((s, i) => (
               <div key={i} className="perf-stat">
@@ -195,46 +171,104 @@ function PerformanceChart({ t, dark }) {
               </div>
             ))}
           </div>
-          <div className="chart-area" ref={svgRef}>
+
+          {/* Chart area */}
+          <div className="chart-area">
+            {/* Legend */}
             <div className="chart-legend">
-              {c.legend.map((l, i) => (
-                <div key={i} className="legend-item">
-                  <div className="legend-dot" style={{ background: l.color, height: i === 1 ? '1px' : '2px' }}></div>
-                  {l.label}
-                </div>
-              ))}
+              <div className="legend-item">
+                <div className="legend-dot" style={{ background: accentColor, height: '2px' }}></div>
+                {c.legend[0].label}
+              </div>
+              <div className="legend-item">
+                <div className="legend-dot" style={{ background: blueColor, height: '1px', borderTop: `1px dashed ${blueColor}` }}></div>
+                {c.legend[1].label}
+              </div>
+              <div className="legend-item">
+                <div className="legend-dot" style={{ background: amberColor, height: '1px', borderTop: `1px dashed ${amberColor}` }}></div>
+                {c.legend[2].label}
+              </div>
             </div>
+
+            {/* SVG chart */}
             <svg
-              viewBox={`0 0 ${W} ${H}`}
-              style={{ width: '100%', height: 'auto', display: 'block', overflow: 'visible' }}
+              viewBox={`0 0 ${CHART.W} ${CHART.H}`}
+              style={{ width: '100%', display: 'block', background: 'var(--bg2)', borderRadius: 'var(--r)' }}
               preserveAspectRatio="none"
             >
-              <defs>
-                <linearGradient id="stratGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={accentColor} stopOpacity="0.22" />
-                  <stop offset="100%" stopColor={accentColor} stopOpacity="0" />
-                </linearGradient>
-                <clipPath id="chartClip">
-                  <rect
-                    x="0" y="0" width={animated ? W : 0} height={H}
-                    style={{ transition: animated ? `width 1.6s cubic-bezier(0.22,1,0.36,1)` : 'none' }}
-                  />
-                </clipPath>
-              </defs>
-              {/* Strategy area */}
-              <path d={stratArea} fill="url(#stratGrad)" clipPath="url(#chartClip)" />
-              {/* Strategy line */}
-              <path
-                ref={pathRef}
-                d={stratPath}
-                fill="none"
-                stroke={accentColor}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                clipPath="url(#chartClip)"
+              {/* Grid lines */}
+              {gridLines.map(({ v, label }) => {
+                const y = chartY(v).toFixed(1);
+                return (
+                  <g key={v}>
+                    <line x1={CHART.PAD.l} y1={y} x2={CHART.W - CHART.PAD.r} y2={y} stroke="var(--border)" strokeWidth="1" />
+                    <text x={CHART.PAD.l - 4} y={y} fill="var(--text3)" fontSize="8" fontFamily="var(--mono)" textAnchor="end" dominantBaseline="middle">{label}</text>
+                  </g>
+                );
+              })}
+
+              {/* Baseline at 0% (value=100) */}
+              <line
+                x1={CHART.PAD.l} y1={chartY(100).toFixed(1)}
+                x2={CHART.W - CHART.PAD.r} y2={chartY(100).toFixed(1)}
+                stroke="var(--text3)" strokeWidth="0.5" strokeDasharray="2,2"
+              />
+
+              {/* X-axis year labels */}
+              {ec.yearLabels.map((yr, i) => {
+                const x = chartX(ec.yearIndices[i], ec.cl.length);
+                return (
+                  <text key={yr} x={x.toFixed(1)} y={(CHART.H - 4).toFixed(1)} fill="var(--text3)" fontSize="8" fontFamily="var(--mono)" textAnchor="middle">{yr}</text>
+                );
+              })}
+
+              {/* QQQ B&H (rendered first = behind) */}
+              <polyline
+                points={toPoints(ec.qqq)}
+                fill="none" stroke={amberColor} strokeWidth="1.2" strokeDasharray="4,3" opacity="0.7"
+              />
+
+              {/* SPY B&H */}
+              <polyline
+                points={toPoints(ec.spy)}
+                fill="none" stroke={blueColor} strokeWidth="1.2" strokeDasharray="5,4" opacity="0.85"
+              />
+
+              {/* CL strategy fill */}
+              <polygon
+                points={toFillPoints(ec.cl)}
+                fill={accentColor} fillOpacity="0.06"
+              />
+
+              {/* CL strategy line (rendered last = on top) */}
+              <polyline
+                points={toPoints(ec.cl)}
+                fill="none" stroke={accentColor} strokeWidth="2.5"
               />
             </svg>
+
+            {/* Benchmark comparison table */}
+            <div style={{ marginTop: '0.75rem', background: 'var(--bg2)', borderRadius: 'var(--r)', padding: '0.75rem 1rem' }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.62rem', color: 'var(--text3)', marginBottom: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                {c.bench.label}
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '0.3rem', fontFamily: 'var(--mono)', fontSize: '0.68rem' }}>
+                {c.bench.headers.map((h, i) => (
+                  <div key={i} style={{ color: i === 0 ? 'transparent' : i === 1 ? blueColor : i === 2 ? amberColor : accentColor }}>{h}</div>
+                ))}
+                {c.bench.rows.map((row, ri) => (
+                  <React.Fragment key={ri}>
+                    <div style={{ color: 'var(--text2)' }}>{row.metric}</div>
+                    <div style={{ color: blueColor }}>{row.spy}</div>
+                    <div style={{ color: amberColor }}>{row.qqq}</div>
+                    <div style={{ color: accentColor, fontWeight: row.stratWin ? '600' : '400' }}>
+                      {row.strat}{row.stratWin ? ' ✓' : ''}
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+
             <p className="chart-note">{c.note}</p>
           </div>
         </div>
