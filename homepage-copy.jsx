@@ -161,6 +161,14 @@ window.COPY = {
       desc: '戦略のパフォーマンスレポート・機能アップデート・開発の裏側を定期発信しています。',
       cta: 'X でフォローする',
     },
+    disclaimer: {
+      title: '⚠️ 重要な免責事項（必ずお読みください）',
+      items: [
+        { label: 'ソフトウェアの提供', text: '本製品は、バックテストおよび注文の自動化を支援する「ソフトウェアツール」の販売であり、投資助言や特定の銘柄の売買を推奨するものではありません。' },
+        { label: '利益の非保証', text: '本ソフトウェアは将来の利益を保証するものではありません。金融市場での取引には元本を失う高いリスクが伴います。' },
+        { label: '自己責任', text: 'ライブ口座での自動売買の実行、パラメータの設定、およびシステムトラブルによる損失を含め、すべての取引結果はユーザー自身の責任に帰属します。' },
+      ],
+    },
     footer: {
       copy: '© 2026 Alforge Labs.',
       note: 'このサイトの情報は投資助言ではありません。',
@@ -278,6 +286,14 @@ window.COPY = {
       title: 'Follow the build\nin real time.',
       desc: 'Strategy performance reports, feature updates, and behind-the-scenes development shared regularly.',
       cta: 'Follow on X',
+    },
+    disclaimer: {
+      title: '⚠️ Important Disclaimer (Please Read)',
+      items: [
+        { label: 'Software Provision', text: 'This product is a "software tool" designed to assist with backtesting and order automation. It does not provide investment advice or recommendations for any specific financial instruments.' },
+        { label: 'No Guarantee of Profit', text: 'This software does not guarantee future profits. Trading in financial markets involves high risks, including the potential loss of principal.' },
+        { label: 'User Responsibility', text: 'All trading results, including those from automated trading in live accounts, parameter settings, and losses due to system issues, are the sole responsibility of the user.' },
+      ],
     },
     footer: {
       copy: '© 2026 Alforge Labs.',

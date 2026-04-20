@@ -501,6 +501,49 @@
     .footer-copy { font-family: var(--mono); font-size: 0.68rem; color: var(--text3); }
     .footer-note { font-size: 0.68rem; color: var(--text3); font-family: var(--mono); }
 
+    /* ── DISCLAIMER ── */
+    .disclaimer-section {
+      padding: 3rem var(--pad);
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .disclaimer-box {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .disclaimer-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .disclaimer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .disclaimer-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .disclaimer-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .disclaimer-text {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--text2);
+    }
+
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }

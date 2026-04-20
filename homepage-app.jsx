@@ -99,6 +99,26 @@ function FollowCTA({ t }) {
   );
 }
 
+/* ── DISCLAIMER ── */
+function Disclaimer({ t }) {
+  const c = t.disclaimer;
+  return (
+    <section className="disclaimer-section">
+      <div className="disclaimer-box">
+        <h3 className="disclaimer-title">{c.title}</h3>
+        <div className="disclaimer-grid">
+          {c.items.map((item, i) => (
+            <div key={i} className="disclaimer-item">
+              <span className="disclaimer-label">{item.label}</span>
+              <p className="disclaimer-text">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── FOOTER ── */
 function Footer({ t }) {
   const c = t.footer;
@@ -227,6 +247,7 @@ function App() {
       <Roadmap t={t} />
       <FAQ t={t} />
       <FollowCTA t={t} />
+      <Disclaimer t={t} />
       <Footer t={t} />
       <TweaksPanel visible={tweaks} dark={dark} setDark={setDark} lang={lang} setLang={setLang} />
     </div>
