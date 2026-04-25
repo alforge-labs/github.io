@@ -244,6 +244,7 @@ function App() {
       <Hero t={t} />
       <Products t={t} />
       <PerformanceChart t={t} dark={dark} />
+      <Pricing t={t} />
       <Roadmap t={t} />
       <FAQ t={t} />
       <FollowCTA t={t} />

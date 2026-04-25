@@ -42,6 +42,7 @@ function NavBar({ dark, setDark, lang, setLang, t }) {
       </a>
       <ul className="nav-center">
         <li><a href="#products">{t.nav.products}</a></li>
+        <li><a href="#pricing">{t.nav.pricing}</a></li>
         <li><a href="#roadmap">{t.nav.roadmap}</a></li>
         <li><a href="#faq">{t.nav.faq}</a></li>
       </ul>
@@ -279,5 +280,51 @@ function PerformanceChart({ t, dark }) {
   );
 }
 
+/* ── PRICING ── */
+function Pricing({ t }) {
+  const c = t.pricing;
+  return (
+    <section className="pricing reveal" id="pricing">
+      <div className="container">
+        <div className="sec-label">{c.label}</div>
+        <h2 className="sec-title" style={{ whiteSpace: 'pre-line' }}>{c.title}</h2>
+        <p style={{ marginTop: '0.6rem', color: 'var(--text2)', fontSize: '0.92rem' }}>{c.subtitle}</p>
+        <div className="pricing-grid" style={{ marginTop: '2.5rem' }}>
+          {c.plans.map((plan, i) => (
+            <div key={i} className={`pricing-card${plan.featured ? ' featured' : ''}`}>
+              <div className="pricing-card-top">
+                <div className="pricing-plan">{plan.name}</div>
+                {plan.badge && <span className="pricing-badge">{plan.badge}</span>}
+              </div>
+              <div className="pricing-price">
+                <span className="price-amount">{plan.price}</span>
+                <span className="price-period">{plan.period}</span>
+              </div>
+              <p className="pricing-desc">{plan.desc}</p>
+              <ul className="pricing-features">
+                {plan.features.map((f, j) => (
+                  <li key={j} className="pricing-feature">
+                    <span className="feature-check">✓</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={plan.url}
+                target="_blank" rel="noopener"
+                className={plan.featured ? 'btn-primary' : 'btn-secondary'}
+                style={{ justifyContent: 'center', marginTop: 'auto' }}
+              >
+                {c.buyNow}
+              </a>
+            </div>
+          ))}
+        </div>
+        <p className="pricing-note">{c.note}</p>
+      </div>
+    </section>
+  );
+}
+
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, Products, PerformanceChart });
+Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing });
