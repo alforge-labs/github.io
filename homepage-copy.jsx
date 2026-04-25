@@ -95,7 +95,7 @@ window.COPY = {
     products: {
       label: 'プロダクト',
       title: '3つの層で構成される\n統合トレーディングシステム',
-      subtitle: 'バックテストから自動執行まで、一つのエコシステムで完結。',
+      subtitle: 'コーディングエージェントが戦略を半自動開発・最適化し、Pine Script を生成。TradingView のアラートをトリガーに strike が自動発注。',
       items: [
         {
           id: 'forge',
@@ -327,7 +327,7 @@ window.COPY = {
     products: {
       label: 'Products',
       title: 'Three layers.\nOne integrated system.',
-      subtitle: 'From backtesting to live execution — one ecosystem, end to end.',
+      subtitle: 'AI-driven strategy development and optimization with Pine Script generation. TradingView alerts trigger strike for automated order execution.',
       items: [
         {
           id: 'forge',
