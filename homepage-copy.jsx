@@ -14,7 +14,7 @@ window.EQUITY_CURVE = {
 // Bilingual copy — window.COPY
 window.COPY = {
   ja: {
-    nav: { products: 'プロダクト', pricing: '料金', roadmap: 'ロードマップ', faq: 'FAQ', follow: 'フォロー' },
+    nav: { products: 'プロダクト', pricing: '料金', install: 'インストール', docs: 'ドキュメント', roadmap: 'ロードマップ', faq: 'FAQ', follow: 'フォロー' },
     hero: {
       tag: '開発進行中',
       h1a: 'アルゴリズムを、',
@@ -227,7 +227,7 @@ window.COPY = {
   },
 
   en: {
-    nav: { products: 'Products', pricing: 'Pricing', roadmap: 'Roadmap', faq: 'FAQ', follow: 'Follow' },
+    nav: { products: 'Products', pricing: 'Pricing', install: 'Install', docs: 'Docs', roadmap: 'Roadmap', faq: 'FAQ', follow: 'Follow' },
     hero: {
       tag: 'In Development',
       h1a: 'Turn Algorithms',

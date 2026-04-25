@@ -43,10 +43,13 @@ function NavBar({ dark, setDark, lang, setLang, t }) {
       <ul className="nav-center">
         <li><a href="#products">{t.nav.products}</a></li>
         <li><a href="#pricing">{t.nav.pricing}</a></li>
+        <li><a href="install.html">{t.nav.install}</a></li>
+        <li><a href="docs.html">{t.nav.docs}</a></li>
         <li><a href="#roadmap">{t.nav.roadmap}</a></li>
         <li><a href="#faq">{t.nav.faq}</a></li>
       </ul>
       <div className="nav-right">
+        <a className="nav-page-link" href="docs.html">{t.nav.docs}</a>
         <button className="lang-btn" onClick={() => setLang(l => l === 'ja' ? 'en' : 'ja')}>
           {lang === 'ja' ? 'EN' : 'JA'}
         </button>
@@ -76,7 +79,7 @@ function Hero({ t }) {
         </h1>
         <p className="hero-desc">{c.desc}</p>
         <div className="hero-cta">
-          <a href="#" className="btn-primary">
+          <a href="#pricing" className="btn-primary">
             {c.cta1}
           </a>
           <a href="#pricing" className="btn-secondary">{c.cta2} →</a>
