@@ -217,6 +217,12 @@ window.COPY = {
     footer: {
       copy: '© 2026 Alforge Labs.',
       note: 'このサイトの情報は投資助言ではありません。',
+      links: [
+        { label: 'インストール', url: '/install.html' },
+        { label: 'ドキュメント', url: '/docs.html' },
+        { label: '利用規約', url: '/terms.html' },
+        { label: 'プライバシー', url: '/privacy.html' },
+      ],
     },
   },
 
@@ -388,6 +394,12 @@ window.COPY = {
     footer: {
       copy: '© 2026 Alforge Labs.',
       note: 'Nothing on this site constitutes investment advice.',
+      links: [
+        { label: 'Install', url: '/install.html' },
+        { label: 'Docs', url: '/docs.html' },
+        { label: 'Terms', url: '/terms.html' },
+        { label: 'Privacy', url: '/privacy.html' },
+      ],
     },
   },
 };

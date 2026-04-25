@@ -126,6 +126,11 @@ function Footer({ t }) {
     <footer>
       <div className="footer-logo">alforge<span className="dot">.</span>labs</div>
       <div className="footer-right">
+        <div className="footer-links">
+          {c.links.map((l, i) => (
+            <a key={i} href={l.url}>{l.label}</a>
+          ))}
+        </div>
         <span className="footer-copy">{c.copy}</span>
         <span className="footer-note">{c.note}</span>
       </div>
