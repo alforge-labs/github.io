@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>インストールガイド — Alforge Labs</title>
+  <meta name="description" content="AlphaForge CLI のインストール手順。macOS・Linux・Windows 対応。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="page.css" />
+  <script>
+    (function() {
+      var t = localStorage.getItem('al_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.setAttribute('data-theme', t);
+      });
+    })();
+  </script>
+</head>
+<body data-theme="dark">
+  <nav>
+    <a href="/" class="nav-logo">
+      <span>alforge</span><span class="dot">.</span><span class="labs">labs</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="install.html" class="active">インストール</a></li>
+      <li><a href="docs.html">ドキュメント</a></li>
+      <li><a href="/#pricing">料金</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="toggle-btn" id="themeBtn" title="テーマ切替">◑</button>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="page-label">Getting Started</div>
+    <h1 class="page-title">インストールガイド</h1>
+    <p class="page-subtitle">AlphaForge CLI をインストールしてライセンス認証するまでの手順です。所要時間は約5分です。</p>
+
+    <h2 class="section-heading">前提条件</h2>
+    <ul>
+      <li>macOS 12 (Monterey) 以降 / Ubuntu 22.04 以降 / Windows 11</li>
+      <li>インターネット接続（ライセンス認証時）</li>
+      <li>有効な AlphaForge ライセンスキー（<a href="/#pricing">購入ページ</a>から入手）</li>
+    </ul>
+
+    <h2 class="section-heading">インストール</h2>
+
+    <div class="platform-tabs">
+      <div class="platform-tab active" onclick="switchTab('mac')">macOS / Linux</div>
+      <div class="platform-tab" onclick="switchTab('win')">Windows</div>
+      <div class="platform-tab" onclick="switchTab('manual')">手動インストール</div>
+    </div>
+
+    <div id="tab-mac" class="platform-content active">
+      <p>ターミナルで以下のコマンドを実行してください。インストーラーが最新バイナリをダウンロードし、<code>/usr/local/bin</code> に配置します。</p>
+      <pre><code>curl -sSL https://alforge-labs.github.io/install.sh | bash</code></pre>
+      <div class="callout">
+        <p>インストール先を変更したい場合は <code>INSTALL_DIR</code> 環境変数で指定できます。例: <code>INSTALL_DIR=~/.local/bin curl -sSL ... | bash</code></p>
+      </div>
+    </div>
+
+    <div id="tab-win" class="platform-content">
+      <p>PowerShell（管理者権限不要）で以下を実行してください。バイナリを <code>%USERPROFILE%\.forge\bin</code> にインストールし、PATH を自動設定します。</p>
+      <pre><code>irm https://alforge-labs.github.io/install.ps1 | iex</code></pre>
+      <div class="callout">
+        <p>インストール後、新しいターミナルウィンドウを開いてから次の手順に進んでください。</p>
+      </div>
+    </div>
+
+    <div id="tab-manual" class="platform-content">
+      <ol>
+        <li>
+          <a href="https://github.com/ysakae/alpha-forge/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>
+          から使用するプラットフォームのバイナリをダウンロードします。
+          <table class="cmd-table" style="margin-top: 0.75rem;">
+            <thead><tr><th>ファイル名</th><th>対象</th></tr></thead>
+            <tbody>
+              <tr><td><code>forge-macos-x86_64</code></td><td>macOS (Intel)</td></tr>
+              <tr><td><code>forge-macos-arm64</code></td><td>macOS (Apple Silicon)</td></tr>
+              <tr><td><code>forge-linux-x86_64</code></td><td>Linux (x86_64)</td></tr>
+              <tr><td><code>forge-windows-x86_64.exe</code></td><td>Windows 11</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>macOS / Linux: 実行権限を付与して PATH の通ったディレクトリに配置します。<pre><code>chmod +x forge-macos-arm64
+sudo mv forge-macos-arm64 /usr/local/bin/forge</code></pre></li>
+        <li>Windows: バイナリを任意のフォルダに配置し、そのフォルダを PATH に追加します。</li>
+      </ol>
+    </div>
+
+    <h2 class="section-heading">ライセンス認証</h2>
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <div class="step-title">インストール確認</div>
+          <p>インストールが成功したことを確認します。</p>
+          <pre><code>forge --version</code></pre>
+          <p>バージョン番号が表示されれば成功です。</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <div class="step-title">ライセンスキーを認証</div>
+          <p>購入完了メールに記載されているライセンスキーで認証します。</p>
+          <pre><code>forge license activate &lt;YOUR_LICENSE_KEY&gt;</code></pre>
+          <p>認証情報は <code>~/.forge/license.json</code> に保存されます。オンライン接続が必要です。</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <div class="step-title">動作確認</div>
+          <p>バックテストコマンドが利用可能なことを確認します。</p>
+          <pre><code>forge backtest --help</code></pre>
+        </div>
+      </li>
+    </ol>
+
+    <h2 class="section-heading">アンインストール</h2>
+    <p>バイナリと認証情報を削除するだけです。</p>
+    <pre><code># macOS / Linux
+sudo rm /usr/local/bin/forge
+rm -rf ~/.forge</code></pre>
+
+    <h2 class="section-heading">トラブルシューティング</h2>
+    <table class="cmd-table">
+      <thead><tr><th>症状</th><th>対処</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>command not found: forge</code></td>
+          <td>新しいターミナルを開くか、<code>source ~/.bashrc</code> を実行してください。</td>
+        </tr>
+        <tr>
+          <td>ライセンス認証エラー</td>
+          <td>ネットワーク接続を確認し、キーに余分なスペースがないか確認してください。</td>
+        </tr>
+        <tr>
+          <td>macOS セキュリティ警告</td>
+          <td>システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout" style="margin-top: 2rem;">
+      <p>問題が解決しない場合は <a href="mailto:support@alforge-labs.com">support@alforge-labs.com</a> までお問い合わせください。</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">alforge<span class="dot">.</span>labs</div>
+    <div class="footer-links">
+      <a href="/">ホーム</a>
+      <a href="install.html">インストール</a>
+      <a href="docs.html">ドキュメント</a>
+      <a href="terms.html">利用規約</a>
+      <a href="privacy.html">プライバシー</a>
+    </div>
+  </footer>
+
+  <script>
+    // テーマ初期化
+    (function() {
+      var t = localStorage.getItem('al_theme') || 'dark';
+      document.body.setAttribute('data-theme', t);
+      document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '◑';
+    })();
+
+    document.getElementById('themeBtn').addEventListener('click', function() {
+      var t = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('al_theme', t);
+      this.textContent = t === 'dark' ? '☀' : '◑';
+    });
+
+    // プラットフォームタブ
+    function switchTab(id) {
+      document.querySelectorAll('.platform-tab').forEach(function(el) { el.classList.remove('active'); });
+      document.querySelectorAll('.platform-content').forEach(function(el) { el.classList.remove('active'); });
+      event.currentTarget.classList.add('active');
+      document.getElementById('tab-' + id).classList.add('active');
+    }
+  </script>
+</body>
+</html>

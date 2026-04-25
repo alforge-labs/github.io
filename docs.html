@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>コマンドリファレンス — Alforge Labs</title>
+  <meta name="description" content="AlphaForge CLI コマンドリファレンス。backtest・optimize・wft・license・data コマンドの使い方。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="page.css" />
+  <style>
+    .cmd-nav {
+      position: sticky; top: calc(var(--nav-h) + 1rem);
+      align-self: start;
+    }
+    .cmd-nav-list { list-style: none; padding: 0; }
+    .cmd-nav-list li a {
+      display: block; padding: 0.35rem 0.75rem;
+      font-family: var(--mono); font-size: 0.78rem; color: var(--text3);
+      text-decoration: none; border-left: 2px solid var(--border);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .cmd-nav-list li a:hover { color: var(--accent); border-left-color: var(--accent); }
+    .doc-layout {
+      display: grid; grid-template-columns: 200px 1fr; gap: 3rem;
+    }
+    .option-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1.25rem; }
+    .option-table th {
+      font-family: var(--mono); font-size: 0.65rem; color: var(--text3);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      text-align: left; padding: 0.4rem 0.75rem;
+      border-bottom: 1px solid var(--border); background: var(--bg2);
+    }
+    .option-table td {
+      font-size: 0.85rem; color: var(--text2);
+      padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .option-table td:first-child code { color: var(--accent); }
+    .option-table tr:last-child td { border-bottom: none; }
+    .cmd-section { scroll-margin-top: calc(var(--nav-h) + 2rem); }
+    @media (max-width: 768px) {
+      .doc-layout { grid-template-columns: 1fr; }
+      .cmd-nav { display: none; }
+    }
+  </style>
+  <script>
+    (function() {
+      var t = localStorage.getItem('al_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.setAttribute('data-theme', t);
+      });
+    })();
+  </script>
+</head>
+<body data-theme="dark">
+  <nav>
+    <a href="/" class="nav-logo">
+      <span>alforge</span><span class="dot">.</span><span class="labs">labs</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="install.html">インストール</a></li>
+      <li><a href="docs.html" class="active">ドキュメント</a></li>
+      <li><a href="/#pricing">料金</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="toggle-btn" id="themeBtn" title="テーマ切替">◑</button>
+    </div>
+  </nav>
+
+  <div class="page-wrap" style="max-width: 1060px;">
+    <div class="page-label">Documentation</div>
+    <h1 class="page-title">コマンドリファレンス</h1>
+    <p class="page-subtitle">AlphaForge CLI の主要コマンド一覧と使用例です。</p>
+
+    <!-- クイックリファレンス -->
+    <table class="cmd-table">
+      <thead>
+        <tr>
+          <th>コマンド</th>
+          <th>概要</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="#backtest"><code>forge backtest run</code></a></td><td>戦略のバックテストを実行</td></tr>
+        <tr><td><a href="#optimize"><code>forge optimize run</code></a></td><td>ベイズ最適化でパラメータを探索</td></tr>
+        <tr><td><a href="#wft"><code>forge backtest wft</code></a></td><td>ウォークフォワードテストを実行</td></tr>
+        <tr><td><a href="#license"><code>forge license activate</code></a></td><td>ライセンスキーを認証</td></tr>
+        <tr><td><a href="#data"><code>forge data update</code></a></td><td>ヒストリカルデータを差分更新</td></tr>
+      </tbody>
+    </table>
+
+    <div class="doc-layout" style="margin-top: 2rem;">
+      <!-- サイドナビ -->
+      <nav class="cmd-nav">
+        <ul class="cmd-nav-list">
+          <li><a href="#backtest">backtest run</a></li>
+          <li><a href="#optimize">optimize run</a></li>
+          <li><a href="#wft">backtest wft</a></li>
+          <li><a href="#license">license activate</a></li>
+          <li><a href="#data">data update</a></li>
+        </ul>
+      </nav>
+
+      <!-- コンテンツ -->
+      <div>
+        <!-- backtest run -->
+        <section class="cmd-section" id="backtest">
+          <h2 class="section-heading">forge backtest run</h2>
+          <p>指定した戦略とシンボルでバックテストを実行します。結果は SQLite に保存され、JSON 出力も可能です。</p>
+          <pre><code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
+
+          <h3 class="sub-heading">使用例</h3>
+          <pre><code># CL=F（原油先物）で HMM+BB+RSI 戦略をバックテスト
+forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1
+
+# JSON 出力
+forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1 --json
+
+# 特定期間を指定
+forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1 \
+  --start 2021-01-01 --end 2024-12-31</code></pre>
+
+          <h3 class="sub-heading">主要オプション</h3>
+          <table class="option-table">
+            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
+            <tbody>
+              <tr><td><code>--strategy</code></td><td>戦略名（<code>alpha-strategies/</code> 内の JSON ファイル名）</td><td>必須</td></tr>
+              <tr><td><code>--start</code></td><td>バックテスト開始日 (YYYY-MM-DD)</td><td>データ最古</td></tr>
+              <tr><td><code>--end</code></td><td>バックテスト終了日 (YYYY-MM-DD)</td><td>最新日</td></tr>
+              <tr><td><code>--json</code></td><td>結果を JSON 形式で標準出力</td><td>なし</td></tr>
+              <tr><td><code>--config</code></td><td>設定ファイルパス</td><td><code>forge.yaml</code></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- optimize run -->
+        <section class="cmd-section" id="optimize">
+          <h2 class="section-heading">forge optimize run</h2>
+          <p>Optuna を使ったベイズ最適化でパラメータ空間を効率的に探索します。</p>
+          <pre><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
+
+          <h3 class="sub-heading">使用例</h3>
+          <pre><code># 200試行で最適化
+forge optimize run CL=F --strategy cl_hmm_bb_rsi_v1 --trials 200
+
+# 並列実行（4ジョブ）
+forge optimize run CL=F --strategy cl_hmm_bb_rsi_v1 --trials 200 -j 4</code></pre>
+
+          <h3 class="sub-heading">主要オプション</h3>
+          <table class="option-table">
+            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
+            <tbody>
+              <tr><td><code>--trials</code></td><td>最適化試行回数</td><td>100</td></tr>
+              <tr><td><code>-j / --jobs</code></td><td>並列ジョブ数</td><td>1</td></tr>
+              <tr><td><code>--metric</code></td><td>最適化目標指標（sharpe / calmar / total_return）</td><td>sharpe</td></tr>
+              <tr><td><code>--sampler</code></td><td>Optuna サンプラー（tpe / random / cmaes）</td><td>tpe</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- wft -->
+        <section class="cmd-section" id="wft">
+          <h2 class="section-heading">forge backtest wft</h2>
+          <p>ウォークフォワードテスト（Walk-Forward Test）を実行します。過学習を検出するための標準的な検証手法です。</p>
+          <pre><code>forge backtest wft &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
+
+          <h3 class="sub-heading">使用例</h3>
+          <pre><code># 5-fold WFT（訓練70% / 検証30%）
+forge backtest wft CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5
+
+# カスタム分割比
+forge backtest wft CL=F --strategy cl_hmm_bb_rsi_v1 \
+  --train-ratio 0.75 --folds 4</code></pre>
+
+          <h3 class="sub-heading">主要オプション</h3>
+          <table class="option-table">
+            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
+            <tbody>
+              <tr><td><code>--folds</code></td><td>分割数</td><td>5</td></tr>
+              <tr><td><code>--train-ratio</code></td><td>訓練期間の比率 (0–1)</td><td>0.70</td></tr>
+              <tr><td><code>--trials</code></td><td>各フォールドの最適化試行数</td><td>100</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- license -->
+        <section class="cmd-section" id="license">
+          <h2 class="section-heading">forge license activate</h2>
+          <p>LemonSqueezy のライセンスキーを認証します。認証情報は <code>~/.forge/license.json</code> にキャッシュされます。</p>
+          <pre><code>forge license activate &lt;LICENSE_KEY&gt;</code></pre>
+
+          <h3 class="sub-heading">使用例</h3>
+          <pre><code>forge license activate 3B111359-8449-481B-AE0F-887B8C85C1B7</code></pre>
+
+          <h3 class="sub-heading">その他のサブコマンド</h3>
+          <table class="option-table">
+            <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
+            <tbody>
+              <tr><td><code>forge license status</code></td><td>現在のライセンス状態を表示</td></tr>
+              <tr><td><code>forge license deactivate</code></td><td>このデバイスのライセンスを無効化（他機種への移行時）</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- data -->
+        <section class="cmd-section" id="data">
+          <h2 class="section-heading">forge data update</h2>
+          <p>ヒストリカルデータを最新日まで差分更新します。設定ファイル (<code>forge.yaml</code>) に記載されたシンボルをまとめて更新します。</p>
+          <pre><code>forge data update [OPTIONS]</code></pre>
+
+          <h3 class="sub-heading">使用例</h3>
+          <pre><code># 全シンボルを更新
+forge data update
+
+# 特定シンボルのみ
+forge data update --symbol CL=F
+
+# 強制フル再取得
+forge data update --full</code></pre>
+
+          <h3 class="sub-heading">主要オプション</h3>
+          <table class="option-table">
+            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
+            <tbody>
+              <tr><td><code>--symbol</code></td><td>更新対象シンボル（省略時は全シンボル）</td><td>全シンボル</td></tr>
+              <tr><td><code>--full</code></td><td>差分ではなくフルで再取得</td><td>なし</td></tr>
+              <tr><td><code>--config</code></td><td>設定ファイルパス</td><td><code>forge.yaml</code></td></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">alforge<span class="dot">.</span>labs</div>
+    <div class="footer-links">
+      <a href="/">ホーム</a>
+      <a href="install.html">インストール</a>
+      <a href="docs.html">ドキュメント</a>
+      <a href="terms.html">利用規約</a>
+      <a href="privacy.html">プライバシー</a>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('al_theme') || 'dark';
+      document.body.setAttribute('data-theme', t);
+      document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '◑';
+    })();
+
+    document.getElementById('themeBtn').addEventListener('click', function() {
+      var t = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('al_theme', t);
+      this.textContent = t === 'dark' ? '☀' : '◑';
+    });
+  </script>
+</body>
+</html>
