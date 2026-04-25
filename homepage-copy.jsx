@@ -20,8 +20,8 @@ window.COPY = {
       h1a: 'アルゴリズムを、',
       h1b: '武器にする。',
       desc: 'バックテスト・最適化・自動執行を一気通貫。AI連携設計の定量的トレーディングシステムを個人トレーダーへ。',
-      cta1: 'X でフォローする',
-      cta2: 'ロードマップ',
+      cta1: '今すぐ購入 — $299',
+      cta2: 'プランを見る',
     },
     heroStats: [
       { val: '3', accent: false, lbl: '開発中プロダクト' },
@@ -227,8 +227,8 @@ window.COPY = {
       h1a: 'Turn Algorithms',
       h1b: 'Into Edge.',
       desc: 'End-to-end backtesting, optimization, and automated execution. AI-native quantitative trading systems built for serious traders.',
-      cta1: 'Follow on X',
-      cta2: 'Roadmap',
+      cta1: 'Buy Now — $299',
+      cta2: 'See Plans',
     },
     heroStats: [
       { val: '3', accent: false, lbl: 'Products in Dev' },

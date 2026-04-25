@@ -76,10 +76,10 @@ function Hero({ t }) {
         </h1>
         <p className="hero-desc">{c.desc}</p>
         <div className="hero-cta">
-          <a href="https://x.com/alforge_bot" target="_blank" rel="noopener" className="btn-primary">
-            <XIcon size={14} />{c.cta1}
+          <a href="#" className="btn-primary">
+            {c.cta1}
           </a>
-          <a href="#roadmap" className="btn-secondary">{c.cta2} →</a>
+          <a href="#pricing" className="btn-secondary">{c.cta2} →</a>
         </div>
         <div className="hero-stats">
           {stats.map((s, i) => (
