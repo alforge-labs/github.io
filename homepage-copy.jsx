@@ -14,7 +14,7 @@ window.EQUITY_CURVE = {
 // Bilingual copy — window.COPY
 window.COPY = {
   ja: {
-    nav: { products: 'プロダクト', roadmap: 'ロードマップ', faq: 'FAQ', follow: 'フォロー' },
+    nav: { products: 'プロダクト', pricing: '料金', roadmap: 'ロードマップ', faq: 'FAQ', follow: 'フォロー' },
     hero: {
       tag: '開発進行中',
       h1a: 'アルゴリズムを、',
@@ -28,6 +28,51 @@ window.COPY = {
       { val: 'Sharpe 1.09', accent: true, lbl: 'バックテスト実績（CL=F・5年）' },
       { val: '2027', accent: false, lbl: '正式リリース目標' },
     ],
+    pricing: {
+      label: '料金',
+      title: 'シンプルな\n買い切りプラン',
+      subtitle: '月額課金なし。一度購入すれば、将来のバージョンアップも含まれます。',
+      plans: [
+        {
+          name: 'Lifetime',
+          badge: 'おすすめ',
+          featured: true,
+          price: '$299',
+          period: '買い切り',
+          desc: '一度の支払いで将来のメジャーバージョンアップを含む全機能を永続利用。',
+          features: [
+            'macOS / Linux / Windows 対応',
+            'バックテスト（回数無制限）',
+            'ベイズ最適化（Optuna）',
+            'ウォークフォワード分析',
+            'Pine Script v6 自動生成',
+            '将来バージョンのアップデート込み',
+            '1台のマシンでアクティベート',
+          ],
+          url: 'https://alforge-labs.lemonsqueezy.com',
+        },
+        {
+          name: 'Annual',
+          badge: null,
+          featured: false,
+          price: '$99',
+          period: '/ 年',
+          desc: '年間サブスクリプション。常に最新バージョンを利用できます。',
+          features: [
+            'macOS / Linux / Windows 対応',
+            'バックテスト（回数無制限）',
+            'ベイズ最適化（Optuna）',
+            'ウォークフォワード分析',
+            'Pine Script v6 自動生成',
+            '常に最新バージョン',
+            '1台のマシンでアクティベート',
+          ],
+          url: 'https://alforge-labs.lemonsqueezy.com',
+        },
+      ],
+      buyNow: '今すぐ購入',
+      note: '購入後にライセンスキーが発行されます。インストール後に forge license activate <KEY> で有効化してください。',
+    },
     products: {
       label: 'プロダクト',
       title: '3つの層で構成される\n統合トレーディングシステム',
@@ -176,7 +221,7 @@ window.COPY = {
   },
 
   en: {
-    nav: { products: 'Products', roadmap: 'Roadmap', faq: 'FAQ', follow: 'Follow' },
+    nav: { products: 'Products', pricing: 'Pricing', roadmap: 'Roadmap', faq: 'FAQ', follow: 'Follow' },
     hero: {
       tag: 'In Development',
       h1a: 'Turn Algorithms',
@@ -190,6 +235,51 @@ window.COPY = {
       { val: 'Sharpe 1.09', accent: true, lbl: 'Backtest Result (CL=F · 5yr)' },
       { val: '2027', accent: false, lbl: 'Target Release' },
     ],
+    pricing: {
+      label: 'Pricing',
+      title: 'Simple,\none-time pricing.',
+      subtitle: 'No monthly fees. Buy once, keep forever — future updates included.',
+      plans: [
+        {
+          name: 'Lifetime',
+          badge: 'Best Value',
+          featured: true,
+          price: '$299',
+          period: 'one-time',
+          desc: 'Pay once, use forever. All future major version upgrades included.',
+          features: [
+            'macOS / Linux / Windows',
+            'Unlimited backtests',
+            'Bayesian optimization (Optuna)',
+            'Walk-forward analysis',
+            'Pine Script v6 auto-generation',
+            'Future version updates included',
+            'Activate on 1 machine',
+          ],
+          url: 'https://alforge-labs.lemonsqueezy.com',
+        },
+        {
+          name: 'Annual',
+          badge: null,
+          featured: false,
+          price: '$99',
+          period: '/ year',
+          desc: 'Annual subscription. Always on the latest version.',
+          features: [
+            'macOS / Linux / Windows',
+            'Unlimited backtests',
+            'Bayesian optimization (Optuna)',
+            'Walk-forward analysis',
+            'Pine Script v6 auto-generation',
+            'Always latest version',
+            'Activate on 1 machine',
+          ],
+          url: 'https://alforge-labs.lemonsqueezy.com',
+        },
+      ],
+      buyNow: 'Buy Now',
+      note: 'A license key is issued after purchase. Activate with: forge license activate <KEY>',
+    },
     products: {
       label: 'Products',
       title: 'Three layers.\nOne integrated system.',
