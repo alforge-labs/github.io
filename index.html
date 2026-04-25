@@ -137,6 +137,7 @@
       font-family: var(--sans); font-size: 1rem; font-weight: 700;
       color: var(--text); text-decoration: none; letter-spacing: -0.03em;
       display: flex; align-items: center; gap: 0;
+      flex: 0 0 auto;
     }
     .nav-logo .dot { color: var(--accent); }
     .nav-logo .labs { font-family: var(--mono); font-weight: 400; font-size: 0.78rem; color: var(--text2); margin-left: 1px; }
@@ -151,7 +152,7 @@
     }
     .nav-center a:hover { color: var(--text); }
 
-    .nav-right { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; min-width: 0; }
 
     .nav-page-link {
       height: 32px; padding: 0 0.75rem;
@@ -193,6 +194,7 @@
       transition: background 0.15s, border-color 0.15s;
     }
     .follow-btn-nav:hover { background: var(--accent-glow); }
+    .follow-label { white-space: nowrap; }
 
     /* ── CONTAINER ── */
     .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad); }
@@ -665,6 +667,12 @@
       .products-grid { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
       .nav-page-link { padding: 0 0.55rem; }
+      .lang-btn { padding: 0 0.55rem; }
+      .follow-btn-nav {
+        width: 32px; padding: 0;
+        justify-content: center; flex: 0 0 32px;
+      }
+      .follow-label { display: none; }
       .perf-stats { flex-wrap: wrap; }
       .perf-stat { min-width: 50%; }
       .rm-item { grid-template-columns: 80px 1fr; gap: 1rem; }
@@ -673,6 +681,13 @@
       .rm-period { padding-right: 1rem; }
       .hero-stats { gap: 2rem; }
       .x-handle { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 390px) {
+      nav { padding: 0 0.85rem; }
+      .nav-right { gap: 0.35rem; }
+      .nav-page-link { display: none; }
+      .nav-logo { font-size: 0.95rem; }
     }
   </style>
 </head>
