@@ -14,7 +14,7 @@
 
 $ErrorActionPreference = "Stop"
 
-$REPO       = "ysakae/alpha-forge"
+$REPO       = "alforge-labs/alforge-labs.github.io"
 $ARTIFACT   = "forge-windows-x86_64.exe"
 $INSTALL_DIR = Join-Path $env:USERPROFILE "bin"
 $INSTALL_PATH = Join-Path $INSTALL_DIR "forge.exe"

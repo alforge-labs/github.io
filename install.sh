@@ -2,7 +2,7 @@
 set -euo pipefail
 
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
-REPO="ysakae/alpha-forge"
+REPO="alforge-labs/alforge-labs.github.io"
 
 # OS・アーキテクチャ判定
 OS="$(uname -s)"
