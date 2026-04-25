@@ -89,6 +89,7 @@ window.COPY = {
         },
       ],
       buyNow: '今すぐ購入',
+      comingSummer: '今夏販売開始予定',
       note: '購入後にライセンスキーが発行されます。インストール後に forge license activate <KEY> で有効化してください。',
     },
     products: {
@@ -320,6 +321,7 @@ window.COPY = {
         },
       ],
       buyNow: 'Buy Now',
+      comingSummer: 'Coming This Summer',
       note: 'A license key is issued after purchase. Activate with: forge license activate <KEY>',
     },
     products: {
