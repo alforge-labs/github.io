@@ -73,6 +73,7 @@ body {
   font-family: var(--sans); font-size: 1rem; font-weight: 700;
   color: var(--text); text-decoration: none; letter-spacing: -0.03em;
   display: flex; align-items: center;
+  flex: 0 0 auto;
 }
 .nav-logo .dot { color: var(--accent); }
 .nav-logo .labs { font-family: var(--mono); font-weight: 400; font-size: 0.78rem; color: var(--text2); margin-left: 1px; }
@@ -89,7 +90,7 @@ body {
 .nav-center a:hover { color: var(--text); text-decoration: none; }
 .nav-center a.active { color: var(--accent); }
 
-.nav-right { display: flex; align-items: center; gap: 0.5rem; }
+.nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; min-width: 0; }
 
 .nav-page-link {
   height: 32px; padding: 0 0.75rem;
@@ -122,6 +123,7 @@ body {
   transition: background 0.15s, border-color 0.15s;
 }
 .follow-btn-nav:hover { background: var(--accent-glow); text-decoration: none; }
+.follow-label { white-space: nowrap; }
 
 /* ── LAYOUT ── */
 .page-wrap {
@@ -275,5 +277,17 @@ footer {
 
 @media (max-width: 640px) {
   .nav-page-link { padding: 0 0.55rem; }
+  .follow-btn-nav {
+    width: 32px; padding: 0;
+    justify-content: center; flex: 0 0 32px;
+  }
+  .follow-label { display: none; }
   .page-wrap { padding-top: calc(var(--nav-h) + 2rem); }
+}
+
+@media (max-width: 390px) {
+  #site-header nav { padding: 0 0.85rem; }
+  .nav-right { gap: 0.35rem; }
+  .nav-page-link { display: none; }
+  .nav-logo { font-size: 0.95rem; }
 }

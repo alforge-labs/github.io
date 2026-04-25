@@ -68,7 +68,7 @@ function SiteHeader({ dark, setDark, lang = 'ja', setLang, active = '', showLang
         </button>
         <a className="follow-btn-nav" href="https://x.com/alforge_bot" target="_blank" rel="noopener">
           <XIcon size={13} />
-          {c.follow}
+          <span className="follow-label">{c.follow}</span>
         </a>
       </div>
     </nav>
