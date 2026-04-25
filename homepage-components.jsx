@@ -277,12 +277,12 @@ function Pricing({ t }) {
                 ))}
               </ul>
               <a
-                href={plan.url}
-                target="_blank" rel="noopener"
+                href="#roadmap"
                 className={plan.featured ? 'btn-primary' : 'btn-secondary'}
-                style={{ justifyContent: 'center', marginTop: 'auto' }}
+                style={{ justifyContent: 'center', marginTop: 'auto', flexDirection: 'column', gap: '2px' }}
               >
-                {c.buyNow}
+                <s>{c.buyNow}</s>
+                <span style={{ fontSize: '0.85em', fontWeight: 400 }}>{c.comingSummer}</span>
               </a>
             </div>
           ))}
