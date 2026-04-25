@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>インストールガイド — Alforge Labs</title>
-  <meta name="description" content="AlphaForge CLI のインストール手順。macOS・Linux・Windows 対応。" />
+  <meta name="description" content="AlphaForge CLI installation guide for macOS, Linux, and Windows." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -12,138 +12,185 @@
   <script>
     (function() {
       var t = localStorage.getItem('al_theme') || 'dark';
+      var l = localStorage.getItem('al_lang') || 'ja';
       document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('lang', l);
       document.addEventListener('DOMContentLoaded', function() {
         document.body.setAttribute('data-theme', t);
+        document.body.setAttribute('data-lang', l);
       });
     })();
   </script>
 </head>
-<body data-theme="dark">
+<body data-theme="dark" data-lang="ja">
   <div id="site-header"></div>
 
   <div class="page-wrap">
-    <div class="page-label">Getting Started</div>
-    <h1 class="page-title">インストールガイド</h1>
-    <p class="page-subtitle">AlphaForge CLI をインストールしてライセンス認証するまでの手順です。所要時間は約5分です。</p>
+    <div class="lang-content lang-ja">
+      <div class="page-label">Getting Started</div>
+      <h1 class="page-title">インストールガイド</h1>
+      <p class="page-subtitle">AlphaForge CLI をインストールしてライセンス認証するまでの手順です。所要時間は約5分です。</p>
 
-    <h2 class="section-heading">前提条件</h2>
-    <ul>
-      <li>macOS 12 (Monterey) 以降 / Ubuntu 22.04 以降 / Windows 11</li>
-      <li>インターネット接続（ライセンス認証時）</li>
-      <li>有効な AlphaForge ライセンスキー（<a href="/#pricing">購入ページ</a>から入手）</li>
-    </ul>
+      <h2 class="section-heading">前提条件</h2>
+      <ul>
+        <li>macOS 12 (Monterey) 以降 / Ubuntu 22.04 以降 / Windows 11</li>
+        <li>インターネット接続（ライセンス認証時）</li>
+        <li>有効な AlphaForge ライセンスキー（<a href="/#pricing">購入ページ</a>から入手）</li>
+      </ul>
 
-    <h2 class="section-heading">インストール</h2>
-
-    <div class="platform-tabs">
-      <div class="platform-tab active" onclick="switchTab('mac')">macOS / Linux</div>
-      <div class="platform-tab" onclick="switchTab('win')">Windows</div>
-      <div class="platform-tab" onclick="switchTab('manual')">手動インストール</div>
-    </div>
-
-    <div id="tab-mac" class="platform-content active">
-      <p>ターミナルで以下のコマンドを実行してください。インストーラーが最新バイナリをダウンロードし、<code>/usr/local/bin</code> に配置します。</p>
-      <pre><code>curl -sSL https://alforge-labs.github.io/install.sh | bash</code></pre>
-      <div class="callout">
-        <p>インストール先を変更したい場合は <code>INSTALL_DIR</code> 環境変数で指定できます。例: <code>INSTALL_DIR=~/.local/bin curl -sSL ... | bash</code></p>
+      <h2 class="section-heading">インストール</h2>
+      <div class="platform-tabs">
+        <div class="platform-tab active" onclick="switchTab('ja', 'mac', event)">macOS / Linux</div>
+        <div class="platform-tab" onclick="switchTab('ja', 'win', event)">Windows</div>
+        <div class="platform-tab" onclick="switchTab('ja', 'manual', event)">手動インストール</div>
       </div>
-    </div>
 
-    <div id="tab-win" class="platform-content">
-      <p>PowerShell（管理者権限不要）で以下を実行してください。バイナリを <code>%USERPROFILE%\.forge\bin</code> にインストールし、PATH を自動設定します。</p>
-      <pre><code>irm https://alforge-labs.github.io/install.ps1 | iex</code></pre>
-      <div class="callout">
-        <p>インストール後、新しいターミナルウィンドウを開いてから次の手順に進んでください。</p>
+      <div id="tab-ja-mac" class="platform-content active">
+        <p>ターミナルで以下のコマンドを実行してください。インストーラーが最新バイナリをダウンロードし、<code>/usr/local/bin</code> に配置します。</p>
+        <pre><code>curl -sSL https://alforge-labs.github.io/install.sh | bash</code></pre>
+        <div class="callout">
+          <p>インストール先を変更したい場合は <code>INSTALL_DIR</code> 環境変数で指定できます。例: <code>INSTALL_DIR=~/.local/bin curl -sSL ... | bash</code></p>
+        </div>
       </div>
-    </div>
 
-    <div id="tab-manual" class="platform-content">
-      <ol>
-        <li>
-          <a href="https://github.com/ysakae/alpha-forge/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>
-          から使用するプラットフォームのバイナリをダウンロードします。
-          <table class="cmd-table" style="margin-top: 0.75rem;">
-            <thead><tr><th>ファイル名</th><th>対象</th></tr></thead>
-            <tbody>
-              <tr><td><code>forge-macos-x86_64</code></td><td>macOS (Intel)</td></tr>
-              <tr><td><code>forge-macos-arm64</code></td><td>macOS (Apple Silicon)</td></tr>
-              <tr><td><code>forge-linux-x86_64</code></td><td>Linux (x86_64)</td></tr>
-              <tr><td><code>forge-windows-x86_64.exe</code></td><td>Windows 11</td></tr>
-            </tbody>
-          </table>
-        </li>
-        <li>macOS / Linux: 実行権限を付与して PATH の通ったディレクトリに配置します。<pre><code>chmod +x forge-macos-arm64
+      <div id="tab-ja-win" class="platform-content">
+        <p>PowerShell（管理者権限不要）で以下を実行してください。バイナリを <code>%USERPROFILE%\.forge\bin</code> にインストールし、PATH を自動設定します。</p>
+        <pre><code>irm https://alforge-labs.github.io/install.ps1 | iex</code></pre>
+        <div class="callout">
+          <p>インストール後、新しいターミナルウィンドウを開いてから次の手順に進んでください。</p>
+        </div>
+      </div>
+
+      <div id="tab-ja-manual" class="platform-content">
+        <ol>
+          <li>
+            <a href="https://github.com/ysakae/alpha-forge/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>
+            から使用するプラットフォームのバイナリをダウンロードします。
+          </li>
+          <li>macOS / Linux: 実行権限を付与して PATH の通ったディレクトリに配置します。<pre><code>chmod +x forge-macos-arm64
 sudo mv forge-macos-arm64 /usr/local/bin/forge</code></pre></li>
-        <li>Windows: バイナリを任意のフォルダに配置し、そのフォルダを PATH に追加します。</li>
+          <li>Windows: バイナリを任意のフォルダに配置し、そのフォルダを PATH に追加します。</li>
+        </ol>
+      </div>
+
+      <h2 class="section-heading">ライセンス認証</h2>
+      <ol class="steps">
+        <li><div class="step-body"><div class="step-title">インストール確認</div><p>インストールが成功したことを確認します。</p><pre><code>forge --version</code></pre></div></li>
+        <li><div class="step-body"><div class="step-title">ライセンスキーを認証</div><p>購入完了メールに記載されているライセンスキーで認証します。</p><pre><code>forge license activate &lt;YOUR_LICENSE_KEY&gt;</code></pre><p>認証情報は <code>~/.forge/license.json</code> に保存されます。オンライン接続が必要です。</p></div></li>
+        <li><div class="step-body"><div class="step-title">動作確認</div><p>バックテストコマンドが利用可能なことを確認します。</p><pre><code>forge backtest --help</code></pre></div></li>
       </ol>
-    </div>
 
-    <h2 class="section-heading">ライセンス認証</h2>
-    <ol class="steps">
-      <li>
-        <div class="step-body">
-          <div class="step-title">インストール確認</div>
-          <p>インストールが成功したことを確認します。</p>
-          <pre><code>forge --version</code></pre>
-          <p>バージョン番号が表示されれば成功です。</p>
-        </div>
-      </li>
-      <li>
-        <div class="step-body">
-          <div class="step-title">ライセンスキーを認証</div>
-          <p>購入完了メールに記載されているライセンスキーで認証します。</p>
-          <pre><code>forge license activate &lt;YOUR_LICENSE_KEY&gt;</code></pre>
-          <p>認証情報は <code>~/.forge/license.json</code> に保存されます。オンライン接続が必要です。</p>
-        </div>
-      </li>
-      <li>
-        <div class="step-body">
-          <div class="step-title">動作確認</div>
-          <p>バックテストコマンドが利用可能なことを確認します。</p>
-          <pre><code>forge backtest --help</code></pre>
-        </div>
-      </li>
-    </ol>
-
-    <h2 class="section-heading">アンインストール</h2>
-    <p>バイナリと認証情報を削除するだけです。</p>
-    <pre><code># macOS / Linux
+      <h2 class="section-heading">アンインストール</h2>
+      <pre><code># macOS / Linux
 sudo rm /usr/local/bin/forge
 rm -rf ~/.forge</code></pre>
 
-    <h2 class="section-heading">トラブルシューティング</h2>
-    <table class="cmd-table">
-      <thead><tr><th>症状</th><th>対処</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><code>command not found: forge</code></td>
-          <td>新しいターミナルを開くか、<code>source ~/.bashrc</code> を実行してください。</td>
-        </tr>
-        <tr>
-          <td>ライセンス認証エラー</td>
-          <td>ネットワーク接続を確認し、キーに余分なスペースがないか確認してください。</td>
-        </tr>
-        <tr>
-          <td>macOS セキュリティ警告</td>
-          <td>システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。</td>
-        </tr>
-      </tbody>
-    </table>
+      <h2 class="section-heading">トラブルシューティング</h2>
+      <table class="cmd-table">
+        <thead><tr><th>症状</th><th>対処</th></tr></thead>
+        <tbody>
+          <tr><td><code>command not found: forge</code></td><td>新しいターミナルを開くか、<code>source ~/.bashrc</code> を実行してください。</td></tr>
+          <tr><td>ライセンス認証エラー</td><td>ネットワーク接続を確認し、キーに余分なスペースがないか確認してください。</td></tr>
+          <tr><td>macOS セキュリティ警告</td><td>システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。</td></tr>
+        </tbody>
+      </table>
 
-    <div class="callout" style="margin-top: 2rem;">
-      <p>問題が解決しない場合は <a href="mailto:support@alforgelabs.com">support@alforgelabs.com</a> までお問い合わせください。</p>
+      <div class="callout" style="margin-top: 2rem;">
+        <p>問題が解決しない場合は <a href="mailto:support@alforgelabs.com">support@alforgelabs.com</a> までお問い合わせください。</p>
+      </div>
+    </div>
+
+    <div class="lang-content lang-en">
+      <div class="page-label">Getting Started</div>
+      <h1 class="page-title">Installation Guide</h1>
+      <p class="page-subtitle">Install AlphaForge CLI and activate your license in about five minutes.</p>
+
+      <h2 class="section-heading">Requirements</h2>
+      <ul>
+        <li>macOS 12 Monterey or later / Ubuntu 22.04 or later / Windows 11</li>
+        <li>Internet access for license activation</li>
+        <li>A valid AlphaForge license key from the <a href="/#pricing">pricing page</a></li>
+      </ul>
+
+      <h2 class="section-heading">Install</h2>
+      <div class="platform-tabs">
+        <div class="platform-tab active" onclick="switchTab('en', 'mac', event)">macOS / Linux</div>
+        <div class="platform-tab" onclick="switchTab('en', 'win', event)">Windows</div>
+        <div class="platform-tab" onclick="switchTab('en', 'manual', event)">Manual</div>
+      </div>
+
+      <div id="tab-en-mac" class="platform-content active">
+        <p>Run the following command in your terminal. The installer downloads the latest binary and places it in <code>/usr/local/bin</code>.</p>
+        <pre><code>curl -sSL https://alforge-labs.github.io/install.sh | bash</code></pre>
+        <div class="callout">
+          <p>Set <code>INSTALL_DIR</code> if you want to install elsewhere. Example: <code>INSTALL_DIR=~/.local/bin curl -sSL ... | bash</code></p>
+        </div>
+      </div>
+
+      <div id="tab-en-win" class="platform-content">
+        <p>Run this in PowerShell. It installs the binary into <code>%USERPROFILE%\.forge\bin</code> and updates PATH.</p>
+        <pre><code>irm https://alforge-labs.github.io/install.ps1 | iex</code></pre>
+        <div class="callout">
+          <p>Open a new terminal window after installation before continuing.</p>
+        </div>
+      </div>
+
+      <div id="tab-en-manual" class="platform-content">
+        <ol>
+          <li>Download the binary for your platform from <a href="https://github.com/ysakae/alpha-forge/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>.</li>
+          <li>macOS / Linux: make it executable and move it to a directory on your PATH.<pre><code>chmod +x forge-macos-arm64
+sudo mv forge-macos-arm64 /usr/local/bin/forge</code></pre></li>
+          <li>Windows: place the binary in any folder and add that folder to PATH.</li>
+        </ol>
+      </div>
+
+      <h2 class="section-heading">License Activation</h2>
+      <ol class="steps">
+        <li><div class="step-body"><div class="step-title">Check installation</div><p>Confirm that the binary is available.</p><pre><code>forge --version</code></pre></div></li>
+        <li><div class="step-body"><div class="step-title">Activate your license</div><p>Use the license key from your purchase email.</p><pre><code>forge license activate &lt;YOUR_LICENSE_KEY&gt;</code></pre><p>Activation data is cached at <code>~/.forge/license.json</code>. Internet access is required.</p></div></li>
+        <li><div class="step-body"><div class="step-title">Verify commands</div><p>Confirm that backtest commands are available.</p><pre><code>forge backtest --help</code></pre></div></li>
+      </ol>
+
+      <h2 class="section-heading">Uninstall</h2>
+      <pre><code># macOS / Linux
+sudo rm /usr/local/bin/forge
+rm -rf ~/.forge</code></pre>
+
+      <h2 class="section-heading">Troubleshooting</h2>
+      <table class="cmd-table">
+        <thead><tr><th>Issue</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td><code>command not found: forge</code></td><td>Open a new terminal or run <code>source ~/.bashrc</code>.</td></tr>
+          <tr><td>License activation error</td><td>Check your network connection and make sure the key has no extra spaces.</td></tr>
+          <tr><td>macOS security warning</td><td>Open System Settings → Privacy & Security and allow <code>forge</code>.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top: 2rem;">
+        <p>If the issue persists, contact <a href="mailto:support@alforgelabs.com">support@alforgelabs.com</a>.</p>
+      </div>
     </div>
   </div>
 
   <footer>
     <div class="footer-logo">alforge<span class="dot">.</span>labs</div>
-    <div class="footer-links">
-      <a href="/">ホーム</a>
-      <a href="install.html">インストール</a>
-      <a href="docs.html">ドキュメント</a>
-      <a href="terms.html">利用規約</a>
-      <a href="privacy.html">プライバシー</a>
+    <div class="lang-content lang-ja">
+      <div class="footer-links">
+        <a href="/">ホーム</a>
+        <a href="install.html">インストール</a>
+        <a href="docs.html">ドキュメント</a>
+        <a href="terms.html">利用規約</a>
+        <a href="privacy.html">プライバシー</a>
+      </div>
+    </div>
+    <div class="lang-content lang-en">
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="install.html">Install</a>
+        <a href="docs.html">Docs</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
     </div>
   </footer>
 
@@ -155,12 +202,12 @@ rm -rf ~/.forge</code></pre>
     renderStandaloneHeader({ active: 'install' });
   </script>
   <script>
-    // プラットフォームタブ
-    function switchTab(id) {
-      document.querySelectorAll('.platform-tab').forEach(function(el) { el.classList.remove('active'); });
-      document.querySelectorAll('.platform-content').forEach(function(el) { el.classList.remove('active'); });
+    function switchTab(lang, id, event) {
+      var scope = document.querySelector('.lang-' + lang);
+      scope.querySelectorAll('.platform-tab').forEach(function(el) { el.classList.remove('active'); });
+      scope.querySelectorAll('.platform-content').forEach(function(el) { el.classList.remove('active'); });
       event.currentTarget.classList.add('active');
-      document.getElementById('tab-' + id).classList.add('active');
+      document.getElementById('tab-' + lang + '-' + id).classList.add('active');
     }
   </script>
 </body>

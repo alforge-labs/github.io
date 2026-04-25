@@ -82,6 +82,7 @@ function renderStandaloneHeader({ active = '' } = {}) {
   function StandaloneHeader() {
     const savedTheme = localStorage.getItem('al_theme');
     const [dark, setDark] = React.useState(savedTheme ? savedTheme === 'dark' : true);
+    const [lang, setLang] = React.useState(localStorage.getItem('al_lang') || 'ja');
 
     React.useEffect(() => {
       const theme = dark ? 'dark' : 'light';
@@ -90,7 +91,13 @@ function renderStandaloneHeader({ active = '' } = {}) {
       localStorage.setItem('al_theme', theme);
     }, [dark]);
 
-    return <SiteHeader dark={dark} setDark={setDark} lang="ja" active={active} />;
+    React.useEffect(() => {
+      localStorage.setItem('al_lang', lang);
+      document.documentElement.setAttribute('lang', lang);
+      document.body.setAttribute('data-lang', lang);
+    }, [lang]);
+
+    return <SiteHeader dark={dark} setDark={setDark} lang={lang} setLang={setLang} active={active} showLanguage={true} />;
   }
 
   ReactDOM.createRoot(root).render(<StandaloneHeader />);

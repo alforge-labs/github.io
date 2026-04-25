@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>コマンドリファレンス — Alforge Labs</title>
-  <meta name="description" content="AlphaForge CLI コマンドリファレンス。backtest・optimize・wft・license・data コマンドの使い方。" />
+  <meta name="description" content="AlphaForge CLI command reference for backtest, optimize, walk-forward, license, and data commands." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -48,190 +48,171 @@
   <script>
     (function() {
       var t = localStorage.getItem('al_theme') || 'dark';
+      var l = localStorage.getItem('al_lang') || 'ja';
       document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('lang', l);
       document.addEventListener('DOMContentLoaded', function() {
         document.body.setAttribute('data-theme', t);
+        document.body.setAttribute('data-lang', l);
       });
     })();
   </script>
 </head>
-<body data-theme="dark">
+<body data-theme="dark" data-lang="ja">
   <div id="site-header"></div>
 
   <div class="page-wrap" style="max-width: 1060px;">
-    <div class="page-label">Documentation</div>
-    <h1 class="page-title">コマンドリファレンス</h1>
-    <p class="page-subtitle">AlphaForge CLI の主要コマンド一覧と使用例です。</p>
+    <div class="lang-content lang-ja">
+      <div class="page-label">Documentation</div>
+      <h1 class="page-title">コマンドリファレンス</h1>
+      <p class="page-subtitle">AlphaForge CLI の主要コマンド一覧と使用例です。</p>
 
-    <!-- クイックリファレンス -->
-    <table class="cmd-table">
-      <thead>
-        <tr>
-          <th>コマンド</th>
-          <th>概要</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><a href="#backtest"><code>forge backtest run</code></a></td><td>戦略のバックテストを実行</td></tr>
-        <tr><td><a href="#optimize"><code>forge optimize run</code></a></td><td>ベイズ最適化でパラメータを探索</td></tr>
-        <tr><td><a href="#wft"><code>forge backtest wft</code></a></td><td>ウォークフォワードテストを実行</td></tr>
-        <tr><td><a href="#license"><code>forge license activate</code></a></td><td>ライセンスキーを認証</td></tr>
-        <tr><td><a href="#data"><code>forge data update</code></a></td><td>ヒストリカルデータを差分更新</td></tr>
-      </tbody>
-    </table>
+      <table class="cmd-table">
+        <thead><tr><th>コマンド</th><th>概要</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#ja-backtest"><code>forge backtest run</code></a></td><td>戦略のバックテストを実行</td></tr>
+          <tr><td><a href="#ja-optimize"><code>forge optimize run</code></a></td><td>ベイズ最適化でパラメータを探索</td></tr>
+          <tr><td><a href="#ja-wft"><code>forge backtest wft</code></a></td><td>ウォークフォワードテストを実行</td></tr>
+          <tr><td><a href="#ja-license"><code>forge license activate</code></a></td><td>ライセンスキーを認証</td></tr>
+          <tr><td><a href="#ja-data"><code>forge data update</code></a></td><td>ヒストリカルデータを差分更新</td></tr>
+        </tbody>
+      </table>
 
-    <div class="doc-layout" style="margin-top: 2rem;">
-      <!-- サイドナビ -->
-      <nav class="cmd-nav">
-        <ul class="cmd-nav-list">
-          <li><a href="#backtest">backtest run</a></li>
-          <li><a href="#optimize">optimize run</a></li>
-          <li><a href="#wft">backtest wft</a></li>
-          <li><a href="#license">license activate</a></li>
-          <li><a href="#data">data update</a></li>
-        </ul>
-      </nav>
-
-      <!-- コンテンツ -->
-      <div>
-        <!-- backtest run -->
-        <section class="cmd-section" id="backtest">
-          <h2 class="section-heading">forge backtest run</h2>
-          <p>指定した戦略とシンボルでバックテストを実行します。結果は SQLite に保存され、JSON 出力も可能です。</p>
-          <pre><code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
-
-          <h3 class="sub-heading">使用例</h3>
-          <pre><code># CL=F（原油先物）で HMM+BB+RSI 戦略をバックテスト
-forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1
-
-# JSON 出力
+      <div class="doc-layout" style="margin-top: 2rem;">
+        <nav class="cmd-nav">
+          <ul class="cmd-nav-list">
+            <li><a href="#ja-backtest">backtest run</a></li>
+            <li><a href="#ja-optimize">optimize run</a></li>
+            <li><a href="#ja-wft">backtest wft</a></li>
+            <li><a href="#ja-license">license activate</a></li>
+            <li><a href="#ja-data">data update</a></li>
+          </ul>
+        </nav>
+        <div>
+          <section class="cmd-section" id="ja-backtest">
+            <h2 class="section-heading">forge backtest run</h2>
+            <p>指定した戦略とシンボルでバックテストを実行します。結果は SQLite に保存され、JSON 出力も可能です。</p>
+            <pre><code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
+            <h3 class="sub-heading">使用例</h3>
+            <pre><code>forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1
 forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1 --json
+forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1 --start 2021-01-01 --end 2024-12-31</code></pre>
+          </section>
 
-# 特定期間を指定
-forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1 \
-  --start 2021-01-01 --end 2024-12-31</code></pre>
+          <section class="cmd-section" id="ja-optimize">
+            <h2 class="section-heading">forge optimize run</h2>
+            <p>Optuna を使ったベイズ最適化でパラメータ空間を効率的に探索します。</p>
+            <pre><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; --trials 200 -j 4</code></pre>
+          </section>
 
-          <h3 class="sub-heading">主要オプション</h3>
-          <table class="option-table">
-            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
-            <tbody>
-              <tr><td><code>--strategy</code></td><td>戦略名（<code>alpha-strategies/</code> 内の JSON ファイル名）</td><td>必須</td></tr>
-              <tr><td><code>--start</code></td><td>バックテスト開始日 (YYYY-MM-DD)</td><td>データ最古</td></tr>
-              <tr><td><code>--end</code></td><td>バックテスト終了日 (YYYY-MM-DD)</td><td>最新日</td></tr>
-              <tr><td><code>--json</code></td><td>結果を JSON 形式で標準出力</td><td>なし</td></tr>
-              <tr><td><code>--config</code></td><td>設定ファイルパス</td><td><code>forge.yaml</code></td></tr>
-            </tbody>
-          </table>
-        </section>
+          <section class="cmd-section" id="ja-wft">
+            <h2 class="section-heading">forge backtest wft</h2>
+            <p>ウォークフォワードテストを実行します。過学習を検出するための標準的な検証手法です。</p>
+            <pre><code>forge backtest wft CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5</code></pre>
+          </section>
 
-        <!-- optimize run -->
-        <section class="cmd-section" id="optimize">
-          <h2 class="section-heading">forge optimize run</h2>
-          <p>Optuna を使ったベイズ最適化でパラメータ空間を効率的に探索します。</p>
-          <pre><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
+          <section class="cmd-section" id="ja-license">
+            <h2 class="section-heading">forge license activate</h2>
+            <p>LemonSqueezy のライセンスキーを認証します。認証情報は <code>~/.forge/license.json</code> にキャッシュされます。</p>
+            <pre><code>forge license activate &lt;LICENSE_KEY&gt;</code></pre>
+            <table class="option-table">
+              <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
+              <tbody>
+                <tr><td><code>forge license status</code></td><td>現在のライセンス状態を表示</td></tr>
+                <tr><td><code>forge license deactivate</code></td><td>このデバイスのライセンスを無効化</td></tr>
+              </tbody>
+            </table>
+          </section>
 
-          <h3 class="sub-heading">使用例</h3>
-          <pre><code># 200試行で最適化
-forge optimize run CL=F --strategy cl_hmm_bb_rsi_v1 --trials 200
-
-# 並列実行（4ジョブ）
-forge optimize run CL=F --strategy cl_hmm_bb_rsi_v1 --trials 200 -j 4</code></pre>
-
-          <h3 class="sub-heading">主要オプション</h3>
-          <table class="option-table">
-            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
-            <tbody>
-              <tr><td><code>--trials</code></td><td>最適化試行回数</td><td>100</td></tr>
-              <tr><td><code>-j / --jobs</code></td><td>並列ジョブ数</td><td>1</td></tr>
-              <tr><td><code>--metric</code></td><td>最適化目標指標（sharpe / calmar / total_return）</td><td>sharpe</td></tr>
-              <tr><td><code>--sampler</code></td><td>Optuna サンプラー（tpe / random / cmaes）</td><td>tpe</td></tr>
-            </tbody>
-          </table>
-        </section>
-
-        <!-- wft -->
-        <section class="cmd-section" id="wft">
-          <h2 class="section-heading">forge backtest wft</h2>
-          <p>ウォークフォワードテスト（Walk-Forward Test）を実行します。過学習を検出するための標準的な検証手法です。</p>
-          <pre><code>forge backtest wft &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
-
-          <h3 class="sub-heading">使用例</h3>
-          <pre><code># 5-fold WFT（訓練70% / 検証30%）
-forge backtest wft CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5
-
-# カスタム分割比
-forge backtest wft CL=F --strategy cl_hmm_bb_rsi_v1 \
-  --train-ratio 0.75 --folds 4</code></pre>
-
-          <h3 class="sub-heading">主要オプション</h3>
-          <table class="option-table">
-            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
-            <tbody>
-              <tr><td><code>--folds</code></td><td>分割数</td><td>5</td></tr>
-              <tr><td><code>--train-ratio</code></td><td>訓練期間の比率 (0–1)</td><td>0.70</td></tr>
-              <tr><td><code>--trials</code></td><td>各フォールドの最適化試行数</td><td>100</td></tr>
-            </tbody>
-          </table>
-        </section>
-
-        <!-- license -->
-        <section class="cmd-section" id="license">
-          <h2 class="section-heading">forge license activate</h2>
-          <p>LemonSqueezy のライセンスキーを認証します。認証情報は <code>~/.forge/license.json</code> にキャッシュされます。</p>
-          <pre><code>forge license activate &lt;LICENSE_KEY&gt;</code></pre>
-
-          <h3 class="sub-heading">使用例</h3>
-          <pre><code>forge license activate 3B111359-8449-481B-AE0F-887B8C85C1B7</code></pre>
-
-          <h3 class="sub-heading">その他のサブコマンド</h3>
-          <table class="option-table">
-            <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
-            <tbody>
-              <tr><td><code>forge license status</code></td><td>現在のライセンス状態を表示</td></tr>
-              <tr><td><code>forge license deactivate</code></td><td>このデバイスのライセンスを無効化（他機種への移行時）</td></tr>
-            </tbody>
-          </table>
-        </section>
-
-        <!-- data -->
-        <section class="cmd-section" id="data">
-          <h2 class="section-heading">forge data update</h2>
-          <p>ヒストリカルデータを最新日まで差分更新します。設定ファイル (<code>forge.yaml</code>) に記載されたシンボルをまとめて更新します。</p>
-          <pre><code>forge data update [OPTIONS]</code></pre>
-
-          <h3 class="sub-heading">使用例</h3>
-          <pre><code># 全シンボルを更新
-forge data update
-
-# 特定シンボルのみ
+          <section class="cmd-section" id="ja-data">
+            <h2 class="section-heading">forge data update</h2>
+            <p>設定ファイルに記載されたシンボルのヒストリカルデータを最新日まで差分更新します。</p>
+            <pre><code>forge data update
 forge data update --symbol CL=F
-
-# 強制フル再取得
 forge data update --full</code></pre>
+          </section>
+        </div>
+      </div>
+    </div>
 
-          <h3 class="sub-heading">主要オプション</h3>
-          <table class="option-table">
-            <thead><tr><th>オプション</th><th>説明</th><th>デフォルト</th></tr></thead>
-            <tbody>
-              <tr><td><code>--symbol</code></td><td>更新対象シンボル（省略時は全シンボル）</td><td>全シンボル</td></tr>
-              <tr><td><code>--full</code></td><td>差分ではなくフルで再取得</td><td>なし</td></tr>
-              <tr><td><code>--config</code></td><td>設定ファイルパス</td><td><code>forge.yaml</code></td></tr>
-            </tbody>
-          </table>
-        </section>
+    <div class="lang-content lang-en">
+      <div class="page-label">Documentation</div>
+      <h1 class="page-title">Command Reference</h1>
+      <p class="page-subtitle">Core AlphaForge CLI commands and practical examples.</p>
+
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Summary</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#en-backtest"><code>forge backtest run</code></a></td><td>Run a strategy backtest</td></tr>
+          <tr><td><a href="#en-optimize"><code>forge optimize run</code></a></td><td>Search parameters with Bayesian optimization</td></tr>
+          <tr><td><a href="#en-wft"><code>forge backtest wft</code></a></td><td>Run a walk-forward test</td></tr>
+          <tr><td><a href="#en-license"><code>forge license activate</code></a></td><td>Activate a license key</td></tr>
+          <tr><td><a href="#en-data"><code>forge data update</code></a></td><td>Update historical market data</td></tr>
+        </tbody>
+      </table>
+
+      <div class="doc-layout" style="margin-top: 2rem;">
+        <nav class="cmd-nav">
+          <ul class="cmd-nav-list">
+            <li><a href="#en-backtest">backtest run</a></li>
+            <li><a href="#en-optimize">optimize run</a></li>
+            <li><a href="#en-wft">backtest wft</a></li>
+            <li><a href="#en-license">license activate</a></li>
+            <li><a href="#en-data">data update</a></li>
+          </ul>
+        </nav>
+        <div>
+          <section class="cmd-section" id="en-backtest">
+            <h2 class="section-heading">forge backtest run</h2>
+            <p>Runs a backtest for a symbol and strategy. Results are stored in SQLite and can also be printed as JSON.</p>
+            <pre><code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; [OPTIONS]</code></pre>
+            <h3 class="sub-heading">Examples</h3>
+            <pre><code>forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1
+forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1 --json
+forge backtest run CL=F --strategy cl_hmm_bb_rsi_v1 --start 2021-01-01 --end 2024-12-31</code></pre>
+          </section>
+
+          <section class="cmd-section" id="en-optimize">
+            <h2 class="section-heading">forge optimize run</h2>
+            <p>Uses Optuna to search the strategy parameter space efficiently.</p>
+            <pre><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;STRATEGY_NAME&gt; --trials 200 -j 4</code></pre>
+          </section>
+
+          <section class="cmd-section" id="en-wft">
+            <h2 class="section-heading">forge backtest wft</h2>
+            <p>Runs a walk-forward test to validate robustness and reduce overfitting risk.</p>
+            <pre><code>forge backtest wft CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5</code></pre>
+          </section>
+
+          <section class="cmd-section" id="en-license">
+            <h2 class="section-heading">forge license activate</h2>
+            <p>Activates a LemonSqueezy license key. Activation data is cached in <code>~/.forge/license.json</code>.</p>
+            <pre><code>forge license activate &lt;LICENSE_KEY&gt;</code></pre>
+            <table class="option-table">
+              <thead><tr><th>Command</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>forge license status</code></td><td>Show the current license status</td></tr>
+                <tr><td><code>forge license deactivate</code></td><td>Deactivate this device</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="cmd-section" id="en-data">
+            <h2 class="section-heading">forge data update</h2>
+            <p>Updates historical data for symbols defined in the configuration file.</p>
+            <pre><code>forge data update
+forge data update --symbol CL=F
+forge data update --full</code></pre>
+          </section>
+        </div>
       </div>
     </div>
   </div>
 
   <footer>
     <div class="footer-logo">alforge<span class="dot">.</span>labs</div>
-    <div class="footer-links">
-      <a href="/">ホーム</a>
-      <a href="install.html">インストール</a>
-      <a href="docs.html">ドキュメント</a>
-      <a href="terms.html">利用規約</a>
-      <a href="privacy.html">プライバシー</a>
-    </div>
+    <div class="lang-content lang-ja"><div class="footer-links"><a href="/">ホーム</a><a href="install.html">インストール</a><a href="docs.html">ドキュメント</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a></div></div>
+    <div class="lang-content lang-en"><div class="footer-links"><a href="/">Home</a><a href="install.html">Install</a><a href="docs.html">Docs</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a></div></div>
   </footer>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
