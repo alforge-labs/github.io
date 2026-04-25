@@ -407,26 +407,51 @@
     /* ── PRICING ── */
     .pricing { padding: 6rem 0; border-bottom: 1px solid var(--border); }
     .pricing-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem; max-width: 740px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem; max-width: 1040px;
     }
     .pricing-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 2rem;
+      border-radius: var(--r); padding: 1.7rem;
       display: flex; flex-direction: column; gap: 1.25rem;
-      position: relative; overflow: hidden; transition: border-color 0.2s;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     .pricing-card.featured { border-color: var(--accent-glow); }
-    .pricing-card.featured::before {
+    .pricing-card::before {
       content: ''; position: absolute;
       top: 0; left: 0; right: 0; height: 2px; background: var(--accent);
+      opacity: 0; transition: opacity 0.2s;
     }
+    .pricing-card.featured::before { opacity: 1; }
+    .pricing-card:hover,
+    .pricing-card:focus-within {
+      border-color: var(--accent-glow);
+      background: var(--surface-h);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+    .pricing-card:hover::before,
+    .pricing-card:focus-within::before { opacity: 1; }
+    .pricing-grid:has(.pricing-card:hover) .pricing-card.featured:not(:hover):not(:focus-within),
+    .pricing-grid:has(.pricing-card:focus-within) .pricing-card.featured:not(:hover):not(:focus-within) {
+      border-color: var(--border);
+      background: var(--surface);
+      transform: none;
+      box-shadow: none;
+    }
+    .pricing-grid:has(.pricing-card:hover) .pricing-card.featured:not(:hover):not(:focus-within)::before,
+    .pricing-grid:has(.pricing-card:focus-within) .pricing-card.featured:not(:hover):not(:focus-within)::before { opacity: 0; }
     .pricing-card-top { display: flex; align-items: center; justify-content: space-between; }
     .pricing-plan {
       font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
       letter-spacing: 0.1em; text-transform: uppercase; color: var(--text2);
     }
     .pricing-card.featured .pricing-plan { color: var(--accent); }
+    .pricing-card:hover .pricing-plan,
+    .pricing-card:focus-within .pricing-plan { color: var(--accent); }
+    .pricing-grid:has(.pricing-card:hover) .pricing-card.featured:not(:hover):not(:focus-within) .pricing-plan,
+    .pricing-grid:has(.pricing-card:focus-within) .pricing-card.featured:not(:hover):not(:focus-within) .pricing-plan { color: var(--text2); }
     .pricing-badge {
       font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
       letter-spacing: 0.08em; text-transform: uppercase;
@@ -451,7 +476,27 @@
     }
     .pricing-note {
       margin-top: 1.75rem; font-family: var(--mono); font-size: 0.7rem;
-      color: var(--text3); max-width: 740px;
+      color: var(--text3); max-width: 1040px;
+    }
+    .pricing-card:hover .btn-secondary,
+    .pricing-card:focus-within .btn-secondary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #07080d;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .pricing-grid:has(.pricing-card:hover) .pricing-card.featured:not(:hover):not(:focus-within) .btn-primary,
+    .pricing-grid:has(.pricing-card:focus-within) .pricing-card.featured:not(:hover):not(:focus-within) .btn-primary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text2);
+      box-shadow: none;
+    }
+    .pricing-grid:has(.pricing-card:hover) .pricing-card.featured:not(:hover):not(:focus-within) .btn-primary:hover,
+    .pricing-grid:has(.pricing-card:focus-within) .pricing-card.featured:not(:hover):not(:focus-within) .btn-primary:hover {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+      color: var(--accent);
     }
 
     /* ── ROADMAP ── */

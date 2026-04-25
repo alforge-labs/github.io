@@ -30,8 +30,8 @@ window.COPY = {
     ],
     pricing: {
       label: '料金',
-      title: 'シンプルな\n買い切りプラン',
-      subtitle: '月額課金なし。一度購入すれば、将来のバージョンアップも含まれます。',
+      title: '使い方に合わせて\n選べるプラン',
+      subtitle: '買い切り・年額・月額から選べます。Lifetime は将来のバージョンアップ込みです。',
       plans: [
         {
           name: 'Lifetime',
@@ -58,6 +58,24 @@ window.COPY = {
           price: '$99',
           period: '/ 年',
           desc: '年間サブスクリプション。常に最新バージョンを利用できます。',
+          features: [
+            'macOS / Linux / Windows 対応',
+            'バックテスト（回数無制限）',
+            'ベイズ最適化（Optuna）',
+            'ウォークフォワード分析',
+            'Pine Script v6 自動生成',
+            '常に最新バージョン',
+            '1台のマシンでアクティベート',
+          ],
+          url: 'https://alforge-labs.lemonsqueezy.com',
+        },
+        {
+          name: 'Monthly',
+          badge: null,
+          featured: false,
+          price: '$9',
+          period: '/ 月',
+          desc: '月額サブスクリプション。必要な期間だけ最新バージョンを利用できます。',
           features: [
             'macOS / Linux / Windows 対応',
             'バックテスト（回数無制限）',
@@ -243,8 +261,8 @@ window.COPY = {
     ],
     pricing: {
       label: 'Pricing',
-      title: 'Simple,\none-time pricing.',
-      subtitle: 'No monthly fees. Buy once, keep forever — future updates included.',
+      title: 'Choose the plan\nthat fits your workflow.',
+      subtitle: 'Pick lifetime, annual, or monthly access. Lifetime includes future version updates.',
       plans: [
         {
           name: 'Lifetime',
@@ -271,6 +289,24 @@ window.COPY = {
           price: '$99',
           period: '/ year',
           desc: 'Annual subscription. Always on the latest version.',
+          features: [
+            'macOS / Linux / Windows',
+            'Unlimited backtests',
+            'Bayesian optimization (Optuna)',
+            'Walk-forward analysis',
+            'Pine Script v6 auto-generation',
+            'Always latest version',
+            'Activate on 1 machine',
+          ],
+          url: 'https://alforge-labs.lemonsqueezy.com',
+        },
+        {
+          name: 'Monthly',
+          badge: null,
+          featured: false,
+          price: '$9',
+          period: '/ month',
+          desc: 'Monthly subscription. Use the latest version for as long as you need it.',
           features: [
             'macOS / Linux / Windows',
             'Unlimited backtests',
