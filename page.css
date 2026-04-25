@@ -113,6 +113,16 @@ body {
 }
 .toggle-btn:hover { border-color: var(--border-h); color: var(--text); }
 
+.lang-btn {
+  height: 32px; padding: 0 0.75rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); cursor: pointer;
+  display: flex; align-items: center; gap: 0.35rem;
+  font-family: var(--mono); font-size: 0.72rem; color: var(--text2);
+  transition: border-color 0.15s, color 0.15s;
+}
+.lang-btn:hover { border-color: var(--border-h); color: var(--text); }
+
 .follow-btn-nav {
   height: 32px; padding: 0 1rem;
   background: var(--accent-bg); border: 1px solid var(--accent-glow);
@@ -130,6 +140,10 @@ body {
   max-width: var(--max-w); margin: 0 auto;
   padding: calc(var(--nav-h) + 3rem) var(--pad) 5rem;
 }
+.lang-content { display: none; }
+body:not([data-lang]) .lang-ja,
+body[data-lang="ja"] .lang-ja,
+body[data-lang="en"] .lang-en { display: block; }
 
 /* ── TYPOGRAPHY ── */
 .page-label {
@@ -277,6 +291,7 @@ footer {
 
 @media (max-width: 640px) {
   .nav-page-link { padding: 0 0.55rem; }
+  .lang-btn { padding: 0 0.55rem; }
   .follow-btn-nav {
     width: 32px; padding: 0;
     justify-content: center; flex: 0 0 32px;
