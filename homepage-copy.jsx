@@ -1,6 +1,6 @@
 // Equity curve data — language-independent, 2021-05 to 2026-04 (61 points, base=100)
-// CL=F: computed from monthly_returns in multi_asset_hmm_bb_rsi_v1_cl_report.json
-// SPY/QQQ: monthly close prices normalized, index-0 = 2021-05-01 (prepended 100.0)
+// Series 1: computed from monthly_returns in hmm_bb_rsi_simulation_report.json
+// Series 2/3: monthly close values normalized, index-0 = 2021-05-01 (prepended 100.0)
 window.EQUITY_CURVE = {
   cl:  [100.0,100.0,100.0,108.88,116.75,116.75,116.75,105.12,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,119.01,125.15,123.43,119.91,119.91,119.91,124.9,124.9,126.95,135.63,135.63,135.63,135.63,142.08,142.84,144.91,144.91,144.91,144.91,144.91,146.29,153.07,154.88,159.08,162.56,162.56,162.56,162.56,162.56,164.43,160.81,160.81,174.21,174.21,174.21,174.21,179.1,182.79,184.24,191.4,191.4,191.4,191.4,191.4],
   spy: [100.0,100.0,102.24,104.74,107.86,102.83,110.04,109.16,114.21,108.18,104.99,108.94,99.38,99.6,91.39,99.8,95.73,86.88,93.94,99.17,93.45,99.33,96.83,100.42,102.02,102.5,109.14,112.71,110.88,105.62,103.33,112.76,117.91,119.79,126.04,130.16,124.91,131.23,135.86,137.51,140.72,143.68,142.39,150.89,147.26,151.21,149.29,140.97,139.75,148.53,156.17,159.76,163.04,168.85,172.87,173.21,173.35,175.9,174.38,165.77,181.01],
@@ -25,7 +25,7 @@ window.COPY = {
     },
     heroStats: [
       { val: '3', accent: false, lbl: '開発中プロダクト' },
-      { val: 'Sharpe 1.09', accent: true, lbl: 'シミュレーション実績（CL=F・5年データ）' },
+      { val: 'Sharpe 1.09', accent: true, lbl: 'シミュレーション実績（5年時系列データ）' },
       { val: '2026夏', accent: false, lbl: '正式リリース目標' },
     ],
     pricing: {
@@ -37,7 +37,7 @@ window.COPY = {
           name: 'Lifetime',
           badge: 'おすすめ',
           featured: true,
-          price: '$499',
+          cost: '$499',
           period: '買い切り',
           desc: '一度の支払いで将来のメジャーバージョンアップを含む全機能を永続利用。',
           features: [
@@ -55,7 +55,7 @@ window.COPY = {
           name: 'Annual',
           badge: null,
           featured: false,
-          price: '$99',
+          cost: '$99',
           period: '/ 年',
           desc: '年間サブスクリプション。常に最新バージョンを利用できます。',
           features: [
@@ -73,7 +73,7 @@ window.COPY = {
           name: 'Monthly',
           badge: null,
           featured: false,
-          price: '$9',
+          cost: '$9',
           period: '/ 月',
           desc: '月額サブスクリプション。必要な期間だけ最新バージョンを利用できます。',
           features: [
@@ -116,7 +116,7 @@ window.COPY = {
           name: 'strategies',
           role: '設定・データワークスペース',
           desc: '設定JSON・シミュレーション結果・最適化パラメータ・ジャーナルを一元管理。alpha-forgeの設定レイヤーとして機能。実行ログの蓄積・分析も対応。',
-          tags: ['TradingView', 'JSON', 'CLI', 'Pine Script', 'JSONL'],
+          tags: ['JSON', 'CLI', 'Pine Script', 'JSONL'],
           accent: 'var(--accent)',
         },
         {
@@ -156,17 +156,17 @@ window.COPY = {
         {
           icon: '📊',
           accent: 'var(--accent)',
-          label: 'Quant Research',
-          title: '定量分析・統計モデリング',
-          desc: 'OHLCV 形式の市場データを用いた統計リサーチ環境として機能。バックテストエンジンとパラメータ最適化パイプラインにより、研究者がアルゴリズムの有意性を客観的に検証できます。',
-          tags: ['市場データ', '統計的優位性', 'バックテスト', '定量分析'],
+          label: 'Data Science',
+          title: 'データサイエンス・機械学習',
+          desc: '大規模時系列データセットに統計モデリングと機械学習パイプラインを適用。パラメータ最適化とウォークフォワード検証で、モデルの汎化性能を客観的に評価できます。',
+          tags: ['統計モデリング', 'ML パイプライン', 'ウォークフォワード検証', 'データサイエンス'],
         },
       ],
     },
     perf: {
       label: 'シミュレーション実績',
       title: 'シミュレーション結果（実データ）',
-      strategy: 'CL=F 5年時系列データ — HMM + ボリンジャーバンド + RSI シミュレーション',
+      strategy: '5年時系列データ — HMM + ボリンジャーバンド + RSI シミュレーション',
       period: '2021.05 – 2026.04（5年）',
       note: '※ 実際のシミュレーション結果です。コスト0.1%込み。QQQ B&H の年率（14.9%）は本シミュレーション（13.9%）を上回ります。過去の結果は将来の成果を保証しません。',
       stats: [
@@ -177,7 +177,7 @@ window.COPY = {
         { val: '22回',   label: 'シグナル回数',   cls: 'val-neu' },
       ],
       legend: [
-        { color: 'var(--accent)',  label: '本シミュレーション（CL=F）' },
+        { color: 'var(--accent)',  label: '本シミュレーション' },
         { color: 'var(--blue)',    label: 'SPY B&H' },
         { color: 'var(--amber)',   label: 'QQQ B&H' },
       ],
@@ -243,10 +243,10 @@ window.COPY = {
       label: 'FAQ',
       title: 'よくある質問',
       items: [
-        { q: 'どんな人向けですか？', a: 'Pythonの基礎知識があり、定量的なアプローチで時系列データ分析に取り組みたいソフトウェアエンジニア・データサイエンティスト向けです。JSONで設定を定義し、CLIで操作できます。将来的にはノーコードオプションも検討中です。' },
+        { q: 'どんな人向けですか？', a: 'Pythonの基礎知識があり、データ駆動なアプローチで時系列シミュレーションに取り組みたいソフトウェアエンジニア・データサイエンティスト向けです。JSONで設定を定義し、CLIで操作できます。将来的にはノーコードオプションも検討中です。' },
         { q: '現在、購入・利用できますか？', a: '現在はクローズドな開発フェーズです。リリース時期はXアカウント (@alforge_bot) でお知らせします。' },
         { q: '対応する外部APIは？', a: '現在はOANDA（FX・CFD API）とmoomoo（株式API）に対応しています。今後さらなる外部API拡充を予定しています。' },
-        { q: 'TradingViewは必要ですか？', a: 'alpha-strikeの自動執行にはTradingViewのWebhookアラートを利用します。alpha-forgeのバックテスト・最適化はTradingView不要で動作します。' },
+        { q: '外部チャートツールは必要ですか？', a: 'alpha-strikeは外部シグナルツールからのWebhookアラートを受信できます。alpha-forgeのシミュレーション・最適化は単独で動作します。' },
         { q: 'alpha-forgeはオープンソースですか？', a: '現在はクローズドでの開発を予定しています。公開方針については今後の開発状況を踏まえて改めてお知らせします。最新情報はX (@alforge_bot) をご確認ください。' },
       ],
     },
@@ -282,13 +282,13 @@ window.COPY = {
       tag: 'In Development',
       h1a: 'From Noise',
       h1b: 'to Signal.',
-      desc: 'End-to-end time-series simulation, optimization, and local CLI pipelines. AI-native developer infrastructure for quantitative researchers and software engineers.',
+      desc: 'End-to-end time-series simulation, optimization, and local CLI pipelines. AI-native developer infrastructure for data engineers and software engineers.',
       cta1: 'Get Access — $499',
       cta2: 'See Plans',
     },
     heroStats: [
       { val: '3', accent: false, lbl: 'Products in Dev' },
-      { val: 'Sharpe 1.09', accent: true, lbl: 'Simulation Result (CL=F · 5yr data)' },
+      { val: 'Sharpe 1.09', accent: true, lbl: 'Simulation Result (5yr time-series data)' },
       { val: 'Summer 2026', accent: false, lbl: 'Target Release' },
     ],
     pricing: {
@@ -300,7 +300,7 @@ window.COPY = {
           name: 'Lifetime',
           badge: 'Best Value',
           featured: true,
-          price: '$499',
+          cost: '$499',
           period: 'one-time',
           desc: 'Pay once, use forever. All future major version upgrades included.',
           features: [
@@ -318,7 +318,7 @@ window.COPY = {
           name: 'Annual',
           badge: null,
           featured: false,
-          price: '$99',
+          cost: '$99',
           period: '/ year',
           desc: 'Annual subscription. Always on the latest version.',
           features: [
@@ -336,7 +336,7 @@ window.COPY = {
           name: 'Monthly',
           badge: null,
           featured: false,
-          price: '$9',
+          cost: '$9',
           period: '/ month',
           desc: 'Monthly subscription. Use the latest version for as long as you need it.',
           features: [
@@ -379,7 +379,7 @@ window.COPY = {
           name: 'strategies',
           role: 'Config & Data Workspace',
           desc: 'Unified management of config JSON, simulation results, optimized parameters, and journals. Acts as the configuration layer for alpha-forge. Supports execution log accumulation and analysis.',
-          tags: ['TradingView', 'JSON', 'CLI', 'Pine Script', 'JSONL'],
+          tags: ['JSON', 'CLI', 'Pine Script', 'JSONL'],
           accent: 'var(--accent)',
         },
         {
@@ -419,17 +419,17 @@ window.COPY = {
         {
           icon: '📊',
           accent: 'var(--accent)',
-          label: 'Quant Research',
-          title: 'Quantitative Research & Modeling',
-          desc: 'A statistical research environment powered by OHLCV market data. The backtesting engine and parameter optimization pipeline let researchers objectively validate the statistical advantage of their algorithms.',
-          tags: ['Market Data', 'Statistical Advantage', 'Backtesting', 'Quantitative Analysis'],
+          label: 'Data Science',
+          title: 'Data Science & Machine Learning',
+          desc: 'A statistical research environment for large-scale time-series datasets. The simulation engine and parameter optimization pipeline let researchers objectively validate model generalization and detect performance anomalies.',
+          tags: ['Time-Series Datasets', 'Statistical Modeling', 'Simulation', 'ML Pipeline'],
         },
       ],
     },
     perf: {
       label: 'Simulation Results',
       title: 'Simulation Results (Live Data)',
-      strategy: 'CL=F 5yr Time-Series Data — HMM + Bollinger Bands + RSI Simulation',
+      strategy: '5yr Time-Series Data — HMM + Bollinger Bands + RSI Simulation',
       period: '2021.05 – 2026.04 (5 years)',
       note: '* Real simulation result with 0.1% cost. QQQ buy-and-hold CAGR (14.9%) exceeds this simulation (13.9%). Past results do not guarantee future outcomes.',
       stats: [
@@ -440,7 +440,7 @@ window.COPY = {
         { val: '22',     label: 'Total Signals',     cls: 'val-neu' },
       ],
       legend: [
-        { color: 'var(--accent)', label: 'This Simulation (CL=F)' },
+        { color: 'var(--accent)', label: 'This Simulation' },
         { color: 'var(--blue)',   label: 'SPY B&H' },
         { color: 'var(--amber)',  label: 'QQQ B&H' },
       ],
@@ -470,10 +470,10 @@ window.COPY = {
       label: 'FAQ',
       title: 'Frequently Asked\nQuestions',
       items: [
-        { q: 'Who is this for?', a: 'Software engineers and quantitative researchers with basic Python knowledge who want a data-driven approach to time-series simulation. Configs are defined in JSON and operated via CLI. No-code options are on the roadmap.' },
+        { q: 'Who is this for?', a: 'Software engineers and data scientists with basic Python knowledge who want a data-driven approach to time-series simulation. Configs are defined in JSON and operated via CLI. No-code options are on the roadmap.' },
         { q: 'Can I use it now?', a: 'We\'re in closed development. Follow @alforge_bot on X for release announcements.' },
         { q: 'Which external APIs are supported?', a: 'Currently OANDA (FX/CFD API) and moomoo (equities API). More API integrations are planned.' },
-        { q: 'Do I need TradingView?', a: 'alpha-strike can receive TradingView Webhook alerts. alpha-forge simulations and optimization work independently of TradingView.' },
+        { q: 'Do I need an external charting platform?', a: 'alpha-strike can receive webhook alerts from external signal sources. alpha-forge simulations and optimization run fully independently.' },
         { q: 'Is alpha-forge open source?', a: 'We plan to keep alpha-forge closed source. Details on our licensing and release model will be shared as development progresses. Follow @alforge_bot for updates.' },
       ],
     },

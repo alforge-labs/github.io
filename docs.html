@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ドキュメント — Alforge Labs</title>
-  <meta name="description" content="AlphaForge CLI ドキュメント。コマンドリファレンス、戦略開発ワークフロー、TradingView連携ガイド。" />
+  <meta name="description" content="AlphaForge CLI ドキュメント。コマンドリファレンス、設定開発ワークフロー、外部シグナル連携ガイド。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -112,7 +112,7 @@
     <div class="lang-content lang-ja">
       <div class="page-label">Documentation</div>
       <h1 class="page-title">ドキュメント</h1>
-      <p class="page-subtitle">コマンドリファレンス、戦略開発ワークフロー、TradingView 連携ガイド。</p>
+      <p class="page-subtitle">コマンドリファレンス、設定開発ワークフロー、外部シグナル連携ガイド。</p>
 
       <div class="doc-layout" style="margin-top: 2rem;">
         <nav class="cmd-nav">
@@ -132,7 +132,7 @@
             <li><a href="#ja-license">license</a></li>
             <li class="nav-group">ガイド</li>
             <li><a href="#ja-workflow">開発ワークフロー</a></li>
-            <li><a href="#ja-tradingview">TradingView連携</a></li>
+            <li><a href="#ja-signal">外部シグナル連携</a></li>
             <li><a href="#ja-strike">alpha-strike連携</a></li>
           </ul>
         </nav>
@@ -143,7 +143,7 @@
           <section class="cmd-section" id="ja-data">
             <div class="section-category">データ管理</div>
             <h2 class="section-heading">forge data</h2>
-            <p>ヒストリカル市場データの取得・更新・管理を行います。データは <code>alpha-strategies/data/historical/</code> に Parquet 形式で保存されます。</p>
+            <p>ヒストリカル時系列データの取得・更新・管理を行います。データは <code>alpha-strategies/data/historical/</code> に Parquet 形式で保存されます。</p>
 
             <table class="option-table">
               <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
@@ -157,15 +157,15 @@
 
             <h3 class="sub-heading">使用例</h3>
             <pre><code># 初回取得
-forge data fetch USDJPY
-forge data fetch CL=F
-forge data fetch SPY QQQ NAS100
+forge data fetch SENSOR01
+forge data fetch APP_LOGS
+forge data fetch SRV01 SRV02 SRV03
 
 # 一括差分更新
 forge data update
 
 # 特定シンボルのみ更新
-forge data update --symbol USDJPY
+forge data update --symbol SENSOR01
 
 # 保存済みデータを確認
 forge data list</code></pre>
@@ -295,7 +295,7 @@ forge optimize sensitivity USDJPY --strategy usdjpy_ema_v1_optimized</code></pre
           <section class="cmd-section" id="ja-pine">
             <div class="section-category">Pine Script</div>
             <h2 class="section-heading">forge pine</h2>
-            <p>戦略定義から TradingView 用の Pine Script v6 を自動生成します。HMM などの機械学習インジケータにも対応しています。</p>
+            <p>設定定義から Pine Script v6 を自動生成します。HMM などの機械学習インジケータにも対応しています。</p>
 
             <table class="option-table">
               <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
@@ -419,7 +419,7 @@ forge optimize sensitivity USDJPY \
               <li>
                 <div>
                   <strong>Pine Script 生成</strong>
-                  TradingView 用のアラートスクリプトを自動生成します。
+                  外部シグナル用のアラートスクリプトを自動生成します。
                   <pre><code>forge pine generate --strategy usdjpy_ema_v1_optimized</code></pre>
                   出力先: <code>output/pinescript/usdjpy_ema_v1_optimized.pine</code>
                 </div>
@@ -429,17 +429,17 @@ forge optimize sensitivity USDJPY \
 
           <hr class="section-divider" />
 
-          <!-- tradingview -->
-          <section class="cmd-section" id="ja-tradingview">
+          <!-- signal-integration -->
+          <section class="cmd-section" id="ja-signal">
             <div class="section-category">ガイド</div>
-            <h2 class="section-heading">TradingView への Pine Script 反映</h2>
-            <p><code>forge pine generate</code> で生成した <code>.pine</code> ファイルを TradingView に貼り付けてアラートを設定します。</p>
+            <h2 class="section-heading">外部チャートプラットフォームへの Pine Script 反映</h2>
+            <p><code>forge pine generate</code> で生成した <code>.pine</code> ファイルを外部チャートプラットフォームに貼り付けてアラートを設定します。</p>
 
             <ul class="step-list">
               <li>
                 <div>
                   <strong>Pine Script を開く</strong>
-                  TradingView でチャートを開き、画面下部の「Pine エディタ」タブをクリックします。
+                  外部チャートプラットフォームでチャートを開き、画面下部の「Pine エディタ」タブをクリックします。
                 </div>
               </li>
               <li>
@@ -477,8 +477,8 @@ alertcondition(longSignal, title="Long Entry", message="long")</code></pre>
           <!-- alpha-strike -->
           <section class="cmd-section" id="ja-strike">
             <div class="section-category">ガイド</div>
-            <h2 class="section-heading">TradingView と alpha-strike の連携</h2>
-            <p>alpha-strike は TradingView のアラートを Webhook で受け取り、OANDA・moomoo 証券に自動発注します。</p>
+            <h2 class="section-heading">外部シグナルソースと alpha-strike の連携</h2>
+            <p>alpha-strike は外部シグナルソースからの Webhook アラートを受け取り、OANDA・moomoo の API へ自動リクエストを送信します。</p>
 
             <h3 class="sub-heading">1. 環境変数の設定</h3>
             <p><code>alpha-strike/.env</code> を作成して以下を設定します。</p>
@@ -497,18 +497,18 @@ MOOMOO_TRD_ENV=SIMULATE   # 本番は REAL</code></pre>
 
             <h3 class="sub-heading">2. Webhook URL</h3>
             <div class="callout">
-              TradingView のアラート Webhook URL に以下を設定します:<br/>
+              外部シグナルツールのアラート Webhook URL に以下を設定します:<br/>
               <code>http://&lt;your-server&gt;:8080/webhook</code>
             </div>
 
             <h3 class="sub-heading">3. ペイロード仕様</h3>
-            <p>TradingView のアラートメッセージに JSON を記述します。</p>
+            <p>Webhook リクエストの JSON ペイロードを以下の形式で記述します。</p>
             <pre><code>{
   "passphrase": "your-secret-passphrase",
-  "broker": "oanda",
-  "asset_class": "FX",
+  "handler": "oanda",
+  "endpoint": "FX",
   "action": "buy",
-  "ticker": "USDJPY",
+  "symbol": "USDJPY",
   "quantity": 1000
 }</code></pre>
 
@@ -516,17 +516,17 @@ MOOMOO_TRD_ENV=SIMULATE   # 本番は REAL</code></pre>
               <thead><tr><th>フィールド</th><th>説明</th><th>値の例</th></tr></thead>
               <tbody>
                 <tr><td><code>passphrase</code><br/><span class="req">必須</span></td><td>.env の WEBHOOK_PASSPHRASE と一致させること</td><td>"my-secret"</td></tr>
-                <tr><td><code>broker</code><br/><span class="req">必須</span></td><td>発注先の証券会社</td><td>"oanda" / "moomoo"</td></tr>
-                <tr><td><code>asset_class</code><br/><span class="req">必須</span></td><td>アセットクラス</td><td>"FX" / "COMMODITY" / "US" / "INDEX"</td></tr>
-                <tr><td><code>action</code><br/><span class="req">必須</span></td><td>注文方向</td><td>"buy" / "sell"</td></tr>
-                <tr><td><code>ticker</code><br/><span class="req">必須</span></td><td>銘柄コード（TradingView のシンボル名）</td><td>"USDJPY" / "XAUUSD"</td></tr>
-                <tr><td><code>quantity</code><br/><span class="req">必須</span></td><td>注文数量（0 より大きい正の数）</td><td>1000 / 0.1</td></tr>
+                <tr><td><code>handler</code><br/><span class="req">必須</span></td><td>送信先の API ハンドラ</td><td>"oanda" / "moomoo"</td></tr>
+                <tr><td><code>endpoint</code><br/><span class="req">必須</span></td><td>エンドポイント種別</td><td>"FX" / "COMMODITY" / "US" / "INDEX"</td></tr>
+                <tr><td><code>action</code><br/><span class="req">必須</span></td><td>リクエスト方向</td><td>"buy" / "sell"</td></tr>
+                <tr><td><code>symbol</code><br/><span class="req">必須</span></td><td>対象シンボル名</td><td>"USDJPY" / "XAUUSD"</td></tr>
+                <tr><td><code>quantity</code><br/><span class="req">必須</span></td><td>数量（0 より大きい正の数）</td><td>1000 / 0.1</td></tr>
               </tbody>
             </table>
 
-            <h3 class="sub-heading">4. ティッカーと OANDA instrument の対応</h3>
+            <h3 class="sub-heading">4. シンボルと OANDA instrument の対応</h3>
             <table class="option-table">
-              <thead><tr><th>asset_class</th><th>ticker 例</th><th>OANDA instrument</th></tr></thead>
+              <thead><tr><th>endpoint</th><th>symbol 例</th><th>OANDA instrument</th></tr></thead>
               <tbody>
                 <tr><td>FX</td><td>USDJPY</td><td>USD_JPY</td></tr>
                 <tr><td>COMMODITY</td><td>XAUUSD</td><td>XAU_USD</td></tr>
@@ -540,10 +540,10 @@ MOOMOO_TRD_ENV=SIMULATE   # 本番は REAL</code></pre>
 curl http://localhost:8080/health
 # → {"status":"ok"}
 
-# テスト発注（PRACTICE / SIMULATE 環境で確認）
+# テスト送信（PRACTICE / SIMULATE 環境で確認）
 curl -X POST http://localhost:8080/webhook \
   -H "Content-Type: application/json" \
-  -d '{"passphrase":"your-secret","broker":"oanda","asset_class":"FX","action":"buy","ticker":"USDJPY","quantity":1000}'</code></pre>
+  -d '{"passphrase":"your-secret","handler":"oanda","endpoint":"FX","action":"buy","symbol":"USDJPY","quantity":1000}'</code></pre>
           </section>
 
         </div>
@@ -555,7 +555,7 @@ curl -X POST http://localhost:8080/webhook \
     <div class="lang-content lang-en">
       <div class="page-label">Documentation</div>
       <h1 class="page-title">Documentation</h1>
-      <p class="page-subtitle">Command reference, strategy development workflow, and TradingView integration guide.</p>
+      <p class="page-subtitle">Command reference, simulation development workflow, and external signal integration guide.</p>
 
       <div class="doc-layout" style="margin-top: 2rem;">
         <nav class="cmd-nav">
@@ -575,7 +575,7 @@ curl -X POST http://localhost:8080/webhook \
             <li><a href="#en-license">license</a></li>
             <li class="nav-group">Guides</li>
             <li><a href="#en-workflow">Workflow</a></li>
-            <li><a href="#en-tradingview">TradingView</a></li>
+            <li><a href="#en-signal">Signal Integration</a></li>
             <li><a href="#en-strike">alpha-strike</a></li>
           </ul>
         </nav>
@@ -586,7 +586,7 @@ curl -X POST http://localhost:8080/webhook \
           <section class="cmd-section" id="en-data">
             <div class="section-category">Data Management</div>
             <h2 class="section-heading">forge data</h2>
-            <p>Fetch, update, and manage historical market data. Data is stored as Parquet files under <code>alpha-strategies/data/historical/</code>.</p>
+            <p>Fetch, update, and manage historical time-series data. Data is stored as Parquet files under <code>alpha-strategies/data/historical/</code>.</p>
 
             <table class="option-table">
               <thead><tr><th>Command</th><th>Description</th></tr></thead>
@@ -600,15 +600,15 @@ curl -X POST http://localhost:8080/webhook \
 
             <h3 class="sub-heading">Examples</h3>
             <pre><code># Initial fetch
-forge data fetch USDJPY
-forge data fetch CL=F
-forge data fetch SPY QQQ NAS100
+forge data fetch SENSOR01
+forge data fetch APP_LOGS
+forge data fetch SRV01 SRV02 SRV03
 
-# Incremental update (all symbols)
+# Incremental update (all datasets)
 forge data update
 
-# Update a single symbol
-forge data update --symbol USDJPY
+# Update a single dataset
+forge data update --symbol SENSOR01
 
 # Check what's saved
 forge data list</code></pre>
@@ -735,7 +735,7 @@ forge optimize sensitivity USDJPY --strategy usdjpy_ema_v1_optimized</code></pre
           <section class="cmd-section" id="en-pine">
             <div class="section-category">Pine Script</div>
             <h2 class="section-heading">forge pine</h2>
-            <p>Auto-generate TradingView Pine Script v6 from a strategy definition. Supports machine-learning indicators such as HMM by embedding trained parameters.</p>
+            <p>Auto-generate Pine Script v6 from a descriptor definition. Supports machine-learning indicators such as HMM by embedding trained parameters.</p>
 
             <table class="option-table">
               <thead><tr><th>Command</th><th>Description</th></tr></thead>
@@ -795,8 +795,8 @@ forge dashboard --port 8501 --no-open</code></pre>
           <!-- workflow -->
           <section class="cmd-section" id="en-workflow">
             <div class="section-category">Guide</div>
-            <h2 class="section-heading">End-to-End Strategy Development Workflow</h2>
-            <p>A typical flow from raw data to live execution. This pairs naturally with a coding agent (e.g. Claude Code) for automated parameter exploration and strategy generation.</p>
+            <h2 class="section-heading">End-to-End Simulation Development Workflow</h2>
+            <p>A typical flow from raw data ingestion to live execution. This pairs naturally with a coding agent (e.g. Claude Code) for automated parameter exploration and descriptor generation.</p>
 
             <div class="callout">
               All commands below assume you are running from <code>alpha-strategies/</code> with <code>FORGE_CONFIG=forge.yaml uv run</code> prepended.
@@ -855,7 +855,7 @@ forge optimize sensitivity USDJPY \
               <li>
                 <div>
                   <strong>Generate Pine Script</strong>
-                  Export a TradingView alert script from the optimized strategy.
+                  Export a Pine Script alert file from the optimized descriptor.
                   <pre><code>forge pine generate --strategy usdjpy_ema_v1_optimized</code></pre>
                   Output: <code>output/pinescript/usdjpy_ema_v1_optimized.pine</code>
                 </div>
@@ -865,17 +865,17 @@ forge optimize sensitivity USDJPY \
 
           <hr class="section-divider" />
 
-          <!-- tradingview -->
-          <section class="cmd-section" id="en-tradingview">
+          <!-- signal-integration -->
+          <section class="cmd-section" id="en-signal">
             <div class="section-category">Guide</div>
-            <h2 class="section-heading">Deploying Pine Script to TradingView</h2>
-            <p>Paste the generated <code>.pine</code> file into TradingView and set up an alert to trigger alpha-strike.</p>
+            <h2 class="section-heading">Deploying Pine Script to an External Chart Platform</h2>
+            <p>Paste the generated <code>.pine</code> file into your external chart platform and set up a webhook alert to trigger alpha-strike.</p>
 
             <ul class="step-list">
               <li>
                 <div>
                   <strong>Open the Pine Editor</strong>
-                  Open a chart in TradingView and click the "Pine Editor" tab at the bottom.
+                  Open a chart in your external chart platform and locate the "Pine Editor" panel.
                 </div>
               </li>
               <li>
@@ -906,8 +906,8 @@ alertcondition(longSignal, title="Long Entry", message="long")</code></pre>
           <!-- alpha-strike -->
           <section class="cmd-section" id="en-strike">
             <div class="section-category">Guide</div>
-            <h2 class="section-heading">Connecting TradingView to alpha-strike</h2>
-            <p>alpha-strike receives TradingView webhook alerts and forwards orders to OANDA or moomoo.</p>
+            <h2 class="section-heading">Connecting External Signals to alpha-strike</h2>
+            <p>alpha-strike receives webhook alerts from external signal sources and forwards API requests to OANDA or moomoo.</p>
 
             <h3 class="sub-heading">1. Configure environment variables</h3>
             <p>Create <code>alpha-strike/.env</code> from the provided example:</p>
@@ -926,17 +926,17 @@ MOOMOO_TRD_ENV=SIMULATE   # or REAL</code></pre>
 
             <h3 class="sub-heading">2. Webhook URL</h3>
             <div class="callout">
-              Set the TradingView alert Webhook URL to:<br/>
+              Set the webhook alert URL in your signal source to:<br/>
               <code>http://&lt;your-server&gt;:8080/webhook</code>
             </div>
 
             <h3 class="sub-heading">3. Payload format</h3>
             <pre><code>{
   "passphrase": "your-secret-passphrase",
-  "broker": "oanda",
-  "asset_class": "FX",
+  "handler": "oanda",
+  "endpoint": "FX",
   "action": "buy",
-  "ticker": "USDJPY",
+  "symbol": "USDJPY",
   "quantity": 1000
 }</code></pre>
 
@@ -944,17 +944,17 @@ MOOMOO_TRD_ENV=SIMULATE   # or REAL</code></pre>
               <thead><tr><th>Field</th><th>Description</th><th>Example</th></tr></thead>
               <tbody>
                 <tr><td><code>passphrase</code><br/><span class="req">required</span></td><td>Must match WEBHOOK_PASSPHRASE in .env</td><td>"my-secret"</td></tr>
-                <tr><td><code>broker</code><br/><span class="req">required</span></td><td>Target broker</td><td>"oanda" / "moomoo"</td></tr>
-                <tr><td><code>asset_class</code><br/><span class="req">required</span></td><td>Asset class</td><td>"FX" / "COMMODITY" / "US" / "INDEX"</td></tr>
-                <tr><td><code>action</code><br/><span class="req">required</span></td><td>Order direction</td><td>"buy" / "sell"</td></tr>
-                <tr><td><code>ticker</code><br/><span class="req">required</span></td><td>Symbol (TradingView notation)</td><td>"USDJPY" / "XAUUSD"</td></tr>
-                <tr><td><code>quantity</code><br/><span class="req">required</span></td><td>Order size (positive number)</td><td>1000 / 0.1</td></tr>
+                <tr><td><code>handler</code><br/><span class="req">required</span></td><td>Target API handler</td><td>"oanda" / "moomoo"</td></tr>
+                <tr><td><code>endpoint</code><br/><span class="req">required</span></td><td>Endpoint type</td><td>"FX" / "COMMODITY" / "US" / "INDEX"</td></tr>
+                <tr><td><code>action</code><br/><span class="req">required</span></td><td>Request direction</td><td>"buy" / "sell"</td></tr>
+                <tr><td><code>symbol</code><br/><span class="req">required</span></td><td>Instrument symbol</td><td>"USDJPY" / "XAUUSD"</td></tr>
+                <tr><td><code>quantity</code><br/><span class="req">required</span></td><td>Quantity (positive number)</td><td>1000 / 0.1</td></tr>
               </tbody>
             </table>
 
-            <h3 class="sub-heading">4. Ticker to OANDA instrument mapping</h3>
+            <h3 class="sub-heading">4. Symbol to OANDA instrument mapping</h3>
             <table class="option-table">
-              <thead><tr><th>asset_class</th><th>ticker</th><th>OANDA instrument</th></tr></thead>
+              <thead><tr><th>endpoint</th><th>symbol</th><th>OANDA instrument</th></tr></thead>
               <tbody>
                 <tr><td>FX</td><td>USDJPY</td><td>USD_JPY</td></tr>
                 <tr><td>COMMODITY</td><td>XAUUSD</td><td>XAU_USD</td></tr>
@@ -968,10 +968,10 @@ MOOMOO_TRD_ENV=SIMULATE   # or REAL</code></pre>
 curl http://localhost:8080/health
 # → {"status":"ok"}
 
-# Test order (use PRACTICE / SIMULATE environment)
+# Test request (use PRACTICE / SIMULATE environment)
 curl -X POST http://localhost:8080/webhook \
   -H "Content-Type: application/json" \
-  -d '{"passphrase":"your-secret","broker":"oanda","asset_class":"FX","action":"buy","ticker":"USDJPY","quantity":1000}'</code></pre>
+  -d '{"passphrase":"your-secret","handler":"oanda","endpoint":"FX","action":"buy","symbol":"USDJPY","quantity":1000}'</code></pre>
           </section>
 
         </div>

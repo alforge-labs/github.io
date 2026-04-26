@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial: Simulating Server Telemetry and Anomaly Detection — Alforge Labs</title>
+  <meta name="description" content="A step-by-step tutorial showing how to use the AlphaForge CLI to ingest server telemetry data and run a local simulation to detect resource spikes." />
+  <meta property="og:title" content="Tutorial: Simulating Server Telemetry and Anomaly Detection" />
+  <meta property="og:description" content="Ingest CPU, memory, and network latency logs into AlphaForge and run a local anomaly-detection simulation — no external services required." />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="page.css" />
+  <style>
+    .cmd-nav {
+      position: sticky; top: calc(var(--nav-h) + 1rem);
+      align-self: start;
+    }
+    .cmd-nav-list { list-style: none; padding: 0; }
+    .cmd-nav-list li a {
+      display: block; padding: 0.3rem 0.75rem;
+      font-family: var(--mono); font-size: 0.75rem; color: var(--text3);
+      text-decoration: none; border-left: 2px solid var(--border);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .cmd-nav-list li a:hover { color: var(--accent); border-left-color: var(--accent); }
+    .cmd-nav-list .nav-group {
+      font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--text3); padding: 0.7rem 0.75rem 0.2rem; font-family: var(--mono);
+      border-left: 2px solid transparent;
+    }
+    .doc-layout {
+      display: grid; grid-template-columns: 210px 1fr; gap: 3rem;
+    }
+    .option-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1.25rem; }
+    .option-table th {
+      font-family: var(--mono); font-size: 0.65rem; color: var(--text3);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      text-align: left; padding: 0.4rem 0.75rem;
+      border-bottom: 1px solid var(--border); background: var(--bg2);
+    }
+    .option-table td {
+      font-size: 0.85rem; color: var(--text2);
+      padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .option-table td:first-child code { color: var(--accent); font-family: var(--mono); font-size: 0.82rem; }
+    .option-table tr:last-child td { border-bottom: none; }
+    .cmd-section { scroll-margin-top: calc(var(--nav-h) + 2rem); margin-bottom: 3rem; }
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0 2.5rem; }
+    .section-category {
+      font-size: 0.65rem; font-family: var(--mono); text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .step-list { list-style: none; padding: 0; counter-reset: steps; }
+    .step-list li {
+      counter-increment: steps;
+      display: grid; grid-template-columns: 2rem 1fr; gap: 1rem;
+      margin-bottom: 1.5rem; align-items: start;
+    }
+    .step-list li::before {
+      content: counter(steps);
+      display: flex; align-items: center; justify-content: center;
+      width: 1.75rem; height: 1.75rem;
+      background: var(--accent); color: var(--bg); border-radius: 50%;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem;
+    }
+    .step-list li > div > strong { display: block; margin-bottom: 0.3rem; }
+    .callout {
+      background: var(--bg2); border-left: 3px solid var(--accent);
+      padding: 0.85rem 1rem; border-radius: 0 6px 6px 0;
+      font-size: 0.88rem; color: var(--text2); margin: 0.75rem 0 1rem;
+    }
+    .callout code { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); }
+    .callout.warn { border-left-color: #f59e0b; }
+    .callout.warn code { color: #f59e0b; }
+    .badge-tag {
+      display: inline-block; font-family: var(--mono); font-size: 0.65rem;
+      background: var(--accent-bg); color: var(--accent); border-radius: 4px;
+      padding: 0.15rem 0.5rem; margin-left: 0.4rem; vertical-align: middle;
+    }
+    @media (max-width: 768px) {
+      .doc-layout { grid-template-columns: 1fr; }
+      .cmd-nav { display: none; }
+    }
+  </style>
+  <script>
+    (function() {
+      var t = localStorage.getItem('al_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.setAttribute('data-theme', t);
+        document.body.setAttribute('data-lang', 'en');
+      });
+    })();
+  </script>
+</head>
+<body data-theme="dark" data-lang="en">
+  <div id="site-header"></div>
+
+  <div class="page-wrap" style="max-width: 1060px;">
+
+    <div class="page-label">Tutorial</div>
+    <h1 class="page-title">Simulating Server Telemetry<br>and Anomaly Detection</h1>
+    <p class="page-subtitle">
+      A practical walkthrough for DevOps and Data Engineering teams. Ingest raw system-resource
+      logs into AlphaForge, define a spike-detection descriptor, and run a fully local simulation
+      — no external services or network connectivity required.
+    </p>
+
+    <div class="doc-layout" style="margin-top: 2.5rem;">
+
+      <!-- ── Sidebar nav ── -->
+      <nav class="cmd-nav">
+        <ul class="cmd-nav-list">
+          <li class="nav-group">Overview</li>
+          <li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li class="nav-group">Walkthrough</li>
+          <li><a href="#step-ingest">Step 1 — Ingest</a></li>
+          <li><a href="#step-descriptor">Step 2 — Descriptor</a></li>
+          <li><a href="#step-dry-run">Step 3 — Dry Run</a></li>
+          <li><a href="#step-simulate">Step 4 — Simulate</a></li>
+          <li><a href="#step-inspect">Step 5 — Inspect</a></li>
+          <li class="nav-group">Reference</li>
+          <li><a href="#cli-reference">CLI Options</a></li>
+          <li><a href="#schema-reference">Schema Reference</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </nav>
+
+      <!-- ── Main content ── -->
+      <div>
+
+        <!-- Prerequisites -->
+        <section class="cmd-section" id="prerequisites">
+          <div class="section-category">Overview</div>
+          <h2 class="section-heading">Prerequisites</h2>
+          <p>Before starting, confirm the following are in place:</p>
+
+          <table class="option-table" style="margin-top: 1rem;">
+            <thead><tr><th>Requirement</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><code>forge</code> CLI ≥ 0.9.0</td><td>Run <code>forge --version</code> to verify. See <a href="/install.html">Install</a> for setup.</td></tr>
+              <tr><td>Python 3.10+ <em>or</em> Docker</td><td>The simulation engine runs in a local process; no cloud dependency.</td></tr>
+              <tr><td>Telemetry JSONL file</td><td>One JSON object per line. Fields: <code>ts</code>, <code>host</code>, and one or more numeric series. See <a href="#step-ingest">Step 1</a> for the schema.</td></tr>
+              <tr><td>≥ 500 MB free disk</td><td>Simulation output and intermediate state are written to <code>./output/</code> by default.</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout">
+            All processing in this tutorial runs <strong>locally on your workstation</strong>. No telemetry data
+            leaves the host. AlphaForge does not phone home during simulation execution.
+          </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Architecture -->
+        <section class="cmd-section" id="architecture">
+          <div class="section-category">Overview</div>
+          <h2 class="section-heading">Architecture</h2>
+          <p>
+            AlphaForge operates as a <strong>three-stage pipeline</strong>: ingestion, descriptor evaluation,
+            and result emission. Each stage is independently configurable and testable.
+          </p>
+
+          <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                     AlphaForge Pipeline                         │
+│                                                                 │
+│  ┌──────────────┐   ┌──────────────────┐   ┌────────────────┐  │
+│  │  forge ingest│──▶│  forge run       │──▶│  forge         │  │
+│  │              │   │  (descriptor     │   │  dashboard     │  │
+│  │ JSONL / CSV  │   │   evaluation)    │   │  (result view) │  │
+│  │ Parquet      │   │                  │   │                │  │
+│  └──────────────┘   └──────────────────┘   └────────────────┘  │
+│         │                    │                      │           │
+│    ./data/series/       ./output/runs/         ./output/        │
+│    (normalised store)   (per-run state)        anomalies.jsonl  │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
+
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text2);">
+            The <strong>descriptor</strong> (<code>.yaml</code>) defines which series to watch, the
+            baseline computation method, and the threshold conditions that constitute an anomaly. The
+            descriptor does not contain execution logic; AlphaForge interprets it at simulation time.
+          </p>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Step 1: Ingest -->
+        <section class="cmd-section" id="step-ingest">
+          <div class="section-category">Step 1 of 5</div>
+          <h2 class="section-heading">Ingest Telemetry Data</h2>
+          <p>
+            Use <code>forge ingest</code> to load your raw JSONL log file into AlphaForge's normalised
+            time-series store. The command validates the timestamp field, casts numeric columns, and
+            partitions the data by host identifier.
+          </p>
+
+          <h3 class="sub-heading">Sample input file — <code>telemetry.jsonl</code></h3>
+          <pre><code>{"ts":"2026-01-15T08:00:00Z","host":"web-01","cpu_pct":12.4,"mem_pct":45.1,"net_latency_ms":5.2}
+{"ts":"2026-01-15T08:01:00Z","host":"web-01","cpu_pct":89.7,"mem_pct":71.3,"net_latency_ms":420.8}
+{"ts":"2026-01-15T08:02:00Z","host":"web-01","cpu_pct":91.2,"mem_pct":73.0,"net_latency_ms":510.3}
+{"ts":"2026-01-15T08:03:00Z","host":"web-01","cpu_pct":14.1,"mem_pct":47.8,"net_latency_ms":6.1}
+{"ts":"2026-01-15T08:00:00Z","host":"db-01", "cpu_pct": 8.3,"mem_pct":82.5,"net_latency_ms":2.9}
+{"ts":"2026-01-15T08:01:00Z","host":"db-01", "cpu_pct": 9.1,"mem_pct":83.2,"net_latency_ms":3.4}</code></pre>
+
+          <h3 class="sub-heading">Command</h3>
+          <pre><code>forge ingest telemetry.jsonl \
+  --format jsonl \
+  --timestamp-field ts \
+  --partition-field host \
+  --series cpu_pct mem_pct net_latency_ms</code></pre>
+
+          <h3 class="sub-heading">Expected output</h3>
+          <pre><code>✔  Parsed     6 records across 2 partitions (web-01, db-01)
+✔  Validated  timestamp field: ts  →  UTC ISO-8601
+✔  Cast       cpu_pct       float64
+✔  Cast       mem_pct       float64
+✔  Cast       net_latency_ms float64
+✔  Stored     ./data/series/web-01.parquet  (4 rows)
+✔  Stored     ./data/series/db-01.parquet   (2 rows)
+   Ingest complete in 0.18 s</code></pre>
+
+          <div class="callout">
+            Supported input formats: <code>--format jsonl</code> (default), <code>csv</code>, <code>parquet</code>.
+            For CSV files, use <code>--delimiter ","</code> or <code>";"</code> as needed.
+            Parquet inputs skip the casting step entirely.
+          </div>
+
+          <h3 class="sub-heading">Verify the loaded series</h3>
+          <pre><code>forge data list
+
+# Output:
+# PARTITION   ROWS   FROM                  TO                    SERIES
+# web-01      4      2026-01-15T08:00:00Z  2026-01-15T08:03:00Z  cpu_pct, mem_pct, net_latency_ms
+# db-01       2      2026-01-15T08:00:00Z  2026-01-15T08:01:00Z  cpu_pct, mem_pct, net_latency_ms</code></pre>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Step 2: Descriptor -->
+        <section class="cmd-section" id="step-descriptor">
+          <div class="section-category">Step 2 of 5</div>
+          <h2 class="section-heading">Write the Descriptor</h2>
+          <p>
+            A <strong>descriptor</strong> is a declarative YAML file that tells AlphaForge which series to
+            monitor, how to compute a rolling baseline, and what threshold conditions trigger an anomaly event.
+            No scripting or compiled code is required.
+          </p>
+
+          <h3 class="sub-heading">Create the descriptor file</h3>
+          <pre><code>forge strategy create \
+  --template anomaly_detector \
+  --id resource_spike_detector \
+  --out descriptors/resource_spike_detector.yaml</code></pre>
+
+          <p style="margin-top: 0.8rem;">
+            Open the generated file and configure it as follows. Every field is documented inline.
+          </p>
+
+          <h3 class="sub-heading"><code>descriptors/resource_spike_detector.yaml</code></h3>
+          <pre><code># AlphaForge Descriptor — Server Resource Spike Detector
+# Version schema: https://alforge-labs.github.io/schema/descriptor/v1
+id: resource_spike_detector
+version: "1.0.0"
+description: >
+  Detects sustained CPU, memory, and network-latency spikes in per-host
+  server telemetry. Emits a structured anomaly event whenever a series
+  exceeds its rolling baseline by the configured sigma multiplier for at
+  least the specified minimum duration.
+
+# ── Input ────────────────────────────────────────────────────────────────
+input:
+  partition_field: host          # Group observations by this field
+  timestamp_field: ts
+
+# ── Series Definitions ───────────────────────────────────────────────────
+series:
+  - name: cpu_pct
+    unit: percent                # Informational; not used in computation
+    window: 10m                  # Rolling window for baseline computation
+    baseline: rolling_mean       # Options: rolling_mean | rolling_median | rolling_percentile
+
+  - name: mem_pct
+    unit: percent
+    window: 10m
+    baseline: rolling_mean
+
+  - name: net_latency_ms
+    unit: milliseconds
+    window: 5m
+    baseline: rolling_percentile
+    percentile: 95               # Required when baseline: rolling_percentile
+
+# ── Anomaly Thresholds ───────────────────────────────────────────────────
+thresholds:
+  cpu_pct:
+    sigma: 3.0                   # Standard deviations above baseline
+    min_duration: 2m             # Must persist this long to emit an event
+
+  mem_pct:
+    sigma: 2.5
+    min_duration: 5m
+
+  net_latency_ms:
+    sigma: 4.0
+    min_duration: 30s
+
+# ── Output ───────────────────────────────────────────────────────────────
+output:
+  format: jsonl                  # Options: jsonl | csv | parquet
+  path: ./output/anomalies.jsonl
+  include_context_window: true   # Append pre/post-event observations to each record
+  context_window: 5m             # Lookback/lookahead duration</code></pre>
+
+          <h3 class="sub-heading">Register the descriptor</h3>
+          <pre><code>forge strategy save descriptors/resource_spike_detector.yaml
+
+# Output:
+# ✔  Registered  resource_spike_detector  (v1.0.0)</code></pre>
+
+          <div class="callout">
+            Baseline options at a glance:
+            <br><code>rolling_mean</code> — arithmetic mean of the window; sensitive to isolated spikes.
+            <br><code>rolling_median</code> — robust to outliers; slower to reflect sustained shifts.
+            <br><code>rolling_percentile</code> — use for long-tail distributions (e.g. latency).
+          </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Step 3: Dry Run -->
+        <section class="cmd-section" id="step-dry-run">
+          <div class="section-category">Step 3 of 5</div>
+          <h2 class="section-heading">Validate with a Dry Run</h2>
+          <p>
+            Before executing a full simulation, use <code>--dry-run</code> to verify descriptor syntax,
+            confirm series resolution, and preview threshold parameters — without writing any output files.
+          </p>
+
+          <pre><code>forge run \
+  --strategy resource_spike_detector \
+  --dry-run</code></pre>
+
+          <h3 class="sub-heading">Expected dry-run output</h3>
+          <pre><code>AlphaForge  v0.9.4   dry-run mode
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Descriptor      resource_spike_detector  v1.0.0
+Partitions      web-01, db-01
+Series          cpu_pct, mem_pct, net_latency_ms
+
+Thresholds
+  cpu_pct        sigma=3.0   min_duration=120s
+  mem_pct        sigma=2.5   min_duration=300s
+  net_latency_ms sigma=4.0   min_duration=30s
+
+Estimated rows  6
+Estimated time  &lt; 1s
+
+✔  Descriptor is valid. No output written (dry-run).
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</code></pre>
+
+          <div class="callout warn">
+            If you see <code>ERROR: series 'cpu_pct' not found in partition 'db-01'</code>, the ingest
+            step did not include that series for that partition. Re-run <code>forge ingest</code> with all
+            required series listed under <code>--series</code>.
+          </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Step 4: Simulate -->
+        <section class="cmd-section" id="step-simulate">
+          <div class="section-category">Step 4 of 5</div>
+          <h2 class="section-heading">Run the Simulation</h2>
+          <p>
+            Execute the full simulation across the ingested time range. AlphaForge iterates over each
+            partition, computes rolling baselines, evaluates thresholds at every observation, and emits
+            anomaly events to the configured output path.
+          </p>
+
+          <pre><code>forge run \
+  --strategy resource_spike_detector \
+  --data ./data/series/ \
+  --from 2026-01-15T00:00:00Z \
+  --to   2026-01-15T23:59:59Z \
+  --output ./output/ \
+  --workers 4</code></pre>
+
+          <h3 class="sub-heading">Progress output</h3>
+          <pre><code>AlphaForge  v0.9.4
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run ID          2026-01-15-001
+Descriptor      resource_spike_detector  v1.0.0
+Range           2026-01-15T00:00:00Z → 2026-01-15T23:59:59Z
+Partitions      2  (web-01, db-01)
+Workers         4
+
+  [web-01]  ████████████████████  100%   4 rows   0.04s
+  [db-01]   ████████████████████  100%   2 rows   0.02s
+
+Anomaly events  2
+  cpu_pct        1 event  (web-01)
+  net_latency_ms 1 event  (web-01)
+  mem_pct        0 events
+
+Output          ./output/anomalies.jsonl
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Simulation complete in 0.31 s</code></pre>
+
+          <div class="callout">
+            <code>--workers</code> controls the number of parallel partition processors. For large datasets
+            (millions of rows), set this to the number of available CPU cores.
+            The default is <code>1</code> (sequential) to minimise memory pressure.
+          </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Step 5: Inspect -->
+        <section class="cmd-section" id="step-inspect">
+          <div class="section-category">Step 5 of 5</div>
+          <h2 class="section-heading">Inspect Results</h2>
+          <p>
+            Use <code>forge dashboard</code> to view a summary of detected anomalies, or read the raw
+            JSONL output directly for downstream pipeline integration.
+          </p>
+
+          <h3 class="sub-heading">Open the dashboard</h3>
+          <pre><code>forge dashboard --run-id 2026-01-15-001</code></pre>
+
+          <p style="margin-top: 0.8rem;">
+            The dashboard renders in your default browser at <code>http://127.0.0.1:7890</code>.
+            It is a local-only HTTP server; no data is transmitted externally.
+          </p>
+
+          <h3 class="sub-heading">Raw JSONL output — <code>./output/anomalies.jsonl</code></h3>
+          <pre><code>{
+  "run_id": "2026-01-15-001",
+  "descriptor": "resource_spike_detector",
+  "partition": "web-01",
+  "series": "cpu_pct",
+  "event": "spike_detected",
+  "ts_start": "2026-01-15T08:01:00Z",
+  "ts_end":   "2026-01-15T08:02:00Z",
+  "duration_s": 120,
+  "peak_value": 91.2,
+  "baseline_at_event": 14.2,
+  "sigma_observed": 5.8,
+  "threshold_sigma": 3.0,
+  "context_window": [
+    {"ts":"2026-01-15T08:00:00Z","cpu_pct":12.4},
+    {"ts":"2026-01-15T08:01:00Z","cpu_pct":89.7},
+    {"ts":"2026-01-15T08:02:00Z","cpu_pct":91.2},
+    {"ts":"2026-01-15T08:03:00Z","cpu_pct":14.1}
+  ]
+}
+{
+  "run_id": "2026-01-15-001",
+  "descriptor": "resource_spike_detector",
+  "partition": "web-01",
+  "series": "net_latency_ms",
+  "event": "spike_detected",
+  "ts_start": "2026-01-15T08:01:00Z",
+  "ts_end":   "2026-01-15T08:02:00Z",
+  "duration_s": 60,
+  "peak_value": 510.3,
+  "baseline_at_event": 5.2,
+  "sigma_observed": 6.1,
+  "threshold_sigma": 4.0,
+  "context_window": [
+    {"ts":"2026-01-15T08:00:00Z","net_latency_ms":5.2},
+    {"ts":"2026-01-15T08:01:00Z","net_latency_ms":420.8},
+    {"ts":"2026-01-15T08:02:00Z","net_latency_ms":510.3},
+    {"ts":"2026-01-15T08:03:00Z","net_latency_ms":6.1}
+  ]
+}</code></pre>
+
+          <h3 class="sub-heading">Pipe output into downstream tools</h3>
+          <pre><code># Count events per series
+jq -r '.series' ./output/anomalies.jsonl | sort | uniq -c
+
+# Filter to a single host
+jq 'select(.partition == "web-01")' ./output/anomalies.jsonl
+
+# Extract timestamps and sigma values for alerting pipelines
+jq '{series, ts_start, sigma_observed}' ./output/anomalies.jsonl</code></pre>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- CLI Reference -->
+        <section class="cmd-section" id="cli-reference">
+          <div class="section-category">Reference</div>
+          <h2 class="section-heading">CLI Options — <code>forge run</code></h2>
+
+          <table class="option-table">
+            <thead>
+              <tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>--strategy &lt;ID&gt;</code></td>
+                <td>string</td>
+                <td>—</td>
+                <td>Registered descriptor ID, or path to a <code>.yaml</code> file.</td>
+              </tr>
+              <tr>
+                <td><code>--data &lt;PATH&gt;</code></td>
+                <td>path</td>
+                <td><code>./data/series/</code></td>
+                <td>Directory of per-partition Parquet files, or a single JSONL file.</td>
+              </tr>
+              <tr>
+                <td><code>--from &lt;ISO8601&gt;</code></td>
+                <td>datetime</td>
+                <td>earliest record</td>
+                <td>Simulation start boundary (inclusive). UTC assumed if no timezone suffix.</td>
+              </tr>
+              <tr>
+                <td><code>--to &lt;ISO8601&gt;</code></td>
+                <td>datetime</td>
+                <td>latest record</td>
+                <td>Simulation end boundary (inclusive).</td>
+              </tr>
+              <tr>
+                <td><code>--output &lt;PATH&gt;</code></td>
+                <td>path</td>
+                <td><code>./output/</code></td>
+                <td>Directory for run state, anomaly JSONL, and dashboard assets.</td>
+              </tr>
+              <tr>
+                <td><code>--workers &lt;N&gt;</code></td>
+                <td>int</td>
+                <td><code>1</code></td>
+                <td>Parallel partition processors. Recommend: number of CPU cores.</td>
+              </tr>
+              <tr>
+                <td><code>--dry-run</code></td>
+                <td>flag</td>
+                <td>off</td>
+                <td>Validate descriptor and resolve series without executing the simulation.</td>
+              </tr>
+              <tr>
+                <td><code>--log-level &lt;LEVEL&gt;</code></td>
+                <td>enum</td>
+                <td><code>info</code></td>
+                <td>Verbosity: <code>debug</code> | <code>info</code> | <code>warn</code> | <code>error</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 class="sub-heading">CLI Options — <code>forge ingest</code></h3>
+          <table class="option-table">
+            <thead>
+              <tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>--format &lt;FMT&gt;</code></td>
+                <td>enum</td>
+                <td><code>jsonl</code></td>
+                <td>Input format: <code>jsonl</code> | <code>csv</code> | <code>parquet</code>.</td>
+              </tr>
+              <tr>
+                <td><code>--timestamp-field &lt;F&gt;</code></td>
+                <td>string</td>
+                <td><code>ts</code></td>
+                <td>Name of the timestamp column. Must be ISO-8601 or Unix epoch (ms).</td>
+              </tr>
+              <tr>
+                <td><code>--partition-field &lt;F&gt;</code></td>
+                <td>string</td>
+                <td>—</td>
+                <td>Column to split data into per-host partitions. Omit for single-host datasets.</td>
+              </tr>
+              <tr>
+                <td><code>--series &lt;S…&gt;</code></td>
+                <td>list</td>
+                <td>all numeric</td>
+                <td>Whitelist of numeric columns to ingest. Unspecified columns are ignored.</td>
+              </tr>
+              <tr>
+                <td><code>--delimiter &lt;C&gt;</code></td>
+                <td>char</td>
+                <td><code>,</code></td>
+                <td>Column delimiter for CSV input only.</td>
+              </tr>
+              <tr>
+                <td><code>--out &lt;PATH&gt;</code></td>
+                <td>path</td>
+                <td><code>./data/series/</code></td>
+                <td>Output directory for normalised Parquet partitions.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Schema Reference -->
+        <section class="cmd-section" id="schema-reference">
+          <div class="section-category">Reference</div>
+          <h2 class="section-heading">Descriptor Schema Reference</h2>
+          <p>
+            The descriptor YAML follows a versioned schema. All fields below are supported as of
+            AlphaForge <code>v0.9.x</code>.
+          </p>
+
+          <table class="option-table">
+            <thead>
+              <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>id</code></td><td>string</td><td>Yes</td><td>Unique descriptor identifier. Alphanumeric and underscores only.</td></tr>
+              <tr><td><code>version</code></td><td>semver</td><td>Yes</td><td>Descriptor version string (e.g. <code>"1.0.0"</code>).</td></tr>
+              <tr><td><code>description</code></td><td>string</td><td>No</td><td>Human-readable summary. Appears in <code>forge strategy list</code> output.</td></tr>
+              <tr><td><code>input.partition_field</code></td><td>string</td><td>No</td><td>Column used to split observations into named partitions.</td></tr>
+              <tr><td><code>input.timestamp_field</code></td><td>string</td><td>Yes</td><td>Column containing observation timestamps.</td></tr>
+              <tr><td><code>series[].name</code></td><td>string</td><td>Yes</td><td>Column name in the ingested dataset.</td></tr>
+              <tr><td><code>series[].window</code></td><td>duration</td><td>Yes</td><td>Rolling window for baseline computation. Format: <code>Ns</code>, <code>Nm</code>, <code>Nh</code>.</td></tr>
+              <tr><td><code>series[].baseline</code></td><td>enum</td><td>Yes</td><td><code>rolling_mean</code> | <code>rolling_median</code> | <code>rolling_percentile</code>.</td></tr>
+              <tr><td><code>series[].percentile</code></td><td>float</td><td>Conditional</td><td>Required when <code>baseline: rolling_percentile</code>. Range: 0–100.</td></tr>
+              <tr><td><code>thresholds.&lt;series&gt;.sigma</code></td><td>float</td><td>Yes</td><td>Standard-deviation multiplier above baseline to trigger an event.</td></tr>
+              <tr><td><code>thresholds.&lt;series&gt;.min_duration</code></td><td>duration</td><td>Yes</td><td>Minimum continuous exceedance duration before an event is emitted.</td></tr>
+              <tr><td><code>output.format</code></td><td>enum</td><td>No</td><td>Result format: <code>jsonl</code> (default) | <code>csv</code> | <code>parquet</code>.</td></tr>
+              <tr><td><code>output.path</code></td><td>path</td><td>No</td><td>Output file path. Overrides <code>--output</code> CLI flag if set.</td></tr>
+              <tr><td><code>output.include_context_window</code></td><td>bool</td><td>No</td><td>Append surrounding observations to each anomaly record.</td></tr>
+              <tr><td><code>output.context_window</code></td><td>duration</td><td>No</td><td>Lookback and lookahead range for context records. Default: <code>5m</code>.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- Troubleshooting -->
+        <section class="cmd-section" id="troubleshooting">
+          <div class="section-category">Reference</div>
+          <h2 class="section-heading">Troubleshooting</h2>
+
+          <ul class="step-list">
+            <li>
+              <div>
+                <strong>No anomaly events emitted despite visible spikes in source data</strong>
+                <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
+                  The most common cause is a <code>min_duration</code> that exceeds the actual spike duration
+                  in the data. Reduce <code>min_duration</code> (e.g. from <code>5m</code> to <code>30s</code>)
+                  and re-run. Also verify the rolling window is not wider than the total observation range,
+                  which leaves too few rows to compute a meaningful baseline.
+                </p>
+                <pre><code># Inspect the rolling baseline for a specific series and partition
+forge debug baseline \
+  --strategy resource_spike_detector \
+  --series cpu_pct \
+  --partition web-01 \
+  --output ./debug/</code></pre>
+              </div>
+            </li>
+            <li>
+              <div>
+                <strong>Ingest fails with <code>ParseError: invalid timestamp</code></strong>
+                <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
+                  AlphaForge expects ISO-8601 UTC timestamps (e.g. <code>2026-01-15T08:00:00Z</code>) or
+                  Unix epoch in milliseconds. If your source uses a different format, convert it before
+                  ingesting:
+                </p>
+                <pre><code># Convert epoch-seconds to ISO-8601 using jq
+jq 'del(.ts) | .ts = (.epoch_s | todate)' raw.jsonl &gt; telemetry.jsonl</code></pre>
+              </div>
+            </li>
+            <li>
+              <div>
+                <strong>High memory consumption with large JSONL files</strong>
+                <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
+                  Convert your input to Parquet before ingesting. Parquet is columnar and
+                  supports predicate pushdown, which substantially reduces the memory footprint
+                  for wide schemas:
+                </p>
+                <pre><code># Convert JSONL to Parquet using DuckDB (no install required via uv)
+uvx duckdb -c "
+  COPY (SELECT * FROM read_json_auto('telemetry.jsonl'))
+  TO 'telemetry.parquet' (FORMAT PARQUET);
+"
+
+forge ingest telemetry.parquet \
+  --format parquet \
+  --partition-field host \
+  --series cpu_pct mem_pct net_latency_ms</code></pre>
+              </div>
+            </li>
+            <li>
+              <div>
+                <strong>Simulation is slow on large datasets</strong>
+                <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
+                  Increase <code>--workers</code> to match available CPU cores. Each partition is processed
+                  independently, so parallelism scales linearly up to the partition count:
+                </p>
+                <pre><code>forge run \
+  --strategy resource_spike_detector \
+  --workers $(nproc) \    # Linux
+  --output ./output/
+
+# macOS equivalent
+forge run --strategy resource_spike_detector --workers $(sysctl -n hw.logicalcpu)</code></pre>
+              </div>
+            </li>
+          </ul>
+
+          <div class="callout">
+            Run <code>forge run --log-level debug</code> to emit per-row evaluation traces.
+            Redirect to a file (<code>2&gt; debug.log</code>) to inspect the full evaluation
+            timeline without cluttering your terminal.
+          </div>
+        </section>
+
+      </div><!-- /main content -->
+    </div><!-- /doc-layout -->
+  </div><!-- /page-wrap -->
+
+  <footer>
+    <div class="footer-logo">alforge<span class="dot">.</span>labs</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="install.html">Install</a>
+      <a href="docs.html">Docs</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="site-header.jsx"></script>
+  <script type="text/babel">
+    renderStandaloneHeader({ active: 'docs' });
+  </script>
+</body>
+</html>
