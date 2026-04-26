@@ -20,7 +20,7 @@ window.COPY = {
       h1a: 'アルゴリズムを、',
       h1b: '武器にする。',
       desc: 'バックテスト・最適化・自動執行を一気通貫。AI連携設計の定量的トレーディングシステムを個人トレーダーへ。',
-      cta1: '今すぐ購入 — $299',
+      cta1: '今すぐ購入 — $499',
       cta2: 'プランを見る',
     },
     heroStats: [
@@ -37,7 +37,7 @@ window.COPY = {
           name: 'Lifetime',
           badge: 'おすすめ',
           featured: true,
-          price: '$299',
+          price: '$499',
           period: '買い切り',
           desc: '一度の支払いで将来のメジャーバージョンアップを含む全機能を永続利用。',
           features: [
@@ -252,7 +252,7 @@ window.COPY = {
       h1a: 'Turn Algorithms',
       h1b: 'Into Edge.',
       desc: 'End-to-end backtesting, optimization, and automated execution. AI-native quantitative trading systems built for serious traders.',
-      cta1: 'Buy Now — $299',
+      cta1: 'Buy Now — $499',
       cta2: 'See Plans',
     },
     heroStats: [
@@ -269,7 +269,7 @@ window.COPY = {
           name: 'Lifetime',
           badge: 'Best Value',
           featured: true,
-          price: '$299',
+          price: '$499',
           period: 'one-time',
           desc: 'Pay once, use forever. All future major version upgrades included.',
           features: [
