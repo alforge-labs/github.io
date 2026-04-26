@@ -263,9 +263,9 @@ function Pricing({ t }) {
                 <div className="pricing-plan">{plan.name}</div>
                 {plan.badge && <span className="pricing-badge">{plan.badge}</span>}
               </div>
-              <div className="pricing-price">
-                <span className="price-amount">{plan.price}</span>
-                <span className="price-period">{plan.period}</span>
+              <div className="pricing-cost">
+                <span className="cost-amount">{plan.cost}</span>
+                <span className="cost-period">{plan.period}</span>
               </div>
               <p className="pricing-desc">{plan.desc}</p>
               <ul className="pricing-features">
