@@ -106,8 +106,6 @@ function PerformanceChart({ t, dark }) {
   const ec = window.EQUITY_CURVE;
   if (!ec) return null;
   const accentColor = dark ? '#00e49a' : '#009e70';
-  const blueColor   = dark ? '#5b9fff' : '#3a7ef0';
-  const amberColor  = dark ? '#f5a623' : '#d97706';
 
   const gridLines = [
     { v: 200, label: '+100%' },
@@ -146,18 +144,12 @@ function PerformanceChart({ t, dark }) {
           <div className="chart-area">
             {/* Legend */}
             <div className="chart-legend">
-              <div className="legend-item">
-                <div className="legend-dot" style={{ background: accentColor, height: '2px' }}></div>
-                {c.legend[0].label}
-              </div>
-              <div className="legend-item">
-                <div className="legend-dot" style={{ background: blueColor, height: '1px', borderTop: `1px dashed ${blueColor}` }}></div>
-                {c.legend[1].label}
-              </div>
-              <div className="legend-item">
-                <div className="legend-dot" style={{ background: amberColor, height: '1px', borderTop: `1px dashed ${amberColor}` }}></div>
-                {c.legend[2].label}
-              </div>
+              {c.legend.map((item, i) => (
+                <div key={i} className="legend-item">
+                  <div className="legend-dot" style={{ background: item.color, height: '2px' }}></div>
+                  {item.label}
+                </div>
+              ))}
             </div>
 
             {/* SVG chart */}
@@ -192,19 +184,7 @@ function PerformanceChart({ t, dark }) {
                 );
               })}
 
-              {/* QQQ B&H (rendered first = behind) */}
-              <polyline
-                points={toPoints(ec.qqq)}
-                fill="none" stroke={amberColor} strokeWidth="1.2" strokeDasharray="4,3" opacity="0.7"
-              />
-
-              {/* SPY B&H */}
-              <polyline
-                points={toPoints(ec.spy)}
-                fill="none" stroke={blueColor} strokeWidth="1.2" strokeDasharray="5,4" opacity="0.85"
-              />
-
-              {/* CL strategy fill */}
+              {/* strategy fill */}
               <polygon
                 points={toFillPoints(ec.cl)}
                 fill={accentColor} fillOpacity="0.06"
@@ -216,28 +196,6 @@ function PerformanceChart({ t, dark }) {
                 fill="none" stroke={accentColor} strokeWidth="2.5"
               />
             </svg>
-
-            {/* Benchmark comparison table */}
-            <div style={{ marginTop: '0.75rem', background: 'var(--bg2)', borderRadius: 'var(--r)', padding: '0.75rem 1rem' }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.62rem', color: 'var(--text3)', marginBottom: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                {c.bench.label}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '0.3rem', fontFamily: 'var(--mono)', fontSize: '0.68rem' }}>
-                {c.bench.headers.map((h, i) => (
-                  <div key={i} style={{ color: i === 0 ? 'transparent' : i === 1 ? blueColor : i === 2 ? amberColor : accentColor }}>{h}</div>
-                ))}
-                {c.bench.rows.map((row, ri) => (
-                  <React.Fragment key={ri}>
-                    <div style={{ color: 'var(--text2)' }}>{row.metric}</div>
-                    <div style={{ color: blueColor }}>{row.spy}</div>
-                    <div style={{ color: amberColor }}>{row.qqq}</div>
-                    <div style={{ color: accentColor, fontWeight: row.stratWin ? '600' : '400' }}>
-                      {row.strat}{row.stratWin ? ' ✓' : ''}
-                    </div>
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
 
             <p className="chart-note">{c.note}</p>
           </div>
