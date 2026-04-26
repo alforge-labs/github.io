@@ -42,7 +42,7 @@ window.COPY = {
             '将来バージョンのアップデート込み',
             '1台のマシンでアクティベート',
           ],
-          url: 'https://alforge-labs.lemonsqueezy.com',
+          url: 'https://polar.sh/alforge-labs',
         },
         {
           name: 'Annual',
@@ -59,7 +59,7 @@ window.COPY = {
             '常に最新バージョン',
             '1台のマシンでアクティベート',
           ],
-          url: 'https://alforge-labs.lemonsqueezy.com',
+          url: 'https://polar.sh/alforge-labs',
         },
         {
           name: 'Monthly',
@@ -76,7 +76,7 @@ window.COPY = {
             '常に最新バージョン',
             '1台のマシンでアクティベート',
           ],
-          url: 'https://alforge-labs.lemonsqueezy.com',
+          url: 'https://polar.sh/alforge-labs',
         },
       ],
       buyNow: '今すぐ購入',
@@ -291,7 +291,7 @@ window.COPY = {
             'Future version updates included',
             'Activate on 1 machine',
           ],
-          url: 'https://alforge-labs.lemonsqueezy.com',
+          url: 'https://polar.sh/alforge-labs',
         },
         {
           name: 'Annual',
@@ -308,7 +308,7 @@ window.COPY = {
             'Always latest version',
             'Activate on 1 machine',
           ],
-          url: 'https://alforge-labs.lemonsqueezy.com',
+          url: 'https://polar.sh/alforge-labs',
         },
         {
           name: 'Monthly',
@@ -325,7 +325,7 @@ window.COPY = {
             'Always latest version',
             'Activate on 1 machine',
           ],
-          url: 'https://alforge-labs.lemonsqueezy.com',
+          url: 'https://polar.sh/alforge-labs',
         },
       ],
       buyNow: 'Get Access',
