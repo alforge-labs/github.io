@@ -126,7 +126,7 @@ window.COPY = {
     usecases: {
       label: '活用シーン',
       title: '多様なエンジニアリング領域に\n対応する時系列シミュレーション',
-      subtitle: 'AlphaForge の統計エンジンは、金融以外の分野でも活用できる汎用的な基盤です。',
+      subtitle: 'AlphaForge の統計エンジンは、IoTセンサーの監視や需要予測などさまざまな分野で活用できる汎用的な基盤です。',
       items: [
         {
           icon: '⚙️',
@@ -375,7 +375,7 @@ window.COPY = {
     usecases: {
       label: 'Use Cases',
       title: 'Versatile Time-Series Simulation\nfor Modern Engineering',
-      subtitle: 'The AlphaForge statistical engine is a general-purpose foundation applicable far beyond a single domain.',
+      subtitle: 'The AlphaForge statistical engine is a general-purpose foundation applicable to IoT sensor monitoring, demand forecasting, and many other domains.',
       items: [
         {
           icon: '⚙️',
