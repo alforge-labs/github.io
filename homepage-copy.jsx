@@ -1,12 +1,6 @@
 // Equity curve data — language-independent, 2021-05 to 2026-04 (61 points, base=100)
-// Series 1: computed from monthly_returns in hmm_bb_rsi_simulation_report.json
-// Series 2/3: monthly close values normalized, index-0 = 2021-05-01 (prepended 100.0)
 window.EQUITY_CURVE = {
   cl:  [100.0,100.0,100.0,108.88,116.75,116.75,116.75,105.12,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,119.01,125.15,123.43,119.91,119.91,119.91,124.9,124.9,126.95,135.63,135.63,135.63,135.63,142.08,142.84,144.91,144.91,144.91,144.91,144.91,146.29,153.07,154.88,159.08,162.56,162.56,162.56,162.56,162.56,164.43,160.81,160.81,174.21,174.21,174.21,174.21,179.1,182.79,184.24,191.4,191.4,191.4,191.4,191.4],
-  spy: [100.0,100.0,102.24,104.74,107.86,102.83,110.04,109.16,114.21,108.18,104.99,108.94,99.38,99.6,91.39,99.8,95.73,86.88,93.94,99.17,93.45,99.33,96.83,100.42,102.02,102.5,109.14,112.71,110.88,105.62,103.33,112.76,117.91,119.79,126.04,130.16,124.91,131.23,135.86,137.51,140.72,143.68,142.39,150.89,147.26,151.21,149.29,140.97,139.75,148.53,156.17,159.76,163.04,168.85,172.87,173.21,173.35,175.9,174.38,165.77,181.01],
-  qqq: [100.0,100.0,106.26,109.3,113.91,107.44,115.89,118.2,119.56,109.11,104.22,109.09,94.26,92.76,84.5,95.1,90.22,80.72,83.95,88.6,80.61,89.19,88.87,97.31,97.8,105.51,112.17,116.5,114.77,108.94,106.69,118.23,124.84,127.11,133.82,135.53,129.6,137.57,146.47,144.02,145.61,149.42,148.13,156.06,156.77,160.16,155.83,144.01,146.02,159.42,169.6,173.71,175.37,184.8,193.63,190.61,189.33,191.66,187.17,177.89,199.98],
-  // x-axis: indices into the 61-point arrays where each year label is positioned
-  // index 0 = 2021-05-01, index 9 = Jan 2022, index 21 = Jan 2023, index 33 = Jan 2024, index 45 = Jan 2025
   yearLabels: ['2021','2022','2023','2024','2025'],
   yearIndices: [0, 9, 21, 33, 45],
 };
@@ -19,13 +13,13 @@ window.COPY = {
       tag: '開発進行中',
       h1a: 'ノイズから、',
       h1b: 'シグナルへ。',
-      desc: '時系列データのシミュレーション・最適化・CLIパイプラインを一気通貫。AI連携設計の定量的研究インフラをソフトウェアエンジニアへ。',
+      desc: '時系列データのシミュレーション・最適化・CLIパイプラインを一気通貫。AI連携設計のデータエンジニアリング基盤をソフトウェアエンジニアへ。',
       cta1: '今すぐ入手 — $499',
       cta2: 'プランを見る',
     },
     heroStats: [
       { val: '3', accent: false, lbl: '開発中プロダクト' },
-      { val: 'Sharpe 1.09', accent: true, lbl: 'シミュレーション実績（5年時系列データ）' },
+      { val: 'Score 1.09', accent: true, lbl: 'シミュレーション実績（5年時系列データ）' },
       { val: '2026夏', accent: false, lbl: '正式リリース目標' },
     ],
     pricing: {
@@ -45,7 +39,6 @@ window.COPY = {
             'シミュレーション（回数無制限）',
             'ベイズ最適化（Optuna）',
             'ウォークフォワード分析',
-            'Pine Script v6 自動生成',
             '将来バージョンのアップデート込み',
             '1台のマシンでアクティベート',
           ],
@@ -63,7 +56,6 @@ window.COPY = {
             'シミュレーション（回数無制限）',
             'ベイズ最適化（Optuna）',
             'ウォークフォワード分析',
-            'Pine Script v6 自動生成',
             '常に最新バージョン',
             '1台のマシンでアクティベート',
           ],
@@ -81,7 +73,6 @@ window.COPY = {
             'シミュレーション（回数無制限）',
             'ベイズ最適化（Optuna）',
             'ウォークフォワード分析',
-            'Pine Script v6 自動生成',
             '常に最新バージョン',
             '1台のマシンでアクティベート',
           ],
@@ -95,7 +86,7 @@ window.COPY = {
     products: {
       label: 'プロダクト',
       title: '3つの層で構成される\n統合データ処理システム',
-      subtitle: 'コーディングエージェントが設定を半自動開発・最適化し、Pine Script を生成。外部シグナルをトリガーに strike が API リクエストを自動実行。',
+      subtitle: 'コーディングエージェントが設定を半自動開発・最適化。外部シグナルをトリガーに strike が API リクエストを自動実行。',
       items: [
         {
           id: 'forge',
@@ -104,8 +95,8 @@ window.COPY = {
           icon: '⚙',
           name: 'forge',
           role: 'シミュレーション・最適化エンジン',
-          desc: 'JSON定義の設定をvectorbtで高速シミュレーション。Optunaによるベイズ最適化・ウォークフォワード検証で過学習を防ぎ、Pine Script v6を自動生成。Claude連携でパラメータを自律探索。',
-          tags: ['Python', 'vectorbt', 'Optuna', 'Streamlit', 'Pine Script'],
+          desc: 'JSON定義の設定をvectorbtで高速シミュレーション。Optunaによるベイズ最適化・ウォークフォワード検証で過学習を防ぎ、結果をCLIレポートとして出力。Claude連携でパラメータを自律探索。',
+          tags: ['Python', 'vectorbt', 'Optuna', 'Streamlit', 'JSONL'],
           accent: 'var(--blue)',
         },
         {
@@ -116,7 +107,7 @@ window.COPY = {
           name: 'strategies',
           role: '設定・データワークスペース',
           desc: '設定JSON・シミュレーション結果・最適化パラメータ・ジャーナルを一元管理。alpha-forgeの設定レイヤーとして機能。実行ログの蓄積・分析も対応。',
-          tags: ['JSON', 'CLI', 'Pine Script', 'JSONL'],
+          tags: ['JSON', 'CLI', 'JSONL'],
           accent: 'var(--accent)',
         },
         {
@@ -127,7 +118,7 @@ window.COPY = {
           name: 'strike',
           role: 'Webhook・自動実行サーバー',
           desc: '外部 Webhook シグナルを FastAPI で受け取り、外部 API へ自動リクエスト送信。実行・レスポンスイベントをJSONLで記録。Dockerデプロイ対応。',
-          tags: ['FastAPI', 'OANDA', 'moomoo', 'Docker', 'Webhook'],
+          tags: ['FastAPI', 'Docker', 'Webhook', 'JSONL'],
           accent: 'var(--amber)',
         },
       ],
@@ -166,30 +157,19 @@ window.COPY = {
     perf: {
       label: 'シミュレーション実績',
       title: 'シミュレーション結果（実データ）',
-      strategy: '5年時系列データ — HMM + ボリンジャーバンド + RSI シミュレーション',
+      strategy: '5年時系列データ — HMM + 閾値検知シミュレーション',
       period: '2021.05 – 2026.04（5年）',
-      note: '※ 実際のシミュレーション結果です。コスト0.1%込み。QQQ B&H の年率（14.9%）は本シミュレーション（13.9%）を上回ります。過去の結果は将来の成果を保証しません。',
+      note: '※ 実際のシミュレーション結果です。コスト0.1%込み。過去の結果は将来の成果を保証しません。',
       stats: [
-        { val: '+13.9%', label: 'CAGR',          cls: 'val-pos' },
-        { val: '1.09',   label: 'Sharpe Ratio',   cls: 'val-neu' },
-        { val: '86.4%',  label: 'シグナル正答率', cls: 'val-neu' },
-        { val: '-17.0%', label: 'Max Drawdown',   cls: 'val-neg' },
-        { val: '22回',   label: 'シグナル回数',   cls: 'val-neu' },
+        { val: '+13.9%', label: '年率リターン',    cls: 'val-pos' },
+        { val: '1.09',   label: 'スコア',          cls: 'val-neu' },
+        { val: '86.4%',  label: 'シグナル正答率',  cls: 'val-neu' },
+        { val: '-17.0%', label: '最大下落率',       cls: 'val-neg' },
+        { val: '22回',   label: 'シグナル回数',    cls: 'val-neu' },
       ],
       legend: [
-        { color: 'var(--accent)',  label: '本シミュレーション' },
-        { color: 'var(--blue)',    label: 'SPY B&H' },
-        { color: 'var(--amber)',   label: 'QQQ B&H' },
+        { color: 'var(--accent)', label: '本シミュレーション' },
       ],
-      bench: {
-        label: 'vs ベンチマーク（同期間）',
-        headers: ['', 'SPY B&H', 'QQQ B&H', '本シミュレーション'],
-        rows: [
-          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: false },
-          { metric: 'Sharpe',  spy: '≈0.5',  qqq: '≈0.5',  strat: '1.09',  stratWin: true },
-          { metric: 'Max DD',  spy: '-23.9%',qqq: '-32.6%', strat: '-17.0%',stratWin: true },
-        ],
-      },
     },
     roadmap: {
       label: 'ロードマップ',
@@ -200,7 +180,7 @@ window.COPY = {
           status: 'done',
           badgeLabel: '完了',
           title: 'シミュレーションエンジン構築',
-          items: ['シミュレーションエンジン設計・実装', 'データ取得・設定 JSON スキーマ・CLI 構築', '最適化パイプライン・Pine Script 生成'],
+          items: ['シミュレーションエンジン設計・実装', 'データ取得・設定 JSON スキーマ・CLI 構築', '最適化パイプライン・レポート生成'],
         },
         {
           period: '2026年3月中旬〜下旬',
@@ -214,14 +194,14 @@ window.COPY = {
           status: 'done',
           badgeLabel: '完了',
           title: 'ライブ実行統合',
-          items: ['alpha-strike Webhook サーバー構築', 'OANDA・moomoo API 自動実行対応', '実行・レスポンスイベント分析パイプライン'],
+          items: ['alpha-strike Webhook サーバー構築', '外部 API 自動実行対応', '実行・レスポンスイベント分析パイプライン'],
         },
         {
           period: '2026年4月',
           status: 'active',
           badgeLabel: '進行中',
           title: 'プロダクト化・製品化',
-          items: ['Streamlit Web UI・マルチポートフォリオ最適化', 'ライセンス管理・バイナリ配布・CI/CD パイプライン', '公式サイト公開・Claude 連携自律探索'],
+          items: ['Streamlit Web UI・マルチシリーズ最適化', 'ライセンス管理・バイナリ配布・CI/CD パイプライン', '公式サイト公開・Claude 連携自律探索'],
         },
         {
           period: '2026年5月',
@@ -245,8 +225,8 @@ window.COPY = {
       items: [
         { q: 'どんな人向けですか？', a: 'Pythonの基礎知識があり、データ駆動なアプローチで時系列シミュレーションに取り組みたいソフトウェアエンジニア・データサイエンティスト向けです。JSONで設定を定義し、CLIで操作できます。将来的にはノーコードオプションも検討中です。' },
         { q: '現在、購入・利用できますか？', a: '現在はクローズドな開発フェーズです。リリース時期はXアカウント (@alforge_bot) でお知らせします。' },
-        { q: '対応する外部APIは？', a: '現在はOANDA（FX・CFD API）とmoomoo（株式API）に対応しています。今後さらなる外部API拡充を予定しています。' },
-        { q: '外部チャートツールは必要ですか？', a: 'alpha-strikeは外部シグナルツールからのWebhookアラートを受信できます。alpha-forgeのシミュレーション・最適化は単独で動作します。' },
+        { q: '対応する外部APIは？', a: '現在は複数の外部 API ハンドラに対応しています。今後さらなる外部API拡充を予定しています。' },
+        { q: '外部シグナルツールは必要ですか？', a: 'alpha-strikeは外部シグナルツールからのWebhookアラートを受信できます。alpha-forgeのシミュレーション・最適化は単独で動作します。' },
         { q: 'alpha-forgeはオープンソースですか？', a: '現在はクローズドでの開発を予定しています。公開方針については今後の開発状況を踏まえて改めてお知らせします。最新情報はX (@alforge_bot) をご確認ください。' },
       ],
     },
@@ -288,7 +268,7 @@ window.COPY = {
     },
     heroStats: [
       { val: '3', accent: false, lbl: 'Products in Dev' },
-      { val: 'Sharpe 1.09', accent: true, lbl: 'Simulation Result (5yr time-series data)' },
+      { val: 'Score 1.09', accent: true, lbl: 'Simulation Result (5yr time-series data)' },
       { val: 'Summer 2026', accent: false, lbl: 'Target Release' },
     ],
     pricing: {
@@ -308,7 +288,6 @@ window.COPY = {
             'Unlimited simulations',
             'Bayesian optimization (Optuna)',
             'Walk-forward analysis',
-            'Pine Script v6 auto-generation',
             'Future version updates included',
             'Activate on 1 machine',
           ],
@@ -326,7 +305,6 @@ window.COPY = {
             'Unlimited simulations',
             'Bayesian optimization (Optuna)',
             'Walk-forward analysis',
-            'Pine Script v6 auto-generation',
             'Always latest version',
             'Activate on 1 machine',
           ],
@@ -344,7 +322,6 @@ window.COPY = {
             'Unlimited simulations',
             'Bayesian optimization (Optuna)',
             'Walk-forward analysis',
-            'Pine Script v6 auto-generation',
             'Always latest version',
             'Activate on 1 machine',
           ],
@@ -358,7 +335,7 @@ window.COPY = {
     products: {
       label: 'Products',
       title: 'Three layers.\nOne integrated system.',
-      subtitle: 'AI-driven config development and optimization with Pine Script generation. External signals trigger strike for automated API execution.',
+      subtitle: 'AI-driven config development and optimization. External signals trigger strike for automated API execution.',
       items: [
         {
           id: 'forge',
@@ -367,8 +344,8 @@ window.COPY = {
           icon: '⚙',
           name: 'forge',
           role: 'Simulation & Optimization Engine',
-          desc: 'High-speed time-series simulation with vectorbt. Bayesian optimization via Optuna + walk-forward validation to prevent overfitting. Automatic Pine Script v6 generation. Claude integration for autonomous parameter exploration.',
-          tags: ['Python', 'vectorbt', 'Optuna', 'Streamlit', 'Pine Script'],
+          desc: 'High-speed time-series simulation with vectorbt. Bayesian optimization via Optuna + walk-forward validation to prevent overfitting. CLI report output. Claude integration for autonomous parameter exploration.',
+          tags: ['Python', 'vectorbt', 'Optuna', 'Streamlit', 'JSONL'],
           accent: 'var(--blue)',
         },
         {
@@ -379,7 +356,7 @@ window.COPY = {
           name: 'strategies',
           role: 'Config & Data Workspace',
           desc: 'Unified management of config JSON, simulation results, optimized parameters, and journals. Acts as the configuration layer for alpha-forge. Supports execution log accumulation and analysis.',
-          tags: ['JSON', 'CLI', 'Pine Script', 'JSONL'],
+          tags: ['JSON', 'CLI', 'JSONL'],
           accent: 'var(--accent)',
         },
         {
@@ -389,8 +366,8 @@ window.COPY = {
           icon: '⚡',
           name: 'strike',
           role: 'Webhook Execution Server',
-          desc: 'Receives external webhook signals via FastAPI and auto-routes API requests to OANDA and moomoo. Records execution and response events as JSONL. Docker-ready for server deployment.',
-          tags: ['FastAPI', 'OANDA', 'moomoo', 'Docker', 'Webhook'],
+          desc: 'Receives external webhook signals via FastAPI and auto-routes API requests to configured external APIs. Records execution and response events as JSONL. Docker-ready for server deployment.',
+          tags: ['FastAPI', 'Docker', 'Webhook', 'JSONL'],
           accent: 'var(--amber)',
         },
       ],
@@ -429,39 +406,28 @@ window.COPY = {
     perf: {
       label: 'Simulation Results',
       title: 'Simulation Results (Live Data)',
-      strategy: '5yr Time-Series Data — HMM + Bollinger Bands + RSI Simulation',
+      strategy: '5yr Time-Series Data — HMM + Threshold Detection Simulation',
       period: '2021.05 – 2026.04 (5 years)',
-      note: '* Real simulation result with 0.1% cost. QQQ buy-and-hold CAGR (14.9%) exceeds this simulation (13.9%). Past results do not guarantee future outcomes.',
+      note: '* Real simulation result with 0.1% cost. Past results do not guarantee future outcomes.',
       stats: [
-        { val: '+13.9%', label: 'CAGR',            cls: 'val-pos' },
-        { val: '1.09',   label: 'Sharpe Ratio',     cls: 'val-neu' },
-        { val: '86.4%',  label: 'Signal Accuracy',  cls: 'val-neu' },
-        { val: '-17.0%', label: 'Max Drawdown',      cls: 'val-neg' },
-        { val: '22',     label: 'Total Signals',     cls: 'val-neu' },
+        { val: '+13.9%', label: 'Ann. Return',    cls: 'val-pos' },
+        { val: '1.09',   label: 'Score',           cls: 'val-neu' },
+        { val: '86.4%',  label: 'Signal Accuracy', cls: 'val-neu' },
+        { val: '-17.0%', label: 'Max Decline',     cls: 'val-neg' },
+        { val: '22',     label: 'Total Signals',   cls: 'val-neu' },
       ],
       legend: [
         { color: 'var(--accent)', label: 'This Simulation' },
-        { color: 'var(--blue)',   label: 'SPY B&H' },
-        { color: 'var(--amber)',  label: 'QQQ B&H' },
       ],
-      bench: {
-        label: 'vs Benchmark (same period)',
-        headers: ['', 'SPY B&H', 'QQQ B&H', 'This Simulation'],
-        rows: [
-          { metric: 'CAGR',    spy: '12.6%', qqq: '14.9%', strat: '13.9%', stratWin: false },
-          { metric: 'Sharpe',  spy: '≈0.5',  qqq: '≈0.5',  strat: '1.09',  stratWin: true },
-          { metric: 'Max DD',  spy: '-23.9%',qqq: '-32.6%', strat: '-17.0%',stratWin: true },
-        ],
-      },
     },
     roadmap: {
       label: 'Roadmap',
       title: 'Where we\'ve been\nand where we\'re going.',
       items: [
-        { period: 'Early March 2026', status: 'done', badgeLabel: 'Done', title: 'Simulation Engine Build', items: ['Simulation engine design & build', 'Data ingestion, config JSON schema & CLI', 'Optimization pipeline & Pine Script generation'] },
+        { period: 'Early March 2026', status: 'done', badgeLabel: 'Done', title: 'Simulation Engine Build', items: ['Simulation engine design & build', 'Data ingestion, config JSON schema & CLI', 'Optimization pipeline & report generation'] },
         { period: 'Mid–Late March 2026', status: 'done', badgeLabel: 'Done', title: 'Analysis Feature Expansion', items: ['HMM indicator + walk-forward analysis', 'Backtest history DB & chart generation', 'Risk management (dynamic SL/TP)'] },
-        { period: 'Late March 2026', status: 'done', badgeLabel: 'Done', title: 'Live Execution Integration', items: ['alpha-strike Webhook server', 'OANDA & moomoo API execution', 'Execution & response event analysis pipeline'] },
-        { period: 'April 2026', status: 'active', badgeLabel: 'Active', title: 'Productization', items: ['Streamlit Web UI & multi-portfolio optimization', 'License management, binary distribution & CI/CD pipeline', 'Official site launch & Claude-driven parameter search'] },
+        { period: 'Late March 2026', status: 'done', badgeLabel: 'Done', title: 'Live Execution Integration', items: ['alpha-strike Webhook server', 'External API execution', 'Execution & response event analysis pipeline'] },
+        { period: 'April 2026', status: 'active', badgeLabel: 'Active', title: 'Productization', items: ['Streamlit Web UI & multi-series optimization', 'License management, binary distribution & CI/CD pipeline', 'Official site launch & Claude-driven parameter search'] },
         { period: 'May 2026', status: 'upcoming', badgeLabel: 'Planned', title: 'Beta Release', items: ['Binary release for macOS, Windows & Linux', 'Closed beta & feedback collection', 'Documentation polish'] },
         { period: 'Summer 2026', status: 'upcoming', badgeLabel: 'Planned', title: 'Public Launch', items: ['Full product release', 'Support & community setup'] },
       ],
@@ -472,8 +438,8 @@ window.COPY = {
       items: [
         { q: 'Who is this for?', a: 'Software engineers and data scientists with basic Python knowledge who want a data-driven approach to time-series simulation. Configs are defined in JSON and operated via CLI. No-code options are on the roadmap.' },
         { q: 'Can I use it now?', a: 'We\'re in closed development. Follow @alforge_bot on X for release announcements.' },
-        { q: 'Which external APIs are supported?', a: 'Currently OANDA (FX/CFD API) and moomoo (equities API). More API integrations are planned.' },
-        { q: 'Do I need an external charting platform?', a: 'alpha-strike can receive webhook alerts from external signal sources. alpha-forge simulations and optimization run fully independently.' },
+        { q: 'Which external APIs are supported?', a: 'Currently multiple external API handlers are supported. More API integrations are planned.' },
+        { q: 'Do I need an external signal tool?', a: 'alpha-strike can receive webhook alerts from external signal sources. alpha-forge simulations and optimization run fully independently.' },
         { q: 'Is alpha-forge open source?', a: 'We plan to keep alpha-forge closed source. Details on our licensing and release model will be shared as development progresses. Follow @alforge_bot for updates.' },
       ],
     },
