@@ -293,5 +293,40 @@ function Pricing({ t }) {
   );
 }
 
+/* ── USE CASES ── */
+function UseCases({ t }) {
+  const c = t.usecases;
+  return (
+    <section className="usecases reveal" id="usecases">
+      <div className="usecases-inner">
+        <div className="usecases-header">
+          <div className="sec-label">{c.label}</div>
+          <h2 className="sec-title" style={{ whiteSpace: 'pre-line' }}>{c.title}</h2>
+          <p className="usecases-subtitle">{c.subtitle}</p>
+        </div>
+        <div className="usecases-grid">
+          {c.items.map((item, i) => (
+            <div
+              key={i}
+              className="usecase-card"
+              style={{ '--card-accent': item.accent }}
+            >
+              <div className="usecase-icon">{item.icon}</div>
+              <span className="usecase-badge">{item.label}</span>
+              <div className="usecase-title">{item.title}</div>
+              <p className="usecase-desc">{item.desc}</p>
+              <div className="usecase-tags">
+                {item.tags.map((tag, j) => (
+                  <span key={j} className="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing });
+Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing, UseCases });
