@@ -26,7 +26,7 @@ window.COPY = {
     heroStats: [
       { val: '3', accent: false, lbl: '開発中プロダクト' },
       { val: 'Sharpe 1.09', accent: true, lbl: 'シミュレーション実績（CL=F・5年データ）' },
-      { val: '2027', accent: false, lbl: '正式リリース目標' },
+      { val: '2026夏', accent: false, lbl: '正式リリース目標' },
     ],
     pricing: {
       label: '料金',
@@ -289,7 +289,7 @@ window.COPY = {
     heroStats: [
       { val: '3', accent: false, lbl: 'Products in Dev' },
       { val: 'Sharpe 1.09', accent: true, lbl: 'Simulation Result (CL=F · 5yr data)' },
-      { val: '2027', accent: false, lbl: 'Target Release' },
+      { val: 'Summer 2026', accent: false, lbl: 'Target Release' },
     ],
     pricing: {
       label: 'Pricing',
