@@ -6,6 +6,7 @@ const HEADER_COPY = {
     pricing: '料金',
     install: 'インストール',
     docs: 'ドキュメント',
+    tutorial: 'チュートリアル',
     roadmap: 'ロードマップ',
     faq: 'FAQ',
     follow: 'フォロー',
@@ -16,6 +17,7 @@ const HEADER_COPY = {
     pricing: 'Pricing',
     install: 'Install',
     docs: 'Docs',
+    tutorial: 'Tutorial',
     roadmap: 'Roadmap',
     faq: 'FAQ',
     follow: 'Follow',
@@ -28,6 +30,7 @@ const HEADER_LINKS = [
   { key: 'pricing', href: '/#pricing' },
   { key: 'install', href: '/install.html' },
   { key: 'docs', href: '/docs.html' },
+  { key: 'tutorial', href: '/tutorial-telemetry.html' },
   { key: 'roadmap', href: '/#roadmap' },
   { key: 'faq', href: '/#faq' },
 ];
