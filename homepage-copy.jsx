@@ -17,8 +17,8 @@ window.COPY = {
     nav: { products: 'プロダクト', pricing: '料金', install: 'インストール', docs: 'ドキュメント', roadmap: 'ロードマップ', faq: 'FAQ', follow: 'フォロー' },
     hero: {
       tag: '開発進行中',
-      h1a: 'データを、',
-      h1b: 'シミュレートする。',
+      h1a: 'ノイズから、',
+      h1b: 'シグナルへ。',
       desc: '時系列データのシミュレーション・最適化・CLIパイプラインを一気通貫。AI連携設計の定量的研究インフラをソフトウェアエンジニアへ。',
       cta1: '今すぐ入手 — $499',
       cta2: 'プランを見る',
@@ -280,8 +280,8 @@ window.COPY = {
     nav: { products: 'Products', pricing: 'Pricing', install: 'Install', docs: 'Docs', roadmap: 'Roadmap', faq: 'FAQ', follow: 'Follow' },
     hero: {
       tag: 'In Development',
-      h1a: 'Simulate',
-      h1b: 'Time-Series Data.',
+      h1a: 'From Noise',
+      h1b: 'to Signal.',
       desc: 'End-to-end time-series simulation, optimization, and local CLI pipelines. AI-native developer infrastructure for quantitative researchers and software engineers.',
       cta1: 'Get Access — $499',
       cta2: 'See Plans',
