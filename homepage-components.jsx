@@ -108,11 +108,11 @@ function PerformanceChart({ t, dark }) {
   const accentColor = dark ? '#00e49a' : '#009e70';
 
   const gridLines = [
-    { v: 200, label: '+100%' },
-    { v: 170, label: '+70%'  },
-    { v: 140, label: '+40%'  },
-    { v: 110, label: '+10%'  },
-    { v: 80,  label: '-20%'  },
+    { v: 202, label: '100%' },
+    { v: 178, label: '80%'  },
+    { v: 152, label: '60%'  },
+    { v: 126, label: '40%'  },
+    { v: 80,  label: '0%'   },
   ];
 
   return (
@@ -169,10 +169,10 @@ function PerformanceChart({ t, dark }) {
                 );
               })}
 
-              {/* Baseline at 0% (value=100) */}
+              {/* Baseline at normal CPU ~38% (value=126) */}
               <line
-                x1={CHART.PAD.l} y1={chartY(100).toFixed(1)}
-                x2={CHART.W - CHART.PAD.r} y2={chartY(100).toFixed(1)}
+                x1={CHART.PAD.l} y1={chartY(126).toFixed(1)}
+                x2={CHART.W - CHART.PAD.r} y2={chartY(126).toFixed(1)}
                 stroke="var(--text3)" strokeWidth="0.5" strokeDasharray="2,2"
               />
 

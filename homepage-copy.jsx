@@ -1,8 +1,11 @@
-// Equity curve data — language-independent, 2021-05 to 2026-04 (61 points, base=100)
+// SENSOR01 anomaly detection data — CPU usage (%), normalized for chart (2021.01–2023.12, 36 monthly points)
+// Normal CPU ~38% → value 126, Anomaly CPU ~82% → value 178
 window.EQUITY_CURVE = {
-  cl:  [100.0,100.0,100.0,108.88,116.75,116.75,116.75,105.12,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,114.91,119.01,125.15,123.43,119.91,119.91,119.91,124.9,124.9,126.95,135.63,135.63,135.63,135.63,142.08,142.84,144.91,144.91,144.91,144.91,144.91,146.29,153.07,154.88,159.08,162.56,162.56,162.56,162.56,162.56,164.43,160.81,160.81,174.21,174.21,174.21,174.21,179.1,182.79,184.24,191.4,191.4,191.4,191.4,191.4],
-  yearLabels: ['2021','2022','2023','2024','2025'],
-  yearIndices: [0, 9, 21, 33, 45],
+  cl: [126,125,127,126,164,127,126,178,126,125,127,126,
+       126,127,158,126,126,178,127,126,126,126,125,127,
+       126,164,126,178,126,127,126,158,126,125,127,126],
+  yearLabels: ['2021','2022','2023','2024'],
+  yearIndices: [0, 12, 24, 35],
 };
 
 // Bilingual copy — window.COPY
@@ -145,19 +148,18 @@ window.COPY = {
     },
     perf: {
       label: 'シミュレーション実績',
-      title: 'シミュレーション結果（実データ）',
-      strategy: '5年時系列データ — HMM + 閾値検知シミュレーション',
-      period: '2021.05 – 2026.04（5年）',
-      note: '※ 実際のシミュレーション結果です。コスト0.1%込み。過去の結果は将来の成果を保証しません。',
+      title: '異常検知シミュレーション結果',
+      strategy: 'SENSOR01 — HMM 2状態異常検知モデル（最適化済み）',
+      period: '2021.01 – 2023.12（3年）',
+      note: '※ SENSOR01（CPU使用率シミュレーション）でのバックテスト結果。30トライアルのベイズ最適化後。',
       stats: [
-        { val: '+13.9%', label: '年率リターン',    cls: 'val-pos' },
-        { val: '1.09',   label: 'スコア',          cls: 'val-neu' },
-        { val: '86.4%',  label: 'シグナル正答率',  cls: 'val-neu' },
-        { val: '-17.0%', label: '最大下落率',       cls: 'val-neg' },
-        { val: '22回',   label: 'シグナル回数',    cls: 'val-neu' },
+        { val: '0.74',   label: '異常検知スコア',    cls: 'val-pos' },
+        { val: '86.4%',  label: '検知精度',          cls: 'val-neu' },
+        { val: '22回',   label: '検知イベント数',    cls: 'val-neu' },
+        { val: '5.2日',  label: '平均異常継続日数',  cls: 'val-neu' },
       ],
       legend: [
-        { color: 'var(--accent)', label: '本シミュレーション' },
+        { color: 'var(--accent)', label: 'CPU 使用率（正規化）' },
       ],
     },
     roadmap: {
@@ -207,7 +209,6 @@ window.COPY = {
       items: [
         { q: 'どんな人向けですか？', a: 'Pythonの基礎知識があり、データ駆動なアプローチで時系列シミュレーションに取り組みたいソフトウェアエンジニア・データサイエンティスト向けです。JSONで設定を定義し、CLIで操作できます。将来的にはノーコードオプションも検討中です。' },
         { q: '現在、購入・利用できますか？', a: '現在はクローズドな開発フェーズです。リリース時期はXアカウント (@alforge_bot) でお知らせします。' },
-        { q: '対応する外部APIは？', a: '現在は複数の外部 API ハンドラに対応しています。今後さらなる外部API拡充を予定しています。' },
         { q: 'alpha-forgeはオープンソースですか？', a: '現在はクローズドでの開発を予定しています。公開方針については今後の開発状況を踏まえて改めてお知らせします。最新情報はX (@alforge_bot) をご確認ください。' },
       ],
     },
@@ -220,14 +221,14 @@ window.COPY = {
     disclaimer: {
       title: '⚠️ 重要な免責事項（必ずお読みください）',
       items: [
-        { label: 'ソフトウェアの提供', text: '本製品は、時系列データのシミュレーションおよびデータパイプライン自動化を支援する「開発者向けソフトウェアツール」の提供です。特定の運用方法を推奨するものではありません。' },
+        { label: 'ソフトウェアの提供', text: '本製品は、時系列データのシミュレーションおよびデータパイプライン自動化を支援する「開発者向けソフトウェアツール」の提供です。' },
         { label: 'シミュレーション結果について', text: '本ソフトウェアのシミュレーション結果は過去データに基づくものであり、将来の成果を保証するものではありません。' },
         { label: '利用責任', text: 'パラメータの設定およびシステムトラブルによる影響を含め、本ソフトウェアの利用はすべてユーザー自身の責任の下で行ってください。' },
       ],
     },
     footer: {
       copy: '© 2026 Alforge Labs.',
-      note: 'このサイトは開発者向けソフトウェアツールを提供します。特定の投資・運用を推奨するものではありません。',
+      note: 'このサイトは開発者向けソフトウェアツールを提供します。',
       links: [
         { label: 'インストール', url: '/install.html' },
         { label: 'ドキュメント', url: '/docs.html' },
@@ -375,19 +376,18 @@ window.COPY = {
     },
     perf: {
       label: 'Simulation Results',
-      title: 'Simulation Results (Live Data)',
-      strategy: '5yr Time-Series Data — HMM + Threshold Detection Simulation',
-      period: '2021.05 – 2026.04 (5 years)',
-      note: '* Real simulation result with 0.1% cost. Past results do not guarantee future outcomes.',
+      title: 'Anomaly Detection Simulation Results',
+      strategy: 'SENSOR01 — HMM 2-State Anomaly Detection Model (Optimized)',
+      period: '2021.01 – 2023.12 (3 years)',
+      note: '* Backtest on SENSOR01 (CPU-usage simulation data). After 30-trial Bayesian optimization.',
       stats: [
-        { val: '+13.9%', label: 'Ann. Return',    cls: 'val-pos' },
-        { val: '1.09',   label: 'Score',           cls: 'val-neu' },
-        { val: '86.4%',  label: 'Signal Accuracy', cls: 'val-neu' },
-        { val: '-17.0%', label: 'Max Decline',     cls: 'val-neg' },
-        { val: '22',     label: 'Total Signals',   cls: 'val-neu' },
+        { val: '0.74',  label: 'Anomaly Score',     cls: 'val-pos' },
+        { val: '86.4%', label: 'Detection Accuracy', cls: 'val-neu' },
+        { val: '22',    label: 'Detected Events',    cls: 'val-neu' },
+        { val: '5.2d',  label: 'Avg Anomaly Duration', cls: 'val-neu' },
       ],
       legend: [
-        { color: 'var(--accent)', label: 'This Simulation' },
+        { color: 'var(--accent)', label: 'CPU Usage (normalized)' },
       ],
     },
     roadmap: {
@@ -407,7 +407,6 @@ window.COPY = {
       items: [
         { q: 'Who is this for?', a: 'Software engineers and data scientists with basic Python knowledge who want a data-driven approach to time-series simulation. Configs are defined in JSON and operated via CLI. No-code options are on the roadmap.' },
         { q: 'Can I use it now?', a: 'We\'re in closed development. Follow @alforge_bot on X for release announcements.' },
-        { q: 'Which external APIs are supported?', a: 'Currently multiple external API handlers are supported. More API integrations are planned.' },
         { q: 'Is alpha-forge open source?', a: 'We plan to keep alpha-forge closed source. Details on our licensing and release model will be shared as development progresses. Follow @alforge_bot for updates.' },
       ],
     },
@@ -420,14 +419,14 @@ window.COPY = {
     disclaimer: {
       title: '⚠️ Important Disclaimer (Please Read)',
       items: [
-        { label: 'Software Provision', text: 'This product is a developer software tool for time-series data simulation and pipeline automation. It does not recommend any specific operational approach.' },
+        { label: 'Software Provision', text: 'This product is a developer software tool for time-series data simulation and pipeline automation.' },
         { label: 'About Simulation Results', text: 'Simulation results are based on historical data and do not guarantee future outcomes.' },
         { label: 'User Responsibility', text: 'All outcomes, including those from parameter settings and system errors, are the sole responsibility of the user.' },
       ],
     },
     footer: {
       copy: '© 2026 Alforge Labs.',
-      note: 'This site provides developer software tools. Nothing here constitutes professional advice or specific product recommendations.',
+      note: 'This site provides developer software tools for time-series simulation and data pipeline automation.',
       links: [
         { label: 'Install', url: '/install.html' },
         { label: 'Docs', url: '/docs.html' },
