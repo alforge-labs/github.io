@@ -18,7 +18,7 @@ window.COPY = {
       cta2: 'プランを見る',
     },
     heroStats: [
-      { val: '3', accent: false, lbl: '開発中プロダクト' },
+      { val: '2', accent: false, lbl: '開発中プロダクト' },
       { val: 'Score 1.09', accent: true, lbl: 'シミュレーション実績（5年時系列データ）' },
       { val: '2026夏', accent: false, lbl: '正式リリース目標' },
     ],
@@ -85,8 +85,8 @@ window.COPY = {
     },
     products: {
       label: 'プロダクト',
-      title: '3つの層で構成される\n統合データ処理システム',
-      subtitle: 'コーディングエージェントが設定を半自動開発・最適化。外部シグナルをトリガーに strike が API リクエストを自動実行。',
+      title: '2つの層で構成される\n統合データ処理システム',
+      subtitle: 'コーディングエージェントが設定を半自動開発・最適化。JSON定義のアルゴリズムをCLIで高速シミュレーション・最適化。',
       items: [
         {
           id: 'forge',
@@ -109,17 +109,6 @@ window.COPY = {
           desc: '設定JSON・シミュレーション結果・最適化パラメータ・ジャーナルを一元管理。alpha-forgeの設定レイヤーとして機能。実行ログの蓄積・分析も対応。',
           tags: ['JSON', 'CLI', 'JSONL'],
           accent: 'var(--accent)',
-        },
-        {
-          id: 'strike',
-          badge: 'Dev',
-          badgeType: 'dev',
-          icon: '⚡',
-          name: 'strike',
-          role: 'IT アラート Webhook サーバー',
-          desc: '外部 Webhook シグナルを FastAPI で受け取り、外部 API へ自動リクエスト送信。実行・レスポンスイベントをJSONLで記録。Dockerデプロイ対応。',
-          tags: ['FastAPI', 'Docker', 'Webhook', 'JSONL'],
-          accent: 'var(--amber)',
         },
       ],
     },
@@ -190,13 +179,6 @@ window.COPY = {
           items: ['HMM インジケータ・時系列クロスバリデーション分析', '過去シミュレーション履歴 DB・チャート生成', 'リスク管理拡張（動的 SL/TP）'],
         },
         {
-          period: '2026年3月末',
-          status: 'done',
-          badgeLabel: '完了',
-          title: 'ライブ実行統合',
-          items: ['alpha-strike Webhook サーバー構築', '外部 API 自動実行対応', 'リクエスト・レスポンスイベント分析パイプライン'],
-        },
-        {
           period: '2026年4月',
           status: 'active',
           badgeLabel: '進行中',
@@ -226,7 +208,6 @@ window.COPY = {
         { q: 'どんな人向けですか？', a: 'Pythonの基礎知識があり、データ駆動なアプローチで時系列シミュレーションに取り組みたいソフトウェアエンジニア・データサイエンティスト向けです。JSONで設定を定義し、CLIで操作できます。将来的にはノーコードオプションも検討中です。' },
         { q: '現在、購入・利用できますか？', a: '現在はクローズドな開発フェーズです。リリース時期はXアカウント (@alforge_bot) でお知らせします。' },
         { q: '対応する外部APIは？', a: '現在は複数の外部 API ハンドラに対応しています。今後さらなる外部API拡充を予定しています。' },
-        { q: '外部シグナルツールは必要ですか？', a: 'alpha-strikeは外部シグナルツールからのWebhookアラートを受信できます。alpha-forgeのシミュレーション・最適化は単独で動作します。' },
         { q: 'alpha-forgeはオープンソースですか？', a: '現在はクローズドでの開発を予定しています。公開方針については今後の開発状況を踏まえて改めてお知らせします。最新情報はX (@alforge_bot) をご確認ください。' },
       ],
     },
@@ -267,7 +248,7 @@ window.COPY = {
       cta2: 'See Plans',
     },
     heroStats: [
-      { val: '3', accent: false, lbl: 'Products in Dev' },
+      { val: '2', accent: false, lbl: 'Products in Dev' },
       { val: 'Score 1.09', accent: true, lbl: 'Simulation Result (5yr time-series data)' },
       { val: 'Summer 2026', accent: false, lbl: 'Target Release' },
     ],
@@ -334,8 +315,8 @@ window.COPY = {
     },
     products: {
       label: 'Products',
-      title: 'Three layers.\nOne integrated system.',
-      subtitle: 'AI-driven config development and optimization. External signals trigger strike for automated API requests.',
+      title: 'Two layers.\nOne integrated system.',
+      subtitle: 'AI-native config development and optimization. JSON-defined algorithms simulated and optimized at speed via CLI.',
       items: [
         {
           id: 'forge',
@@ -358,17 +339,6 @@ window.COPY = {
           desc: 'Unified management of config JSON, simulation results, optimized parameters, and journals. Acts as the configuration layer for alpha-forge. Supports run-log accumulation and analysis.',
           tags: ['JSON', 'CLI', 'JSONL'],
           accent: 'var(--accent)',
-        },
-        {
-          id: 'strike',
-          badge: 'Dev',
-          badgeType: 'dev',
-          icon: '⚡',
-          name: 'strike',
-          role: 'IT Alert Webhook Server',
-          desc: 'Receives external webhook signals via FastAPI and auto-routes API requests to configured external APIs. Records request and response events as JSONL. Docker-ready for server deployment.',
-          tags: ['FastAPI', 'Docker', 'Webhook', 'JSONL'],
-          accent: 'var(--amber)',
         },
       ],
     },
@@ -426,7 +396,6 @@ window.COPY = {
       items: [
         { period: 'Early March 2026', status: 'done', badgeLabel: 'Done', title: 'Simulation Engine Build', items: ['Simulation engine design & build', 'Data ingestion, config JSON schema & CLI', 'Optimization pipeline & report generation'] },
         { period: 'Mid–Late March 2026', status: 'done', badgeLabel: 'Done', title: 'Analysis Feature Expansion', items: ['HMM indicator + rolling-window cross-validation', 'Historical simulation DB & chart generation', 'Risk management (dynamic SL/TP)'] },
-        { period: 'Late March 2026', status: 'done', badgeLabel: 'Done', title: 'Live Integration', items: ['alpha-strike Webhook server', 'External API requests', 'Request & response event analysis pipeline'] },
         { period: 'April 2026', status: 'active', badgeLabel: 'Active', title: 'Productization', items: ['Streamlit Web UI & multi-series optimization', 'License management, binary distribution & CI/CD pipeline', 'Official site launch & Claude-driven parameter search'] },
         { period: 'May 2026', status: 'upcoming', badgeLabel: 'Planned', title: 'Beta Release', items: ['Binary release for macOS, Windows & Linux', 'Closed beta & feedback collection', 'Documentation polish'] },
         { period: 'Summer 2026', status: 'upcoming', badgeLabel: 'Planned', title: 'Public Launch', items: ['Full product release', 'Support & community setup'] },
@@ -439,7 +408,6 @@ window.COPY = {
         { q: 'Who is this for?', a: 'Software engineers and data scientists with basic Python knowledge who want a data-driven approach to time-series simulation. Configs are defined in JSON and operated via CLI. No-code options are on the roadmap.' },
         { q: 'Can I use it now?', a: 'We\'re in closed development. Follow @alforge_bot on X for release announcements.' },
         { q: 'Which external APIs are supported?', a: 'Currently multiple external API handlers are supported. More API integrations are planned.' },
-        { q: 'Do I need an external signal tool?', a: 'alpha-strike can receive webhook alerts from external signal sources. alpha-forge simulations and optimization run fully independently.' },
         { q: 'Is alpha-forge open source?', a: 'We plan to keep alpha-forge closed source. Details on our licensing and release model will be shared as development progresses. Follow @alforge_bot for updates.' },
       ],
     },
@@ -454,7 +422,7 @@ window.COPY = {
       items: [
         { label: 'Software Provision', text: 'This product is a developer software tool for time-series data simulation and pipeline automation. It does not recommend any specific operational approach.' },
         { label: 'About Simulation Results', text: 'Simulation results are based on historical data and do not guarantee future outcomes.' },
-        { label: 'User Responsibility', text: 'All outcomes, including those from automated API requests, parameter settings, and system errors, are the sole responsibility of the user.' },
+        { label: 'User Responsibility', text: 'All outcomes, including those from parameter settings and system errors, are the sole responsibility of the user.' },
       ],
     },
     footer: {
