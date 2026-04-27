@@ -30,7 +30,7 @@ const HEADER_LINKS = [
   { key: 'pricing', href: '/#pricing' },
   { key: 'install', href: '/install.html' },
   { key: 'docs', href: '/docs.html' },
-  { key: 'tutorial', href: '/tutorial-telemetry.html' },
+  { key: 'tutorial', href: '/tutorial-strategy.html' },
   { key: 'roadmap', href: '/#roadmap' },
   { key: 'faq', href: '/#faq' },
 ];
