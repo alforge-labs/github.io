@@ -17,9 +17,9 @@ window.COPY = {
     nav: { products: 'プロダクト', pricing: '料金', install: 'インストール', docs: 'ドキュメント', roadmap: 'ロードマップ', faq: 'FAQ', follow: 'フォロー' },
     hero: {
       tag: '開発進行中',
-      h1a: 'データを、',
-      h1b: 'シミュレートする。',
-      desc: '時系列データのシミュレーション・最適化・CLIパイプラインを一気通貫。AI連携設計の定量的研究インフラをソフトウェアエンジニアへ。',
+      h1a: 'ノイズから、',
+      h1b: 'シグナルへ。',
+      desc: 'バックテスト・ベイズ最適化・ウォークフォワード検証をひとつの CLI で完結。先物・株式・FX を問わず、統計的に再現可能な投資戦略を体系的に開発・証明する。',
       cta1: '今すぐ入手 — $499',
       cta2: 'プランを見る',
     },
@@ -95,7 +95,7 @@ window.COPY = {
     products: {
       label: 'プロダクト',
       title: '3つの層で構成される\n統合データ処理システム',
-      subtitle: 'コーディングエージェントが設定を半自動開発・最適化し、Pine Script を生成。外部シグナルをトリガーに strike が API リクエストを自動実行。',
+      subtitle: 'コーディングエージェントが投資戦略を半自動開発・最適化し、Pine Script を生成。外部シグナルをトリガーに strike が API リクエストを自動実行。',
       items: [
         {
           id: 'forge',
@@ -104,7 +104,7 @@ window.COPY = {
           icon: '⚙',
           name: 'forge',
           role: 'シミュレーション・最適化エンジン',
-          desc: 'JSON定義の設定をvectorbtで高速シミュレーション。Optunaによるベイズ最適化・ウォークフォワード検証で過学習を防ぎ、Pine Script v6を自動生成。Claude連携でパラメータを自律探索。',
+          desc: '投資戦略定義をvectorbtで高速シミュレーション。Optunaによるベイズ最適化・ウォークフォワード検証で過学習を防ぎ、Pine Script v6を自動生成。Claude連携でパラメータを自律探索。',
           tags: ['Python', 'vectorbt', 'Optuna', 'Streamlit', 'Pine Script'],
           accent: 'var(--blue)',
         },
@@ -114,8 +114,8 @@ window.COPY = {
           badgeType: 'alpha',
           icon: '◈',
           name: 'strategies',
-          role: '設定・データワークスペース',
-          desc: '設定JSON・シミュレーション結果・最適化パラメータ・ジャーナルを一元管理。alpha-forgeの設定レイヤーとして機能。実行ログの蓄積・分析も対応。',
+          role: '投資戦略・データワークスペース',
+          desc: '投資戦略定義・シミュレーション結果・最適化パラメータ・ジャーナルを一元管理。alpha-forgeの戦略レイヤーとして機能。実行ログの蓄積・分析も対応。',
           tags: ['TradingView', 'JSON', 'CLI', 'Pine Script', 'JSONL'],
           accent: 'var(--accent)',
         },
@@ -169,7 +169,7 @@ window.COPY = {
           status: 'done',
           badgeLabel: '完了',
           title: 'シミュレーションエンジン構築',
-          items: ['シミュレーションエンジン設計・実装', 'データ取得・設定 JSON スキーマ・CLI 構築', '最適化パイプライン・Pine Script 生成'],
+          items: ['シミュレーションエンジン設計・実装', 'データ取得・投資戦略スキーマ・CLI 構築', '最適化パイプライン・Pine Script 生成'],
         },
         {
           period: '2026年3月中旬〜下旬',
@@ -212,7 +212,7 @@ window.COPY = {
       label: 'FAQ',
       title: 'よくある質問',
       items: [
-        { q: 'どんな人向けですか？', a: 'Pythonの基礎知識があり、定量的なアプローチで時系列データ分析に取り組みたいソフトウェアエンジニア・データサイエンティスト向けです。JSONで設定を定義し、CLIで操作できます。将来的にはノーコードオプションも検討中です。' },
+        { q: 'どんな人向けですか？', a: 'Pythonの基礎知識があり、定量的なアプローチで投資戦略を開発したいソフトウェアエンジニア・クオンツ向けです。JSONで投資戦略を定義し、CLIで操作できます。将来的にはノーコードオプションも検討中です。' },
         { q: '現在、購入・利用できますか？', a: '現在はクローズドな開発フェーズです。リリース時期はXアカウント (@alforge_bot) でお知らせします。' },
         { q: '対応する外部APIは？', a: '現在はOANDA（FX・CFD API）とmoomoo（株式API）に対応しています。今後さらなる外部API拡充を予定しています。' },
         { q: 'TradingViewは必要ですか？', a: 'alpha-strikeの自動執行にはTradingViewのWebhookアラートを利用します。alpha-forgeのバックテスト・最適化はTradingView不要で動作します。' },
@@ -280,9 +280,9 @@ window.COPY = {
     nav: { products: 'Products', pricing: 'Pricing', install: 'Install', docs: 'Docs', roadmap: 'Roadmap', faq: 'FAQ', follow: 'Follow' },
     hero: {
       tag: 'In Development',
-      h1a: 'Simulate',
-      h1b: 'Time-Series Data.',
-      desc: 'End-to-end time-series simulation, optimization, and local CLI pipelines. AI-native developer infrastructure for quantitative researchers and software engineers.',
+      h1a: 'From Noise',
+      h1b: 'to Signal.',
+      desc: 'Backtest, Bayesian optimization, and walk-forward validation — unified in a single CLI. Systematically develop and validate investment strategies with reproducible statistical edge across futures, equities, and FX.',
       cta1: 'Get Access — $499',
       cta2: 'See Plans',
     },
@@ -358,7 +358,7 @@ window.COPY = {
     products: {
       label: 'Products',
       title: 'Three layers.\nOne integrated system.',
-      subtitle: 'AI-driven config development and optimization with Pine Script generation. External signals trigger strike for automated API execution.',
+      subtitle: 'AI-driven investment strategy development and optimization with Pine Script generation. External signals trigger strike for automated API execution.',
       items: [
         {
           id: 'forge',
@@ -367,7 +367,7 @@ window.COPY = {
           icon: '⚙',
           name: 'forge',
           role: 'Simulation & Optimization Engine',
-          desc: 'High-speed time-series simulation with vectorbt. Bayesian optimization via Optuna + walk-forward validation to prevent overfitting. Automatic Pine Script v6 generation. Claude integration for autonomous parameter exploration.',
+          desc: 'Simulate investment strategies at high speed with vectorbt. Bayesian optimization via Optuna + walk-forward validation to prevent overfitting. Automatic Pine Script v6 generation. Claude integration for autonomous parameter exploration.',
           tags: ['Python', 'vectorbt', 'Optuna', 'Streamlit', 'Pine Script'],
           accent: 'var(--blue)',
         },
@@ -377,8 +377,8 @@ window.COPY = {
           badgeType: 'alpha',
           icon: '◈',
           name: 'strategies',
-          role: 'Config & Data Workspace',
-          desc: 'Unified management of config JSON, simulation results, optimized parameters, and journals. Acts as the configuration layer for alpha-forge. Supports execution log accumulation and analysis.',
+          role: 'Strategy & Data Workspace',
+          desc: 'Unified management of investment strategy definitions, simulation results, optimized parameters, and journals. Acts as the strategy layer for alpha-forge. Supports execution log accumulation and analysis.',
           tags: ['TradingView', 'JSON', 'CLI', 'Pine Script', 'JSONL'],
           accent: 'var(--accent)',
         },
@@ -427,7 +427,7 @@ window.COPY = {
       label: 'Roadmap',
       title: 'Where we\'ve been\nand where we\'re going.',
       items: [
-        { period: 'Early March 2026', status: 'done', badgeLabel: 'Done', title: 'Simulation Engine Build', items: ['Simulation engine design & build', 'Data ingestion, config JSON schema & CLI', 'Optimization pipeline & Pine Script generation'] },
+        { period: 'Early March 2026', status: 'done', badgeLabel: 'Done', title: 'Simulation Engine Build', items: ['Simulation engine design & build', 'Data ingestion, investment strategy schema & CLI', 'Optimization pipeline & Pine Script generation'] },
         { period: 'Mid–Late March 2026', status: 'done', badgeLabel: 'Done', title: 'Analysis Feature Expansion', items: ['HMM indicator + walk-forward analysis', 'Backtest history DB & chart generation', 'Risk management (dynamic SL/TP)'] },
         { period: 'Late March 2026', status: 'done', badgeLabel: 'Done', title: 'Live Execution Integration', items: ['alpha-strike Webhook server', 'OANDA & moomoo API execution', 'Execution & response event analysis pipeline'] },
         { period: 'April 2026', status: 'active', badgeLabel: 'Active', title: 'Productization', items: ['Streamlit Web UI & multi-portfolio optimization', 'License management, binary distribution & CI/CD pipeline', 'Official site launch & Claude-driven parameter search'] },
@@ -439,7 +439,7 @@ window.COPY = {
       label: 'FAQ',
       title: 'Frequently Asked\nQuestions',
       items: [
-        { q: 'Who is this for?', a: 'Software engineers and quantitative researchers with basic Python knowledge who want a data-driven approach to time-series simulation. Configs are defined in JSON and operated via CLI. No-code options are on the roadmap.' },
+        { q: 'Who is this for?', a: 'Software engineers and quantitative researchers with basic Python knowledge who want a systematic approach to building investment strategies. Investment strategies are defined in JSON and operated via CLI. No-code options are on the roadmap.' },
         { q: 'Can I use it now?', a: 'We\'re in closed development. Follow @alforge_bot on X for release announcements.' },
         { q: 'Which external APIs are supported?', a: 'Currently OANDA (FX/CFD API) and moomoo (equities API). More API integrations are planned.' },
         { q: 'Do I need TradingView?', a: 'alpha-strike can receive TradingView Webhook alerts. alpha-forge simulations and optimization work independently of TradingView.' },
