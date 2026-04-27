@@ -171,17 +171,17 @@ forge data list</code></pre>
 
           <!-- strategy -->
           <section class="cmd-section" id="ja-strategy">
-            <div class="section-category">戦略管理</div>
+            <div class="section-category">アルゴリズム管理</div>
             <h2 class="section-heading">forge strategy</h2>
-            <p>戦略 JSON の作成・登録・確認を行います。戦略は JSON ファイルで定義し、バックテストや最適化の対象として登録します。</p>
+            <p>アルゴリズム JSON の作成・登録・確認を行います。アルゴリズムは JSON ファイルで定義し、過去シミュレーションや最適化の対象として登録します。</p>
 
             <table class="option-table">
               <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
               <tbody>
-                <tr><td><code>forge strategy list</code></td><td>登録済み戦略を一覧表示</td></tr>
-                <tr><td><code>forge strategy create</code></td><td>テンプレートから戦略 JSON を作成</td></tr>
-                <tr><td><code>forge strategy save &lt;FILE&gt;</code></td><td>JSON ファイルから戦略を登録</td></tr>
-                <tr><td><code>forge strategy show &lt;ID&gt;</code></td><td>戦略定義 (JSON) を表示</td></tr>
+                <tr><td><code>forge strategy list</code></td><td>登録済みアルゴリズムを一覧表示</td></tr>
+                <tr><td><code>forge strategy create</code></td><td>テンプレートからアルゴリズム JSON を作成</td></tr>
+                <tr><td><code>forge strategy save &lt;FILE&gt;</code></td><td>JSON ファイルからアルゴリズムを登録</td></tr>
+                <tr><td><code>forge strategy show &lt;ID&gt;</code></td><td>アルゴリズム定義 (JSON) を表示</td></tr>
               </tbody>
             </table>
 
@@ -204,23 +204,23 @@ forge strategy show sensor01_ema_v1</code></pre>
 
           <!-- backtest -->
           <section class="cmd-section" id="ja-backtest">
-            <div class="section-category">バックテスト</div>
+            <div class="section-category">過去シミュレーション</div>
             <h2 class="section-heading">forge backtest</h2>
-            <p>戦略のバックテスト実行・履歴確認・分析を行います。結果は SQLite DB に自動保存されます。</p>
+            <p>アルゴリズムの過去シミュレーション実行・履歴確認・分析を行います。結果は SQLite DB に自動保存されます。</p>
 
             <table class="option-table">
               <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
               <tbody>
-                <tr><td><code>forge backtest run &lt;SYMBOL&gt;</code></td><td>バックテストを実行</td></tr>
-                <tr><td><code>forge backtest wft &lt;SYMBOL&gt;</code></td><td>ウォークフォワードテストを実行</td></tr>
-                <tr><td><code>forge backtest list</code></td><td>保存済みバックテスト結果を一覧表示</td></tr>
-                <tr><td><code>forge backtest report &lt;ID&gt;</code></td><td>バックテスト結果の詳細を表示</td></tr>
-                <tr><td><code>forge backtest compare</code></td><td>複数の戦略結果を並べて比較</td></tr>
+                <tr><td><code>forge backtest run &lt;SYMBOL&gt;</code></td><td>過去シミュレーションを実行</td></tr>
+                <tr><td><code>forge backtest wft &lt;SYMBOL&gt;</code></td><td>時系列クロスバリデーションを実行</td></tr>
+                <tr><td><code>forge backtest list</code></td><td>保存済み過去シミュレーション結果を一覧表示</td></tr>
+                <tr><td><code>forge backtest report &lt;ID&gt;</code></td><td>過去シミュレーション結果の詳細を表示</td></tr>
+                <tr><td><code>forge backtest compare</code></td><td>複数のアルゴリズム結果を並べて比較</td></tr>
                 <tr><td><code>forge backtest chart &lt;SYMBOL&gt;</code></td><td>インタラクティブ HTML チャートを生成</td></tr>
                 <tr><td><code>forge backtest diagnose &lt;SYMBOL&gt;</code></td><td>パフォーマンス問題を自動診断</td></tr>
                 <tr><td><code>forge backtest monte-carlo &lt;SYMBOL&gt;</code></td><td>モンテカルロシミュレーションを実行</td></tr>
-                <tr><td><code>forge backtest portfolio</code></td><td>マルチシリーズバックテストを実行</td></tr>
-                <tr><td><code>forge backtest batch</code></td><td>複数戦略を並列バックテスト</td></tr>
+                <tr><td><code>forge backtest portfolio</code></td><td>マルチシリーズ過去シミュレーションを実行</td></tr>
+                <tr><td><code>forge backtest batch</code></td><td>複数アルゴリズムを並列シミュレーション</td></tr>
               </tbody>
             </table>
 
@@ -254,14 +254,14 @@ forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
           <section class="cmd-section" id="ja-optimize">
             <div class="section-category">最適化</div>
             <h2 class="section-heading">forge optimize</h2>
-            <p>Optuna を使ったベイズ最適化でパラメータを効率的に探索します。過学習リスクの評価や、最適化結果の戦略への適用もできます。</p>
+            <p>Optuna を使ったベイズ最適化でパラメータを効率的に探索します。過学習リスクの評価や、最適化結果のアルゴリズムへの適用もできます。</p>
 
             <table class="option-table">
               <thead><tr><th>コマンド</th><th>説明</th></tr></thead>
               <tbody>
                 <tr><td><code>forge optimize run &lt;SYMBOL&gt;</code></td><td>ベイズ最適化を実行</td></tr>
                 <tr><td><code>forge optimize apply &lt;RESULT&gt;</code></td><td>最適化結果を戦略に適用して新規保存</td></tr>
-                <tr><td><code>forge optimize walk-forward &lt;SYMBOL&gt;</code></td><td>ウォークフォワード最適化を実行</td></tr>
+                <tr><td><code>forge optimize walk-forward &lt;SYMBOL&gt;</code></td><td>時系列クロスバリデーション最適化を実行</td></tr>
                 <tr><td><code>forge optimize sensitivity &lt;SYMBOL&gt;</code></td><td>パラメータ感度分析（過学習リスク評価）</td></tr>
                 <tr><td><code>forge optimize history</code></td><td>過去の最適化結果をスコアボード表示</td></tr>
                 <tr><td><code>forge optimize portfolio</code></td><td>マルチシリーズ最適配分を最適化</td></tr>
@@ -291,7 +291,7 @@ forge optimize sensitivity SENSOR01 --strategy sensor01_ema_v1_optimized</code><
           <section class="cmd-section" id="ja-dashboard">
             <div class="section-category">Web UI</div>
             <h2 class="section-heading">forge dashboard</h2>
-            <p>Streamlit ベースの Web UI を起動します。バックテスト結果の可視化、戦略ランキング、アイデア管理を一画面で確認できます。</p>
+            <p>Streamlit ベースの Web UI を起動します。過去シミュレーション結果の可視化、アルゴリズムランキング、アイデア管理を一画面で確認できます。</p>
             <pre><code>forge dashboard
 forge dashboard --port 8501 --no-open</code></pre>
           </section>
@@ -316,7 +316,7 @@ forge dashboard --port 8501 --no-open</code></pre>
           <!-- workflow -->
           <section class="cmd-section" id="ja-workflow">
             <div class="section-category">ガイド</div>
-            <h2 class="section-heading">エンドツーエンド 戦略開発ワークフロー</h2>
+            <h2 class="section-heading">エンドツーエンド アルゴリズム開発ワークフロー</h2>
             <p>ヒストリカルデータの取得から自動発注まで、典型的な開発フローを示します。Claude Code などのコーディングエージェントと組み合わせると、各ステップの自動化やパラメータ探索を高速化できます。</p>
 
             <div class="callout">
@@ -333,8 +333,8 @@ forge dashboard --port 8501 --no-open</code></pre>
               </li>
               <li>
                 <div>
-                  <strong>戦略テンプレート作成</strong>
-                  テンプレートから戦略 JSON の雛形を生成し、パラメータを編集します。
+                  <strong>アルゴリズムテンプレート作成</strong>
+                  テンプレートからアルゴリズム JSON の雛形を生成し、パラメータを編集します。
                   <pre><code>forge strategy create --template ema_crossover \
   --id sensor01_ema_v1 \
   --out data/strategies/sensor01_ema_v1.json
@@ -345,8 +345,8 @@ forge strategy save data/strategies/sensor01_ema_v1.json</code></pre>
               </li>
               <li>
                 <div>
-                  <strong>バックテスト実行</strong>
-                  定義した戦略のパフォーマンスを過去データで検証します。
+                  <strong>過去シミュレーション実行</strong>
+                  定義したアルゴリズムのパフォーマンスを過去データで検証します。
                   <pre><code>forge backtest run SENSOR01 --strategy sensor01_ema_v1
 
 # インタラクティブチャートで視覚的に確認
@@ -367,7 +367,7 @@ forge optimize apply data/results/sensor01_ema_v1_opt.json \
               </li>
               <li>
                 <div>
-                  <strong>ウォークフォワード検証</strong>
+                  <strong>時系列クロスバリデーション</strong>
                   過学習を検出するために、訓練期間とテスト期間を分けた検証を行います。
                   <pre><code>forge backtest wft SENSOR01 --strategy sensor01_ema_v1_optimized \
   --folds 5
@@ -448,17 +448,17 @@ forge data list</code></pre>
 
           <!-- strategy -->
           <section class="cmd-section" id="en-strategy">
-            <div class="section-category">Strategy Management</div>
+            <div class="section-category">Algorithm Management</div>
             <h2 class="section-heading">forge strategy</h2>
-            <p>Create, register, and inspect strategy JSON definitions. Strategies must be registered before use in backtests or optimization.</p>
+            <p>Create, register, and inspect algorithm JSON definitions. Algorithm definitions must be registered before use in historical simulations or optimization.</p>
 
             <table class="option-table">
               <thead><tr><th>Command</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td><code>forge strategy list</code></td><td>List all registered strategies</td></tr>
-                <tr><td><code>forge strategy create</code></td><td>Generate a strategy JSON from a template</td></tr>
-                <tr><td><code>forge strategy save &lt;FILE&gt;</code></td><td>Register a strategy from a JSON file</td></tr>
-                <tr><td><code>forge strategy show &lt;ID&gt;</code></td><td>Print the strategy definition (JSON)</td></tr>
+                <tr><td><code>forge strategy list</code></td><td>List all registered algorithms</td></tr>
+                <tr><td><code>forge strategy create</code></td><td>Generate an algorithm JSON from a template</td></tr>
+                <tr><td><code>forge strategy save &lt;FILE&gt;</code></td><td>Register an algorithm from a JSON file</td></tr>
+                <tr><td><code>forge strategy show &lt;ID&gt;</code></td><td>Print the algorithm definition (JSON)</td></tr>
               </tbody>
             </table>
 
@@ -481,23 +481,23 @@ forge strategy show sensor01_ema_v1</code></pre>
 
           <!-- backtest -->
           <section class="cmd-section" id="en-backtest">
-            <div class="section-category">Backtesting</div>
+            <div class="section-category">Historical Simulation</div>
             <h2 class="section-heading">forge backtest</h2>
-            <p>Run backtests, view history, and analyse results. All results are automatically saved to SQLite.</p>
+            <p>Run historical simulations, view history, and analyse results. All results are automatically saved to SQLite.</p>
 
             <table class="option-table">
               <thead><tr><th>Command</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td><code>forge backtest run &lt;SYMBOL&gt;</code></td><td>Run a backtest</td></tr>
-                <tr><td><code>forge backtest wft &lt;SYMBOL&gt;</code></td><td>Run a walk-forward test</td></tr>
-                <tr><td><code>forge backtest list</code></td><td>List saved backtest results</td></tr>
+                <tr><td><code>forge backtest run &lt;SYMBOL&gt;</code></td><td>Run a historical simulation</td></tr>
+                <tr><td><code>forge backtest wft &lt;SYMBOL&gt;</code></td><td>Run a rolling-window cross-validation</td></tr>
+                <tr><td><code>forge backtest list</code></td><td>List saved historical simulation results</td></tr>
                 <tr><td><code>forge backtest report &lt;ID&gt;</code></td><td>Show detailed result for a run</td></tr>
-                <tr><td><code>forge backtest compare</code></td><td>Compare multiple strategy results side by side</td></tr>
+                <tr><td><code>forge backtest compare</code></td><td>Compare multiple algorithm results side by side</td></tr>
                 <tr><td><code>forge backtest chart &lt;SYMBOL&gt;</code></td><td>Generate an interactive HTML chart</td></tr>
                 <tr><td><code>forge backtest diagnose &lt;SYMBOL&gt;</code></td><td>Auto-diagnose performance issues</td></tr>
                 <tr><td><code>forge backtest monte-carlo &lt;SYMBOL&gt;</code></td><td>Run Monte Carlo simulation</td></tr>
-                <tr><td><code>forge backtest portfolio</code></td><td>Run a multi-series backtest</td></tr>
-                <tr><td><code>forge backtest batch</code></td><td>Parallel backtest across multiple strategies</td></tr>
+                <tr><td><code>forge backtest portfolio</code></td><td>Run a multi-series historical simulation</td></tr>
+                <tr><td><code>forge backtest batch</code></td><td>Parallel historical simulation across multiple algorithms</td></tr>
               </tbody>
             </table>
 
@@ -528,14 +528,14 @@ forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
           <section class="cmd-section" id="en-optimize">
             <div class="section-category">Optimization</div>
             <h2 class="section-heading">forge optimize</h2>
-            <p>Bayesian parameter search with Optuna. Includes overfitting risk evaluation, walk-forward optimization, and one-click apply.</p>
+            <p>Bayesian parameter search with Optuna. Includes overfitting risk evaluation, rolling-window cross-validation, and one-click apply.</p>
 
             <table class="option-table">
               <thead><tr><th>Command</th><th>Description</th></tr></thead>
               <tbody>
                 <tr><td><code>forge optimize run &lt;SYMBOL&gt;</code></td><td>Run Bayesian optimization</td></tr>
-                <tr><td><code>forge optimize apply &lt;RESULT&gt;</code></td><td>Apply results to a new strategy</td></tr>
-                <tr><td><code>forge optimize walk-forward &lt;SYMBOL&gt;</code></td><td>Walk-forward optimization</td></tr>
+                <tr><td><code>forge optimize apply &lt;RESULT&gt;</code></td><td>Apply results to a new algorithm</td></tr>
+                <tr><td><code>forge optimize walk-forward &lt;SYMBOL&gt;</code></td><td>Rolling-window cross-validation</td></tr>
                 <tr><td><code>forge optimize sensitivity &lt;SYMBOL&gt;</code></td><td>Parameter sensitivity analysis (overfitting check)</td></tr>
                 <tr><td><code>forge optimize history</code></td><td>Scoreboard of past optimization runs</td></tr>
                 <tr><td><code>forge optimize portfolio</code></td><td>Optimize multi-series allocation weights</td></tr>
@@ -565,7 +565,7 @@ forge optimize sensitivity SENSOR01 --strategy sensor01_ema_v1_optimized</code><
           <section class="cmd-section" id="en-dashboard">
             <div class="section-category">Web UI</div>
             <h2 class="section-heading">forge dashboard</h2>
-            <p>Launch the Streamlit-based Web UI for backtest visualisation, strategy rankings, and idea tracking.</p>
+            <p>Launch the Streamlit-based Web UI for historical simulation visualisation, algorithm rankings, and idea tracking.</p>
             <pre><code>forge dashboard
 forge dashboard --port 8501 --no-open</code></pre>
           </section>
@@ -606,7 +606,7 @@ forge dashboard --port 8501 --no-open</code></pre>
               </li>
               <li>
                 <div>
-                  <strong>Create a strategy from a template</strong>
+                  <strong>Create an algorithm from a template</strong>
                   Generate a JSON scaffold, edit parameters, then register it.
                   <pre><code>forge strategy create --template ema_crossover \
   --id sensor01_ema_v1 \
@@ -618,7 +618,7 @@ forge strategy save data/strategies/sensor01_ema_v1.json</code></pre>
               </li>
               <li>
                 <div>
-                  <strong>Run a backtest</strong>
+                  <strong>Run a historical simulation</strong>
                   <pre><code>forge backtest run SENSOR01 --strategy sensor01_ema_v1
 
 # Visual equity curve
@@ -638,7 +638,7 @@ forge optimize apply data/results/sensor01_ema_v1_opt.json \
               </li>
               <li>
                 <div>
-                  <strong>Walk-forward validation</strong>
+                  <strong>Rolling-window cross-validation</strong>
                   Detect overfitting with out-of-sample testing.
                   <pre><code>forge backtest wft SENSOR01 --strategy sensor01_ema_v1_optimized \
   --folds 5
