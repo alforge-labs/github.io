@@ -119,9 +119,9 @@
           <ul class="cmd-nav-list">
             <li class="nav-group">データ</li>
             <li><a href="#ja-data">data</a></li>
-            <li class="nav-group">戦略</li>
+            <li class="nav-group">アルゴリズム</li>
             <li><a href="#ja-strategy">strategy</a></li>
-            <li class="nav-group">バックテスト</li>
+            <li class="nav-group">シミュレーション</li>
             <li><a href="#ja-backtest">backtest</a></li>
             <li class="nav-group">最適化</li>
             <li><a href="#ja-optimize">optimize</a></li>
@@ -187,17 +187,17 @@ forge data list</code></pre>
 
             <h3 class="sub-heading">使用例</h3>
             <pre><code># テンプレートから新規作成
-forge strategy create --template ema_crossover --id sensor01_ema_v1 \
-  --out data/strategies/sensor01_ema_v1.json
+forge strategy create --template hmm_anomaly_v1 --id sensor01_hmm_v1 \
+  --out data/strategies/sensor01_hmm_v1.json
 
 # JSON ファイルを登録
-forge strategy save data/strategies/sensor01_ema_v1.json
+forge strategy save data/strategies/sensor01_hmm_v1.json
 
 # 登録済み戦略を確認
 forge strategy list
 
 # 戦略定義を表示
-forge strategy show sensor01_ema_v1</code></pre>
+forge strategy show sensor01_hmm_v1</code></pre>
           </section>
 
           <hr class="section-divider" />
@@ -217,7 +217,7 @@ forge strategy show sensor01_ema_v1</code></pre>
                 <tr><td><code>forge backtest report &lt;ID&gt;</code></td><td>過去シミュレーション結果の詳細を表示</td></tr>
                 <tr><td><code>forge backtest compare</code></td><td>複数のアルゴリズム結果を並べて比較</td></tr>
                 <tr><td><code>forge backtest chart &lt;SYMBOL&gt;</code></td><td>インタラクティブ HTML チャートを生成</td></tr>
-                <tr><td><code>forge backtest diagnose &lt;SYMBOL&gt;</code></td><td>パフォーマンス問題を自動診断</td></tr>
+                <tr><td><code>forge backtest diagnose &lt;SYMBOL&gt;</code></td><td>異常・問題を自動診断</td></tr>
                 <tr><td><code>forge backtest monte-carlo &lt;SYMBOL&gt;</code></td><td>モンテカルロシミュレーションを実行</td></tr>
                 <tr><td><code>forge backtest portfolio</code></td><td>マルチシリーズ過去シミュレーションを実行</td></tr>
                 <tr><td><code>forge backtest batch</code></td><td>複数アルゴリズムを並列シミュレーション</td></tr>
@@ -226,26 +226,26 @@ forge strategy show sensor01_ema_v1</code></pre>
 
             <h3 class="sub-heading">使用例</h3>
             <pre><code># 基本的なバックテスト
-forge backtest run SENSOR01 --strategy sensor01_ema_v1
+forge backtest run SENSOR01 --strategy sensor01_hmm_v1
 
 # 期間指定
-forge backtest run SENSOR01 --strategy sensor01_ema_v1 \
+forge backtest run SENSOR01 --strategy sensor01_hmm_v1 \
   --start 2021-01-01 --end 2024-12-31
 
 # JSON 形式で出力
-forge backtest run SENSOR01 --strategy sensor01_ema_v1 --json
+forge backtest run SENSOR01 --strategy sensor01_hmm_v1 --json
 
-# ウォークフォワードテスト（5 フォールド）
-forge backtest wft SENSOR01 --strategy sensor01_ema_v1 --folds 5
+# ローリング検証（5 フォールド）
+forge backtest wft SENSOR01 --strategy sensor01_hmm_v1 --folds 5
 
 # 結果一覧（スコア降順）
 forge backtest list --sort score --limit 20
 
 # 特定戦略の結果のみ
-forge backtest list --strategy sensor01_ema_v1
+forge backtest list --strategy sensor01_hmm_v1
 
 # インタラクティブチャートを生成してブラウザで開く
-forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
+forge backtest chart SENSOR01 --strategy sensor01_hmm_v1</code></pre>
           </section>
 
           <hr class="section-divider" />
@@ -271,18 +271,18 @@ forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
 
             <h3 class="sub-heading">使用例</h3>
             <pre><code># スコアを指標に 200 トライアル、4 並列で最適化
-forge optimize run SENSOR01 --strategy sensor01_ema_v1 \
+forge optimize run SENSOR01 --strategy sensor01_hmm_v1 \
   --metric anomaly_score --trials 200 -j 4 --save
 
 # 最適化履歴を確認
-forge optimize history --strategy sensor01_ema_v1 --sort score
+forge optimize history --strategy sensor01_hmm_v1 --sort score
 
 # 最適化結果を新しい戦略として保存
-forge optimize apply data/results/sensor01_ema_v1_opt.json \
-  --to-strategy sensor01_ema_v1_optimized
+forge optimize apply data/results/sensor01_hmm_v1_opt.json \
+  --to-strategy sensor01_hmm_v1_optimized
 
 # 感度分析で過学習リスクを評価
-forge optimize sensitivity SENSOR01 --strategy sensor01_ema_v1_optimized</code></pre>
+forge optimize sensitivity SENSOR01 --strategy sensor01_hmm_v1_optimized</code></pre>
           </section>
 
           <hr class="section-divider" />
@@ -317,7 +317,7 @@ forge dashboard --port 8501 --no-open</code></pre>
           <section class="cmd-section" id="ja-workflow">
             <div class="section-category">ガイド</div>
             <h2 class="section-heading">エンドツーエンド アルゴリズム開発ワークフロー</h2>
-            <p>ヒストリカルデータの取得から自動発注まで、典型的な開発フローを示します。Claude Code などのコーディングエージェントと組み合わせると、各ステップの自動化やパラメータ探索を高速化できます。</p>
+            <p>ヒストリカルデータの取得からデプロイまで、典型的な開発フローを示します。Claude Code などのコーディングエージェントと組み合わせると、各ステップの自動化やパラメータ探索を高速化できます。</p>
 
             <div class="callout">
               以下のコマンドはすべて <code>alpha-strategies/</code> ディレクトリから <code>FORGE_CONFIG=forge.yaml uv run</code> 付きで実行することを想定しています。
@@ -335,46 +335,46 @@ forge dashboard --port 8501 --no-open</code></pre>
                 <div>
                   <strong>アルゴリズムテンプレート作成</strong>
                   テンプレートからアルゴリズム JSON の雛形を生成し、パラメータを編集します。
-                  <pre><code>forge strategy create --template ema_crossover \
-  --id sensor01_ema_v1 \
-  --out data/strategies/sensor01_ema_v1.json
+                  <pre><code>forge strategy create --template hmm_anomaly_v1 \
+  --id sensor01_hmm_v1 \
+  --out data/strategies/sensor01_hmm_v1.json
 
 # 生成されたファイルをエディタで編集し、パラメータを調整
-forge strategy save data/strategies/sensor01_ema_v1.json</code></pre>
+forge strategy save data/strategies/sensor01_hmm_v1.json</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>過去シミュレーション実行</strong>
                   定義したアルゴリズムのパフォーマンスを過去データで検証します。
-                  <pre><code>forge backtest run SENSOR01 --strategy sensor01_ema_v1
+                  <pre><code>forge backtest run SENSOR01 --strategy sensor01_hmm_v1
 
 # インタラクティブチャートで視覚的に確認
-forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
+forge backtest chart SENSOR01 --strategy sensor01_hmm_v1</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>パラメータ最適化</strong>
                   Optuna のベイズ最適化で最適なパラメータを探索します。
-                  <pre><code>forge optimize run SENSOR01 --strategy sensor01_ema_v1 \
+                  <pre><code>forge optimize run SENSOR01 --strategy sensor01_hmm_v1 \
   --metric anomaly_score --trials 300 -j 4 --save
 
 # 結果を新しい戦略として保存
-forge optimize apply data/results/sensor01_ema_v1_opt.json \
-  --to-strategy sensor01_ema_v1_optimized</code></pre>
+forge optimize apply data/results/sensor01_hmm_v1_opt.json \
+  --to-strategy sensor01_hmm_v1_optimized</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>時系列クロスバリデーション</strong>
                   過学習を検出するために、訓練期間とテスト期間を分けた検証を行います。
-                  <pre><code>forge backtest wft SENSOR01 --strategy sensor01_ema_v1_optimized \
+                  <pre><code>forge backtest wft SENSOR01 --strategy sensor01_hmm_v1_optimized \
   --folds 5
 
 # 感度分析でパラメータの堅牢性を確認
 forge optimize sensitivity SENSOR01 \
-  --strategy sensor01_ema_v1_optimized</code></pre>
+  --strategy sensor01_hmm_v1_optimized</code></pre>
                 </div>
               </li>
             </ul>
@@ -396,9 +396,9 @@ forge optimize sensitivity SENSOR01 \
           <ul class="cmd-nav-list">
             <li class="nav-group">Data</li>
             <li><a href="#en-data">data</a></li>
-            <li class="nav-group">Strategy</li>
+            <li class="nav-group">Algorithm</li>
             <li><a href="#en-strategy">strategy</a></li>
-            <li class="nav-group">Backtest</li>
+            <li class="nav-group">Simulation</li>
             <li><a href="#en-backtest">backtest</a></li>
             <li class="nav-group">Optimize</li>
             <li><a href="#en-optimize">optimize</a></li>
@@ -464,17 +464,17 @@ forge data list</code></pre>
 
             <h3 class="sub-heading">Examples</h3>
             <pre><code># Create from template
-forge strategy create --template ema_crossover --id sensor01_ema_v1 \
-  --out data/strategies/sensor01_ema_v1.json
+forge strategy create --template hmm_anomaly_v1 --id sensor01_hmm_v1 \
+  --out data/strategies/sensor01_hmm_v1.json
 
 # Register after editing the JSON
-forge strategy save data/strategies/sensor01_ema_v1.json
+forge strategy save data/strategies/sensor01_hmm_v1.json
 
 # List registered strategies
 forge strategy list
 
 # Inspect a strategy definition
-forge strategy show sensor01_ema_v1</code></pre>
+forge strategy show sensor01_hmm_v1</code></pre>
           </section>
 
           <hr class="section-divider" />
@@ -494,7 +494,7 @@ forge strategy show sensor01_ema_v1</code></pre>
                 <tr><td><code>forge backtest report &lt;ID&gt;</code></td><td>Show detailed result for a run</td></tr>
                 <tr><td><code>forge backtest compare</code></td><td>Compare multiple algorithm results side by side</td></tr>
                 <tr><td><code>forge backtest chart &lt;SYMBOL&gt;</code></td><td>Generate an interactive HTML chart</td></tr>
-                <tr><td><code>forge backtest diagnose &lt;SYMBOL&gt;</code></td><td>Auto-diagnose performance issues</td></tr>
+                <tr><td><code>forge backtest diagnose &lt;SYMBOL&gt;</code></td><td>Auto-diagnose anomalies and data issues</td></tr>
                 <tr><td><code>forge backtest monte-carlo &lt;SYMBOL&gt;</code></td><td>Run Monte Carlo simulation</td></tr>
                 <tr><td><code>forge backtest portfolio</code></td><td>Run a multi-series historical simulation</td></tr>
                 <tr><td><code>forge backtest batch</code></td><td>Parallel historical simulation across multiple algorithms</td></tr>
@@ -503,23 +503,23 @@ forge strategy show sensor01_ema_v1</code></pre>
 
             <h3 class="sub-heading">Examples</h3>
             <pre><code># Basic backtest
-forge backtest run SENSOR01 --strategy sensor01_ema_v1
+forge backtest run SENSOR01 --strategy sensor01_hmm_v1
 
 # With date range
-forge backtest run SENSOR01 --strategy sensor01_ema_v1 \
+forge backtest run SENSOR01 --strategy sensor01_hmm_v1 \
   --start 2021-01-01 --end 2024-12-31
 
 # JSON output
-forge backtest run SENSOR01 --strategy sensor01_ema_v1 --json
+forge backtest run SENSOR01 --strategy sensor01_hmm_v1 --json
 
-# Walk-forward test (5 folds)
-forge backtest wft SENSOR01 --strategy sensor01_ema_v1 --folds 5
+# Rolling validation (5 folds)
+forge backtest wft SENSOR01 --strategy sensor01_hmm_v1 --folds 5
 
 # List results sorted by score
 forge backtest list --sort score --limit 20
 
 # Open interactive chart in browser
-forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
+forge backtest chart SENSOR01 --strategy sensor01_hmm_v1</code></pre>
           </section>
 
           <hr class="section-divider" />
@@ -538,25 +538,25 @@ forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
                 <tr><td><code>forge optimize walk-forward &lt;SYMBOL&gt;</code></td><td>Rolling-window cross-validation</td></tr>
                 <tr><td><code>forge optimize sensitivity &lt;SYMBOL&gt;</code></td><td>Parameter sensitivity analysis (overfitting check)</td></tr>
                 <tr><td><code>forge optimize history</code></td><td>Scoreboard of past optimization runs</td></tr>
-                <tr><td><code>forge optimize portfolio</code></td><td>Optimize multi-series allocation weights</td></tr>
+                <tr><td><code>forge optimize portfolio</code></td><td>Optimize multi-source weighting</td></tr>
                 <tr><td><code>forge optimize cross-symbol</code></td><td>Optimize across multiple series for generalization</td></tr>
               </tbody>
             </table>
 
             <h3 class="sub-heading">Examples</h3>
             <pre><code># 300 trials, 4 workers, maximize score
-forge optimize run SENSOR01 --strategy sensor01_ema_v1 \
+forge optimize run SENSOR01 --strategy sensor01_hmm_v1 \
   --metric anomaly_score --trials 300 -j 4 --save
 
 # View optimization history
-forge optimize history --strategy sensor01_ema_v1 --sort score
+forge optimize history --strategy sensor01_hmm_v1 --sort score
 
 # Apply best result as a new strategy
-forge optimize apply data/results/sensor01_ema_v1_opt.json \
-  --to-strategy sensor01_ema_v1_optimized
+forge optimize apply data/results/sensor01_hmm_v1_opt.json \
+  --to-strategy sensor01_hmm_v1_optimized
 
 # Check parameter robustness
-forge optimize sensitivity SENSOR01 --strategy sensor01_ema_v1_optimized</code></pre>
+forge optimize sensitivity SENSOR01 --strategy sensor01_hmm_v1_optimized</code></pre>
           </section>
 
           <hr class="section-divider" />
@@ -591,7 +591,7 @@ forge dashboard --port 8501 --no-open</code></pre>
           <section class="cmd-section" id="en-workflow">
             <div class="section-category">Guide</div>
             <h2 class="section-heading">End-to-End Simulation Development Workflow</h2>
-            <p>A typical flow from raw data ingestion to live execution. This pairs naturally with a coding agent (e.g. Claude Code) for automated parameter exploration and descriptor generation.</p>
+            <p>A typical flow from raw data ingestion to deployment. This pairs naturally with a coding agent (e.g. Claude Code) for automated parameter exploration and descriptor generation.</p>
 
             <div class="callout">
               All commands below assume you are running from <code>alpha-strategies/</code> with <code>FORGE_CONFIG=forge.yaml uv run</code> prepended.
@@ -608,43 +608,43 @@ forge dashboard --port 8501 --no-open</code></pre>
                 <div>
                   <strong>Create an algorithm from a template</strong>
                   Generate a JSON scaffold, edit parameters, then register it.
-                  <pre><code>forge strategy create --template ema_crossover \
-  --id sensor01_ema_v1 \
-  --out data/strategies/sensor01_ema_v1.json
+                  <pre><code>forge strategy create --template hmm_anomaly_v1 \
+  --id sensor01_hmm_v1 \
+  --out data/strategies/sensor01_hmm_v1.json
 
 # Edit the JSON, then register
-forge strategy save data/strategies/sensor01_ema_v1.json</code></pre>
+forge strategy save data/strategies/sensor01_hmm_v1.json</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>Run a historical simulation</strong>
-                  <pre><code>forge backtest run SENSOR01 --strategy sensor01_ema_v1
+                  <pre><code>forge backtest run SENSOR01 --strategy sensor01_hmm_v1
 
-# Visual equity curve
-forge backtest chart SENSOR01 --strategy sensor01_ema_v1</code></pre>
+# Result chart
+forge backtest chart SENSOR01 --strategy sensor01_hmm_v1</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>Optimize parameters</strong>
                   Bayesian search with Optuna, then apply the best result.
-                  <pre><code>forge optimize run SENSOR01 --strategy sensor01_ema_v1 \
+                  <pre><code>forge optimize run SENSOR01 --strategy sensor01_hmm_v1 \
   --metric anomaly_score --trials 300 -j 4 --save
 
-forge optimize apply data/results/sensor01_ema_v1_opt.json \
-  --to-strategy sensor01_ema_v1_optimized</code></pre>
+forge optimize apply data/results/sensor01_hmm_v1_opt.json \
+  --to-strategy sensor01_hmm_v1_optimized</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>Rolling-window cross-validation</strong>
-                  Detect overfitting with out-of-sample testing.
-                  <pre><code>forge backtest wft SENSOR01 --strategy sensor01_ema_v1_optimized \
+                  Detect generalization issues with out-of-sample testing.
+                  <pre><code>forge backtest wft SENSOR01 --strategy sensor01_hmm_v1_optimized \
   --folds 5
 
 forge optimize sensitivity SENSOR01 \
-  --strategy sensor01_ema_v1_optimized</code></pre>
+  --strategy sensor01_hmm_v1_optimized</code></pre>
                 </div>
               </li>
             </ul>
