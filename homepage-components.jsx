@@ -106,13 +106,15 @@ function PerformanceChart({ t, dark }) {
   const ec = window.EQUITY_CURVE;
   if (!ec) return null;
   const accentColor = dark ? '#00e49a' : '#009e70';
+  const blueColor   = dark ? '#5b9fff' : '#3a7ef0';
+  const amberColor  = dark ? '#f5a623' : '#d97706';
 
   const gridLines = [
-    { v: 202, label: '100%' },
-    { v: 178, label: '80%'  },
-    { v: 152, label: '60%'  },
-    { v: 126, label: '40%'  },
-    { v: 80,  label: '0%'   },
+    { v: 200, label: '+100%' },
+    { v: 170, label: '+70%'  },
+    { v: 140, label: '+40%'  },
+    { v: 110, label: '+10%'  },
+    { v: 80,  label: '-20%'  },
   ];
 
   return (
@@ -144,12 +146,18 @@ function PerformanceChart({ t, dark }) {
           <div className="chart-area">
             {/* Legend */}
             <div className="chart-legend">
-              {c.legend.map((item, i) => (
-                <div key={i} className="legend-item">
-                  <div className="legend-dot" style={{ background: item.color, height: '2px' }}></div>
-                  {item.label}
-                </div>
-              ))}
+              <div className="legend-item">
+                <div className="legend-dot" style={{ background: accentColor, height: '2px' }}></div>
+                {c.legend[0].label}
+              </div>
+              <div className="legend-item">
+                <div className="legend-dot" style={{ background: blueColor, height: '1px', borderTop: `1px dashed ${blueColor}` }}></div>
+                {c.legend[1].label}
+              </div>
+              <div className="legend-item">
+                <div className="legend-dot" style={{ background: amberColor, height: '1px', borderTop: `1px dashed ${amberColor}` }}></div>
+                {c.legend[2].label}
+              </div>
             </div>
 
             {/* SVG chart */}
@@ -169,10 +177,10 @@ function PerformanceChart({ t, dark }) {
                 );
               })}
 
-              {/* Baseline at normal CPU ~38% (value=126) */}
+              {/* Baseline at 0% (value=100) */}
               <line
-                x1={CHART.PAD.l} y1={chartY(126).toFixed(1)}
-                x2={CHART.W - CHART.PAD.r} y2={chartY(126).toFixed(1)}
+                x1={CHART.PAD.l} y1={chartY(100).toFixed(1)}
+                x2={CHART.W - CHART.PAD.r} y2={chartY(100).toFixed(1)}
                 stroke="var(--text3)" strokeWidth="0.5" strokeDasharray="2,2"
               />
 
@@ -184,7 +192,19 @@ function PerformanceChart({ t, dark }) {
                 );
               })}
 
-              {/* strategy fill */}
+              {/* QQQ B&H (rendered first = behind) */}
+              <polyline
+                points={toPoints(ec.qqq)}
+                fill="none" stroke={amberColor} strokeWidth="1.2" strokeDasharray="4,3" opacity="0.7"
+              />
+
+              {/* SPY B&H */}
+              <polyline
+                points={toPoints(ec.spy)}
+                fill="none" stroke={blueColor} strokeWidth="1.2" strokeDasharray="5,4" opacity="0.85"
+              />
+
+              {/* CL strategy fill */}
               <polygon
                 points={toFillPoints(ec.cl)}
                 fill={accentColor} fillOpacity="0.06"
@@ -196,6 +216,28 @@ function PerformanceChart({ t, dark }) {
                 fill="none" stroke={accentColor} strokeWidth="2.5"
               />
             </svg>
+
+            {/* Benchmark comparison table */}
+            <div style={{ marginTop: '0.75rem', background: 'var(--bg2)', borderRadius: 'var(--r)', padding: '0.75rem 1rem' }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.62rem', color: 'var(--text3)', marginBottom: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                {c.bench.label}
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '0.3rem', fontFamily: 'var(--mono)', fontSize: '0.68rem' }}>
+                {c.bench.headers.map((h, i) => (
+                  <div key={i} style={{ color: i === 0 ? 'transparent' : i === 1 ? blueColor : i === 2 ? amberColor : accentColor }}>{h}</div>
+                ))}
+                {c.bench.rows.map((row, ri) => (
+                  <React.Fragment key={ri}>
+                    <div style={{ color: 'var(--text2)' }}>{row.metric}</div>
+                    <div style={{ color: blueColor }}>{row.spy}</div>
+                    <div style={{ color: amberColor }}>{row.qqq}</div>
+                    <div style={{ color: accentColor, fontWeight: row.stratWin ? '600' : '400' }}>
+                      {row.strat}{row.stratWin ? ' ✓' : ''}
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
 
             <p className="chart-note">{c.note}</p>
           </div>
@@ -221,9 +263,9 @@ function Pricing({ t }) {
                 <div className="pricing-plan">{plan.name}</div>
                 {plan.badge && <span className="pricing-badge">{plan.badge}</span>}
               </div>
-              <div className="pricing-cost">
-                <span className="cost-amount">{plan.cost}</span>
-                <span className="cost-period">{plan.period}</span>
+              <div className="pricing-price">
+                <span className="price-amount">{plan.price}</span>
+                <span className="price-period">{plan.period}</span>
               </div>
               <p className="pricing-desc">{plan.desc}</p>
               <ul className="pricing-features">
