@@ -1,0 +1,101 @@
+site:
+  base_url: https://alforgelabs.com
+  og_image: https://alforgelabs.com/assets/og-image.png
+  twitter_site: "@alforge_bot"
+
+pages:
+  index:
+    ja:
+      title: "Alforge Labs — 時系列バックテストフレームワーク"
+      description: "ソフトウェアエンジニア向けの高速時系列シミュレーション CLI。バックテスト・ベイズ最適化・ウォークフォワード検証を一元管理。Backtrader・vectorbt の代替。"
+      keywords: "バックテスト, アルゴリズム取引, 時系列シミュレーション, backtesting, CLI, Backtrader代替, vectorbt代替, ウォークフォワード検証, ベイズ最適化"
+      og_title: "Alforge Labs — バックテスト CLI フレームワーク"
+      og_description: "ノイズから、シグナルへ。高速時系列シミュレーション CLI でアルゴ戦略を検証・最適化。"
+      json_ld_type: home
+    en:
+      title: "Alforge Labs — Time-Series Backtesting Framework"
+      description: "High-performance time-series simulation CLI for software engineers. Backtest, Bayesian optimization, and walk-forward validation in one tool. Backtrader & vectorbt alternative."
+      keywords: "backtesting, algorithmic trading, time series simulation, backtrader alternative, vectorbt alternative, walk-forward validation, Bayesian optimization, CLI, Python"
+      og_title: "Alforge Labs — Backtesting CLI Framework"
+      og_description: "From noise to signal. Backtest, optimize, and validate algorithmic trading strategies with a local CLI."
+      json_ld_type: home
+
+  install:
+    ja:
+      title: "インストールガイド — Alforge Labs"
+      description: "AlphaForge CLI のインストール手順。macOS・Linux・Windows に対応。brew や curl による 1 コマンドセットアップ。"
+      keywords: "AlphaForge, インストール, CLI, macOS, Linux, Windows, セットアップ"
+      og_title: "AlphaForge CLI インストールガイド"
+      og_description: "macOS・Linux・Windows 対応。brew や curl で 1 コマンドインストール。"
+      json_ld_type: breadcrumb
+    en:
+      title: "Installation Guide — Alforge Labs"
+      description: "AlphaForge CLI installation guide for macOS, Linux, and Windows. One-command setup via brew or curl."
+      keywords: "AlphaForge, install, CLI, macOS, Linux, Windows, setup"
+      og_title: "AlphaForge CLI Installation Guide"
+      og_description: "Install AlphaForge CLI on macOS, Linux, or Windows with a single command."
+      json_ld_type: breadcrumb
+
+  docs:
+    ja:
+      title: "ドキュメント — Alforge Labs"
+      description: "AlphaForge CLI コマンドリファレンス、戦略開発ワークフロー、TradingView 連携ガイド。バックテスト・最適化・ウォークフォワード検証の全手順。"
+      keywords: "AlphaForge, ドキュメント, コマンドリファレンス, バックテスト, 戦略開発, TradingView, CLI"
+      og_title: "AlphaForge CLI ドキュメント"
+      og_description: "コマンドリファレンスから戦略開発ワークフロー、TradingView 連携まで網羅した公式ドキュメント。"
+      json_ld_type: breadcrumb
+    en:
+      title: "Documentation — Alforge Labs"
+      description: "AlphaForge CLI command reference, strategy development workflow, and TradingView integration guide. Full coverage of backtesting, optimization, and walk-forward validation."
+      keywords: "AlphaForge, documentation, command reference, backtesting, strategy development, TradingView, CLI"
+      og_title: "AlphaForge CLI Documentation"
+      og_description: "Command reference, strategy workflow, and TradingView integration — the official AlphaForge docs."
+      json_ld_type: breadcrumb
+
+  tutorial-strategy:
+    ja:
+      title: "チュートリアル: 投資戦略の開発・バックテスト・最適化 — Alforge Labs"
+      description: "AlphaForge CLI を使って投資戦略 JSON を作成し、バックテスト・ベイズ最適化・ウォークフォワード検証を行うステップバイステップのチュートリアル。"
+      keywords: "チュートリアル, 投資戦略, バックテスト, ベイズ最適化, ウォークフォワード検証, AlphaForge, JSON"
+      og_title: "チュートリアル: 投資戦略の開発・バックテスト・最適化"
+      og_description: "戦略 JSON の作成から、バックテスト実行・ベイズ最適化・ウォークフォワード検証まで一気通貫で学べる AlphaForge 入門ガイド。"
+      json_ld_type: breadcrumb
+    en:
+      title: "Tutorial: Strategy Development, Backtesting & Optimization — Alforge Labs"
+      description: "Step-by-step tutorial for building a trading strategy JSON, running backtests, Bayesian optimization, and walk-forward validation with AlphaForge CLI."
+      keywords: "tutorial, trading strategy, backtesting, Bayesian optimization, walk-forward validation, AlphaForge, JSON"
+      og_title: "Tutorial: Strategy Development, Backtesting & Optimization"
+      og_description: "Build a strategy JSON, backtest it, optimize with Bayesian search, and validate with walk-forward — a full AlphaForge getting-started guide."
+      json_ld_type: breadcrumb
+
+  privacy:
+    ja:
+      title: "プライバシーポリシー — Alforge Labs"
+      description: "Alforge Labs のプライバシーポリシー。購入・ライセンス認証・サポート時のデータ取り扱いについて。"
+      keywords: "プライバシーポリシー, Alforge Labs"
+      og_title: "プライバシーポリシー — Alforge Labs"
+      og_description: "購入・ライセンス認証・サポート時のデータ取り扱い方針。"
+      json_ld_type: breadcrumb
+    en:
+      title: "Privacy Policy — Alforge Labs"
+      description: "Alforge Labs privacy policy covering data handling for purchases, license activation, and support."
+      keywords: "privacy policy, Alforge Labs"
+      og_title: "Privacy Policy — Alforge Labs"
+      og_description: "How Alforge Labs handles data for purchases, license activation, and support requests."
+      json_ld_type: breadcrumb
+
+  terms:
+    ja:
+      title: "利用規約・リスク免責事項 — Alforge Labs"
+      description: "AlphaForge の利用規約、リスク免責事項、およびサポート連絡先。"
+      keywords: "利用規約, リスク免責事項, Alforge Labs"
+      og_title: "利用規約・リスク免責事項 — Alforge Labs"
+      og_description: "AlphaForge の利用規約とリスク免責事項。"
+      json_ld_type: breadcrumb
+    en:
+      title: "Terms of Service & Risk Disclaimer — Alforge Labs"
+      description: "AlphaForge terms of service, risk disclaimer, and support contact information."
+      keywords: "terms of service, risk disclaimer, Alforge Labs"
+      og_title: "Terms of Service & Risk Disclaimer — Alforge Labs"
+      og_description: "AlphaForge terms of service and risk disclaimer."
+      json_ld_type: breadcrumb
