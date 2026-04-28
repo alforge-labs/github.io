@@ -328,5 +328,24 @@ function UseCases({ t }) {
   );
 }
 
+/* ── SYSTEM FLOW ── */
+function SystemFlow({ t, dark, lang }) {
+  const c = t.systemFlow;
+  const theme = dark ? 'dark' : 'light';
+  const src = `assets/illustrations/system-flow/alphatrade-system-flow-${lang}-${theme}.png`;
+  return (
+    <section className="system-flow reveal" id="system-flow">
+      <div className="container">
+        <div className="sec-label">{c.label}</div>
+        <h2 className="sec-title" style={{ whiteSpace: 'pre-line' }}>{c.title}</h2>
+        <p className="system-flow-subtitle">{c.subtitle}</p>
+        <figure className="system-flow-figure">
+          <img className="system-flow-image" src={src} alt={c.alt} loading="lazy" decoding="async" />
+        </figure>
+      </div>
+    </section>
+  );
+}
+
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing, UseCases });
+Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing, UseCases, SystemFlow });

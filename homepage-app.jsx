@@ -248,6 +248,7 @@ function App() {
       <NavBar dark={dark} setDark={setDark} lang={lang} setLang={setLang} t={t} />
       <Hero t={t} />
       <Products t={t} />
+      <SystemFlow t={t} dark={dark} lang={lang} />
       <UseCases t={t} />
       <PerformanceChart t={t} dark={dark} />
       <Pricing t={t} />
