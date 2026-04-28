@@ -119,6 +119,19 @@ function renderStandaloneHeader({ active = '' } = {}) {
   }
 
   ReactDOM.createRoot(root).render(<StandaloneHeader />);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (!window.IntersectionObserver) return;
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('h2.section-heading, .callout, .steps li, .cmd-table, .platform-tabs, pre').forEach(function(el) {
+      el.classList.add('reveal');
+      obs.observe(el);
+    });
+  });
 }
 
 Object.assign(window, { SiteHeader, renderStandaloneHeader });
