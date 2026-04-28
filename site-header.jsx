@@ -25,14 +25,18 @@ const HEADER_COPY = {
   },
 };
 
+// index ページにいる場合はフラグメントのみ、他ページからは index.html#xxx で遷移
+const _p = window.location.pathname;
+const _anchorBase = (_p === '/ja/' || _p === '/en/' || _p.endsWith('/index.html')) ? '' : 'index.html';
+
 const HEADER_LINKS = [
-  { key: 'products', href: '/#products' },
-  { key: 'pricing', href: '/#pricing' },
-  { key: 'install', href: '/install.html' },
-  { key: 'docs', href: '/docs.html' },
-  { key: 'tutorial', href: '/tutorial-strategy.html' },
-  { key: 'roadmap', href: '/#roadmap' },
-  { key: 'faq', href: '/#faq' },
+  { key: 'products', href: _anchorBase + '#products' },
+  { key: 'pricing',  href: _anchorBase + '#pricing' },
+  { key: 'install',  href: 'install.html' },
+  { key: 'docs',     href: 'docs.html' },
+  { key: 'tutorial', href: 'tutorial-strategy.html' },
+  { key: 'roadmap',  href: _anchorBase + '#roadmap' },
+  { key: 'faq',      href: _anchorBase + '#faq' },
 ];
 
 function XIcon({ size = 16 }) {
@@ -49,7 +53,7 @@ function SiteHeader({ dark, setDark, lang = 'ja', setLang, active = '', showLang
 
   return (
     <nav>
-      <a href="/" className="nav-logo">
+      <a href="index.html" className="nav-logo">
         <span>alforge</span><span className="dot">.</span><span className="labs">labs</span>
       </a>
       <ul className="nav-center">
@@ -60,7 +64,7 @@ function SiteHeader({ dark, setDark, lang = 'ja', setLang, active = '', showLang
         ))}
       </ul>
       <div className="nav-right">
-        <a className="nav-page-link" href="/docs.html">{c.docs}</a>
+        <a className="nav-page-link" href="docs.html">{c.docs}</a>
         {showLanguage && (
           <button className="lang-btn" onClick={toggleLang}>
             {lang === 'ja' ? 'EN' : 'JA'}
@@ -85,7 +89,9 @@ function renderStandaloneHeader({ active = '' } = {}) {
   function StandaloneHeader() {
     const savedTheme = localStorage.getItem('al_theme');
     const [dark, setDark] = React.useState(savedTheme ? savedTheme === 'dark' : true);
-    const [lang, setLang] = React.useState(localStorage.getItem('al_lang') || 'ja');
+    const _pathLang = window.location.pathname.startsWith('/en') ? 'en' :
+                      window.location.pathname.startsWith('/ja') ? 'ja' : null;
+    const [lang, setLang] = React.useState(_pathLang || localStorage.getItem('al_lang') || 'ja');
 
     React.useEffect(() => {
       const theme = dark ? 'dark' : 'light';
