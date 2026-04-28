@@ -49,7 +49,16 @@ function XIcon({ size = 16 }) {
 
 function SiteHeader({ dark, setDark, lang = 'ja', setLang, active = '', showLanguage = false }) {
   const c = HEADER_COPY[lang] || HEADER_COPY.ja;
-  const toggleLang = () => setLang && setLang(l => l === 'ja' ? 'en' : 'ja');
+  const toggleLang = () => {
+    const newLang = lang === 'ja' ? 'en' : 'ja';
+    localStorage.setItem('al_lang', newLang);
+    const p = window.location.pathname;
+    if (p.startsWith('/ja/') || p.startsWith('/en/')) {
+      window.location.href = '/' + newLang + p.slice(3) + window.location.hash;
+    } else if (setLang) {
+      setLang(newLang);
+    }
+  };
 
   return (
     <nav>
