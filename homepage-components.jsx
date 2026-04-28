@@ -332,7 +332,7 @@ function UseCases({ t }) {
 function SystemFlow({ t, dark, lang }) {
   const c = t.systemFlow;
   const theme = dark ? 'dark' : 'light';
-  const src = `assets/illustrations/system-flow/alphatrade-system-flow-${lang}-${theme}.png`;
+  const src = `../assets/illustrations/system-flow/alphatrade-system-flow-${lang}-${theme}.png`;
   return (
     <section className="system-flow reveal" id="system-flow">
       <div className="container">
