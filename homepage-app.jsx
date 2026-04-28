@@ -213,7 +213,9 @@ function useReveal() {
 function App() {
   const savedTheme = localStorage.getItem('al_theme');
   const [dark, setDark] = React.useState(savedTheme ? savedTheme === 'dark' : true);
-  const [lang, setLang] = React.useState(localStorage.getItem('al_lang') || 'ja');
+  const pathLang = window.location.pathname.startsWith('/en') ? 'en' :
+                   window.location.pathname.startsWith('/ja') ? 'ja' : null;
+  const [lang, setLang] = React.useState(pathLang || localStorage.getItem('al_lang') || 'ja');
   const [tweaks, setTweaks] = React.useState(false);
 
   // Apply theme
