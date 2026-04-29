@@ -1,61 +1,170 @@
 #!/usr/bin/env bash
+# AlphaForge forge インストーラー
+# Usage: bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+#        bash <(curl -sSL https://alforge-labs.github.io/install.sh) --dry-run
 set -euo pipefail
 
-INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
-REPO="alforge-labs/alforge-labs.github.io"
+DRY_RUN=false
+if [[ "${1:-}" == "--dry-run" ]]; then
+  DRY_RUN=true
+  echo "[dry-run] 実際のインストールは行いません。"
+fi
 
-# OS・アーキテクチャ判定
+REPO="alforge-labs/alforge-labs.github.io"
+DEFAULT_INSTALL_DIR="${HOME}/.local/bin"
+INSTALL_DIR=""
+
+ok()   { echo "  ✓ $*"; }
+info() { echo "  → $*"; }
+fail() { echo "  ✗ $*" >&2; exit 1; }
+
+# ── 1. OS + アーキテクチャ検出 ──────────────────────────────────
 OS="$(uname -s)"
 ARCH="$(uname -m)"
+
 case "${OS}-${ARCH}" in
-  Darwin-arm64)  ARTIFACT="forge-macos-arm64" ;;
-  Darwin-x86_64) ARTIFACT="forge-macos-x86_64" ;;
-  Linux-x86_64)  ARTIFACT="forge-linux-x86_64" ;;
-  *) echo "未対応プラットフォーム: ${OS}-${ARCH}"; exit 1 ;;
+  Darwin-arm64)  ARTIFACT="forge-macos-arm64"; EXT="tar.gz" ;;
+  Darwin-x86_64) ARTIFACT="forge-macos-x64";   EXT="tar.gz" ;;
+  *) fail "未対応プラットフォーム: ${OS}-${ARCH}。対応: macOS arm64, macOS x86_64" ;;
 esac
 
-# 最新バージョンを取得
-VERSION="$(curl -sSL "https://api.github.com/repos/${REPO}/releases/latest" \
-  | grep '"tag_name"' | cut -d '"' -f 4)"
+info "プラットフォーム: ${OS}-${ARCH} → ${ARTIFACT}"
+
+# ── 2. 最新バージョンを取得 ─────────────────────────────────────
+info "最新バージョンを確認中..."
+if ! command -v curl >/dev/null 2>&1; then
+  fail "curl がインストールされていません。インストール後に再実行してください。"
+fi
+
+VERSION="$(curl -sSfL "https://api.github.com/repos/${REPO}/releases/latest" \
+  2>/dev/null | grep '"tag_name"' | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/')" || true
 
 if [ -z "${VERSION}" ]; then
-  echo "エラー: リリースバージョンの取得に失敗しました。"
-  exit 1
+  fail "バージョン取得に失敗しました。ネットワーク接続を確認してください。\n  https://github.com/${REPO}/releases"
 fi
 
-echo "AlphaForge forge ${VERSION} (${ARTIFACT}) をインストールします..."
+ok "最新バージョン: ${VERSION}"
 
-# インストール先ディレクトリが存在しない場合は作成を試みる
-if [ ! -d "${INSTALL_DIR}" ]; then
-  echo "${INSTALL_DIR} が存在しないため作成します..."
-  mkdir -p "${INSTALL_DIR}" 2>/dev/null || {
-    echo "権限エラー: sudo で再実行してください。"
-    echo "  sudo INSTALL_DIR=${INSTALL_DIR} bash <(curl -sSL https://alforge-labs.github.io/install.sh)"
-    exit 1
-  }
+DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${VERSION}/${ARTIFACT}.${EXT}"
+
+# 既存バイナリのバージョン確認
+if command -v forge >/dev/null 2>&1; then
+  CURRENT_VER="$(forge --version 2>/dev/null | head -1)" || CURRENT_VER=""
+  if [ -n "${CURRENT_VER}" ]; then
+    info "現在のバージョン: ${CURRENT_VER} → ${VERSION} に更新します"
+  fi
 fi
 
-# ダウンロード & 配置
-TMP_FILE="$(mktemp)"
-trap 'rm -f "${TMP_FILE}"' EXIT
+# ── 3. ダウンロード & 展開 ─────────────────────────────────────
+TMP_DIR="$(mktemp -d /tmp/forge-install.XXXXXX)"
+trap 'rm -rf "${TMP_DIR}"' EXIT
 
-curl -sSL \
-  "https://github.com/${REPO}/releases/download/${VERSION}/${ARTIFACT}" \
-  -o "${TMP_FILE}"
-
-# 書き込み権限チェック
-if [ ! -w "${INSTALL_DIR}" ]; then
-  echo "権限エラー: ${INSTALL_DIR} への書き込み権限がありません。sudo で再実行してください。"
-  echo "  sudo INSTALL_DIR=${INSTALL_DIR} bash <(curl -sSL https://alforge-labs.github.io/install.sh)"
-  exit 1
+if [ "${DRY_RUN}" = "false" ]; then
+  info "ダウンロード中: ${DOWNLOAD_URL}"
+  curl -sSfL "${DOWNLOAD_URL}" -o "${TMP_DIR}/archive.${EXT}" \
+    || fail "ダウンロードに失敗しました。\n  ${DOWNLOAD_URL}"
+  tar xzf "${TMP_DIR}/archive.${EXT}" -C "${TMP_DIR}"
+  BINARY="${TMP_DIR}/forge.dist/forge"
+  if [ ! -f "${BINARY}" ]; then
+    fail "展開後にバイナリが見つかりません"
+  fi
+  ok "ダウンロード・展開完了"
+else
+  echo "  [dry-run] curl -L ${DOWNLOAD_URL} → tar xzf → ${TMP_DIR}/forge.dist/forge"
+  BINARY="${TMP_DIR}/forge.dist/forge"
 fi
 
-cp "${TMP_FILE}" "${INSTALL_DIR}/forge"
-chmod +x "${INSTALL_DIR}/forge"
-
+# ── 4. インストール先を確定 ──────────────────────────────────────
 echo ""
-echo "✓ forge を ${INSTALL_DIR}/forge にインストールしました"
+echo "インストール先を選択してください（デフォルト: ${DEFAULT_INSTALL_DIR}）"
+read -r -p "  /usr/local/bin にインストールしますか？ [y/N] " REPLY
+if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
+  INSTALL_DIR="/usr/local/bin"
+else
+  INSTALL_DIR="${DEFAULT_INSTALL_DIR}"
+fi
+
+if [ "${DRY_RUN}" = "false" ]; then
+  mkdir -p "${INSTALL_DIR}"
+  if [ -w "${INSTALL_DIR}" ]; then
+    cp "${BINARY}" "${INSTALL_DIR}/forge"
+  else
+    info "sudo でインストールします..."
+    if ! sudo cp "${BINARY}" "${INSTALL_DIR}/forge" 2>/dev/null; then
+      info "sudo 失敗。${DEFAULT_INSTALL_DIR} にフォールバックします"
+      INSTALL_DIR="${DEFAULT_INSTALL_DIR}"
+      mkdir -p "${INSTALL_DIR}"
+      cp "${BINARY}" "${INSTALL_DIR}/forge"
+    fi
+  fi
+  chmod +x "${INSTALL_DIR}/forge"
+  ok "forge を ${INSTALL_DIR}/forge に配置しました"
+else
+  echo "  [dry-run] cp forge → ${INSTALL_DIR}/forge && chmod +x"
+fi
+
+# ── 5. PATH 自動追記 ─────────────────────────────────────────────
+if [[ ":${PATH}:" != *":${INSTALL_DIR}:"* ]]; then
+  SHELL_NAME="$(basename "${SHELL:-bash}")"
+  case "${SHELL_NAME}" in
+    zsh)  RC="${HOME}/.zshrc" ;;
+    fish) RC="${HOME}/.config/fish/config.fish" ;;
+    *)    RC="${HOME}/.bashrc" ;;
+  esac
+
+  PATH_LINE="export PATH=\"${INSTALL_DIR}:\${PATH}\""
+
+  if [ "${DRY_RUN}" = "false" ]; then
+    if ! grep -qF "${INSTALL_DIR}" "${RC}" 2>/dev/null; then
+      printf '\n# AlphaForge forge\n%s\n' "${PATH_LINE}" >> "${RC}"
+      ok "PATH を ${RC} に追記しました"
+    else
+      ok "PATH はすでに ${RC} に設定済みです"
+    fi
+  else
+    echo "  [dry-run] echo '${PATH_LINE}' >> ${RC}"
+  fi
+else
+  ok "PATH はすでに設定済みです"
+fi
+
+# ── 6. ライセンスアクティベーション ──────────────────────────────
 echo ""
-echo "次のステップ:"
-echo "  forge --version"
-echo "  forge license activate <YOUR_LICENSE_KEY>"
+echo "ライセンスアクティベーション"
+echo "  Whop でご購入のライセンスキーを入力してください。"
+read -r -p "  ライセンスキー（Enter でスキップ）: " LICENSE_KEY
+
+if [ -n "${LICENSE_KEY}" ]; then
+  if [ "${DRY_RUN}" = "false" ]; then
+    if "${INSTALL_DIR}/forge" license activate "${LICENSE_KEY}"; then
+      ok "ライセンス認証が完了しました"
+    else
+      echo "  ⚠ ライセンス認証に失敗しました。後から再実行してください:"
+      echo "      forge license activate <YOUR_LICENSE_KEY>"
+    fi
+  else
+    echo "  [dry-run] forge license activate ${LICENSE_KEY}"
+  fi
+else
+  echo "  → スキップしました。後から実行してください:"
+  echo "      forge license activate <YOUR_LICENSE_KEY>"
+fi
+
+# ── 7. 確認 ─────────────────────────────────────────────────────
+echo ""
+if [ "${DRY_RUN}" = "false" ]; then
+  if "${INSTALL_DIR}/forge" --version >/dev/null 2>&1; then
+    ok "インストール完了！"
+    echo ""
+    echo "  PATH を反映するには新しいターミナルを開くか、以下を実行してください:"
+    echo "    source ${RC:-~/.zshrc}"
+    echo ""
+    echo "  使い方: forge --help"
+  else
+    echo "  ⚠ forge コマンドの確認に失敗しました。PATH を確認してください:"
+    echo "    export PATH=\"${INSTALL_DIR}:\${PATH}\""
+    echo "    forge --version"
+  fi
+else
+  ok "ドライランが完了しました。実際にインストールするには --dry-run を外して再実行してください。"
+fi
