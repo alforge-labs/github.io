@@ -40,7 +40,12 @@ VERSION="$(curl -sSfL "https://api.github.com/repos/${REPO}/releases/latest" \
   2>/dev/null | grep '"tag_name"' | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/')" || true
 
 if [ -z "${VERSION}" ]; then
-  fail "バージョン取得に失敗しました。ネットワーク接続を確認してください。\n  https://github.com/${REPO}/releases"
+  if [ "${DRY_RUN}" = "true" ]; then
+    VERSION="vX.Y.Z（dry-run: バージョン未取得）"
+    info "バージョン取得できませんでした（dry-run のため続行）"
+  else
+    fail "バージョン取得に失敗しました。ネットワーク接続を確認してください。\n  https://github.com/${REPO}/releases"
+  fi
 fi
 
 ok "最新バージョン: ${VERSION}"
