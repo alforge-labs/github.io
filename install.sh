@@ -77,30 +77,34 @@ fi
 # ── 4. インストール先を確定 ──────────────────────────────────────
 echo ""
 echo "インストール先を選択してください（デフォルト: ${DEFAULT_INSTALL_DIR}）"
-read -r -p "  /usr/local/bin にインストールしますか？ [y/N] " REPLY
-if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
-  INSTALL_DIR="/usr/local/bin"
-else
+if [ "${DRY_RUN}" = "true" ]; then
   INSTALL_DIR="${DEFAULT_INSTALL_DIR}"
+  echo "  [dry-run] インストール先: ${INSTALL_DIR}（デフォルト）"
+else
+  read -r -p "  /usr/local/bin にインストールしますか？ [y/N] " REPLY
+  if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
+    INSTALL_DIR="/usr/local/bin"
+  else
+    INSTALL_DIR="${DEFAULT_INSTALL_DIR}"
+  fi
 fi
 
 if [ "${DRY_RUN}" = "false" ]; then
   mkdir -p "${INSTALL_DIR}"
   if [ -w "${INSTALL_DIR}" ]; then
-    cp "${BINARY}" "${INSTALL_DIR}/forge"
+    install -m 755 "${BINARY}" "${INSTALL_DIR}/forge"
   else
     info "sudo でインストールします..."
-    if ! sudo cp "${BINARY}" "${INSTALL_DIR}/forge" 2>/dev/null; then
+    if ! sudo install -m 755 "${BINARY}" "${INSTALL_DIR}/forge" 2>/dev/null; then
       info "sudo 失敗。${DEFAULT_INSTALL_DIR} にフォールバックします"
       INSTALL_DIR="${DEFAULT_INSTALL_DIR}"
       mkdir -p "${INSTALL_DIR}"
-      cp "${BINARY}" "${INSTALL_DIR}/forge"
+      install -m 755 "${BINARY}" "${INSTALL_DIR}/forge"
     fi
   fi
-  chmod +x "${INSTALL_DIR}/forge"
   ok "forge を ${INSTALL_DIR}/forge に配置しました"
 else
-  echo "  [dry-run] cp forge → ${INSTALL_DIR}/forge && chmod +x"
+  echo "  [dry-run] install -m 755 forge → ${INSTALL_DIR}/forge"
 fi
 
 # ── 5. PATH 自動追記 ─────────────────────────────────────────────
@@ -132,7 +136,12 @@ fi
 echo ""
 echo "ライセンスアクティベーション"
 echo "  Whop でご購入のライセンスキーを入力してください。"
-read -r -p "  ライセンスキー（Enter でスキップ）: " LICENSE_KEY
+if [ "${DRY_RUN}" = "true" ]; then
+  echo "  [dry-run] ライセンスキー入力をスキップ"
+  LICENSE_KEY=""
+else
+  read -r -p "  ライセンスキー（Enter でスキップ）: " LICENSE_KEY
+fi
 
 if [ -n "${LICENSE_KEY}" ]; then
   if [ "${DRY_RUN}" = "false" ]; then
