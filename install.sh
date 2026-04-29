@@ -16,7 +16,7 @@ INSTALL_DIR=""
 
 ok()   { echo "  ✓ $*"; }
 info() { echo "  → $*"; }
-fail() { echo "  ✗ $*" >&2; exit 1; }
+fail() { printf "  ✗ %b\n" "$*" >&2; exit 1; }
 
 # ── 1. OS + アーキテクチャ検出 ──────────────────────────────────
 OS="$(uname -s)"
@@ -95,7 +95,7 @@ if [ "${DRY_RUN}" = "false" ]; then
     install -m 755 "${BINARY}" "${INSTALL_DIR}/forge"
   else
     info "sudo でインストールします..."
-    if ! sudo install -m 755 "${BINARY}" "${INSTALL_DIR}/forge" 2>/dev/null; then
+    if ! sudo install -m 755 "${BINARY}" "${INSTALL_DIR}/forge"; then
       info "sudo 失敗。${DEFAULT_INSTALL_DIR} にフォールバックします"
       INSTALL_DIR="${DEFAULT_INSTALL_DIR}"
       mkdir -p "${INSTALL_DIR}"
