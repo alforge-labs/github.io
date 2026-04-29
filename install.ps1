@@ -59,105 +59,117 @@ $TMP_ZIP = Join-Path $TMP_DIR "${ARTIFACT}.${EXT}"
 if (-not $DryRun) {
     New-Item -ItemType Directory -Path $TMP_DIR | Out-Null
     try {
-        Write-Info "ダウンロード中: $DOWNLOAD_URL"
-        Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile $TMP_ZIP -UseBasicParsing
-    } catch {
-        Write-Fail "ダウンロードに失敗しました: $_`n  $DOWNLOAD_URL"
+        try {
+            Write-Info "ダウンロード中: $DOWNLOAD_URL"
+            Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile $TMP_ZIP -UseBasicParsing
+        } catch {
+            Write-Fail "ダウンロードに失敗しました: $_`n  $DOWNLOAD_URL"
+        }
+        try {
+            Expand-Archive -Path $TMP_ZIP -DestinationPath $TMP_DIR -Force
+        } catch {
+            # .NET フォールバック
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
+            [System.IO.Compression.ZipFile]::ExtractToDirectory($TMP_ZIP, $TMP_DIR)
+        }
+        $BINARY = Join-Path $TMP_DIR "forge.dist\forge.exe"
+        if (-not (Test-Path $BINARY)) { Write-Fail "展開後にバイナリが見つかりません" }
+        Write-Ok "ダウンロード・展開完了"
+
+        # ── 3. インストール先を確定 ──────────────────────────────────────
+        Write-Host ""
+        $choice = Read-Host "  C:\Program Files\forge\ にインストールしますか？ [y/N]"
+        if ($choice -match '^[Yy]$') {
+            $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
+                [Security.Principal.WindowsBuiltInRole]::Administrator
+            )
+            if (-not $isAdmin) {
+                Write-Fail "C:\Program Files へのインストールには管理者権限が必要です。`nPowerShell を「管理者として実行」して再度お試しください。"
+            }
+            $INSTALL_DIR  = "C:\Program Files\forge"
+            $INSTALL_PATH = Join-Path $INSTALL_DIR "forge.exe"
+        }
+
+        if (-not (Test-Path $INSTALL_DIR)) {
+            New-Item -ItemType Directory -Path $INSTALL_DIR | Out-Null
+        }
+        Copy-Item -Path $BINARY -Destination $INSTALL_PATH -Force
+        Write-Ok "forge を $INSTALL_PATH に配置しました"
+
+        # ── 4. PATH 自動登録 ─────────────────────────────────────────────
+        $currentPath = [Environment]::GetEnvironmentVariable("PATH", "User")
+        if ($currentPath -notlike "*$INSTALL_DIR*") {
+            $newPath = if ($currentPath) { "$currentPath;$INSTALL_DIR" } else { $INSTALL_DIR }
+            if ($newPath.Length -gt 2048) {
+                Write-Warn "PATH が 2048 文字を超えています。手動で追加してください:"
+                Write-Host "    [Environment]::SetEnvironmentVariable('PATH', `$env:PATH + ';$INSTALL_DIR', 'User')"
+            } else {
+                [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
+                $env:PATH = "$env:PATH;$INSTALL_DIR"
+                Write-Ok "PATH に $INSTALL_DIR を追加しました（次回ターミナル起動から有効）"
+            }
+        } else {
+            Write-Ok "PATH はすでに設定済みです"
+        }
+
+        # ── 5. ライセンスアクティベーション ──────────────────────────────
+        Write-Host ""
+        Write-Host "ライセンスアクティベーション"
+        Write-Host "  Whop でご購入のライセンスキーを入力してください。"
+        $LICENSE_KEY = Read-Host "  ライセンスキー（Enter でスキップ）"
+        if ($LICENSE_KEY) {
+            try {
+                & $INSTALL_PATH license activate $LICENSE_KEY
+                Write-Ok "ライセンス認証が完了しました"
+            } catch {
+                Write-Warn "ライセンス認証に失敗しました。後から再実行してください:"
+                Write-Host "    forge license activate <YOUR_LICENSE_KEY>"
+            }
+        } else {
+            Write-Host "  → スキップしました。後から実行してください:"
+            Write-Host "      forge license activate <YOUR_LICENSE_KEY>"
+        }
+
+        # ── 6. 確認 ─────────────────────────────────────────────────────
+        Write-Host ""
+        try {
+            & $INSTALL_PATH --version | Out-Null
+            Write-Ok "インストール完了！"
+            Write-Host ""
+            Write-Host "  新しいターミナルを開いて試してください: forge --help"
+        } catch {
+            Write-Warn "forge の確認に失敗しました。新しいターミナルを開いて試してください:"
+            Write-Host "    forge --version"
+        }
+    } finally {
+        if (Test-Path $TMP_DIR) { Remove-Item -Recurse -Force $TMP_DIR -ErrorAction SilentlyContinue }
     }
-    try {
-        Expand-Archive -Path $TMP_ZIP -DestinationPath $TMP_DIR -Force
-    } catch {
-        # .NET フォールバック
-        Add-Type -AssemblyName System.IO.Compression.FileSystem
-        [System.IO.Compression.ZipFile]::ExtractToDirectory($TMP_ZIP, $TMP_DIR)
-    }
-    $BINARY = Join-Path $TMP_DIR "forge.dist\forge.exe"
-    if (-not (Test-Path $BINARY)) { Write-Fail "展開後にバイナリが見つかりません" }
-    Write-Ok "ダウンロード・展開完了"
 } else {
     Write-Host "  [dry-run] Invoke-WebRequest $DOWNLOAD_URL → Expand-Archive"
-}
 
-# ── 3. インストール先を確定 ──────────────────────────────────────
-Write-Host ""
-if ($DryRun) {
+    # ── 3. インストール先を確定（dry-run）──────────────────────────
+    Write-Host ""
     Write-Host "  [dry-run] インストール先: $INSTALL_DIR（デフォルト）"
-} else {
-    $choice = Read-Host "  C:\Program Files\forge\ にインストールしますか？ [y/N]"
-    if ($choice -match '^[Yy]$') {
-        $INSTALL_DIR  = "C:\Program Files\forge"
-        $INSTALL_PATH = Join-Path $INSTALL_DIR "forge.exe"
-    }
-}
 
-if (-not $DryRun) {
-    if (-not (Test-Path $INSTALL_DIR)) {
-        New-Item -ItemType Directory -Path $INSTALL_DIR | Out-Null
-    }
-    Copy-Item -Path $BINARY -Destination $INSTALL_PATH -Force
-    Write-Ok "forge を $INSTALL_PATH に配置しました"
-} else {
     Write-Host "  [dry-run] Copy-Item forge.exe → $INSTALL_PATH"
-}
 
-# ── 4. PATH 自動登録 ─────────────────────────────────────────────
-$currentPath = [Environment]::GetEnvironmentVariable("PATH", "User")
-if ($currentPath -notlike "*$INSTALL_DIR*") {
-    if ($DryRun) {
+    # ── 4. PATH 自動登録（dry-run）───────────────────────────────
+    $currentPath = [Environment]::GetEnvironmentVariable("PATH", "User")
+    if ($currentPath -notlike "*$INSTALL_DIR*") {
         Write-Host "  [dry-run] PATH に $INSTALL_DIR を追加"
     } else {
-        $newPath = if ($currentPath) { "$currentPath;$INSTALL_DIR" } else { $INSTALL_DIR }
-        if ($newPath.Length -gt 2048) {
-            Write-Warn "PATH が 2048 文字を超えています。手動で追加してください:"
-            Write-Host "    [Environment]::SetEnvironmentVariable('PATH', `$env:PATH + ';$INSTALL_DIR', 'User')"
-        } else {
-            [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
-            $env:PATH = "$env:PATH;$INSTALL_DIR"
-            Write-Ok "PATH に $INSTALL_DIR を追加しました（次回ターミナル起動から有効）"
-        }
+        Write-Ok "PATH はすでに設定済みです"
     }
-} else {
-    Write-Ok "PATH はすでに設定済みです"
-}
 
-# ── 5. ライセンスアクティベーション ──────────────────────────────
-Write-Host ""
-Write-Host "ライセンスアクティベーション"
-Write-Host "  Whop でご購入のライセンスキーを入力してください。"
-if ($DryRun) {
+    # ── 5. ライセンスアクティベーション（dry-run）────────────────
+    Write-Host ""
+    Write-Host "ライセンスアクティベーション"
+    Write-Host "  Whop でご購入のライセンスキーを入力してください。"
     Write-Host "  [dry-run] ライセンスキー入力をスキップ"
     Write-Host "  → スキップしました。後から実行してください:"
     Write-Host "      forge license activate <YOUR_LICENSE_KEY>"
-} else {
-    $LICENSE_KEY = Read-Host "  ライセンスキー（Enter でスキップ）"
-    if ($LICENSE_KEY) {
-        try {
-            & $INSTALL_PATH license activate $LICENSE_KEY
-            Write-Ok "ライセンス認証が完了しました"
-        } catch {
-            Write-Warn "ライセンス認証に失敗しました。後から再実行してください:"
-            Write-Host "    forge license activate <YOUR_LICENSE_KEY>"
-        }
-    } else {
-        Write-Host "  → スキップしました。後から実行してください:"
-        Write-Host "      forge license activate <YOUR_LICENSE_KEY>"
-    }
-}
 
-# ── 6. 確認 ─────────────────────────────────────────────────────
-Write-Host ""
-if (-not $DryRun) {
-    try {
-        & $INSTALL_PATH --version | Out-Null
-        Write-Ok "インストール完了！"
-        Write-Host ""
-        Write-Host "  新しいターミナルを開いて試してください: forge --help"
-    } catch {
-        Write-Warn "forge の確認に失敗しました。新しいターミナルを開いて試してください:"
-        Write-Host "    forge --version"
-    }
-    # クリーンアップ
-    if (Test-Path $TMP_DIR) { Remove-Item -Recurse -Force $TMP_DIR }
-} else {
+    # ── 6. 確認（dry-run）────────────────────────────────────────
+    Write-Host ""
     Write-Ok "ドライランが完了しました。実際にインストールするには -DryRun を外して再実行してください。"
 }
