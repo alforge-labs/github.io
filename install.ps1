@@ -22,7 +22,7 @@ $ErrorActionPreference = "Stop"
 $REPO         = "alforge-labs/alforge-labs.github.io"
 $ARTIFACT     = "forge-windows-x64"
 $EXT          = "zip"
-$INSTALL_DIR  = Join-Path $env:USERPROFILE "bin"
+$INSTALL_DIR  = Join-Path $HOME "bin"
 $INSTALL_PATH = Join-Path $INSTALL_DIR "forge.exe"
 
 function Write-Ok   { param($msg) Write-Host "  ✓ $msg" -ForegroundColor Green }
@@ -126,15 +126,11 @@ Write-Host "ライセンスアクティベーション"
 Write-Host "  Whop でご購入のライセンスキーを入力してください。"
 if ($DryRun) {
     Write-Host "  [dry-run] ライセンスキー入力をスキップ"
-    $LICENSE_KEY = ""
+    Write-Host "  → スキップしました。後から実行してください:"
+    Write-Host "      forge license activate <YOUR_LICENSE_KEY>"
 } else {
     $LICENSE_KEY = Read-Host "  ライセンスキー（Enter でスキップ）"
-}
-
-if ($LICENSE_KEY) {
-    if ($DryRun) {
-        Write-Host "  [dry-run] forge license activate $LICENSE_KEY"
-    } else {
+    if ($LICENSE_KEY) {
         try {
             & $INSTALL_PATH license activate $LICENSE_KEY
             Write-Ok "ライセンス認証が完了しました"
@@ -142,10 +138,10 @@ if ($LICENSE_KEY) {
             Write-Warn "ライセンス認証に失敗しました。後から再実行してください:"
             Write-Host "    forge license activate <YOUR_LICENSE_KEY>"
         }
+    } else {
+        Write-Host "  → スキップしました。後から実行してください:"
+        Write-Host "      forge license activate <YOUR_LICENSE_KEY>"
     }
-} else {
-    Write-Host "  → スキップしました。後から実行してください:"
-    Write-Host "      forge license activate <YOUR_LICENSE_KEY>"
 }
 
 # ── 6. 確認 ─────────────────────────────────────────────────────
