@@ -256,6 +256,28 @@ window.COPY = {
         },
       ],
     },
+    longTermValue: {
+      label: '継続利用価値',
+      title: '戦略は、作って終わりではない',
+      subtitle: 'マーケット、研究、実装アイデアは変わり続けます。alpha-forge は一度きりの検証ツールではなく、戦略を見直し続けるための開発ループです。',
+      items: [
+        {
+          eyebrow: 'Regime Shift',
+          title: '市場レジームは変わる',
+          desc: '一度よい結果を出した投資戦略でも、ボラティリティ・金利・流動性・参加者行動の変化で将来も機能し続けるとは限りません。定期的な再検証が必要です。',
+        },
+        {
+          eyebrow: 'Strategy Intake',
+          title: '新しいアイデアは増え続ける',
+          desc: 'SSRN などの研究や TradingView の Pine Script コミュニティでは、新しい手法・指標・リスク管理アイデアが継続的に公開されています。検証候補を取り込める状態を保つことが重要です。',
+        },
+        {
+          eyebrow: 'Validation Loop',
+          title: '検証ループを回せる',
+          desc: 'alpha-forge はバックテスト、ベイズ最適化、ウォークフォワード検証、Pine Script 生成を同じ流れで扱えます。発見した仮説を、再現可能な検証サイクルへ落とし込めます。',
+        },
+      ],
+    },
     follow: {
       label: 'アップデート',
       title: '開発をリアルタイムで追う',
@@ -486,6 +508,28 @@ window.COPY = {
           title: 'Forex Strategies',
           desc: 'Run Bayesian optimization across high-dimensional parameter spaces for major pairs like USDJPY and EURUSD. Find optimal solutions more efficiently than grid search while preventing curve-fitting.',
           tags: ['FX Strategy', 'Bayesian Optimization', 'Currency Pairs', 'USDJPY / EURUSD'],
+        },
+      ],
+    },
+    longTermValue: {
+      label: 'Long-Term Value',
+      title: 'Strategies are never finished',
+      subtitle: 'Markets, research, and implementation ideas keep changing. alpha-forge is not a one-off backtest tool; it is a development loop for continuously revisiting your strategy assumptions.',
+      items: [
+        {
+          eyebrow: 'Regime Shift',
+          title: 'Market regimes change',
+          desc: 'A strategy that looks strong once may degrade as volatility, rates, liquidity, and participant behavior shift. Long-lived systems need periodic revalidation instead of one-time confidence.',
+        },
+        {
+          eyebrow: 'Strategy Intake',
+          title: 'New ideas keep arriving',
+          desc: 'Research platforms such as SSRN and the TradingView Pine Script community continue to surface new methods, indicators, and risk-management ideas. Keeping an intake path open helps turn them into testable candidates.',
+        },
+        {
+          eyebrow: 'Validation Loop',
+          title: 'Keep the validation loop moving',
+          desc: 'alpha-forge keeps backtesting, Bayesian optimization, walk-forward validation, and Pine Script generation in one flow. New hypotheses can move into reproducible validation without rebuilding the workflow each time.',
         },
       ],
     },

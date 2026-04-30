@@ -328,6 +328,32 @@ function UseCases({ t }) {
   );
 }
 
+/* ── 継続利用価値 ── */
+function LongTermValue({ t }) {
+  const c = t.longTermValue;
+  return (
+    <section className="long-term-value reveal" id="long-term-value">
+      <div className="container">
+        <div className="long-term-header">
+          <div className="sec-label">{c.label}</div>
+          <h2 className="sec-title">{c.title}</h2>
+          <p className="long-term-subtitle">{c.subtitle}</p>
+        </div>
+        <div className="long-term-grid">
+          {c.items.map((item, i) => (
+            <article key={i} className="long-term-card">
+              <div className="long-term-index">{String(i + 1).padStart(2, '0')}</div>
+              <div className="long-term-eyebrow">{item.eyebrow}</div>
+              <h3 className="long-term-title">{item.title}</h3>
+              <p className="long-term-desc">{item.desc}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── SYSTEM FLOW ── */
 function SystemFlow({ t, dark, lang }) {
   const c = t.systemFlow;
@@ -348,4 +374,4 @@ function SystemFlow({ t, dark, lang }) {
 }
 
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing, UseCases, SystemFlow });
+Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing, UseCases, SystemFlow, LongTermValue });

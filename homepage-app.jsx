@@ -252,6 +252,7 @@ function App() {
       <Products t={t} />
       <SystemFlow t={t} dark={dark} lang={lang} />
       <UseCases t={t} />
+      <LongTermValue t={t} />
       <PerformanceChart t={t} dark={dark} />
       <Pricing t={t} />
       <Roadmap t={t} />
