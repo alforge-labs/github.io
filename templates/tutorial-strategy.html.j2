@@ -115,8 +115,8 @@
 
   <div class="page-wrap" style="max-width: 1060px;">
 
-    <!-- ══════════════════════════════════════════════════════════ JA ══ -->
-    <div class="lang-content lang-ja">
+    <div class="lang-{{ lang }}">
+      {% if lang == 'ja' %}
 
       <div class="page-label">チュートリアル</div>
       <h1 class="page-title">投資戦略の開発・<br>バックテスト・最適化</h1>
@@ -512,10 +512,7 @@ Avg Sharpe: 1.10  |  Avg CAGR: 13.9%  |  WF Efficiency: 89%</code></pre>
 
         </div><!-- /main content -->
       </div><!-- /doc-layout -->
-    </div><!-- /lang-ja -->
-
-    <!-- ══════════════════════════════════════════════════════════ EN ══ -->
-    <div class="lang-content lang-en">
+      {% else %}
 
       <div class="page-label">Tutorial</div>
       <h1 class="page-title">Strategy Development,<br>Backtesting &amp; Optimization</h1>
@@ -888,14 +885,14 @@ forge data fetch SPY QQQ --period 5y</code></pre>
 
         </div><!-- /main content -->
       </div><!-- /doc-layout -->
-    </div><!-- /lang-en -->
+      {% endif %}
+    </div>
 
   </div><!-- /page-wrap -->
 
   <footer>
     <div class="footer-logo">alforge<span class="dot">.</span>labs</div>
-    <div class="lang-content lang-ja"><div class="footer-links"><a href="index.html">ホーム</a><a href="install.html">インストール</a><a href="docs.html">ドキュメント</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a></div></div>
-    <div class="lang-content lang-en"><div class="footer-links"><a href="index.html">Home</a><a href="install.html">Install</a><a href="docs.html">Docs</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a></div></div>
+    <div class="lang-{{ lang }}"><div class="footer-links">{% if lang == 'ja' %}<a href="index.html">ホーム</a><a href="install.html">インストール</a><a href="docs.html">ドキュメント</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a>{% else %}<a href="index.html">Home</a><a href="install.html">Install</a><a href="docs.html">Docs</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a>{% endif %}</div></div>
   </footer>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
