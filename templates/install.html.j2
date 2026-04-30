@@ -61,17 +61,17 @@
       </div>
 
       <h2 class="section-heading">クイックインストール</h2>
-      <div class="platform-tabs">
-        <div class="platform-tab active" onclick="switchTab('ja', 'mac', event)">macOS / Linux</div>
-        <div class="platform-tab" onclick="switchTab('ja', 'win', event)">Windows</div>
+      <div class="platform-tabs" role="tablist">
+        <button type="button" class="platform-tab active" role="tab" aria-selected="true" aria-controls="tab-ja-mac" onclick="switchTab('ja', 'mac', event)">macOS / Linux</button>
+        <button type="button" class="platform-tab" role="tab" aria-selected="false" aria-controls="tab-ja-win" onclick="switchTab('ja', 'win', event)">Windows</button>
       </div>
 
-      <div id="tab-ja-mac" class="platform-content active">
+      <div id="tab-ja-mac" class="platform-content active" role="tabpanel">
         <p>ターミナルで実行します。インストーラーが最新バイナリをダウンロードし、<code>/usr/local/bin</code> に配置します。</p>
         <pre><code>curl -sSL https://alforge-labs.github.io/install.sh | bash</code></pre>
       </div>
 
-      <div id="tab-ja-win" class="platform-content">
+      <div id="tab-ja-win" class="platform-content" role="tabpanel">
         <p>PowerShell（管理者権限不要）で実行します。バイナリを <code>%USERPROFILE%\.forge\bin</code> にインストールし、PATH を自動設定します。</p>
         <pre><code>irm https://alforge-labs.github.io/install.ps1 | iex</code></pre>
       </div>
@@ -119,17 +119,17 @@
       </div>
 
       <h2 class="section-heading">Quick Install</h2>
-      <div class="platform-tabs">
-        <div class="platform-tab active" onclick="switchTab('en', 'mac', event)">macOS / Linux</div>
-        <div class="platform-tab" onclick="switchTab('en', 'win', event)">Windows</div>
+      <div class="platform-tabs" role="tablist">
+        <button type="button" class="platform-tab active" role="tab" aria-selected="true" aria-controls="tab-en-mac" onclick="switchTab('en', 'mac', event)">macOS / Linux</button>
+        <button type="button" class="platform-tab" role="tab" aria-selected="false" aria-controls="tab-en-win" onclick="switchTab('en', 'win', event)">Windows</button>
       </div>
 
-      <div id="tab-en-mac" class="platform-content active">
+      <div id="tab-en-mac" class="platform-content active" role="tabpanel">
         <p>Run the following in your terminal. The installer downloads the latest binary into <code>/usr/local/bin</code>.</p>
         <pre><code>curl -sSL https://alforge-labs.github.io/install.sh | bash</code></pre>
       </div>
 
-      <div id="tab-en-win" class="platform-content">
+      <div id="tab-en-win" class="platform-content" role="tabpanel">
         <p>Run this in PowerShell (no admin needed). Installs into <code>%USERPROFILE%\.forge\bin</code> and updates PATH.</p>
         <pre><code>irm https://alforge-labs.github.io/install.ps1 | iex</code></pre>
       </div>
@@ -196,9 +196,13 @@
   <script>
     function switchTab(lang, id, event) {
       var scope = document.querySelector('.lang-' + lang);
-      scope.querySelectorAll('.platform-tab').forEach(function(el) { el.classList.remove('active'); });
+      scope.querySelectorAll('.platform-tab').forEach(function(el) {
+        el.classList.remove('active');
+        el.setAttribute('aria-selected', 'false');
+      });
       scope.querySelectorAll('.platform-content').forEach(function(el) { el.classList.remove('active'); });
       event.currentTarget.classList.add('active');
+      event.currentTarget.setAttribute('aria-selected', 'true');
       document.getElementById('tab-' + lang + '-' + id).classList.add('active');
     }
   </script>
