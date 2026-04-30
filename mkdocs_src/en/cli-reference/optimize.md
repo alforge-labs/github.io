@@ -449,4 +449,4 @@ fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/optimize.py`. This page must be kept in sync when CLI arguments change.*
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/optimize.py`. This page must be kept in sync when CLI arguments change. -->

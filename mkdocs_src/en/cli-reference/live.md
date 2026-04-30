@@ -414,4 +414,4 @@ sent 4,312 bytes  received 78 bytes  total size 4,160
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/live.py`, `LiveStore` in `alpha-forge/src/alpha_forge/live/store.py`, and `format_*` functions in `alpha-forge/src/alpha_forge/live/formatter.py`. This page must be kept in sync when CLI arguments or configuration keys change.*
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/live.py`, `LiveStore` in `alpha-forge/src/alpha_forge/live/store.py`, and `format_*` functions in `alpha-forge/src/alpha_forge/live/formatter.py`. This page must be kept in sync when CLI arguments or configuration keys change. -->

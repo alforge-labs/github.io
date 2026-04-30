@@ -140,4 +140,4 @@ Any dispute arising out of or relating to this Agreement shall be brought exclus
 
 ---
 
-*Synced from: `EULA.md` at the repository root (Version 1.0, Effective Date: 2026-04-29). The repository copy is canonical.*
+<!-- Synced from: `EULA.md` at the repository root (Version 1.0, Effective Date: 2026-04-29). The repository copy is canonical. -->

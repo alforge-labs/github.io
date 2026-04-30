@@ -414,4 +414,4 @@ sent 4,312 bytes  received 78 bytes  total size 4,160
 
 ---
 
-*同期元: `alpha-forge/src/alpha_forge/commands/live.py` の Click decorator、`alpha-forge/src/alpha_forge/live/store.py` の LiveStore、`alpha-forge/src/alpha_forge/live/formatter.py` の `format_*` 関数。alpha-forge 側で引数追加・設定キー変更があった場合、本ページも追従更新が必要。*
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/live.py` の Click decorator、`alpha-forge/src/alpha_forge/live/store.py` の LiveStore、`alpha-forge/src/alpha_forge/live/formatter.py` の `format_*` 関数。alpha-forge 側で引数追加・設定キー変更があった場合、本ページも追従更新が必要。 -->

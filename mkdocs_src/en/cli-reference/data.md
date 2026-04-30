@@ -232,4 +232,4 @@ Provider-specific symbol notation is documented in `alpha-forge/src/alpha_forge/
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/data.py`, the provider implementations under `alpha-forge/src/alpha_forge/data/providers/`, and provider notes in `alpha-forge/CLAUDE.md`. This page must be kept in sync when CLI arguments or providers change.*
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/data.py`, the provider implementations under `alpha-forge/src/alpha_forge/data/providers/`, and provider notes in `alpha-forge/CLAUDE.md`. This page must be kept in sync when CLI arguments or providers change. -->

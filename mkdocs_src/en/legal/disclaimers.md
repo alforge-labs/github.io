@@ -35,4 +35,4 @@ To the maximum extent permitted by applicable law, Alforge Labs shall not be lia
 
 ---
 
-*Synced from: `en/terms.html` (Last Updated: April 25, 2026). In the event of any discrepancy between this page and the canonical `terms.html`, the latter prevails.*
+<!-- Synced from: `en/terms.html` (Last Updated: April 25, 2026). In the event of any discrepancy between this page and the canonical `terms.html`, the latter prevails. -->

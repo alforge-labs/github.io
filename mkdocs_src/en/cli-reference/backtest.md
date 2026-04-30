@@ -510,4 +510,4 @@ Ruin probability: 0.40%
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/backtest.py`. This page must be kept in sync when CLI arguments change.*
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/backtest.py`. This page must be kept in sync when CLI arguments change. -->

@@ -478,4 +478,4 @@ See [`forge live compare`](cli-reference/live.md#forge-live-compare).
 
 ---
 
-*Synced from: `alpha-strategies/data/strategies/multi_asset_hmm_bb_rsi_v1_qqq.json` and `commodity_hmm_regime_v1.json`. The multi-timeframe strategy is written as an example of the `indicators[].timeframe` field.*
+<!-- Synced from: `alpha-strategies/data/strategies/multi_asset_hmm_bb_rsi_v1_qqq.json` and `commodity_hmm_regime_v1.json`. The multi-timeframe strategy is written as an example of the `indicators[].timeframe` field. -->

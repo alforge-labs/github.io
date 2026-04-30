@@ -510,4 +510,4 @@ forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
 
 ---
 
-*同期元: `alpha-forge/src/alpha_forge/commands/backtest.py` の Click decorator から抽出。alpha-forge 側で引数追加・変更があった場合、本ページも追従更新が必要。*
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/backtest.py` の Click decorator から抽出。alpha-forge 側で引数追加・変更があった場合、本ページも追従更新が必要。 -->
