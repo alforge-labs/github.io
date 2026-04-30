@@ -65,6 +65,10 @@ nav:
       - live: cli-reference/live.md
       - Other commands: cli-reference/other.md
   - Strategy Templates: templates.md
+  - Guides:
+      - End-to-End Strategy Development Workflow: guides/end-to-end-workflow.md
+      - Bringing Pine Scripts into TradingView: guides/tradingview-pine-integration.md
+      - TradingView × alpha-strike Integration: guides/tradingview-alpha-strike.md
   - AI Agent Integration: ai-driven-forges.md
   - Legal & Disclaimers:
       - Disclaimers: legal/disclaimers.md

@@ -12,13 +12,13 @@
         <meta name="author" content="Alforge Labs">
       
       
-        <link rel="canonical" href="https://alforgelabs.com/ja/docs/legal/disclaimers/">
+        <link rel="canonical" href="https://alforgelabs.com/ja/docs/guides/tradingview-pine-integration/">
       
       
-        <link rel="prev" href="../../ai-driven-forges/">
+        <link rel="prev" href="../end-to-end-workflow/">
       
       
-        <link rel="next" href="../eula/">
+        <link rel="next" href="../tradingview-alpha-strike/">
       
       
         
@@ -33,7 +33,7 @@
     
     
       
-        <title>免責事項 - AlphaForge ドキュメント</title>
+        <title>TradingView への Pine Script 反映 - AlphaForge ドキュメント</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#tradingview-pine-script" class="md-skip">
           コンテンツにスキップ
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              免責事項
+              TradingView への Pine Script 反映
             
           </span>
         </div>
@@ -306,11 +306,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../guides/end-to-end-workflow/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../end-to-end-workflow/" class="md-tabs__link">
           
   
   
@@ -345,13 +347,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../legal/disclaimers/" class="md-tabs__link">
           
   
   
@@ -764,26 +764,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -801,7 +806,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -819,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/end-to-end-workflow/" class="md-nav__link">
+      <a href="../end-to-end-workflow/" class="md-nav__link">
         
   
   
@@ -844,10 +849,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../guides/tradingview-pine-integration/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TradingView への Pine Script 反映
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -863,6 +895,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-pine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Pine エディタを開く
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. スクリプトを貼り付ける
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. アラートを設定する
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. アラートメッセージのヒント
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -875,7 +971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/tradingview-alpha-strike/" class="md-nav__link">
+      <a href="../tradingview-alpha-strike/" class="md-nav__link">
         
   
   
@@ -934,31 +1030,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -976,7 +1067,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -991,37 +1082,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    免責事項
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../legal/disclaimers/" class="md-nav__link">
         
   
   
@@ -1037,103 +1101,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目次">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目次
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. ソフトウェアの性質
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. 金融助言ではありません
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. リスク免責事項
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. ローカル実行とデータプライバシー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. 保証の否認
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. 責任の制限
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        関連ページ
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1146,7 +1113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eula/" class="md-nav__link">
+      <a href="../../legal/eula/" class="md-nav__link">
         
   
   
@@ -1174,7 +1141,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../privacy/" class="md-nav__link">
+      <a href="../../legal/privacy/" class="md-nav__link">
         
   
   
@@ -1229,10 +1196,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#1-pine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. ソフトウェアの性質
+        1. Pine エディタを開く
       
     </span>
   </a>
@@ -1243,7 +1210,7 @@
   <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 金融助言ではありません
+        2. スクリプトを貼り付ける
       
     </span>
   </a>
@@ -1254,7 +1221,7 @@
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. リスク免責事項
+        3. アラートを設定する
       
     </span>
   </a>
@@ -1265,40 +1232,7 @@
   <a href="#4" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. ローカル実行とデータプライバシー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. 保証の否認
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. 責任の制限
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        関連ページ
+        4. アラートメッセージのヒント
       
     </span>
   </a>
@@ -1322,31 +1256,30 @@
 
 
 
-<h1 id="_1">免責事項<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<div class="admonition warning">
-<p class="admonition-title">重要なお知らせ</p>
-<p>AlphaForge はバックテストとローカル実行のためのソフトウェア開発フレームワークです。Alforge Labs は金融助言、売買シグナル、運用受託サービスを提供しません。</p>
-</div>
-<h2 id="1">1. ソフトウェアの性質<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p>AlphaForge および Alforge Labs の関連ツールは、ソフトウェア開発者およびクオンツ研究者向けの技術インフラ・研究フレームワークです。ユーザー自身のハードウェア上で取引アルゴリズムをシミュレーションし、ローカル環境で実行するための機能を提供します。Alforge Labs は金融データ、証券仲介サービス、投資推奨を提供しません。</p>
-<h2 id="2">2. 金融助言ではありません<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<p>本ウェブサイトおよび本ソフトウェアを通じて提供されるコンテンツは、情報提供および教育目的のみを意図しています。金融、法律、税務上の助言として解釈されるべきものではありません。金融市場での取引には重大な損失リスクがあります。</p>
-<h2 id="3">3. リスク免責事項<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
-<p>過去の実績は将来の結果を示すものではありません。仮想またはシミュレーションされたパフォーマンス結果には固有の制約があります。いかなる口座も、バックテストで示された利益または損失と同様の結果を達成する、または達成する可能性が高いと表明するものではありません。</p>
-<h2 id="4">4. ローカル実行とデータプライバシー<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
-<p>AlphaForge はユーザーのローカルマシン上で動作します。Alforge Labs はユーザーの API キー、証券会社の認証情報、個人の取引データへアクセスせず、これらを保存しません。実行環境および認証情報のセキュリティと管理は、ユーザー自身が単独で責任を負います。</p>
-<h2 id="5">5. 保証の否認<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
-<p>本ソフトウェアは「現状のまま」提供されます。商品性、特定目的への適合性、非侵害性、継続利用可能性について、明示または黙示を問わずいかなる保証も行いません。</p>
-<h2 id="6">6. 責任の制限<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
-<p>適用法が許容する最大限の範囲において、Alforge Labs は、本ソフトウェアの使用または使用不能から生じる直接的、間接的、偶発的、特別、結果的損害について、その損害の可能性を事前に告知されていた場合でも責任を負いません。</p>
-<h2 id="_2">関連ページ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h1 id="tradingview-pine-script">TradingView への Pine Script 反映<a class="headerlink" href="#tradingview-pine-script" title="Permanent link">&para;</a></h1>
+<p><code>forge pine generate</code> で生成した <code>.pine</code> ファイルを TradingView に貼り付けてアラートを設定します。</p>
+<h2 id="1-pine">1. Pine エディタを開く<a class="headerlink" href="#1-pine" title="Permanent link">&para;</a></h2>
+<p>TradingView でチャートを開き、画面下部の「Pine エディタ」タブをクリックします。</p>
+<h2 id="2">2. スクリプトを貼り付ける<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>生成した <code>.pine</code> ファイルの内容をエディタに貼り付け、「スクリプトを追加」（▶ ボタン）をクリックします。</p>
+<h2 id="3">3. アラートを設定する<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>チャート右上のベルアイコン（アラート）→「アラートを追加」をクリック。</p>
 <ul>
-<li><a href="https://alforgelabs.com/ja/terms.html">完全な利用規約 — <code>terms.html</code></a></li>
-<li><a href="../privacy/">プライバシーポリシー</a></li>
-<li><a href="../eula/">エンドユーザーライセンス契約（EULA）</a></li>
+<li><strong>条件</strong>: 追加したスクリプト名を選択</li>
+<li><strong>Webhook URL</strong>: チェックを入れ、alpha-strike のエンドポイントを入力</li>
+<li><strong>メッセージ</strong>: 後述の JSON ペイロードを入力（<a href="../tradingview-alpha-strike/">alpha-strike 連携ガイド</a> 参照）</li>
 </ul>
-<hr />
-<p><em>同期元: <code>ja/terms.html</code>（最終更新日: 2026 年 4 月 25 日）。本ページの記述と公式 <code>terms.html</code> の間で齟齬がある場合は <code>terms.html</code> が優先します。</em></p>
+<h2 id="4">4. アラートメッセージのヒント<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>Pine Script 内でシグナル変数（例: <code>longSignal</code>）を定義しておくと、アラートの条件設定が簡単になります。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>// Pine Script 内でのアラート定義例
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>longSignal = ta.crossover(ema_fast, ema_slow)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>shortSignal = ta.crossunder(ema_fast, ema_slow)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>alertcondition(longSignal, title=&quot;Long Entry&quot;, message=&quot;long&quot;)
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">次のステップ</p>
+<p>Webhook 受信側の設定は <a href="../tradingview-alpha-strike/">TradingView と alpha-strike の連携</a> を参照してください。</p>
+</div>
 
 
 
@@ -1382,7 +1315,7 @@
       <nav class="md-footer__inner md-grid" aria-label="フッター" >
         
           
-          <a href="../../ai-driven-forges/" class="md-footer__link md-footer__link--prev" aria-label="前: AI エージェント連携">
+          <a href="../end-to-end-workflow/" class="md-footer__link md-footer__link--prev" aria-label="前: エンドツーエンド戦略開発ワークフロー">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1392,20 +1325,20 @@
                 前
               </span>
               <div class="md-ellipsis">
-                AI エージェント連携
+                エンドツーエンド戦略開発ワークフロー
               </div>
             </div>
           </a>
         
         
           
-          <a href="../eula/" class="md-footer__link md-footer__link--next" aria-label="次: EULA">
+          <a href="../tradingview-alpha-strike/" class="md-footer__link md-footer__link--next" aria-label="次: TradingView と alpha-strike の連携">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 次
               </span>
               <div class="md-ellipsis">
-                EULA
+                TradingView と alpha-strike の連携
               </div>
             </div>
             <div class="md-footer__button md-icon">

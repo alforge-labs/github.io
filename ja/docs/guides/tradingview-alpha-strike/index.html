@@ -12,13 +12,13 @@
         <meta name="author" content="Alforge Labs">
       
       
-        <link rel="canonical" href="https://alforgelabs.com/ja/docs/legal/disclaimers/">
+        <link rel="canonical" href="https://alforgelabs.com/ja/docs/guides/tradingview-alpha-strike/">
       
       
-        <link rel="prev" href="../../ai-driven-forges/">
+        <link rel="prev" href="../tradingview-pine-integration/">
       
       
-        <link rel="next" href="../eula/">
+        <link rel="next" href="../../ai-driven-forges/">
       
       
         
@@ -33,7 +33,7 @@
     
     
       
-        <title>免責事項 - AlphaForge ドキュメント</title>
+        <title>TradingView と alpha-strike の連携 - AlphaForge ドキュメント</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#tradingview-alpha-strike" class="md-skip">
           コンテンツにスキップ
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              免責事項
+              TradingView と alpha-strike の連携
             
           </span>
         </div>
@@ -306,11 +306,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../guides/end-to-end-workflow/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../end-to-end-workflow/" class="md-tabs__link">
           
   
   
@@ -345,13 +347,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../legal/disclaimers/" class="md-tabs__link">
           
   
   
@@ -764,26 +764,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -801,7 +806,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -819,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/end-to-end-workflow/" class="md-nav__link">
+      <a href="../end-to-end-workflow/" class="md-nav__link">
         
   
   
@@ -847,7 +852,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/tradingview-pine-integration/" class="md-nav__link">
+      <a href="../tradingview-pine-integration/" class="md-nav__link">
         
   
   
@@ -872,10 +877,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../guides/tradingview-alpha-strike/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TradingView と alpha-strike の連携
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -891,6 +923,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 環境変数の設定
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-webhook-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Webhook URL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. ペイロード仕様
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-oanda-instrument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. ティッカーと OANDA instrument の対応
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 動作確認
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -934,31 +1041,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -976,7 +1078,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -991,37 +1093,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    免責事項
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../legal/disclaimers/" class="md-nav__link">
         
   
   
@@ -1037,103 +1112,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目次">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目次
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. ソフトウェアの性質
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. 金融助言ではありません
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. リスク免責事項
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. ローカル実行とデータプライバシー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. 保証の否認
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. 責任の制限
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        関連ページ
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1146,7 +1124,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eula/" class="md-nav__link">
+      <a href="../../legal/eula/" class="md-nav__link">
         
   
   
@@ -1174,7 +1152,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../privacy/" class="md-nav__link">
+      <a href="../../legal/privacy/" class="md-nav__link">
         
   
   
@@ -1232,7 +1210,7 @@
   <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. ソフトウェアの性質
+        1. 環境変数の設定
       
     </span>
   </a>
@@ -1240,10 +1218,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
+  <a href="#2-webhook-url" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 金融助言ではありません
+        2. Webhook URL
       
     </span>
   </a>
@@ -1254,7 +1232,7 @@
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. リスク免責事項
+        3. ペイロード仕様
       
     </span>
   </a>
@@ -1262,10 +1240,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#4-oanda-instrument" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. ローカル実行とデータプライバシー
+        4. ティッカーと OANDA instrument の対応
       
     </span>
   </a>
@@ -1276,29 +1254,7 @@
   <a href="#5" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. 保証の否認
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. 責任の制限
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        関連ページ
+        5. 動作確認
       
     </span>
   </a>
@@ -1322,31 +1278,123 @@
 
 
 
-<h1 id="_1">免責事項<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<div class="admonition warning">
-<p class="admonition-title">重要なお知らせ</p>
-<p>AlphaForge はバックテストとローカル実行のためのソフトウェア開発フレームワークです。Alforge Labs は金融助言、売買シグナル、運用受託サービスを提供しません。</p>
+<h1 id="tradingview-alpha-strike">TradingView と alpha-strike の連携<a class="headerlink" href="#tradingview-alpha-strike" title="Permanent link">&para;</a></h1>
+<p>alpha-strike は TradingView のアラートを Webhook で受け取り、OANDA・moomoo 証券に自動発注します。</p>
+<h2 id="1">1. 環境変数の設定<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><code>alpha-strike/.env</code> を作成して以下を設定します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 必須</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">WEBHOOK_PASSPHRASE</span><span class="o">=</span>your-secret-passphrase<span class="w">   </span><span class="c1"># 任意の秘密文字列</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># OANDA 使用時</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nv">OANDA_API_KEY</span><span class="o">=</span>your-personal-access-token
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nv">OANDA_ACCOUNT_ID</span><span class="o">=</span>your-account-id
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nv">OANDA_ENV</span><span class="o">=</span>PRACTICE<span class="w">    </span><span class="c1"># 本番は LIVE</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># moomoo 使用時</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nv">MOOMOO_HOST</span><span class="o">=</span><span class="m">127</span>.0.0.1
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nv">MOOMOO_PORT</span><span class="o">=</span><span class="m">11111</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nv">MOOMOO_TRD_ENV</span><span class="o">=</span>SIMULATE<span class="w">   </span><span class="c1"># 本番は REAL</span>
+</code></pre></div>
+<h2 id="2-webhook-url">2. Webhook URL<a class="headerlink" href="#2-webhook-url" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Webhook エンドポイント</p>
+<p>TradingView のアラート Webhook URL に以下を設定します:
+<code>http://&lt;your-server&gt;:8080/webhook</code></p>
 </div>
-<h2 id="1">1. ソフトウェアの性質<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p>AlphaForge および Alforge Labs の関連ツールは、ソフトウェア開発者およびクオンツ研究者向けの技術インフラ・研究フレームワークです。ユーザー自身のハードウェア上で取引アルゴリズムをシミュレーションし、ローカル環境で実行するための機能を提供します。Alforge Labs は金融データ、証券仲介サービス、投資推奨を提供しません。</p>
-<h2 id="2">2. 金融助言ではありません<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<p>本ウェブサイトおよび本ソフトウェアを通じて提供されるコンテンツは、情報提供および教育目的のみを意図しています。金融、法律、税務上の助言として解釈されるべきものではありません。金融市場での取引には重大な損失リスクがあります。</p>
-<h2 id="3">3. リスク免責事項<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
-<p>過去の実績は将来の結果を示すものではありません。仮想またはシミュレーションされたパフォーマンス結果には固有の制約があります。いかなる口座も、バックテストで示された利益または損失と同様の結果を達成する、または達成する可能性が高いと表明するものではありません。</p>
-<h2 id="4">4. ローカル実行とデータプライバシー<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
-<p>AlphaForge はユーザーのローカルマシン上で動作します。Alforge Labs はユーザーの API キー、証券会社の認証情報、個人の取引データへアクセスせず、これらを保存しません。実行環境および認証情報のセキュリティと管理は、ユーザー自身が単独で責任を負います。</p>
-<h2 id="5">5. 保証の否認<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
-<p>本ソフトウェアは「現状のまま」提供されます。商品性、特定目的への適合性、非侵害性、継続利用可能性について、明示または黙示を問わずいかなる保証も行いません。</p>
-<h2 id="6">6. 責任の制限<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
-<p>適用法が許容する最大限の範囲において、Alforge Labs は、本ソフトウェアの使用または使用不能から生じる直接的、間接的、偶発的、特別、結果的損害について、その損害の可能性を事前に告知されていた場合でも責任を負いません。</p>
-<h2 id="_2">関連ページ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="https://alforgelabs.com/ja/terms.html">完全な利用規約 — <code>terms.html</code></a></li>
-<li><a href="../privacy/">プライバシーポリシー</a></li>
-<li><a href="../eula/">エンドユーザーライセンス契約（EULA）</a></li>
-</ul>
-<hr />
-<p><em>同期元: <code>ja/terms.html</code>（最終更新日: 2026 年 4 月 25 日）。本ページの記述と公式 <code>terms.html</code> の間で齟齬がある場合は <code>terms.html</code> が優先します。</em></p>
+<h2 id="3">3. ペイロード仕様<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>TradingView のアラートメッセージに JSON を記述します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;passphrase&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-secret-passphrase&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;broker&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;oanda&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;asset_class&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FX&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;buy&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">&quot;ticker&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USDJPY&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">&quot;quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>説明</th>
+<th>値の例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>passphrase</code></td>
+<td><strong>必須</strong> — <code>.env</code> の <code>WEBHOOK_PASSPHRASE</code> と一致させること</td>
+<td><code>"my-secret"</code></td>
+</tr>
+<tr>
+<td><code>broker</code></td>
+<td><strong>必須</strong> — 発注先の証券会社</td>
+<td><code>"oanda"</code> / <code>"moomoo"</code></td>
+</tr>
+<tr>
+<td><code>asset_class</code></td>
+<td><strong>必須</strong> — アセットクラス</td>
+<td><code>"FX"</code> / <code>"COMMODITY"</code> / <code>"US"</code> / <code>"INDEX"</code></td>
+</tr>
+<tr>
+<td><code>action</code></td>
+<td><strong>必須</strong> — 注文方向</td>
+<td><code>"buy"</code> / <code>"sell"</code></td>
+</tr>
+<tr>
+<td><code>ticker</code></td>
+<td><strong>必須</strong> — 銘柄コード（TradingView のシンボル名）</td>
+<td><code>"USDJPY"</code> / <code>"XAUUSD"</code></td>
+</tr>
+<tr>
+<td><code>quantity</code></td>
+<td><strong>必須</strong> — 注文数量（0 より大きい正の数）</td>
+<td><code>1000</code> / <code>0.1</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-oanda-instrument">4. ティッカーと OANDA instrument の対応<a class="headerlink" href="#4-oanda-instrument" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>asset_class</th>
+<th>ticker 例</th>
+<th>OANDA instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX</td>
+<td>USDJPY</td>
+<td>USD_JPY</td>
+</tr>
+<tr>
+<td>COMMODITY</td>
+<td>XAUUSD</td>
+<td>XAU_USD</td>
+</tr>
+<tr>
+<td>INDEX</td>
+<td>NAS100</td>
+<td>NAS100_USD</td>
+</tr>
+<tr>
+<td>US</td>
+<td>AAPL</td>
+<td>AAPL_USD</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5">5. 動作確認<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># ヘルスチェック</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>http://localhost:8080/health
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># → {&quot;status&quot;:&quot;ok&quot;}</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># テスト発注（PRACTICE / SIMULATE 環境で確認）</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/webhook<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;passphrase&quot;:&quot;your-secret&quot;,&quot;broker&quot;:&quot;oanda&quot;,&quot;asset_class&quot;:&quot;FX&quot;,&quot;action&quot;:&quot;buy&quot;,&quot;ticker&quot;:&quot;USDJPY&quot;,&quot;quantity&quot;:1000}&#39;</span>
+</code></pre></div>
 
 
 
@@ -1382,7 +1430,7 @@
       <nav class="md-footer__inner md-grid" aria-label="フッター" >
         
           
-          <a href="../../ai-driven-forges/" class="md-footer__link md-footer__link--prev" aria-label="前: AI エージェント連携">
+          <a href="../tradingview-pine-integration/" class="md-footer__link md-footer__link--prev" aria-label="前: TradingView への Pine Script 反映">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1392,20 +1440,20 @@
                 前
               </span>
               <div class="md-ellipsis">
-                AI エージェント連携
+                TradingView への Pine Script 反映
               </div>
             </div>
           </a>
         
         
           
-          <a href="../eula/" class="md-footer__link md-footer__link--next" aria-label="次: EULA">
+          <a href="../../ai-driven-forges/" class="md-footer__link md-footer__link--next" aria-label="次: AI エージェント連携">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 次
               </span>
               <div class="md-ellipsis">
-                EULA
+                AI エージェント連携
               </div>
             </div>
             <div class="md-footer__button md-icon">
