@@ -140,7 +140,7 @@ forge backtest run SPY --strategy my_first_strategy --json
 
 ## 結果の見方
 
-主要 6 指標の意味と目安です。詳細な指標一覧は [CLI リファレンス](cli-reference.md) と [戦略テンプレート](templates.md) を参照してください。
+主要 6 指標の意味と目安です。詳細な指標一覧は [CLI リファレンス](cli-reference/index.md) と [戦略テンプレート](templates.md) を参照してください。
 
 | 指標 | 意味 | 目安 |
 |------|------|------|
@@ -152,8 +152,8 @@ forge backtest run SPY --strategy my_first_strategy --json
 | **Total Trades** | 期間中の総トレード数 | 統計的有意性のため最低 30 件以上は欲しい。少なすぎると過学習リスク。 |
 
 !!! info "次に試すべきこと"
-    - パラメータ最適化: [`forge optimize bayes`](cli-reference.md) でベイズ最適化
-    - ウォークフォワード検証: [`forge wft`](cli-reference.md) で過学習を検証
+    - パラメータ最適化: [`forge optimize run`](cli-reference/optimize.md) で Optuna ベイズ最適化
+    - ウォークフォワード検証: [`forge optimize walk-forward`](cli-reference/optimize.md) で過学習を検証
     - 戦略テンプレート: [HMM × BB × RSI など](templates.md)を試す
 
 ## アンインストール
@@ -184,7 +184,7 @@ forge backtest run SPY --strategy my_first_strategy --json
 
 ## 次のステップ
 
-- [CLI リファレンス](cli-reference.md) — `forge` コマンドの全パラメータと出力形式
+- [CLI リファレンス](cli-reference/index.md) — `forge` コマンドの全パラメータと出力形式
 - [戦略テンプレート](templates.md) — HMM × BB × RSI などの複合戦略例
 - [AI エージェント連携](ai-driven-forges.md) — Claude Code / Codex × AlphaForge による自律探索
 

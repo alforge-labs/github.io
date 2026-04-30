@@ -140,7 +140,7 @@ forge backtest run SPY --strategy my_first_strategy --json
 
 ## Reading the Results
 
-The six metrics you'll look at first. For the full metric list, see the [CLI Reference](cli-reference.md) and [Strategy Templates](templates.md).
+The six metrics you'll look at first. For the full metric list, see the [CLI Reference](cli-reference/index.md) and [Strategy Templates](templates.md).
 
 | Metric | Meaning | Rule of thumb |
 |--------|---------|---------------|
@@ -152,8 +152,8 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 | **Total Trades** | Number of trades over the test period | Aim for 30+ for statistical significance. Too few suggests overfitting risk. |
 
 !!! info "What to try next"
-    - Parameter optimization: [`forge optimize bayes`](cli-reference.md) for Bayesian search
-    - Walk-forward validation: [`forge wft`](cli-reference.md) to detect overfitting
+    - Parameter optimization: [`forge optimize run`](cli-reference/optimize.md) for Optuna Bayesian search
+    - Walk-forward validation: [`forge optimize walk-forward`](cli-reference/optimize.md) to detect overfitting
     - Strategy templates: try [HMM × BB × RSI and others](templates.md)
 
 ## Uninstall
@@ -184,7 +184,7 @@ For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.
 
 ## Next Steps
 
-- [CLI Reference](cli-reference.md) — Every `forge` command, parameters, and output format
+- [CLI Reference](cli-reference/index.md) — Every `forge` command, parameters, and output format
 - [Strategy Templates](templates.md) — Compound strategies like HMM × BB × RSI
 - [AI Agent Integration](ai-driven-forges.md) — Autonomous exploration with Claude Code / Codex × AlphaForge
 

@@ -14,7 +14,7 @@ This documentation walks through installation, strategy development, and integra
 ## Topics
 
 - [Getting Started](getting-started.md) — Installation, license activation, and your first backtest
-- [CLI Reference](cli-reference.md) — Every `forge` command with parameters and output examples
+- [CLI Reference](cli-reference/index.md) — Every `forge` command with parameters and output examples
 - [Strategy Templates](templates.md) — Combination strategies like HMM × BB × RSI with concrete JSON
 - [AI Agent Integration](ai-driven-forges.md) — A how-to for autonomous strategy development with Claude Code / Codex × AlphaForge
 - [Legal & Disclaimers](legal/disclaimers.md) — Disclaimers, EULA, and Privacy Policy

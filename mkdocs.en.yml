@@ -55,7 +55,15 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
-  - CLI Reference: cli-reference.md
+  - CLI Reference:
+      - Overview: cli-reference/index.md
+      - backtest: cli-reference/backtest.md
+      - optimize: cli-reference/optimize.md
+      - strategy: cli-reference/strategy.md
+      - data: cli-reference/data.md
+      - journal: cli-reference/journal.md
+      - live: cli-reference/live.md
+      - Other commands: cli-reference/other.md
   - Strategy Templates: templates.md
   - AI Agent Integration: ai-driven-forges.md
   - Legal & Disclaimers:
