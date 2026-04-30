@@ -1,0 +1,61 @@
+site_name: AlphaForge ドキュメント
+site_url: https://alforgelabs.com/ja/docs/
+site_description: AlphaForge CLI 公式ドキュメント — インストール、コマンド、戦略テンプレート、AI エージェント連携。
+site_author: Alforge Labs
+
+docs_dir: mkdocs_src/ja
+site_dir: ja/docs
+use_directory_urls: true
+
+theme:
+  name: material
+  language: ja
+  palette:
+    - scheme: slate
+      primary: black
+      accent: amber
+  font:
+    text: Space Grotesk
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+
+extra:
+  homepage: https://alforgelabs.com/ja/index.html
+  alternate:
+    - name: 日本語
+      link: /ja/docs/
+      lang: ja
+    - name: English
+      link: /en/docs/
+      lang: en
+
+plugins:
+  - search:
+      lang: ja
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+nav:
+  - ホーム: index.md
+  - はじめに: getting-started.md
+  - CLI リファレンス: cli-reference.md
+  - 戦略テンプレート: templates.md
+  - AI エージェント連携: ai-driven-forges.md
+  - 利用規約と免責事項: legal.md
