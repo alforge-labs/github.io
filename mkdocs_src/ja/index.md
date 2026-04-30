@@ -14,7 +14,7 @@ AlphaForge は、時系列バックテスト・ベイズ最適化・ウォーク
 ## 主な話題
 
 - [はじめに](getting-started.md) — インストール、ライセンス認証、最初のバックテスト
-- [CLI リファレンス](cli-reference.md) — `forge` コマンドの全パラメータと出力例
+- [CLI リファレンス](cli-reference/index.md) — `forge` コマンドの全パラメータと出力例
 - [戦略テンプレート](templates.md) — HMM × BB × RSI などの組み合わせ戦略を実 JSON 付きで紹介
 - [AI エージェント連携](ai-driven-forges.md) — Claude Code / Codex × AlphaForge による自律戦略開発の HOWTO
 - [利用規約と免責事項](legal/disclaimers.md) — 免責事項・EULA・プライバシーポリシー
