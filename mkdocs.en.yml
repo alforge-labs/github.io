@@ -58,4 +58,7 @@ nav:
   - CLI Reference: cli-reference.md
   - Strategy Templates: templates.md
   - AI Agent Integration: ai-driven-forges.md
-  - Legal & Disclaimers: legal.md
+  - Legal & Disclaimers:
+      - Disclaimers: legal/disclaimers.md
+      - EULA: legal/eula.md
+      - Privacy Policy: legal/privacy.md

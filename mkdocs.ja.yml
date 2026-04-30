@@ -58,4 +58,7 @@ nav:
   - CLI リファレンス: cli-reference.md
   - 戦略テンプレート: templates.md
   - AI エージェント連携: ai-driven-forges.md
-  - 利用規約と免責事項: legal.md
+  - 利用規約と免責:
+      - 免責事項: legal/disclaimers.md
+      - EULA: legal/eula.md
+      - プライバシーポリシー: legal/privacy.md
