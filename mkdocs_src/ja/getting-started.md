@@ -190,4 +190,4 @@ forge backtest run SPY --strategy my_first_strategy --json
 
 ---
 
-*同期元: `ja/install.html`（インストール・ライセンス認証・トラブルシューティング部分）。バックテスト実行例は alpha-forge の戦略 JSON スキーマ（`spy_sma_crossover_v1.json` を参考）に基づく。*
+<!-- 同期元: `ja/install.html`（インストール・ライセンス認証・トラブルシューティング部分）。バックテスト実行例は alpha-forge の戦略 JSON スキーマ（`spy_sma_crossover_v1.json` を参考）に基づく。 -->

@@ -232,4 +232,4 @@ forge data update
 
 ---
 
-*同期元: `alpha-forge/src/alpha_forge/commands/data.py` の Click decorator、`alpha-forge/src/alpha_forge/data/providers/` のプロバイダー実装、`alpha-forge/CLAUDE.md` のプロバイダー記述。alpha-forge 側で引数追加・プロバイダー追加があった場合、本ページも追従更新が必要。*
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/data.py` の Click decorator、`alpha-forge/src/alpha_forge/data/providers/` のプロバイダー実装、`alpha-forge/CLAUDE.md` のプロバイダー記述。alpha-forge 側で引数追加・プロバイダー追加があった場合、本ページも追従更新が必要。 -->

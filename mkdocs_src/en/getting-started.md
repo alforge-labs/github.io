@@ -190,4 +190,4 @@ For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.
 
 ---
 
-*Synced from: `en/install.html` (install / license activation / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`).*
+<!-- Synced from: `en/install.html` (install / license activation / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`). -->

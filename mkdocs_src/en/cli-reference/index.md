@@ -76,4 +76,4 @@ forge backtest run --help            # Detailed parameters for a specific subcom
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/*.py`. This catalog must be kept in sync when CLI commands change.*
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/*.py`. This catalog must be kept in sync when CLI commands change. -->

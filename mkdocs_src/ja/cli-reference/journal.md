@@ -288,4 +288,4 @@ forge journal verdict <STRATEGY_ID> <RUN_ID> <pass|fail|review>
 
 ---
 
-*同期元: `alpha-forge/src/alpha_forge/commands/journal.py` の Click decorator と `alpha-forge/src/alpha_forge/journal/formatter.py` の `format_*` 関数。alpha-forge 側で引数追加・整形ロジック変更があった場合、本ページも追従更新が必要。*
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/journal.py` の Click decorator と `alpha-forge/src/alpha_forge/journal/formatter.py` の `format_*` 関数。alpha-forge 側で引数追加・整形ロジック変更があった場合、本ページも追従更新が必要。 -->

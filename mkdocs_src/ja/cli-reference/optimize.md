@@ -449,4 +449,4 @@ fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
 
 ---
 
-*同期元: `alpha-forge/src/alpha_forge/commands/optimize.py` の Click decorator から抽出。alpha-forge 側で引数追加・変更があった場合、本ページも追従更新が必要。*
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/optimize.py` の Click decorator から抽出。alpha-forge 側で引数追加・変更があった場合、本ページも追従更新が必要。 -->

@@ -478,4 +478,4 @@ forge live compare <STRATEGY_ID>
 
 ---
 
-*同期元: `alpha-strategies/data/strategies/multi_asset_hmm_bb_rsi_v1_qqq.json` および `commodity_hmm_regime_v1.json`。マルチタイムフレーム戦略は `indicators[].timeframe` フィールドの使用例として書き起こしたもの。*
+<!-- 同期元: `alpha-strategies/data/strategies/multi_asset_hmm_bb_rsi_v1_qqq.json` および `commodity_hmm_regime_v1.json`。マルチタイムフレーム戦略は `indicators[].timeframe` フィールドの使用例として書き起こしたもの。 -->

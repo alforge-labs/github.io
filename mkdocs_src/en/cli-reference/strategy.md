@@ -404,4 +404,4 @@ Strategy: my_v1  [NG]
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/strategy.py` and `_TEMPLATE_REGISTRY` in `alpha-forge/src/alpha_forge/strategy/templates.py`. This page must be kept in sync when CLI arguments or templates change.*
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/strategy.py` and `_TEMPLATE_REGISTRY` in `alpha-forge/src/alpha_forge/strategy/templates.py`. This page must be kept in sync when CLI arguments or templates change. -->

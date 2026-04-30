@@ -339,4 +339,4 @@ Everything else runs autonomously through the agent.
 
 ---
 
-*Synced from: slash-command definitions in `alpha-trade/.claude/commands/{explore-strategies,explore-strategies-loop,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md`. Agent comparison reflects April 2026.*
+<!-- Synced from: slash-command definitions in `alpha-trade/.claude/commands/{explore-strategies,explore-strategies-loop,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md`. Agent comparison reflects April 2026. -->

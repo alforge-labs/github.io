@@ -49,4 +49,4 @@ For privacy inquiries, disclosure requests, or deletion requests, please contact
 
 ---
 
-*Synced from: `en/privacy.html` (Last Updated: April 25, 2026). In the event of any discrepancy between this page and the canonical `privacy.html`, the latter prevails.*
+<!-- Synced from: `en/privacy.html` (Last Updated: April 25, 2026). In the event of any discrepancy between this page and the canonical `privacy.html`, the latter prevails. -->

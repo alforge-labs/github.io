@@ -288,4 +288,4 @@ The verdict is reflected in `forge journal show` and `forge journal runs` output
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/journal.py` and `format_*` functions in `alpha-forge/src/alpha_forge/journal/formatter.py`. This page must be kept in sync when CLI arguments or formatting logic change.*
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/journal.py` and `format_*` functions in `alpha-forge/src/alpha_forge/journal/formatter.py`. This page must be kept in sync when CLI arguments or formatting logic change. -->

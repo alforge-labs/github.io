@@ -35,4 +35,4 @@ AlphaForge はユーザーのローカルマシン上で動作します。Alforg
 
 ---
 
-*同期元: `ja/terms.html`（最終更新日: 2026 年 4 月 25 日）。本ページの記述と公式 `terms.html` の間で齟齬がある場合は `terms.html` が優先します。*
+<!-- 同期元: `ja/terms.html`（最終更新日: 2026 年 4 月 25 日）。本ページの記述と公式 `terms.html` の間で齟齬がある場合は `terms.html` が優先します。 -->
