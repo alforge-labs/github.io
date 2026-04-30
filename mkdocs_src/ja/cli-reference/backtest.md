@@ -1,35 +1,513 @@
 # forge backtest
 
-戦略のバックテスト実行と関連分析を行うコマンドグループ。
+戦略のバックテスト実行と関連分析を行うコマンドグループ。バックテスト実行・並列バッチ実行・診断・結果一覧/表示/移行・戦略比較・ポートフォリオ・チャート誘導・モンテカルロ・シグナル件数チェックなどを提供します。
 
-!!! info "詳細充填予定"
-    各サブコマンドのパラメータ・出力例・エラーコードの詳細は別 issue で順次充填されます。
+!!! info "サンプル出力について"
+    本ページの出力例は `alpha-forge` のソースから読み取ったフォーマットを元にしたサンプルです。実際の数値はデータと環境によって異なります。
 
 ## サブコマンド一覧
 
 | コマンド | 説明 |
 |---------|------|
-| `forge backtest run` | バックテストを実行する |
-| `forge backtest batch` | 複数の戦略 JSON を並列バックテストする |
-| `forge backtest diagnose` | 戦略のパフォーマンス問題を自動診断する |
-| `forge backtest list` | 保存済みのバックテスト結果一覧を表示する |
-| `forge backtest report` | 保存済みのバックテスト結果を表示する |
-| `forge backtest migrate` | 既存の JSON レポートファイルを DB にインポートする |
-| `forge backtest compare` | 複数戦略を同一シンボル・期間で並べてバックテスト比較する |
-| `forge backtest portfolio` | 複数銘柄のポートフォリオバックテストを実行する |
-| `forge backtest chart` | ダッシュボードの URL を表示してチャートへ誘導する |
-| `forge backtest signal-count` | エントリー条件のシグナル発生件数を高速チェック（vectorbt スキップ） |
-| `forge backtest monte-carlo` | 既存のバックテスト結果からモンテカルロシミュレーションを実行する |
-
-## 当面の使い方
-
-最も基本的な使い方は [はじめに#最初のバックテスト](../getting-started.md#最初のバックテスト) を参照してください。詳細パラメータは `forge backtest <subcommand> --help` で確認できます。
-
-```bash
-forge backtest run --help
-forge backtest compare --help
-```
+| [`forge backtest run`](#forge-backtest-run) | バックテストを実行する |
+| [`forge backtest batch`](#forge-backtest-batch) | 複数の戦略 JSON を並列バックテストする |
+| [`forge backtest diagnose`](#forge-backtest-diagnose) | 戦略のパフォーマンス問題を自動診断する |
+| [`forge backtest list`](#forge-backtest-list) | 保存済みのバックテスト結果一覧を表示する |
+| [`forge backtest report`](#forge-backtest-report) | 保存済みのバックテスト結果を表示する |
+| [`forge backtest migrate`](#forge-backtest-migrate) | 既存の JSON レポートファイルを DB にインポートする |
+| [`forge backtest compare`](#forge-backtest-compare) | 複数戦略を同一シンボル・期間で並べてバックテスト比較する |
+| [`forge backtest portfolio`](#forge-backtest-portfolio) | 複数銘柄のポートフォリオバックテストを実行する |
+| [`forge backtest chart`](#forge-backtest-chart) | ダッシュボードの URL を表示してチャートへ誘導する |
+| [`forge backtest signal-count`](#forge-backtest-signal-count) | エントリー条件のシグナル発生件数を高速チェック |
+| [`forge backtest monte-carlo`](#forge-backtest-monte-carlo) | 既存のバックテスト結果からモンテカルロシミュレーションを実行する |
 
 ---
 
-*同期元: `alpha-forge/src/alpha_forge/commands/backtest.py` の Click decorator。*
+## forge backtest run
+
+戦略をバックテスト実行する。`--strategy` または `--strategy-file` のいずれかを指定。
+
+### 構文
+
+```bash
+forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `SYMBOL` | 引数（必須） | - | 銘柄シンボル（例: SPY、AAPL、CL=F） |
+| `--strategy` | オプション | - | 戦略 ID（`--strategy-file` と排他） |
+| `--strategy-file` | オプション | - | 戦略 JSON ファイルパス（DB 登録不要） |
+| `--json` | フラグ | false | 結果を JSON 形式で標準出力 |
+| `--start` | オプション | - | 開始日 `YYYY-MM-DD` |
+| `--end` | オプション | - | 終了日 `YYYY-MM-DD` |
+| `--split` | フラグ | false | イン/アウトサンプル分割 |
+| `--benchmark` | オプション | config 値 | ベンチマークシンボル |
+| `--check-criteria` | フラグ | false | 受け入れ基準チェックを行う |
+| `--cagr-min` | float | `20.0` | CAGR 最低基準（%、`--check-criteria` と併用） |
+| `--sharpe-min` | float | `1.0` | Sharpe 最低基準 |
+| `--max-dd` | float | `25.0` | MaxDD 上限（%）。`pre_filter_pass` の判定にも使用 |
+| `--win-rate-min` | float | `55.0` | 勝率 最低基準（%） |
+| `--pf-min` | float | `1.3` | PF 最低基準 |
+| `--min-trades` | int | - | 最低取引数。閾値未満で終了コード 1 |
+| `--regime` | フラグ | false | レジーム別統計をコンソールに表示 |
+
+### 出力例（テキスト）
+
+```text
+バックテストを実行中: SPY x sma_crossover_v1
+✅ バックテスト完了  信号品質スコア: 0.78/1.0
+総リターン: +52.30%  CAGR: 5.40%
+SR: 0.92  Sortino: 1.15  Calmar: 0.32
+MDD: -16.80%  期間: 187日  回復: 92日
+PF: 1.74  Win%: 50.0%  avg勝: 4.20%  avg負: -2.40%
+取引数: 14  平均保有: 28.5日(28bar)  最大: 65.0日(65bar)  連勝: 4  連敗: 3
+勝率CI(90%): 35.2% - 64.8%
+```
+
+### 出力例（`--json`）
+
+```json
+{
+  "total_return_pct": 52.30,
+  "cagr_pct": 5.40,
+  "sharpe_ratio": 0.92,
+  "max_drawdown_pct": -16.80,
+  "win_rate_pct": 50.0,
+  "profit_factor": 1.74,
+  "total_trades": 14,
+  "pre_filter_pass": false,
+  "pre_filter": { "sharpe_min": 1.0, "max_dd_max": 25.0 },
+  "warnings": []
+}
+```
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `--strategy または --strategy-file のいずれかを指定してください` | 両方未指定 | どちらか一方を指定 |
+| `--strategy と --strategy-file は同時に指定できません` | 両方指定 | どちらか一方のみに |
+| `エラー: 開始日の形式が不正です (YYYY-MM-DD)` | 日付形式不正 | `2024-01-15` 形式で指定 |
+| `⚠️ {interval} データが見つかりません。1d データにフォールバックします。` | 戦略の `timeframe` データが未取得 | `forge data fetch` で対象 interval のデータを取得 |
+
+---
+
+## forge backtest batch
+
+複数の戦略 JSON を並列にバックテストする。フィルタ条件（Sharpe / MaxDD）を満たした戦略を「合格」として表示。
+
+### 構文
+
+```bash
+forge backtest batch <SYMBOL> (--strategy-file <FILE> ... | --strategy-dir <DIR>) [OPTIONS]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `SYMBOL` | 引数（必須） | - | 銘柄シンボル |
+| `--strategy-file` | 複数指定可 | - | 戦略 JSON ファイルパス |
+| `--strategy-dir` | オプション | - | 戦略 JSON を含むディレクトリ |
+| `--pattern` | オプション | `*.json` | `--strategy-dir` 使用時のファイルパターン |
+| `--workers` | int | `3` | 並列実行数 |
+| `--sharpe-min` | float | `1.0` | `pre_filter_pass` 判定の Sharpe 下限 |
+| `--max-dd` | float | `25.0` | `pre_filter_pass` 判定の MaxDD 上限 |
+| `--json` | フラグ | false | 結果を JSON 配列で標準出力 |
+
+### 出力例
+
+```text
+バッチバックテスト開始: SPY × 5戦略 (workers=3)
+  ✅ spy_sma_v1: Sharpe=1.32  MaxDD=-12.4%  CAGR=8.2%  trades=18
+  ❌ spy_rsi_v1: Sharpe=0.61  MaxDD=-22.1%  CAGR=4.1%  trades=24
+  ✅ spy_macd_v1: Sharpe=1.18  MaxDD=-15.6%  CAGR=7.0%  trades=15
+  🔴 spy_broken_v1: ERROR - 戦略 JSON 読み込み失敗
+
+合格戦略: 2/4件
+  ✅ spy_sma_v1: Sharpe=1.32  MaxDD=-12.4%
+  ✅ spy_macd_v1: Sharpe=1.18  MaxDD=-15.6%
+```
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `--strategy-file か --strategy-dir のいずれかを指定してください` | 両方未指定 | どちらか一方を指定 |
+| `🔴 <id>: ERROR - <理由>` | 個別戦略のロード/実行失敗 | エラーメッセージに従い修正 |
+
+---
+
+## forge backtest diagnose
+
+戦略のパフォーマンス問題（過学習・低取引数・極端な勝敗バランス等）を自動診断する。
+
+### 構文
+
+```bash
+forge backtest diagnose <SYMBOL> --strategy <ID> [OPTIONS]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `SYMBOL` | 引数（必須） | - | 銘柄シンボル |
+| `--strategy` | 必須 | - | 戦略 ID |
+| `--start` | オプション | - | 開始日 `YYYY-MM-DD` |
+| `--end` | オプション | - | 終了日 `YYYY-MM-DD` |
+| `--split` | フラグ | true | イン/アウトサンプル分割（デフォルト ON） |
+| `--json` | フラグ | false | 結果を JSON で出力 |
+
+### 出力例
+
+戦略診断結果（推定される問題と推奨アクション）が表示されます。詳細は `forge backtest diagnose --help` と内部の `StrategyDiagnostics` ロジックを参照。
+
+---
+
+## forge backtest list
+
+保存済みのバックテスト結果（DB）を一覧表示する。
+
+### 構文
+
+```bash
+forge backtest list [OPTIONS]
+```
+
+### オプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `--strategy` | オプション | - | 戦略 ID で絞り込む |
+| `--symbol` | オプション | - | シンボルで絞り込む |
+| `--sort` | オプション | `run_at` | ソートキー（`sharpe_ratio` / `total_return_pct` / `cagr_pct` / `max_drawdown_pct` / `win_rate_pct` / `profit_factor` / `run_at`） |
+| `--limit` | int | `20` | 表示件数 |
+| `--best` | フラグ | false | グループ別のベストレコードのみ表示 |
+| `--by` | choice | `strategy` | `--best` のグループキー（`strategy` / `symbol`） |
+
+### 出力例
+
+```text
+バックテスト結果 (5件)
+run_id                               strategy_id                   symbol         Return  Sharpe      MDD  取引数
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+spy_sma_v1_20260415_103021           spy_sma_v1                    SPY            +52.3%    0.92   -16.8%      14
+spy_macd_v1_20260414_181522          spy_macd_v1                   SPY            +38.1%    1.18   -15.6%      12
+...
+```
+
+### 主なメッセージ
+
+| メッセージ | 原因 |
+|----------|------|
+| `保存済みのバックテスト結果がありません。` | DB が空 |
+
+---
+
+## forge backtest report
+
+保存済みのバックテスト結果を詳細表示する。
+
+### 構文
+
+```bash
+forge backtest report <RESULT_ID> [OPTIONS]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `RESULT_ID` | 引数（必須） | - | DB モード: `strategy_id` または `run_id`。ファイルモード: `result_id` |
+| `--json` | フラグ | false | JSON 全体を出力 |
+| `--symbol` | オプション | - | DB モード: シンボルで絞り込む |
+
+`run_id` として直接ヒットしない場合、`strategy_id` の最新ランへフォールバックします。
+
+### 出力例
+
+```text
+=== spy_sma_v1 / SPY (2026-04-15T10:30:21) ===
+総リターン: 52.30%  CAGR: 5.40%
+SR: 0.92  Sortino: 1.15  Calmar: 0.32
+MDD: -16.80%  PF: 1.74  Win%: 50.0%
+取引数: 14  平均保有: 28.5日(28bar)  最大: 65.0日(65bar)
+トレードログ: 14件 (--json で全体を確認可能)
+```
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `エラー: 結果が見つかりません - <id>` | `run_id` も `strategy_id` も該当なし | `forge backtest list` で確認 |
+
+---
+
+## forge backtest migrate
+
+既存の `*_report.json` ファイルを DB にインポートする。
+
+### 構文
+
+```bash
+forge backtest migrate [--dry-run] [--force]
+```
+
+### オプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `--dry-run` | フラグ | false | DB への書き込みを行わず確認のみ |
+| `--force` | フラグ | false | `run_id` 重複時も上書き |
+
+`run_id` は `migrated_<file_stem>` 形式で生成されます。
+
+### 出力例
+
+```text
+  ✅ migrated_spy_sma_v1
+  ♻️  migrated_spy_macd_v1 (上書き)
+  スキップ (重複): migrated_spy_rsi_v1
+
+完了: 2 件インポート、1 件スキップ
+```
+
+### 主なメッセージ
+
+| メッセージ | 原因 |
+|----------|------|
+| `レポートディレクトリが存在しません。` | `config.report.output_path` が未作成 |
+| `インポート対象の JSON ファイルが見つかりません。` | `*_report.json` が無い |
+
+---
+
+## forge backtest compare
+
+複数戦略を同一シンボル・同一期間で比較する。
+
+### 構文
+
+```bash
+forge backtest compare <STRATEGY1> [STRATEGY2 ...] --symbol <SYM> [--symbol <SYM> ...] [OPTIONS]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `STRATEGIES` | 引数（必須、複数） | - | 比較対象の戦略 ID（スペース区切り） |
+| `--symbol` / `-s` | 複数指定可（必須） | - | 比較対象のシンボル |
+| `--start` | オプション | - | 開始日 `YYYY-MM-DD` |
+| `--end` | オプション | - | 終了日 `YYYY-MM-DD` |
+| `--benchmark` | オプション | config 値 | ベンチマークシンボル |
+| `--json` | フラグ | false | 結果を JSON 形式で出力 |
+
+### 出力例（テキスト表）
+
+```text
+=== 戦略比較: SPY (2020-01-01 〜 現在) (3 戦略) ===
+
+戦略             Return    CAGR  Sharpe     MDD   Win%      PF  取引数
+spy_sma_v1     +52.3%   5.40    0.92  -16.8%   50%   1.74      14
+spy_macd_v1    +38.1%   4.20    1.18  -15.6%   58%   1.92      12
+spy_rsi_v1     +12.4%   1.50    0.45  -22.1%   42%   1.08      24
+```
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `エラー: <SYM> のデータが見つかりません` | データ未取得 | `forge data fetch <SYM>` |
+| `警告: 戦略 '<id>' の読み込みに失敗しました` | 戦略 ID 不正 / JSON 不正 | `forge strategy list` で確認、`forge strategy validate` |
+
+---
+
+## forge backtest portfolio
+
+複数銘柄のポートフォリオバックテストを実行する。
+
+### 構文
+
+```bash
+forge backtest portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `SYMBOLS` | 引数（必須、複数） | - | 銘柄シンボルのスペース区切りリスト |
+| `--strategy` | 必須 | - | 戦略 ID |
+| `--allocation` | choice | `equal` | 資金配分方式（`equal` / `risk_parity` / `custom`） |
+| `--weights` | オプション | - | カスタムウェイト `AAPL=0.4,MSFT=0.6`（`--allocation custom` 用） |
+| `--json` | フラグ | false | 結果を JSON 形式で出力 |
+| `--save` | フラグ | false | 結果をファイルに保存 |
+
+### 出力例
+
+```text
+ポートフォリオバックテストを実行中: ['AAPL', 'MSFT', 'GOOGL'] (equal 配分)
+
+=== ポートフォリオ結果: tech_basket_v1 (equal) ===
+銘柄: AAPL, MSFT, GOOGL
+配分: AAPL=33.3%, MSFT=33.3%, GOOGL=33.3%
+総リターン: 78.40%  CAGR: 12.30%
+SR: 1.45  Sortino: 1.85  Calmar: 0.62
+MDD: -19.80%  CVaR(95%): -3.20%
+分散効果比率: 1.085
+
+銘柄         ウェイト    Return     SR      MDD
+──────────────────────────────────────────────────
+AAPL          33.3%   +85.2%   1.52  -22.1%
+MSFT          33.3%   +72.0%   1.41  -18.4%
+GOOGL         33.3%   +78.0%   1.38  -19.5%
+```
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `エラー: --weights の形式が不正です。例: AAPL=0.4,MSFT=0.6` | 形式違反 | カンマ・等号で区切る |
+| `エラー: <SYM> のデータが見つかりません` | データ未取得 | `forge data fetch` |
+| `エラー: バックテストに失敗しました - <理由>` | エンジン例外 | エラーメッセージに従い対処 |
+
+---
+
+## forge backtest chart
+
+ダッシュボード上のチャート URL を表示し、必要なら開く。
+
+### 構文
+
+```bash
+forge backtest chart [RESULT_ID] [--open] [--compare <ID> ...]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `RESULT_ID` | 引数（任意） | - | `run_id` または `strategy_id` |
+| `--open` | フラグ | false | URL をブラウザで開く |
+| `--compare` | 複数指定可 | - | 比較対象戦略（`strategy_id:run_id` 形式で特定ラン指定可） |
+
+### 出力例
+
+```text
+📊 チャートを表示するには `forge dashboard` を起動してください:
+   http://localhost:8000/?run_id=spy_sma_v1_20260415_103021
+```
+
+複数戦略比較時:
+
+```text
+📊 チャートを表示するには `forge dashboard` を起動してください:
+   http://localhost:8000/?ids=sma_crossover,rsi_reversion
+```
+
+このコマンド自体は URL を表示するだけです。チャート閲覧には `forge dashboard` を起動する必要があります。
+
+---
+
+## forge backtest signal-count
+
+vectorbt をスキップし、エントリー条件のシグナル発生件数だけを高速で集計する。条件式の妥当性確認用。
+
+### 構文
+
+```bash
+forge backtest signal-count <SYMBOL> --strategy <ID> [--period 5y] [--json]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `SYMBOL` | 引数（必須） | - | 銘柄シンボル |
+| `--strategy` | 必須 | - | 戦略 ID |
+| `--period` | オプション | `5y` | データ期間（例: `5y`, `1y`, `6m`, `30d`） |
+| `--json` | フラグ | false | JSON 形式で出力 |
+
+### 出力例
+
+```text
+シグナル件数チェック: spy_sma_v1 × SPY (5y)
+総バー数: 1258 日
+
+エントリー条件 (long AND):
+  sma_fast > sma_slow              :   687 日 ( 54.6%)
+  ──────────────────────────────────
+  全条件 AND                       :   687 日 ( 54.6%)
+
+レジーム別シグナル件数:
+  state=0    :   312 日 ( 24.8%)
+  state=1    :   375 日 ( 29.8%)
+```
+
+シグナルが 0 件の場合 `⚠️  シグナルが発生していません` の警告が表示されます。
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `期間の形式が不正です: <value>` | `--period` 形式不正 | `5y`, `6m`, `30d` 形式で指定 |
+| `エラー: <SYM> のデータが空です（期間: <p>）` | データ未取得 | `forge data fetch <SYM>` |
+
+---
+
+## forge backtest monte-carlo
+
+既存のバックテスト結果のトレード履歴をリサンプリングし、モンテカルロシミュレーションで破産確率や最悪ケースを評価する。
+
+### 構文
+
+```bash
+forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `RESULT_ID` | 引数（必須） | - | `run_id` または `strategy_id` |
+| `--simulations` | int | `1000` | シミュレーション試行回数 |
+| `--json` | フラグ | false | 結果を JSON 形式で出力 |
+
+### 出力例
+
+```text
+モンテカルロシミュレーションを実行中: spy_sma_v1_20260415_103021 (1000回試行)
+✅ シミュレーション完了
+初期資産: 10000
+平均最終資産: 14820
+中央最終資産: 14250
+最悪最終資産: 7340
+最高最終資産: 23150
+平均最大MDD: 18.40%
+95%最大MDD:  31.20%
+破産確率:    0.40%
+```
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `エラー: 結果が見つかりません - <id>` | DB に該当なし | `forge backtest list` で確認 |
+| `エラー: 有効なトレード履歴がありません（最低10件必要です）` | トレード件数 < 10 | より長い期間または別戦略でバックテスト |
+| `エラー: シミュレーションに失敗しました - <理由>` | 計算過程で例外 | エラーメッセージに従い対処 |
+
+---
+
+## 共通の挙動
+
+- **DB / ファイルモード**: `list` `report` `migrate` `monte-carlo` は `config.report.output_path / config.report.db_filename`（SQLite）を主ストアとします。
+- **`FORGE_CONFIG`**: 戦略・データ・結果の保管場所は環境変数 `FORGE_CONFIG` が指す `forge.yaml` で決まります。
+- **終了コード**: 通常 `0`、`--min-trades` 違反時は `1`、引数エラーは `click.UsageError`、致命的エラーは標準エラー出力に出して終了。
+
+---
+
+*同期元: `alpha-forge/src/alpha_forge/commands/backtest.py` の Click decorator から抽出。alpha-forge 側で引数追加・変更があった場合、本ページも追従更新が必要。*
