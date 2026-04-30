@@ -867,6 +867,94 @@
     }
     @media (max-width: 900px) { .usecases-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 600px) { .usecases-grid { grid-template-columns: 1fr; } }
+
+    /* ── 継続利用価値 ── */
+    .long-term-value {
+      padding: 6rem 0;
+      border-bottom: 1px solid var(--border);
+      background:
+        linear-gradient(180deg, transparent 0%, var(--accent-bg) 52%, transparent 100%);
+    }
+    .long-term-header {
+      max-width: 720px;
+      margin-bottom: 2.5rem;
+    }
+    .long-term-subtitle {
+      margin-top: 0.9rem;
+      color: var(--text2);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .long-term-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    .long-term-card {
+      min-height: 280px;
+      padding: 1.8rem;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .long-term-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .long-term-card:hover {
+      background: var(--surface-h);
+    }
+    .long-term-card:hover::before {
+      opacity: 1;
+    }
+    .long-term-index {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+    }
+    .long-term-eyebrow {
+      width: fit-content;
+      margin-top: 0.5rem;
+      padding: 0.22rem 0.6rem;
+      border: 1px solid var(--accent-glow);
+      border-radius: 100px;
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .long-term-title {
+      color: var(--text);
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .long-term-desc {
+      color: var(--text2);
+      font-size: 0.88rem;
+      line-height: 1.75;
+    }
+    @media (max-width: 900px) { .long-term-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) {
+      .long-term-value { padding: 4.5rem 0; }
+      .long-term-card { min-height: auto; padding: 1.5rem; }
+    }
   </style>
 </head>
 <body data-theme="dark">
