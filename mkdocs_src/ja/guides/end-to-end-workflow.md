@@ -18,12 +18,11 @@ forge data fetch USDJPY
 テンプレートから戦略 JSON の雛形を生成し、パラメータを編集してから登録します。
 
 ```bash
-forge strategy create --template ema_crossover \
-  --id usdjpy_ema_v1 \
-  --out data/strategies/usdjpy_ema_v1.json
+forge strategy create --template sma_crossover_v1 \
+  --out data/strategies/usdjpy_sma_v1.json
 
-# 生成されたファイルをエディタで編集し、パラメータを調整
-forge strategy save data/strategies/usdjpy_ema_v1.json
+# 生成された JSON の strategy_id とパラメータをエディタで編集してから登録
+forge strategy save data/strategies/usdjpy_sma_v1.json
 ```
 
 ## 3. バックテスト実行
@@ -31,10 +30,10 @@ forge strategy save data/strategies/usdjpy_ema_v1.json
 定義した戦略のパフォーマンスを過去データで検証します。
 
 ```bash
-forge backtest run USDJPY --strategy usdjpy_ema_v1
+forge backtest run USDJPY --strategy usdjpy_sma_v1
 
-# インタラクティブチャートで視覚的に確認
-forge backtest chart USDJPY --strategy usdjpy_ema_v1
+# 結果のチャート URL を表示してブラウザで開く
+forge backtest chart usdjpy_sma_v1 --open
 ```
 
 ## 4. パラメータ最適化
@@ -42,12 +41,12 @@ forge backtest chart USDJPY --strategy usdjpy_ema_v1
 Optuna のベイズ最適化（TPE）で最適なパラメータを探索します。
 
 ```bash
-forge optimize run USDJPY --strategy usdjpy_ema_v1 \
+forge optimize run USDJPY --strategy usdjpy_sma_v1 \
   --metric sharpe_ratio --trials 300 --save
 
-# 結果を新しい戦略として保存
-forge optimize apply data/results/usdjpy_ema_v1_opt.json \
-  --to-strategy usdjpy_ema_v1_optimized
+# 保存された結果ファイル（optimize_usdjpy_sma_v1_<timestamp>.json）を新しい戦略として適用
+forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
+  --to-strategy usdjpy_sma_v1_optimized
 ```
 
 ## 5. ウォークフォワード検証
@@ -56,11 +55,10 @@ forge optimize apply data/results/usdjpy_ema_v1_opt.json \
 
 ```bash
 forge optimize walk-forward USDJPY \
-  --strategy usdjpy_ema_v1_optimized --windows 5
+  --strategy usdjpy_sma_v1_optimized --windows 5
 
-# 感度分析でパラメータの堅牢性を確認
-forge optimize sensitivity USDJPY \
-  --strategy usdjpy_ema_v1_optimized
+# 感度分析（最適化結果 JSON ファイルを指定）
+forge optimize sensitivity data/results/optimize_usdjpy_sma_v1_<timestamp>.json
 ```
 
 ## 6. Pine Script 生成
@@ -68,10 +66,10 @@ forge optimize sensitivity USDJPY \
 TradingView 用のアラートスクリプトを自動生成します。
 
 ```bash
-forge pine generate --strategy usdjpy_ema_v1_optimized
+forge pine generate --strategy usdjpy_sma_v1_optimized
 ```
 
-出力先: `output/pinescript/usdjpy_ema_v1_optimized.pine`
+出力先: `output/pinescript/usdjpy_sma_v1_optimized.pine`
 
 !!! tip "関連コマンド"
     各サブコマンドの完全なオプション一覧は [CLI リファレンス](../cli-reference/index.md) を参照してください。次のステップは [TradingView への Pine Script 反映](tradingview-pine-integration.md) です。

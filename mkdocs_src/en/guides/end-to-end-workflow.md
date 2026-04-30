@@ -18,12 +18,11 @@ forge data fetch USDJPY
 Generate a JSON scaffold, edit parameters, and register it.
 
 ```bash
-forge strategy create --template ema_crossover \
-  --id usdjpy_ema_v1 \
-  --out data/strategies/usdjpy_ema_v1.json
+forge strategy create --template sma_crossover_v1 \
+  --out data/strategies/usdjpy_sma_v1.json
 
-# Edit the JSON, then register
-forge strategy save data/strategies/usdjpy_ema_v1.json
+# Edit the JSON's strategy_id and parameters, then register
+forge strategy save data/strategies/usdjpy_sma_v1.json
 ```
 
 ## 3. Run a backtest
@@ -31,10 +30,10 @@ forge strategy save data/strategies/usdjpy_ema_v1.json
 Validate the strategy against historical data.
 
 ```bash
-forge backtest run USDJPY --strategy usdjpy_ema_v1
+forge backtest run USDJPY --strategy usdjpy_sma_v1
 
-# Visual equity curve
-forge backtest chart USDJPY --strategy usdjpy_ema_v1
+# Show the chart URL and open it in your browser
+forge backtest chart usdjpy_sma_v1 --open
 ```
 
 ## 4. Optimize parameters
@@ -42,11 +41,12 @@ forge backtest chart USDJPY --strategy usdjpy_ema_v1
 Bayesian search with Optuna (TPE), then apply the best result.
 
 ```bash
-forge optimize run USDJPY --strategy usdjpy_ema_v1 \
+forge optimize run USDJPY --strategy usdjpy_sma_v1 \
   --metric sharpe_ratio --trials 300 --save
 
-forge optimize apply data/results/usdjpy_ema_v1_opt.json \
-  --to-strategy usdjpy_ema_v1_optimized
+# Apply the saved result file (optimize_usdjpy_sma_v1_<timestamp>.json) as a new strategy
+forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
+  --to-strategy usdjpy_sma_v1_optimized
 ```
 
 ## 5. Walk-forward validation
@@ -55,11 +55,10 @@ Detect overfitting with out-of-sample testing.
 
 ```bash
 forge optimize walk-forward USDJPY \
-  --strategy usdjpy_ema_v1_optimized --windows 5
+  --strategy usdjpy_sma_v1_optimized --windows 5
 
-# Confirm parameter robustness
-forge optimize sensitivity USDJPY \
-  --strategy usdjpy_ema_v1_optimized
+# Sensitivity analysis (point at the optimization result JSON file)
+forge optimize sensitivity data/results/optimize_usdjpy_sma_v1_<timestamp>.json
 ```
 
 ## 6. Generate Pine Script
@@ -67,10 +66,10 @@ forge optimize sensitivity USDJPY \
 Export a TradingView alert script from the optimized strategy.
 
 ```bash
-forge pine generate --strategy usdjpy_ema_v1_optimized
+forge pine generate --strategy usdjpy_sma_v1_optimized
 ```
 
-Output: `output/pinescript/usdjpy_ema_v1_optimized.pine`
+Output: `output/pinescript/usdjpy_sma_v1_optimized.pine`
 
 !!! tip "Related commands"
     See [CLI Reference](../cli-reference/index.md) for the complete option lists. Next step: [Bringing Pine Scripts into TradingView](tradingview-pine-integration.md).
