@@ -1,34 +1,407 @@
 # forge strategy
 
-Create, register, validate, and manage strategy JSON definitions.
+Create, register, validate, and manage strategy JSON definitions. Covers scaffolding from built-in templates, local registration, viewing, JSON → DB migration, deletion, and logical consistency checks (static + dynamic).
 
-!!! info "Details TBD"
-    Per-subcommand parameter, output, and error documentation will be filled in via a follow-up issue.
+!!! info "About sample output"
+    Sample outputs in this page are based on the formats read from the `alpha-forge` source. Actual numbers depend on the data and environment.
 
 ## Subcommands
 
 | Command | Description |
 |---------|-------------|
-| `forge strategy list` | List all registered strategies |
-| `forge strategy create` | Create a JSON file from a built-in template (for Claude CLI editing) |
-| `forge strategy save` | Register a custom strategy from a JSON file |
-| `forge strategy show` | Display the definition (JSON) of a registered strategy |
-| `forge strategy migrate` | Import existing JSON files into the DB (requires `use_db: true`) |
-| `forge strategy delete` | Delete a registered strategy from the DB |
-| `forge strategy validate` | Validate strategy logical consistency (add `--symbol` for dynamic checks) |
-
-## Quick start
-
-Workflow: pick a template → edit → save → validate → backtest.
-
-```bash
-forge strategy create --help
-forge strategy save --help
-forge strategy validate --help
-```
-
-For the strategy JSON schema itself, see [Strategy Templates](../templates.md).
+| [`forge strategy list`](#forge-strategy-list) | List all registered strategies |
+| [`forge strategy create`](#forge-strategy-create) | Create a JSON file from a built-in template |
+| [`forge strategy save`](#forge-strategy-save) | Register a custom strategy from a JSON file |
+| [`forge strategy show`](#forge-strategy-show) | Display the definition (JSON) of a registered strategy |
+| [`forge strategy migrate`](#forge-strategy-migrate) | Import existing JSON files into the DB |
+| [`forge strategy delete`](#forge-strategy-delete) | Delete a registered strategy from the DB |
+| [`forge strategy validate`](#forge-strategy-validate) | Validate strategy logical consistency |
 
 ---
 
-*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/strategy.py`.*
+## forge strategy list
+
+List all registered strategies. When `config.strategies.use_db` is true, reads from the DB; otherwise from the file-based store.
+
+### Synopsis
+
+```bash
+forge strategy list
+```
+
+### Arguments and options
+
+None.
+
+### Sample output
+
+```text
+ID                                       Name                           Version    Timeframe
+------------------------------------------------------------------------------------------
+spy_sma_crossover_v1                     SMA Golden/Death Cross SPY v1  1.0.0      1d
+qqq_hmm_macd_ema_rsi_v1                  QQQ HMM × MACD × EMA × RSI v1  1.0.0      1d
+gc_hmm_macd_ema_v1                       GC HMM × MACD × EMA v1         1.0.0      1d
+```
+
+When no strategies are registered:
+
+```text
+No registered strategies found.
+```
+
+---
+
+## forge strategy create
+
+Create a strategy JSON file from a built-in template. **Does not register the strategy** — edit the file and then call [`forge strategy save`](#forge-strategy-save).
+
+### Synopsis
+
+```bash
+forge strategy create --template <NAME> --out <FILE>
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `--template` | required | - | Built-in template name to use as base |
+| `--out` | required | - | Output JSON file path |
+
+### Available templates
+
+Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_TEMPLATE_REGISTRY`):
+
+| Name | Description |
+|------|-------------|
+| `sma_crossover_v1` | Short SMA × long SMA golden / death cross |
+| `rsi_reversion_v1` | Mean reversion using RSI overbought / oversold |
+| `macd_crossover_v1` | MACD line × signal line crossover |
+| `bbands_breakout_v1` | Bollinger Bands upper-band breakout |
+| `range_reversion_v1` | Range-bound mean reversion |
+| `supertrend_adx_v1` | Trend-following with SuperTrend + ADX |
+| `ema_adx_macd_v1` | Composite trend strategy with EMA + ADX + MACD |
+| `hmm_range_pure_v1` | Range-pure with HMM regime detection |
+| `hmm_anomaly_v1` | Anomaly detection via HMM regime |
+| `macd_reversal_v1` | MACD-based turning-point reversal |
+| `grid_bot_template` | Grid bot template |
+
+### Sample output
+
+```text
+✅ Created JSON file from template 'sma_crossover_v1': my_strategy.json
+```
+
+### Common errors
+
+| Situation | Behavior |
+|-----------|----------|
+| Unknown template name | Raises `ValueError: Unknown template name: <name>. Available: ...` |
+
+---
+
+## forge strategy save
+
+Register a custom strategy in the **strategy registry** from a JSON file. When `config.journal.auto_record` is true, a Journal snapshot is also recorded.
+
+### Synopsis
+
+```bash
+forge strategy save <FILE_PATH> [--force]
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `FILE_PATH` | argument (required) | - | Strategy JSON file path |
+| `--force` | flag | false | Overwrite if a strategy with the same ID already exists |
+
+### Sample output
+
+```text
+✅ Strategy 'my_strategy_v1' registered
+```
+
+When overwritten with `--force`:
+
+```text
+✅ Strategy 'my_strategy_v1' overwritten
+```
+
+### Common errors
+
+| Message | Cause | Fix |
+|---------|-------|-----|
+| `Error: file not found - <path>` | File missing | Verify the path |
+| `Error: <DuplicateStrategyError>` | Same ID already registered | Use `--force`, or change `strategy_id` in the JSON |
+
+---
+
+## forge strategy show
+
+Pretty-print a registered strategy JSON to stdout.
+
+### Synopsis
+
+```bash
+forge strategy show <STRATEGY_ID>
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `STRATEGY_ID` | argument (required) | - | Strategy ID to display |
+
+### Sample output
+
+```text
+=== spy_sma_crossover_v1 ===
+{
+  "strategy_id": "spy_sma_crossover_v1",
+  "name": "SMA Golden/Death Cross SPY v1",
+  "version": "1.0.0",
+  ...
+}
+```
+
+### Common errors
+
+| Message | Cause | Fix |
+|---------|-------|-----|
+| `Error: strategy '<id>' not found` | Invalid ID | Verify with `forge strategy list` |
+
+---
+
+## forge strategy migrate
+
+Import existing JSON files under `config.strategies.path` into the **DB (SQLite)**. Use this when switching to the `use_db: true` operation mode.
+
+### Synopsis
+
+```bash
+forge strategy migrate [--dry-run] [--force]
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `--dry-run` | flag | false | Preview only, no writes |
+| `--force` | flag | false | Overwrite duplicate IDs with the last file |
+
+### Prerequisite
+
+`config.strategies.use_db` must be **true**. In `forge.yaml` (`FORGE_CONFIG`):
+
+```yaml
+strategies:
+  use_db: true
+```
+
+### Sample output
+
+```text
+⚠️  Duplicate strategy_id detected:
+  spy_sma_crossover_v1:
+    - spy_sma_crossover_v1.json
+    - spy_sma_crossover_v1_optimized.json
+
+Re-run with --force to overwrite with the last file.
+```
+
+With `--force --dry-run`:
+
+```text
+[dry-run] 12 strategies would be registered (no writes performed)
+```
+
+Normal run:
+
+```text
+  Skip (broken_v1.json): parse error - <details>
+  Skip (legacy_v1): duplicate, not registered
+
+✅ Done: 10 registered, 2 skipped
+```
+
+### Common errors
+
+| Message | Cause | Fix |
+|---------|-------|-----|
+| `Error: strategies.use_db is false. Set use_db: true in forge.yaml` | DB disabled | Update `forge.yaml` and retry |
+| `No JSON files found for migration.` | `strategies.path` is empty | Verify path / file placement |
+
+---
+
+## forge strategy delete
+
+Delete a registered strategy from the DB / registry. With `--with-results`, also deletes related files (optimized strategy, backtest results, optimization results). Journal files are always kept.
+
+### Synopsis
+
+```bash
+forge strategy delete <STRATEGY_ID> [--force] [--with-results]
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `STRATEGY_ID` | argument (required) | - | Strategy ID to delete |
+| `--force` | flag | false | Skip confirmation prompt |
+| `--with-results` | flag | false | Also delete related files (`<id>_optimized.json`, `<id>_report.json`, `optimize_<id>_*.json`) |
+
+### Files removed by `--with-results`
+
+- `strategies.path / <id>_optimized.json`
+- `report.output_path / <id>_report.json`
+- `report.output_path / optimize_<id>_*.json` (all matching files)
+
+`<id>.journal.json` is **kept**.
+
+### Sample output
+
+```text
+To delete: my_strategy_v1
+
+  ✓ data/strategies/my_strategy_v1_optimized.json
+  ✓ data/results/my_strategy_v1_report.json
+  ✓ data/results/optimize_my_strategy_v1_20260415_103021.json
+  - data/journal/my_strategy_v1.journal.json (kept)
+
+Continue? [y/N]: y
+✅ Strategy 'my_strategy_v1' deleted
+Files deleted: 3
+```
+
+### Common errors
+
+| Message | Cause | Fix |
+|---------|-------|-----|
+| `Error: strategy '<id>' not found` | Invalid ID | Verify with `forge strategy list` |
+| `Cancelled` | Declined the prompt | Use `--force` or re-confirm |
+
+---
+
+## forge strategy validate
+
+Run **logical consistency checks** on a strategy. With `--symbol`, also runs **dynamic checks** (signal counts and condition correlation on real data). Pass a `.json` path as `STRATEGY_ID` to validate an unregistered file directly.
+
+### Synopsis
+
+```bash
+forge strategy validate <STRATEGY_ID|FILE.json> [OPTIONS]
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `STRATEGY_ID` | argument (required) | - | Strategy ID, or a `.json` file path |
+| `--symbol` | option | - | Symbol for dynamic checks (enables dynamic phase) |
+| `--period` | option | `1y` | Data period |
+| `--min-signals` | int | `30` | Min signal count threshold (warning if below) |
+| `--corr-threshold` | float | `0.9` | Correlation warning threshold |
+| `--json` | flag | false | Output as JSON |
+
+### Static checks
+
+What `StrategyValidator` checks when `--symbol` is not given (implementation-based):
+
+- Required fields: `strategy_id` / `name` / `version` / `timeframe`
+- `indicators[]`: ID uniqueness, reference resolution
+- `entry_conditions` / `exit_conditions`: referenced IDs exist
+- Condition expressions (`left` / `op` / `right`): syntax and type integrity
+- `risk_management`: value ranges (percentages, leverage)
+- `regime_config.indicator_id` resolves to a real indicator
+- `optimizer_config.param_ranges` keys map to either `parameters` or an indicator `params`
+
+### Dynamic checks (with `--symbol`)
+
+Loads real data and runs a lightweight backtest to gather signal statistics:
+
+- Entry signal count over the period (warns if below `min_signals`)
+- True-day count and percentage of each leaf condition
+- Pairwise correlation of conditions (warns above `corr_threshold`)
+
+### Sample output (text)
+
+```text
+Strategy: spy_sma_crossover_v1  [OK]
+
+[DYNAMIC CHECKS]
+  Symbol: SPY  Period: 1y  Total days: 252
+  Entry signals: 87 days
+  Condition True days:
+    sma_fast > sma_slow: 142 days (56.3%)
+    rsi < 70: 198 days (78.6%)
+
+✓ No issues detected
+```
+
+When errors are detected:
+
+```text
+Strategy: my_v1  [NG]
+
+[ERRORS]
+  ✗ [E_INDICATOR_REF] Reference 'sma_fast' in condition does not exist in indicators
+    → Add { "id": "sma_fast", "type": "SMA", ... } to the indicators array
+
+[WARNINGS]
+  ⚠ [W_LOW_SIGNALS] Too few entry signals: 12 days (threshold 30)
+    → Loosen the conditions or extend the data period
+
+  [CORRELATION]
+    ⚠ rsi < 70 × close > sma_fast: 0.94
+      → Drop one of the highly correlated conditions, or replace with an independent one
+```
+
+### Sample output (`--json`)
+
+```json
+{
+  "strategy_id": "my_v1",
+  "ok": false,
+  "static_errors": [
+    {"code": "E_INDICATOR_REF", "message": "...", "suggestion": "..."}
+  ],
+  "static_warnings": [],
+  "signal_stats": {
+    "symbol": "SPY",
+    "period": "1y",
+    "total_days": 252,
+    "entry_signal_days": 12,
+    ...
+  },
+  "dynamic_warnings": [...],
+  "correlations": [...]
+}
+```
+
+### Exit codes
+
+- `result.ok = true` → `0`
+- `result.ok = false` (errors detected) → `1`
+
+### Common errors
+
+| Message | Cause | Fix |
+|---------|-------|-----|
+| `Error: file not found - <path>` | `.json` path not found | Verify the path |
+
+---
+
+## Common behavior
+
+- **Storage**: When `config.strategies.use_db` is true, uses `SQLiteStrategyRepository`; otherwise file-based. Switch via `forge.yaml`.
+- **Locations**: `config.strategies.path` (strategy JSON), `config.report.output_path` (backtest / optimization results), `config.journal.journal_path` (journal).
+- **Journal integration**: When `config.journal.auto_record` is true, `save` automatically records a journal snapshot.
+- **`FORGE_CONFIG`**: All paths above are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable.
+- **Exit codes**: `0` on success; `validate` returns `1` when errors are detected; argument errors return Click's `2`; runtime errors typically `1`.
+
+---
+
+*Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/strategy.py` and `_TEMPLATE_REGISTRY` in `alpha-forge/src/alpha_forge/strategy/templates.py`. This page must be kept in sync when CLI arguments or templates change.*
