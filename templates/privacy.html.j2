@@ -44,7 +44,8 @@
   <div id="site-header"></div>
 
   <div class="page-wrap">
-    <div class="lang-content lang-ja">
+    <div class="lang-{{ lang }}">
+      {% if lang == 'ja' %}
       <div class="page-label">Legal</div>
       <h1 class="page-title">プライバシーポリシー</h1>
       <p class="page-subtitle">最終更新日: 2026年4月25日</p>
@@ -88,9 +89,7 @@
       <h2 class="section-heading">6. お問い合わせ</h2>
       <p>個人情報の取り扱いに関するお問い合わせ・開示・削除要求は以下にご連絡ください。</p>
       <p>Email: <a href="mailto:support@alforgelabs.com">support@alforgelabs.com</a></p>
-    </div>
-
-    <div class="lang-content lang-en">
+      {% else %}
       <div class="page-label">Legal</div>
       <h1 class="page-title">Privacy Policy</h1>
       <p class="page-subtitle">Last Updated: April 25, 2026</p>
@@ -134,13 +133,13 @@
       <h2 class="section-heading">6. Contact</h2>
       <p>For privacy inquiries, disclosure requests, or deletion requests, please contact:</p>
       <p>Email: <a href="mailto:support@alforgelabs.com">support@alforgelabs.com</a></p>
+      {% endif %}
     </div>
   </div>
 
   <footer>
     <div class="footer-logo">alforge<span class="dot">.</span>labs</div>
-    <div class="lang-content lang-ja"><div class="footer-links"><a href="index.html">ホーム</a><a href="install.html">インストール</a><a href="docs.html">ドキュメント</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a></div></div>
-    <div class="lang-content lang-en"><div class="footer-links"><a href="index.html">Home</a><a href="install.html">Install</a><a href="docs.html">Docs</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a></div></div>
+    <div class="lang-{{ lang }}"><div class="footer-links">{% if lang == 'ja' %}<a href="index.html">ホーム</a><a href="install.html">インストール</a><a href="docs.html">ドキュメント</a><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a>{% else %}<a href="index.html">Home</a><a href="install.html">Install</a><a href="docs.html">Docs</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a>{% endif %}</div></div>
   </footer>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
