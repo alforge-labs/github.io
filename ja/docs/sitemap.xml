@@ -17,11 +17,19 @@
          <lastmod>2026-04-30</lastmod>
     </url>
     <url>
-         <loc>https://alforgelabs.com/ja/docs/legal/</loc>
+         <loc>https://alforgelabs.com/ja/docs/templates/</loc>
          <lastmod>2026-04-30</lastmod>
     </url>
     <url>
-         <loc>https://alforgelabs.com/ja/docs/templates/</loc>
+         <loc>https://alforgelabs.com/ja/docs/legal/disclaimers/</loc>
+         <lastmod>2026-04-30</lastmod>
+    </url>
+    <url>
+         <loc>https://alforgelabs.com/ja/docs/legal/eula/</loc>
+         <lastmod>2026-04-30</lastmod>
+    </url>
+    <url>
+         <loc>https://alforgelabs.com/ja/docs/legal/privacy/</loc>
          <lastmod>2026-04-30</lastmod>
     </url>
 </urlset>

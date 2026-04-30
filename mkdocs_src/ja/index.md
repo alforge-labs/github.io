@@ -1,13 +1,26 @@
 # AlphaForge ドキュメント
 
-<!-- TODO(docs:index): ウェルカムメッセージ・主要話題一覧・各ページへの導線を充填する。 -->
+AlphaForge は、時系列バックテスト・ベイズ最適化・ウォークフォワード検証を一元化する **ローカル CLI** です。すべての処理がローカルマシン上で完結するため、戦略データ・取引履歴・API キーが外部サーバーに送信されることはありません。
 
-AlphaForge は時系列バックテスト、ベイズ最適化、ウォークフォワード検証を一元化するローカル CLI です。本ドキュメントでは、インストールから戦略開発、AI エージェントとの連携までを順を追って解説します。
+本ドキュメントでは、インストールから戦略開発、AI コーディングエージェントとの連携までを順を追って解説します。
+
+## こんな方に向いています
+
+- バックテストフレームワーク（Backtrader、vectorbt 等）の代替を探しているエンジニア・クオンツリサーチャー
+- 戦略 JSON を **コードとしてバージョン管理** したい開発者
+- Claude Code や Codex などの AI エージェントと組み合わせて、戦略を **自律的に探索・最適化** したいユーザー
+- ベイズ最適化・ウォークフォワード検証を **ワンコマンド** で済ませたい方
 
 ## 主な話題
 
-- [はじめに](getting-started.md) — インストールとライセンス認証
-- [CLI リファレンス](cli-reference.md) — `forge` コマンド一覧
-- [戦略テンプレート](templates.md) — HMM × BB などの組み合わせ事例
-- [AI エージェント連携](ai-driven-forges.md) — Claude Code / Codex × AlphaForge
-- [利用規約と免責事項](legal.md) — EULA とプライバシーポリシー
+- [はじめに](getting-started.md) — インストール、ライセンス認証、最初のバックテスト
+- [CLI リファレンス](cli-reference.md) — `forge` コマンドの全パラメータと出力例
+- [戦略テンプレート](templates.md) — HMM × BB × RSI などの組み合わせ戦略を実 JSON 付きで紹介
+- [AI エージェント連携](ai-driven-forges.md) — Claude Code / Codex × AlphaForge による自律戦略開発の HOWTO
+- [利用規約と免責事項](legal/disclaimers.md) — 免責事項・EULA・プライバシーポリシー
+
+## 関連リンク
+
+- [Alforge Labs 公式サイト](https://alforgelabs.com/ja/index.html) — 製品紹介とインストールガイド
+- [チュートリアル](https://alforgelabs.com/ja/tutorial-strategy.html) — 戦略 JSON を作って動かす入門
+- [サポート](mailto:support@alforgelabs.com) — 技術的なお問い合わせ

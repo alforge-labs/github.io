@@ -325,17 +325,18 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="legal/" class="md-tabs__link">
-        
-  
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="legal/disclaimers/" class="md-tabs__link">
+          
+  
   
   Legal & Disclaimers
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -439,10 +440,32 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-this-is-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who this is for
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#topics" class="md-nav__link">
     <span class="md-ellipsis">
       
         Topics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related links
       
     </span>
   </a>
@@ -571,9 +594,25 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="legal/" class="md-nav__link">
+    
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -587,7 +626,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legal & Disclaimers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="legal/disclaimers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disclaimers
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="legal/eula/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EULA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="legal/privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -619,10 +758,32 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#who-this-is-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who this is for
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#topics" class="md-nav__link">
     <span class="md-ellipsis">
       
         Topics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related links
       
     </span>
   </a>
@@ -647,16 +808,28 @@
 
 
 <h1 id="alphaforge-documentation">AlphaForge Documentation<a class="headerlink" href="#alphaforge-documentation" title="Permanent link">&para;</a></h1>
-<!-- TODO(docs:index): Fill in welcome message, list of main topics, and links to each page. -->
-
-<p>AlphaForge is a local CLI that unifies time-series backtesting, Bayesian optimization, and walk-forward validation. This documentation walks through installation, strategy development, and integration with AI coding agents.</p>
+<p>AlphaForge is a <strong>local CLI</strong> that unifies time-series backtesting, Bayesian optimization, and walk-forward validation. Everything runs on your own machine — strategy data, trade history, and API keys never leave your environment.</p>
+<p>This documentation walks through installation, strategy development, and integration with AI coding agents.</p>
+<h2 id="who-this-is-for">Who this is for<a class="headerlink" href="#who-this-is-for" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Engineers and quant researchers looking for an alternative to Backtrader, vectorbt, and similar frameworks</li>
+<li>Developers who want to <strong>version-control strategies as code</strong> (JSON)</li>
+<li>Users who want to combine Claude Code, Codex, and other coding agents with AlphaForge to <strong>autonomously explore and optimize strategies</strong></li>
+<li>People who want Bayesian optimization and walk-forward validation in a <strong>single command</strong></li>
+</ul>
 <h2 id="topics">Topics<a class="headerlink" href="#topics" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="getting-started/">Getting Started</a> — Installation and license activation</li>
-<li><a href="cli-reference/">CLI Reference</a> — <code>forge</code> command catalog</li>
-<li><a href="templates/">Strategy Templates</a> — HMM × BB and other example combinations</li>
-<li><a href="ai-driven-forges/">AI Agent Integration</a> — Claude Code / Codex × AlphaForge</li>
-<li><a href="legal/">Legal &amp; Disclaimers</a> — EULA and Privacy Policy</li>
+<li><a href="getting-started/">Getting Started</a> — Installation, license activation, and your first backtest</li>
+<li><a href="cli-reference/">CLI Reference</a> — Every <code>forge</code> command with parameters and output examples</li>
+<li><a href="templates/">Strategy Templates</a> — Combination strategies like HMM × BB × RSI with concrete JSON</li>
+<li><a href="ai-driven-forges/">AI Agent Integration</a> — A how-to for autonomous strategy development with Claude Code / Codex × AlphaForge</li>
+<li><a href="legal/disclaimers/">Legal &amp; Disclaimers</a> — Disclaimers, EULA, and Privacy Policy</li>
+</ul>
+<h2 id="related-links">Related links<a class="headerlink" href="#related-links" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://alforgelabs.com/en/index.html">Alforge Labs official site</a> — Product overview and install guide</li>
+<li><a href="https://alforgelabs.com/en/tutorial-strategy.html">Tutorial</a> — Build and run a strategy JSON</li>
+<li><a href="mailto:support@alforgelabs.com">Support</a> — Technical inquiries</li>
 </ul>
 
 
