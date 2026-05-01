@@ -101,7 +101,7 @@ function FreeStart({ t, lang }) {
             ))}
             {c.outExamplesCta && (
               <a href={`/${lang}/docs/guides/output-examples/`} className="free-start-link free-start-examples-link">
-                {c.outExamplesCta} →
+                {c.outExamplesCta} ↗
               </a>
             )}
           </div>
@@ -519,7 +519,7 @@ function TrustSafety({ t }) {
           ))}
         </div>
         <a className="trust-safety-link" href={c.docsHref}>
-          {c.docsLabel} →
+          {c.docsLabel} ↗
         </a>
       </div>
     </section>
