@@ -123,11 +123,11 @@ Pine Script ハードブロック時の `freemium_limit_notices` 例:
 
 制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも `freemium_limit_notices` の警告は載りません。
 
-## 制限を回避する方法
+## 制限の解除方法
 
-正規の解除手段は **有料プランの購入**（Lifetime / Annual / Monthly のいずれか）です。CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。
+制限を解除するには、**有料プラン**（Lifetime / Annual / Monthly のいずれか）へのアップグレードが必要です。なお、CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。
 
-- 有料プランの購入: AlphaForge の販売ページから Monthly / Annual / Lifetime を選択して購入してください。
+- 有料プランへのアップグレード: AlphaForge の販売ページから Monthly / Annual / Lifetime を選択してください。
 - Whop メンバーシップが認証キャッシュに反映されないときは、`forge auth login` を再実行してください。
 
 ## 関連ページ
