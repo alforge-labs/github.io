@@ -29,6 +29,7 @@ To the maximum extent permitted by applicable law, Alforge Labs shall not be lia
 
 ## Related pages
 
+- [Trust, Safety, and Limits](trust-safety-limits.md)
 - [Full Terms of Service — `terms.html`](https://alforgelabs.com/en/terms.html)
 - [Privacy Policy](privacy.md)
 - [End User License Agreement (EULA)](eula.md)

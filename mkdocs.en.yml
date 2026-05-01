@@ -65,6 +65,7 @@ nav:
       - live: cli-reference/live.md
       - Other commands: cli-reference/other.md
   - Strategy Templates: templates.md
+  - Strategy Gallery: strategy-gallery.md
   - Guides:
       - End-to-End Strategy Development Workflow: guides/end-to-end-workflow.md
       - Bringing Pine Scripts into TradingView: guides/tradingview-pine-integration.md
@@ -72,6 +73,7 @@ nav:
       - Freemium Limits: guides/freemium-limits.md
   - AI Agent Integration: ai-driven-forges.md
   - Legal & Disclaimers:
+      - Trust, Safety, and Limits: legal/trust-safety-limits.md
       - Disclaimers: legal/disclaimers.md
       - EULA: legal/eula.md
       - Privacy Policy: legal/privacy.md

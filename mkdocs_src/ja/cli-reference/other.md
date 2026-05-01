@@ -10,7 +10,7 @@
 | グループ | サブコマンド | 主な用途 |
 |---------|-------------|----------|
 | [license](#license) | `activate` `deactivate` `status` | ライセンスキーの認証・解除・状態確認 |
-| [login と logout](#login-と-logout) | `login` `logout` | Whop アカウント認証 |
+| [login と logout](#login-logout) | `login` `logout` | Whop アカウント認証 |
 | [init](#init) | （単一コマンド） | 作業ディレクトリの初期化 |
 | [pine](#pine) | `generate` `preview` `import` | TradingView Pine Script の生成・取り込み |
 | [indicator](#indicator) | `list` `show` | 対応テクニカル指標の参照 |

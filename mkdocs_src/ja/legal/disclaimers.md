@@ -29,6 +29,7 @@ AlphaForge はユーザーのローカルマシン上で動作します。Alforg
 
 ## 関連ページ
 
+- [信頼・安全・制限](trust-safety-limits.md)
 - [完全な利用規約 — `terms.html`](https://alforgelabs.com/ja/terms.html)
 - [プライバシーポリシー](privacy.md)
 - [エンドユーザーライセンス契約（EULA）](eula.md)

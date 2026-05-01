@@ -9,7 +9,7 @@ Three representative strategy patterns used with AlphaForge. The **strategy JSON
 
 | Template | Strategy type | Key indicators |
 |----------|---------------|----------------|
-| [HMM × BB × RSI](#hmm--bb--rsi) | Regime-adaptive mean reversion | HMM / BBANDS / RSI |
+| [HMM × BB × RSI](#hmm-bb-rsi) | Regime-adaptive mean reversion | HMM / BBANDS / RSI |
 | [Regime switching](#regime-switching) | Per-regime strategy switching | HMM / SUPERTREND / BBANDS / RSI |
 | [Multi-timeframe](#multi-timeframe) | Higher-TF trend × daily entry | Weekly SMA / RSI / ATR |
 

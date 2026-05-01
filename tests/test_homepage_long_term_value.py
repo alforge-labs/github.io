@@ -29,7 +29,7 @@ class HomepageLongTermValueTest(unittest.TestCase):
         self.assertIn("function LongTermValue", components)
         self.assertIn('className="long-term-value reveal"', components)
         self.assertIn(
-            "Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing, UseCases, SystemFlow, LongTermValue });",
+            "Object.assign(window, { NavBar, Hero, FreeStart",
             components,
         )
 
