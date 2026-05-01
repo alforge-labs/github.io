@@ -3153,7 +3153,7 @@
 <li><strong>Journal 連携</strong>: <code>config.journal.auto_record</code> が true の場合、最適化実行は Journal にも自動記録されます。</li>
 <li><strong><code>FORGE_CONFIG</code></strong>: 戦略・データ・結果の保管場所は環境変数 <code>FORGE_CONFIG</code> が指す <code>forge.yaml</code> で決まります。</li>
 <li><strong>終了コード</strong>: 通常 <code>0</code>、<code>click.ClickException</code> で <code>1</code>、<code>click.UsageError</code> で <code>2</code>、<code>click.Abort</code> で <code>1</code>。</li>
-<li><strong>Free プラン制限</strong>: Free プランでは入力データの上限日が <code>2023-12-31</code> に強制されます。詳細は <a href="../../guides/freemium-limits/">フリーミアム制限</a> を参照。</li>
+<li><strong>Free プラン制限</strong>: Free プランでは入力データの上限日が <code>2023-12-31</code> に強制され、最適化 trial 数も <strong>50</strong> 回に制限されます（<code>run</code> / <code>cross-symbol</code> / <code>portfolio</code> / <code>multi-portfolio</code> / <code>walk-forward</code> / <code>grid</code>、<code>apply</code> / <code>history</code> / <code>sensitivity</code> は対象外）。<code>grid</code> は組合せ &gt; 50 のとき固定 seed で 50 件にランダムサンプリングします。詳細は <a href="../../guides/freemium-limits/">フリーミアム制限</a> を参照。</li>
 </ul>
 <hr />
 <!-- 同期元: `alpha-forge/src/alpha_forge/commands/optimize.py` の Click decorator から抽出。alpha-forge 側で引数追加・変更があった場合、本ページも追従更新が必要。 -->

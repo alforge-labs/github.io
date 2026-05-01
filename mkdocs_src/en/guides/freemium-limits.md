@@ -1,22 +1,23 @@
 # Freemium Limits
 
-AlphaForge offers four plans: **Free, Monthly, Annual, and Lifetime**. The non-Free tiers (Lifetime / Annual / Monthly) are collectively referred to as **paid plans**. The Free plan caps the maximum data date passed to the evaluation engine (backtest / optimization) at **2023-12-31**. This page summarizes the behavior and how to verify it locally.
+AlphaForge offers four plans: **Free, Monthly, Annual, and Lifetime**. The non-Free tiers (Lifetime / Annual / Monthly) are collectively referred to as **paid plans**. The Free plan caps the maximum data date passed to the evaluation engine (backtest / optimization) at **2023-12-31**, and the optimization trial count at **50 trials**. This page summarizes the behavior and how to verify it locally.
 
 !!! note "Targeted commands"
     The limit is applied on the following paths.
     - **Data fetch**: `forge data fetch` / `forge data update` / `forge pine generate --with-training-data` / strategy external-symbol auto-fetch (`merge_external_symbols`)
     - **Evaluation engine entry**: `forge backtest run` / `forge optimize` (`run` / `grid` / `walk-forward` / `cross-symbol`)
+    - **Optimization trial count**: `forge optimize run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`
 
-    Both fetch and evaluation paths share **2023-12-31** as the cap.
+    Both fetch and evaluation paths share **2023-12-31** as the cap, and the optimization paths share **50 trials** as the cap.
 
 ## Plan structure
 
-| Plan | Fetch / evaluation date limit | Notes |
-|---|---|---|
-| Free | Up to 2023-12-31 | Fetch end is capped at 2023-12-31, and the evaluation engine entry clips to the same date |
-| Monthly | No limit | Monthly subscription. Latest data can be fetched and evaluated |
-| Annual | No limit | Annual subscription. Latest data can be fetched and evaluated |
-| Lifetime | No limit | One-time purchase. Latest data can be fetched and evaluated |
+| Plan | Fetch / evaluation date limit | Optimization trial count | Notes |
+|---|---|---|---|
+| Free | Up to 2023-12-31 | Up to 50 trials | Fetch end is capped at 2023-12-31, and the evaluation engine entry clips to the same date |
+| Monthly | No limit | No limit | Monthly subscription. Latest data with unlimited trials |
+| Annual | No limit | No limit | Annual subscription. Latest data with unlimited trials |
+| Lifetime | No limit | No limit | One-time purchase. Latest data with unlimited trials |
 
 Internally, Lifetime / Annual / Monthly are all treated as the `lifetime` plan because they share the same "no-limit" behavior. Please refer to the landing page for the most up-to-date plan and pricing details.
 
@@ -63,9 +64,32 @@ Evaluation-time `freemium_limit_notices` example:
 }
 ```
 
+#### Optimization trial count (`forge optimize` family)
+- `forge optimize run / cross-symbol / portfolio / multi-portfolio / walk-forward / grid` cap the trial count at **50** on the Free plan. The command does not error out — it continues with the capped value.
+- `forge optimize grid` randomly samples 50 combinations using a fixed seed (reproducible) when the full Cartesian product exceeds 50. This preserves the representative coverage of the search space (vs. naively slicing the first 50).
+- `forge optimize walk-forward` calls optimization per window internally, but the CLI deduplicates the notice and surfaces it once.
+- `forge optimize multi-portfolio` aligns the displayed trial count with the effective value (50) so display/execution/JSON are consistent.
+- `forge optimize apply` / `history` / `sensitivity` are out of scope (no trial concept).
+- The CLI's normal output displays a yellow Panel warning.
+- `--json` output `freemium_limit_notices` uses `code = "free_tier_optimization_trial_capped"`. For grid, the JSON also contains `total_trials` (full Cartesian size) and `executed_trials` (capped sample size, 50).
+
+Optimization trial cap `freemium_limit_notices` example:
+```json
+{
+  "freemium_limit_notices": [
+    {
+      "code": "free_tier_optimization_trial_capped",
+      "message": "Freeプランでは最適化のトライアル数が50回に制限されています。無制限の最適化を行うには有料プラン（Lifetime / Annual / Monthly）が必要です。",
+      "original_value": 1000,
+      "applied_value": 50
+    }
+  ]
+}
+```
+
 ### Paid plans (Lifetime / Annual / Monthly)
 
-No limits are applied; you can fetch and evaluate the latest data without clipping. The output does not include any `freemium_limit_notices` warnings.
+No limits are applied; you can fetch and evaluate the latest data with unlimited trials. The output does not include any `freemium_limit_notices` warnings.
 
 ## Override for development and verification
 
