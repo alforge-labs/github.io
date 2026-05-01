@@ -420,12 +420,36 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 | `--max-drawdown` | float | - | MDD 上限で trial 除外 |
 | `--json` | フラグ | false | Top-K を JSON で出力 |
 
-### サンプル出力
+### 進捗表示（Rich プログレスバー）
+
+Grid Search 実行中は Rich のリアルタイムダッシュボードがコンソールに描画されます（`forge backtest run` / `forge optimize run` と同じ UI パターン）。
+
+- **ヘッダー**: 戦略 ID・シンボル・指標・総 trial 数・チャンクサイズ
+- **プログレスバー**: 完了 trial 数 / 総 trial 数、経過時間、推定残り時間
+- **Scoreboard**: 現在処理中の trial（`Current` 行: params + score）と、ここまでの最良値（`Best` 行: trial 番号 + score + params）。ベスト更新時は `BEST ★` の強調表示
+- **フッター**: 失敗 trial の累計（`Failures: N`）
+
+`--json` を指定するとダッシュボードは抑制され、Top-K の JSON のみが標準出力に書き出されます（CI/パイプライン用途向け）。失敗 trial が混在しても run は中断せず、Current 行は赤色で上書きされ Failures カウントが進みます。
+
+```text
+╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
+│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
+╰──────────────────────────────────────────────────────────────────────────╯
+Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
+╭───────────────────────────── Scoreboard ─────────────────────────────╮
+│            Trial #   Score        Parameters                         │
+│ Current        234   1.4537       fast_period=14  slow_period=55     │
+│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
+╰──────────────────────────────────────────────────────────────────────╯
+Failures: 0
+```
+
+### サンプル出力（完了後の Top-K テーブル）
 
 ```text
 Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
 Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
-... (バックテスト実行) ...
+... (Rich ダッシュボード表示中) ...
 
 === Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
 fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
