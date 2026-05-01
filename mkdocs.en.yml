@@ -54,8 +54,26 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - 10-Minute Quickstart: quickstart.md
-  - Getting Started: getting-started.md
+  - Getting Started:
+      - Quickstart & Detailed Installation: getting-started.md
+      - Freemium Limits: guides/freemium-limits.md
+  - Guides:
+      - End-to-End Strategy Development Workflow: guides/end-to-end-workflow.md
+      - Output Examples: guides/output-examples.md
+      - Bringing Pine Scripts into TradingView: guides/tradingview-pine-integration.md
+      - TradingView × alpha-strike Integration: guides/tradingview-alpha-strike.md
+      - AI Agent Integration: ai-driven-forges.md
+      - Use Cases by Goal:
+          - Overview: usecases/index.md
+          - TradingView Users: usecases/tradingview.md
+          - Python Developers: usecases/python-dev.md
+          - Quants & Researchers: usecases/quants.md
+          - Automated Trading: usecases/auto-trading.md
+          - AI Agent Users: usecases/ai-agents.md
+          - Comparison with Other Tools: usecases/comparison.md
+  - Strategy Catalog:
+      - Strategy Templates: templates.md
+      - Strategy Gallery: strategy-gallery.md
   - CLI Reference:
       - Overview: cli-reference/index.md
       - backtest: cli-reference/backtest.md
@@ -65,23 +83,6 @@ nav:
       - journal: cli-reference/journal.md
       - live: cli-reference/live.md
       - Other commands: cli-reference/other.md
-  - Strategy Templates: templates.md
-  - Strategy Gallery: strategy-gallery.md
-  - Guides:
-      - End-to-End Strategy Development Workflow: guides/end-to-end-workflow.md
-      - Output Examples: guides/output-examples.md
-      - Bringing Pine Scripts into TradingView: guides/tradingview-pine-integration.md
-      - TradingView × alpha-strike Integration: guides/tradingview-alpha-strike.md
-      - Freemium Limits: guides/freemium-limits.md
-  - AI Agent Integration: ai-driven-forges.md
-  - Use Cases by Goal:
-      - Overview: usecases/index.md
-      - TradingView Users: usecases/tradingview.md
-      - Python Developers: usecases/python-dev.md
-      - Quants & Researchers: usecases/quants.md
-      - Automated Trading: usecases/auto-trading.md
-      - AI Agent Users: usecases/ai-agents.md
-      - Comparison with Other Tools: usecases/comparison.md
   - Legal & Disclaimers:
       - Trust, Safety, and Limits: legal/trust-safety-limits.md
       - Disclaimers: legal/disclaimers.md

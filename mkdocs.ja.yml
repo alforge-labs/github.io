@@ -54,8 +54,26 @@ markdown_extensions:
 
 nav:
   - ホーム: index.md
-  - 10分クイックスタート: quickstart.md
-  - はじめに: getting-started.md
+  - はじめに:
+      - クイックスタートと詳細インストール: getting-started.md
+      - フリーミアム制限: guides/freemium-limits.md
+  - ガイド:
+      - エンドツーエンド戦略開発ワークフロー: guides/end-to-end-workflow.md
+      - 実行結果と成果物サンプル: guides/output-examples.md
+      - TradingView への Pine Script 反映: guides/tradingview-pine-integration.md
+      - TradingView と alpha-strike の連携: guides/tradingview-alpha-strike.md
+      - AI エージェント連携: ai-driven-forges.md
+      - 目的別ユースケース:
+          - 概要: usecases/index.md
+          - TradingViewユーザー: usecases/tradingview.md
+          - Python開発者: usecases/python-dev.md
+          - クオンツ・研究者: usecases/quants.md
+          - 自動売買検討者: usecases/auto-trading.md
+          - AIエージェント利用者: usecases/ai-agents.md
+          - 他ツールとの比較: usecases/comparison.md
+  - 戦略カタログ:
+      - 戦略テンプレート: templates.md
+      - 戦略実例ギャラリー: strategy-gallery.md
   - CLI リファレンス:
       - 概要: cli-reference/index.md
       - backtest: cli-reference/backtest.md
@@ -65,23 +83,6 @@ nav:
       - journal: cli-reference/journal.md
       - live: cli-reference/live.md
       - その他コマンド: cli-reference/other.md
-  - 戦略テンプレート: templates.md
-  - 戦略実例ギャラリー: strategy-gallery.md
-  - ガイド:
-      - エンドツーエンド戦略開発ワークフロー: guides/end-to-end-workflow.md
-      - 実行結果と成果物サンプル: guides/output-examples.md
-      - TradingView への Pine Script 反映: guides/tradingview-pine-integration.md
-      - TradingView と alpha-strike の連携: guides/tradingview-alpha-strike.md
-      - フリーミアム制限: guides/freemium-limits.md
-  - AI エージェント連携: ai-driven-forges.md
-  - 目的別ユースケース:
-      - 概要: usecases/index.md
-      - TradingViewユーザー: usecases/tradingview.md
-      - Python開発者: usecases/python-dev.md
-      - クオンツ・研究者: usecases/quants.md
-      - 自動売買検討者: usecases/auto-trading.md
-      - AIエージェント利用者: usecases/ai-agents.md
-      - 他ツールとの比較: usecases/comparison.md
   - 利用規約と免責:
       - 信頼・安全・制限: legal/trust-safety-limits.md
       - 免責事項: legal/disclaimers.md

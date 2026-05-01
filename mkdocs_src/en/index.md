@@ -13,7 +13,8 @@ This documentation walks through installation, strategy development, and integra
 
 ## Topics
 
-- [Getting Started](getting-started.md) — Installation, license activation, and your first backtest
+- [Getting Started](getting-started.md) — Installation, license activation, and your first backtest (10-minute Free-plan walkthrough included)
+- [Use Cases by Goal](usecases/index.md) — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)
 - [CLI Reference](cli-reference/index.md) — Every `forge` command with parameters and output examples
 - [Strategy Templates](templates.md) — Combination strategies like HMM × BB × RSI with concrete JSON
 - [AI Agent Integration](ai-driven-forges.md) — A how-to for autonomous strategy development with Claude Code / Codex × AlphaForge
