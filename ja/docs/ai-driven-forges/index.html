@@ -1880,7 +1880,7 @@
 <li>シグナル件数チェック（必須）: <code>forge backtest signal-count</code></li>
 <li>ベースライン取得: <code>forge backtest run</code> で元戦略の Sharpe を控える</li>
 <li><strong>Grid 網羅探索</strong>: <code>forge optimize grid &lt;symbol&gt; --strategy &lt;name&gt; --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes</code></li>
-<li>Top-20 レビュー（過学習臭、上位 trial の近傍集中）</li>
+<li>Top-20 レビュー（過学習の疑い、上位 trial の近傍集中）</li>
 <li>ベスト適用: <code>forge optimize grid ... --top-k 1 --apply --yes</code></li>
 <li><strong>WFT 検証</strong>: <code>forge optimize walk-forward &lt;symbol&gt; --strategy &lt;name&gt;_optimized --windows 5</code></li>
 <li><strong>合否判定</strong>: WFT 全ウィンドウ平均 Sharpe が <strong>元戦略の Sharpe を超えていれば合格</strong><ul>
@@ -1911,7 +1911,7 @@
 </ol>
 <p><strong>運用ヒント</strong>:</p>
 <ul>
-<li>週次のクーロンや手動の定期実行で十分</li>
+<li>週次の cron や手動の定期実行で十分</li>
 <li>乖離が連続 N 週続く場合は戦略の根本見直しを検討（指標差し替え、別シナリオへの転換）</li>
 </ul>
 <hr />
@@ -2067,7 +2067,7 @@
 <p>このフロー全体のうち、<strong>人間が判断するのは 3 箇所だけ</strong> です：</p>
 <ol>
 <li>アイデアの方向性（HMM × BB × RSI に MACD を加える）</li>
-<li>Grid-tune の Top-20 レビュー（過学習臭の確認）</li>
+<li>Grid-tune の Top-20 レビュー（過学習の疑いを確認）</li>
 <li>ライブ運用開始の意思決定</li>
 </ol>
 <p>それ以外は全部 AI が自動で進めます。</p>
