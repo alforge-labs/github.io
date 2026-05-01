@@ -317,7 +317,7 @@ window.COPY = {
           title: 'TradingViewユーザー',
           desc: 'Pine Scriptでアイデアを試作し、AlphaForgeでバックテスト・最適化を本格化。Pine Script再エクスポートまで一気通貫。',
           link: '/ja/docs/usecases/tradingview/',
-          linkLabel: '詳しく見る ↗',
+          linkLabel: '詳しく見る →',
         },
         {
           icon: '🐍',
@@ -325,7 +325,7 @@ window.COPY = {
           title: 'Python開発者',
           desc: 'JSON宣言型の戦略管理、CLIの構造化出力、Optunaベースの最適化。Pythonエコシステムとシームレスに連携。',
           link: '/ja/docs/usecases/python-dev/',
-          linkLabel: '詳しく見る ↗',
+          linkLabel: '詳しく見る →',
         },
         {
           icon: '🔬',
@@ -333,7 +333,7 @@ window.COPY = {
           title: 'クオンツ・研究者',
           desc: 'ウォークフォワード検証・ベイズ最適化・再現性保証。統計的な厳密性を求める研究者向けの定量評価環境。',
           link: '/ja/docs/usecases/quants/',
-          linkLabel: '詳しく見る ↗',
+          linkLabel: '詳しく見る →',
         },
         {
           icon: '🤖',
@@ -341,7 +341,7 @@ window.COPY = {
           title: '自動売買検討者',
           desc: 'バックテスト→最適化→Pine Script生成→TradingViewアラート→Alpha Strike自動発注まで一貫した環境。',
           link: '/ja/docs/usecases/auto-trading/',
-          linkLabel: '詳しく見る ↗',
+          linkLabel: '詳しく見る →',
         },
         {
           icon: '✨',
@@ -349,7 +349,7 @@ window.COPY = {
           title: 'AIエージェント利用者',
           desc: 'Claude Codeなど AIエージェントと組み合わせて戦略探索を自動化。夜間に自律探索を回す非同期ワークフロー。',
           link: '/ja/docs/usecases/ai-agents/',
-          linkLabel: '詳しく見る ↗',
+          linkLabel: '詳しく見る →',
         },
       ],
     },
@@ -698,7 +698,7 @@ window.COPY = {
           title: 'TradingView Users',
           desc: 'Prototype in Pine Script and bring the real backtesting and optimization to AlphaForge. Export Pine Script back when done.',
           link: '/en/docs/usecases/tradingview/',
-          linkLabel: 'Learn more ↗',
+          linkLabel: 'Learn more →',
         },
         {
           icon: '🐍',
@@ -706,7 +706,7 @@ window.COPY = {
           title: 'Python Developers',
           desc: 'JSON-declarative strategy management, structured CLI output, and Optuna-based optimization — seamlessly integrated with the Python ecosystem.',
           link: '/en/docs/usecases/python-dev/',
-          linkLabel: 'Learn more ↗',
+          linkLabel: 'Learn more →',
         },
         {
           icon: '🔬',
@@ -714,7 +714,7 @@ window.COPY = {
           title: 'Quants & Researchers',
           desc: 'Walk-forward validation, Bayesian optimization, and reproducibility guarantees. A quantitative evaluation environment for researchers who demand statistical rigor.',
           link: '/en/docs/usecases/quants/',
-          linkLabel: 'Learn more ↗',
+          linkLabel: 'Learn more →',
         },
         {
           icon: '🤖',
@@ -722,7 +722,7 @@ window.COPY = {
           title: 'Automated Trading',
           desc: 'A complete pipeline: backtest → optimize → generate Pine Script → TradingView alert → Alpha Strike auto-execution.',
           link: '/en/docs/usecases/auto-trading/',
-          linkLabel: 'Learn more ↗',
+          linkLabel: 'Learn more →',
         },
         {
           icon: '✨',
@@ -730,7 +730,7 @@ window.COPY = {
           title: 'AI Agent Users',
           desc: 'Combine with Claude Code or other AI agents to automate strategy exploration. Run autonomous overnight discovery loops without human intervention.',
           link: '/en/docs/usecases/ai-agents/',
-          linkLabel: 'Learn more ↗',
+          linkLabel: 'Learn more →',
         },
       ],
     },
