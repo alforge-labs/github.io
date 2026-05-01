@@ -79,6 +79,7 @@ nav:
       - Quants & Researchers: usecases/quants.md
       - Automated Trading: usecases/auto-trading.md
       - AI Agent Users: usecases/ai-agents.md
+      - Comparison with Other Tools: usecases/comparison.md
   - Legal & Disclaimers:
       - Trust, Safety, and Limits: legal/trust-safety-limits.md
       - Disclaimers: legal/disclaimers.md
