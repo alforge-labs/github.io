@@ -5,7 +5,7 @@ const HEADER_COPY = {
     products: 'プロダクト',
     pricing: '料金',
     install: 'インストール',
-    docs: 'ドキュメント',
+    mkdocs: 'ドキュメント',
     tutorial: 'チュートリアル',
     roadmap: 'ロードマップ',
     faq: 'FAQ',
@@ -16,7 +16,7 @@ const HEADER_COPY = {
     products: 'Products',
     pricing: 'Pricing',
     install: 'Install',
-    docs: 'Docs',
+    mkdocs: 'Docs',
     tutorial: 'Tutorial',
     roadmap: 'Roadmap',
     faq: 'FAQ',
@@ -33,7 +33,7 @@ const HEADER_LINKS = [
   { key: 'products', href: _anchorBase + '#products' },
   { key: 'pricing',  href: _anchorBase + '#pricing' },
   { key: 'install',  href: 'install.html' },
-  { key: 'docs',     href: 'docs.html' },
+  { key: 'mkdocs',   href: 'docs/' },
   { key: 'tutorial', href: 'tutorial-strategy.html' },
   { key: 'roadmap',  href: _anchorBase + '#roadmap' },
   { key: 'faq',      href: _anchorBase + '#faq' },
@@ -68,12 +68,12 @@ function SiteHeader({ dark, setDark, lang = 'ja', setLang, active = '', showLang
       <ul className="nav-center">
         {HEADER_LINKS.map(link => (
           <li key={link.key}>
-            <a href={link.href} className={active === link.key ? 'active' : ''}>{c[link.key]}</a>
+            <a href={link.href} className={[active === link.key ? 'active' : '', link.key === 'mkdocs' ? 'nav-mkdocs-link' : ''].filter(Boolean).join(' ')}>{c[link.key]}</a>
           </li>
         ))}
       </ul>
       <div className="nav-right">
-        <a className="nav-page-link" href="docs.html">{c.docs}</a>
+        <a className="nav-page-link" href="docs/">{c.mkdocs}</a>
         {showLanguage && (
           <button className="lang-btn" onClick={toggleLang}>
             {lang === 'ja' ? 'EN' : 'JA'}
