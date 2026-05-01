@@ -65,6 +65,7 @@ nav:
       - live: cli-reference/live.md
       - その他コマンド: cli-reference/other.md
   - 戦略テンプレート: templates.md
+  - 戦略実例ギャラリー: strategy-gallery.md
   - ガイド:
       - エンドツーエンド戦略開発ワークフロー: guides/end-to-end-workflow.md
       - TradingView への Pine Script 反映: guides/tradingview-pine-integration.md

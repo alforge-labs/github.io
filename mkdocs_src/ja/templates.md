@@ -9,7 +9,7 @@ AlphaForge で使われる代表的な戦略パターンを 3 種類紹介しま
 
 | テンプレート | 戦略タイプ | 主要指標 |
 |------------|----------|----------|
-| [HMM × BB × RSI](#hmm--bb--rsi) | レジーム適応 + 平均回帰 | HMM・BBANDS・RSI |
+| [HMM × BB × RSI](#hmm-bb-rsi) | レジーム適応 + 平均回帰 | HMM・BBANDS・RSI |
 | [レジーム切り替え](#regime-switching) | レジーム別の戦略切替 | HMM・SUPERTREND・BBANDS・RSI |
 | [マルチタイムフレーム](#multi-timeframe) | 上位足トレンド × 日足エントリー | SMA（週足）・RSI・ATR |
 
