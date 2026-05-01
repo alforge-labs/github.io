@@ -100,6 +100,7 @@ def make_ctx(site: dict, page: str, lang: str, data: dict) -> dict:
         "canonical_url": f"{base}/{lang}/{page_file}",
         "hreflang_ja": f"{base}/ja/{page_file}",
         "hreflang_en": f"{base}/en/{page_file}",
+        "hreflang_x_default": f"{base}/en/{page_file}",
         "og_image": site["og_image"],
         "twitter_site": site["twitter_site"],
         "json_ld": build_json_ld(json_ld_type, base, lang, page),
@@ -152,6 +153,7 @@ def generate_sitemap(base_url: str) -> None:
                 f"    <loc>{loc}</loc>\n"
                 f'    <xhtml:link rel="alternate" hreflang="ja" href="{alt_ja}"/>\n'
                 f'    <xhtml:link rel="alternate" hreflang="en" href="{alt_en}"/>\n'
+                f'    <xhtml:link rel="alternate" hreflang="x-default" href="{alt_en}"/>\n'
                 f"    <changefreq>{freq}</changefreq>\n"
                 f"    <priority>{priority}</priority>\n"
                 f"  </url>"
