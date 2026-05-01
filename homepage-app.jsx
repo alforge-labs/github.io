@@ -256,6 +256,7 @@ function App() {
       <LongTermValue t={t} />
       <PerformanceChart t={t} dark={dark} />
       <Pricing t={t} lang={lang} />
+      <TrustSafety t={t} />
       <Roadmap t={t} />
       <FAQ t={t} />
       <FollowCTA t={t} />

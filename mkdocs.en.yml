@@ -73,6 +73,7 @@ nav:
       - Freemium Limits: guides/freemium-limits.md
   - AI Agent Integration: ai-driven-forges.md
   - Legal & Disclaimers:
+      - Trust, Safety, and Limits: legal/trust-safety-limits.md
       - Disclaimers: legal/disclaimers.md
       - EULA: legal/eula.md
       - Privacy Policy: legal/privacy.md

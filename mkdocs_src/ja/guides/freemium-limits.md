@@ -115,3 +115,9 @@ ALPHA_FORGE_PLAN=dev uv run forge backtest run AAPL --strategy sma_crossover_v1
 
 - 有料プランの購入: AlphaForge の販売ページから Monthly / Annual / Lifetime を選択して購入してください。
 - Whop メンバーシップが認証キャッシュに反映されないときは、`forge auth login` を再実行してください。
+
+## 関連ページ
+
+- [信頼・安全・制限](../legal/trust-safety-limits.md)
+- [免責事項](../legal/disclaimers.md)
+- [プライバシーポリシー](../legal/privacy.md)

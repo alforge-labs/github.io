@@ -73,6 +73,7 @@ nav:
       - フリーミアム制限: guides/freemium-limits.md
   - AI エージェント連携: ai-driven-forges.md
   - 利用規約と免責:
+      - 信頼・安全・制限: legal/trust-safety-limits.md
       - 免責事項: legal/disclaimers.md
       - EULA: legal/eula.md
       - プライバシーポリシー: legal/privacy.md

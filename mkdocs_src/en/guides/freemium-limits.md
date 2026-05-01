@@ -115,3 +115,9 @@ The only supported way to lift the limit is to obtain a **paid plan** (Lifetime,
 
 - Purchase a paid plan: pick Monthly, Annual, or Lifetime from the AlphaForge sales page.
 - If a Whop membership is not reflected in the auth cache, re-run `forge auth login`.
+
+## Related pages
+
+- [Trust, Safety, and Limits](../legal/trust-safety-limits.md)
+- [Disclaimers](../legal/disclaimers.md)
+- [Privacy Policy](../legal/privacy.md)

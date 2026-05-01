@@ -327,6 +327,35 @@ window.COPY = {
         },
       ],
     },
+    trustSafety: {
+      label: '信頼・安全・制限',
+      title: '購入・利用前に確認してほしいこと',
+      subtitle: 'AlphaForge はローカル実行を前提にした開発者向けツールです。データの扱い、ライセンス認証、投資リスク、プラン制限をまとめて確認できます。',
+      docsHref: '/ja/docs/legal/trust-safety-limits/',
+      docsLabel: '信頼・安全・制限の詳細を読む',
+      items: [
+        {
+          eyebrow: 'Local First',
+          title: '戦略データはローカルに残る',
+          desc: 'バックテスト設定、API キー・取引履歴・戦略データは通常ローカル環境に留まり、Alforge Labs のサーバーへ送信されません。',
+        },
+        {
+          eyebrow: 'License',
+          title: '認証時のみ必要情報を送信',
+          desc: 'ライセンス認証時には、ライセンスキー、インスタンス名、アクティベーション日時など、認証に必要な情報だけが外部サービスへ送信されます。',
+        },
+        {
+          eyebrow: 'Risk',
+          title: '投資助言ではありません',
+          desc: 'AlphaForge は研究・検証用ソフトウェアです。バックテストやシミュレーション結果は将来の成果を保証せず、取引判断はユーザー自身の責任です。',
+        },
+        {
+          eyebrow: 'Plans',
+          title: 'Free / Monthly / Annual / Lifetime',
+          desc: 'Free プランにはデータ日付と最適化 trial 数の制限があります。有料プランでは最新データと無制限 trial を利用できます。',
+        },
+      ],
+    },
     follow: {
       label: 'アップデート',
       title: '開発をリアルタイムで追う',
@@ -628,6 +657,35 @@ window.COPY = {
           eyebrow: 'Validation Loop',
           title: 'Keep the validation loop moving',
           desc: 'alpha-forge keeps backtesting, Bayesian optimization, walk-forward validation, and Pine Script generation in one flow. New hypotheses can move into reproducible validation without rebuilding the workflow each time.',
+        },
+      ],
+    },
+    trustSafety: {
+      label: 'Trust, Safety, and Limits',
+      title: 'What to know before you buy or use AlphaForge',
+      subtitle: 'AlphaForge is a developer tool built around local execution. Review how data is handled, what license activation sends, what the investment-risk limits are, and how plan limits work.',
+      docsHref: '/en/docs/legal/trust-safety-limits/',
+      docsLabel: 'Read the Trust, Safety, and Limits guide',
+      items: [
+        {
+          eyebrow: 'Local First',
+          title: 'Strategy data stays local',
+          desc: 'Backtest settings, API keys, trade history, and strategy data normally remain in your local environment and are not sent to Alforge Labs servers.',
+        },
+        {
+          eyebrow: 'License',
+          title: 'Activation sends only required license data',
+          desc: 'During license activation, only information required for verification, such as the license key, instance name, and activation timestamp, is sent to the external license service.',
+        },
+        {
+          eyebrow: 'Risk',
+          title: 'This is not financial advice',
+          desc: 'AlphaForge is research and validation software. Backtests and simulation results do not guarantee future outcomes, and every trading decision remains your responsibility.',
+        },
+        {
+          eyebrow: 'Plans',
+          title: 'Free / Monthly / Annual / Lifetime',
+          desc: 'The Free plan has data-date and optimization trial limits. Paid plans can use the latest data and unlimited trials.',
         },
       ],
     },

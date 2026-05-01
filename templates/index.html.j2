@@ -794,6 +794,72 @@
     .footer-links a { font-family: var(--mono); font-size: 0.68rem; color: var(--text3); text-decoration: none; transition: color 0.15s; }
     .footer-links a:hover { color: var(--text2); }
 
+    /* ── TRUST / SAFETY ── */
+    .trust-safety {
+      padding: 5.5rem 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .trust-safety-header {
+      max-width: 740px;
+      margin-bottom: 2rem;
+    }
+    .trust-safety-subtitle {
+      margin-top: 0.85rem;
+      color: var(--text2);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .trust-safety-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    .trust-safety-card {
+      min-height: 220px;
+      padding: 1.45rem;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .trust-safety-eyebrow {
+      width: fit-content;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--accent-glow);
+      border-radius: 100px;
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .trust-safety-title {
+      color: var(--text);
+      font-size: 0.98rem;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+    .trust-safety-desc {
+      color: var(--text2);
+      font-size: 0.84rem;
+      line-height: 1.7;
+    }
+    .trust-safety-link {
+      display: inline-flex;
+      margin-top: 1.25rem;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      text-decoration: none;
+    }
+    .trust-safety-link:hover { color: var(--accent-d); }
+
     /* ── DISCLAIMER ── */
     .disclaimer-section {
       padding: 3rem var(--pad);
@@ -887,6 +953,9 @@
     @media (max-width: 768px) {
       .products-grid { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
+      .trust-safety { padding: 4.5rem 0; }
+      .trust-safety-grid { grid-template-columns: 1fr; }
+      .trust-safety-card { min-height: auto; }
       .free-start { padding: 4rem 0; }
       .free-start-shell { grid-template-columns: 1fr; }
       .free-start-actions { align-items: stretch; }

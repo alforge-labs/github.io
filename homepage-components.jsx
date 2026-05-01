@@ -464,6 +464,34 @@ function LongTermValue({ t }) {
   );
 }
 
+/* ── 信頼・安全・制限 ── */
+function TrustSafety({ t }) {
+  const c = t.trustSafety;
+  return (
+    <section className="trust-safety reveal" id="trust-safety">
+      <div className="container">
+        <div className="trust-safety-header">
+          <div className="sec-label">{c.label}</div>
+          <h2 className="sec-title">{c.title}</h2>
+          <p className="trust-safety-subtitle">{c.subtitle}</p>
+        </div>
+        <div className="trust-safety-grid">
+          {c.items.map((item) => (
+            <article key={item.eyebrow} className="trust-safety-card">
+              <div className="trust-safety-eyebrow">{item.eyebrow}</div>
+              <h3 className="trust-safety-title">{item.title}</h3>
+              <p className="trust-safety-desc">{item.desc}</p>
+            </article>
+          ))}
+        </div>
+        <a className="trust-safety-link" href={c.docsHref}>
+          {c.docsLabel} →
+        </a>
+      </div>
+    </section>
+  );
+}
+
 /* ── SYSTEM FLOW ── */
 function SystemFlow({ t, dark, lang }) {
   const c = t.systemFlow;
@@ -484,4 +512,4 @@ function SystemFlow({ t, dark, lang }) {
 }
 
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, FreeStart, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue });
+Object.assign(window, { NavBar, Hero, FreeStart, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue, TrustSafety });

@@ -47,6 +47,12 @@ For privacy inquiries, disclosure requests, or deletion requests, please contact
 
 **Email:** [support@alforgelabs.com](mailto:support@alforgelabs.com)
 
+## Related pages
+
+- [Trust, Safety, and Limits](trust-safety-limits.md)
+- [Disclaimers](disclaimers.md)
+- [End User License Agreement (EULA)](eula.md)
+
 ---
 
 <!-- Synced from: `en/privacy.html` (Last Updated: April 25, 2026). In the event of any discrepancy between this page and the canonical `privacy.html`, the latter prevails. -->
