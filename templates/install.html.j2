@@ -3,6 +3,18 @@
 <head>
   {% include "_partials/head_meta.html.j2" %}
   <link rel="stylesheet" href="../page.css" />
+  <style>
+    .cmd-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0 2.5rem; }
+    .cmd-card { display: block; padding: 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); text-decoration: none; transition: border-color 0.15s, transform 0.15s; }
+    .cmd-card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+    .cmd-card-name { font-family: var(--mono); font-size: 0.95rem; font-weight: 600; color: var(--accent); margin-bottom: 0.4rem; }
+    .cmd-card-desc { font-size: 0.85rem; color: var(--text2); margin-bottom: 0.75rem; }
+    .cmd-card-usage { background: var(--bg2); padding: 0.5rem 0.75rem; border-radius: 4px; font-family: var(--mono); font-size: 0.78rem; color: var(--text); margin: 0 0 0.75rem; overflow-x: auto; }
+    .cmd-card-options { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+    .cmd-card-option { font-family: var(--mono); font-size: 0.72rem; padding: 0.2rem 0.5rem; background: var(--accent-bg); color: var(--accent); border-radius: 4px; }
+    .cmd-card-link { font-size: 0.78rem; color: var(--text3); font-family: var(--mono); }
+    .cmd-card:hover .cmd-card-link { color: var(--accent); }
+  </style>
   <script>
     (function() {
       var t = localStorage.getItem('al_theme') || 'dark';
@@ -76,6 +88,78 @@
         </a>
       </div>
 
+      <h2 class="section-heading" id="commands">コマンドの早見表</h2>
+      <p class="page-subtitle" style="margin-bottom: 1.5rem;">主要 6 コマンドのカードと全コマンドカタログ。詳細パラメータと出力例は公式ドキュメントへ。</p>
+
+      <div class="callout" style="margin-bottom: 2rem;">
+        <p style="margin-bottom: 0.75rem;">全 76 サブコマンドの詳細パラメータ、出力例、エラーコードは<strong>公式ドキュメント</strong>を参照してください。</p>
+        <a href="/ja/docs/cli-reference/" class="btn-primary">CLI リファレンスを開く →</a>
+      </div>
+
+      <h3 class="sub-heading">主要コマンド</h3>
+      <div class="cmd-card-grid">
+        <a class="cmd-card" href="/ja/docs/cli-reference/backtest/#forge-backtest-run">
+          <div class="cmd-card-name">forge backtest run</div>
+          <div class="cmd-card-desc">単一銘柄に戦略を適用してバックテストを実行する。</div>
+          <pre class="cmd-card-usage"><code>forge backtest run SYMBOL --strategy ID</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--strategy</span><span class="cmd-card-option">--start</span><span class="cmd-card-option">--json</span></div>
+          <div class="cmd-card-link">cli-reference で詳細 →</div>
+        </a>
+        <a class="cmd-card" href="/ja/docs/cli-reference/optimize/#forge-optimize-run">
+          <div class="cmd-card-name">forge optimize run</div>
+          <div class="cmd-card-desc">Optuna によるパラメータ最適化（TPE）。多目的最適化にも対応。</div>
+          <pre class="cmd-card-usage"><code>forge optimize run SYMBOL --strategy ID</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--metric</span><span class="cmd-card-option">--trials</span><span class="cmd-card-option">--apply</span></div>
+          <div class="cmd-card-link">cli-reference で詳細 →</div>
+        </a>
+        <a class="cmd-card" href="/ja/docs/cli-reference/optimize/#forge-optimize-walk-forward">
+          <div class="cmd-card-name">forge optimize walk-forward</div>
+          <div class="cmd-card-desc">時系列をウィンドウ分割し IS 最適化 → OOS 評価で過学習耐性を測定。</div>
+          <pre class="cmd-card-usage"><code>forge optimize walk-forward SYMBOL --strategy ID --windows N</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--windows</span><span class="cmd-card-option">--metric</span></div>
+          <div class="cmd-card-link">cli-reference で詳細 →</div>
+        </a>
+        <a class="cmd-card" href="/ja/docs/cli-reference/data/#forge-data-fetch">
+          <div class="cmd-card-name">forge data fetch</div>
+          <div class="cmd-card-desc">OHLCV をプロバイダーから取得し Parquet で保存。</div>
+          <pre class="cmd-card-usage"><code>forge data fetch SYMBOL --period 5y --interval 1d</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--period</span><span class="cmd-card-option">--interval</span><span class="cmd-card-option">--watchlist</span></div>
+          <div class="cmd-card-link">cli-reference で詳細 →</div>
+        </a>
+        <a class="cmd-card" href="/ja/docs/cli-reference/strategy/#forge-strategy-save">
+          <div class="cmd-card-name">forge strategy save</div>
+          <div class="cmd-card-desc">戦略 JSON をレジストリに登録（任意で Journal に記録）。</div>
+          <pre class="cmd-card-usage"><code>forge strategy save FILE_PATH</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--force</span></div>
+          <div class="cmd-card-link">cli-reference で詳細 →</div>
+        </a>
+        <a class="cmd-card" href="/ja/docs/cli-reference/journal/#forge-journal-show">
+          <div class="cmd-card-name">forge journal show</div>
+          <div class="cmd-card-desc">戦略の全履歴（スナップショット・Runs・タグ・ライブサマリ）を表示。</div>
+          <pre class="cmd-card-usage"><code>forge journal show STRATEGY_ID</code></pre>
+          <div class="cmd-card-link">cli-reference で詳細 →</div>
+        </a>
+      </div>
+
+      <h3 class="sub-heading">全コマンドカタログ</h3>
+      <table class="cmd-table">
+        <thead><tr><th>グループ</th><th>説明</th><th>サブコマンド数</th></tr></thead>
+        <tbody>
+          <tr><td><a href="/ja/docs/cli-reference/backtest/"><code>forge backtest</code></a></td><td>バックテスト実行・スキャン・カスタム実験</td><td>11</td></tr>
+          <tr><td><a href="/ja/docs/cli-reference/optimize/"><code>forge optimize</code></a></td><td>パラメータ最適化（grid / bayes / wfa）</td><td>9</td></tr>
+          <tr><td><a href="/ja/docs/cli-reference/strategy/"><code>forge strategy</code></a></td><td>戦略 JSON の保存・検証・適用</td><td>7</td></tr>
+          <tr><td><a href="/ja/docs/cli-reference/data/"><code>forge data</code></a></td><td>ヒストリカルデータ取得・更新</td><td>4</td></tr>
+          <tr><td><a href="/ja/docs/cli-reference/journal/"><code>forge journal</code></a></td><td>取引ジャーナル・トレード分析</td><td>7</td></tr>
+          <tr><td><a href="/ja/docs/cli-reference/live/"><code>forge live</code></a></td><td>ライブトレーディング・ブローカー連携</td><td>9</td></tr>
+          <tr><td><a href="/ja/docs/cli-reference/other/">その他コマンド</a></td><td><code>pine</code> / <code>dashboard</code> / <code>license</code> / <code>config</code> 他</td><td>10 グループ</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top: 2rem;">
+        <p style="margin-bottom: 0.75rem;">各グループの完全なサブコマンドリスト、オプション一覧、戻り値、サンプル出力はドキュメントの CLI リファレンスを参照してください。</p>
+        <a href="/ja/docs/cli-reference/" class="btn-primary">CLI リファレンスを開く →</a>
+      </div>
+
       <div class="callout" style="margin-top: 1rem;">
         <p>問題が解決しない場合は <a href="mailto:support@alforgelabs.com">support@alforgelabs.com</a> までお問い合わせください。</p>
       </div>
@@ -134,6 +218,78 @@
         </a>
       </div>
 
+      <h2 class="section-heading" id="commands">Command Quick Reference</h2>
+      <p class="page-subtitle" style="margin-bottom: 1.5rem;">Cards for the six core commands plus a full command catalog. Detailed parameters and output examples live in the official docs.</p>
+
+      <div class="callout" style="margin-bottom: 2rem;">
+        <p style="margin-bottom: 0.75rem;">For detailed parameters, output examples, and error codes for all 76 subcommands, see the <strong>official documentation</strong>.</p>
+        <a href="/en/docs/cli-reference/" class="btn-primary">Open CLI Reference →</a>
+      </div>
+
+      <h3 class="sub-heading">Top Commands</h3>
+      <div class="cmd-card-grid">
+        <a class="cmd-card" href="/en/docs/cli-reference/backtest/#forge-backtest-run">
+          <div class="cmd-card-name">forge backtest run</div>
+          <div class="cmd-card-desc">Run a backtest applying a strategy to a single symbol.</div>
+          <pre class="cmd-card-usage"><code>forge backtest run SYMBOL --strategy ID</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--strategy</span><span class="cmd-card-option">--start</span><span class="cmd-card-option">--json</span></div>
+          <div class="cmd-card-link">See cli-reference →</div>
+        </a>
+        <a class="cmd-card" href="/en/docs/cli-reference/optimize/#forge-optimize-run">
+          <div class="cmd-card-name">forge optimize run</div>
+          <div class="cmd-card-desc">Parameter optimization with Optuna (TPE). Multi-objective also supported.</div>
+          <pre class="cmd-card-usage"><code>forge optimize run SYMBOL --strategy ID</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--metric</span><span class="cmd-card-option">--trials</span><span class="cmd-card-option">--apply</span></div>
+          <div class="cmd-card-link">See cli-reference →</div>
+        </a>
+        <a class="cmd-card" href="/en/docs/cli-reference/optimize/#forge-optimize-walk-forward">
+          <div class="cmd-card-name">forge optimize walk-forward</div>
+          <div class="cmd-card-desc">Split time series into windows; IS optimization → OOS evaluation for overfitting resistance.</div>
+          <pre class="cmd-card-usage"><code>forge optimize walk-forward SYMBOL --strategy ID --windows N</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--windows</span><span class="cmd-card-option">--metric</span></div>
+          <div class="cmd-card-link">See cli-reference →</div>
+        </a>
+        <a class="cmd-card" href="/en/docs/cli-reference/data/#forge-data-fetch">
+          <div class="cmd-card-name">forge data fetch</div>
+          <div class="cmd-card-desc">Fetch OHLCV from a provider and store as Parquet.</div>
+          <pre class="cmd-card-usage"><code>forge data fetch SYMBOL --period 5y --interval 1d</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--period</span><span class="cmd-card-option">--interval</span><span class="cmd-card-option">--watchlist</span></div>
+          <div class="cmd-card-link">See cli-reference →</div>
+        </a>
+        <a class="cmd-card" href="/en/docs/cli-reference/strategy/#forge-strategy-save">
+          <div class="cmd-card-name">forge strategy save</div>
+          <div class="cmd-card-desc">Register a strategy JSON to the registry (optionally recorded in the Journal).</div>
+          <pre class="cmd-card-usage"><code>forge strategy save FILE_PATH</code></pre>
+          <div class="cmd-card-options"><span class="cmd-card-option">--force</span></div>
+          <div class="cmd-card-link">See cli-reference →</div>
+        </a>
+        <a class="cmd-card" href="/en/docs/cli-reference/journal/#forge-journal-show">
+          <div class="cmd-card-name">forge journal show</div>
+          <div class="cmd-card-desc">Show the full history of a strategy (snapshots, runs, tags, live summary).</div>
+          <pre class="cmd-card-usage"><code>forge journal show STRATEGY_ID</code></pre>
+          <div class="cmd-card-link">See cli-reference →</div>
+        </a>
+      </div>
+
+      <h3 class="sub-heading">All Command Groups</h3>
+      <table class="cmd-table">
+        <thead><tr><th>Group</th><th>Description</th><th>Subcommands</th></tr></thead>
+        <tbody>
+          <tr><td><a href="/en/docs/cli-reference/backtest/"><code>forge backtest</code></a></td><td>Backtest execution, scanning, custom experiments</td><td>11</td></tr>
+          <tr><td><a href="/en/docs/cli-reference/optimize/"><code>forge optimize</code></a></td><td>Parameter optimization (grid / bayes / wfa)</td><td>9</td></tr>
+          <tr><td><a href="/en/docs/cli-reference/strategy/"><code>forge strategy</code></a></td><td>Strategy JSON save / validate / apply</td><td>7</td></tr>
+          <tr><td><a href="/en/docs/cli-reference/data/"><code>forge data</code></a></td><td>Historical data fetch / update</td><td>4</td></tr>
+          <tr><td><a href="/en/docs/cli-reference/journal/"><code>forge journal</code></a></td><td>Trading journal and trade analysis</td><td>7</td></tr>
+          <tr><td><a href="/en/docs/cli-reference/live/"><code>forge live</code></a></td><td>Live trading and broker integration</td><td>9</td></tr>
+          <tr><td><a href="/en/docs/cli-reference/other/">Other commands</a></td><td><code>pine</code> / <code>dashboard</code> / <code>license</code> / <code>config</code> and more</td><td>10 groups</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top: 2rem;">
+        <p style="margin-bottom: 0.75rem;">For complete subcommand listings, options, return values, and sample output for each group, see the CLI Reference in the official docs.</p>
+        <a href="/en/docs/cli-reference/" class="btn-primary">Open CLI Reference →</a>
+      </div>
+
       <div class="callout" style="margin-top: 1rem;">
         <p>If the issue persists, contact <a href="mailto:support@alforgelabs.com">support@alforgelabs.com</a>.</p>
       </div>
@@ -148,13 +304,13 @@
         {% if lang == 'ja' %}
         <a href="index.html">ホーム</a>
         <a href="install.html">インストール</a>
-        <a href="docs.html">ドキュメント</a>
+        <a href="/ja/docs/">ドキュメント</a>
         <a href="terms.html">利用規約</a>
         <a href="privacy.html">プライバシー</a>
         {% else %}
         <a href="index.html">Home</a>
         <a href="install.html">Install</a>
-        <a href="docs.html">Docs</a>
+        <a href="/en/docs/">Docs</a>
         <a href="terms.html">Terms</a>
         <a href="privacy.html">Privacy</a>
         {% endif %}
