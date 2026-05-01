@@ -229,6 +229,7 @@ Provider-specific symbol notation is documented in `alpha-forge/src/alpha_forge/
 - **Provider resolution**: `get_data_fetcher(symbol=..., config=config)` selects a provider per the `data.providers` setting in `forge.yaml`
 - **`FORGE_CONFIG`**: Storage path and provider settings are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable
 - **Exit codes**: `0` on success; `click.ClickException` returns `1`; argument errors return Click's `2`
+- **Free plan limit**: On the Free plan, the fetch `end` is also capped at `2023-12-31`, and `forge data update` skips items whose stored end is on or after 2023-12-31. See [Freemium Limits](../guides/freemium-limits.md) for details.
 
 ---
 
