@@ -68,12 +68,12 @@ function SiteHeader({ dark, setDark, lang = 'ja', setLang, active = '', showLang
       <ul className="nav-center">
         {HEADER_LINKS.map(link => (
           <li key={link.key}>
-            <a href={link.href} className={[active === link.key ? 'active' : '', link.key === 'mkdocs' ? 'nav-mkdocs-link' : ''].filter(Boolean).join(' ')}>{c[link.key]}</a>
+            <a href={link.href} className={[active === link.key ? 'active' : '', link.key === 'mkdocs' ? 'docs-link' : ''].filter(Boolean).join(' ')}>{c[link.key]}</a>
           </li>
         ))}
       </ul>
       <div className="nav-right">
-        <a className="nav-page-link" href="docs/">{c.mkdocs}</a>
+        <a className="nav-page-link docs-link" href="docs/">{c.mkdocs}</a>
         {showLanguage && (
           <button className="lang-btn" onClick={toggleLang}>
             {lang === 'ja' ? 'EN' : 'JA'}
