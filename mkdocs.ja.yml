@@ -72,6 +72,13 @@ nav:
       - TradingView と alpha-strike の連携: guides/tradingview-alpha-strike.md
       - フリーミアム制限: guides/freemium-limits.md
   - AI エージェント連携: ai-driven-forges.md
+  - 目的別ユースケース:
+      - 概要: usecases/index.md
+      - TradingViewユーザー: usecases/tradingview.md
+      - Python開発者: usecases/python-dev.md
+      - クオンツ・研究者: usecases/quants.md
+      - 自動売買検討者: usecases/auto-trading.md
+      - AIエージェント利用者: usecases/ai-agents.md
   - 利用規約と免責:
       - 信頼・安全・制限: legal/trust-safety-limits.md
       - 免責事項: legal/disclaimers.md

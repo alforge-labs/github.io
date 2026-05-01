@@ -438,6 +438,33 @@ function UseCases({ t }) {
   );
 }
 
+/* ── 目的別ユースケース ── */
+function PersonaUseCases({ t }) {
+  const c = t.personaUseCases;
+  return (
+    <section className="persona-usecases reveal" id="persona-usecases">
+      <div className="usecases-inner">
+        <div className="usecases-header">
+          <div className="sec-label">{c.label}</div>
+          <h2 className="sec-title">{c.title}</h2>
+          <p className="usecases-subtitle">{c.subtitle}</p>
+        </div>
+        <div className="persona-grid">
+          {c.personas.map((p, i) => (
+            <a key={i} className="persona-card" href={p.link}>
+              <div className="persona-icon">{p.icon}</div>
+              <span className="usecase-badge">{p.label}</span>
+              <div className="usecase-title">{p.title}</div>
+              <p className="usecase-desc">{p.desc}</p>
+              <span className="persona-link">{p.linkLabel}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── 継続利用価値 ── */
 function LongTermValue({ t }) {
   const c = t.longTermValue;
@@ -512,4 +539,4 @@ function SystemFlow({ t, dark, lang }) {
 }
 
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, FreeStart, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue, TrustSafety });
+Object.assign(window, { NavBar, Hero, FreeStart, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, PersonaUseCases, SystemFlow, LongTermValue, TrustSafety });

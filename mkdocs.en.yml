@@ -72,6 +72,13 @@ nav:
       - TradingView × alpha-strike Integration: guides/tradingview-alpha-strike.md
       - Freemium Limits: guides/freemium-limits.md
   - AI Agent Integration: ai-driven-forges.md
+  - Use Cases by Goal:
+      - Overview: usecases/index.md
+      - TradingView Users: usecases/tradingview.md
+      - Python Developers: usecases/python-dev.md
+      - Quants & Researchers: usecases/quants.md
+      - Automated Trading: usecases/auto-trading.md
+      - AI Agent Users: usecases/ai-agents.md
   - Legal & Disclaimers:
       - Trust, Safety, and Limits: legal/trust-safety-limits.md
       - Disclaimers: legal/disclaimers.md
