@@ -3,16 +3,20 @@
 AlphaForge offers four plans: **Free, Monthly, Annual, and Lifetime**. The non-Free tiers (Lifetime / Annual / Monthly) are collectively referred to as **paid plans**. The Free plan caps the maximum data date passed to the evaluation engine (backtest / optimization) at **2023-12-31**. This page summarizes the behavior and how to verify it locally.
 
 !!! note "Targeted commands"
-    The limit is applied at the entry point of `forge backtest run` and `forge optimize` (`run` / `grid` / `walk-forward` / `cross-symbol`). Limits on data acquisition paths such as `forge data fetch` are handled separately.
+    The limit is applied on the following paths.
+    - **Data fetch**: `forge data fetch` / `forge data update` / `forge pine generate --with-training-data` / strategy external-symbol auto-fetch (`merge_external_symbols`)
+    - **Evaluation engine entry**: `forge backtest run` / `forge optimize` (`run` / `grid` / `walk-forward` / `cross-symbol`)
+
+    Both fetch and evaluation paths share **2023-12-31** as the cap.
 
 ## Plan structure
 
-| Plan | Evaluation date limit | Notes |
+| Plan | Fetch / evaluation date limit | Notes |
 |---|---|---|
-| Free | Up to 2023-12-31 | Input data is automatically clipped at this date |
-| Monthly | No limit | Monthly subscription. Latest data can be evaluated |
-| Annual | No limit | Annual subscription. Latest data can be evaluated |
-| Lifetime | No limit | One-time purchase. Latest data can be evaluated |
+| Free | Up to 2023-12-31 | Fetch end is capped at 2023-12-31, and the evaluation engine entry clips to the same date |
+| Monthly | No limit | Monthly subscription. Latest data can be fetched and evaluated |
+| Annual | No limit | Annual subscription. Latest data can be fetched and evaluated |
+| Lifetime | No limit | One-time purchase. Latest data can be fetched and evaluated |
 
 Internally, Lifetime / Annual / Monthly are all treated as the `lifetime` plan because they share the same "no-limit" behavior. Please refer to the landing page for the most up-to-date plan and pricing details.
 
@@ -20,10 +24,32 @@ Internally, Lifetime / Annual / Monthly are all treated as the `lifetime` plan b
 
 ### Free plan
 
-- Input rows newer than 2023-12-31 are clipped automatically right before evaluation.
+#### Data fetch (`forge data fetch` / `forge data update` / `forge pine generate --with-training-data` / external-symbol auto-fetch)
+- The `end` argument (whether explicitly passed or falling back to `today`) is capped at 2023-12-31 if it would otherwise exceed it.
+- `forge data update` skips items whose stored `end` is on or after 2023-12-31 with a "Free plan limit prevents fetching data after 2023-12-31" message.
 - The CLI's normal output displays a yellow Panel warning along with an upgrade hint pointing to a paid plan.
-- `--json` output includes a structured `freemium_limit_notices` field.
+- `--json` output includes a structured `freemium_limit_notices` field with `code = "free_tier_data_fetch_clipped"`.
 
+#### Evaluation engine entry (`forge backtest run` / `forge optimize`)
+- Input rows newer than 2023-12-31 are clipped automatically right before evaluation. This serves as a safety net when external CSV files are loaded directly (the fetch path normally clips them in advance).
+- The CLI's normal output displays a yellow Panel warning.
+- `--json` output `freemium_limit_notices` uses `code = "free_tier_evaluation_date_clipped"`.
+
+Fetch-time `freemium_limit_notices` example:
+```json
+{
+  "freemium_limit_notices": [
+    {
+      "code": "free_tier_data_fetch_clipped",
+      "message": "Freeプランでは2023-12-31までのデータのみ取得できます。最新データを取得するには有料プラン（Lifetime / Annual / Monthly）が必要です。",
+      "original_value": "2025-06-30",
+      "applied_value": "2023-12-31"
+    }
+  ]
+}
+```
+
+Evaluation-time `freemium_limit_notices` example:
 ```json
 {
   "freemium_limit_notices": [
@@ -39,7 +65,7 @@ Internally, Lifetime / Annual / Monthly are all treated as the `lifetime` plan b
 
 ### Paid plans (Lifetime / Annual / Monthly)
 
-No limits are applied; you can evaluate the latest data without clipping. The output does not include any `freemium_limit_notices` warnings.
+No limits are applied; you can fetch and evaluate the latest data without clipping. The output does not include any `freemium_limit_notices` warnings.
 
 ## Override for development and verification
 

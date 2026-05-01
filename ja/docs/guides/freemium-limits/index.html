@@ -999,6 +999,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Free プラン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データ取得時（forge data fetch / forge data update / forge pine generate --with-training-data / 外部シンボル自動取得）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-backtest-run-forge-optimize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        評価エンジン入口（forge backtest run / forge optimize）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1283,6 +1311,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Free プラン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データ取得時（forge data fetch / forge data update / forge pine generate --with-training-data / 外部シンボル自動取得）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-backtest-run-forge-optimize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        評価エンジン入口（forge backtest run / forge optimize）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1344,14 +1400,17 @@
 <p>AlphaForge には <strong>Free / Monthly / Annual / Lifetime</strong> の 4 プランがあります。Free 以外（Lifetime / Annual / Monthly）はまとめて<strong>有料プラン</strong>と呼びます。Free プランでは、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が <strong>2023-12-31</strong> に制限されています。本ページでは、その挙動と確認方法を整理します。</p>
 <div class="admonition note">
 <p class="admonition-title">対象コマンド</p>
-<p>制限は <code>forge backtest run</code> と <code>forge optimize</code>（<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>）の入口で適用されます。<code>forge data fetch</code> などのデータ取得経路の制限は別途設けられています。</p>
+<p>制限は以下の経路で適用されます。
+- <strong>データ取得</strong>: <code>forge data fetch</code> / <code>forge data update</code> / <code>forge pine generate --with-training-data</code> / 戦略の外部シンボル自動取得（<code>merge_external_symbols</code>）
+- <strong>評価エンジン入口</strong>: <code>forge backtest run</code> / <code>forge optimize</code>（<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>）</p>
+<p>取得時にも評価時にも <strong>2023-12-31</strong> をキャップとして共有しています。</p>
 </div>
 <h2 id="_2">プラン構成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>プラン</th>
-<th>評価エンジンの日付制限</th>
+<th>データ取得・評価の日付制限</th>
 <th>補足</th>
 </tr>
 </thead>
@@ -1359,51 +1418,72 @@
 <tr>
 <td>Free</td>
 <td>2023-12-31 まで</td>
-<td>入力データはこの日付で自動的に切り捨てられます</td>
+<td>取得時に end が 2023-12-31 にキャップされ、評価エンジン入口でも同日でクリップされます</td>
 </tr>
 <tr>
 <td>Monthly</td>
 <td>制限なし</td>
-<td>月額サブスクリプション。最新データを含めて評価可能</td>
+<td>月額サブスクリプション。最新データを含めて取得・評価可能</td>
 </tr>
 <tr>
 <td>Annual</td>
 <td>制限なし</td>
-<td>年額サブスクリプション。最新データを含めて評価可能</td>
+<td>年額サブスクリプション。最新データを含めて取得・評価可能</td>
 </tr>
 <tr>
 <td>Lifetime</td>
 <td>制限なし</td>
-<td>買い切り。最新データを含めて評価可能</td>
+<td>買い切り。最新データを含めて取得・評価可能</td>
 </tr>
 </tbody>
 </table>
 <p>内部的には Lifetime / Annual / Monthly はいずれも「制限なし」挙動が同一のため、<code>lifetime</code> プランとして一括して扱われます。プラン構成や価格はランディングページの最新情報を参照してください。</p>
 <h2 id="_3">挙動<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <h3 id="free">Free プラン<a class="headerlink" href="#free" title="Permanent link">&para;</a></h3>
+<h4 id="forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data">データ取得時（<code>forge data fetch</code> / <code>forge data update</code> / <code>forge pine generate --with-training-data</code> / 外部シンボル自動取得）<a class="headerlink" href="#forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data" title="Permanent link">&para;</a></h4>
 <ul>
-<li>入力データに 2023-12-31 より新しい行が含まれる場合、評価直前に自動で切り捨てられます。</li>
+<li><code>end</code> 引数（明示指定または <code>today</code> のフォールバック）が 2023-12-31 を超える場合、強制的に 2023-12-31 にキャップして取得します。</li>
+<li><code>forge data update</code> で保有最終日が 2023-12-31 以降のアイテムは「Free プラン制限により」スキップされます。</li>
 <li>CLI 通常出力には黄色の Panel で警告が表示され、有料プランでの解除誘導が表示されます。</li>
-<li><code>--json</code> 出力には <code>freemium_limit_notices</code> 構造化フィールドが含まれます。</li>
+<li><code>--json</code> 出力には <code>freemium_limit_notices</code> 構造化フィールドが含まれます（<code>code = "free_tier_data_fetch_clipped"</code>）。</li>
 </ul>
+<h4 id="forge-backtest-run-forge-optimize">評価エンジン入口（<code>forge backtest run</code> / <code>forge optimize</code>）<a class="headerlink" href="#forge-backtest-run-forge-optimize" title="Permanent link">&para;</a></h4>
+<ul>
+<li>入力データに 2023-12-31 より新しい行が含まれる場合、評価直前に自動で切り捨てられます。これは外部 CSV を直接持ち込んだ場合の保険として機能します（取得経路で既にカットされているはずのため通常は発動しません）。</li>
+<li>CLI 通常出力には黄色の Panel で警告が表示されます。</li>
+<li><code>--json</code> 出力の <code>freemium_limit_notices</code> の <code>code</code> は <code>free_tier_evaluation_date_clipped</code>。</li>
+</ul>
+<p>取得時の <code>freemium_limit_notices</code> 例:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_evaluation_date_clipped&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_data_fetch_clipped&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは2023-12-31までのデータのみ取得できます。最新データを取得するには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-06-30&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31&quot;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="p">]</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
-</code></pre></div>
+</code></pre></div></p>
+<p>評価時の <code>freemium_limit_notices</code> 例:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_evaluation_date_clipped&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
+</code></pre></div></p>
 <h3 id="lifetime-annual-monthly">有料プラン（Lifetime / Annual / Monthly）<a class="headerlink" href="#lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
-<p>制限は一切発動せず、最新データを含めて評価できます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
+<p>制限は一切発動せず、最新データを含めて取得・評価できます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
 <h2 id="_4">開発・検証時のオーバーライド<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>ローカルでプラン挙動を切り替えて確認したい場合は、環境変数 <code>ALPHA_FORGE_PLAN</code> を使います。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
 <table>
 <thead>

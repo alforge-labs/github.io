@@ -2155,6 +2155,7 @@
 <li><strong>Provider resolution</strong>: <code>get_data_fetcher(symbol=..., config=config)</code> selects a provider per the <code>data.providers</code> setting in <code>forge.yaml</code></li>
 <li><strong><code>FORGE_CONFIG</code></strong>: Storage path and provider settings are determined by the <code>forge.yaml</code> referenced by the <code>FORGE_CONFIG</code> environment variable</li>
 <li><strong>Exit codes</strong>: <code>0</code> on success; <code>click.ClickException</code> returns <code>1</code>; argument errors return Click's <code>2</code></li>
+<li><strong>Free plan limit</strong>: On the Free plan, the fetch <code>end</code> is also capped at <code>2023-12-31</code>, and <code>forge data update</code> skips items whose stored end is on or after 2023-12-31. See <a href="../../guides/freemium-limits/">Freemium Limits</a> for details.</li>
 </ul>
 <hr />
 <!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/data.py`, the provider implementations under `alpha-forge/src/alpha_forge/data/providers/`, and provider notes in `alpha-forge/CLAUDE.md`. This page must be kept in sync when CLI arguments or providers change. -->

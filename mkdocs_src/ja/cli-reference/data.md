@@ -229,6 +229,7 @@ forge data update
 - **プロバイダー解決**: `get_data_fetcher(symbol=..., config=config)` がシンボルから `forge.yaml` の `data.providers` 設定でプロバイダーを選択
 - **`FORGE_CONFIG`**: 保存先・プロバイダー設定は環境変数 `FORGE_CONFIG` が指す `forge.yaml` で決まる
 - **終了コード**: 通常 `0`、`click.ClickException` で `1`、引数エラーは Click が `2` を返す
+- **Free プラン制限**: Free プランでは取得時にも `end` が `2023-12-31` に強制キャップされ、`forge data update` で保有最終日が 2023-12-31 以降のアイテムはスキップされます。詳細は [フリーミアム制限](../guides/freemium-limits.md) を参照。
 
 ---
 
