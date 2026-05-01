@@ -51,6 +51,13 @@ forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 
 `--max-drawdown` と `--objective` は同時指定できません。
 
+### リアルタイムダッシュボード
+
+実行中はターミナルにライブダッシュボードが表示されます。単目的（`--metric` のみ）では Current/BEST のスコアボードが、多目的（`--objective` を 2 つ以上）では専用の Pareto Front ダッシュボードが、トライアル毎にリアルタイム更新されます。
+
+- **多目的時の表示要素**: ヘッダー（戦略・銘柄・目的関数の方向）、プログレスバー、Current Trial（各目的関数の現在値）、Pareto Front テーブル（上位 10 件 + 全件数 `Top 10 / Total = N`）
+- `--json` を指定するとダッシュボードは表示されず JSON のみ出力されます。
+
 ### サンプル出力（テキスト）
 
 ```text

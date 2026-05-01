@@ -1316,6 +1316,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#real-time-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output-text" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2218,6 +2229,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#real-time-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output-text" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2889,6 +2911,12 @@
 </tbody>
 </table>
 <p><code>--max-drawdown</code> and <code>--objective</code> cannot be used together.</p>
+<h3 id="real-time-dashboard">Real-time dashboard<a class="headerlink" href="#real-time-dashboard" title="Permanent link">&para;</a></h3>
+<p>A live dashboard is shown in your terminal during optimization. Single-objective runs (<code>--metric</code> only) display a Current/BEST scoreboard, while multi-objective runs (two or more <code>--objective</code> flags) show a dedicated Pareto-front dashboard that updates after every trial.</p>
+<ul>
+<li><strong>Multi-objective display</strong>: header (strategy, symbol, objective directions), progress bar, Current Trial (current value of each objective), and a Pareto Front table with the top 10 solutions plus the total count (<code>Top 10 / Total = N</code>).</li>
+<li><code>--json</code> suppresses the dashboard and outputs JSON only.</li>
+</ul>
 <h3 id="sample-output-text">Sample output (text)<a class="headerlink" href="#sample-output-text" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>✅ Optimization complete
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Best score (sharpe_ratio): 1.32

@@ -51,6 +51,13 @@ forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 
 `--max-drawdown` and `--objective` cannot be used together.
 
+### Real-time dashboard
+
+A live dashboard is shown in your terminal during optimization. Single-objective runs (`--metric` only) display a Current/BEST scoreboard, while multi-objective runs (two or more `--objective` flags) show a dedicated Pareto-front dashboard that updates after every trial.
+
+- **Multi-objective display**: header (strategy, symbol, objective directions), progress bar, Current Trial (current value of each objective), and a Pareto Front table with the top 10 solutions plus the total count (`Top 10 / Total = N`).
+- `--json` suppresses the dashboard and outputs JSON only.
+
 ### Sample output (text)
 
 ```text
