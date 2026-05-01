@@ -1288,6 +1288,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#rich" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        進捗表示（Rich プログレスバー）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2351,6 +2362,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#rich" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        進捗表示（Rich プログレスバー）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3180,6 +3202,43 @@
 </tr>
 </tbody>
 </table>
+<h3 id="rich">進捗表示（Rich プログレスバー）<a class="headerlink" href="#rich" title="Permanent link">&para;</a></h3>
+<p>実行中、ターミナルが TTY であれば Rich によるプログレスバーが標準エラー出力に表示されます。バックテストは以下の 6 フェーズで進行し、<code>--split</code> 指定時は IS / OOS の 2 フローで合計 12 ステップとなります。</p>
+<table>
+<thead>
+<tr>
+<th>フェーズ</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>指標計算</code></td>
+<td>テクニカル指標の事前計算</td>
+</tr>
+<tr>
+<td><code>変数評価</code></td>
+<td>中間変数（variables）の評価</td>
+</tr>
+<tr>
+<td><code>シグナル生成</code></td>
+<td>エントリー / エグジット条件の評価＋リスクマスクの適用</td>
+</tr>
+<tr>
+<td><code>シミュレーション</code></td>
+<td>vectorbt によるポートフォリオ実行</td>
+</tr>
+<tr>
+<td><code>メトリクス算出</code></td>
+<td>Sharpe / MDD / 勝率などの計算</td>
+</tr>
+<tr>
+<td><code>レジーム分析</code></td>
+<td>レジーム別メトリクス分析（設定が無い場合は即時完了）</td>
+</tr>
+</tbody>
+</table>
+<p><code>--json</code> 指定時、または stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合、stdout の純粋性を保つためプログレスバーは自動で抑制されます。CI 上での <code>forge backtest run ... --json</code> は引き続き安全に JSON のみを出力します。</p>
 <h3 id="_4">出力例（テキスト）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>バックテストを実行中: SPY x sma_crossover_v1
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>✅ バックテスト完了  信号品質スコア: 0.78/1.0

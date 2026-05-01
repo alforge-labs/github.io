@@ -54,6 +54,21 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `--min-trades` | int | - | Minimum trade count; exits with code 1 if below |
 | `--regime` | flag | false | Display per-regime statistics on the console |
 
+### Progress bar (Rich UI)
+
+While running in a TTY, a Rich-powered progress bar is shown on stderr. The backtest progresses through 6 phases below; with `--split`, both IS and OOS flows run, totaling 12 steps.
+
+| Phase | Description |
+|---|---|
+| `指標計算` (Indicators) | Pre-compute technical indicators |
+| `変数評価` (Variables) | Evaluate intermediate boolean variables |
+| `シグナル生成` (Signals) | Evaluate entry/exit conditions and apply risk masks |
+| `シミュレーション` (Simulate) | Run the vectorbt portfolio simulation |
+| `メトリクス算出` (Metrics) | Compute Sharpe / MDD / win rate, etc. |
+| `レジーム分析` (Regime) | Compute per-regime metrics (no-op when not configured) |
+
+When `--json` is passed, or when stderr is not a TTY (CI, pipes, files), the progress bar is automatically suppressed so that stdout remains pure JSON.
+
 ### Sample output (text)
 
 ```text
