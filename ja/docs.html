@@ -108,6 +108,17 @@
       font-family: var(--mono);
     }
     .cmd-card:hover .cmd-card-link { color: var(--accent); }
+
+    /* ── PLAN BADGES ── */
+    .cmd-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .cmd-card-header .cmd-card-name { margin-bottom: 0; }
+    .plan-badge {
+      display: inline-block; font-family: var(--sans); font-size: 0.65rem; font-weight: 600;
+      padding: 0.15rem 0.45rem; border-radius: 3px; white-space: nowrap; flex-shrink: 0;
+      line-height: 1.4;
+    }
+    .plan-badge-paid  { background: rgba(255,90,90,0.15); color: #ff6b6b; border: 1px solid rgba(255,90,90,0.35); }
+    .plan-badge-limit { background: rgba(255,185,0,0.12); color: #e6a800; border: 1px solid rgba(255,185,0,0.30); }
   </style>
   <script>
     (function() {
@@ -143,10 +154,22 @@
         </a>
       </div>
 
+      <div class="callout" style="margin-bottom: 2rem; border-color: rgba(255,185,0,0.35);">
+        <p style="font-weight:600; margin-bottom:0.5rem;">🔒 プラン制限について</p>
+        <p style="margin-bottom:0.5rem;">
+          <strong>Free プラン</strong>は 2023-12-31 以前のデータのみ評価可能・最適化は 50 試行まで。
+          <code>forge pine generate / preview</code> は<strong>有料プランのみ</strong>利用できます。
+        </p>
+        <a href="/ja/index.html#pricing" class="btn-primary" style="font-size:0.8rem;">プランを比較する →</a>
+      </div>
+
       <h2 class="section-heading">主要コマンド</h2>
       <div class="cmd-card-grid">
         <a class="cmd-card" href="/ja/docs/cli-reference/backtest/#forge-backtest-run">
-          <div class="cmd-card-name">forge backtest run</div>
+          <div class="cmd-card-header">
+            <div class="cmd-card-name">forge backtest run</div>
+            <span class="plan-badge plan-badge-limit">Free: 制限あり</span>
+          </div>
           <div class="cmd-card-desc">単一銘柄に戦略を適用してバックテストを実行する。</div>
           <pre class="cmd-card-usage"><code>forge backtest run SYMBOL --strategy ID</code></pre>
           <div class="cmd-card-options">
@@ -158,7 +181,10 @@
         </a>
 
         <a class="cmd-card" href="/ja/docs/cli-reference/optimize/#forge-optimize-run">
-          <div class="cmd-card-name">forge optimize run</div>
+          <div class="cmd-card-header">
+            <div class="cmd-card-name">forge optimize run</div>
+            <span class="plan-badge plan-badge-limit">Free: 50試行まで</span>
+          </div>
           <div class="cmd-card-desc">Optuna によるパラメータ最適化（TPE）。多目的最適化にも対応。</div>
           <pre class="cmd-card-usage"><code>forge optimize run SYMBOL --strategy ID</code></pre>
           <div class="cmd-card-options">
@@ -170,7 +196,10 @@
         </a>
 
         <a class="cmd-card" href="/ja/docs/cli-reference/optimize/#forge-optimize-walk-forward">
-          <div class="cmd-card-name">forge optimize walk-forward</div>
+          <div class="cmd-card-header">
+            <div class="cmd-card-name">forge optimize walk-forward</div>
+            <span class="plan-badge plan-badge-limit">Free: 制限あり</span>
+          </div>
           <div class="cmd-card-desc">時系列をウィンドウ分割し IS 最適化 → OOS 評価で過学習耐性を測定。</div>
           <pre class="cmd-card-usage"><code>forge optimize walk-forward SYMBOL --strategy ID --windows N</code></pre>
           <div class="cmd-card-options">
@@ -181,7 +210,10 @@
         </a>
 
         <a class="cmd-card" href="/ja/docs/cli-reference/data/#forge-data-fetch">
-          <div class="cmd-card-name">forge data fetch</div>
+          <div class="cmd-card-header">
+            <div class="cmd-card-name">forge data fetch</div>
+            <span class="plan-badge plan-badge-limit">Free: 制限あり</span>
+          </div>
           <div class="cmd-card-desc">OHLCV をプロバイダーから取得し Parquet で保存。</div>
           <pre class="cmd-card-usage"><code>forge data fetch SYMBOL --period 5y --interval 1d</code></pre>
           <div class="cmd-card-options">
@@ -213,43 +245,50 @@
       <h2 class="section-heading">全コマンドカタログ</h2>
       <table class="cmd-table">
         <thead>
-          <tr><th>グループ</th><th>説明</th><th>サブコマンド数</th></tr>
+          <tr><th>グループ</th><th>説明</th><th>サブコマンド数</th><th>プラン制限</th></tr>
         </thead>
         <tbody>
           <tr>
             <td><a href="/ja/docs/cli-reference/backtest/"><code>forge backtest</code></a></td>
             <td>バックテスト実行・スキャン・カスタム実験</td>
             <td>11</td>
+            <td><span class="plan-badge plan-badge-limit">Free: 制限あり</span></td>
           </tr>
           <tr>
             <td><a href="/ja/docs/cli-reference/optimize/"><code>forge optimize</code></a></td>
             <td>パラメータ最適化（grid / bayes / wfa）</td>
             <td>9</td>
+            <td><span class="plan-badge plan-badge-limit">Free: 50試行まで</span></td>
           </tr>
           <tr>
             <td><a href="/ja/docs/cli-reference/strategy/"><code>forge strategy</code></a></td>
             <td>戦略 JSON の保存・検証・適用</td>
             <td>7</td>
+            <td>—</td>
           </tr>
           <tr>
             <td><a href="/ja/docs/cli-reference/data/"><code>forge data</code></a></td>
             <td>ヒストリカルデータ取得・更新</td>
             <td>4</td>
+            <td><span class="plan-badge plan-badge-limit">Free: 制限あり</span></td>
           </tr>
           <tr>
             <td><a href="/ja/docs/cli-reference/journal/"><code>forge journal</code></a></td>
             <td>取引ジャーナル・トレード分析</td>
             <td>7</td>
+            <td>—</td>
           </tr>
           <tr>
             <td><a href="/ja/docs/cli-reference/live/"><code>forge live</code></a></td>
             <td>ライブトレーディング・ブローカー連携</td>
             <td>9</td>
+            <td>—</td>
           </tr>
           <tr>
             <td><a href="/ja/docs/cli-reference/other/">その他コマンド</a></td>
             <td><code>pine</code> / <code>dashboard</code> / <code>license</code> / <code>config</code> 他</td>
             <td>10 グループ</td>
+            <td><span class="plan-badge plan-badge-paid">pine: 有料のみ</span></td>
           </tr>
         </tbody>
       </table>
