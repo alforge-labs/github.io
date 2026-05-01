@@ -1793,10 +1793,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sample-output_7" class="md-nav__link">
+  <a href="#live-progress-display-rich-dashboard" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sample output
+        Live progress display (Rich dashboard)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output-top-k-table-after-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample output (Top-K table after completion)
       
     </span>
   </a>
@@ -2706,10 +2717,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sample-output_7" class="md-nav__link">
+  <a href="#live-progress-display-rich-dashboard" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sample output
+        Live progress display (Rich dashboard)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output-top-k-table-after-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample output (Top-K table after completion)
       
     </span>
   </a>
@@ -3573,17 +3595,37 @@
 </tr>
 </tbody>
 </table>
-<h3 id="sample-output_7">Sample output<a class="headerlink" href="#sample-output_7" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>... (running backtests) ...
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>-----------------------------------------------------------------------
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>         12           50           1.45              -16.8         18
-<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>         14           55           1.41              -17.2         16
-<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>         ...
+<h3 id="live-progress-display-rich-dashboard">Live progress display (Rich dashboard)<a class="headerlink" href="#live-progress-display-rich-dashboard" title="Permanent link">&para;</a></h3>
+<p>While Grid Search is running, a real-time Rich dashboard is rendered to the console (the same UI pattern used by <code>forge backtest run</code> and <code>forge optimize run</code>):</p>
+<ul>
+<li><strong>Header</strong>: strategy ID, symbol, metric, total trials, chunk size</li>
+<li><strong>Progress bar</strong>: completed / total trials, elapsed time, estimated time remaining</li>
+<li><strong>Scoreboard</strong>: the trial currently being processed (<code>Current</code>: params + score) and the running Best (<code>Best</code>: trial number + score + params). Best updates are highlighted with a <code>BEST ★</code> marker</li>
+<li><strong>Footer</strong>: total number of failed trials (<code>Failures: N</code>)</li>
+</ul>
+<p>Passing <code>--json</code> suppresses the dashboard and writes only the Top-K JSON to stdout (for CI/pipeline use). When trials fail mid-run, the run continues; the Current row is repainted in red while the Failures counter advances.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>╰──────────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>╭───────────────────────────── Scoreboard ─────────────────────────────╮
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>│            Trial #   Score        Parameters                         │
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>│ Current        234   1.4537       fast_period=14  slow_period=55     │
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>╰──────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>Failures: 0
+</code></pre></div>
+<h3 id="sample-output-top-k-table-after-completion">Sample output (Top-K table after completion)<a class="headerlink" href="#sample-output-top-k-table-after-completion" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>... (Rich dashboard streaming) ...
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>-----------------------------------------------------------------------
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>         12           50           1.45              -16.8         18
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>         14           55           1.41              -17.2         16
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>         ...
 </code></pre></div>
 <h3 id="common-errors_4">Common errors<a class="headerlink" href="#common-errors_4" title="Permanent link">&para;</a></h3>
 <table>

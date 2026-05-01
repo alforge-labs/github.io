@@ -420,12 +420,36 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 | `--max-drawdown` | float | - | Filter out trials above MDD |
 | `--json` | flag | false | Output Top-K as JSON |
 
-### Sample output
+### Live progress display (Rich dashboard)
+
+While Grid Search is running, a real-time Rich dashboard is rendered to the console (the same UI pattern used by `forge backtest run` and `forge optimize run`):
+
+- **Header**: strategy ID, symbol, metric, total trials, chunk size
+- **Progress bar**: completed / total trials, elapsed time, estimated time remaining
+- **Scoreboard**: the trial currently being processed (`Current`: params + score) and the running Best (`Best`: trial number + score + params). Best updates are highlighted with a `BEST ★` marker
+- **Footer**: total number of failed trials (`Failures: N`)
+
+Passing `--json` suppresses the dashboard and writes only the Top-K JSON to stdout (for CI/pipeline use). When trials fail mid-run, the run continues; the Current row is repainted in red while the Failures counter advances.
+
+```text
+╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
+│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
+╰──────────────────────────────────────────────────────────────────────────╯
+Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
+╭───────────────────────────── Scoreboard ─────────────────────────────╮
+│            Trial #   Score        Parameters                         │
+│ Current        234   1.4537       fast_period=14  slow_period=55     │
+│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
+╰──────────────────────────────────────────────────────────────────────╯
+Failures: 0
+```
+
+### Sample output (Top-K table after completion)
 
 ```text
 Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
 Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
-... (running backtests) ...
+... (Rich dashboard streaming) ...
 
 === Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
 fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades

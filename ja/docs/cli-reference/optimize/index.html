@@ -1793,10 +1793,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_33" class="md-nav__link">
+  <a href="#rich" class="md-nav__link">
     <span class="md-ellipsis">
       
-        サンプル出力
+        進捗表示（Rich プログレスバー）
       
     </span>
   </a>
@@ -1804,7 +1804,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_34" class="md-nav__link">
+  <a href="#top-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        サンプル出力（完了後の Top-K テーブル）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
     <span class="md-ellipsis">
       
         主なエラー
@@ -1820,7 +1831,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_35" class="md-nav__link">
+  <a href="#_34" class="md-nav__link">
     <span class="md-ellipsis">
       
         共通の挙動
@@ -2706,10 +2717,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_33" class="md-nav__link">
+  <a href="#rich" class="md-nav__link">
     <span class="md-ellipsis">
       
-        サンプル出力
+        進捗表示（Rich プログレスバー）
       
     </span>
   </a>
@@ -2717,7 +2728,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_34" class="md-nav__link">
+  <a href="#top-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        サンプル出力（完了後の Top-K テーブル）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
     <span class="md-ellipsis">
       
         主なエラー
@@ -2733,7 +2755,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_35" class="md-nav__link">
+  <a href="#_34" class="md-nav__link">
     <span class="md-ellipsis">
       
         共通の挙動
@@ -3573,19 +3595,39 @@
 </tr>
 </tbody>
 </table>
-<h3 id="_33">サンプル出力<a class="headerlink" href="#_33" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>... (バックテスト実行) ...
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>-----------------------------------------------------------------------
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>         12           50           1.45              -16.8         18
-<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>         14           55           1.41              -17.2         16
-<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>         ...
+<h3 id="rich">進捗表示（Rich プログレスバー）<a class="headerlink" href="#rich" title="Permanent link">&para;</a></h3>
+<p>Grid Search 実行中は Rich のリアルタイムダッシュボードがコンソールに描画されます（<code>forge backtest run</code> / <code>forge optimize run</code> と同じ UI パターン）。</p>
+<ul>
+<li><strong>ヘッダー</strong>: 戦略 ID・シンボル・指標・総 trial 数・チャンクサイズ</li>
+<li><strong>プログレスバー</strong>: 完了 trial 数 / 総 trial 数、経過時間、推定残り時間</li>
+<li><strong>Scoreboard</strong>: 現在処理中の trial（<code>Current</code> 行: params + score）と、ここまでの最良値（<code>Best</code> 行: trial 番号 + score + params）。ベスト更新時は <code>BEST ★</code> の強調表示</li>
+<li><strong>フッター</strong>: 失敗 trial の累計（<code>Failures: N</code>）</li>
+</ul>
+<p><code>--json</code> を指定するとダッシュボードは抑制され、Top-K の JSON のみが標準出力に書き出されます（CI/パイプライン用途向け）。失敗 trial が混在しても run は中断せず、Current 行は赤色で上書きされ Failures カウントが進みます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>╰──────────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>╭───────────────────────────── Scoreboard ─────────────────────────────╮
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>│            Trial #   Score        Parameters                         │
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>│ Current        234   1.4537       fast_period=14  slow_period=55     │
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>╰──────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>Failures: 0
 </code></pre></div>
-<h3 id="_34">主なエラー<a class="headerlink" href="#_34" title="Permanent link">&para;</a></h3>
+<h3 id="top-k">サンプル出力（完了後の Top-K テーブル）<a class="headerlink" href="#top-k" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>... (Rich ダッシュボード表示中) ...
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>-----------------------------------------------------------------------
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>         12           50           1.45              -16.8         18
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>         14           55           1.41              -17.2         16
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>         ...
+</code></pre></div>
+<h3 id="_33">主なエラー<a class="headerlink" href="#_33" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -3618,7 +3660,7 @@
 </tbody>
 </table>
 <hr />
-<h2 id="_35">共通の挙動<a class="headerlink" href="#_35" title="Permanent link">&para;</a></h2>
+<h2 id="_34">共通の挙動<a class="headerlink" href="#_34" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>保存先</strong>: <code>--save</code> 指定時、<code>config.report.output_path</code> 配下に <code>optimize_&lt;strategy&gt;_&lt;timestamp&gt;.json</code> 形式で保存。クロスシンボルは <code>optimize_cross_*</code>、ポートフォリオは <code>optimize_portfolio_*</code> などプレフィックスが変わります。</li>
 <li><strong>DB 保存</strong>: <code>forge optimize run</code> は <code>--save</code> の有無にかかわらず常時 <code>SQLiteOptimizationResultRepository</code> に記録します（<code>run_id</code> を返却）。</li>
