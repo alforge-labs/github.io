@@ -971,6 +971,17 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
+        プラン構成
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
         挙動
       
     </span>
@@ -991,10 +1002,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lifetime" class="md-nav__link">
+  <a href="#lifetime-annual-monthly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lifetime プラン
+        有料プラン（Lifetime / Annual / Monthly）
       
     </span>
   </a>
@@ -1007,7 +1018,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         開発・検証時のオーバーライド
@@ -1018,7 +1029,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         制限を回避する方法
@@ -1244,6 +1255,17 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
+        プラン構成
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
         挙動
       
     </span>
@@ -1264,10 +1286,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lifetime" class="md-nav__link">
+  <a href="#lifetime-annual-monthly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lifetime プラン
+        有料プラン（Lifetime / Annual / Monthly）
       
     </span>
   </a>
@@ -1280,7 +1302,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         開発・検証時のオーバーライド
@@ -1291,7 +1313,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         制限を回避する方法
@@ -1319,32 +1341,65 @@
 
 
 <h1 id="_1">フリーミアム制限<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>AlphaForge には Free / Lifetime の 2 プランがあります。Free プランでは、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が <strong>2023-12-31</strong> に制限されています。本ページでは、その挙動と確認方法を整理します。</p>
+<p>AlphaForge には <strong>Free / Monthly / Annual / Lifetime</strong> の 4 プランがあります。Free 以外（Lifetime / Annual / Monthly）はまとめて<strong>有料プラン</strong>と呼びます。Free プランでは、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が <strong>2023-12-31</strong> に制限されています。本ページでは、その挙動と確認方法を整理します。</p>
 <div class="admonition note">
 <p class="admonition-title">対象コマンド</p>
 <p>制限は <code>forge backtest run</code> と <code>forge optimize</code>（<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>）の入口で適用されます。<code>forge data fetch</code> などのデータ取得経路の制限は別途設けられています。</p>
 </div>
-<h2 id="_2">挙動<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">プラン構成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>プラン</th>
+<th>評価エンジンの日付制限</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free</td>
+<td>2023-12-31 まで</td>
+<td>入力データはこの日付で自動的に切り捨てられます</td>
+</tr>
+<tr>
+<td>Monthly</td>
+<td>制限なし</td>
+<td>月額サブスクリプション。最新データを含めて評価可能</td>
+</tr>
+<tr>
+<td>Annual</td>
+<td>制限なし</td>
+<td>年額サブスクリプション。最新データを含めて評価可能</td>
+</tr>
+<tr>
+<td>Lifetime</td>
+<td>制限なし</td>
+<td>買い切り。最新データを含めて評価可能</td>
+</tr>
+</tbody>
+</table>
+<p>内部的には Lifetime / Annual / Monthly はいずれも「制限なし」挙動が同一のため、<code>lifetime</code> プランとして一括して扱われます。プラン構成や価格はランディングページの最新情報を参照してください。</p>
+<h2 id="_3">挙動<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <h3 id="free">Free プラン<a class="headerlink" href="#free" title="Permanent link">&para;</a></h3>
 <ul>
 <li>入力データに 2023-12-31 より新しい行が含まれる場合、評価直前に自動で切り捨てられます。</li>
-<li>CLI 通常出力には黄色の Panel で警告が表示され、Lifetime ライセンスでの解除誘導が表示されます。</li>
+<li>CLI 通常出力には黄色の Panel で警告が表示され、有料プランでの解除誘導が表示されます。</li>
 <li><code>--json</code> 出力には <code>freemium_limit_notices</code> 構造化フィールドが含まれます。</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_evaluation_date_clipped&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは2023-12-31までのデータのみ評価できます。最新データで評価するにはLifetimeライセンスが必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31&quot;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="p">]</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="lifetime">Lifetime プラン<a class="headerlink" href="#lifetime" title="Permanent link">&para;</a></h3>
+<h3 id="lifetime-annual-monthly">有料プラン（Lifetime / Annual / Monthly）<a class="headerlink" href="#lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
 <p>制限は一切発動せず、最新データを含めて評価できます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
-<h2 id="_3">開発・検証時のオーバーライド<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_4">開発・検証時のオーバーライド<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>ローカルでプラン挙動を切り替えて確認したい場合は、環境変数 <code>ALPHA_FORGE_PLAN</code> を使います。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
@@ -1364,7 +1419,7 @@
 </tr>
 <tr>
 <td><code>lifetime</code></td>
-<td>Lifetime プラン相当（制限なし）</td>
+<td>有料プラン（Lifetime / Annual / Monthly）相当の制限なし挙動</td>
 </tr>
 <tr>
 <td><code>dev</code></td>
@@ -1372,11 +1427,11 @@
 </tr>
 </tbody>
 </table>
-<p><code>ALPHA_FORGE_PLAN</code> が未設定の場合は、認証キャッシュ（Whop メンバーシップ情報）から取得したプランが適用されます。<code>ALPHA_FORGE_DEV_SKIP_LICENSE=1</code> を設定するとライセンス確認をスキップする <code>dev</code> プランで動作しますが、これは Lifetime とは別扱いです。</p>
-<h2 id="_4">制限を回避する方法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>正規の解除手段は <strong>Lifetime ライセンスの取得</strong>のみです。CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。</p>
+<p><code>ALPHA_FORGE_PLAN</code> が未設定の場合は、認証キャッシュ（Whop メンバーシップ情報）から取得したプランが適用されます。<code>ALPHA_FORGE_DEV_SKIP_LICENSE=1</code> を設定するとライセンス確認をスキップする <code>dev</code> プランで動作しますが、これは有料プランとは別扱いです。</p>
+<h2 id="_5">制限を回避する方法<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>正規の解除手段は <strong>有料プランの購入</strong>（Lifetime / Annual / Monthly のいずれか）です。CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。</p>
 <ul>
-<li>Lifetime ライセンスの購入: AlphaForge の販売ページを参照してください。</li>
+<li>有料プランの購入: AlphaForge の販売ページから Monthly / Annual / Lifetime を選択して購入してください。</li>
 <li>Whop メンバーシップが認証キャッシュに反映されないときは、<code>forge auth login</code> を再実行してください。</li>
 </ul>
 

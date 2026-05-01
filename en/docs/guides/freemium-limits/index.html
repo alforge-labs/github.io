@@ -968,6 +968,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#plan-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -991,10 +1002,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lifetime-plan" class="md-nav__link">
+  <a href="#paid-plans-lifetime-annual-monthly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lifetime plan
+        Paid plans (Lifetime / Annual / Monthly)
       
     </span>
   </a>
@@ -1241,6 +1252,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#plan-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1264,10 +1286,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lifetime-plan" class="md-nav__link">
+  <a href="#paid-plans-lifetime-annual-monthly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lifetime plan
+        Paid plans (Lifetime / Annual / Monthly)
       
     </span>
   </a>
@@ -1319,30 +1341,63 @@
 
 
 <h1 id="freemium-limits">Freemium Limits<a class="headerlink" href="#freemium-limits" title="Permanent link">&para;</a></h1>
-<p>AlphaForge offers two plans: Free and Lifetime. The Free plan caps the maximum data date passed to the evaluation engine (backtest / optimization) at <strong>2023-12-31</strong>. This page summarizes the behavior and how to verify it locally.</p>
+<p>AlphaForge offers four plans: <strong>Free, Monthly, Annual, and Lifetime</strong>. The non-Free tiers (Lifetime / Annual / Monthly) are collectively referred to as <strong>paid plans</strong>. The Free plan caps the maximum data date passed to the evaluation engine (backtest / optimization) at <strong>2023-12-31</strong>. This page summarizes the behavior and how to verify it locally.</p>
 <div class="admonition note">
 <p class="admonition-title">Targeted commands</p>
 <p>The limit is applied at the entry point of <code>forge backtest run</code> and <code>forge optimize</code> (<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>). Limits on data acquisition paths such as <code>forge data fetch</code> are handled separately.</p>
 </div>
+<h2 id="plan-structure">Plan structure<a class="headerlink" href="#plan-structure" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Evaluation date limit</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free</td>
+<td>Up to 2023-12-31</td>
+<td>Input data is automatically clipped at this date</td>
+</tr>
+<tr>
+<td>Monthly</td>
+<td>No limit</td>
+<td>Monthly subscription. Latest data can be evaluated</td>
+</tr>
+<tr>
+<td>Annual</td>
+<td>No limit</td>
+<td>Annual subscription. Latest data can be evaluated</td>
+</tr>
+<tr>
+<td>Lifetime</td>
+<td>No limit</td>
+<td>One-time purchase. Latest data can be evaluated</td>
+</tr>
+</tbody>
+</table>
+<p>Internally, Lifetime / Annual / Monthly are all treated as the <code>lifetime</code> plan because they share the same "no-limit" behavior. Please refer to the landing page for the most up-to-date plan and pricing details.</p>
 <h2 id="behavior">Behavior<a class="headerlink" href="#behavior" title="Permanent link">&para;</a></h2>
 <h3 id="free-plan">Free plan<a class="headerlink" href="#free-plan" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Input rows newer than 2023-12-31 are clipped automatically right before evaluation.</li>
-<li>The CLI's normal output displays a yellow Panel warning along with an upgrade hint pointing to Lifetime.</li>
+<li>The CLI's normal output displays a yellow Panel warning along with an upgrade hint pointing to a paid plan.</li>
 <li><code>--json</code> output includes a structured <code>freemium_limit_notices</code> field.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_evaluation_date_clipped&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは2023-12-31までのデータのみ評価できます。最新データで評価するにはLifetimeライセンスが必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31&quot;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="p">]</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="lifetime-plan">Lifetime plan<a class="headerlink" href="#lifetime-plan" title="Permanent link">&para;</a></h3>
+<h3 id="paid-plans-lifetime-annual-monthly">Paid plans (Lifetime / Annual / Monthly)<a class="headerlink" href="#paid-plans-lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
 <p>No limits are applied; you can evaluate the latest data without clipping. The output does not include any <code>freemium_limit_notices</code> warnings.</p>
 <h2 id="override-for-development-and-verification">Override for development and verification<a class="headerlink" href="#override-for-development-and-verification" title="Permanent link">&para;</a></h2>
 <p>To validate plan-specific behavior locally, set the <code>ALPHA_FORGE_PLAN</code> environment variable.</p>
@@ -1364,7 +1419,7 @@
 </tr>
 <tr>
 <td><code>lifetime</code></td>
-<td>Treats the session as Lifetime (no limits)</td>
+<td>Treats the session as a paid plan (Lifetime / Annual / Monthly) — no limits</td>
 </tr>
 <tr>
 <td><code>dev</code></td>
@@ -1372,11 +1427,11 @@
 </tr>
 </tbody>
 </table>
-<p>When <code>ALPHA_FORGE_PLAN</code> is unset, AlphaForge uses the plan resolved from the auth cache (Whop membership info). Setting <code>ALPHA_FORGE_DEV_SKIP_LICENSE=1</code> enables the <code>dev</code> plan with EULA-skip; note that <code>dev</code> is distinct from <code>lifetime</code>.</p>
+<p>When <code>ALPHA_FORGE_PLAN</code> is unset, AlphaForge uses the plan resolved from the auth cache (Whop membership info). Setting <code>ALPHA_FORGE_DEV_SKIP_LICENSE=1</code> enables the <code>dev</code> plan with EULA-skip; note that <code>dev</code> is distinct from the paid plans.</p>
 <h2 id="how-to-remove-the-limit">How to remove the limit<a class="headerlink" href="#how-to-remove-the-limit" title="Permanent link">&para;</a></h2>
-<p>The only supported way to lift the limit is to obtain a <strong>Lifetime license</strong>. Manually trimming a CSV to 2023-12-31 and re-running will produce the same result, because the clip is always enforced at the evaluation engine boundary.</p>
+<p>The only supported way to lift the limit is to obtain a <strong>paid plan</strong> (Lifetime, Annual, or Monthly). Manually trimming a CSV to 2023-12-31 and re-running will produce the same result, because the clip is always enforced at the evaluation engine boundary.</p>
 <ul>
-<li>Purchase the Lifetime license: see the AlphaForge sales page.</li>
+<li>Purchase a paid plan: pick Monthly, Annual, or Lifetime from the AlphaForge sales page.</li>
 <li>If a Whop membership is not reflected in the auth cache, re-run <code>forge auth login</code>.</li>
 </ul>
 
