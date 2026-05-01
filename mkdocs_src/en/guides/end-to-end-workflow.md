@@ -73,3 +73,6 @@ Output: `output/pinescript/usdjpy_sma_v1_optimized.pine`
 
 !!! tip "Related commands"
     See [CLI Reference](../cli-reference/index.md) for the complete option lists. Next step: [Bringing Pine Scripts into TradingView](tradingview-pine-integration.md).
+
+!!! tip "See actual output samples"
+    For output formats, equity curve examples, optimization results, and Pine Script samples, see [Output Examples](output-examples.md).

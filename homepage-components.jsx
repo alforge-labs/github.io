@@ -99,6 +99,11 @@ function FreeStart({ t, lang }) {
                 <p className="free-start-step-desc">{step.desc}</p>
               </article>
             ))}
+            {c.outExamplesCta && (
+              <a href={`/${lang}/docs/guides/output-examples/`} className="free-start-link free-start-examples-link">
+                {c.outExamplesCta} →
+              </a>
+            )}
           </div>
         </div>
       </div>

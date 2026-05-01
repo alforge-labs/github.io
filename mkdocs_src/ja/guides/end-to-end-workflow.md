@@ -73,3 +73,6 @@ forge pine generate --strategy usdjpy_sma_v1_optimized
 
 !!! tip "関連コマンド"
     各サブコマンドの完全なオプション一覧は [CLI リファレンス](../cli-reference/index.md) を参照してください。次のステップは [TradingView への Pine Script 反映](tradingview-pine-integration.md) です。
+
+!!! tip "実際の出力サンプルを確認するには"
+    各コマンドの出力フォーマットや、equity curve・最適化結果・Pine Script の具体例は [実行結果と成果物サンプル](output-examples.md) を参照してください。

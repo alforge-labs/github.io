@@ -31,6 +31,7 @@ window.COPY = {
       secondaryCta: '料金比較を見る',
       updateCta: '更新情報をXで追う',
       availability: 'Free 登録・販売開始は今夏提供開始予定です。現時点ではインストール手順と提供範囲を確認できます。',
+      outExamplesCta: '出力サンプルを見る',
       steps: [
         { num: '01', title: 'インストール', desc: 'macOS / Linux / Windows の手順に沿って CLI を準備します。' },
         { num: '02', title: 'サンプル戦略を実行', desc: '用意された戦略 JSON でバックテストと検証フローを試します。' },
@@ -447,6 +448,7 @@ window.COPY = {
       secondaryCta: 'Compare plans',
       updateCta: 'Follow updates on X',
       availability: 'Free registration and paid plans are scheduled for this summer. For now, you can review the install flow and plan limits.',
+      outExamplesCta: 'See output samples',
       steps: [
         { num: '01', title: 'Install', desc: 'Set up the CLI on macOS, Linux, or Windows.' },
         { num: '02', title: 'Run a sample strategy', desc: 'Try the validation flow with a ready-made strategy JSON.' },

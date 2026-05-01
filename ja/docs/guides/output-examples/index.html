@@ -12,13 +12,13 @@
         <meta name="author" content="Alforge Labs">
       
       
-        <link rel="canonical" href="https://alforgelabs.com/ja/docs/guides/end-to-end-workflow/">
+        <link rel="canonical" href="https://alforgelabs.com/ja/docs/guides/output-examples/">
       
       
-        <link rel="prev" href="../../strategy-gallery/">
+        <link rel="prev" href="../end-to-end-workflow/">
       
       
-        <link rel="next" href="../output-examples/">
+        <link rel="next" href="../tradingview-pine-integration/">
       
       
         
@@ -33,7 +33,7 @@
     
     
       
-        <title>エンドツーエンド戦略開発ワークフロー - AlphaForge ドキュメント</title>
+        <title>実行結果と成果物サンプル - AlphaForge ドキュメント</title>
       
     
     
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              エンドツーエンド戦略開発ワークフロー
+              実行結果と成果物サンプル
             
           </span>
         </div>
@@ -350,7 +350,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../end-to-end-workflow/" class="md-tabs__link">
           
   
   
@@ -933,6 +933,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../end-to-end-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    エンドツーエンド戦略開発ワークフロー
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -952,7 +980,7 @@
   <span class="md-ellipsis">
     
   
-    エンドツーエンド戦略開発ワークフロー
+    実行結果と成果物サンプル
   
 
     
@@ -970,7 +998,7 @@
   <span class="md-ellipsis">
     
   
-    エンドツーエンド戦略開発ワークフロー
+    実行結果と成果物サンプル
   
 
     
@@ -996,10 +1024,71 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. データ取得
+        バックテスト実行結果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="バックテスト実行結果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        テキスト出力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主な指標の見方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON 出力（--json フラグ付き）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        詳細レポート（保存済み結果の確認）
       
     </span>
   </a>
@@ -1007,10 +1096,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
+  <a href="#equity-curve" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 戦略テンプレート作成
+        Equity Curve とダッシュボード
       
     </span>
   </a>
@@ -1018,10 +1107,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. バックテスト実行
+        バッチバックテスト（複数戦略を一括比較）
       
     </span>
   </a>
@@ -1029,10 +1118,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. パラメータ最適化
+        パラメータ最適化結果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="パラメータ最適化結果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最適化済みパラメータを戦略に適用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        戦略 JSON の検証
       
     </span>
   </a>
@@ -1040,21 +1157,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
+  <a href="#pine-script" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. ウォークフォワード検証
+        Pine Script 生成（有料プラン）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pine Script 生成（有料プラン）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tradingview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView への反映手順
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#6-pine-script" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Pine Script 生成
+        次のステップ
       
     </span>
   </a>
@@ -1065,34 +1199,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../output-examples/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    実行結果と成果物サンプル
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1669,10 +1775,71 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. データ取得
+        バックテスト実行結果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="バックテスト実行結果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        テキスト出力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主な指標の見方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON 出力（--json フラグ付き）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        詳細レポート（保存済み結果の確認）
       
     </span>
   </a>
@@ -1680,10 +1847,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
+  <a href="#equity-curve" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 戦略テンプレート作成
+        Equity Curve とダッシュボード
       
     </span>
   </a>
@@ -1691,10 +1858,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. バックテスト実行
+        バッチバックテスト（複数戦略を一括比較）
       
     </span>
   </a>
@@ -1702,10 +1869,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. パラメータ最適化
+        パラメータ最適化結果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="パラメータ最適化結果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最適化済みパラメータを戦略に適用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        戦略 JSON の検証
       
     </span>
   </a>
@@ -1713,21 +1908,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
+  <a href="#pine-script" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. ウォークフォワード検証
+        Pine Script 生成（有料プラン）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pine Script 生成（有料プラン）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tradingview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView への反映手順
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#6-pine-script" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Pine Script 生成
+        次のステップ
       
     </span>
   </a>
@@ -1751,61 +1963,233 @@
 
 
 
-<h1 id="_1">エンドツーエンド戦略開発ワークフロー<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>ヒストリカルデータの取得から自動発注までの典型的な開発フロー。Claude Code などのコーディングエージェントと組み合わせると、各ステップの自動化やパラメータ探索を高速化できます。</p>
-<div class="admonition note">
-<p class="admonition-title">前提</p>
-<p>以下のコマンドはすべて <code>alpha-strategies/</code> ディレクトリから <code>FORGE_CONFIG=forge.yaml uv run</code> 付きで実行することを想定しています。</p>
+<h1 id="_1">実行結果と成果物サンプル<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>AlphaForge CLI を実行すると何が得られるか、代表的なコマンドと出力を示します。</p>
+<div class="admonition info">
+<p class="admonition-title">サンプル出力について</p>
+<p>本ページの数値は <code>alpha-forge</code> ソースから取得したフォーマットを元にしたサンプルです。実際の値はデータと戦略によって異なります。</p>
 </div>
-<h2 id="1">1. データ取得<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p>対象シンボルのヒストリカルデータをローカルに保存します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY
+<hr />
+<h2 id="_2">バックテスト実行結果<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">コマンド<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--start<span class="w"> </span><span class="m">2019</span>-01-01<span class="w"> </span>--end<span class="w"> </span><span class="m">2023</span>-12-31
 </code></pre></div>
-<h2 id="2">2. 戦略テンプレート作成<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<p>テンプレートから戦略 JSON の雛形を生成し、パラメータを編集してから登録します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>sma_crossover_v1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--out<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># 生成された JSON の strategy_id とパラメータをエディタで編集してから登録</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
+<h3 id="_4">テキスト出力<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>バックテストを実行中: SPY x sma_crossover_v1
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>✅ バックテスト完了  信号品質スコア: 0.78/1.0
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>総リターン: +52.30%  CAGR: 5.40%
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>SR: 0.92  Sortino: 1.15  Calmar: 0.32
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>MDD: -16.80%  期間: 187日  回復: 92日
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>PF: 1.74  Win%: 50.0%  avg勝: 4.20%  avg負: -2.40%
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>取引数: 14  平均保有: 28.5日(28bar)  最大: 65.0日(65bar)  連勝: 4  連敗: 3
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>勝率CI(90%): 35.2% - 64.8%
 </code></pre></div>
-<h2 id="3">3. バックテスト実行<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
-<p>定義した戦略のパフォーマンスを過去データで検証します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>USDJPY<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># 結果のチャート URL を表示してブラウザで開く</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span>--open
+<h3 id="_5">主な指標の見方<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAGR</td>
+<td>5.40%</td>
+<td>年平均成長率</td>
+</tr>
+<tr>
+<td>Sharpe Ratio</td>
+<td>0.92</td>
+<td>リスク調整後リターン（1.0以上が目安）</td>
+</tr>
+<tr>
+<td>Max Drawdown</td>
+<td>-16.80%</td>
+<td>最大損失幅（回復まで187日）</td>
+</tr>
+<tr>
+<td>Profit Factor</td>
+<td>1.74</td>
+<td>総利益 ÷ 総損失（1.3以上が目安）</td>
+</tr>
+<tr>
+<td>Win Rate</td>
+<td>50.0%</td>
+<td>勝ちトレードの割合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json-json">JSON 出力（<code>--json</code> フラグ付き）<a class="headerlink" href="#json-json" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--start<span class="w"> </span><span class="m">2019</span>-01-01<span class="w"> </span>--end<span class="w"> </span><span class="m">2023</span>-12-31<span class="w"> </span>--json
 </code></pre></div>
-<h2 id="4">4. パラメータ最適化<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
-<p>Optuna のベイズ最適化（TPE）で最適なパラメータを探索します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>USDJPY<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># 保存された結果ファイル（optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json）を新しい戦略として適用</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span>--to-strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;total_return_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">52.30</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;cagr_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.40</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;sharpe_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.92</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&quot;sortino_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.15</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">&quot;calmar_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.32</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">&quot;max_drawdown_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-16.80</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">&quot;max_drawdown_duration_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">187</span><span class="p">,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">&quot;max_drawdown_recovery_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">92</span><span class="p">,</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">&quot;profit_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.74</span><span class="p">,</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nt">&quot;win_rate_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="p">,</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="nt">&quot;total_trades&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="nt">&quot;avg_holding_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">28.5</span><span class="p">,</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="nt">&quot;pre_filter_pass&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="nt">&quot;pre_filter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;sharpe_min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_dd_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">25.0</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="nt">&quot;warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="5">5. ウォークフォワード検証<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
-<p>過学習を検出するため、訓練期間とテスト期間を分けた検証を行います。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>USDJPY<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 感度分析（最適化結果 JSON ファイルを指定）</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json
+<hr />
+<h2 id="_6">詳細レポート（保存済み結果の確認）<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>report<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
-<h2 id="6-pine-script">6. Pine Script 生成<a class="headerlink" href="#6-pine-script" title="Permanent link">&para;</a></h2>
-<p>TradingView 用のアラートスクリプトを自動生成します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>=== sma_crossover_v1 / SPY (2026-04-15T10:30:21) ===
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>総リターン: 52.30%  CAGR: 5.40%
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>SR: 0.92  Sortino: 1.15  Calmar: 0.32
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>MDD: -16.80%  PF: 1.74  Win%: 50.0%
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>取引数: 14  平均保有: 28.5日(28bar)  最大: 65.0日(65bar)
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>トレードログ: 14件 (--json で全体を確認可能)
 </code></pre></div>
-<p>出力先: <code>output/pinescript/usdjpy_sma_v1_optimized.pine</code></p>
-<div class="admonition tip">
-<p class="admonition-title">関連コマンド</p>
-<p>各サブコマンドの完全なオプション一覧は <a href="../../cli-reference/">CLI リファレンス</a> を参照してください。次のステップは <a href="../tradingview-pine-integration/">TradingView への Pine Script 反映</a> です。</p>
+<p>完全なトレードログは <code>--json</code> で出力できます:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>report<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--json
+</code></pre></div>
+<hr />
+<h2 id="equity-curve">Equity Curve とダッシュボード<a class="headerlink" href="#equity-curve" title="Permanent link">&para;</a></h2>
+<p>バックテスト実行後、ローカルダッシュボードで損益曲線・ドローダウン・個別トレードを視覚的に確認できます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># チャート URL を表示</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># ブラウザで直接開く（forge dashboard が起動中の場合）</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--open
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>📊 チャートを表示するには `forge dashboard` を起動してください:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>   http://localhost:8000/?run_id=sma_crossover_v1_20260415_103021
+</code></pre></div>
+<p>ダッシュボード（<code>forge dashboard</code>）では以下のタブを確認できます:</p>
+<table>
+<thead>
+<tr>
+<th>タブ</th>
+<th>表示内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equity Curve</td>
+<td>損益曲線・Buy &amp; Hold 比較・月次リターン棒グラフ</td>
+</tr>
+<tr>
+<td>Drawdown</td>
+<td>最大ドローダウン期間・回復曲線・ドローダウン分布</td>
+</tr>
+<tr>
+<td>Trades</td>
+<td>個別トレード一覧（参入日・決済日・損益・保有期間）</td>
+</tr>
+<tr>
+<td>Statistics</td>
+<td>年次・月次統計・主要リスク指標</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_7">バッチバックテスト（複数戦略を一括比較）<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>batch<span class="w"> </span>SPY<span class="w"> </span>--strategy-dir<span class="w"> </span>data/strategies/<span class="w"> </span>--workers<span class="w"> </span><span class="m">3</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>バッチバックテスト開始: SPY × 3戦略 (workers=3)
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  ✅ sma_crossover_v1: Sharpe=1.32  MaxDD=-12.4%  CAGR=8.2%  trades=18
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  ❌ rsi_reversion_v1: Sharpe=0.61  MaxDD=-22.1%  CAGR=4.1%  trades=24
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  ✅ macd_trend_v1:    Sharpe=1.18  MaxDD=-15.6%  CAGR=7.0%  trades=15
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>合格戦略: 2/3件
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>  ✅ sma_crossover_v1: Sharpe=1.32  MaxDD=-12.4%
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>  ✅ macd_trend_v1:    Sharpe=1.18  MaxDD=-15.6%
+</code></pre></div>
+<hr />
+<h2 id="_8">パラメータ最適化結果<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>✅ 最適化完了
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>ベストスコア (sharpe_ratio): 1.32
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>ベストパラメータ: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>DB 保存: run_id=opt_20260415_103021
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>✅ 最適化結果を保存しました: data/results/optimize_sma_crossover_v1_20260415_103021.json
+</code></pre></div>
+<p><code>--json</code> フラグで機械可読な形式での出力:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--json
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.32</span><span class="p">,</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">&quot;best_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fast_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;slow_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_9">最適化済みパラメータを戦略に適用<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_sma_crossover_v1_20260415_103021.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>--to-strategy<span class="w"> </span>sma_crossover_v1_optimized
+</code></pre></div>
+<hr />
+<h2 id="json">戦略 JSON の検証<a class="headerlink" href="#json" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># 戦略を登録して検証</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/sma_crossover_v1.json
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>sma_crossover_v1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>✅ 戦略 JSON のフォーマットが正常です: sma_crossover_v1
+</code></pre></div>
+<hr />
+<h2 id="pine-script">Pine Script 生成（有料プラン）<a class="headerlink" href="#pine-script" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">有料プラン限定</p>
+<p><code>forge pine generate</code> は <strong>Lifetime / Annual / Monthly プラン</strong> のみ利用できます。Free プランでは利用できません。詳しくは <a href="../freemium-limits/">フリーミアム制限</a> を参照してください。</p>
 </div>
-<div class="admonition tip">
-<p class="admonition-title">実際の出力サンプルを確認するには</p>
-<p>各コマンドの出力フォーマットや、equity curve・最適化結果・Pine Script の具体例は <a href="../output-examples/">実行結果と成果物サンプル</a> を参照してください。</p>
-</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>✅ Pine Script が保存されました: output/pinescript/sma_crossover_v1.pine
+</code></pre></div>
+<p>生成される Pine Script の例（SMA クロスオーバー戦略）:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>//@version=6
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>strategy(&quot;sma_crossover_v1&quot;, overlay=true,
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>         default_qty_type=strategy.percent_of_equity, default_qty_value=100)
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>// === パラメータ ===
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>fast_period = input.int(12, &quot;Fast Period&quot;, minval=1, maxval=200)
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>slow_period = input.int(50, &quot;Slow Period&quot;, minval=1, maxval=500)
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>// === インジケータ計算 ===
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>sma_fast = ta.sma(close, fast_period)
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>sma_slow = ta.sma(close, slow_period)
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>// === シグナル ===
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>long_entry = ta.crossover(sma_fast, sma_slow)
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>long_exit  = ta.crossunder(sma_fast, sma_slow)
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>// === ポジション管理 ===
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>if long_entry
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>    strategy.entry(&quot;Long&quot;, strategy.long)
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>if long_exit
+<a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>    strategy.close(&quot;Long&quot;)
+<a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>
+<a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a>// === プロット ===
+<a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a>plot(sma_fast, color=color.blue, title=&quot;SMA Fast&quot;)
+<a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a>plot(sma_slow, color=color.red,  title=&quot;SMA Slow&quot;)
+</code></pre></div>
+<h3 id="tradingview">TradingView への反映手順<a class="headerlink" href="#tradingview" title="Permanent link">&para;</a></h3>
+<ol>
+<li>TradingView の「Pine エディタ」を開く</li>
+<li>生成された <code>.pine</code> ファイルの内容を貼り付けて「保存」→「チャートに追加」</li>
+<li>アラートを設定し、シグナルを alpha-strike に転送する（<a href="../tradingview-alpha-strike/">連携ガイドを見る</a>）</li>
+</ol>
+<p>詳細は <a href="../tradingview-pine-integration/">TradingView への Pine Script 反映</a> を参照してください。</p>
+<hr />
+<h2 id="_10">次のステップ<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../end-to-end-workflow/">エンドツーエンド戦略開発ワークフロー</a> — 戦略開発の全フローを順を追って確認</li>
+<li><a href="../../cli-reference/backtest/">CLI リファレンス: backtest</a> — 全コマンドと引数の詳細</li>
+<li><a href="../../cli-reference/optimize/">CLI リファレンス: optimize</a> — 最適化の詳細オプション</li>
+<li><a href="../../strategy-gallery/">戦略実例ギャラリー</a> — 実際の戦略 JSON とコマンド例</li>
+</ul>
 
 
 
@@ -1841,7 +2225,7 @@
       <nav class="md-footer__inner md-grid" aria-label="フッター" >
         
           
-          <a href="../../strategy-gallery/" class="md-footer__link md-footer__link--prev" aria-label="前: 戦略実例ギャラリー">
+          <a href="../end-to-end-workflow/" class="md-footer__link md-footer__link--prev" aria-label="前: エンドツーエンド戦略開発ワークフロー">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1851,20 +2235,20 @@
                 前
               </span>
               <div class="md-ellipsis">
-                戦略実例ギャラリー
+                エンドツーエンド戦略開発ワークフロー
               </div>
             </div>
           </a>
         
         
           
-          <a href="../output-examples/" class="md-footer__link md-footer__link--next" aria-label="次: 実行結果と成果物サンプル">
+          <a href="../tradingview-pine-integration/" class="md-footer__link md-footer__link--next" aria-label="次: TradingView への Pine Script 反映">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 次
               </span>
               <div class="md-ellipsis">
-                実行結果と成果物サンプル
+                TradingView への Pine Script 反映
               </div>
             </div>
             <div class="md-footer__button md-icon">

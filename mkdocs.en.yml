@@ -69,6 +69,7 @@ nav:
   - Strategy Gallery: strategy-gallery.md
   - Guides:
       - End-to-End Strategy Development Workflow: guides/end-to-end-workflow.md
+      - Output Examples: guides/output-examples.md
       - Bringing Pine Scripts into TradingView: guides/tradingview-pine-integration.md
       - TradingView × alpha-strike Integration: guides/tradingview-alpha-strike.md
       - Freemium Limits: guides/freemium-limits.md
