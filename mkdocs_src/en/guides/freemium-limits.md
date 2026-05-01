@@ -7,17 +7,18 @@ AlphaForge offers four plans: **Free, Monthly, Annual, and Lifetime**. The non-F
     - **Data fetch**: `forge data fetch` / `forge data update` / `forge pine generate --with-training-data` / strategy external-symbol auto-fetch (`merge_external_symbols`)
     - **Evaluation engine entry**: `forge backtest run` / `forge optimize` (`run` / `grid` / `walk-forward` / `cross-symbol`)
     - **Optimization trial count**: `forge optimize run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`
+    - **Pine Script export (hard block)**: `forge pine generate` / `forge pine preview` (`forge pine import` is unaffected)
 
-    Both fetch and evaluation paths share **2023-12-31** as the cap, and the optimization paths share **50 trials** as the cap.
+    Both fetch and evaluation paths share **2023-12-31** as the cap, and the optimization paths share **50 trials** as the cap. Pine Script export is **fully blocked** on the Free plan.
 
 ## Plan structure
 
 | Plan | Fetch / evaluation date limit | Optimization trial count | Notes |
 |---|---|---|---|
-| Free | Up to 2023-12-31 | Up to 50 trials | Fetch end is capped at 2023-12-31, and the evaluation engine entry clips to the same date |
-| Monthly | No limit | No limit | Monthly subscription. Latest data with unlimited trials |
-| Annual | No limit | No limit | Annual subscription. Latest data with unlimited trials |
-| Lifetime | No limit | No limit | One-time purchase. Latest data with unlimited trials |
+| Free | Up to 2023-12-31 | Up to 50 trials | Fetch end is capped at 2023-12-31, and the evaluation engine entry clips to the same date. **Pine Script export is fully blocked.** |
+| Monthly | No limit | No limit | Monthly subscription. Latest data with unlimited trials. Pine Script export enabled. |
+| Annual | No limit | No limit | Annual subscription. Latest data with unlimited trials. Pine Script export enabled. |
+| Lifetime | No limit | No limit | One-time purchase. Latest data with unlimited trials. Pine Script export enabled. |
 
 Internally, Lifetime / Annual / Monthly are all treated as the `lifetime` plan because they share the same "no-limit" behavior. Please refer to the landing page for the most up-to-date plan and pricing details.
 
@@ -87,9 +88,40 @@ Optimization trial cap `freemium_limit_notices` example:
 }
 ```
 
+#### Pine Script export (`forge pine generate` / `forge pine preview`)
+
+- On the Free plan, both commands are **hard-blocked**: they halt immediately, and neither write a file nor print to stdout.
+- Exit code is `1`, and a red Panel is shown with the purchase URL ([https://alforgelabs.com/en/index.html#pricing](https://alforgelabs.com/en/index.html#pricing)).
+- The structured `freemium_limit_notices` `code` is `free_tier_pine_export_blocked` (`original_value` / `applied_value` are `null`).
+- `forge pine import` is the import path and remains available on the Free plan.
+
+Pine Script hard-block sample (Free plan, CLI):
+```text
+╭─────────── 🔒 Premium-only feature ────────────╮
+│ Pine Script export is available for paid plans │
+│ (Lifetime / Annual / Monthly) only.            │
+│ Upgrade your license to seamlessly run on …    │
+│ Upgrade: https://alforgelabs.com/en/index.html#pricing │
+╰────────────────────────────────────────────────╯
+```
+
+Pine Script hard-block `freemium_limit_notices` example:
+```json
+{
+  "freemium_limit_notices": [
+    {
+      "code": "free_tier_pine_export_blocked",
+      "message": "Pine Script エクスポートは有料プラン（Lifetime / Annual / Monthly）のみ利用できます。",
+      "original_value": null,
+      "applied_value": null
+    }
+  ]
+}
+```
+
 ### Paid plans (Lifetime / Annual / Monthly)
 
-No limits are applied; you can fetch and evaluate the latest data with unlimited trials. The output does not include any `freemium_limit_notices` warnings.
+No limits are applied; you can fetch and evaluate the latest data with unlimited trials, and Pine Script export is fully unlocked. The output does not include any `freemium_limit_notices` warnings.
 
 ## Override for development and verification
 

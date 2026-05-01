@@ -1081,6 +1081,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pine-script-forge-pine-generate-forge-pine-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pine Script エクスポート（forge pine generate / forge pine preview）
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1443,6 +1454,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pine-script-forge-pine-generate-forge-pine-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pine Script エクスポート（forge pine generate / forge pine preview）
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1521,8 +1543,9 @@
 <p>制限は以下の経路で適用されます。
 - <strong>データ取得</strong>: <code>forge data fetch</code> / <code>forge data update</code> / <code>forge pine generate --with-training-data</code> / 戦略の外部シンボル自動取得（<code>merge_external_symbols</code>）
 - <strong>評価エンジン入口</strong>: <code>forge backtest run</code> / <code>forge optimize</code>（<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>）
-- <strong>最適化 trial 数</strong>: <code>forge optimize run</code> / <code>cross-symbol</code> / <code>portfolio</code> / <code>multi-portfolio</code> / <code>walk-forward</code> / <code>grid</code></p>
-<p>取得時にも評価時にも <strong>2023-12-31</strong> をキャップとして共有し、最適化系コマンドは <strong>50 trials</strong> をキャップとして共有しています。</p>
+- <strong>最適化 trial 数</strong>: <code>forge optimize run</code> / <code>cross-symbol</code> / <code>portfolio</code> / <code>multi-portfolio</code> / <code>walk-forward</code> / <code>grid</code>
+- <strong>Pine Script エクスポート（ハードブロック）</strong>: <code>forge pine generate</code> / <code>forge pine preview</code>（<code>forge pine import</code> は対象外）</p>
+<p>取得時にも評価時にも <strong>2023-12-31</strong> をキャップとして共有し、最適化系コマンドは <strong>50 trials</strong> をキャップとして共有しています。Pine Script エクスポートは Free プランでは<strong>完全にブロック</strong>されます。</p>
 </div>
 <h2 id="_2">プラン構成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <table>
@@ -1539,25 +1562,25 @@
 <td>Free</td>
 <td>2023-12-31 まで</td>
 <td>50 trials まで</td>
-<td>取得時に end が 2023-12-31 にキャップされ、評価エンジン入口でも同日でクリップされます</td>
+<td>取得時に end が 2023-12-31 にキャップされ、評価エンジン入口でも同日でクリップされます。<strong>Pine Script エクスポートは完全ブロック</strong></td>
 </tr>
 <tr>
 <td>Monthly</td>
 <td>制限なし</td>
 <td>制限なし</td>
-<td>月額サブスクリプション。最新データ・無制限 trial で取得・評価可能</td>
+<td>月額サブスクリプション。最新データ・無制限 trial で取得・評価可能。Pine Script エクスポート可</td>
 </tr>
 <tr>
 <td>Annual</td>
 <td>制限なし</td>
 <td>制限なし</td>
-<td>年額サブスクリプション。最新データ・無制限 trial で取得・評価可能</td>
+<td>年額サブスクリプション。最新データ・無制限 trial で取得・評価可能。Pine Script エクスポート可</td>
 </tr>
 <tr>
 <td>Lifetime</td>
 <td>制限なし</td>
 <td>制限なし</td>
-<td>買い切り。最新データ・無制限 trial で取得・評価可能</td>
+<td>買い切り。最新データ・無制限 trial で取得・評価可能。Pine Script エクスポート可</td>
 </tr>
 </tbody>
 </table>
@@ -1623,13 +1646,40 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">]</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
 </code></pre></div></p>
+<h4 id="pine-script-forge-pine-generate-forge-pine-preview">Pine Script エクスポート（<code>forge pine generate</code> / <code>forge pine preview</code>）<a class="headerlink" href="#pine-script-forge-pine-generate-forge-pine-preview" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Free プランでは <strong>ハードブロック</strong>：いずれのコマンドも実行直後に完全停止し、ファイル出力も標準出力も行われません。</li>
+<li>終了コードは <code>1</code> で、赤枠の Panel と購入ページ URL（<a href="https://alforgelabs.com/en/index.html#pricing">https://alforgelabs.com/en/index.html#pricing</a>）が表示されます。</li>
+<li>構造化通知 <code>freemium_limit_notices</code> の <code>code</code> は <code>free_tier_pine_export_blocked</code>（<code>original_value</code> / <code>applied_value</code> は <code>null</code>）。</li>
+<li><code>forge pine import</code> はインポート機能のため対象外で、Free プランでも継続して利用できます。</li>
+</ul>
+<p>Pine Script エクスポートのハードブロック表示例（Free プラン・CLI）：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>╭─────────────── 🔒 有料プラン限定機能 ───────────────╮
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│ Pine Script エクスポートは有料プラン（Lifetime /    │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│ Annual / Monthly）のみ利用できます。                │
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│ TradingView でのシームレスな運用を行うには…         │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ アップグレード: https://alforgelabs.com/en/index.html#pricing │
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>╰────────────────────────────────────────────────────╯
+</code></pre></div></p>
+<p>Pine Script ハードブロック時の <code>freemium_limit_notices</code> 例:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_pine_export_blocked&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pine Script エクスポートは有料プラン（Lifetime / Annual / Monthly）のみ利用できます。&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
+</code></pre></div></p>
 <h3 id="lifetime-annual-monthly">有料プラン（Lifetime / Annual / Monthly）<a class="headerlink" href="#lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
-<p>制限は一切発動せず、最新データ・無制限 trial で取得・評価できます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
+<p>制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
 <h2 id="_4">開発・検証時のオーバーライド<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>ローカルでプラン挙動を切り替えて確認したい場合は、環境変数 <code>ALPHA_FORGE_PLAN</code> を使います。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
 <table>
 <thead>

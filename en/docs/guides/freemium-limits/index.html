@@ -1081,6 +1081,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pine-script-export-forge-pine-generate-forge-pine-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pine Script export (forge pine generate / forge pine preview)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1443,6 +1454,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pine-script-export-forge-pine-generate-forge-pine-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pine Script export (forge pine generate / forge pine preview)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1521,8 +1543,9 @@
 <p>The limit is applied on the following paths.
 - <strong>Data fetch</strong>: <code>forge data fetch</code> / <code>forge data update</code> / <code>forge pine generate --with-training-data</code> / strategy external-symbol auto-fetch (<code>merge_external_symbols</code>)
 - <strong>Evaluation engine entry</strong>: <code>forge backtest run</code> / <code>forge optimize</code> (<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>)
-- <strong>Optimization trial count</strong>: <code>forge optimize run</code> / <code>cross-symbol</code> / <code>portfolio</code> / <code>multi-portfolio</code> / <code>walk-forward</code> / <code>grid</code></p>
-<p>Both fetch and evaluation paths share <strong>2023-12-31</strong> as the cap, and the optimization paths share <strong>50 trials</strong> as the cap.</p>
+- <strong>Optimization trial count</strong>: <code>forge optimize run</code> / <code>cross-symbol</code> / <code>portfolio</code> / <code>multi-portfolio</code> / <code>walk-forward</code> / <code>grid</code>
+- <strong>Pine Script export (hard block)</strong>: <code>forge pine generate</code> / <code>forge pine preview</code> (<code>forge pine import</code> is unaffected)</p>
+<p>Both fetch and evaluation paths share <strong>2023-12-31</strong> as the cap, and the optimization paths share <strong>50 trials</strong> as the cap. Pine Script export is <strong>fully blocked</strong> on the Free plan.</p>
 </div>
 <h2 id="plan-structure">Plan structure<a class="headerlink" href="#plan-structure" title="Permanent link">&para;</a></h2>
 <table>
@@ -1539,25 +1562,25 @@
 <td>Free</td>
 <td>Up to 2023-12-31</td>
 <td>Up to 50 trials</td>
-<td>Fetch end is capped at 2023-12-31, and the evaluation engine entry clips to the same date</td>
+<td>Fetch end is capped at 2023-12-31, and the evaluation engine entry clips to the same date. <strong>Pine Script export is fully blocked.</strong></td>
 </tr>
 <tr>
 <td>Monthly</td>
 <td>No limit</td>
 <td>No limit</td>
-<td>Monthly subscription. Latest data with unlimited trials</td>
+<td>Monthly subscription. Latest data with unlimited trials. Pine Script export enabled.</td>
 </tr>
 <tr>
 <td>Annual</td>
 <td>No limit</td>
 <td>No limit</td>
-<td>Annual subscription. Latest data with unlimited trials</td>
+<td>Annual subscription. Latest data with unlimited trials. Pine Script export enabled.</td>
 </tr>
 <tr>
 <td>Lifetime</td>
 <td>No limit</td>
 <td>No limit</td>
-<td>One-time purchase. Latest data with unlimited trials</td>
+<td>One-time purchase. Latest data with unlimited trials. Pine Script export enabled.</td>
 </tr>
 </tbody>
 </table>
@@ -1623,13 +1646,40 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">]</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
 </code></pre></div></p>
+<h4 id="pine-script-export-forge-pine-generate-forge-pine-preview">Pine Script export (<code>forge pine generate</code> / <code>forge pine preview</code>)<a class="headerlink" href="#pine-script-export-forge-pine-generate-forge-pine-preview" title="Permanent link">&para;</a></h4>
+<ul>
+<li>On the Free plan, both commands are <strong>hard-blocked</strong>: they halt immediately, and neither write a file nor print to stdout.</li>
+<li>Exit code is <code>1</code>, and a red Panel is shown with the purchase URL (<a href="https://alforgelabs.com/en/index.html#pricing">https://alforgelabs.com/en/index.html#pricing</a>).</li>
+<li>The structured <code>freemium_limit_notices</code> <code>code</code> is <code>free_tier_pine_export_blocked</code> (<code>original_value</code> / <code>applied_value</code> are <code>null</code>).</li>
+<li><code>forge pine import</code> is the import path and remains available on the Free plan.</li>
+</ul>
+<p>Pine Script hard-block sample (Free plan, CLI):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>╭─────────── 🔒 Premium-only feature ────────────╮
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│ Pine Script export is available for paid plans │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│ (Lifetime / Annual / Monthly) only.            │
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│ Upgrade your license to seamlessly run on …    │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ Upgrade: https://alforgelabs.com/en/index.html#pricing │
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>╰────────────────────────────────────────────────╯
+</code></pre></div></p>
+<p>Pine Script hard-block <code>freemium_limit_notices</code> example:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_pine_export_blocked&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pine Script エクスポートは有料プラン（Lifetime / Annual / Monthly）のみ利用できます。&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
+</code></pre></div></p>
 <h3 id="paid-plans-lifetime-annual-monthly">Paid plans (Lifetime / Annual / Monthly)<a class="headerlink" href="#paid-plans-lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
-<p>No limits are applied; you can fetch and evaluate the latest data with unlimited trials. The output does not include any <code>freemium_limit_notices</code> warnings.</p>
+<p>No limits are applied; you can fetch and evaluate the latest data with unlimited trials, and Pine Script export is fully unlocked. The output does not include any <code>freemium_limit_notices</code> warnings.</p>
 <h2 id="override-for-development-and-verification">Override for development and verification<a class="headerlink" href="#override-for-development-and-verification" title="Permanent link">&para;</a></h2>
 <p>To validate plan-specific behavior locally, set the <code>ALPHA_FORGE_PLAN</code> environment variable.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
 <table>
 <thead>
