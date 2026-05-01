@@ -1,0 +1,2707 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AlphaForge CLI 公式ドキュメント — インストール、コマンド、戦略テンプレート、AI エージェント連携。">
+      
+      
+        <meta name="author" content="Alforge Labs">
+      
+      
+        <link rel="canonical" href="https://alforgelabs.com/ja/docs/strategy-gallery/">
+      
+      
+        <link rel="prev" href="../templates/">
+      
+      
+        <link rel="next" href="../guides/end-to-end-workflow/">
+      
+      
+        
+          <link rel="alternate" href="/ja/docs/" hreflang="ja">
+        
+          <link rel="alternate" href="/en/docs/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>戦略実例ギャラリー - AlphaForge ドキュメント</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Space+Grotesk:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Space Grotesk";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="https://alforgelabs.com/ja/index.html" title="AlphaForge ドキュメント" class="md-header__button md-logo" aria-label="AlphaForge ドキュメント" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AlphaForge ドキュメント
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              戦略実例ギャラリー
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="言語切り替え">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/ja/docs/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/en/docs/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  はじめに
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cli-reference/" class="md-tabs__link">
+          
+  
+  
+  CLI リファレンス
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../templates/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  戦略テンプレート
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  戦略実例ギャラリー
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../guides/end-to-end-workflow/" class="md-tabs__link">
+          
+  
+  
+  ガイド
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ai-driven-forges/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI エージェント連携
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../legal/disclaimers/" class="md-tabs__link">
+          
+  
+  
+  利用規約と免責
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://alforgelabs.com/ja/index.html" title="AlphaForge ドキュメント" class="md-nav__button md-logo" aria-label="AlphaForge ドキュメント" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AlphaForge ドキュメント
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ホーム
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    はじめに
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI リファレンス
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI リファレンス
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/optimize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    optimize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/journal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    live
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli-reference/other/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    その他コマンド
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    戦略テンプレート
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    戦略実例ギャラリー
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    戦略実例ギャラリー
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一覧
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmm-bb-rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HMM + BB + RSI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HMM + BB + RSI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#macd-rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MACD + RSI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MACD + RSI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トレンドフォロー
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="トレンドフォロー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平均回帰
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="平均回帰">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FXペア向け
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FXペア向け">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        インデックスETF向け
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="インデックスETF向け">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        商品先物向け
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="商品先物向け">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ガイド
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ガイド
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/end-to-end-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    エンドツーエンド戦略開発ワークフロー
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/tradingview-pine-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TradingView への Pine Script 反映
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/tradingview-alpha-strike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TradingView と alpha-strike の連携
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/freemium-limits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    フリーミアム制限
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-driven-forges/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI エージェント連携
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    利用規約と免責
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    利用規約と免責
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/disclaimers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    免責事項
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/eula/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EULA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    プライバシーポリシー
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一覧
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hmm-bb-rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HMM + BB + RSI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HMM + BB + RSI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#macd-rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MACD + RSI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MACD + RSI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        トレンドフォロー
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="トレンドフォロー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平均回帰
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="平均回帰">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FXペア向け
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FXペア向け">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        インデックスETF向け
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="インデックスETF向け">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        商品先物向け
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="商品先物向け">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON要点スニペット
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        実行コマンド
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        結果の読み方
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改良ポイント
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">戦略実例ギャラリー<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>このページは、市場・目的別に戦略候補を選ぶための短い実例カタログです。既存の <a href="../templates/">戦略テンプレート</a> は代表テンプレートの深い解説と全文JSONを扱い、このギャラリーは「どの戦略を、どの市場で、どう試すか」を素早く比較するために使います。</p>
+<div class="admonition info">
+<p class="admonition-title">JSON例について</p>
+<p>各JSONは要点スニペットです。実際に保存する場合は、必要な <code>risk_management</code> や <code>optimizer_config</code> を補ってから <code>forge strategy validate</code> で確認してください。過去データの検証結果は将来の成果を保証しません。</p>
+</div>
+<h2 id="_2">一覧<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>実例</th>
+<th>主な目的</th>
+<th>想定シンボル</th>
+<th>Pine Script生成可否</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HMM + BB + RSI</td>
+<td>レジーム適応型の平均回帰</td>
+<td><code>QQQ</code></td>
+<td>可</td>
+</tr>
+<tr>
+<td>MACD + RSI</td>
+<td>モメンタムと過熱感の併用</td>
+<td><code>SPY</code></td>
+<td>可</td>
+</tr>
+<tr>
+<td>トレンドフォロー</td>
+<td>明確な上昇トレンドへの追随</td>
+<td><code>AAPL</code></td>
+<td>可</td>
+</tr>
+<tr>
+<td>平均回帰</td>
+<td>レンジ内の行き過ぎから反発を狙う</td>
+<td><code>MSFT</code></td>
+<td>可</td>
+</tr>
+<tr>
+<td>FXペア向け</td>
+<td>主要通貨ペアの短中期検証</td>
+<td><code>EURUSD</code></td>
+<td>可</td>
+</tr>
+<tr>
+<td>インデックスETF向け</td>
+<td>ETF横断で頑健な設定を探す</td>
+<td><code>SPY</code></td>
+<td>可</td>
+</tr>
+<tr>
+<td>商品先物向け</td>
+<td>商品特有のトレンド/レンジを扱う</td>
+<td><code>CL=F</code></td>
+<td>条件付き可</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hmm-bb-rsi">HMM + BB + RSI<a class="headerlink" href="#hmm-bb-rsi" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>HMMで相場レジームを分け、BB下限とRSI過売で平均回帰エントリーを試す</td>
+</tr>
+<tr>
+<td>向いている市場</td>
+<td>トレンドとレンジが入れ替わる大型ETFや高流動性銘柄</td>
+</tr>
+<tr>
+<td>戦略タイプ</td>
+<td>レジーム適応 + 平均回帰</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>HMM, BBANDS, RSI, ATR</td>
+</tr>
+<tr>
+<td>想定シンボル</td>
+<td><code>QQQ</code>, <code>SPY</code></td>
+</tr>
+<tr>
+<td>Pine Script生成可否</td>
+<td>可。HMMを使う場合は <code>--with-training-data</code> の併用を検討</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json">JSON要点スニペット<a class="headerlink" href="#json" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gallery_hmm_bb_rsi_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;target_symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;QQQ&quot;</span><span class="p">],</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;regime&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HMM&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;n_components&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;return&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;volatility&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb_lower&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BBANDS&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;line&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lower&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSI&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="nt">&quot;entry_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;long&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb_lower&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;35&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p">]}}</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_3">実行コマンド<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_hmm_bb_rsi_v1.json
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_hmm_bb_rsi_v1
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--json
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--with-training-data
+</code></pre></div>
+<h3 id="_4">結果の読み方<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>Sharpeだけでなく、レジーム別の取引数とMax Drawdownを確認します。Bear相当の局面で取引が残りすぎる場合は、HMM状態ごとの条件分岐を強めます。</p>
+<h3 id="_5">改良ポイント<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p><code>rsi</code> 期間、BBの標準偏差、HMMの状態数を最適化対象にします。詳細な全文JSONは <a href="../templates/">戦略テンプレート</a> を参照してください。</p>
+<h2 id="macd-rsi">MACD + RSI<a class="headerlink" href="#macd-rsi" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>MACDの方向感にRSIの過熱/過冷却フィルタを加え、だましを減らす</td>
+</tr>
+<tr>
+<td>向いている市場</td>
+<td>中期モメンタムが出やすい株式・ETF</td>
+</tr>
+<tr>
+<td>戦略タイプ</td>
+<td>モメンタム + フィルタ</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>MACD, RSI, EMA</td>
+</tr>
+<tr>
+<td>想定シンボル</td>
+<td><code>SPY</code>, <code>NVDA</code></td>
+</tr>
+<tr>
+<td>Pine Script生成可否</td>
+<td>可</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json_1">JSON要点スニペット<a class="headerlink" href="#json_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gallery_macd_rsi_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;target_symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;SPY&quot;</span><span class="p">],</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;macd&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MACD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fast&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;slow&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;signal&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;line&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;macd&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;macd_signal&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MACD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fast&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;slow&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;signal&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;line&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;signal&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSI&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="nt">&quot;entry_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;long&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;macd&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crosses_above&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;macd_signal&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;70&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="p">]}}</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_6">実行コマンド<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_macd_rsi_v1.json
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_macd_rsi_v1
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1<span class="w"> </span>--json
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1
+</code></pre></div>
+<h3 id="_7">結果の読み方<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>取引数が少なすぎる場合、MACDクロス条件が厳しすぎます。勝率よりもPF、平均損益、連敗時のドローダウンを合わせて確認します。</p>
+<h3 id="_8">改良ポイント<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>RSI上限を60-80で試し、MACDのfast/slow期間を最適化します。トレンドが弱い銘柄ではEMAフィルタを追加します。</p>
+<h2 id="_9">トレンドフォロー<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>上昇トレンドの継続局面だけに乗る</td>
+</tr>
+<tr>
+<td>向いている市場</td>
+<td>個別株、株式ETF、商品先物の強いトレンド局面</td>
+</tr>
+<tr>
+<td>戦略タイプ</td>
+<td>トレンドフォロー</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>EMA, ADX, ATR</td>
+</tr>
+<tr>
+<td>想定シンボル</td>
+<td><code>AAPL</code>, <code>NVDA</code></td>
+</tr>
+<tr>
+<td>Pine Script生成可否</td>
+<td>可</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json_2">JSON要点スニペット<a class="headerlink" href="#json_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gallery_trend_follow_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;target_symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;AAPL&quot;</span><span class="p">],</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&quot;indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ema_fast&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EMA&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ema_slow&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EMA&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;adx&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ADX&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="nt">&quot;entry_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;long&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ema_fast&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ema_slow&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;adx&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="p">]}}</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_10">実行コマンド<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_trend_follow_v1.json
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_trend_follow_v1
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1<span class="w"> </span>--json
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1
+</code></pre></div>
+<h3 id="_11">結果の読み方<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>トレンドフォローは勝率が低くてもPFや平均勝ち幅が高ければ成立します。Max Drawdownが大きい場合はATRベースの損切りを見直します。</p>
+<h3 id="_12">改良ポイント<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>ADX閾値とEMA期間を最適化し、週足SMAなど上位足フィルタを追加します。</p>
+<h2 id="_13">平均回帰<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>レンジ相場で売られすぎからの反発を狙う</td>
+</tr>
+<tr>
+<td>向いている市場</td>
+<td>大型株、ETF、ボラティリティが極端でない銘柄</td>
+</tr>
+<tr>
+<td>戦略タイプ</td>
+<td>平均回帰</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>BBANDS, RSI, ATR</td>
+</tr>
+<tr>
+<td>想定シンボル</td>
+<td><code>MSFT</code>, <code>SPY</code></td>
+</tr>
+<tr>
+<td>Pine Script生成可否</td>
+<td>可</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json_3">JSON要点スニペット<a class="headerlink" href="#json_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gallery_mean_reversion_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&quot;target_symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;MSFT&quot;</span><span class="p">],</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">&quot;indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb_lower&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BBANDS&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;line&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lower&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb_mid&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BBANDS&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;std&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;line&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mid&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSI&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="nt">&quot;entry_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;long&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb_lower&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;35&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span><span class="p">]}}</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_14">実行コマンド<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_mean_reversion_v1.json
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_mean_reversion_v1
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>MSFT<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1<span class="w"> </span>--json
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>MSFT<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1
+</code></pre></div>
+<h3 id="_15">結果の読み方<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p>平均回帰は急落相場で損失が連続しやすいため、連敗数と最大保有期間を確認します。反発までの保有が長すぎる場合は時間切れ決済を検討します。</p>
+<h3 id="_16">改良ポイント<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<p>上位足のトレンドフィルタやボラティリティフィルタを追加し、強い下落トレンドでは取引を止めます。</p>
+<h2 id="fx">FXペア向け<a class="headerlink" href="#fx" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>主要通貨ペアで短中期のトレンドと過熱感を検証する</td>
+</tr>
+<tr>
+<td>向いている市場</td>
+<td>EURUSD, USDJPY など流動性の高いFXペア</td>
+</tr>
+<tr>
+<td>戦略タイプ</td>
+<td>トレンド + オシレーター</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>SMA, RSI, ATR</td>
+</tr>
+<tr>
+<td>想定シンボル</td>
+<td><code>EURUSD</code>, <code>USDJPY</code></td>
+</tr>
+<tr>
+<td>Pine Script生成可否</td>
+<td>可</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json_4">JSON要点スニペット<a class="headerlink" href="#json_4" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gallery_fx_pair_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">&quot;target_symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;EURUSD&quot;</span><span class="p">],</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">&quot;asset_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fx&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">&quot;indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_fast&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SMA&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_slow&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SMA&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSI&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="nt">&quot;entry_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;long&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_fast&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_slow&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;65&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="p">]}}</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_17">実行コマンド<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_fx_pair_v1.json
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_fx_pair_v1
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>EURUSD<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1<span class="w"> </span>--json
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>EURUSD<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1
+</code></pre></div>
+<h3 id="_18">結果の読み方<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<p>FXはトレンドが短く反転しやすいため、平均保有期間とPFを重視します。通貨ペアごとのボラティリティ差でATR設定が効きすぎていないか確認します。</p>
+<h3 id="_19">改良ポイント<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<p>USDJPYやGBPUSDでも同じ戦略を検証し、<code>forge optimize cross-symbol</code> でペア横断の頑健性を確認します。</p>
+<h2 id="etf">インデックスETF向け<a class="headerlink" href="#etf" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>SPY/QQQ/IWMなど複数ETFで過剰最適化に強い設定を探す</td>
+</tr>
+<tr>
+<td>向いている市場</td>
+<td>米国インデックスETF</td>
+</tr>
+<tr>
+<td>戦略タイプ</td>
+<td>クロスシンボル検証</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>SMA, RSI, ATR</td>
+</tr>
+<tr>
+<td>想定シンボル</td>
+<td><code>SPY</code>, <code>QQQ</code>, <code>IWM</code></td>
+</tr>
+<tr>
+<td>Pine Script生成可否</td>
+<td>可</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json_5">JSON要点スニペット<a class="headerlink" href="#json_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gallery_index_etf_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">&quot;target_symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;SPY&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;QQQ&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;IWM&quot;</span><span class="p">],</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">&quot;indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_50&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SMA&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_200&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SMA&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSI&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span><span class="nt">&quot;entry_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;long&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_50&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sma_200&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;70&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span><span class="p">]}}</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_20">実行コマンド<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_index_etf_v1.json
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_index_etf_v1
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1<span class="w"> </span>--json
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1
+</code></pre></div>
+<h3 id="_21">結果の読み方<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<p>単一ETFだけで良い結果が出ても、QQQやIWMで崩れる場合は過剰最適化の可能性があります。銘柄横断でSharpeとMax Drawdownを比較します。</p>
+<h3 id="_22">改良ポイント<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
+<p><code>forge optimize cross-symbol SPY QQQ IWM --strategy gallery_index_etf_v1 --aggregation min --save</code> で最悪ケースを底上げします。</p>
+<h2 id="_23">商品先物向け<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>商品先物のトレンドと急反転を同時に扱う</td>
+</tr>
+<tr>
+<td>向いている市場</td>
+<td>原油、金、天然ガスなどボラティリティが高い商品</td>
+</tr>
+<tr>
+<td>戦略タイプ</td>
+<td>レジーム切り替え</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>HMM, SUPERTREND, RSI, ATR</td>
+</tr>
+<tr>
+<td>想定シンボル</td>
+<td><code>CL=F</code>, <code>GC=F</code></td>
+</tr>
+<tr>
+<td>Pine Script生成可否</td>
+<td>条件付き可。HMMを含む場合は学習済みパラメータの扱いを確認</td>
+</tr>
+</tbody>
+</table>
+<h3 id="json_6">JSON要点スニペット<a class="headerlink" href="#json_6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gallery_commodity_futures_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">&quot;target_symbols&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;CL=F&quot;</span><span class="p">],</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">&quot;indicators&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;regime&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HMM&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;n_components&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;return&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;volatility&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;supertrend&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SUPERTREND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;multiplier&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSI&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;length&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span><span class="nt">&quot;entry_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;long&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AND&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crosses_above&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;supertrend&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;left&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rsi&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;right&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;70&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">  </span><span class="p">]}}</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_24">実行コマンド<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_commodity_futures_v1.json
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_commodity_futures_v1
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--json
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--with-training-data
+</code></pre></div>
+<h3 id="_25">結果の読み方<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
+<p>商品先物はギャップや急変が大きいため、Max Drawdown、平均負け幅、連敗時の資金曲線を重視します。取引数が少ない場合は期間を広げて確認します。</p>
+<h3 id="_26">改良ポイント<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
+<p>CL=FだけでなくGC=FやNG=Fでも試し、ATR損切り倍率とSuperTrend倍率を横断的に最適化します。全文に近いレジーム切り替え例は <a href="../templates/#regime-switching">レジーム切り替え</a> を参照してください。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="フッター" >
+        
+          
+          <a href="../templates/" class="md-footer__link md-footer__link--prev" aria-label="前: 戦略テンプレート">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                前
+              </span>
+              <div class="md-ellipsis">
+                戦略テンプレート
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../guides/end-to-end-workflow/" class="md-footer__link md-footer__link--next" aria-label="次: エンドツーエンド戦略開発ワークフロー">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                次
+              </span>
+              <div class="md-ellipsis">
+                エンドツーエンド戦略開発ワークフロー
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
