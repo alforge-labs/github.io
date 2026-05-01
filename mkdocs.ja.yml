@@ -54,6 +54,7 @@ markdown_extensions:
 
 nav:
   - ホーム: index.md
+  - 10分クイックスタート: quickstart.md
   - はじめに: getting-started.md
   - CLI リファレンス:
       - 概要: cli-reference/index.md

@@ -54,6 +54,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - 10-Minute Quickstart: quickstart.md
   - Getting Started: getting-started.md
   - CLI Reference:
       - Overview: cli-reference/index.md
