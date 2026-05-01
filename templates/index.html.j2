@@ -144,6 +144,10 @@
       text-decoration: none; transition: color 0.15s; letter-spacing: -0.01em;
     }
     .nav-center a:hover { color: var(--text); }
+    .nav-center a.active { color: var(--accent); }
+    .nav-center a.nav-mkdocs-link { color: var(--accent); }
+    .nav-center a.nav-mkdocs-link::after { content: '↗'; font-size: 0.6rem; vertical-align: super; margin-left: 1px; opacity: 0.8; }
+    .nav-center a.nav-mkdocs-link:hover { color: var(--text); }
 
     .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; min-width: 0; }
 
@@ -638,8 +642,11 @@
       font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem;
     }
+    .comparison-table-wrapper {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
     .comparison-table {
-      width: 100%; border-collapse: collapse; font-size: 0.82rem;
+      width: 100%; min-width: 480px; border-collapse: collapse; font-size: 0.82rem;
     }
     .comparison-table thead tr { border-bottom: 1px solid var(--border); }
     .comparison-th-feature { padding: 0.5rem 0.75rem; text-align: left; font-weight: 600; font-size: 0.78rem; width: 48%; }
@@ -969,8 +976,6 @@
       .free-banner { flex-direction: column; align-items: flex-start; }
       .free-banner-cta { width: 100%; }
       .free-banner-cta .btn-secondary { width: 100%; }
-      .comparison-th-paid { display: none; }
-      .comparison-td-paid { display: none; }
       .nav-page-link { padding: 0 0.55rem; }
       .lang-btn { padding: 0 0.55rem; }
       .follow-btn-nav {

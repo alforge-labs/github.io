@@ -330,6 +330,7 @@ function ComparisonTable({ data }) {
   return (
     <div className="pricing-comparison">
       <div className="comparison-label">{data.label}</div>
+      <div className="comparison-table-wrapper">
       <table className="comparison-table">
         <thead>
           <tr>
@@ -356,6 +357,7 @@ function ComparisonTable({ data }) {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }
