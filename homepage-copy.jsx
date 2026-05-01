@@ -37,7 +37,7 @@ window.COPY = {
         { num: '03', title: '結果を見る', desc: '指標、損益曲線、制限内の最適化結果を確認します。' },
       ],
       limits: [
-        'データは2023年まで',
+        'データは2023年12月31日まで',
         '最適化50回',
         'Pine Script生成なし',
       ],
@@ -54,12 +54,12 @@ window.COPY = {
       freePlan: {
         title: 'Free プランで始める',
         badge: 'Free',
-        desc: 'バックテスト・ベイズ最適化・ウォークフォワード分析を無料で試せます。\n〜2023年のデータ・最適化50回上限・Pine Script 生成なし。',
+        desc: 'バックテスト・ベイズ最適化・ウォークフォワード分析を無料で試せます。\n2023年12月31日までのデータ・最適化50回上限・Pine Script 生成なし。',
         pills: [
           { label: '✓ バックテスト',       type: 'ok' },
           { label: '✓ ウォークフォワード', type: 'ok' },
           { label: '最適化 50回上限',      type: 'limit' },
-          { label: 'データ 〜2023年',      type: 'limit' },
+          { label: 'データ 〜2023/12/31',   type: 'limit' },
           { label: 'Pine Script 生成',     type: 'no' },
         ],
         ctaLabel: '$0 で登録',
@@ -131,8 +131,8 @@ window.COPY = {
         colPaid: '有料プラン（Lifetime / Annual / Monthly）',
         rows: [
           { feature: 'macOS / Linux / Windows 対応',    free: 'ok',    paid: 'ok' },
-          { feature: 'バックテスト（シミュレーション）', free: 'limit', freeNote: '〜2023年のデータのみ', paid: 'ok', paidNote: '✓ 最新データ含む' },
-          { feature: 'ウォークフォワード分析',           free: 'limit', freeNote: '〜2023年のデータのみ', paid: 'ok', paidNote: '✓ 最新データ含む' },
+          { feature: 'バックテスト（シミュレーション）', free: 'limit', freeNote: '2023/12/31までのデータのみ', paid: 'ok', paidNote: '✓ 最新データ含む' },
+          { feature: 'ウォークフォワード分析',           free: 'limit', freeNote: '2023/12/31までのデータのみ', paid: 'ok', paidNote: '✓ 最新データ含む' },
           { feature: 'ベイズ最適化（Optuna）',           free: 'limit', freeNote: '最大 50 回 / 実行',   paid: 'ok', paidNote: '✓ 回数無制限' },
           { feature: '最新ヒストリカルデータ取得',        free: 'no',    paid: 'ok' },
           { feature: 'Pine Script v6 自動生成',          free: 'no',    paid: 'ok' },
@@ -406,7 +406,7 @@ window.COPY = {
         { num: '03', title: 'Review results', desc: 'Inspect metrics, the equity curve, and optimization results within Free limits.' },
       ],
       limits: [
-        'Data through 2023',
+        'Data through Dec 31, 2023',
         '50 optimization trials',
         'No Pine Script export',
       ],
@@ -423,12 +423,12 @@ window.COPY = {
       freePlan: {
         title: 'Start with Free',
         badge: 'Free',
-        desc: 'Try backtesting, Bayesian optimization, and walk-forward analysis at no cost.\nHistorical data up to 2023 · 50 optimization trials per run · No Pine Script export.',
+        desc: 'Try backtesting, Bayesian optimization, and walk-forward analysis at no cost.\nHistorical data up to Dec 31, 2023 · 50 optimization trials per run · No Pine Script export.',
         pills: [
           { label: '✓ Backtest',           type: 'ok' },
           { label: '✓ Walk-Forward',       type: 'ok' },
           { label: 'Optimization 50 trials max', type: 'limit' },
-          { label: 'Data up to 2023',      type: 'limit' },
+          { label: 'Data up to Dec 31, 2023', type: 'limit' },
           { label: 'Pine Script export',   type: 'no' },
         ],
         ctaLabel: 'Register for $0',
@@ -500,8 +500,8 @@ window.COPY = {
         colPaid: 'Paid Plans (Lifetime / Annual / Monthly)',
         rows: [
           { feature: 'macOS / Linux / Windows',          free: 'ok',    paid: 'ok' },
-          { feature: 'Backtest (simulation)',             free: 'limit', freeNote: 'Historical data up to 2023', paid: 'ok', paidNote: '✓ Latest data included' },
-          { feature: 'Walk-forward analysis',            free: 'limit', freeNote: 'Historical data up to 2023', paid: 'ok', paidNote: '✓ Latest data included' },
+          { feature: 'Backtest (simulation)',             free: 'limit', freeNote: 'Historical data up to Dec 31, 2023', paid: 'ok', paidNote: '✓ Latest data included' },
+          { feature: 'Walk-forward analysis',            free: 'limit', freeNote: 'Historical data up to Dec 31, 2023', paid: 'ok', paidNote: '✓ Latest data included' },
           { feature: 'Bayesian optimization (Optuna)',   free: 'limit', freeNote: 'Up to 50 trials per run',   paid: 'ok', paidNote: '✓ Unlimited' },
           { feature: 'Latest historical data download',  free: 'no',    paid: 'ok' },
           { feature: 'Pine Script v6 auto-generation',   free: 'no',    paid: 'ok' },
