@@ -1288,6 +1288,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#progress-bar-rich-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progress bar (Rich UI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output-text" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2351,6 +2362,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#progress-bar-rich-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progress bar (Rich UI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output-text" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3180,6 +3202,43 @@
 </tr>
 </tbody>
 </table>
+<h3 id="progress-bar-rich-ui">Progress bar (Rich UI)<a class="headerlink" href="#progress-bar-rich-ui" title="Permanent link">&para;</a></h3>
+<p>While running in a TTY, a Rich-powered progress bar is shown on stderr. The backtest progresses through 6 phases below; with <code>--split</code>, both IS and OOS flows run, totaling 12 steps.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>指標計算</code> (Indicators)</td>
+<td>Pre-compute technical indicators</td>
+</tr>
+<tr>
+<td><code>変数評価</code> (Variables)</td>
+<td>Evaluate intermediate boolean variables</td>
+</tr>
+<tr>
+<td><code>シグナル生成</code> (Signals)</td>
+<td>Evaluate entry/exit conditions and apply risk masks</td>
+</tr>
+<tr>
+<td><code>シミュレーション</code> (Simulate)</td>
+<td>Run the vectorbt portfolio simulation</td>
+</tr>
+<tr>
+<td><code>メトリクス算出</code> (Metrics)</td>
+<td>Compute Sharpe / MDD / win rate, etc.</td>
+</tr>
+<tr>
+<td><code>レジーム分析</code> (Regime)</td>
+<td>Compute per-regime metrics (no-op when not configured)</td>
+</tr>
+</tbody>
+</table>
+<p>When <code>--json</code> is passed, or when stderr is not a TTY (CI, pipes, files), the progress bar is automatically suppressed so that stdout remains pure JSON.</p>
 <h3 id="sample-output-text">Sample output (text)<a class="headerlink" href="#sample-output-text" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Running backtest: SPY x sma_crossover_v1
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>✅ Backtest complete  Signal quality score: 0.78/1.0
