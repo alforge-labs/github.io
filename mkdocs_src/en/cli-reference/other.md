@@ -152,9 +152,12 @@ Next steps:
 
 Convert between strategy JSON and TradingView Pine Script v6.
 
-### forge pine generate
+!!! warning "[Premium Only] Pine Script export"
+    `forge pine generate` and `forge pine preview` are **available on paid plans only (Lifetime / Annual / Monthly)**. Running them on the Free plan displays a red Panel with a purchase URL ([https://alforgelabs.com/en/index.html#pricing](https://alforgelabs.com/en/index.html#pricing)) and exits with code `1` — no file is written and no preview is printed. `forge pine import` (the import path) is unaffected and remains available on Free. See the [Freemium limits guide](../guides/freemium-limits.md) for details.
 
-Generate Pine Script from a strategy definition and write it to `config.pinescript.output_path / <strategy_id>.pine`.
+### forge pine generate `[Premium Only]`
+
+Generate Pine Script from a strategy definition and write it to `config.pinescript.output_path / <strategy_id>.pine`. **Paid plans only.**
 
 ```bash
 forge pine generate --strategy <ID> [--with-training-data]
@@ -165,15 +168,26 @@ forge pine generate --strategy <ID> [--with-training-data]
 | `--strategy` | required | - | Strategy name |
 | `--with-training-data` | flag | false | Embed trained HMM parameters into Pine Script if HMM indicator exists (auto-fetches data) |
 
-Sample output:
+Sample output (paid plan):
 
 ```text
 ✅ Pine Script saved: output/pinescript/spy_sma_v1.pine
 ```
 
-### forge pine preview
+Sample output (Free plan — hard block):
 
-Preview generated Pine Script on stdout without writing to a file.
+```text
+╭─────────── 🔒 Premium-only feature ────────────╮
+│ Pine Script export is available for paid plans │
+│ (Lifetime / Annual / Monthly) only.            │
+│ Upgrade your license to seamlessly run on …    │
+│ Upgrade: https://alforgelabs.com/en/…          │
+╰────────────────────────────────────────────────╯
+```
+
+### forge pine preview `[Premium Only]`
+
+Preview generated Pine Script on stdout without writing to a file. **Paid plans only.**
 
 ```bash
 forge pine preview --strategy <ID>
