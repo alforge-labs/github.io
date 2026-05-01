@@ -661,17 +661,6 @@
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
-        開発・検証時のオーバーライド
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
         制限を回避する方法
       
     </span>
@@ -680,7 +669,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         関連ページ
@@ -1860,17 +1849,6 @@
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
-        開発・検証時のオーバーライド
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
         制限を回避する方法
       
     </span>
@@ -1879,7 +1857,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         関連ページ
@@ -2045,42 +2023,13 @@
 </code></pre></div></p>
 <h3 id="lifetime-annual-monthly">有料プラン（Lifetime / Annual / Monthly）<a class="headerlink" href="#lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
 <p>制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
-<h2 id="_4">開発・検証時のオーバーライド<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>ローカルでプラン挙動を切り替えて確認したい場合は、環境変数 <code>ALPHA_FORGE_PLAN</code> を使います。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-</code></pre></div>
-<table>
-<thead>
-<tr>
-<th>値</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>free</code></td>
-<td>Free プランの制限を強制適用</td>
-</tr>
-<tr>
-<td><code>lifetime</code></td>
-<td>有料プラン（Lifetime / Annual / Monthly）相当の制限なし挙動</td>
-</tr>
-<tr>
-<td><code>dev</code></td>
-<td>EULA 同意スキップを伴う開発時プラン。配布ビルドでは利用不可</td>
-</tr>
-</tbody>
-</table>
-<p><code>ALPHA_FORGE_PLAN</code> が未設定の場合は、認証キャッシュ（Whop メンバーシップ情報）から取得したプランが適用されます。<code>ALPHA_FORGE_DEV_SKIP_LICENSE=1</code> を設定するとライセンス確認をスキップする <code>dev</code> プランで動作しますが、これは有料プランとは別扱いです。</p>
-<h2 id="_5">制限を回避する方法<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_4">制限を回避する方法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>正規の解除手段は <strong>有料プランの購入</strong>（Lifetime / Annual / Monthly のいずれか）です。CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。</p>
 <ul>
 <li>有料プランの購入: AlphaForge の販売ページから Monthly / Annual / Lifetime を選択して購入してください。</li>
 <li>Whop メンバーシップが認証キャッシュに反映されないときは、<code>forge auth login</code> を再実行してください。</li>
 </ul>
-<h2 id="_6">関連ページ<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_5">関連ページ<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../legal/trust-safety-limits/">信頼・安全・制限</a></li>
 <li><a href="../../legal/disclaimers/">免責事項</a></li>
