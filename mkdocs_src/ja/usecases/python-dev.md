@@ -1,0 +1,47 @@
+# Python開発者向け
+
+Pythonでデータ分析や戦略ロジックを書いており、AlphaForgeのCLI/JSON中心のワークフローに移行したい方向けです。
+
+## AlphaForgeがPython開発者に合う理由
+
+- **戦略定義はJSON** — コードを書かずにパラメータを宣言的に管理できる
+- **CLIが構造化出力に対応** — `--json` フラグでJSONを返し、スクリプトやパイプラインに組み込みやすい
+- **Optunaベースの最適化** — Pythonエコシステムと親和性が高い
+- **uvプロジェクト構成** — モノレポ内に既存のPythonコードと共存できる
+
+## 基本的な使い方
+
+```bash
+# バックテスト結果をJSONで取得してパイプ処理
+forge backtest run QQQ --strategy my_strategy --json | python analyze.py
+
+# Optuna最適化（Sharpe比を最大化）
+forge optimize run QQQ --strategy my_strategy --trials 200 --objective sharpe
+
+# ウォークフォワード検証
+forge optimize walk-forward QQQ --strategy my_strategy --folds 5
+```
+
+## JSONとして戦略を管理する
+
+AlphaForgeの戦略はJSONファイルで定義します。Gitで管理し、差分を追いやすい構造です。
+
+```json
+{
+  "name": "my_strategy",
+  "indicators": [
+    { "id": "rsi", "period": 14 },
+    { "id": "bbands", "period": 20 }
+  ],
+  "entry": { "rsi_lt": 30, "price_lt_lower_band": true },
+  "exit": { "rsi_gt": 70 },
+  "risk": { "max_position_size": 0.1 }
+}
+```
+
+## 関連ドキュメント
+
+- [エンドツーエンド戦略開発ワークフロー](../guides/end-to-end-workflow.md) — 全体的な開発サイクル
+- [戦略テンプレート](../templates.md) — JSONの完全サンプル（コピペ可）
+- [戦略実例ギャラリー](../strategy-gallery.md) — 市場・目的別に戦略を選ぶ
+- [CLI リファレンス](../cli-reference/index.md) — 全コマンドの詳細

@@ -1,0 +1,48 @@
+# Quants & Researchers
+
+For quantitative analysts and researchers who prioritize statistical rigor and want systematic optimization and walk-forward validation.
+
+## Quantitative Evaluation Features
+
+| Feature | Details |
+|---------|---------|
+| **Walk-Forward Validation** | Automatic IS/OOS splits to detect overfitting |
+| **Optuna Optimization** | Bayesian search over parameter space (200–1000 trials) |
+| **Multiple Objectives** | Choose from Sharpe ratio, max drawdown, Calmar ratio, etc. |
+| **Reproducibility** | Lock seeds and config in JSON for fully reproducible experiments |
+| **Journal Logging** | All experiment results automatically recorded as JSON/CSV |
+
+## Typical Research Workflow
+
+```bash
+# 1. Declare hypothesis in JSON
+forge strategy create regime_test --template hmm_bb_rsi
+
+# 2. Grid search over multiple parameters
+forge optimize grid QQQ --strategy regime_test \
+  --param rsi_period 10 14 20 \
+  --param bb_period 15 20 25
+
+# 3. Walk-forward validation (5 folds)
+forge optimize walk-forward QQQ --strategy regime_test --folds 5
+
+# 4. Save experiment to journal
+forge journal record regime_test --note "HMM period sensitivity analysis"
+```
+
+## Evaluating Overfitting Risk
+
+AlphaForge provides walk-forward testing (WFT) as a standard feature. A large IS/OOS performance degradation suggests overfitting.
+
+```
+IS Period  OOS Period  Sharpe(IS)  Sharpe(OOS)  Degradation
+2020-22    2023        1.8         1.4          22%  ← acceptable
+2020-22    2023        2.5         0.3          88%  ← likely overfit
+```
+
+## Related Docs
+
+- [Strategy Templates](../templates.md) — Full JSON for HMM, regime-switching, multi-timeframe
+- [Strategy Gallery](../strategy-gallery.md) — Cross-market strategy comparison with result interpretation
+- [End-to-End Strategy Development Workflow](../guides/end-to-end-workflow.md) — From optimization to WFT validation
+- [optimize command](../cli-reference/optimize.md) — Full optimization options
