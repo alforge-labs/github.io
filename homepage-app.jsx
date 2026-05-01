@@ -248,13 +248,14 @@ function App() {
   return (
     <div className="app">
       <NavBar dark={dark} setDark={setDark} lang={lang} setLang={setLang} t={t} />
-      <Hero t={t} />
+      <Hero t={t} lang={lang} />
+      <FreeStart t={t} lang={lang} />
       <Products t={t} />
       <SystemFlow t={t} dark={dark} lang={lang} />
       <UseCases t={t} />
       <LongTermValue t={t} />
       <PerformanceChart t={t} dark={dark} />
-      <Pricing t={t} />
+      <Pricing t={t} lang={lang} />
       <Roadmap t={t} />
       <FAQ t={t} />
       <FollowCTA t={t} />

@@ -30,7 +30,7 @@ function NavBar({ dark, setDark, lang, setLang }) {
 }
 
 /* ── HERO ── */
-function Hero({ t }) {
+function Hero({ t, lang }) {
   const c = t.hero;
   const stats = t.heroStats;
   return (
@@ -43,7 +43,7 @@ function Hero({ t }) {
         </h1>
         <p className="hero-desc">{c.desc}</p>
         <div className="hero-cta">
-          <a href="#pricing" className="btn-primary">
+          <a href={`/${lang}/install.html`} className="btn-primary">
             {c.cta1}
           </a>
           <a href="#pricing" className="btn-secondary">{c.cta2} →</a>
@@ -55,6 +55,51 @@ function Hero({ t }) {
               <span className="stat-lbl">{s.lbl}</span>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── FREE START ── */
+function FreeStart({ t, lang }) {
+  const c = t.freeStart;
+  return (
+    <section className="free-start reveal" id="free-start">
+      <div className="container">
+        <div className="free-start-shell">
+          <div className="free-start-copy">
+            <div className="sec-label">{c.label}</div>
+            <h2 className="free-start-title">{c.title}</h2>
+            <p className="free-start-subtitle">{c.subtitle}</p>
+            <div className="free-start-limits">
+              {c.limits.map((limit) => (
+                <span key={limit} className="free-start-limit">{limit}</span>
+              ))}
+            </div>
+            <div className="free-start-actions">
+              <a href={`/${lang}/install.html`} className="btn-primary">{c.primaryCta}</a>
+              <a href="#pricing" className="btn-secondary">{c.secondaryCta} →</a>
+              <a
+                href="https://x.com/alforge_bot"
+                target="_blank"
+                rel="noopener"
+                className="free-start-link"
+              >
+                {c.updateCta}
+              </a>
+            </div>
+            <p className="free-start-note">{c.availability}</p>
+          </div>
+          <div className="free-start-steps">
+            {c.steps.map((step) => (
+              <article key={step.num} className="free-start-step">
+                <span className="free-start-step-num">{step.num}</span>
+                <h3 className="free-start-step-title">{step.title}</h3>
+                <p className="free-start-step-desc">{step.desc}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -244,7 +289,7 @@ function PerformanceChart({ t, dark }) {
 }
 
 /* ── FREE BANNER ── */
-function FreeBanner({ plan, comingSummer }) {
+function FreeBanner({ plan, comingSummer, lang }) {
   const pillClass = { ok: 'free-pill-ok', limit: 'free-pill-limit', no: 'free-pill-no' };
   return (
     <div className="free-banner">
@@ -263,13 +308,13 @@ function FreeBanner({ plan, comingSummer }) {
       </div>
       <div className="free-banner-cta">
         <a
-          href="#roadmap"
+          href={`/${lang}/install.html`}
           className="btn-secondary"
-          style={{ justifyContent: 'center', flexDirection: 'column', gap: '2px' }}
+          style={{ justifyContent: 'center' }}
         >
-          <s>{plan.ctaLabel}</s>
-          <span style={{ fontSize: '0.82em', fontWeight: 400 }}>{comingSummer}</span>
+          {plan.ctaHint || plan.ctaLabel}
         </a>
+        <div className="free-banner-status">{comingSummer}</div>
       </div>
     </div>
   );
@@ -311,7 +356,7 @@ function ComparisonTable({ data }) {
 }
 
 /* ── PRICING ── */
-function Pricing({ t }) {
+function Pricing({ t, lang }) {
   const c = t.pricing;
   return (
     <section className="pricing reveal" id="pricing">
@@ -319,7 +364,7 @@ function Pricing({ t }) {
         <div className="sec-label">{c.label}</div>
         <h2 className="sec-title" style={{ whiteSpace: 'pre-line' }}>{c.title}</h2>
         <p style={{ marginTop: '0.6rem', color: 'var(--text2)', fontSize: '0.92rem' }}>{c.subtitle}</p>
-        <FreeBanner plan={c.freePlan} comingSummer={c.freePlan.comingSummer} />
+        <FreeBanner plan={c.freePlan} comingSummer={c.freePlan.comingSummer} lang={lang} />
         <div className="pricing-grid" style={{ marginTop: '1rem' }}>
           {c.plans.map((plan, i) => (
             <div key={i} className={`pricing-card${plan.featured ? ' featured' : ''}`}>
@@ -439,4 +484,4 @@ function SystemFlow({ t, dark, lang }) {
 }
 
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue });
+Object.assign(window, { NavBar, Hero, FreeStart, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue });

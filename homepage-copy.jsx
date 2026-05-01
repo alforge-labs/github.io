@@ -20,8 +20,27 @@ window.COPY = {
       h1a: 'ノイズから、',
       h1b: 'シグナルへ。',
       desc: 'バックテスト・ベイズ最適化・ウォークフォワード検証をひとつの CLI で完結。先物・株式・FX を問わず、統計的に再現可能な投資戦略を体系的に開発・証明する。',
-      cta1: '今すぐ入手 — $499',
+      cta1: '無料で試す',
       cta2: 'プランを見る',
+    },
+    freeStart: {
+      label: 'Free で開始',
+      title: '無料で検証を始める',
+      subtitle: 'Free プランでは、バックテスト・ウォークフォワード分析・ベイズ最適化をローカル環境で試せます。まずはサンプル戦略を動かし、AlphaForge の検証フローを確認してください。',
+      primaryCta: 'インストールへ進む',
+      secondaryCta: '料金比較を見る',
+      updateCta: '更新情報をXで追う',
+      availability: 'Free 登録・販売開始は今夏提供開始予定です。現時点ではインストール手順と提供範囲を確認できます。',
+      steps: [
+        { num: '01', title: 'インストール', desc: 'macOS / Linux / Windows の手順に沿って CLI を準備します。' },
+        { num: '02', title: 'サンプル戦略を実行', desc: '用意された戦略 JSON でバックテストと検証フローを試します。' },
+        { num: '03', title: '結果を見る', desc: '指標、損益曲線、制限内の最適化結果を確認します。' },
+      ],
+      limits: [
+        'データは2023年まで',
+        '最適化50回',
+        'Pine Script生成なし',
+      ],
     },
     heroStats: [
       { val: '3', accent: false, lbl: '開発中プロダクト' },
@@ -44,6 +63,7 @@ window.COPY = {
           { label: 'Pine Script 生成',     type: 'no' },
         ],
         ctaLabel: '$0 で登録',
+        ctaHint: 'インストール手順へ',
         comingSummer: '今夏提供開始予定',
       },
       plans: [
@@ -340,8 +360,27 @@ window.COPY = {
       h1a: 'From Noise',
       h1b: 'to Signal.',
       desc: 'Backtest, Bayesian optimization, and walk-forward validation — unified in a single CLI. Systematically develop and validate investment strategies with reproducible statistical edge across futures, equities, and FX.',
-      cta1: 'Get Access — $499',
+      cta1: 'Start Free',
       cta2: 'See Plans',
+    },
+    freeStart: {
+      label: 'Start Free',
+      title: 'Start validating for free',
+      subtitle: 'The Free plan lets you try backtesting, walk-forward analysis, and Bayesian optimization locally. Start with a sample strategy and see the AlphaForge validation flow before choosing a paid plan.',
+      primaryCta: 'Go to install',
+      secondaryCta: 'Compare plans',
+      updateCta: 'Follow updates on X',
+      availability: 'Free registration and paid plans are scheduled for this summer. For now, you can review the install flow and plan limits.',
+      steps: [
+        { num: '01', title: 'Install', desc: 'Set up the CLI on macOS, Linux, or Windows.' },
+        { num: '02', title: 'Run a sample strategy', desc: 'Try the validation flow with a ready-made strategy JSON.' },
+        { num: '03', title: 'Review results', desc: 'Inspect metrics, the equity curve, and optimization results within Free limits.' },
+      ],
+      limits: [
+        'Data through 2023',
+        '50 optimization trials',
+        'No Pine Script export',
+      ],
     },
     heroStats: [
       { val: '3', accent: false, lbl: 'Products in Dev' },
@@ -364,6 +403,7 @@ window.COPY = {
           { label: 'Pine Script export',   type: 'no' },
         ],
         ctaLabel: 'Register for $0',
+        ctaHint: 'View install steps',
         comingSummer: 'Coming This Summer',
       },
       plans: [
