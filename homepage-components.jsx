@@ -247,6 +247,73 @@ function PerformanceChart({ t, dark }) {
   );
 }
 
+/* ── FREE BANNER ── */
+function FreeBanner({ plan, comingSummer }) {
+  const pillClass = { ok: 'free-pill-ok', limit: 'free-pill-limit', no: 'free-pill-no' };
+  return (
+    <div className="free-banner">
+      <div className="free-banner-icon">⚙</div>
+      <div className="free-banner-body">
+        <div className="free-banner-title">
+          {plan.title}
+          <span className="free-badge">{plan.badge}</span>
+        </div>
+        <p className="free-banner-desc" style={{ whiteSpace: 'pre-line' }}>{plan.desc}</p>
+        <div className="free-banner-pills">
+          {plan.pills.map((p, i) => (
+            <span key={i} className={`free-pill ${pillClass[p.type]}`}>{p.label}</span>
+          ))}
+        </div>
+      </div>
+      <div className="free-banner-cta">
+        <a
+          href="#roadmap"
+          className="btn-secondary"
+          style={{ justifyContent: 'center', flexDirection: 'column', gap: '2px' }}
+        >
+          <s>{plan.ctaLabel}</s>
+          <span style={{ fontSize: '0.82em', fontWeight: 400 }}>{comingSummer}</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/* ── COMPARISON TABLE ── */
+function ComparisonTable({ data }) {
+  return (
+    <div className="pricing-comparison">
+      <div className="comparison-label">{data.label}</div>
+      <table className="comparison-table">
+        <thead>
+          <tr>
+            <th className="comparison-th-feature"></th>
+            <th className="comparison-th-free">{data.colFree}</th>
+            <th className="comparison-th-paid">{data.colPaid}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.rows.map((row, i) => (
+            <tr key={i}>
+              <td className="comparison-td-feature">{row.feature}</td>
+              <td className="comparison-td-free">
+                {row.free === 'ok'    && <span className="cmp-ok">✓</span>}
+                {row.free === 'limit' && <span className="cmp-limit">{row.freeNote}</span>}
+                {row.free === 'no'    && <span className="cmp-no">—</span>}
+              </td>
+              <td className="comparison-td-paid">
+                {row.paid === 'ok' && (
+                  <span className="cmp-ok">{row.paidNote || '✓'}</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 /* ── PRICING ── */
 function Pricing({ t }) {
   const c = t.pricing;
@@ -256,7 +323,8 @@ function Pricing({ t }) {
         <div className="sec-label">{c.label}</div>
         <h2 className="sec-title" style={{ whiteSpace: 'pre-line' }}>{c.title}</h2>
         <p style={{ marginTop: '0.6rem', color: 'var(--text2)', fontSize: '0.92rem' }}>{c.subtitle}</p>
-        <div className="pricing-grid" style={{ marginTop: '2.5rem' }}>
+        <FreeBanner plan={c.freePlan} comingSummer={c.freePlan.comingSummer} />
+        <div className="pricing-grid" style={{ marginTop: '1rem' }}>
           {c.plans.map((plan, i) => (
             <div key={i} className={`pricing-card${plan.featured ? ' featured' : ''}`}>
               <div className="pricing-card-top">
@@ -287,6 +355,7 @@ function Pricing({ t }) {
             </div>
           ))}
         </div>
+        <ComparisonTable data={c.comparison} />
         <p className="pricing-note">{c.note}</p>
       </div>
     </section>
@@ -374,4 +443,4 @@ function SystemFlow({ t, dark, lang }) {
 }
 
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, Products, PerformanceChart, Pricing, UseCases, SystemFlow, LongTermValue });
+Object.assign(window, { NavBar, Hero, Products, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue });
