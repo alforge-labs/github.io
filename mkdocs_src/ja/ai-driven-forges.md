@@ -123,7 +123,7 @@ candidates:
 2. シグナル件数チェック（必須）: `forge backtest signal-count`
 3. ベースライン取得: `forge backtest run` で元戦略の Sharpe を控える
 4. **Grid 網羅探索**: `forge optimize grid <symbol> --strategy <name> --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes`
-5. Top-20 レビュー（過学習臭、上位 trial の近傍集中）
+5. Top-20 レビュー（過学習の疑い、上位 trial の近傍集中）
 6. ベスト適用: `forge optimize grid ... --top-k 1 --apply --yes`
 7. **WFT 検証**: `forge optimize walk-forward <symbol> --strategy <name>_optimized --windows 5`
 8. **合否判定**: WFT 全ウィンドウ平均 Sharpe が **元戦略の Sharpe を超えていれば合格**
@@ -153,7 +153,7 @@ candidates:
 
 **運用ヒント**:
 
-- 週次のクーロンや手動の定期実行で十分
+- 週次の cron や手動の定期実行で十分
 - 乖離が連続 N 週続く場合は戦略の根本見直しを検討（指標差し替え、別シナリオへの転換）
 
 ---
@@ -324,7 +324,7 @@ forge live compare multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
 このフロー全体のうち、**人間が判断するのは 3 箇所だけ** です：
 
 1. アイデアの方向性（HMM × BB × RSI に MACD を加える）
-2. Grid-tune の Top-20 レビュー（過学習臭の確認）
+2. Grid-tune の Top-20 レビュー（過学習の疑いを確認）
 3. ライブ運用開始の意思決定
 
 それ以外は全部 AI が自動で進めます。
