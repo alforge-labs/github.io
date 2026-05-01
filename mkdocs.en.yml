@@ -69,6 +69,7 @@ nav:
       - End-to-End Strategy Development Workflow: guides/end-to-end-workflow.md
       - Bringing Pine Scripts into TradingView: guides/tradingview-pine-integration.md
       - TradingView × alpha-strike Integration: guides/tradingview-alpha-strike.md
+      - Freemium Limits: guides/freemium-limits.md
   - AI Agent Integration: ai-driven-forges.md
   - Legal & Disclaimers:
       - Disclaimers: legal/disclaimers.md

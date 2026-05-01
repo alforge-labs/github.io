@@ -446,6 +446,7 @@ fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
 - **Journal integration**: When `config.journal.auto_record` is true, optimization runs are also recorded in the Journal.
 - **`FORGE_CONFIG`**: The strategy / data / results locations are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable.
 - **Exit codes**: `0` on success, `1` for `click.ClickException`, `2` for `click.UsageError`, `1` for `click.Abort`.
+- **Free plan limit**: On the Free plan, the maximum input data date is capped at `2023-12-31`. See [Freemium Limits](../guides/freemium-limits.md) for details.
 
 ---
 
