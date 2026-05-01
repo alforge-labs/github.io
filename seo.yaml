@@ -2,6 +2,9 @@ site:
   base_url: https://alforgelabs.com
   og_image: https://alforgelabs.com/assets/og-image.png
   twitter_site: "@alforge_bot"
+  robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  published_date: "2024-07-01"
+  modified_date: "2026-05-01"
 
 pages:
   index:

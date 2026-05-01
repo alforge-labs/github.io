@@ -1,5 +1,5 @@
 // homepage-components.jsx
-// Nav, Hero, Products, PerformanceChart
+// Nav, Hero, Products, PerformanceChart (useChartColors / EquityChartSVG / BenchmarkTable)
 
 /* ── PERF CHART HELPERS ── */
 const CHART = {
@@ -101,21 +101,102 @@ function Products({ t }) {
 }
 
 /* ── PERFORMANCE CHART ── */
+
+function useChartColors(dark) {
+  const fallback = {
+    accent: dark ? '#00e49a' : '#009e70',
+    blue:   dark ? '#5b9fff' : '#3a7ef0',
+    amber:  dark ? '#f5a623' : '#d97706',
+  };
+  const [colors, setColors] = React.useState(fallback);
+  React.useEffect(() => {
+    const cs = getComputedStyle(document.documentElement);
+    const accent = cs.getPropertyValue('--chart-cl').trim();
+    const blue   = cs.getPropertyValue('--chart-spy').trim();
+    const amber  = cs.getPropertyValue('--chart-qqq').trim();
+    setColors({
+      accent: accent || fallback.accent,
+      blue:   blue   || fallback.blue,
+      amber:  amber  || fallback.amber,
+    });
+  }, [dark]);
+  return colors;
+}
+
+const GRID_LINES = [
+  { v: 200, label: '+100%' },
+  { v: 170, label: '+70%'  },
+  { v: 140, label: '+40%'  },
+  { v: 110, label: '+10%'  },
+  { v: 80,  label: '-20%'  },
+];
+
+function EquityChartSVG({ equityCurve, colors }) {
+  const ec = equityCurve;
+  return (
+    <svg
+      viewBox={`0 0 ${CHART.W} ${CHART.H}`}
+      style={{ width: '100%', display: 'block', background: 'var(--bg2)', borderRadius: 'var(--r)' }}
+      preserveAspectRatio="none"
+    >
+      {GRID_LINES.map(({ v, label }) => {
+        const y = chartY(v).toFixed(1);
+        return (
+          <g key={v}>
+            <line x1={CHART.PAD.l} y1={y} x2={CHART.W - CHART.PAD.r} y2={y} stroke="var(--border)" strokeWidth="1" />
+            <text x={CHART.PAD.l - 4} y={y} fill="var(--text3)" fontSize="8" fontFamily="var(--mono)" textAnchor="end" dominantBaseline="middle">{label}</text>
+          </g>
+        );
+      })}
+      <line
+        x1={CHART.PAD.l} y1={chartY(100).toFixed(1)}
+        x2={CHART.W - CHART.PAD.r} y2={chartY(100).toFixed(1)}
+        stroke="var(--text3)" strokeWidth="0.5" strokeDasharray="2,2"
+      />
+      {ec.yearLabels.map((yr, i) => {
+        const x = chartX(ec.yearIndices[i], ec.cl.length);
+        return (
+          <text key={yr} x={x.toFixed(1)} y={(CHART.H - 4).toFixed(1)} fill="var(--text3)" fontSize="8" fontFamily="var(--mono)" textAnchor="middle">{yr}</text>
+        );
+      })}
+      <polyline points={toPoints(ec.qqq)} fill="none" stroke={colors.amber} strokeWidth="1.2" strokeDasharray="4,3" opacity="0.7" />
+      <polyline points={toPoints(ec.spy)} fill="none" stroke={colors.blue} strokeWidth="1.2" strokeDasharray="5,4" opacity="0.85" />
+      <polygon points={toFillPoints(ec.cl)} fill={colors.accent} fillOpacity="0.06" />
+      <polyline points={toPoints(ec.cl)} fill="none" stroke={colors.accent} strokeWidth="2.5" />
+    </svg>
+  );
+}
+
+function BenchmarkTable({ bench, colors }) {
+  return (
+    <div style={{ marginTop: '0.75rem', background: 'var(--bg2)', borderRadius: 'var(--r)', padding: '0.75rem 1rem' }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: '0.62rem', color: 'var(--text3)', marginBottom: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+        {bench.label}
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '0.3rem', fontFamily: 'var(--mono)', fontSize: '0.68rem' }}>
+        {bench.headers.map((h, i) => (
+          <div key={i} style={{ color: i === 0 ? 'transparent' : i === 1 ? colors.blue : i === 2 ? colors.amber : colors.accent }}>{h}</div>
+        ))}
+        {bench.rows.map((row, ri) => (
+          <React.Fragment key={ri}>
+            <div style={{ color: 'var(--text2)' }}>{row.metric}</div>
+            <div style={{ color: colors.blue }}>{row.spy}</div>
+            <div style={{ color: colors.amber }}>{row.qqq}</div>
+            <div style={{ color: colors.accent, fontWeight: row.stratWin ? '600' : '400' }}>
+              {row.strat}{row.stratWin ? ' ✓' : ''}
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function PerformanceChart({ t, dark }) {
   const c = t.perf;
   const ec = window.EQUITY_CURVE;
+  const colors = useChartColors(dark);
   if (!ec) return null;
-  const accentColor = dark ? '#00e49a' : '#009e70';
-  const blueColor   = dark ? '#5b9fff' : '#3a7ef0';
-  const amberColor  = dark ? '#f5a623' : '#d97706';
-
-  const gridLines = [
-    { v: 200, label: '+100%' },
-    { v: 170, label: '+70%'  },
-    { v: 140, label: '+40%'  },
-    { v: 110, label: '+10%'  },
-    { v: 80,  label: '-20%'  },
-  ];
 
   return (
     <section className="performance reveal" id="performance">
@@ -123,16 +204,12 @@ function PerformanceChart({ t, dark }) {
         <div className="sec-label">{c.label}</div>
         <h2 className="sec-title">{c.title}</h2>
         <div className="perf-inner" style={{ marginTop: '2.5rem' }}>
-
-          {/* Header */}
           <div className="perf-header">
             <div>
               <div className="perf-strategy">{c.strategy}</div>
               <div className="perf-period" style={{ marginTop: '0.2rem' }}>{c.period}</div>
             </div>
           </div>
-
-          {/* Stats row */}
           <div className="perf-stats">
             {c.stats.map((s, i) => (
               <div key={i} className="perf-stat">
@@ -141,104 +218,23 @@ function PerformanceChart({ t, dark }) {
               </div>
             ))}
           </div>
-
-          {/* Chart area */}
           <div className="chart-area">
-            {/* Legend */}
             <div className="chart-legend">
               <div className="legend-item">
-                <div className="legend-dot" style={{ background: accentColor, height: '2px' }}></div>
+                <div className="legend-dot" style={{ background: colors.accent, height: '2px' }}></div>
                 {c.legend[0].label}
               </div>
               <div className="legend-item">
-                <div className="legend-dot" style={{ background: blueColor, height: '1px', borderTop: `1px dashed ${blueColor}` }}></div>
+                <div className="legend-dot" style={{ background: colors.blue, height: '1px', borderTop: `1px dashed ${colors.blue}` }}></div>
                 {c.legend[1].label}
               </div>
               <div className="legend-item">
-                <div className="legend-dot" style={{ background: amberColor, height: '1px', borderTop: `1px dashed ${amberColor}` }}></div>
+                <div className="legend-dot" style={{ background: colors.amber, height: '1px', borderTop: `1px dashed ${colors.amber}` }}></div>
                 {c.legend[2].label}
               </div>
             </div>
-
-            {/* SVG chart */}
-            <svg
-              viewBox={`0 0 ${CHART.W} ${CHART.H}`}
-              style={{ width: '100%', display: 'block', background: 'var(--bg2)', borderRadius: 'var(--r)' }}
-              preserveAspectRatio="none"
-            >
-              {/* Grid lines */}
-              {gridLines.map(({ v, label }) => {
-                const y = chartY(v).toFixed(1);
-                return (
-                  <g key={v}>
-                    <line x1={CHART.PAD.l} y1={y} x2={CHART.W - CHART.PAD.r} y2={y} stroke="var(--border)" strokeWidth="1" />
-                    <text x={CHART.PAD.l - 4} y={y} fill="var(--text3)" fontSize="8" fontFamily="var(--mono)" textAnchor="end" dominantBaseline="middle">{label}</text>
-                  </g>
-                );
-              })}
-
-              {/* Baseline at 0% (value=100) */}
-              <line
-                x1={CHART.PAD.l} y1={chartY(100).toFixed(1)}
-                x2={CHART.W - CHART.PAD.r} y2={chartY(100).toFixed(1)}
-                stroke="var(--text3)" strokeWidth="0.5" strokeDasharray="2,2"
-              />
-
-              {/* X-axis year labels */}
-              {ec.yearLabels.map((yr, i) => {
-                const x = chartX(ec.yearIndices[i], ec.cl.length);
-                return (
-                  <text key={yr} x={x.toFixed(1)} y={(CHART.H - 4).toFixed(1)} fill="var(--text3)" fontSize="8" fontFamily="var(--mono)" textAnchor="middle">{yr}</text>
-                );
-              })}
-
-              {/* QQQ B&H (rendered first = behind) */}
-              <polyline
-                points={toPoints(ec.qqq)}
-                fill="none" stroke={amberColor} strokeWidth="1.2" strokeDasharray="4,3" opacity="0.7"
-              />
-
-              {/* SPY B&H */}
-              <polyline
-                points={toPoints(ec.spy)}
-                fill="none" stroke={blueColor} strokeWidth="1.2" strokeDasharray="5,4" opacity="0.85"
-              />
-
-              {/* CL strategy fill */}
-              <polygon
-                points={toFillPoints(ec.cl)}
-                fill={accentColor} fillOpacity="0.06"
-              />
-
-              {/* CL strategy line (rendered last = on top) */}
-              <polyline
-                points={toPoints(ec.cl)}
-                fill="none" stroke={accentColor} strokeWidth="2.5"
-              />
-            </svg>
-
-            {/* Benchmark comparison table */}
-            <div style={{ marginTop: '0.75rem', background: 'var(--bg2)', borderRadius: 'var(--r)', padding: '0.75rem 1rem' }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.62rem', color: 'var(--text3)', marginBottom: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                {c.bench.label}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '0.3rem', fontFamily: 'var(--mono)', fontSize: '0.68rem' }}>
-                {c.bench.headers.map((h, i) => (
-                  <div key={i} style={{ color: i === 0 ? 'transparent' : i === 1 ? blueColor : i === 2 ? amberColor : accentColor }}>{h}</div>
-                ))}
-                {c.bench.rows.map((row, ri) => (
-                  <React.Fragment key={ri}>
-                    <div style={{ color: 'var(--text2)' }}>{row.metric}</div>
-                    <div style={{ color: blueColor }}>{row.spy}</div>
-                    <div style={{ color: amberColor }}>{row.qqq}</div>
-                    <div style={{ color: accentColor, fontWeight: row.stratWin ? '600' : '400' }}>
-                      {row.strat}{row.stratWin ? ' ✓' : ''}
-                    </div>
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-
+            <EquityChartSVG equityCurve={ec} colors={colors} />
+            <BenchmarkTable bench={c.bench} colors={colors} />
             <p className="chart-note">{c.note}</p>
           </div>
         </div>
@@ -443,4 +439,4 @@ function SystemFlow({ t, dark, lang }) {
 }
 
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, Products, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue });
+Object.assign(window, { NavBar, Hero, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, SystemFlow, LongTermValue });
