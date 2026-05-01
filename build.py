@@ -30,8 +30,14 @@ CHANGEFREQ = {
 }
 
 
-def build_json_ld(json_ld_type: str, base: str, lang: str, page: str) -> str:
+def build_json_ld(json_ld_type: str, base: str, lang: str, page: str, site_meta: dict) -> str:
     if json_ld_type == "home":
+        offers = [
+            {"@type": "Offer", "price": "0.00", "priceCurrency": "USD", "name": "Free"},
+            {"@type": "Offer", "price": "9.00", "priceCurrency": "USD", "name": "Monthly"},
+            {"@type": "Offer", "price": "99.00", "priceCurrency": "USD", "name": "Annual"},
+            {"@type": "Offer", "price": "499.00", "priceCurrency": "USD", "name": "Lifetime"},
+        ]
         data = {
             "@context": "https://schema.org",
             "@graph": [
@@ -47,14 +53,9 @@ def build_json_ld(json_ld_type: str, base: str, lang: str, page: str) -> str:
                     "applicationCategory": "FinanceApplication",
                     "operatingSystem": "macOS, Linux, Windows",
                     "url": f"{base}/{lang}/",
-                    "offers": [
-                        {"@type": "Offer", "price": "9.00", "priceCurrency": "USD",
-                         "name": "Monthly"},
-                        {"@type": "Offer", "price": "99.00", "priceCurrency": "USD",
-                         "name": "Annual"},
-                        {"@type": "Offer", "price": "499.00", "priceCurrency": "USD",
-                         "name": "Lifetime"},
-                    ],
+                    "datePublished": site_meta.get("published_date", ""),
+                    "dateModified": site_meta.get("modified_date", ""),
+                    "offers": offers,
                 },
             ],
         }
@@ -103,7 +104,8 @@ def make_ctx(site: dict, page: str, lang: str, data: dict) -> dict:
         "hreflang_x_default": f"{base}/en/{page_file}",
         "og_image": site["og_image"],
         "twitter_site": site["twitter_site"],
-        "json_ld": build_json_ld(json_ld_type, base, lang, page),
+        "robots": site.get("robots", "index, follow"),
+        "json_ld": build_json_ld(json_ld_type, base, lang, page, site),
         **{k: v for k, v in data.items() if k != "json_ld_type"},
     }
 
@@ -128,7 +130,7 @@ def build() -> None:
             print(f"  ✓ {lang}/{out_file}")
 
     generate_robots(seo["site"]["base_url"])
-    generate_sitemap(seo["site"]["base_url"])
+    generate_sitemap(seo["site"]["base_url"], seo["site"])
     print("Build complete.")
 
 
@@ -140,7 +142,9 @@ def generate_robots(base_url: str) -> None:
     print("  ✓ robots.txt")
 
 
-def generate_sitemap(base_url: str) -> None:
+def generate_sitemap(base_url: str, site: dict) -> None:
+    modified = site.get("modified_date", "")
+    lastmod_line = f"    <lastmod>{modified}</lastmod>\n" if modified else ""
     entries: list[str] = []
     for page in PAGES:
         page_file = PAGE_FILE[page]
@@ -154,6 +158,7 @@ def generate_sitemap(base_url: str) -> None:
                 f'    <xhtml:link rel="alternate" hreflang="ja" href="{alt_ja}"/>\n'
                 f'    <xhtml:link rel="alternate" hreflang="en" href="{alt_en}"/>\n'
                 f'    <xhtml:link rel="alternate" hreflang="x-default" href="{alt_en}"/>\n'
+                f"{lastmod_line}"
                 f"    <changefreq>{freq}</changefreq>\n"
                 f"    <priority>{priority}</priority>\n"
                 f"  </url>"

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <style>
+    rect { fill: #07080d; }
+    text { fill: #00e49a; }
+    @media (prefers-color-scheme: light) {
+      rect { fill: #f2f4f9; }
+      text { fill: #009e70; }
+    }
+  </style>
+  <rect width="32" height="32" rx="4"/>
+  <text x="16" y="22" text-anchor="middle" font-family="monospace" font-size="14" font-weight="bold">⟨α⟩</text>
+</svg>

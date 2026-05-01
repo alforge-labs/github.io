@@ -1,38 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ lang }}">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ title }}</title>
-  <meta name="description" content="{{ description }}" />
-  <meta name="keywords" content="{{ keywords }}" />
-  <link rel="canonical" href="{{ canonical_url }}" />
-  <link rel="alternate" hreflang="ja" href="{{ hreflang_ja }}" />
-  <link rel="alternate" hreflang="en" href="{{ hreflang_en }}" />
-  <link rel="alternate" hreflang="x-default" href="{{ hreflang_x_default }}" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="{{ canonical_url }}" />
-  <meta property="og:title" content="{{ og_title }}" />
-  <meta property="og:description" content="{{ og_description }}" />
-  <meta property="og:image" content="{{ og_image }}" />
-  <meta property="og:locale" content="{{ og_locale }}" />
-  <meta property="og:site_name" content="Alforge Labs" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="{{ twitter_site }}" />
-  <meta name="twitter:title" content="{{ og_title }}" />
-  <meta name="twitter:description" content="{{ og_description }}" />
-  <meta name="twitter:image" content="{{ og_image }}" />
-  <script type="application/ld+json">{{ json_ld }}</script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8LQ5G28RY"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-K8LQ5G28RY');
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  {% include "_partials/head_meta.html.j2" %}
 
   <template id="__bundler_thumbnail">
     <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
@@ -89,6 +58,9 @@
       --aurora2: rgba(91,159,255,0.04);
       --shadow: 0 2px 8px rgba(0,0,0,0.5);
       --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+      --chart-cl:  var(--accent);
+      --chart-spy: var(--blue);
+      --chart-qqq: var(--amber);
       color-scheme: dark;
     }
 
@@ -117,6 +89,9 @@
       --aurora2: rgba(58,126,240,0.035);
       --shadow: 0 2px 8px rgba(0,0,0,0.08);
       --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+      --chart-cl:  var(--accent);
+      --chart-spy: var(--blue);
+      --chart-qqq: var(--amber);
       color-scheme: light;
     }
 
