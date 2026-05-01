@@ -1,14 +1,181 @@
 # Getting Started
 
-Install AlphaForge CLI, activate your license, and run your first backtest in about five minutes.
+A complete onboarding guide — from installing AlphaForge CLI to reading your first backtest.
 
-## Requirements
+- The **10-minute Free-plan walkthrough** is at the top. No license purchase required.
+- After that you'll find **detailed install instructions, license activation, uninstall, and troubleshooting**.
+
+---
+
+## 10-Minute First Backtest on the Free Plan
+
+!!! info "What the Free plan covers"
+    - Backtesting & optimization ✅ (data capped at **2023-12-31**)
+    - Optimization trials: up to **50 per run**
+    - Pine Script export ❌ (paid plan required)
+
+    See [Freemium Limits](guides/freemium-limits.md) for full details.
+
+### Step 1 — Install (~2 min)
+
+=== "macOS / Linux"
+
+    ```bash
+    curl -sSL https://alforge-labs.github.io/install.sh | bash
+    ```
+
+    After installation, **open a new terminal** before continuing.
+
+=== "Windows"
+
+    Run in PowerShell (no admin rights needed).
+
+    ```powershell
+    irm https://alforge-labs.github.io/install.ps1 | iex
+    ```
+
+    After installation, **open a new terminal** before continuing.
+
+Verify the installation.
+
+```bash
+forge --version
+```
+
+```
+AlphaForge CLI v1.x.x
+```
+
+If you see a version number, you're ready. For manual installation or custom install paths, see [Detailed Installation](#detailed-installation).
+
+### Step 2 — Check your license (~1 min)
+
+The Free plan **works without a license key**. Check your current plan.
+
+```bash
+forge license status
+```
+
+```
+Plan  : free
+Expiry: n/a
+```
+
+!!! tip "If you have a paid plan"
+    Activate it with the key from your purchase confirmation email.
+
+    ```bash
+    forge license activate <YOUR_LICENSE_KEY>
+    ```
+
+    See [License Activation](#license-activation) for the full procedure.
+
+### Step 3 — Prepare a strategy file (~2 min)
+
+Create a `quickstart/` directory and save the sample strategy JSON.
+
+```bash
+mkdir quickstart && cd quickstart
+```
+
+Save the following as `sma_cross.json`.
+
+```json
+{
+  "strategy_id": "sma_cross_qs",
+  "name": "SMA Crossover Quickstart",
+  "version": "1.0.0",
+  "description": "SMA(10)/SMA(50) golden-cross strategy (quickstart sample)",
+  "target_symbols": ["SPY"],
+  "asset_type": "stock",
+  "timeframe": "1d",
+  "indicators": [
+    { "id": "sma_fast", "type": "SMA", "params": { "length": 10 }, "source": "close" },
+    { "id": "sma_slow", "type": "SMA", "params": { "length": 50 }, "source": "close" }
+  ],
+  "entry_conditions": {
+    "long": {
+      "logic": "AND",
+      "conditions": [{ "left": "sma_fast", "op": ">", "right": "sma_slow" }]
+    }
+  },
+  "exit_conditions": {
+    "long": {
+      "logic": "AND",
+      "conditions": [{ "left": "sma_fast", "op": "<", "right": "sma_slow" }]
+    }
+  },
+  "risk_management": {
+    "position_size_pct": 10.0,
+    "position_sizing_method": "fixed",
+    "max_positions": 1,
+    "leverage": 1.0
+  }
+}
+```
+
+### Step 4 — Run the backtest (~2 min)
+
+Run a backtest within the Free plan's data range (up to 2023-12-31).
+
+```bash
+forge backtest run SPY \
+  --strategy sma_cross_qs \
+  --start 2019-01-01 \
+  --end 2023-12-31
+```
+
+!!! note "Data is fetched automatically"
+    On first run, `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` runs automatically. This may take a few seconds.
+
+### Step 5 — Read the results (~3 min)
+
+When complete, you'll see output like this.
+
+!!! warning "Sample output"
+    Actual numbers vary depending on the data fetched.
+
+```
+==> SPY 2019-01-01 → 2023-12-31 (1d)
+   trades: 9   win_rate: 55.6%   profit_factor: 1.82
+   total_return: +38.4%   cagr: +6.7%   sharpe: 0.88
+   max_drawdown: -14.2%   exposure: 41.5%
+   final_equity: $13,840  (initial: $10,000)
+```
+
+A quick read of the key metrics is below. For the full metric list, see [Reading the Results in detail](#reading-the-results-detailed) or the [CLI Reference](cli-reference/index.md).
+
+| Metric | This run | What it means |
+|--------|----------|---------------|
+| **CAGR** | +6.7% | Annualized return (compound). Compare against S&P 500 (~10% avg). |
+| **Sharpe** | 0.88 | Risk-adjusted return. **1.0+** is the target. Getting close! |
+| **Max Drawdown** | -14.2% | Worst peak-to-trough drop. Staying under 20% makes it easier to stick with a strategy. |
+| **Win Rate** | 55.6% | Percentage of winning trades. 40–60% is normal for trend-following. |
+| **Profit Factor** | 1.82 | Total profit ÷ total loss. **1.5+** is solid. |
+| **Trades** | 9 | Total trades in the period. Aim for **30+** for statistical reliability. |
+
+### What to do next
+
+| Goal | Where to go |
+|------|-------------|
+| Pick the next page based on your role | [Use Cases by Goal](usecases/index.md) |
+| Optimize parameters | [optimize command](cli-reference/optimize.md) |
+| Validate against overfitting | [End-to-End Workflow](guides/end-to-end-workflow.md) |
+| Try complex strategy templates | [Strategy Templates](templates.md) |
+| Connect to TradingView | [Pine Script Integration Guide](guides/tradingview-pine-integration.md) |
+| Understand Free plan limits | [Freemium Limits](guides/freemium-limits.md) |
+
+---
+
+## Detailed Installation
+
+### Requirements
 
 - macOS 12 (Monterey) or later / Ubuntu 22.04 or later / Windows 11
-- Internet access for license activation
-- A valid AlphaForge license key from the [pricing page](https://alforgelabs.com/en/index.html#pricing)
+- Internet access (for license activation and the first data fetch)
+- Paid plans only: a valid AlphaForge license key from the [pricing page](https://alforgelabs.com/en/index.html#pricing)
 
-## Install
+### Install procedure
 
 === "macOS / Linux"
 
@@ -49,7 +216,11 @@ Install AlphaForge CLI, activate your license, and run your first backtest in ab
 
     3. **Windows**: place the binary in any folder and add that folder to PATH.
 
+---
+
 ## License Activation
+
+The Free plan works without a license key. Only paid plans (Pro / Team etc.) require activation.
 
 ### 1. Check installation
 
@@ -77,68 +248,9 @@ Confirm that backtest commands are available.
 forge backtest --help
 ```
 
-## Your First Backtest
+---
 
-We'll use the simplest possible strategy — a **golden cross / death cross** between SMA(10) and SMA(50).
-
-### Step 1: Create a strategy JSON
-
-Create `my_first_strategy.json` in any directory (e.g., `strategies/`).
-
-```json
-{
-  "strategy_id": "my_first_strategy",
-  "name": "SMA Crossover Example",
-  "version": "1.0.0",
-  "description": "Long when SMA(10) > SMA(50) (golden cross / death cross)",
-  "target_symbols": ["SPY"],
-  "asset_type": "stock",
-  "timeframe": "1d",
-  "indicators": [
-    { "id": "sma_fast", "type": "SMA", "params": { "length": 10 }, "source": "close" },
-    { "id": "sma_slow", "type": "SMA", "params": { "length": 50 }, "source": "close" }
-  ],
-  "entry_conditions": {
-    "long": {
-      "logic": "AND",
-      "conditions": [{ "left": "sma_fast", "op": ">", "right": "sma_slow" }]
-    }
-  },
-  "exit_conditions": {
-    "long": {
-      "logic": "AND",
-      "conditions": [{ "left": "sma_fast", "op": "<", "right": "sma_slow" }]
-    }
-  },
-  "risk_management": {
-    "position_size_pct": 10.0,
-    "position_sizing_method": "fixed",
-    "max_positions": 1,
-    "leverage": 1.0
-  }
-}
-```
-
-### Step 2: Run the backtest
-
-```bash
-forge backtest run SPY --strategy my_first_strategy --json
-```
-
-### Step 3: Sample output
-
-!!! warning "Sample output"
-    The output below is illustrative. Actual numbers depend on the data and environment at run time.
-
-```text
-==> SPY 2018-01-01 → 2025-12-31 (1d)
-   trades: 14   win_rate: 50.0%   profit_factor: 1.74
-   total_return: +52.3%   cagr: +5.4%   sharpe: 0.92
-   max_drawdown: -16.8%   exposure: 38.2%
-   final_equity: $15,230  (initial: $10,000)
-```
-
-## Reading the Results
+## Reading the Results (Detailed)
 
 The six metrics you'll look at first. For the full metric list, see the [CLI Reference](cli-reference/index.md) and [Strategy Templates](templates.md).
 
@@ -156,6 +268,8 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
     - Walk-forward validation: [`forge optimize walk-forward`](cli-reference/optimize.md) to detect overfitting
     - Strategy templates: try [HMM × BB × RSI and others](templates.md)
 
+---
+
 ## Uninstall
 
 === "macOS / Linux"
@@ -172,22 +286,30 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
     # Manually remove %USERPROFILE%\.forge\bin from PATH
     ```
 
+---
+
 ## Troubleshooting
 
-| Symptom | Fix |
-|---------|-----|
-| `command not found: forge` | Open a new terminal or run `source ~/.bashrc`. |
+| Symptom | Cause & Fix |
+|---------|-------------|
+| `command not found: forge` | Open a new terminal or run `source ~/.bashrc`. If that doesn't help, check your PATH. |
+| `No data found for SPY` | Run `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` first. |
+| `Free plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Free plan cap is automatically excluded. |
+| `Strategy not found: sma_cross_qs` | Check that the `strategy_id` in your JSON is exactly `sma_cross_qs`. |
 | License activation error | Check your network and remove any extra whitespace from the key. |
 | macOS security warning | System Settings → Privacy & Security → click "Open forge". |
 
 For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.com/en/install.html). If the problem persists, contact [support@alforgelabs.com](mailto:support@alforgelabs.com).
 
+---
+
 ## Next Steps
 
+- [Use Cases by Goal](usecases/index.md) — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)
 - [CLI Reference](cli-reference/index.md) — Every `forge` command, parameters, and output format
 - [Strategy Templates](templates.md) — Compound strategies like HMM × BB × RSI
 - [AI Agent Integration](ai-driven-forges.md) — Autonomous exploration with Claude Code / Codex × AlphaForge
 
 ---
 
-<!-- Synced from: `en/install.html` (install / license activation / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`). -->
+<!-- Synced from: `en/install.html` (install / license activation / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`). Issue #117 merged the former `quickstart.md` into this page. -->
