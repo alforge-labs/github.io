@@ -1070,6 +1070,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#trial-forge-optimize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最適化 trial 数（forge optimize 系コマンド）
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1382,6 +1393,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#trial-forge-optimize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最適化 trial 数（forge optimize 系コマンド）
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1443,13 +1465,14 @@
 
 
 <h1 id="_1">フリーミアム制限<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>AlphaForge には <strong>Free / Monthly / Annual / Lifetime</strong> の 4 プランがあります。Free 以外（Lifetime / Annual / Monthly）はまとめて<strong>有料プラン</strong>と呼びます。Free プランでは、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が <strong>2023-12-31</strong> に制限されています。本ページでは、その挙動と確認方法を整理します。</p>
+<p>AlphaForge には <strong>Free / Monthly / Annual / Lifetime</strong> の 4 プランがあります。Free 以外（Lifetime / Annual / Monthly）はまとめて<strong>有料プラン</strong>と呼びます。Free プランでは、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が <strong>2023-12-31</strong> に制限されており、また最適化のトライアル数が <strong>50 回</strong> に制限されます。本ページでは、その挙動と確認方法を整理します。</p>
 <div class="admonition note">
 <p class="admonition-title">対象コマンド</p>
 <p>制限は以下の経路で適用されます。
 - <strong>データ取得</strong>: <code>forge data fetch</code> / <code>forge data update</code> / <code>forge pine generate --with-training-data</code> / 戦略の外部シンボル自動取得（<code>merge_external_symbols</code>）
-- <strong>評価エンジン入口</strong>: <code>forge backtest run</code> / <code>forge optimize</code>（<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>）</p>
-<p>取得時にも評価時にも <strong>2023-12-31</strong> をキャップとして共有しています。</p>
+- <strong>評価エンジン入口</strong>: <code>forge backtest run</code> / <code>forge optimize</code>（<code>run</code> / <code>grid</code> / <code>walk-forward</code> / <code>cross-symbol</code>）
+- <strong>最適化 trial 数</strong>: <code>forge optimize run</code> / <code>cross-symbol</code> / <code>portfolio</code> / <code>multi-portfolio</code> / <code>walk-forward</code> / <code>grid</code></p>
+<p>取得時にも評価時にも <strong>2023-12-31</strong> をキャップとして共有し、最適化系コマンドは <strong>50 trials</strong> をキャップとして共有しています。</p>
 </div>
 <h2 id="_2">プラン構成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <table>
@@ -1457,6 +1480,7 @@
 <tr>
 <th>プラン</th>
 <th>データ取得・評価の日付制限</th>
+<th>最適化 trial 数</th>
 <th>補足</th>
 </tr>
 </thead>
@@ -1464,22 +1488,26 @@
 <tr>
 <td>Free</td>
 <td>2023-12-31 まで</td>
+<td>50 trials まで</td>
 <td>取得時に end が 2023-12-31 にキャップされ、評価エンジン入口でも同日でクリップされます</td>
 </tr>
 <tr>
 <td>Monthly</td>
 <td>制限なし</td>
-<td>月額サブスクリプション。最新データを含めて取得・評価可能</td>
+<td>制限なし</td>
+<td>月額サブスクリプション。最新データ・無制限 trial で取得・評価可能</td>
 </tr>
 <tr>
 <td>Annual</td>
 <td>制限なし</td>
-<td>年額サブスクリプション。最新データを含めて取得・評価可能</td>
+<td>制限なし</td>
+<td>年額サブスクリプション。最新データ・無制限 trial で取得・評価可能</td>
 </tr>
 <tr>
 <td>Lifetime</td>
 <td>制限なし</td>
-<td>買い切り。最新データを含めて取得・評価可能</td>
+<td>制限なし</td>
+<td>買い切り。最新データ・無制限 trial で取得・評価可能</td>
 </tr>
 </tbody>
 </table>
@@ -1523,13 +1551,35 @@
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">]</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
 </code></pre></div></p>
+<h4 id="trial-forge-optimize">最適化 trial 数（<code>forge optimize</code> 系コマンド）<a class="headerlink" href="#trial-forge-optimize" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>forge optimize run / cross-symbol / portfolio / multi-portfolio / walk-forward / grid</code> のいずれも、Free プランでは trial 数が <strong>50 回</strong> にキャップされます。エラー終了せずキャップ後の値で実行を続行します。</li>
+<li><code>forge optimize grid</code> は組合せが 50 を超える場合、固定 seed（再現性あり）で 50 件にランダムサンプリングして実行します。先頭スライスではないため、探索空間の代表性が保たれます。</li>
+<li><code>forge optimize walk-forward</code> は内部で各ウィンドウごとに最適化を呼び出しますが、Notice は CLI で 1 件にまとめて表示されます。</li>
+<li><code>forge optimize multi-portfolio</code> は CLI 表示のトライアル数も effective 値（50）に揃います。</li>
+<li><code>forge optimize apply</code> / <code>history</code> / <code>sensitivity</code> は trial 概念が異なるため対象外です。</li>
+<li>CLI 通常出力には黄色の Panel で警告が表示されます。</li>
+<li><code>--json</code> 出力の <code>freemium_limit_notices</code> の <code>code</code> は <code>free_tier_optimization_trial_capped</code>。grid の場合は JSON に <code>total_trials</code>（全組合せ数）と <code>executed_trials</code>（実行件数 = 50）が並んで含まれます。</li>
+</ul>
+<p>最適化 trial 上限の <code>freemium_limit_notices</code> 例:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_optimization_trial_capped&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Freeプランでは最適化のトライアル数が50回に制限されています。無制限の最適化を行うには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
+</code></pre></div></p>
 <h3 id="lifetime-annual-monthly">有料プラン（Lifetime / Annual / Monthly）<a class="headerlink" href="#lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
-<p>制限は一切発動せず、最新データを含めて取得・評価できます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
+<p>制限は一切発動せず、最新データ・無制限 trial で取得・評価できます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
 <h2 id="_4">開発・検証時のオーバーライド<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>ローカルでプラン挙動を切り替えて確認したい場合は、環境変数 <code>ALPHA_FORGE_PLAN</code> を使います。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
 <table>
 <thead>

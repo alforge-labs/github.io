@@ -3199,7 +3199,7 @@
 <li><strong>Journal integration</strong>: When <code>config.journal.auto_record</code> is true, optimization runs are also recorded in the Journal.</li>
 <li><strong><code>FORGE_CONFIG</code></strong>: The strategy / data / results locations are determined by the <code>forge.yaml</code> referenced by the <code>FORGE_CONFIG</code> environment variable.</li>
 <li><strong>Exit codes</strong>: <code>0</code> on success, <code>1</code> for <code>click.ClickException</code>, <code>2</code> for <code>click.UsageError</code>, <code>1</code> for <code>click.Abort</code>.</li>
-<li><strong>Free plan limit</strong>: On the Free plan, the maximum input data date is capped at <code>2023-12-31</code>. See <a href="../../guides/freemium-limits/">Freemium Limits</a> for details.</li>
+<li><strong>Free plan limit</strong>: On the Free plan, the maximum input data date is capped at <code>2023-12-31</code>, and the optimization trial count is capped at <strong>50 trials</strong> (<code>run</code> / <code>cross-symbol</code> / <code>portfolio</code> / <code>multi-portfolio</code> / <code>walk-forward</code> / <code>grid</code>; <code>apply</code> / <code>history</code> / <code>sensitivity</code> are unaffected). <code>grid</code> randomly samples 50 combinations using a fixed seed when the full Cartesian product exceeds 50. See <a href="../../guides/freemium-limits/">Freemium Limits</a> for details.</li>
 </ul>
 <hr />
 <!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/optimize.py`. This page must be kept in sync when CLI arguments change. -->
