@@ -31,7 +31,21 @@ window.COPY = {
     pricing: {
       label: '料金',
       title: '使い方に合わせて\n選べるプラン',
-      subtitle: '買い切り・年額・月額から選べます。Lifetime は将来のバージョンアップ込みです。',
+      subtitle: '買い切り・年額・月額から選べます。無料でも主要機能をお試しいただけます。',
+      freePlan: {
+        title: 'Free プランで始める',
+        badge: 'Free',
+        desc: 'バックテスト・ベイズ最適化・ウォークフォワード分析を無料で試せます。\n〜2023年のデータ・最適化50回上限・Pine Script 生成なし。',
+        pills: [
+          { label: '✓ バックテスト',       type: 'ok' },
+          { label: '✓ ウォークフォワード', type: 'ok' },
+          { label: '最適化 50回上限',      type: 'limit' },
+          { label: 'データ 〜2023年',      type: 'limit' },
+          { label: 'Pine Script 生成',     type: 'no' },
+        ],
+        ctaLabel: '$0 で登録',
+        comingSummer: '今夏提供開始予定',
+      },
       plans: [
         {
           name: 'Lifetime',
@@ -64,7 +78,7 @@ window.COPY = {
             'ベイズ最適化（Optuna）',
             'ウォークフォワード分析',
             'Pine Script v6 自動生成',
-            '常に最新バージョン',
+            '将来バージョンのアップデート込み',
             '1台のマシンでアクティベート',
           ],
           url: 'https://whop.com/alforge-labs'
@@ -82,7 +96,7 @@ window.COPY = {
             'ベイズ最適化（Optuna）',
             'ウォークフォワード分析',
             'Pine Script v6 自動生成',
-            '常に最新バージョン',
+            '将来バージョンのアップデート込み',
             '1台のマシンでアクティベート',
           ],
           url: 'https://whop.com/alforge-labs'
@@ -90,7 +104,22 @@ window.COPY = {
       ],
       buyNow: '今すぐ購入',
       comingSummer: '今夏販売開始予定',
-      note: '購入後にライセンスキーが発行されます。インストール後に forge license activate <KEY> で有効化してください。',
+      note: '購入・登録後にライセンスキーが発行されます。インストール後に forge license activate <KEY> で有効化してください。',
+      comparison: {
+        label: 'プラン比較',
+        colFree: 'Free',
+        colPaid: '有料プラン（Lifetime / Annual / Monthly）',
+        rows: [
+          { feature: 'macOS / Linux / Windows 対応',    free: 'ok',    paid: 'ok' },
+          { feature: 'バックテスト（シミュレーション）', free: 'limit', freeNote: '〜2023年のデータのみ', paid: 'ok', paidNote: '✓ 最新データ含む' },
+          { feature: 'ウォークフォワード分析',           free: 'limit', freeNote: '〜2023年のデータのみ', paid: 'ok', paidNote: '✓ 最新データ含む' },
+          { feature: 'ベイズ最適化（Optuna）',           free: 'limit', freeNote: '最大 50 回 / 実行',   paid: 'ok', paidNote: '✓ 回数無制限' },
+          { feature: '最新ヒストリカルデータ取得',        free: 'no',    paid: 'ok' },
+          { feature: 'Pine Script v6 自動生成',          free: 'no',    paid: 'ok' },
+          { feature: '将来バージョンのアップデート',      free: 'ok',    paid: 'ok' },
+          { feature: '1台のマシンでアクティベート',       free: 'ok',    paid: 'ok' },
+        ],
+      },
     },
     products: {
       label: 'プロダクト',
@@ -322,7 +351,21 @@ window.COPY = {
     pricing: {
       label: 'Pricing',
       title: 'Choose the plan\nthat fits your workflow.',
-      subtitle: 'Pick lifetime, annual, or monthly access. Lifetime includes future version updates.',
+      subtitle: 'Pick lifetime, annual, or monthly access. Or start free and upgrade when you\'re ready.',
+      freePlan: {
+        title: 'Start with Free',
+        badge: 'Free',
+        desc: 'Try backtesting, Bayesian optimization, and walk-forward analysis at no cost.\nHistorical data up to 2023 · 50 optimization trials per run · No Pine Script export.',
+        pills: [
+          { label: '✓ Backtest',           type: 'ok' },
+          { label: '✓ Walk-Forward',       type: 'ok' },
+          { label: 'Optimization 50 trials max', type: 'limit' },
+          { label: 'Data up to 2023',      type: 'limit' },
+          { label: 'Pine Script export',   type: 'no' },
+        ],
+        ctaLabel: 'Register for $0',
+        comingSummer: 'Coming This Summer',
+      },
       plans: [
         {
           name: 'Lifetime',
@@ -355,7 +398,7 @@ window.COPY = {
             'Bayesian optimization (Optuna)',
             'Walk-forward analysis',
             'Pine Script v6 auto-generation',
-            'Always latest version',
+            'Future version updates included',
             'Activate on 1 machine',
           ],
           url: 'https://whop.com/alforge-labs'
@@ -373,7 +416,7 @@ window.COPY = {
             'Bayesian optimization (Optuna)',
             'Walk-forward analysis',
             'Pine Script v6 auto-generation',
-            'Always latest version',
+            'Future version updates included',
             'Activate on 1 machine',
           ],
           url: 'https://whop.com/alforge-labs'
@@ -381,7 +424,22 @@ window.COPY = {
       ],
       buyNow: 'Get Access',
       comingSummer: 'Coming This Summer',
-      note: 'A license key is issued after purchase. Activate with: forge license activate <KEY>',
+      note: 'A license key is issued after purchase or registration. Activate with: forge license activate <KEY>',
+      comparison: {
+        label: 'Plan Comparison',
+        colFree: 'Free',
+        colPaid: 'Paid Plans (Lifetime / Annual / Monthly)',
+        rows: [
+          { feature: 'macOS / Linux / Windows',          free: 'ok',    paid: 'ok' },
+          { feature: 'Backtest (simulation)',             free: 'limit', freeNote: 'Historical data up to 2023', paid: 'ok', paidNote: '✓ Latest data included' },
+          { feature: 'Walk-forward analysis',            free: 'limit', freeNote: 'Historical data up to 2023', paid: 'ok', paidNote: '✓ Latest data included' },
+          { feature: 'Bayesian optimization (Optuna)',   free: 'limit', freeNote: 'Up to 50 trials per run',   paid: 'ok', paidNote: '✓ Unlimited' },
+          { feature: 'Latest historical data download',  free: 'no',    paid: 'ok' },
+          { feature: 'Pine Script v6 auto-generation',   free: 'no',    paid: 'ok' },
+          { feature: 'Future version updates',           free: 'ok',    paid: 'ok' },
+          { feature: 'Activate on 1 machine',            free: 'ok',    paid: 'ok' },
+        ],
+      },
     },
     products: {
       label: 'Products',
