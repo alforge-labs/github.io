@@ -658,17 +658,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#override-for-development-and-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Override for development and verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#how-to-remove-the-limit" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1857,17 +1846,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#override-for-development-and-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Override for development and verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#how-to-remove-the-limit" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2045,35 +2023,6 @@
 </code></pre></div></p>
 <h3 id="paid-plans-lifetime-annual-monthly">Paid plans (Lifetime / Annual / Monthly)<a class="headerlink" href="#paid-plans-lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
 <p>No limits are applied; you can fetch and evaluate the latest data with unlimited trials, and Pine Script export is fully unlocked. The output does not include any <code>freemium_limit_notices</code> warnings.</p>
-<h2 id="override-for-development-and-verification">Override for development and verification<a class="headerlink" href="#override-for-development-and-verification" title="Permanent link">&para;</a></h2>
-<p>To validate plan-specific behavior locally, set the <code>ALPHA_FORGE_PLAN</code> environment variable.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>free<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>lifetime<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">ALPHA_FORGE_PLAN</span><span class="o">=</span>dev<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
-</code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>free</code></td>
-<td>Forces the Free plan limits</td>
-</tr>
-<tr>
-<td><code>lifetime</code></td>
-<td>Treats the session as a paid plan (Lifetime / Annual / Monthly) — no limits</td>
-</tr>
-<tr>
-<td><code>dev</code></td>
-<td>Development plan paired with the EULA-skip path. Unavailable in distributed builds.</td>
-</tr>
-</tbody>
-</table>
-<p>When <code>ALPHA_FORGE_PLAN</code> is unset, AlphaForge uses the plan resolved from the auth cache (Whop membership info). Setting <code>ALPHA_FORGE_DEV_SKIP_LICENSE=1</code> enables the <code>dev</code> plan with EULA-skip; note that <code>dev</code> is distinct from the paid plans.</p>
 <h2 id="how-to-remove-the-limit">How to remove the limit<a class="headerlink" href="#how-to-remove-the-limit" title="Permanent link">&para;</a></h2>
 <p>The only supported way to lift the limit is to obtain a <strong>paid plan</strong> (Lifetime, Annual, or Monthly). Manually trimming a CSV to 2023-12-31 and re-running will produce the same result, because the clip is always enforced at the evaluation engine boundary.</p>
 <ul>

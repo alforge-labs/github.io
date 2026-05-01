@@ -123,24 +123,6 @@ Pine Script hard-block `freemium_limit_notices` example:
 
 No limits are applied; you can fetch and evaluate the latest data with unlimited trials, and Pine Script export is fully unlocked. The output does not include any `freemium_limit_notices` warnings.
 
-## Override for development and verification
-
-To validate plan-specific behavior locally, set the `ALPHA_FORGE_PLAN` environment variable.
-
-```bash
-ALPHA_FORGE_PLAN=free uv run forge backtest run AAPL --strategy sma_crossover_v1
-ALPHA_FORGE_PLAN=lifetime uv run forge backtest run AAPL --strategy sma_crossover_v1
-ALPHA_FORGE_PLAN=dev uv run forge backtest run AAPL --strategy sma_crossover_v1
-```
-
-| Value | Purpose |
-|---|---|
-| `free` | Forces the Free plan limits |
-| `lifetime` | Treats the session as a paid plan (Lifetime / Annual / Monthly) — no limits |
-| `dev` | Development plan paired with the EULA-skip path. Unavailable in distributed builds. |
-
-When `ALPHA_FORGE_PLAN` is unset, AlphaForge uses the plan resolved from the auth cache (Whop membership info). Setting `ALPHA_FORGE_DEV_SKIP_LICENSE=1` enables the `dev` plan with EULA-skip; note that `dev` is distinct from the paid plans.
-
 ## How to remove the limit
 
 The only supported way to lift the limit is to obtain a **paid plan** (Lifetime, Annual, or Monthly). Manually trimming a CSV to 2023-12-31 and re-running will produce the same result, because the clip is always enforced at the evaluation engine boundary.

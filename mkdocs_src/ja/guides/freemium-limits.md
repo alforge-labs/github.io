@@ -123,24 +123,6 @@ Pine Script ハードブロック時の `freemium_limit_notices` 例:
 
 制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも `freemium_limit_notices` の警告は載りません。
 
-## 開発・検証時のオーバーライド
-
-ローカルでプラン挙動を切り替えて確認したい場合は、環境変数 `ALPHA_FORGE_PLAN` を使います。
-
-```bash
-ALPHA_FORGE_PLAN=free uv run forge backtest run AAPL --strategy sma_crossover_v1
-ALPHA_FORGE_PLAN=lifetime uv run forge backtest run AAPL --strategy sma_crossover_v1
-ALPHA_FORGE_PLAN=dev uv run forge backtest run AAPL --strategy sma_crossover_v1
-```
-
-| 値 | 用途 |
-|---|---|
-| `free` | Free プランの制限を強制適用 |
-| `lifetime` | 有料プラン（Lifetime / Annual / Monthly）相当の制限なし挙動 |
-| `dev` | EULA 同意スキップを伴う開発時プラン。配布ビルドでは利用不可 |
-
-`ALPHA_FORGE_PLAN` が未設定の場合は、認証キャッシュ（Whop メンバーシップ情報）から取得したプランが適用されます。`ALPHA_FORGE_DEV_SKIP_LICENSE=1` を設定するとライセンス確認をスキップする `dev` プランで動作しますが、これは有料プランとは別扱いです。
-
 ## 制限を回避する方法
 
 正規の解除手段は **有料プランの購入**（Lifetime / Annual / Monthly のいずれか）です。CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。
