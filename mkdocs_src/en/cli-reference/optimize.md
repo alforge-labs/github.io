@@ -245,6 +245,33 @@ forge optimize walk-forward <SYMBOL> --strategy <ID> [OPTIONS]
 | `--metric` | option | `sharpe_ratio` | Metric to optimize |
 | `--windows` | int | `5` | Number of windows |
 
+### Live progress dashboard (Rich)
+
+While `forge optimize walk-forward` runs, AlphaForge displays a dedicated two-tier progress dashboard.
+
+- **Outer bar**: overall window progress (`<completed_windows>/<n_windows>`).
+- **Inner bar**: the current window's in-sample Optuna trial progress.
+
+As each window completes, its IS / OOS scores and OOS trade count are appended to the Scoreboard table, and the best window (highest OOS) is highlighted in green. Windows with zero OOS trades or NaN/±inf OOS scores are rendered as red `FAILED` rows and added to the `Failures` counter.
+
+```text
+╭─ AlphaForge Walk-Forward ─────────────────────────────────────────╮
+│ Strategy: sma_v1  Symbol: SPY  Metric: sharpe_ratio (↑)            │
+│ Windows: 5  In-sample: 70%                                         │
+╰────────────────────────────────────────────────────────────────────╯
+Windows       ████████████████░░░░░░░░░░  3/5  60%  0:01:24 < 0:00:55
+  └ #4 IS trial ████████████░░░░░░░░░░░░ 12/30  40%  0:00:18 < 0:00:32
+╭─ Windows ─────────────────────────────────────────────────────────╮
+│ Win  OOS start   IS         OOS         Trades                     │
+│   1  2024-04-01  1.4231     0.8912      41                         │
+│   2  2024-07-01  1.2104     1.0307✓     37                         │
+│   3  2024-10-01  0.9834     -0.1521     28                         │
+╰────────────────────────────────────────────────────────────────────╯
+Mean OOS: 0.5899   Best window: #2 (1.0307)   Failures: 0
+```
+
+Pass `--json` to suppress the dashboard and emit JSON only. `--json` is recommended for CI and other non-TTY environments.
+
 ### Sample output
 
 ```text
