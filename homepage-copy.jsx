@@ -423,7 +423,7 @@ window.COPY = {
       note: 'このサイトは開発者向けソフトウェアツールを提供します。特定の投資・運用を推奨するものではありません。',
       links: [
         { label: 'インストール', url: '/install.html' },
-        { label: 'ドキュメント', url: '/docs.html' },
+        { label: 'ドキュメント', url: '/ja/docs/' },
         { label: '利用規約', url: '/terms.html' },
         { label: 'プライバシー', url: '/privacy.html' },
       ],
@@ -804,7 +804,7 @@ window.COPY = {
       note: 'This site provides developer software tools. Nothing here constitutes professional advice or specific product recommendations.',
       links: [
         { label: 'Install', url: '/install.html' },
-        { label: 'Docs', url: '/docs.html' },
+        { label: 'Docs', url: '/en/docs/' },
         { label: 'Terms', url: '/terms.html' },
         { label: 'Privacy', url: '/privacy.html' },
       ],
