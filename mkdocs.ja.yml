@@ -79,6 +79,7 @@ nav:
       - クオンツ・研究者: usecases/quants.md
       - 自動売買検討者: usecases/auto-trading.md
       - AIエージェント利用者: usecases/ai-agents.md
+      - 他ツールとの比較: usecases/comparison.md
   - 利用規約と免責:
       - 信頼・安全・制限: legal/trust-safety-limits.md
       - 免責事項: legal/disclaimers.md

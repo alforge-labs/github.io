@@ -1,0 +1,2667 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AlphaForge CLI official documentation — installation, commands, strategy templates, and AI agent integration.">
+      
+      
+        <meta name="author" content="Alforge Labs">
+      
+      
+        <link rel="canonical" href="https://alforgelabs.com/en/docs/usecases/comparison/">
+      
+      
+        <link rel="prev" href="../ai-agents/">
+      
+      
+        <link rel="next" href="../../legal/trust-safety-limits/">
+      
+      
+        
+          <link rel="alternate" href="/ja/docs/" hreflang="ja">
+        
+          <link rel="alternate" href="/en/docs/" hreflang="en">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Comparison with Other Tools - AlphaForge Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Space+Grotesk:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Space Grotesk";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#comparison-with-other-tools" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://alforgelabs.com/en/index.html" title="AlphaForge Documentation" class="md-header__button md-logo" aria-label="AlphaForge Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AlphaForge Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Comparison with Other Tools
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/ja/docs/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/en/docs/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cli-reference/" class="md-tabs__link">
+          
+  
+  
+  CLI Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../templates/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Strategy Templates
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../strategy-gallery/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Strategy Gallery
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/end-to-end-workflow/" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ai-driven-forges/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI Agent Integration
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Use Cases by Goal
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../legal/trust-safety-limits/" class="md-tabs__link">
+          
+  
+  
+  Legal & Disclaimers
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://alforgelabs.com/en/index.html" title="AlphaForge Documentation" class="md-nav__button md-logo" aria-label="AlphaForge Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AlphaForge Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    backtest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/optimize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    optimize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/journal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/live/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    live
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli-reference/other/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Other commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strategy Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../strategy-gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strategy Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/end-to-end-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-End Strategy Development Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/tradingview-pine-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bringing Pine Scripts into TradingView
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/tradingview-alpha-strike/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TradingView × alpha-strike Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/freemium-limits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Freemium Limits
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai-driven-forges/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases by Goal
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Use Cases by Goal
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tradingview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TradingView Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python-dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python Developers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quants & Researchers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auto-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automated Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Comparison with Other Tools
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Comparison with Other Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-backtrader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs Backtrader
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs Backtrader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backtraders-strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtrader's Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backtraders-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtrader's Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-choose-which" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Choose Which
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-vectorbt-standalone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs vectorbt Standalone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs vectorbt Standalone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-vectorbt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About vectorbt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-alphaforge-adds-on-top-of-vectorbt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What AlphaForge Adds on Top of vectorbt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-choose-which_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Choose Which
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-tradingview-standalone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs TradingView Standalone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs TradingView Standalone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tradingviews-strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView's Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tradingview-standalone-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView Standalone Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alphaforge-and-tradingview-are-complementary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge and TradingView Are Complementary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-manual-python-notebooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs Manual Python Notebooks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs Manual Python Notebooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-notebook-strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Notebook Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenges-with-manual-notebooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges with Manual Notebooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-each" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use Each
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-cli-json-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why CLI + JSON Strategy?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why CLI + JSON Strategy?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reason-1-complete-reproducibility-via-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason 1: Complete Reproducibility via Git
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reason-2-natural-fit-for-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason 2: Natural Fit for AI Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reason-3-separation-of-noise-and-signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason 3: Separation of Noise and Signal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-walk-forward-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Walk-Forward Validation?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Walk-Forward Validation?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-overfitting-curve-fitting-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Overfitting (Curve-Fitting) Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-walk-forward-validation-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Walk-Forward Validation Is
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-wft-in-alphaforge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running WFT in AlphaForge
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-which-tool-should-you-choose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: Which Tool Should You Choose?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Docs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal & Disclaimers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legal & Disclaimers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/trust-safety-limits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust, Safety, and Limits
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/disclaimers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disclaimers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/eula/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EULA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-backtrader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs Backtrader
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs Backtrader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backtraders-strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtrader's Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backtraders-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtrader's Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-choose-which" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Choose Which
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-vectorbt-standalone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs vectorbt Standalone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs vectorbt Standalone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-vectorbt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About vectorbt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-alphaforge-adds-on-top-of-vectorbt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What AlphaForge Adds on Top of vectorbt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-choose-which_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Choose Which
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-tradingview-standalone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs TradingView Standalone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs TradingView Standalone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tradingviews-strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView's Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tradingview-standalone-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView Standalone Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alphaforge-and-tradingview-are-complementary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge and TradingView Are Complementary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphaforge-vs-manual-python-notebooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge vs Manual Python Notebooks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge vs Manual Python Notebooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-notebook-strengths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Notebook Strengths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenges-with-manual-notebooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges with Manual Notebooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-each" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use Each
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-cli-json-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why CLI + JSON Strategy?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why CLI + JSON Strategy?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reason-1-complete-reproducibility-via-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason 1: Complete Reproducibility via Git
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reason-2-natural-fit-for-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason 2: Natural Fit for AI Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reason-3-separation-of-noise-and-signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason 3: Separation of Noise and Signal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-walk-forward-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Walk-Forward Validation?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Walk-Forward Validation?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-overfitting-curve-fitting-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Overfitting (Curve-Fitting) Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-walk-forward-validation-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Walk-Forward Validation Is
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-wft-in-alphaforge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running WFT in AlphaForge
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-which-tool-should-you-choose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: Which Tool Should You Choose?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Docs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="comparison-with-other-tools">Comparison with Other Tools<a class="headerlink" href="#comparison-with-other-tools" title="Permanent link">&para;</a></h1>
+<p>This page provides an honest comparison of AlphaForge against commonly used alternatives. We'll cover not only where AlphaForge excels, but also where other tools may be a better fit. Use this to make an informed decision.</p>
+<h2 id="quick-comparison-table">Quick Comparison Table<a class="headerlink" href="#quick-comparison-table" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>AlphaForge</th>
+<th>Backtrader</th>
+<th>vectorbt</th>
+<th>TradingView</th>
+<th>Python Notebooks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Backtest Speed</strong></td>
+<td>Fast (vectorbt-based)</td>
+<td>Slow (event-driven)</td>
+<td>Fastest</td>
+<td>Moderate</td>
+<td>Depends on implementation</td>
+</tr>
+<tr>
+<td><strong>Parameter Optimization</strong></td>
+<td>Optuna (Bayesian)</td>
+<td>Manual / Grid</td>
+<td>Basic scanning</td>
+<td>None</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td><strong>Walk-Forward Validation</strong></td>
+<td>Built-in</td>
+<td>Manual implementation</td>
+<td>Manual implementation</td>
+<td>None</td>
+<td>Manual implementation</td>
+</tr>
+<tr>
+<td><strong>Pine Script Generation</strong></td>
+<td>Automatic</td>
+<td>None</td>
+<td>None</td>
+<td>Hand-written</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Reproducibility (Git)</strong></td>
+<td>Full (JSON-defined)</td>
+<td>Code-dependent</td>
+<td>Code-dependent</td>
+<td>Limited</td>
+<td>Difficult</td>
+</tr>
+<tr>
+<td><strong>AI Agent Integration</strong></td>
+<td>Native (JSON-driven)</td>
+<td>Difficult</td>
+<td>Difficult</td>
+<td>Difficult</td>
+<td>Possible (manual)</td>
+</tr>
+<tr>
+<td><strong>Live Order Integration</strong></td>
+<td>TradingView → AlphaStrike</td>
+<td>Custom implementation</td>
+<td>Custom implementation</td>
+<td>Via alerts</td>
+<td>Custom implementation</td>
+</tr>
+<tr>
+<td><strong>Learning Curve</strong></td>
+<td>CLI + JSON</td>
+<td>Python classes</td>
+<td>Python + NumPy</td>
+<td>Pine Script</td>
+<td>Python</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="alphaforge-vs-backtrader">AlphaForge vs Backtrader<a class="headerlink" href="#alphaforge-vs-backtrader" title="Permanent link">&para;</a></h2>
+<h3 id="backtraders-strengths">Backtrader's Strengths<a class="headerlink" href="#backtraders-strengths" title="Permanent link">&para;</a></h3>
+<p>Backtrader is a mature, event-driven backtesting framework.</p>
+<ul>
+<li><strong>High customizability</strong> — Complex order logic (OCO, trailing stops, etc.) can be flexibly implemented in Python</li>
+<li><strong>Live trading support</strong> — Direct broker connections including Interactive Brokers</li>
+<li><strong>Community and track record</strong> — Years of real-world use with abundant code examples</li>
+</ul>
+<h3 id="backtraders-limitations">Backtrader's Limitations<a class="headerlink" href="#backtraders-limitations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Event-driven simulation (bar-by-bar processing) is significantly slower than vectorbt</li>
+<li>Bayesian optimization and walk-forward validation are not built-in and require custom implementation</li>
+<li>No Pine Script generation; TradingView integration requires separate work</li>
+<li>Not designed with AI agent integration in mind</li>
+</ul>
+<h3 id="when-to-choose-which">When to Choose Which<a class="headerlink" href="#when-to-choose-which" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Choose AlphaForge</th>
+<th>Choose Backtrader</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You want fast optimization cycles</td>
+<td>You need complex order logic (OCO, trailing stops, etc.)</td>
+</tr>
+<tr>
+<td>You want systematic walk-forward validation</td>
+<td>You need direct broker connections (e.g., Interactive Brokers)</td>
+</tr>
+<tr>
+<td>You want TradingView alerts with automated order execution</td>
+<td>You have an existing Backtrader codebase</td>
+</tr>
+<tr>
+<td>You want to automate strategy exploration with Claude Code</td>
+<td>You need precise event-driven control over execution logic</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="alphaforge-vs-vectorbt-standalone">AlphaForge vs vectorbt Standalone<a class="headerlink" href="#alphaforge-vs-vectorbt-standalone" title="Permanent link">&para;</a></h2>
+<h3 id="about-vectorbt">About vectorbt<a class="headerlink" href="#about-vectorbt" title="Permanent link">&para;</a></h3>
+<p>AlphaForge <strong>uses vectorbt internally</strong>. This means vectorbt is not a competitor — it's a foundational component of AlphaForge.</p>
+<p>Strengths of using vectorbt standalone:</p>
+<ul>
+<li><strong>Fastest backtesting</strong> — NumPy-based vectorized computation for massive datasets in seconds</li>
+<li><strong>Maximum flexibility</strong> — Custom indicators and complex conditions written freely in Python</li>
+<li><strong>Seamless library integration</strong> — Works naturally with Pandas, Matplotlib, and other Python tools</li>
+</ul>
+<h3 id="what-alphaforge-adds-on-top-of-vectorbt">What AlphaForge Adds on Top of vectorbt<a class="headerlink" href="#what-alphaforge-adds-on-top-of-vectorbt" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>vectorbt Standalone</th>
+<th>AlphaForge (vectorbt + Integration Layer)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strategy defined in Python code</td>
+<td>Strategy defined in JSON (easy Git management)</td>
+</tr>
+<tr>
+<td>Optimization requires custom implementation</td>
+<td>Bayesian optimization via Optuna in a single CLI command</td>
+</tr>
+<tr>
+<td>Walk-forward testing requires custom implementation</td>
+<td>Walk-forward validation built-in</td>
+</tr>
+<tr>
+<td>No Pine Script generation</td>
+<td>Automatically generates Pine Script v6 from optimized parameters</td>
+</tr>
+<tr>
+<td>No journal functionality</td>
+<td>Experiment results automatically recorded as JSON/CSV</td>
+</tr>
+<tr>
+<td>AI agent integration is non-standard</td>
+<td>JSON-driven design makes it easy for Claude Code and others to read/write</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-choose-which_1">When to Choose Which<a class="headerlink" href="#when-to-choose-which_1" title="Permanent link">&para;</a></h3>
+<p>Use vectorbt directly when you're developing custom indicators or doing exploratory analysis with Python APIs. Choose AlphaForge when you want to repeatedly run the full pipeline: backtesting → optimization → WFT → Pine Script generation.</p>
+<hr />
+<h2 id="alphaforge-vs-tradingview-standalone">AlphaForge vs TradingView Standalone<a class="headerlink" href="#alphaforge-vs-tradingview-standalone" title="Permanent link">&para;</a></h2>
+<h3 id="tradingviews-strengths">TradingView's Strengths<a class="headerlink" href="#tradingviews-strengths" title="Permanent link">&para;</a></h3>
+<p>TradingView excels as a charting and community platform.</p>
+<ul>
+<li><strong>Real-time charts and rich indicators</strong> — Industry-standard visual environment used by traders worldwide</li>
+<li><strong>Pine Script community</strong> — Thousands of published scripts to instantly use and adapt</li>
+<li><strong>Alerts and Webhooks</strong> — Automatic Webhook notifications when conditions trigger</li>
+<li><strong>Ease of use</strong> — Chart analysis without programming experience</li>
+</ul>
+<h3 id="tradingview-standalone-limitations">TradingView Standalone Limitations<a class="headerlink" href="#tradingview-standalone-limitations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Pine Script backtesting offers basic functionality without Bayesian optimization or WFT</li>
+<li>Parameter exploration (testing many combinations) is impractical in a browser environment</li>
+<li>Managing experiment reproducibility (tracking which parameters were tested) is difficult</li>
+</ul>
+<h3 id="alphaforge-and-tradingview-are-complementary">AlphaForge and TradingView Are Complementary<a class="headerlink" href="#alphaforge-and-tradingview-are-complementary" title="Permanent link">&para;</a></h3>
+<p>AlphaForge and TradingView are <strong>not competitors — they work together</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>AlphaForge: backtest and optimize strategy
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ↓
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>forge command: automatically generate Pine Script v6
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  ↓
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Paste into TradingView for real-time monitoring
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  ↓
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Condition triggers → TradingView alert → AlphaStrike executes order automatically
+</code></pre></div>
+<p>For TradingView users, AlphaForge acts as a "scientific factory for creating Pine Scripts." See the <a href="../tradingview/">TradingView Users Guide</a> for details.</p>
+<hr />
+<h2 id="alphaforge-vs-manual-python-notebooks">AlphaForge vs Manual Python Notebooks<a class="headerlink" href="#alphaforge-vs-manual-python-notebooks" title="Permanent link">&para;</a></h2>
+<h3 id="python-notebook-strengths">Python Notebook Strengths<a class="headerlink" href="#python-notebook-strengths" title="Permanent link">&para;</a></h3>
+<p>Jupyter Notebook and Google Colab are excellent for exploratory analysis.</p>
+<ul>
+<li><strong>Immediate feedback</strong> — Run cells one at a time to quickly validate ideas</li>
+<li><strong>Visualization</strong> — Rich inline charts with Matplotlib, Plotly, and others</li>
+<li><strong>Freedom</strong> — Combine any library you want</li>
+</ul>
+<h3 id="challenges-with-manual-notebooks">Challenges with Manual Notebooks<a class="headerlink" href="#challenges-with-manual-notebooks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Reproducibility</strong></td>
+<td>Changing cell execution order or variable state changes results</td>
+</tr>
+<tr>
+<td><strong>Parameter tracking</strong></td>
+<td>Difficult to track "which settings produced good results"</td>
+</tr>
+<tr>
+<td><strong>Automation barrier</strong></td>
+<td>Separate infrastructure needed to run notebooks automatically overnight</td>
+</tr>
+<tr>
+<td><strong>Git management</strong></td>
+<td>.ipynb file diffs are hard to read and difficult to review</td>
+</tr>
+<tr>
+<td><strong>AI agent integration</strong></td>
+<td>Inefficient for Claude Code to read/write notebook state</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-use-each">How to Use Each<a class="headerlink" href="#how-to-use-each" title="Permanent link">&para;</a></h3>
+<p>Notebooks are ideal for the <strong>early exploration phase</strong> of an idea. Once an idea solidifies and you want to "systematically optimize, validate, and reproduce" it, migrating to a JSON strategy in AlphaForge makes management and automation straightforward.</p>
+<hr />
+<h2 id="why-cli-json-strategy">Why CLI + JSON Strategy?<a class="headerlink" href="#why-cli-json-strategy" title="Permanent link">&para;</a></h2>
+<p>Here's why AlphaForge defines strategies in JSON rather than Python code.</p>
+<h3 id="reason-1-complete-reproducibility-via-git">Reason 1: Complete Reproducibility via Git<a class="headerlink" href="#reason-1-complete-reproducibility-via-git" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cl_hmm_bb_rsi_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CL=F&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">&quot;hmm_states&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">&quot;bb_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">&quot;rsi_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;rsi_upper&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nt">&quot;seed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">}</span>
+</code></pre></div>
+<p>Commit this JSON and anyone, at any time, on any machine can reproduce <strong>exactly the same result</strong>. This reproducibility — difficult to achieve with notebooks that mix code and parameters — is what JSON delivers.</p>
+<h3 id="reason-2-natural-fit-for-ai-agents">Reason 2: Natural Fit for AI Agents<a class="headerlink" href="#reason-2-natural-fit-for-ai-agents" title="Permanent link">&para;</a></h3>
+<p>AI agents like Claude Code can naturally read and write JSON files. This enables:</p>
+<ul>
+<li>AI to autonomously create and modify strategies</li>
+<li>AI to analyze backtest results and suggest next parameters</li>
+<li>Overnight loops exploring hundreds of strategies automatically</li>
+</ul>
+<p>See the <a href="../ai-agents/">AI Agent Users Guide</a> for details.</p>
+<h3 id="reason-3-separation-of-noise-and-signal">Reason 3: Separation of Noise and Signal<a class="headerlink" href="#reason-3-separation-of-noise-and-signal" title="Permanent link">&para;</a></h3>
+<p>Separating strategy logic (code) from parameters (values) means:</p>
+<ul>
+<li>Parameter change reviews become easy (diffs are readable)</li>
+<li>A/B testing (same logic, different parameters) can be managed explicitly</li>
+<li>Integration into CI/CD pipelines is straightforward</li>
+</ul>
+<hr />
+<h2 id="why-walk-forward-validation">Why Walk-Forward Validation?<a class="headerlink" href="#why-walk-forward-validation" title="Permanent link">&para;</a></h2>
+<h3 id="the-overfitting-curve-fitting-risk">The Overfitting (Curve-Fitting) Risk<a class="headerlink" href="#the-overfitting-curve-fitting-risk" title="Permanent link">&para;</a></h3>
+<p>When you optimize parameters on backtest data, there's a risk of <strong>overfitting to historical data</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Problematic optimization flow:
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>All historical data → Parameter optimization → Backtest on same data
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>                                                ↑ Optimizing with &quot;knowledge&quot; of the past
+</code></pre></div>
+<p>This approach can make non-functional parameters appear "excellent."</p>
+<h3 id="what-walk-forward-validation-is">What Walk-Forward Validation Is<a class="headerlink" href="#what-walk-forward-validation-is" title="Permanent link">&para;</a></h3>
+<p>Walk-Forward Testing (WFT) splits time-series data into <strong>In-Sample (IS) training periods and Out-of-Sample (OOS) validation periods</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>WFT structure (5-fold example):
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>IS: 2018-2020  → Optimize → Validate on OOS: 2021
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>IS: 2019-2021  → Optimize → Validate on OOS: 2022
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>IS: 2020-2022  → Optimize → Validate on OOS: 2023
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>IS: 2021-2023  → Optimize → Validate on OOS: 2024
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>IS: 2022-2024  → Optimize → Validate on OOS: 2025
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>→ Aggregate 5 OOS periods = True generalization performance
+</code></pre></div>
+<h3 id="running-wft-in-alphaforge">Running WFT in AlphaForge<a class="headerlink" href="#running-wft-in-alphaforge" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Run 5-fold walk-forward validation with a single command</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>cl_hmm_bb_rsi_v1<span class="w"> </span>--folds<span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+<p>A large gap between IS and OOS Sharpe ratios suggests overfitting:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>IS Period  OOS Period  Sharpe(IS)  Sharpe(OOS)  Assessment
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>2020-22    2023        1.8         1.4          22% drop → acceptable
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>2020-22    2023        2.5         0.3          88% drop → likely overfit
+</code></pre></div>
+<p>See the <a href="../quants/">Quants &amp; Researchers Guide</a> for details.</p>
+<hr />
+<h2 id="summary-which-tool-should-you-choose">Summary: Which Tool Should You Choose?<a class="headerlink" href="#summary-which-tool-should-you-choose" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You need precise event-driven control over complex order logic</td>
+<td>Backtrader</td>
+</tr>
+<tr>
+<td>You want to work directly with NumPy-level fast computation</td>
+<td>vectorbt standalone</td>
+</tr>
+<tr>
+<td>You want real-time charts and community strategy access</td>
+<td>TradingView</td>
+</tr>
+<tr>
+<td>You want to quickly test ideas (exploration phase)</td>
+<td>Python Notebooks</td>
+</tr>
+<tr>
+<td>You want end-to-end management: backtest → optimize → WFT → Pine Script → auto-execution</td>
+<td><strong>AlphaForge</strong></td>
+</tr>
+<tr>
+<td>You want to automate strategy exploration with AI agents</td>
+<td><strong>AlphaForge</strong></td>
+</tr>
+<tr>
+<td>You want to enhance TradingView with scientific backtesting</td>
+<td><strong>AlphaForge + TradingView</strong></td>
+</tr>
+</tbody>
+</table>
+<p>AlphaForge is not a "do-everything" universal tool. If you need complex event-driven logic or direct connections to specific brokers, consider combining with other tools.</p>
+<h2 id="related-docs">Related Docs<a class="headerlink" href="#related-docs" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../getting-started/">Getting Started</a> — Installation and first backtest</li>
+<li><a href="../tradingview/">TradingView Users</a> — TradingView integration workflow</li>
+<li><a href="../quants/">Quants &amp; Researchers</a> — Optimization and walk-forward validation details</li>
+<li><a href="../ai-agents/">AI Agent Users</a> — Automation loops with Claude Code</li>
+<li><a href="../../guides/end-to-end-workflow/">End-to-End Strategy Development Workflow</a> — Full overview</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../ai-agents/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AI Agent Users">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                AI Agent Users
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../legal/trust-safety-limits/" class="md-footer__link md-footer__link--next" aria-label="Next: Trust, Safety, and Limits">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Trust, Safety, and Limits
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
