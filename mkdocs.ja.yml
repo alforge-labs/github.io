@@ -69,6 +69,7 @@ nav:
       - エンドツーエンド戦略開発ワークフロー: guides/end-to-end-workflow.md
       - TradingView への Pine Script 反映: guides/tradingview-pine-integration.md
       - TradingView と alpha-strike の連携: guides/tradingview-alpha-strike.md
+      - フリーミアム制限: guides/freemium-limits.md
   - AI エージェント連携: ai-driven-forges.md
   - 利用規約と免責:
       - 免責事項: legal/disclaimers.md

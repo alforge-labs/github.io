@@ -507,6 +507,7 @@ Ruin probability: 0.40%
 - **DB / file mode**: `list`, `report`, `migrate`, `monte-carlo` use `config.report.output_path / config.report.db_filename` (SQLite) as the primary store.
 - **`FORGE_CONFIG`**: The strategy / data / results locations are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable.
 - **Exit codes**: `0` on success, `1` when `--min-trades` is below threshold, `click.UsageError` for argument errors, fatal errors print to stderr and exit.
+- **Free plan limit**: On the Free plan, the maximum input data date is capped at `2023-12-31`. See [Freemium Limits](../guides/freemium-limits.md) for details.
 
 ---
 
