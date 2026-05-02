@@ -308,7 +308,7 @@ forge backtest --help
 - [目的別ユースケース](usecases/index.md) — 自分の役割（TradingView ユーザー / Python 開発者 / クオント / 自動売買検討者 / AI エージェント利用者）から最適な次ページを選ぶ
 - [CLI リファレンス](cli-reference/index.md) — `forge` コマンドの全パラメータと出力形式
 - [戦略テンプレート](templates.md) — HMM × BB × RSI などの複合戦略例
-- [AI エージェント連携](ai-driven-forges.md) — Claude Code / Codex × AlphaForge による自律探索
+- [AI 駆動の戦略探索ワークフロー](guides/ai-exploration-workflow.md) — Claude Code / Codex × AlphaForge による自律探索
 
 ---
 

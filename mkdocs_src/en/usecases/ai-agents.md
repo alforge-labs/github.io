@@ -26,4 +26,4 @@ AlphaForge is designed so that **all operations complete via CLI/JSON/YAML**, ma
 
 For the complete AI agent integration reference (recommended agent comparison, one-cycle example, loop operation notes), see:
 
-→ **[AI Agent Integration (full details)](../ai-driven-forges.md)**
+→ **[AI-Driven Strategy Exploration Workflow](../guides/ai-exploration-workflow.md)**

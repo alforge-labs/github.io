@@ -308,7 +308,7 @@ For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.
 - [Use Cases by Goal](usecases/index.md) — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)
 - [CLI Reference](cli-reference/index.md) — Every `forge` command, parameters, and output format
 - [Strategy Templates](templates.md) — Compound strategies like HMM × BB × RSI
-- [AI Agent Integration](ai-driven-forges.md) — Autonomous exploration with Claude Code / Codex × AlphaForge
+- [AI-Driven Strategy Exploration Workflow](guides/ai-exploration-workflow.md) — Autonomous exploration with Claude Code / Codex × AlphaForge
 
 ---
 
