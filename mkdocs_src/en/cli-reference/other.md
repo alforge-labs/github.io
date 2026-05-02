@@ -120,7 +120,7 @@ forge init [OPTIONS]
 |-------------|----------|
 | `.claude/skills/` | Claude Code skills (forge-backtest, forge-analyze, forge-data) |
 | `.claude/commands/` | Claude Code slash commands (explore-strategies, grid-tune, and 4 more) |
-| `.codex/commands/` | Codex slash commands (explore-strategies, grid-tune, and 4 more) |
+| `.agents/skills/` | Codex skills (explore-strategies, grid-tune, and 4 more) |
 
 ### Sample output
 
@@ -145,11 +145,11 @@ AlphaForge: Initializing working directory...
   ✓ .claude/skills/forge-backtest/SKILL.md
   ✓ .claude/commands/explore-strategies.md
   ✓ .claude/commands/grid-tune.md
-  ✓ .codex/commands/explore-strategies.md
-  ✓ .codex/commands/grid-tune.md
+  ✓ .agents/skills/explore-strategies/SKILL.md
+  ✓ .agents/skills/grid-tune/SKILL.md
   ...
 
-Done: 24 created, 2 skipped
+Done: 26 created, 0 skipped
 
 Next steps:
   1. Edit forge.yaml to customize your settings
