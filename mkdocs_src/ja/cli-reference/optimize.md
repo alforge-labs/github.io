@@ -42,8 +42,8 @@ forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 | `--save` | フラグ | false | 結果をファイルに保存 |
 | `--min-trades` | int | - | 最低取引数制約を上書き（`optimizer_config` / 設定より優先） |
 | `--trials` | int | - | Optuna トライアル数を上書き |
-| `--apply` | フラグ | false | 最適化後にベストパラメータを戦略に適用して保存 |
-| `--yes` / `-y` | フラグ | false | `--apply` の確認プロンプトをスキップ |
+| `--apply` | フラグ | false | 最適化後にベストパラメータを `<strategy_id>_optimized` という新しい戦略 ID で保存（**元戦略は変更されない**） |
+| `--yes` / `-y` | フラグ | false | `<strategy_id>_optimized` が既存の場合の上書き確認プロンプトをスキップ |
 | `--start` | オプション | - | 最適化期間の開始日 `YYYY-MM-DD` |
 | `--end` | オプション | - | 最適化期間の終了日 `YYYY-MM-DD` |
 | `--max-drawdown` | float | - | 最大ドローダウン制約（%）。超過トライアルをペナルティ除外 |
@@ -68,11 +68,17 @@ DB 保存: run_id=opt_20260415_103021
 ✅ 最適化結果を保存しました: data/results/optimize_my_v1_20260415_103021.json
 ```
 
-`--apply` 指定時：
+`--apply` 指定時（`my_v1_optimized` が未存在の場合は確認なしで作成）：
 
 ```text
-⚠️  元戦略 'my_v1' のパラメータを最適化結果で上書きします。続行しますか？ [y/N]: y
-✅ ベストパラメータを 'my_v1' に適用して保存しました
+✅ ベストパラメータを 'my_v1_optimized' として保存しました（元戦略 'my_v1' は変更されません）
+```
+
+`my_v1_optimized` が既存の場合は上書き確認プロンプトが表示されます：
+
+```text
+⚠️  'my_v1_optimized' は既に存在します。上書きしますか？ [y/N]: y
+✅ ベストパラメータを 'my_v1_optimized' として保存しました（元戦略 'my_v1' は変更されません）
 ```
 
 ### サンプル出力（`--json`）
@@ -91,7 +97,7 @@ DB 保存: run_id=opt_20260415_103021
 | `--start の形式が不正です (YYYY-MM-DD)` | 日付形式不正 | `2024-01-15` 形式で指定 |
 | `--start <date> 以降のデータが存在しません` | データ不足 | `forge data fetch <SYM>` でデータ拡張 |
 | `--max-drawdown と --objective は同時に指定できません。` | 両方指定 | どちらか一方を選択 |
-| `キャンセルしました。` | `--apply` 確認で No | `--yes` を付けるか、改めて承認 |
+| `キャンセルしました。` | `<strategy_id>_optimized` 既存上書き確認で No | `--yes` を付けるか、改めて承認 |
 
 ---
 
@@ -439,8 +445,8 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 | `--max-trials` | int | `10000` | Grid サイズがこれを超えたら確認プロンプト |
 | `--save` | フラグ | false | 結果 DataFrame を保存 |
 | `--save-format` | choice | `csv` | 保存フォーマット（`csv` / `parquet` / `json`） |
-| `--apply` | フラグ | false | ベストパラメータを戦略に適用 |
-| `--yes` / `-y` | フラグ | false | 確認プロンプトをスキップ |
+| `--apply` | フラグ | false | ベストパラメータを `<strategy_id>_optimized` という新しい戦略 ID で保存（**元戦略は変更されない**） |
+| `--yes` / `-y` | フラグ | false | `<strategy_id>_optimized` 既存時の上書き確認プロンプトをスキップ |
 | `--start` | オプション | - | 期間フィルタ開始日 `YYYY-MM-DD` |
 | `--end` | オプション | - | 期間フィルタ終了日 `YYYY-MM-DD` |
 | `--min-trades` | int | - | 最低取引数で trial 除外 |
