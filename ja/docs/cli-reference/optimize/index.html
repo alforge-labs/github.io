@@ -3625,8 +3625,8 @@
 <tr>
 <td><code>--min-trades</code></td>
 <td>int</td>
-<td>-</td>
-<td>最低取引数で trial 除外</td>
+<td><code>optimizer_config.constraints.min_trades</code>（あれば）</td>
+<td>最低取引数で trial 除外。未指定時は戦略の <code>optimizer_config.constraints.min_trades</code> を自動適用（<code>--min-trades</code> 明示時は CLI 値が優先）</td>
 </tr>
 <tr>
 <td><code>--max-drawdown</code></td>
