@@ -449,7 +449,7 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 | `--yes` / `-y` | flag | false | Skip the overwrite confirmation when `<strategy_id>_optimized` already exists |
 | `--start` | option | - | Period filter start date `YYYY-MM-DD` |
 | `--end` | option | - | Period filter end date `YYYY-MM-DD` |
-| `--min-trades` | int | - | Filter out trials below min trades |
+| `--min-trades` | int | `optimizer_config.constraints.min_trades` (if defined) | Filter out trials below min trades. Auto-applied from strategy's `optimizer_config.constraints.min_trades` when omitted (CLI value takes priority if specified) |
 | `--max-drawdown` | float | - | Filter out trials above MDD |
 | `--json` | flag | false | Output Top-K as JSON |
 

@@ -449,7 +449,7 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 | `--yes` / `-y` | フラグ | false | `<strategy_id>_optimized` 既存時の上書き確認プロンプトをスキップ |
 | `--start` | オプション | - | 期間フィルタ開始日 `YYYY-MM-DD` |
 | `--end` | オプション | - | 期間フィルタ終了日 `YYYY-MM-DD` |
-| `--min-trades` | int | - | 最低取引数で trial 除外 |
+| `--min-trades` | int | `optimizer_config.constraints.min_trades`（あれば） | 最低取引数で trial 除外。未指定時は戦略の `optimizer_config.constraints.min_trades` を自動適用（`--min-trades` 明示時は CLI 値が優先） |
 | `--max-drawdown` | float | - | MDD 上限で trial 除外 |
 | `--json` | フラグ | false | Top-K を JSON で出力 |
 

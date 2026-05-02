@@ -3625,8 +3625,8 @@
 <tr>
 <td><code>--min-trades</code></td>
 <td>int</td>
-<td>-</td>
-<td>Filter out trials below min trades</td>
+<td><code>optimizer_config.constraints.min_trades</code> (if defined)</td>
+<td>Filter out trials below min trades. Auto-applied from strategy's <code>optimizer_config.constraints.min_trades</code> when omitted (CLI value takes priority if specified)</td>
 </tr>
 <tr>
 <td><code>--max-drawdown</code></td>
