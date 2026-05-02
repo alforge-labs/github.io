@@ -2920,13 +2920,13 @@
 <td><code>--apply</code></td>
 <td>フラグ</td>
 <td>false</td>
-<td>最適化後にベストパラメータを戦略に適用して保存</td>
+<td>最適化後にベストパラメータを <code>&lt;strategy_id&gt;_optimized</code> という新しい戦略 ID で保存（<strong>元戦略は変更されない</strong>）</td>
 </tr>
 <tr>
 <td><code>--yes</code> / <code>-y</code></td>
 <td>フラグ</td>
 <td>false</td>
-<td><code>--apply</code> の確認プロンプトをスキップ</td>
+<td><code>&lt;strategy_id&gt;_optimized</code> が既存の場合の上書き確認プロンプトをスキップ</td>
 </tr>
 <tr>
 <td><code>--start</code></td>
@@ -2968,15 +2968,18 @@
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>DB 保存: run_id=opt_20260415_103021
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>✅ 最適化結果を保存しました: data/results/optimize_my_v1_20260415_103021.json
 </code></pre></div>
-<p><code>--apply</code> 指定時：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>⚠️  元戦略 &#39;my_v1&#39; のパラメータを最適化結果で上書きします。続行しますか？ [y/N]: y
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>✅ ベストパラメータを &#39;my_v1&#39; に適用して保存しました
+<p><code>--apply</code> 指定時（<code>my_v1_optimized</code> が未存在の場合は確認なしで作成）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>✅ ベストパラメータを &#39;my_v1_optimized&#39; として保存しました（元戦略 &#39;my_v1&#39; は変更されません）
+</code></pre></div>
+<p><code>my_v1_optimized</code> が既存の場合は上書き確認プロンプトが表示されます：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>⚠️  &#39;my_v1_optimized&#39; は既に存在します。上書きしますか？ [y/N]: y
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>✅ ベストパラメータを &#39;my_v1_optimized&#39; として保存しました（元戦略 &#39;my_v1&#39; は変更されません）
 </code></pre></div>
 <h3 id="-json">サンプル出力（<code>--json</code>）<a class="headerlink" href="#-json" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.32</span><span class="p">,</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;best_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fast_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;slow_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.32</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;best_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fast_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;slow_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_6">主なエラー<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <table>
@@ -3005,7 +3008,7 @@
 </tr>
 <tr>
 <td><code>キャンセルしました。</code></td>
-<td><code>--apply</code> 確認で No</td>
+<td><code>&lt;strategy_id&gt;_optimized</code> 既存上書き確認で No</td>
 <td><code>--yes</code> を付けるか、改めて承認</td>
 </tr>
 </tbody>
@@ -3014,7 +3017,7 @@
 <h2 id="forge-optimize-cross-symbol">forge optimize cross-symbol<a class="headerlink" href="#forge-optimize-cross-symbol" title="Permanent link">&para;</a></h2>
 <p>複数銘柄で同じ戦略を最適化し、銘柄横断で頑健なパラメータを探索する（集計方式: 平均 / 中央値 / 最小）。</p>
 <h3 id="_7">構文<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>cross-symbol<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>cross-symbol<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="_8">引数とオプション<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <table>
@@ -3066,14 +3069,14 @@
 </tbody>
 </table>
 <h3 id="_9">サンプル出力<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>クロスシンボル最適化を実行中: SPY, QQQ, IWM x sma_v1 (target=sharpe_ratio, agg=mean)
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>✅ クロスシンボル最適化完了
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>総合スコア (mean of sharpe_ratio): 1.20
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>ベストパラメータ: {&#39;fast_period&#39;: 15, &#39;slow_period&#39;: 60}
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>個別銘柄スコア:
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  - SPY: 1.32
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  - QQQ: 1.18
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  - IWM: 1.10
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>クロスシンボル最適化を実行中: SPY, QQQ, IWM x sma_v1 (target=sharpe_ratio, agg=mean)
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>✅ クロスシンボル最適化完了
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>総合スコア (mean of sharpe_ratio): 1.20
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>ベストパラメータ: {&#39;fast_period&#39;: 15, &#39;slow_period&#39;: 60}
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>個別銘柄スコア:
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  - SPY: 1.32
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  - QQQ: 1.18
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  - IWM: 1.10
 </code></pre></div>
 <h3 id="_10">主なエラー<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <table>
@@ -3101,7 +3104,7 @@
 <h2 id="forge-optimize-portfolio">forge optimize portfolio<a class="headerlink" href="#forge-optimize-portfolio" title="Permanent link">&para;</a></h2>
 <p>単一戦略を複数銘柄に適用したときの <strong>配分ウェイト</strong> を Optuna で最適化する。</p>
 <h3 id="_11">構文<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>portfolio<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>portfolio<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="_12">引数とオプション<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
 <table>
@@ -3147,26 +3150,26 @@
 </tbody>
 </table>
 <h3 id="_13">サンプル出力<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ポートフォリオウェイト最適化を実行中: AAPL, MSFT, GOOGL x tech_basket_v1 (target=sharpe_ratio)
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>✅ ウェイト最適化完了
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>ベストスコア (sharpe_ratio): 1.45
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>最適ウェイト:
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  - AAPL: 38.0%
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  - MSFT: 42.0%
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  - GOOGL: 20.0%
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ポートフォリオウェイト最適化を実行中: AAPL, MSFT, GOOGL x tech_basket_v1 (target=sharpe_ratio)
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>✅ ウェイト最適化完了
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>ベストスコア (sharpe_ratio): 1.45
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>最適ウェイト:
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  - AAPL: 38.0%
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  - MSFT: 42.0%
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>  - GOOGL: 20.0%
 </code></pre></div>
 <h3 id="-json_1">サンプル出力（<code>--json</code>）<a class="headerlink" href="#-json_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;best_weights&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;AAPL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.38</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;MSFT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.42</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;GOOGL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.20</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">&quot;portfolio_metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;cagr_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;sharpe_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_drawdown_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-18.0</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;best_weights&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;AAPL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.38</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;MSFT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.42</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;GOOGL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.20</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;portfolio_metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;cagr_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;sharpe_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_drawdown_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-18.0</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">}</span>
 </code></pre></div>
 <hr />
 <h2 id="forge-optimize-multi-portfolio">forge optimize multi-portfolio<a class="headerlink" href="#forge-optimize-multi-portfolio" title="Permanent link">&para;</a></h2>
 <p>各銘柄に <strong>個別の戦略</strong> を割り当て、配分ウェイトを Optuna で最適化する。</p>
 <h3 id="_14">構文<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>multi-portfolio<span class="w"> </span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span><span class="o">[</span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span>...<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>multi-portfolio<span class="w"> </span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span><span class="o">[</span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span>...<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="_15">引数とオプション<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
 <table>
@@ -3212,16 +3215,16 @@
 </tbody>
 </table>
 <h3 id="_16">サンプル出力<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>マルチポートフォリオウェイト最適化を実行中: GC=F, NVDA (target=cagr_pct, trials=200)
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>✅ マルチポートフォリオ最適化完了
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>ベストスコア (cagr_pct): 18.5234
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>最適ウェイト:
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>  - GC=F: 55.0%
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  - NVDA: 45.0%
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>ポートフォリオメトリクス:
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>  CAGR:         18.52%
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>  Sharpe:       1.38
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>  Max Drawdown: -22.10%
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>マルチポートフォリオウェイト最適化を実行中: GC=F, NVDA (target=cagr_pct, trials=200)
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>✅ マルチポートフォリオ最適化完了
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>ベストスコア (cagr_pct): 18.5234
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>最適ウェイト:
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>  - GC=F: 55.0%
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  - NVDA: 45.0%
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>ポートフォリオメトリクス:
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  CAGR:         18.52%
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>  Sharpe:       1.38
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  Max Drawdown: -22.10%
 </code></pre></div>
 <h3 id="_17">主なエラー<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
 <table>
@@ -3249,7 +3252,7 @@
 <h2 id="forge-optimize-walk-forward">forge optimize walk-forward<a class="headerlink" href="#forge-optimize-walk-forward" title="Permanent link">&para;</a></h2>
 <p>時系列を <code>--windows</code> 個の連続ウィンドウに分割し、各ウィンドウで IS（イン・サンプル）最適化 → OOS（アウト・オブ・サンプル）評価を繰り返して、過学習耐性を計測する。</p>
 <h3 id="_18">構文<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="_19">引数とオプション<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
 <table>
@@ -3295,41 +3298,41 @@
 <li><strong>内側バー</strong>: 現ウィンドウのインサンプル Optuna 最適化の trial 進捗</li>
 </ul>
 <p>各ウィンドウ完了ごとに Scoreboard テーブルへ IS / OOS スコアと OOS 取引数が追記され、ベストウィンドウ（OOS 最高）は緑色で強調表示されます。OOS 取引数が 0 件、または OOS スコアが NaN/±inf のウィンドウは <code>FAILED</code> 行として赤色化され、<code>Failures</code> カウンタに加算されます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>╭─ AlphaForge Walk-Forward ─────────────────────────────────────────╮
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>│ Strategy: sma_v1  Symbol: SPY  Metric: sharpe_ratio (↑)            │
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>│ Windows: 5  In-sample: 70%                                         │
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>╰────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>Windows       ████████████████░░░░░░░░░░  3/5  60%  0:01:24 &lt; 0:00:55
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>  └ #4 IS trial ████████████░░░░░░░░░░░░ 12/30  40%  0:00:18 &lt; 0:00:32
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>╭─ Windows ─────────────────────────────────────────────────────────╮
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>│ Win  OOS start   IS         OOS         Trades                     │
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>│   1  2024-04-01  1.4231     0.8912      41                         │
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>│   2  2024-07-01  1.2104     1.0307✓     37                         │
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>│   3  2024-10-01  0.9834     -0.1521     28                         │
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>╰────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>Mean OOS: 0.5899   Best window: #2 (1.0307)   Failures: 0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>╭─ AlphaForge Walk-Forward ─────────────────────────────────────────╮
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>│ Strategy: sma_v1  Symbol: SPY  Metric: sharpe_ratio (↑)            │
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>│ Windows: 5  In-sample: 70%                                         │
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>╰────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>Windows       ████████████████░░░░░░░░░░  3/5  60%  0:01:24 &lt; 0:00:55
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>  └ #4 IS trial ████████████░░░░░░░░░░░░ 12/30  40%  0:00:18 &lt; 0:00:32
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>╭─ Windows ─────────────────────────────────────────────────────────╮
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>│ Win  OOS start   IS         OOS         Trades                     │
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>│   1  2024-04-01  1.4231     0.8912      41                         │
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>│   2  2024-07-01  1.2104     1.0307✓     37                         │
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>│   3  2024-10-01  0.9834     -0.1521     28                         │
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>╰────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>Mean OOS: 0.5899   Best window: #2 (1.0307)   Failures: 0
 </code></pre></div>
 <p><code>--json</code> 指定時は UI が抑制され、JSON 出力のみとなります。CI 等の非 TTY 環境でも <code>--json</code> の使用を推奨します。</p>
 <h3 id="_20">サンプル出力<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>ウォークフォワード最適化を実行中: SPY x sma_v1 (5ウィンドウ)
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>✅ ウォークフォワード完了
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Window     IS Score  OOS Score  ベストパラメータ
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>-----------------------------------------------------------------
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>1            1.4523     1.1024  {&#39;fast&#39;: 10, &#39;slow&#39;: 50}
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>2            1.6210     0.8932  {&#39;fast&#39;: 12, &#39;slow&#39;: 55}
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>⚠️  Window 3 スキップ: OOS 期間のトレード数が 0 件（統計的に無効）
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>4            1.3120     1.0521  {&#39;fast&#39;: 14, &#39;slow&#39;: 60}
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>5            1.5240     0.9810  {&#39;fast&#39;: 11, &#39;slow&#39;: 50}
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>平均 OOS sharpe_ratio: 0.987（4/5 有効ウィンドウ）
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ウォークフォワード最適化を実行中: SPY x sma_v1 (5ウィンドウ)
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>✅ ウォークフォワード完了
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Window     IS Score  OOS Score  ベストパラメータ
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>-----------------------------------------------------------------
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>1            1.4523     1.1024  {&#39;fast&#39;: 10, &#39;slow&#39;: 50}
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>2            1.6210     0.8932  {&#39;fast&#39;: 12, &#39;slow&#39;: 55}
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>⚠️  Window 3 スキップ: OOS 期間のトレード数が 0 件（統計的に無効）
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>4            1.3120     1.0521  {&#39;fast&#39;: 14, &#39;slow&#39;: 60}
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>5            1.5240     0.9810  {&#39;fast&#39;: 11, &#39;slow&#39;: 50}
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>平均 OOS sharpe_ratio: 0.987（4/5 有効ウィンドウ）
 </code></pre></div>
 <p>すべてのウィンドウが無効な場合：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>⚠️  有効なウィンドウが 0 件でした（5 ウィンドウ中）。 データ量またはウィンドウ数を調整してください。
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>⚠️  有効なウィンドウが 0 件でした（5 ウィンドウ中）。 データ量またはウィンドウ数を調整してください。
 </code></pre></div>
 <hr />
 <h2 id="forge-optimize-apply">forge optimize apply<a class="headerlink" href="#forge-optimize-apply" title="Permanent link">&para;</a></h2>
 <p><code>forge optimize run</code> などで保存された結果 JSON を読み込み、<code>best_params</code> を戦略に適用して <strong><code>&lt;id&gt;_optimized</code></strong> として保存する。</p>
 <h3 id="_21">構文<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span>--to-strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--yes<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span>--to-strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--yes<span class="o">]</span>
 </code></pre></div>
 <h3 id="_22">引数とオプション<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
 <table>
@@ -3363,18 +3366,18 @@
 </tbody>
 </table>
 <h3 id="_23">サンプル出力<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>戦略: my_v1
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>適用パラメータ: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>このパラメータを戦略に適用しますか？ [y/N]: y
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>✅ 最適化パラメータを適用しました: strategy_id=my_v1_optimized
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>適用後パラメータ: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>戦略: my_v1
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>適用パラメータ: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>このパラメータを戦略に適用しますか？ [y/N]: y
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>✅ 最適化パラメータを適用しました: strategy_id=my_v1_optimized
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>適用後パラメータ: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
 </code></pre></div>
 <p><code>--to-strategy</code> の戦略 ID に <code>_optimized</code> サフィックスが付き、新規戦略として保存されます。元戦略は変更されません。</p>
 <hr />
 <h2 id="forge-optimize-sensitivity">forge optimize sensitivity<a class="headerlink" href="#forge-optimize-sensitivity" title="Permanent link">&para;</a></h2>
 <p>最適化済みパラメータの周辺をスイープし、わずかなパラメータ変動でメトリクスがどれだけ変わるかを評価する。過学習リスクの定量化に使用。</p>
 <h3 id="_24">構文<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="_25">引数とオプション<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
 <table>
@@ -3438,16 +3441,16 @@
 </tbody>
 </table>
 <h3 id="_26">サンプル出力<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>感度分析を実行中: my_v1 x SPY (metric=sharpe_ratio, steps=±3)
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>=== 感度分析結果: my_v1 ===
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>ベストスコア (sharpe_ratio): 1.4523
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>総合ロバスト性スコア: 78.45%
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>パラメータ                       最良値   ロバスト性  スコア推移
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>----------------------------------------------------------------------
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>fast_period                          12      82.1%  1.20 1.32 1.42 1.45 1.40 1.31 1.18
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>slow_period                          50      75.3%  1.05 1.21 1.38 1.45 1.39 1.18 0.97
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>感度分析を実行中: my_v1 x SPY (metric=sharpe_ratio, steps=±3)
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>=== 感度分析結果: my_v1 ===
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>ベストスコア (sharpe_ratio): 1.4523
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>総合ロバスト性スコア: 78.45%
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>パラメータ                       最良値   ロバスト性  スコア推移
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>----------------------------------------------------------------------
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>fast_period                          12      82.1%  1.20 1.32 1.42 1.45 1.40 1.31 1.18
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>slow_period                          50      75.3%  1.05 1.21 1.38 1.45 1.39 1.18 0.97
 </code></pre></div>
 <h3 id="_27">主なエラー<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h3>
 <table>
@@ -3475,7 +3478,7 @@
 <h2 id="forge-optimize-history">forge optimize history<a class="headerlink" href="#forge-optimize-history" title="Permanent link">&para;</a></h2>
 <p>ある戦略について、過去に保存された <code>optimize_&lt;strategy&gt;_*.json</code> および <code>optimize_cross_&lt;strategy&gt;_*.json</code> を読み込んで一覧表示する。</p>
 <h3 id="_28">構文<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span><span class="nb">history</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span><span class="nb">history</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="_29">オプション<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
 <table>
@@ -3509,26 +3512,26 @@
 </tbody>
 </table>
 <h3 id="_30">サンプル出力<a class="headerlink" href="#_30" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>=== 最適化履歴: my_v1 (3 件) ===
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>日時              シンボル     指標            スコア  主要パラメータ
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>────────────────────────────────────────────────────────────────────────────────
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>20260415_103021   SPY          sharpe_ratio    1.4523  fast_period=12, slow_period=50
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>20260410_181522   SPY          sharpe_ratio    1.3210  fast_period=14, slow_period=55
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>20260401_092030   SPY          sharpe_ratio    1.1850  fast_period=10, slow_period=45
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
-<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>Best: sharpe_ratio=1.4523  (20260415_103021)
-<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>      パラメータ: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>=== 最適化履歴: my_v1 (3 件) ===
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>日時              シンボル     指標            スコア  主要パラメータ
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>────────────────────────────────────────────────────────────────────────────────
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>20260415_103021   SPY          sharpe_ratio    1.4523  fast_period=12, slow_period=50
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>20260410_181522   SPY          sharpe_ratio    1.3210  fast_period=14, slow_period=55
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>20260401_092030   SPY          sharpe_ratio    1.1850  fast_period=10, slow_period=45
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>Best: sharpe_ratio=1.4523  (20260415_103021)
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>      パラメータ: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
 </code></pre></div>
 <p>履歴ファイルが見つからない場合：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>最適化履歴がありません: my_v1
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>  検索パス: data/results/optimize_my_v1_*.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>最適化履歴がありません: my_v1
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>  検索パス: data/results/optimize_my_v1_*.json
 </code></pre></div>
 <hr />
 <h2 id="forge-optimize-grid">forge optimize grid<a class="headerlink" href="#forge-optimize-grid" title="Permanent link">&para;</a></h2>
 <p><code>optimizer_config.param_ranges</code> の全パラメータ組み合わせ（直積）を網羅的にバックテストする Grid Search。Optuna のサンプリングを使わず、全探索した上で Top-K を表示・保存する。</p>
 <h3 id="_31">構文<a class="headerlink" href="#_31" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>grid<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>grid<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="_32">引数とオプション<a class="headerlink" href="#_32" title="Permanent link">&para;</a></h3>
 <table>
@@ -3599,13 +3602,13 @@
 <td><code>--apply</code></td>
 <td>フラグ</td>
 <td>false</td>
-<td>ベストパラメータを戦略に適用</td>
+<td>ベストパラメータを <code>&lt;strategy_id&gt;_optimized</code> という新しい戦略 ID で保存（<strong>元戦略は変更されない</strong>）</td>
 </tr>
 <tr>
 <td><code>--yes</code> / <code>-y</code></td>
 <td>フラグ</td>
 <td>false</td>
-<td>確認プロンプトをスキップ</td>
+<td><code>&lt;strategy_id&gt;_optimized</code> 既存時の上書き確認プロンプトをスキップ</td>
 </tr>
 <tr>
 <td><code>--start</code></td>
@@ -3648,28 +3651,28 @@
 <li><strong>フッター</strong>: 失敗 trial の累計（<code>Failures: N</code>）</li>
 </ul>
 <p><code>--json</code> を指定するとダッシュボードは抑制され、Top-K の JSON のみが標準出力に書き出されます（CI/パイプライン用途向け）。失敗 trial が混在しても run は中断せず、Current 行は赤色で上書きされ Failures カウントが進みます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>╰──────────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>╭───────────────────────────── Scoreboard ─────────────────────────────╮
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>│            Trial #   Score        Parameters                         │
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>│ Current        234   1.4537       fast_period=14  slow_period=55     │
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
-<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>╰──────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>Failures: 0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>╰──────────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>╭───────────────────────────── Scoreboard ─────────────────────────────╮
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>│            Trial #   Score        Parameters                         │
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>│ Current        234   1.4537       fast_period=14  slow_period=55     │
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>╰──────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>Failures: 0
 </code></pre></div>
 <h3 id="top-k">サンプル出力（完了後の Top-K テーブル）<a class="headerlink" href="#top-k" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>... (Rich ダッシュボード表示中) ...
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
-<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>-----------------------------------------------------------------------
-<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>         12           50           1.45              -16.8         18
-<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>         14           55           1.41              -17.2         16
-<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>         ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>... (Rich ダッシュボード表示中) ...
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>-----------------------------------------------------------------------
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>         12           50           1.45              -16.8         18
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>         14           55           1.41              -17.2         16
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>         ...
 </code></pre></div>
 <h3 id="_33">主なエラー<a class="headerlink" href="#_33" title="Permanent link">&para;</a></h3>
 <table>

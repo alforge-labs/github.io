@@ -42,8 +42,8 @@ forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 | `--save` | flag | false | Save results to a file |
 | `--min-trades` | int | - | Override minimum trades constraint (priority over `optimizer_config` / config) |
 | `--trials` | int | - | Override the number of Optuna trials |
-| `--apply` | flag | false | Apply best parameters to the strategy and save |
-| `--yes` / `-y` | flag | false | Skip confirmation prompt for `--apply` |
+| `--apply` | flag | false | Save best parameters under a new strategy ID `<strategy_id>_optimized` (**the original strategy is left unchanged**) |
+| `--yes` / `-y` | flag | false | Skip the overwrite confirmation when `<strategy_id>_optimized` already exists |
 | `--start` | option | - | Optimization period start date `YYYY-MM-DD` |
 | `--end` | option | - | Optimization period end date `YYYY-MM-DD` |
 | `--max-drawdown` | float | - | Max drawdown constraint (%); over-threshold trials are penalized |
@@ -68,11 +68,17 @@ DB saved: run_id=opt_20260415_103021
 ✅ Optimization results saved: data/results/optimize_my_v1_20260415_103021.json
 ```
 
-With `--apply`:
+With `--apply` (no prompt when `my_v1_optimized` does not yet exist):
 
 ```text
-⚠️  Overwrite parameters of strategy 'my_v1' with optimization results. Continue? [y/N]: y
-✅ Best parameters applied and saved to 'my_v1'
+✅ Best parameters saved as 'my_v1_optimized' (original 'my_v1' unchanged)
+```
+
+If `my_v1_optimized` already exists, an overwrite confirmation appears:
+
+```text
+⚠️  'my_v1_optimized' already exists. Overwrite? [y/N]: y
+✅ Best parameters saved as 'my_v1_optimized' (original 'my_v1' unchanged)
 ```
 
 ### Sample output (`--json`)
@@ -91,7 +97,7 @@ With `--apply`:
 | `Invalid --start format (YYYY-MM-DD)` | Date format invalid | Use `2024-01-15` style |
 | `No data available after --start <date>` | Insufficient data | Run `forge data fetch <SYM>` |
 | `--max-drawdown and --objective cannot be used together.` | Both given | Choose one |
-| `Cancelled.` | Declined `--apply` confirmation | Add `--yes` or re-confirm |
+| `Cancelled.` | Declined overwrite confirmation for existing `<strategy_id>_optimized` | Add `--yes` or re-confirm |
 
 ---
 
@@ -439,8 +445,8 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 | `--max-trials` | int | `10000` | Confirm prompt threshold for grid size |
 | `--save` | flag | false | Save the result DataFrame |
 | `--save-format` | choice | `csv` | Save format (`csv` / `parquet` / `json`) |
-| `--apply` | flag | false | Apply best parameters to the strategy |
-| `--yes` / `-y` | flag | false | Skip confirmation prompt |
+| `--apply` | flag | false | Save best parameters under a new strategy ID `<strategy_id>_optimized` (**the original strategy is left unchanged**) |
+| `--yes` / `-y` | flag | false | Skip the overwrite confirmation when `<strategy_id>_optimized` already exists |
 | `--start` | option | - | Period filter start date `YYYY-MM-DD` |
 | `--end` | option | - | Period filter end date `YYYY-MM-DD` |
 | `--min-trades` | int | - | Filter out trials below min trades |
