@@ -47,7 +47,7 @@ Prepare: /update-market-data — bring data up to date
   ↓
 Choose a starting point (pick one of 3 exploration scenarios)
   ↓
-Step 1: /explore-strategies (or /explore-strategies-loop)
+Step 1: /explore-strategies [--goal <name>] [--runs N]
   └─ Auto backtest → optimize → WFT for each symbol × indicator combo
      Pre-filter: Sharpe ≥ 1.0 AND MaxDD ≤ 25%
   ↓
@@ -125,23 +125,25 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 ---
 
-## Step 1: Exploration phase (`/explore-strategies` / `/explore-strategies-loop`) {#step-1-explore}
+## Step 1: Exploration phase (`/explore-strategies`) {#step-1-explore}
 
-**Purpose**: Find a strategy meeting target metrics from `goals.yaml` (e.g., Sharpe ≥ 1.5) by trying **untried indicator × symbol combinations**.
+**Purpose**: Find a strategy meeting target metrics from `goals/<goal_name>/goals.yaml` (e.g., Sharpe ≥ 1.5) by trying **untried indicator × symbol combinations**.
 
 ### Steps (summary)
 
-1. **Pre-flight**: Read `data/explorer/goals.yaml`, `explored_log.md`, and existing strategy JSON files; identify untried combinations
+1. **Pre-flight**: Read `goals/<goal_name>/goals.yaml`, `goals/<goal_name>/explored_log.md`, and existing strategy JSON files; identify untried combinations
 2. **Strategy generation**: Pick one indicator × symbol combo, generate the strategy JSON, and save under `data/strategies/<name>.json`
 3. **Register → validate**: `forge strategy save` → `forge strategy validate` for logical consistency (rollback on failure)
 4. **Signal count check**: `forge backtest signal-count <SYMBOL> --strategy <name> --json`; skip if `entry_signal_days = 0`
 5. **Backtest**: `forge backtest run <SYMBOL> --strategy <name> --json`
 6. **Optimize only when pre-filter passes**: `Sharpe ≥ 1.0 && MaxDD ≤ 25%` triggers `forge optimize run` + `forge optimize walk-forward --windows 5`
-7. **Record outcome**: Append to `explored_log.md` and `reports/YYYY-MM-DD.md`. On failure, delete strategy JSON / DB entry / result JSON (idempotency)
+7. **Record outcome**: Append to `goals/<goal_name>/explored_log.md` and `goals/<goal_name>/reports/YYYY-MM-DD.md`. On failure, delete strategy JSON / DB entry / result JSON (idempotency)
 
 ```
-> /explore-strategies       # One cycle
-> /explore-strategies-loop  # Repeat until rate limit or all combinations exhausted
+> /explore-strategies                          # One run (default goal)
+> /explore-strategies --goal stocks            # Specify goal
+> /explore-strategies --runs 3                 # 3 runs in sequence
+> /explore-strategies --goal crypto --runs 0   # Loop until rate limit or all combinations exhausted
 ```
 
 ### Pass/fail criteria
@@ -149,15 +151,15 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 | Phase | Criterion |
 |-------|-----------|
 | Pre-filter | Sharpe ≥ 1.0 **AND** MaxDD ≤ 25% |
-| WFT final pass | All-window mean WFT Sharpe ≥ `target_metrics.sharpe_ratio` in `goals.yaml` |
+| WFT final pass | All-window mean WFT Sharpe ≥ `target_metrics.sharpe_ratio` in `goals/<goal_name>/goals.yaml` |
 
 ### Idempotency
 
-`explored_log.md` acts as the checkpoint, so re-runs never re-explore the same combination. Safe to interrupt and resume at any time.
+`goals/<goal_name>/explored_log.md` acts as the checkpoint, so re-runs never re-explore the same combination within a goal. Safe to interrupt and resume at any time.
 
-### Loop operation and rate limit handling
+### Continuous runs and rate limit handling
 
-`/explore-strategies-loop` repeats automatically until rate limit is hit.
+Use `--runs 0` to loop until a rate limit is hit or all combinations are exhausted.
 
 | Agent | Main limit | Mitigation |
 |-------|-----------|------------|
@@ -165,8 +167,8 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 | Codex | RPM / TPM (per model) | Lower parallelism; serialize to one iteration at a time |
 | Cursor | Monthly / daily request limit | Composer Agent is heavy; reserve for strategy generation |
 
-!!! warning "Parallel runs not recommended"
-    `/explore-strategies-loop` assumes **serial execution** because agents share `explored_log.md`. To parallelize, maintain separate `goals.yaml` files (different symbol sets) under separate directories and run each in a separate agent.
+!!! tip "Parallel execution with multiple goals"
+    Goals are independent — each has its own `explored_log.md` under `goals/<name>/`. You can run different goals simultaneously in separate Claude Code sessions without conflicts. Backtest results are shared via `exploration.db`, so the same symbol × indicator combination is never backtested twice across goals.
 
 ---
 
@@ -180,7 +182,7 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 ### Processing
 
-1. Read all of `explored_log.md` + `reports/*.md`
+1. Read all of `goals/*/explored_log.md` + `goals/*/reports/*.md`
 2. Build a **per-symbol performance table** (trials, max/avg Sharpe, min MaxDD, pass count)
 3. Build a **per-indicator-set performance table** (trials, avg/max Sharpe, pass rate)
 4. **Score untried combinations** (0–10):
@@ -246,7 +248,7 @@ candidates:
 
 ### Steps
 
-1. **Detect drift**: `forge live list` → for each strategy ID, run `forge live compare <strategy_id>` and pick those exceeding `live_tuning.sharpe_drift_threshold` in `goals.yaml`
+1. **Detect drift**: `forge live list` → for each strategy ID, run `forge live compare <strategy_id>` and pick those exceeding `live_tuning.sharpe_drift_threshold` in `goals/<goal_name>/goals.yaml`
 2. **Re-optimize**: For each drifting strategy:
     - `forge optimize run <SYMBOL> --strategy <name> --metric sharpe_ratio --save`
     - `forge optimize walk-forward <SYMBOL> --strategy <name> --windows 5`
@@ -261,18 +263,32 @@ A weekly cron or manual periodic run is sufficient. If drift persists for N cons
 
 ```text
 alpha-strategies/data/explorer/
-├── goals.yaml                         # Target metrics and exploration scope
-├── explored_log.md                    # Idempotent checkpoint of all explorations
-├── reports/
-│   ├── YYYY-MM-DD.md                  # /explore-strategies daily report
-│   └── tuning-YYYY-MM-DD.md          # /tune-live-strategies report
+├── goals/
+│   ├── default/                       # Default goal (used when --goal is omitted)
+│   │   ├── goals.yaml                 # Target metrics and exploration scope
+│   │   ├── explored_log.md            # Idempotent checkpoint for this goal
+│   │   └── reports/
+│   │       ├── YYYY-MM-DD.md          # /explore-strategies daily report
+│   │       └── tuning-YYYY-MM-DD.md   # /tune-live-strategies report
+│   ├── stocks/                        # US stocks / ETF goal
+│   │   ├── goals.yaml
+│   │   ├── explored_log.md
+│   │   └── reports/
+│   ├── commodities/                   # Commodities goal
+│   │   └── ...
+│   └── crypto/                        # Crypto goal
+│       └── ...
+├── exploration.db                     # Shared backtest result cache (all goals)
+├── recommendations.yaml               # Next-candidate output from /analyze-exploration
 └── analysis/
     └── YYYY-MM-DD_HH-MM.md           # /analyze-exploration output
 ```
 
-**`goals.yaml`**: Defines target Sharpe, MaxDD, the set of symbols and indicator candidates, and `strategies_per_run`. Every slash command reads this file.
+**`goals/<goal_name>/goals.yaml`**: Defines target Sharpe, MaxDD, the set of symbols and indicator candidates, and `strategies_per_run` for each goal. Pass `--goal <name>` to `/explore-strategies` to select a goal; defaults to `goals/default/`.
 
-**`explored_log.md`**: Checkpoint recording every combination tried. As long as this file exists, the same combination will never be re-explored.
+**`goals/<goal_name>/explored_log.md`**: Checkpoint recording every combination tried within a goal. As long as this file exists, the same combination will never be re-explored for that goal.
+
+**`exploration.db`**: Shared SQLite cache across all goals. If the same symbol × indicator combination has already been backtested by any goal, the cached result is reused — no duplicate backtest runs.
 
 **`recommendations.yaml`**: Next-candidate output from `/analyze-exploration`. `/explore-strategies` reads this file and prioritizes high-scoring combinations.
 
@@ -358,4 +374,4 @@ Everything else runs autonomously through the agent.
 
 ---
 
-<!-- Synced from: slash-command definitions in `alpha-trade/.claude/commands/{explore-strategies,explore-strategies-loop,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md`. Agent comparison reflects April 2026. -->
+<!-- Synced from: slash-command definitions in `alpha-trade/.claude/commands/{explore-strategies,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md`. Agent comparison reflects April 2026. -->
