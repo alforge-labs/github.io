@@ -1698,15 +1698,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#forge-strategy-validate" class="md-nav__link">
+  <a href="#forge-strategy-purge" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge strategy validate
+        forge strategy purge
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="forge strategy validate">
+    <nav class="md-nav" aria-label="forge strategy purge">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1722,6 +1722,67 @@
         
           <li class="md-nav__item">
   <a href="#arguments-and-options_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments and options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#differences-vs-delete-with-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differences vs. delete --with-results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forge-strategy-validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge strategy validate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge strategy validate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#synopsis_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments-and-options_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         Arguments and options
@@ -2538,15 +2599,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#forge-strategy-validate" class="md-nav__link">
+  <a href="#forge-strategy-purge" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge strategy validate
+        forge strategy purge
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="forge strategy validate">
+    <nav class="md-nav" aria-label="forge strategy purge">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2562,6 +2623,67 @@
         
           <li class="md-nav__item">
   <a href="#arguments-and-options_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments and options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#differences-vs-delete-with-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differences vs. delete --with-results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forge-strategy-validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge strategy validate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge strategy validate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#synopsis_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arguments-and-options_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         Arguments and options
@@ -2708,6 +2830,10 @@
 <tr>
 <td><a href="#forge-strategy-delete"><code>forge strategy delete</code></a></td>
 <td>Delete a registered strategy from the DB</td>
+</tr>
+<tr>
+<td><a href="#forge-strategy-purge"><code>forge strategy purge</code></a></td>
+<td>Purge the strategy JSON, related results, and DB entry in a single command</td>
 </tr>
 <tr>
 <td><a href="#forge-strategy-validate"><code>forge strategy validate</code></a></td>
@@ -3102,12 +3228,109 @@
 </tbody>
 </table>
 <hr />
-<h2 id="forge-strategy-validate">forge strategy validate<a class="headerlink" href="#forge-strategy-validate" title="Permanent link">&para;</a></h2>
-<p>Run <strong>logical consistency checks</strong> on a strategy. With <code>--symbol</code>, also runs <strong>dynamic checks</strong> (signal counts and condition correlation on real data). Pass a <code>.json</code> path as <code>STRATEGY_ID</code> to validate an unregistered file directly.</p>
+<h2 id="forge-strategy-purge">forge strategy purge<a class="headerlink" href="#forge-strategy-purge" title="Permanent link">&para;</a></h2>
+<p>Purge the strategy JSON, related files (<code>_optimized.json</code>, <code>_report.json</code>, <code>optimize_&lt;id&gt;_*.json</code>), and DB entry <strong>in a single command</strong>. Replaces the previous three-step <code>rm &lt;strategy&gt;.json &amp;&amp; rm &lt;strategy&gt;_report.json &amp;&amp; forge strategy delete &lt;id&gt; --force</code> workflow. Journal files (<code>&lt;id&gt;.journal.json</code>) are preserved.</p>
 <h3 id="synopsis_6">Synopsis<a class="headerlink" href="#synopsis_6" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>&lt;STRATEGY_ID<span class="p">|</span>FILE.json&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>purge<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span><span class="o">[</span>--dry-run<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_6">Arguments and options<a class="headerlink" href="#arguments-and-options_6" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Kind</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>STRATEGY_ID</code></td>
+<td>argument (required)</td>
+<td>-</td>
+<td>Strategy ID to purge completely</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td>flag</td>
+<td>false</td>
+<td>Only list the files that would be deleted; do not actually delete them</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sample-output_6">Sample output<a class="headerlink" href="#sample-output_6" title="Permanent link">&para;</a></h3>
+<p><code>--dry-run</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>[dry-run] Targets:
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  - data/strategies/my_strategy_v1.json
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  - data/strategies/my_strategy_v1_optimized.json
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  - data/results/my_strategy_v1_report.json
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  - data/results/optimize_my_strategy_v1_20260415_103021.json
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  - DB entry: my_strategy_v1
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  Note: data/journal/my_strategy_v1.journal.json is preserved
+</code></pre></div>
+<p>Normal run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Targets: my_strategy_v1
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>  ✓ data/strategies/my_strategy_v1.json
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>  ✓ data/strategies/my_strategy_v1_optimized.json
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>  ✓ data/results/my_strategy_v1_report.json
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>  ✓ data/results/optimize_my_strategy_v1_20260415_103021.json
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>  - data/journal/my_strategy_v1.journal.json (preserved)
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>Continue? [y/N]: y
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>✅ Strategy &#39;my_strategy_v1&#39; has been purged
+</code></pre></div>
+<p>Missing files are reported as warnings only and do not abort the command.</p>
+<h3 id="differences-vs-delete-with-results">Differences vs. <code>delete --with-results</code><a class="headerlink" href="#differences-vs-delete-with-results" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>delete --with-results</code></th>
+<th><code>purge</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strategy JSON</td>
+<td>Kept</td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><code>&lt;id&gt;_optimized.json</code></td>
+<td>Deleted</td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><code>&lt;id&gt;_report.json</code></td>
+<td>Deleted</td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><code>optimize_&lt;id&gt;_*.json</code></td>
+<td>Deleted</td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td>Journal</td>
+<td>Preserved</td>
+<td>Preserved</td>
+</tr>
+<tr>
+<td>DB entry</td>
+<td>Deleted</td>
+<td>Deleted</td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>purge</code> to wipe a strategy completely; use <code>delete --with-results</code> when you want to keep the strategy JSON but clean up related result files.</p>
+<hr />
+<h2 id="forge-strategy-validate">forge strategy validate<a class="headerlink" href="#forge-strategy-validate" title="Permanent link">&para;</a></h2>
+<p>Run <strong>logical consistency checks</strong> on a strategy. With <code>--symbol</code>, also runs <strong>dynamic checks</strong> (signal counts and condition correlation on real data). Pass a <code>.json</code> path as <code>STRATEGY_ID</code> to validate an unregistered file directly.</p>
+<h3 id="synopsis_7">Synopsis<a class="headerlink" href="#synopsis_7" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>&lt;STRATEGY_ID<span class="p">|</span>FILE.json&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<h3 id="arguments-and-options_7">Arguments and options<a class="headerlink" href="#arguments-and-options_7" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -3175,50 +3398,50 @@
 <li>Pairwise correlation of conditions (warns above <code>corr_threshold</code>)</li>
 </ul>
 <h3 id="sample-output-text">Sample output (text)<a class="headerlink" href="#sample-output-text" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Strategy: spy_sma_crossover_v1  [OK]
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>[DYNAMIC CHECKS]
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  Symbol: SPY  Period: 1y  Total days: 252
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  Entry signals: 87 days
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  Condition True days:
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    sma_fast &gt; sma_slow: 142 days (56.3%)
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    rsi &lt; 70: 198 days (78.6%)
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>✓ No issues detected
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Strategy: spy_sma_crossover_v1  [OK]
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>[DYNAMIC CHECKS]
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>  Symbol: SPY  Period: 1y  Total days: 252
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>  Entry signals: 87 days
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>  Condition True days:
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    sma_fast &gt; sma_slow: 142 days (56.3%)
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    rsi &lt; 70: 198 days (78.6%)
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>✓ No issues detected
 </code></pre></div>
 <p>When errors are detected:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Strategy: my_v1  [NG]
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>[ERRORS]
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>  ✗ [E_INDICATOR_REF] Reference &#39;sma_fast&#39; in condition does not exist in indicators
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    → Add { &quot;id&quot;: &quot;sma_fast&quot;, &quot;type&quot;: &quot;SMA&quot;, ... } to the indicators array
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>[WARNINGS]
-<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>  ⚠ [W_LOW_SIGNALS] Too few entry signals: 12 days (threshold 30)
-<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>    → Loosen the conditions or extend the data period
-<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
-<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>  [CORRELATION]
-<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    ⚠ rsi &lt; 70 × close &gt; sma_fast: 0.94
-<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>      → Drop one of the highly correlated conditions, or replace with an independent one
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Strategy: my_v1  [NG]
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>[ERRORS]
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>  ✗ [E_INDICATOR_REF] Reference &#39;sma_fast&#39; in condition does not exist in indicators
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    → Add { &quot;id&quot;: &quot;sma_fast&quot;, &quot;type&quot;: &quot;SMA&quot;, ... } to the indicators array
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>[WARNINGS]
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>  ⚠ [W_LOW_SIGNALS] Too few entry signals: 12 days (threshold 30)
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>    → Loosen the conditions or extend the data period
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>  [CORRELATION]
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>    ⚠ rsi &lt; 70 × close &gt; sma_fast: 0.94
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>      → Drop one of the highly correlated conditions, or replace with an independent one
 </code></pre></div>
 <h3 id="sample-output-json">Sample output (<code>--json</code>)<a class="headerlink" href="#sample-output-json" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">{</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_v1&quot;</span><span class="p">,</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="nt">&quot;ok&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span><span class="nt">&quot;static_errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;E_INDICATOR_REF&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;suggestion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">}</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span><span class="p">],</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">  </span><span class="nt">&quot;static_warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">  </span><span class="nt">&quot;signal_stats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">    </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SPY&quot;</span><span class="p">,</span>
-<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">    </span><span class="nt">&quot;period&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1y&quot;</span><span class="p">,</span>
-<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">    </span><span class="nt">&quot;total_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">252</span><span class="p">,</span>
-<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="nt">&quot;entry_signal_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
-<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="w">    </span><span class="err">...</span>
-<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="w">  </span><span class="nt">&quot;dynamic_warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">],</span>
-<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="w">  </span><span class="nt">&quot;correlations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
-<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">{</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span><span class="nt">&quot;ok&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span><span class="nt">&quot;static_errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;E_INDICATOR_REF&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;suggestion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">}</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">  </span><span class="nt">&quot;static_warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">  </span><span class="nt">&quot;signal_stats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">    </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SPY&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="w">    </span><span class="nt">&quot;period&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1y&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="w">    </span><span class="nt">&quot;total_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">252</span><span class="p">,</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="w">    </span><span class="nt">&quot;entry_signal_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="w">    </span><span class="err">...</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="w">  </span><span class="nt">&quot;dynamic_warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">],</span>
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="w">  </span><span class="nt">&quot;correlations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="exit-codes">Exit codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h3>
 <ul>

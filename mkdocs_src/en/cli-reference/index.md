@@ -43,7 +43,7 @@ Implementation-derived catalog covering all 16 groups and ~77 subcommands.
 |-------|-------------|
 | backtest | `run` `batch` `diagnose` `list` `report` `migrate` `compare` `portfolio` `chart` `signal-count` `monte-carlo` |
 | optimize | `run` `cross-symbol` `portfolio` `multi-portfolio` `walk-forward` `apply` `sensitivity` `history` `grid` |
-| strategy | `list` `create` `save` `show` `migrate` `delete` `validate` |
+| strategy | `list` `create` `save` `show` `migrate` `delete` `purge` `validate` |
 | data | `fetch` `list` `trend` `update` |
 | journal | `list` `show` `runs` `compare` `tag` `note` `verdict` |
 | live | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` |

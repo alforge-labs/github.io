@@ -15,6 +15,7 @@
 | [`forge strategy show`](#forge-strategy-show) | 登録済みの戦略定義（JSON）を表示する |
 | [`forge strategy migrate`](#forge-strategy-migrate) | 既存 JSON ファイルを DB にインポートする |
 | [`forge strategy delete`](#forge-strategy-delete) | 登録済み戦略を DB から削除する |
+| [`forge strategy purge`](#forge-strategy-purge) | 戦略 JSON・関連結果・DB エントリを 1 コマンドで完全削除する |
 | [`forge strategy validate`](#forge-strategy-validate) | 戦略の論理整合性チェックを実行する |
 
 ---
@@ -282,6 +283,69 @@ forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 |----------|------|------|
 | `エラー: 戦略 '<id>' が見つかりません` | ID 不正 | `forge strategy list` で確認 |
 | `キャンセルしました` | 確認プロンプトで No | `--force` を付けるか、改めて承認 |
+
+---
+
+## forge strategy purge
+
+戦略 JSON・関連ファイル（`_optimized.json`、`_report.json`、`optimize_<id>_*.json`）・DB エントリを **1 コマンドで完全削除** します。従来の `rm <strategy>.json && rm <strategy>_report.json && forge strategy delete <id> --force` の 3 ステップが 1 コマンドになります。Journal ファイル（`<id>.journal.json`）は保持されます。
+
+### 構文
+
+```bash
+forge strategy purge <STRATEGY_ID> [--dry-run]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `STRATEGY_ID` | 引数（必須） | - | 完全削除する戦略 ID |
+| `--dry-run` | フラグ | false | 削除対象ファイルの一覧表示のみ。実ファイルは削除しない |
+
+### サンプル出力
+
+`--dry-run`：
+
+```text
+[dry-run] 削除対象:
+  - data/strategies/my_strategy_v1.json
+  - data/strategies/my_strategy_v1_optimized.json
+  - data/results/my_strategy_v1_report.json
+  - data/results/optimize_my_strategy_v1_20260415_103021.json
+  - DB エントリ: my_strategy_v1
+  ※ data/journal/my_strategy_v1.journal.json は保持
+```
+
+通常実行：
+
+```text
+削除対象: my_strategy_v1
+
+  ✓ data/strategies/my_strategy_v1.json
+  ✓ data/strategies/my_strategy_v1_optimized.json
+  ✓ data/results/my_strategy_v1_report.json
+  ✓ data/results/optimize_my_strategy_v1_20260415_103021.json
+  - data/journal/my_strategy_v1.journal.json (保持)
+
+続行しますか？ [y/N]: y
+✅ 戦略 'my_strategy_v1' を完全削除しました
+```
+
+存在しないファイルは警告のみで処理を続行します（エラーで停止しません）。
+
+### `delete --with-results` との違い
+
+| 観点 | `delete --with-results` | `purge` |
+|------|-------------------------|---------|
+| 戦略 JSON 本体 | 残す | 削除 |
+| `<id>_optimized.json` | 削除 | 削除 |
+| `<id>_report.json` | 削除 | 削除 |
+| `optimize_<id>_*.json` | 削除 | 削除 |
+| Journal | 保持 | 保持 |
+| DB エントリ | 削除 | 削除 |
+
+戦略を「完全に消したい」ときは `purge`、戦略 JSON を残して結果ファイルだけ片付けたいときは `delete --with-results` を使います。
 
 ---
 

@@ -67,7 +67,7 @@ While running in a TTY, a Rich-powered progress bar is shown on stderr. The back
 | `メトリクス算出` (Metrics) | Compute Sharpe / MDD / win rate, etc. |
 | `レジーム分析` (Regime) | Compute per-regime metrics (no-op when not configured) |
 
-When `--json` is passed, or when stderr is not a TTY (CI, pipes, files), the progress bar is automatically suppressed so that stdout remains pure JSON.
+The progress bar is rendered on **stderr**, so combining it with `--json` keeps stdout as pure JSON (when `--json` is passed and stderr is a TTY, the dashboard is still drawn on stderr). When stderr is not a TTY (CI, pipes, redirected files), the progress bar is automatically suppressed. This way, `--json` invocations from agent loops like `/explore-strategies` show progress in interactive terminals without polluting CI logs.
 
 ### Sample output (text)
 
@@ -464,6 +464,9 @@ Signal days per regime:
 ```
 
 If 0 signals, `⚠️  No signals generated` is printed.
+
+!!! note "Strategies that reference external symbols"
+    For strategies that reference external symbols (e.g. `^VIX`, `USDJPY=X`), `signal-count` now applies the same `merge_external_symbols()` step used by `forge backtest run` / `forge optimize run` before counting signals. The bug (#266) where `entry_signal_days` would always be `0` for external-symbol strategies has been fixed.
 
 ### Common errors
 

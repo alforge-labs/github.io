@@ -15,6 +15,7 @@ Create, register, validate, and manage strategy JSON definitions. Covers scaffol
 | [`forge strategy show`](#forge-strategy-show) | Display the definition (JSON) of a registered strategy |
 | [`forge strategy migrate`](#forge-strategy-migrate) | Import existing JSON files into the DB |
 | [`forge strategy delete`](#forge-strategy-delete) | Delete a registered strategy from the DB |
+| [`forge strategy purge`](#forge-strategy-purge) | Purge the strategy JSON, related results, and DB entry in a single command |
 | [`forge strategy validate`](#forge-strategy-validate) | Validate strategy logical consistency |
 
 ---
@@ -282,6 +283,69 @@ Files deleted: 3
 |---------|-------|-----|
 | `Error: strategy '<id>' not found` | Invalid ID | Verify with `forge strategy list` |
 | `Cancelled` | Declined the prompt | Use `--force` or re-confirm |
+
+---
+
+## forge strategy purge
+
+Purge the strategy JSON, related files (`_optimized.json`, `_report.json`, `optimize_<id>_*.json`), and DB entry **in a single command**. Replaces the previous three-step `rm <strategy>.json && rm <strategy>_report.json && forge strategy delete <id> --force` workflow. Journal files (`<id>.journal.json`) are preserved.
+
+### Synopsis
+
+```bash
+forge strategy purge <STRATEGY_ID> [--dry-run]
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `STRATEGY_ID` | argument (required) | - | Strategy ID to purge completely |
+| `--dry-run` | flag | false | Only list the files that would be deleted; do not actually delete them |
+
+### Sample output
+
+`--dry-run`:
+
+```text
+[dry-run] Targets:
+  - data/strategies/my_strategy_v1.json
+  - data/strategies/my_strategy_v1_optimized.json
+  - data/results/my_strategy_v1_report.json
+  - data/results/optimize_my_strategy_v1_20260415_103021.json
+  - DB entry: my_strategy_v1
+  Note: data/journal/my_strategy_v1.journal.json is preserved
+```
+
+Normal run:
+
+```text
+Targets: my_strategy_v1
+
+  ✓ data/strategies/my_strategy_v1.json
+  ✓ data/strategies/my_strategy_v1_optimized.json
+  ✓ data/results/my_strategy_v1_report.json
+  ✓ data/results/optimize_my_strategy_v1_20260415_103021.json
+  - data/journal/my_strategy_v1.journal.json (preserved)
+
+Continue? [y/N]: y
+✅ Strategy 'my_strategy_v1' has been purged
+```
+
+Missing files are reported as warnings only and do not abort the command.
+
+### Differences vs. `delete --with-results`
+
+| Aspect | `delete --with-results` | `purge` |
+|--------|-------------------------|---------|
+| Strategy JSON | Kept | Deleted |
+| `<id>_optimized.json` | Deleted | Deleted |
+| `<id>_report.json` | Deleted | Deleted |
+| `optimize_<id>_*.json` | Deleted | Deleted |
+| Journal | Preserved | Preserved |
+| DB entry | Deleted | Deleted |
+
+Use `purge` to wipe a strategy completely; use `delete --with-results` when you want to keep the strategy JSON but clean up related result files.
 
 ---
 

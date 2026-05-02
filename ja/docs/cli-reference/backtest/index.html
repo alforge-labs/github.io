@@ -3238,7 +3238,7 @@
 </tr>
 </tbody>
 </table>
-<p><code>--json</code> 指定時、または stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合、stdout の純粋性を保つためプログレスバーは自動で抑制されます。CI 上での <code>forge backtest run ... --json</code> は引き続き安全に JSON のみを出力します。</p>
+<p>プログレスバーは <strong>stderr</strong> に描画されるため、<code>--json</code> を併用しても stdout は純粋な JSON のみが出力されます（<code>--json</code> 指定時かつ stderr が TTY のときは進捗バーを stderr に出します）。stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合は自動で抑制されます。これにより <code>/explore-strategies</code> などのエージェント経由の <code>--json</code> 実行でも、対話端末では進捗が可視化されつつ、CI ではログが汚染されません。</p>
 <h3 id="_4">出力例（テキスト）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>バックテストを実行中: SPY x sma_crossover_v1
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>✅ バックテスト完了  信号品質スコア: 0.78/1.0
@@ -3938,6 +3938,10 @@
 <a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>  state=1    :   375 日 ( 29.8%)
 </code></pre></div>
 <p>シグナルが 0 件の場合 <code>⚠️  シグナルが発生していません</code> の警告が表示されます。</p>
+<div class="admonition note">
+<p class="admonition-title">外部シンボルを参照する戦略について</p>
+<p><code>^VIX</code> や <code>USDJPY=X</code> などの外部シンボルを参照する戦略でも、<code>forge backtest run</code> / <code>forge optimize run</code> と同等の <code>merge_external_symbols()</code> 処理を内部で適用してからシグナルを集計します。これにより、外部シンボル戦略で <code>entry_signal_days: 0</code> が誤って返るバグ（#266）は解消されています。</p>
+</div>
 <h3 id="_39">主なエラー<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
