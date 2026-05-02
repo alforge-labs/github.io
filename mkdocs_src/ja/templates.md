@@ -474,7 +474,7 @@ forge live compare <STRATEGY_ID>
 
 - [はじめに](getting-started.md) — シンプルな SMA クロス戦略から始める
 - [CLI リファレンス](cli-reference/index.md) — `forge` コマンドの全パラメータ
-- [AI エージェント連携](ai-driven-forges.md) — Claude Code / Codex で戦略を自動生成
+- [AI 駆動の戦略探索ワークフロー](guides/ai-exploration-workflow.md) — Claude Code / Codex で戦略を自動生成
 
 ---
 

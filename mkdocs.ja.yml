@@ -42,6 +42,7 @@ plugins:
       lang: ja
 
 markdown_extensions:
+  - attr_list
   - admonition
   - pymdownx.details
   - pymdownx.superfences
@@ -62,7 +63,7 @@ nav:
       - 実行結果と成果物サンプル: guides/output-examples.md
       - TradingView への Pine Script 反映: guides/tradingview-pine-integration.md
       - TradingView と alpha-strike の連携: guides/tradingview-alpha-strike.md
-      - AI エージェント連携: ai-driven-forges.md
+      - AI 駆動の戦略探索ワークフロー: guides/ai-exploration-workflow.md
       - 目的別ユースケース:
           - 概要: usecases/index.md
           - TradingViewユーザー: usecases/tradingview.md

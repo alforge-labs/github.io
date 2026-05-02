@@ -474,7 +474,7 @@ See [`forge live compare`](cli-reference/live.md#forge-live-compare).
 
 - [Getting Started](getting-started.md) — Start with a simple SMA crossover
 - [CLI Reference](cli-reference/index.md) — All `forge` command parameters
-- [AI Agent Integration](ai-driven-forges.md) — Generate strategies with Claude Code / Codex
+- [AI-Driven Strategy Exploration Workflow](guides/ai-exploration-workflow.md) — Generate strategies with Claude Code / Codex
 
 ---
 

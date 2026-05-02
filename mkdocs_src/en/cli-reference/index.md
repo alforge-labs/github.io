@@ -72,7 +72,7 @@ forge backtest run --help            # Detailed parameters for a specific subcom
 
 - [Getting Started](../getting-started.md) — Tutorial covering installation through your first backtest
 - [Strategy Templates](../templates.md) — Bundled strategies overview
-- [AI Agent Integration](../ai-driven-forges.md) — Claude Code / Codex × AlphaForge
+- [AI-Driven Strategy Exploration Workflow](../guides/ai-exploration-workflow.md) — Claude Code / Codex × AlphaForge
 
 ---
 

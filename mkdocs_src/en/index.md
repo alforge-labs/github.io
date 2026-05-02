@@ -17,7 +17,7 @@ This documentation walks through installation, strategy development, and integra
 - [Use Cases by Goal](usecases/index.md) — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)
 - [CLI Reference](cli-reference/index.md) — Every `forge` command with parameters and output examples
 - [Strategy Templates](templates.md) — Combination strategies like HMM × BB × RSI with concrete JSON
-- [AI Agent Integration](ai-driven-forges.md) — A how-to for autonomous strategy development with Claude Code / Codex × AlphaForge
+- [AI-Driven Strategy Exploration Workflow](guides/ai-exploration-workflow.md) — A how-to for autonomous strategy development with Claude Code / Codex × AlphaForge
 - [Legal & Disclaimers](legal/disclaimers.md) — Disclaimers, EULA, and Privacy Policy
 
 ## Related links
