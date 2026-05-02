@@ -1582,6 +1582,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#is-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS 取引不足の早期警告と [WARNING] マーク
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#rich" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1597,6 +1608,17 @@
     <span class="md-ellipsis">
       
         サンプル出力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-json_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        --json 出力に追加されるフィールド
       
     </span>
   </a>
@@ -2517,6 +2539,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#is-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS 取引不足の早期警告と [WARNING] マーク
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#rich" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2532,6 +2565,17 @@
     <span class="md-ellipsis">
       
         サンプル出力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-json_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        --json 出力に追加されるフィールド
       
     </span>
   </a>
@@ -3289,8 +3333,23 @@
 <td><code>5</code></td>
 <td>ウィンドウ数</td>
 </tr>
+<tr>
+<td><code>--min-window-trades</code></td>
+<td>int</td>
+<td>-</td>
+<td>IS 期間の取引数が N 件未満のウィンドウをスキップして平均から除外する。シグナル発生回数が少ない戦略でウィンドウ全体が <code>-∞</code> に陥るのを防ぐ</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>フラグ</td>
+<td>false</td>
+<td>結果を JSON 形式で標準出力</td>
+</tr>
 </tbody>
 </table>
+<h3 id="is-warning">IS 取引不足の早期警告と <code>[WARNING]</code> マーク<a class="headerlink" href="#is-warning" title="Permanent link">&para;</a></h3>
+<p>すべての IS（イン・サンプル）ウィンドウで <code>in_sample_metric</code> が <code>-∞</code> になった場合、stderr に「シグナル不足」を示す早期警告が表示されます。また、IS 有効ウィンドウ数が全体の過半数を下回ると、サマリ行に <code>[WARNING]</code> マークが付与され、結果の信頼性が低い可能性を強調します。</p>
+<p><code>--min-window-trades N</code> を指定すると、IS 期間の取引数が N 件未満のウィンドウをスキップして平均から除外できます。</p>
 <h3 id="rich">進捗表示（Rich プログレスバー）<a class="headerlink" href="#rich" title="Permanent link">&para;</a></h3>
 <p><code>forge optimize walk-forward</code> の実行中は、ウォークフォワード専用の 2 段プログレスバーが表示されます。</p>
 <ul>
@@ -3312,7 +3371,7 @@
 <a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>╰────────────────────────────────────────────────────────────────────╯
 <a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>Mean OOS: 0.5899   Best window: #2 (1.0307)   Failures: 0
 </code></pre></div>
-<p><code>--json</code> 指定時は UI が抑制され、JSON 出力のみとなります。CI 等の非 TTY 環境でも <code>--json</code> の使用を推奨します。</p>
+<p>プログレスバーとダッシュボードはすべて <strong>stderr</strong> に描画されます。<code>--json</code> を指定しても stderr が TTY であれば進捗が表示され、stdout の純粋な JSON 出力は維持されます。stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合は自動で抑制されます。CI で確実に静音化したい場合はこの挙動が利用できます。</p>
 <h3 id="_20">サンプル出力<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ウォークフォワード最適化を実行中: SPY x sma_v1 (5ウィンドウ)
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>✅ ウォークフォワード完了
@@ -3328,6 +3387,66 @@
 <p>すべてのウィンドウが無効な場合：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>⚠️  有効なウィンドウが 0 件でした（5 ウィンドウ中）。 データ量またはウィンドウ数を調整してください。
 </code></pre></div>
+<h3 id="-json_2"><code>--json</code> 出力に追加されるフィールド<a class="headerlink" href="#-json_2" title="Permanent link">&para;</a></h3>
+<p>WFT の <code>--json</code> 出力には、ウィンドウ単位のフィールドに加えて、IS 側の妥当性を示すサマリフィールドが含まれます。</p>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>is_total_trades</code></td>
+<td>int (各 window 内)</td>
+<td>IS 期間の取引数</td>
+</tr>
+<tr>
+<td><code>is_valid_windows</code></td>
+<td>int</td>
+<td>有効な IS ウィンドウ数</td>
+</tr>
+<tr>
+<td><code>all_is_invalid</code></td>
+<td>bool</td>
+<td>全 IS ウィンドウが <code>-∞</code>（取引不足）になった場合に <code>true</code></td>
+</tr>
+<tr>
+<td><code>skip_reason</code></td>
+<td>string | null (各 window 内)</td>
+<td>スキップ要因（後述）</td>
+</tr>
+</tbody>
+</table>
+<p><code>skip_reason</code> は探索エージェントがウィンドウ無効の原因を判別するために使えます。</p>
+<table>
+<thead>
+<tr>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>null</code></td>
+<td>有効なウィンドウ</td>
+</tr>
+<tr>
+<td><code>"is_trades_insufficient"</code></td>
+<td>IS 期間の取引数が <code>--min-window-trades</code> 未満（取引頻度不足）</td>
+</tr>
+<tr>
+<td><code>"oos_metric_invalid"</code></td>
+<td>OOS メトリクスが <code>±∞</code> または NaN（シグナル品質の問題）</td>
+</tr>
+<tr>
+<td><code>"oos_trades_zero"</code></td>
+<td>OOS 期間の取引数が 0（シグナルなし）</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="forge-optimize-apply">forge optimize apply<a class="headerlink" href="#forge-optimize-apply" title="Permanent link">&para;</a></h2>
 <p><code>forge optimize run</code> などで保存された結果 JSON を読み込み、<code>best_params</code> を戦略に適用して <strong><code>&lt;id&gt;_optimized</code></strong> として保存する。</p>
@@ -3626,7 +3745,7 @@
 <td><code>--min-trades</code></td>
 <td>int</td>
 <td><code>optimizer_config.constraints.min_trades</code>（あれば）</td>
-<td>最低取引数で trial 除外。未指定時は戦略の <code>optimizer_config.constraints.min_trades</code> を自動適用（<code>--min-trades</code> 明示時は CLI 値が優先）</td>
+<td>最低取引数で trial 除外。未指定時は戦略の <code>optimizer_config.constraints.min_trades</code> を自動適用（<code>--min-trades</code> 明示時は CLI 値が優先）。なお <code>total_trades=0</code> の trial は <code>--min-trades</code> の有無に関わらず<strong>常に除外</strong>される</td>
 </tr>
 <tr>
 <td><code>--max-drawdown</code></td>
@@ -3642,6 +3761,10 @@
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">ゼロ取引 trial と <code>±inf</code> メトリクスの取り扱い</p>
+<p>取引が 1 件も発生しなかった trial は実運用価値がないため、<code>--min-trades</code> を指定していなくてもデフォルトで除外されます。また、Sharpe など <code>±inf</code> を返したセルは Top-K 表で <code>—</code>（ダッシュ）として表示され、ソート順では NaN として最後尾に配置されます。これにより「<code>Sharpe=∞ / total_trades=0</code>」のパラメータが Top-1 に紛れ込む不具合は発生しません。</p>
+</div>
 <h3 id="rich_1">進捗表示（Rich プログレスバー）<a class="headerlink" href="#rich_1" title="Permanent link">&para;</a></h3>
 <p>Grid Search 実行中は Rich のリアルタイムダッシュボードがコンソールに描画されます（<code>forge backtest run</code> / <code>forge optimize run</code> と同じ UI パターン）。</p>
 <ul>
@@ -3650,7 +3773,7 @@
 <li><strong>Scoreboard</strong>: 現在処理中の trial（<code>Current</code> 行: params + score）と、ここまでの最良値（<code>Best</code> 行: trial 番号 + score + params）。ベスト更新時は <code>BEST ★</code> の強調表示</li>
 <li><strong>フッター</strong>: 失敗 trial の累計（<code>Failures: N</code>）</li>
 </ul>
-<p><code>--json</code> を指定するとダッシュボードは抑制され、Top-K の JSON のみが標準出力に書き出されます（CI/パイプライン用途向け）。失敗 trial が混在しても run は中断せず、Current 行は赤色で上書きされ Failures カウントが進みます。</p>
+<p>ダッシュボードは <strong>stderr</strong> に描画されます。<code>--json</code> を指定しても stderr が TTY であれば進捗が表示され、stdout には Top-K の純粋な JSON のみが書き出されます（CI/パイプライン用途）。stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合はダッシュボードが自動で抑制されます。失敗 trial が混在しても run は中断せず、Current 行は赤色で上書きされ Failures カウントが進みます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>╰──────────────────────────────────────────────────────────────────────────╯

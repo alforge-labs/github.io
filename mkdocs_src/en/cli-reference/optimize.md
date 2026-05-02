@@ -250,6 +250,14 @@ forge optimize walk-forward <SYMBOL> --strategy <ID> [OPTIONS]
 | `--strategy` | required | - | Strategy name |
 | `--metric` | option | `sharpe_ratio` | Metric to optimize |
 | `--windows` | int | `5` | Number of windows |
+| `--min-window-trades` | int | - | Skip windows whose IS trade count is below N and exclude them from the mean. Useful for low-frequency strategies that would otherwise drop entire windows to `-∞` |
+| `--json` | flag | false | Output results as JSON |
+
+### Early warning for IS trade insufficiency and the `[WARNING]` mark
+
+If every in-sample window evaluates `in_sample_metric` to `-∞`, AlphaForge prints an early warning to stderr indicating that signal coverage is insufficient. In addition, when the number of valid IS windows falls below half of the total, the summary row is annotated with a `[WARNING]` mark to flag low confidence in the results.
+
+Pass `--min-window-trades N` to skip windows whose IS trade count is below N and exclude them from the mean.
 
 ### Live progress dashboard (Rich)
 
@@ -276,7 +284,7 @@ Windows       ████████████████░░░░░░
 Mean OOS: 0.5899   Best window: #2 (1.0307)   Failures: 0
 ```
 
-Pass `--json` to suppress the dashboard and emit JSON only. `--json` is recommended for CI and other non-TTY environments.
+All progress bars and dashboards are rendered on **stderr**. Even with `--json`, the dashboard is shown when stderr is a TTY, while stdout stays as pure JSON. When stderr is not a TTY (CI, pipes, redirected files), the dashboard is automatically suppressed — useful when you want CI logs to stay quiet.
 
 ### Sample output
 
@@ -298,6 +306,26 @@ When all windows are invalid:
 ```text
 ⚠️  No valid windows found (5 total). Adjust the data range or number of windows.
 ```
+
+### Additional fields in `--json` output
+
+In addition to per-window fields, the `--json` output includes summary fields describing IS validity.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `is_total_trades` | int (per-window) | IS-period trade count |
+| `is_valid_windows` | int | Number of valid IS windows |
+| `all_is_invalid` | bool | `true` when every IS window evaluated to `-∞` (insufficient signals) |
+| `skip_reason` | string \| null (per-window) | Reason for skipping (see below) |
+
+`skip_reason` lets exploration agents distinguish why a window was invalidated.
+
+| Value | Meaning |
+|-------|---------|
+| `null` | Valid window |
+| `"is_trades_insufficient"` | IS trade count below `--min-window-trades` (frequency issue) |
+| `"oos_metric_invalid"` | OOS metric was `±∞` or NaN (signal-quality issue) |
+| `"oos_trades_zero"` | OOS-period trade count was 0 (no signal) |
 
 ---
 
@@ -449,9 +477,12 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 | `--yes` / `-y` | flag | false | Skip the overwrite confirmation when `<strategy_id>_optimized` already exists |
 | `--start` | option | - | Period filter start date `YYYY-MM-DD` |
 | `--end` | option | - | Period filter end date `YYYY-MM-DD` |
-| `--min-trades` | int | `optimizer_config.constraints.min_trades` (if defined) | Filter out trials below min trades. Auto-applied from strategy's `optimizer_config.constraints.min_trades` when omitted (CLI value takes priority if specified) |
+| `--min-trades` | int | `optimizer_config.constraints.min_trades` (if defined) | Filter out trials below min trades. Auto-applied from strategy's `optimizer_config.constraints.min_trades` when omitted (CLI value takes priority if specified). Trials with `total_trades=0` are **always excluded** regardless of this flag |
 | `--max-drawdown` | float | - | Filter out trials above MDD |
 | `--json` | flag | false | Output Top-K as JSON |
+
+!!! note "Zero-trade trials and `±inf` metrics"
+    Trials that produce zero trades have no real-world value and are excluded by default, even when `--min-trades` is omitted. Cells that evaluate to `±inf` (e.g. Sharpe) are rendered as `—` in the Top-K table and are sorted as NaN to the end. This prevents `Sharpe=∞ / total_trades=0` parameters from being selected as Top-1.
 
 ### Live progress display (Rich dashboard)
 
@@ -462,7 +493,7 @@ While Grid Search is running, a real-time Rich dashboard is rendered to the cons
 - **Scoreboard**: the trial currently being processed (`Current`: params + score) and the running Best (`Best`: trial number + score + params). Best updates are highlighted with a `BEST ★` marker
 - **Footer**: total number of failed trials (`Failures: N`)
 
-Passing `--json` suppresses the dashboard and writes only the Top-K JSON to stdout (for CI/pipeline use). When trials fail mid-run, the run continues; the Current row is repainted in red while the Failures counter advances.
+The dashboard is rendered on **stderr**. With `--json`, the dashboard still appears when stderr is a TTY while stdout receives only the pure Top-K JSON (for CI/pipeline use). When stderr is not a TTY (CI, pipes, redirected files), the dashboard is automatically suppressed. When trials fail mid-run, the run continues; the Current row is repainted in red while the Failures counter advances.
 
 ```text
 ╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮

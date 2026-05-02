@@ -67,7 +67,7 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `メトリクス算出` | Sharpe / MDD / 勝率などの計算 |
 | `レジーム分析` | レジーム別メトリクス分析（設定が無い場合は即時完了） |
 
-`--json` 指定時、または stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合、stdout の純粋性を保つためプログレスバーは自動で抑制されます。CI 上での `forge backtest run ... --json` は引き続き安全に JSON のみを出力します。
+プログレスバーは **stderr** に描画されるため、`--json` を併用しても stdout は純粋な JSON のみが出力されます（`--json` 指定時かつ stderr が TTY のときは進捗バーを stderr に出します）。stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合は自動で抑制されます。これにより `/explore-strategies` などのエージェント経由の `--json` 実行でも、対話端末では進捗が可視化されつつ、CI ではログが汚染されません。
 
 ### 出力例（テキスト）
 
@@ -464,6 +464,9 @@ forge backtest signal-count <SYMBOL> --strategy <ID> [--period 5y] [--json]
 ```
 
 シグナルが 0 件の場合 `⚠️  シグナルが発生していません` の警告が表示されます。
+
+!!! note "外部シンボルを参照する戦略について"
+    `^VIX` や `USDJPY=X` などの外部シンボルを参照する戦略でも、`forge backtest run` / `forge optimize run` と同等の `merge_external_symbols()` 処理を内部で適用してからシグナルを集計します。これにより、外部シンボル戦略で `entry_signal_days: 0` が誤って返るバグ（#266）は解消されています。
 
 ### 主なエラー
 

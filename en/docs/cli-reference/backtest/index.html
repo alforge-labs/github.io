@@ -3238,7 +3238,7 @@
 </tr>
 </tbody>
 </table>
-<p>When <code>--json</code> is passed, or when stderr is not a TTY (CI, pipes, files), the progress bar is automatically suppressed so that stdout remains pure JSON.</p>
+<p>The progress bar is rendered on <strong>stderr</strong>, so combining it with <code>--json</code> keeps stdout as pure JSON (when <code>--json</code> is passed and stderr is a TTY, the dashboard is still drawn on stderr). When stderr is not a TTY (CI, pipes, redirected files), the progress bar is automatically suppressed. This way, <code>--json</code> invocations from agent loops like <code>/explore-strategies</code> show progress in interactive terminals without polluting CI logs.</p>
 <h3 id="sample-output-text">Sample output (text)<a class="headerlink" href="#sample-output-text" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Running backtest: SPY x sma_crossover_v1
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>✅ Backtest complete  Signal quality score: 0.78/1.0
@@ -3938,6 +3938,10 @@
 <a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>  state=1    :   375 days ( 29.8%)
 </code></pre></div>
 <p>If 0 signals, <code>⚠️  No signals generated</code> is printed.</p>
+<div class="admonition note">
+<p class="admonition-title">Strategies that reference external symbols</p>
+<p>For strategies that reference external symbols (e.g. <code>^VIX</code>, <code>USDJPY=X</code>), <code>signal-count</code> now applies the same <code>merge_external_symbols()</code> step used by <code>forge backtest run</code> / <code>forge optimize run</code> before counting signals. The bug (#266) where <code>entry_signal_days</code> would always be <code>0</code> for external-symbol strategies has been fixed.</p>
+</div>
 <h3 id="common-errors_5">Common errors<a class="headerlink" href="#common-errors_5" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
