@@ -95,7 +95,7 @@ forge logout
 
 ## init
 
-作業ディレクトリを初期化します。`forge.yaml`、データディレクトリ、ドキュメント、Claude Code 統合ファイルを作成。
+作業ディレクトリを初期化します。`forge.yaml`、データディレクトリ、ドキュメント、AI アシスタント統合ファイルを作成。
 
 ### 構文
 
@@ -108,11 +108,19 @@ forge init [OPTIONS]
 | 名前 | 種別 | デフォルト | 説明 |
 |------|------|----------|------|
 | `--force` / `-f` | フラグ | false | 既存ファイルを確認なしで上書き |
-| `--no-claude` | フラグ | false | Claude Code 統合ファイルのセットアップをスキップ |
+| `--no-claude` | フラグ | false | AI アシスタント統合ファイルのセットアップをスキップ |
 
 ### 作成されるディレクトリ
 
 - `data/historical/`、`data/strategies/`、`data/results/`、`data/journal/`、`data/ideas/`、`output/pinescript/`
+
+### インストールされる AI 統合ファイル
+
+| 出力先 | 内容 |
+|--------|------|
+| `.claude/skills/` | Claude Code スキル（forge-backtest, forge-analyze, forge-data） |
+| `.claude/commands/` | Claude Code スラッシュコマンド（explore-strategies, grid-tune 他 6 件） |
+| `.codex/commands/` | Codex スラッシュコマンド（explore-strategies, grid-tune 他 6 件） |
 
 ### サンプル出力
 
@@ -133,12 +141,15 @@ AlphaForge: 作業ディレクトリを初期化します...
   ✓ docs/user-guide.ja.md
   ...
 
-[4/4] Claude Code 統合ファイル
-  ✓ .claude/skills/explore-strategies/SKILL.md
+[4/4] AI アシスタント統合ファイル
+  ✓ .claude/skills/forge-backtest/SKILL.md
   ✓ .claude/commands/explore-strategies.md
+  ✓ .claude/commands/grid-tune.md
+  ✓ .codex/commands/explore-strategies.md
+  ✓ .codex/commands/grid-tune.md
   ...
 
-完了: 18 件を作成, 2 件をスキップ
+完了: 24 件を作成, 2 件をスキップ
 
 次のステップ:
   1. forge.yaml を編集して設定をカスタマイズしてください

@@ -1556,6 +1556,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        インストールされる AI 統合ファイル
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2324,6 +2335,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        インストールされる AI 統合ファイル
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2871,7 +2893,7 @@
 <p>ログアウトしてローカルの認証情報を削除します。引数・オプションなし。</p>
 <hr />
 <h2 id="init">init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
-<p>作業ディレクトリを初期化します。<code>forge.yaml</code>、データディレクトリ、ドキュメント、Claude Code 統合ファイルを作成。</p>
+<p>作業ディレクトリを初期化します。<code>forge.yaml</code>、データディレクトリ、ドキュメント、AI アシスタント統合ファイルを作成。</p>
 <h3 id="_3">構文<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>init<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
@@ -2896,7 +2918,7 @@
 <td><code>--no-claude</code></td>
 <td>フラグ</td>
 <td>false</td>
-<td>Claude Code 統合ファイルのセットアップをスキップ</td>
+<td>AI アシスタント統合ファイルのセットアップをスキップ</td>
 </tr>
 </tbody>
 </table>
@@ -2904,6 +2926,29 @@
 <ul>
 <li><code>data/historical/</code>、<code>data/strategies/</code>、<code>data/results/</code>、<code>data/journal/</code>、<code>data/ideas/</code>、<code>output/pinescript/</code></li>
 </ul>
+<h3 id="ai">インストールされる AI 統合ファイル<a class="headerlink" href="#ai" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>出力先</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.claude/skills/</code></td>
+<td>Claude Code スキル（forge-backtest, forge-analyze, forge-data）</td>
+</tr>
+<tr>
+<td><code>.claude/commands/</code></td>
+<td>Claude Code スラッシュコマンド（explore-strategies, grid-tune 他 6 件）</td>
+</tr>
+<tr>
+<td><code>.codex/commands/</code></td>
+<td>Codex スラッシュコマンド（explore-strategies, grid-tune 他 6 件）</td>
+</tr>
+</tbody>
+</table>
 <h3 id="_6">サンプル出力<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>AlphaForge: 作業ディレクトリを初期化します...
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
@@ -2921,17 +2966,20 @@
 <a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>  ✓ docs/user-guide.ja.md
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>  ...
 <a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>[4/4] Claude Code 統合ファイル
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>  ✓ .claude/skills/explore-strategies/SKILL.md
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>[4/4] AI アシスタント統合ファイル
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>  ✓ .claude/skills/forge-backtest/SKILL.md
 <a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>  ✓ .claude/commands/explore-strategies.md
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>  ...
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>完了: 18 件を作成, 2 件をスキップ
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>次のステップ:
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>  1. forge.yaml を編集して設定をカスタマイズしてください
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>  2. 以下を ~/.zshrc / ~/.bashrc に追加してください:
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>     export FORGE_CONFIG=/path/to/forge.yaml
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>  ✓ .claude/commands/grid-tune.md
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>  ✓ .codex/commands/explore-strategies.md
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>  ✓ .codex/commands/grid-tune.md
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>  ...
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>完了: 24 件を作成, 2 件をスキップ
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>次のステップ:
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>  1. forge.yaml を編集して設定をカスタマイズしてください
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>  2. 以下を ~/.zshrc / ~/.bashrc に追加してください:
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>     export FORGE_CONFIG=/path/to/forge.yaml
 </code></pre></div>
 <hr />
 <h2 id="pine">pine<a class="headerlink" href="#pine" title="Permanent link">&para;</a></h2>
