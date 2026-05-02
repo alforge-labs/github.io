@@ -865,12 +865,12 @@
   <a href="#step-1-explore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Exploration phase (/explore-strategies / /explore-strategies-loop)
+        Step 1: Exploration phase (/explore-strategies)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 1: Exploration phase (/explore-strategies / /explore-strategies-loop)">
+    <nav class="md-nav" aria-label="Step 1: Exploration phase (/explore-strategies)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -907,10 +907,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#loop-operation-and-rate-limit-handling" class="md-nav__link">
+  <a href="#continuous-runs-and-rate-limit-handling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Loop operation and rate limit handling
+        Continuous runs and rate limit handling
       
     </span>
   </a>
@@ -2051,12 +2051,12 @@
   <a href="#step-1-explore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Exploration phase (/explore-strategies / /explore-strategies-loop)
+        Step 1: Exploration phase (/explore-strategies)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 1: Exploration phase (/explore-strategies / /explore-strategies-loop)">
+    <nav class="md-nav" aria-label="Step 1: Exploration phase (/explore-strategies)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2093,10 +2093,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#loop-operation-and-rate-limit-handling" class="md-nav__link">
+  <a href="#continuous-runs-and-rate-limit-handling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Loop operation and rate limit handling
+        Continuous runs and rate limit handling
       
     </span>
   </a>
@@ -2362,7 +2362,7 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ↓
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Choose a starting point (pick one of 3 exploration scenarios)
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  ↓
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Step 1: /explore-strategies (or /explore-strategies-loop)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Step 1: /explore-strategies [--goal &lt;name&gt;] [--runs N]
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  └─ Auto backtest → optimize → WFT for each symbol × indicator combo
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>     Pre-filter: Sharpe ≥ 1.0 AND MaxDD ≤ 25%
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  ↓
@@ -2420,20 +2420,22 @@
 </ol>
 <p><strong>Tip</strong>: Paper strategies often fail to reproduce when "data period", "symbol", or "transaction costs" differ. Letting the agent <strong>soberly compare</strong> "claimed" vs "real" results acts as a reality filter.</p>
 <hr />
-<h2 id="step-1-explore">Step 1: Exploration phase (<code>/explore-strategies</code> / <code>/explore-strategies-loop</code>)<a class="headerlink" href="#step-1-explore" title="Permanent link">&para;</a></h2>
-<p><strong>Purpose</strong>: Find a strategy meeting target metrics from <code>goals.yaml</code> (e.g., Sharpe ≥ 1.5) by trying <strong>untried indicator × symbol combinations</strong>.</p>
+<h2 id="step-1-explore">Step 1: Exploration phase (<code>/explore-strategies</code>)<a class="headerlink" href="#step-1-explore" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Find a strategy meeting target metrics from <code>goals/&lt;goal_name&gt;/goals.yaml</code> (e.g., Sharpe ≥ 1.5) by trying <strong>untried indicator × symbol combinations</strong>.</p>
 <h3 id="steps-summary">Steps (summary)<a class="headerlink" href="#steps-summary" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Pre-flight</strong>: Read <code>data/explorer/goals.yaml</code>, <code>explored_log.md</code>, and existing strategy JSON files; identify untried combinations</li>
+<li><strong>Pre-flight</strong>: Read <code>goals/&lt;goal_name&gt;/goals.yaml</code>, <code>goals/&lt;goal_name&gt;/explored_log.md</code>, and existing strategy JSON files; identify untried combinations</li>
 <li><strong>Strategy generation</strong>: Pick one indicator × symbol combo, generate the strategy JSON, and save under <code>data/strategies/&lt;name&gt;.json</code></li>
 <li><strong>Register → validate</strong>: <code>forge strategy save</code> → <code>forge strategy validate</code> for logical consistency (rollback on failure)</li>
 <li><strong>Signal count check</strong>: <code>forge backtest signal-count &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code>; skip if <code>entry_signal_days = 0</code></li>
 <li><strong>Backtest</strong>: <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code></li>
 <li><strong>Optimize only when pre-filter passes</strong>: <code>Sharpe ≥ 1.0 &amp;&amp; MaxDD ≤ 25%</code> triggers <code>forge optimize run</code> + <code>forge optimize walk-forward --windows 5</code></li>
-<li><strong>Record outcome</strong>: Append to <code>explored_log.md</code> and <code>reports/YYYY-MM-DD.md</code>. On failure, delete strategy JSON / DB entry / result JSON (idempotency)</li>
+<li><strong>Record outcome</strong>: Append to <code>goals/&lt;goal_name&gt;/explored_log.md</code> and <code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code>. On failure, delete strategy JSON / DB entry / result JSON (idempotency)</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&gt; /explore-strategies       # One cycle
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&gt; /explore-strategies-loop  # Repeat until rate limit or all combinations exhausted
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&gt; /explore-strategies                          # One run (default goal)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&gt; /explore-strategies --goal stocks            # Specify goal
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>&gt; /explore-strategies --runs 3                 # 3 runs in sequence
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>&gt; /explore-strategies --goal crypto --runs 0   # Loop until rate limit or all combinations exhausted
 </code></pre></div>
 <h3 id="passfail-criteria">Pass/fail criteria<a class="headerlink" href="#passfail-criteria" title="Permanent link">&para;</a></h3>
 <table>
@@ -2450,14 +2452,14 @@
 </tr>
 <tr>
 <td>WFT final pass</td>
-<td>All-window mean WFT Sharpe ≥ <code>target_metrics.sharpe_ratio</code> in <code>goals.yaml</code></td>
+<td>All-window mean WFT Sharpe ≥ <code>target_metrics.sharpe_ratio</code> in <code>goals/&lt;goal_name&gt;/goals.yaml</code></td>
 </tr>
 </tbody>
 </table>
 <h3 id="idempotency">Idempotency<a class="headerlink" href="#idempotency" title="Permanent link">&para;</a></h3>
-<p><code>explored_log.md</code> acts as the checkpoint, so re-runs never re-explore the same combination. Safe to interrupt and resume at any time.</p>
-<h3 id="loop-operation-and-rate-limit-handling">Loop operation and rate limit handling<a class="headerlink" href="#loop-operation-and-rate-limit-handling" title="Permanent link">&para;</a></h3>
-<p><code>/explore-strategies-loop</code> repeats automatically until rate limit is hit.</p>
+<p><code>goals/&lt;goal_name&gt;/explored_log.md</code> acts as the checkpoint, so re-runs never re-explore the same combination within a goal. Safe to interrupt and resume at any time.</p>
+<h3 id="continuous-runs-and-rate-limit-handling">Continuous runs and rate limit handling<a class="headerlink" href="#continuous-runs-and-rate-limit-handling" title="Permanent link">&para;</a></h3>
+<p>Use <code>--runs 0</code> to loop until a rate limit is hit or all combinations are exhausted.</p>
 <table>
 <thead>
 <tr>
@@ -2484,9 +2486,9 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition warning">
-<p class="admonition-title">Parallel runs not recommended</p>
-<p><code>/explore-strategies-loop</code> assumes <strong>serial execution</strong> because agents share <code>explored_log.md</code>. To parallelize, maintain separate <code>goals.yaml</code> files (different symbol sets) under separate directories and run each in a separate agent.</p>
+<div class="admonition tip">
+<p class="admonition-title">Parallel execution with multiple goals</p>
+<p>Goals are independent — each has its own <code>explored_log.md</code> under <code>goals/&lt;name&gt;/</code>. You can run different goals simultaneously in separate Claude Code sessions without conflicts. Backtest results are shared via <code>exploration.db</code>, so the same symbol × indicator combination is never backtested twice across goals.</p>
 </div>
 <hr />
 <h2 id="step-2-analyze">Step 2: Analysis &amp; narrowing down (<code>/analyze-exploration</code>)<a class="headerlink" href="#step-2-analyze" title="Permanent link">&para;</a></h2>
@@ -2495,7 +2497,7 @@
 </code></pre></div>
 <h3 id="processing">Processing<a class="headerlink" href="#processing" title="Permanent link">&para;</a></h3>
 <ol>
-<li>Read all of <code>explored_log.md</code> + <code>reports/*.md</code></li>
+<li>Read all of <code>goals/*/explored_log.md</code> + <code>goals/*/reports/*.md</code></li>
 <li>Build a <strong>per-symbol performance table</strong> (trials, max/avg Sharpe, min MaxDD, pass count)</li>
 <li>Build a <strong>per-indicator-set performance table</strong> (trials, avg/max Sharpe, pass rate)</li>
 <li><strong>Score untried combinations</strong> (0–10):<ul>
@@ -2552,7 +2554,7 @@
 </code></pre></div>
 <h3 id="steps_1">Steps<a class="headerlink" href="#steps_1" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Detect drift</strong>: <code>forge live list</code> → for each strategy ID, run <code>forge live compare &lt;strategy_id&gt;</code> and pick those exceeding <code>live_tuning.sharpe_drift_threshold</code> in <code>goals.yaml</code></li>
+<li><strong>Detect drift</strong>: <code>forge live list</code> → for each strategy ID, run <code>forge live compare &lt;strategy_id&gt;</code> and pick those exceeding <code>live_tuning.sharpe_drift_threshold</code> in <code>goals/&lt;goal_name&gt;/goals.yaml</code></li>
 <li><strong>Re-optimize</strong>: For each drifting strategy:<ul>
 <li><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;name&gt; --metric sharpe_ratio --save</code></li>
 <li><code>forge optimize walk-forward &lt;SYMBOL&gt; --strategy &lt;name&gt; --windows 5</code></li>
@@ -2565,16 +2567,29 @@
 <hr />
 <h2 id="key-files">Key files<a class="headerlink" href="#key-files" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>alpha-strategies/data/explorer/
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── goals.yaml                         # Target metrics and exploration scope
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>├── explored_log.md                    # Idempotent checkpoint of all explorations
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>├── reports/
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│   ├── YYYY-MM-DD.md                  # /explore-strategies daily report
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│   └── tuning-YYYY-MM-DD.md          # /tune-live-strategies report
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>└── analysis/
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    └── YYYY-MM-DD_HH-MM.md           # /analyze-exploration output
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── goals/
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>│   ├── default/                       # Default goal (used when --goal is omitted)
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│   │   ├── goals.yaml                 # Target metrics and exploration scope
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│   │   ├── explored_log.md            # Idempotent checkpoint for this goal
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│   │   └── reports/
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│   │       ├── YYYY-MM-DD.md          # /explore-strategies daily report
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>│   │       └── tuning-YYYY-MM-DD.md   # /tune-live-strategies report
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>│   ├── stocks/                        # US stocks / ETF goal
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>│   │   ├── goals.yaml
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>│   │   ├── explored_log.md
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>│   │   └── reports/
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>│   ├── commodities/                   # Commodities goal
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>│   │   └── ...
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>│   └── crypto/                        # Crypto goal
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>│       └── ...
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>├── exploration.db                     # Shared backtest result cache (all goals)
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>├── recommendations.yaml               # Next-candidate output from /analyze-exploration
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>└── analysis/
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    └── YYYY-MM-DD_HH-MM.md           # /analyze-exploration output
 </code></pre></div>
-<p><strong><code>goals.yaml</code></strong>: Defines target Sharpe, MaxDD, the set of symbols and indicator candidates, and <code>strategies_per_run</code>. Every slash command reads this file.</p>
-<p><strong><code>explored_log.md</code></strong>: Checkpoint recording every combination tried. As long as this file exists, the same combination will never be re-explored.</p>
+<p><strong><code>goals/&lt;goal_name&gt;/goals.yaml</code></strong>: Defines target Sharpe, MaxDD, the set of symbols and indicator candidates, and <code>strategies_per_run</code> for each goal. Pass <code>--goal &lt;name&gt;</code> to <code>/explore-strategies</code> to select a goal; defaults to <code>goals/default/</code>.</p>
+<p><strong><code>goals/&lt;goal_name&gt;/explored_log.md</code></strong>: Checkpoint recording every combination tried within a goal. As long as this file exists, the same combination will never be re-explored for that goal.</p>
+<p><strong><code>exploration.db</code></strong>: Shared SQLite cache across all goals. If the same symbol × indicator combination has already been backtested by any goal, the cached result is reused — no duplicate backtest runs.</p>
 <p><strong><code>recommendations.yaml</code></strong>: Next-candidate output from <code>/analyze-exploration</code>. <code>/explore-strategies</code> reads this file and prioritizes high-scoring combinations.</p>
 <hr />
 <h2 id="why-run-wft-after-optimization">Why run WFT after optimization?<a class="headerlink" href="#why-run-wft-after-optimization" title="Permanent link">&para;</a></h2>
@@ -2646,7 +2661,7 @@
 <li><a href="../../templates/">Strategy Templates</a> — Bundled strategies like HMM × BB × RSI</li>
 </ul>
 <hr />
-<!-- Synced from: slash-command definitions in `alpha-trade/.claude/commands/{explore-strategies,explore-strategies-loop,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md`. Agent comparison reflects April 2026. -->
+<!-- Synced from: slash-command definitions in `alpha-trade/.claude/commands/{explore-strategies,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md`. Agent comparison reflects April 2026. -->
 
 
 

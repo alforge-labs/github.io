@@ -865,12 +865,12 @@
   <a href="#step-1-explore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: 探索フェーズ（/explore-strategies / /explore-strategies-loop）
+        Step 1: 探索フェーズ（/explore-strategies）
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 1: 探索フェーズ（/explore-strategies / /explore-strategies-loop）">
+    <nav class="md-nav" aria-label="Step 1: 探索フェーズ（/explore-strategies）">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -910,7 +910,7 @@
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ループ運用とレートリミット対策
+        連続ランとレートリミット対策
       
     </span>
   </a>
@@ -2051,12 +2051,12 @@
   <a href="#step-1-explore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: 探索フェーズ（/explore-strategies / /explore-strategies-loop）
+        Step 1: 探索フェーズ（/explore-strategies）
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 1: 探索フェーズ（/explore-strategies / /explore-strategies-loop）">
+    <nav class="md-nav" aria-label="Step 1: 探索フェーズ（/explore-strategies）">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2096,7 +2096,7 @@
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ループ運用とレートリミット対策
+        連続ランとレートリミット対策
       
     </span>
   </a>
@@ -2362,7 +2362,7 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ↓
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>起点を決める（3 つの探索シナリオから選択）
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  ↓
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Step 1: /explore-strategies（または /explore-strategies-loop）
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Step 1: /explore-strategies [--goal &lt;name&gt;] [--runs N]
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  └─ 銘柄×指標を組み合わせてバックテスト→最適化→WFT を自動実行
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>     初期フィルタ: Sharpe ≥ 1.0 かつ MaxDD ≤ 25%
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  ↓
@@ -2420,20 +2420,22 @@
 </ol>
 <p><strong>ポイント</strong>: 論文の戦略は「データ期間」「銘柄」「取引コスト」が異なると再現性がないことが多い。AI が「論文の主張」と「実バックテスト結果」のギャップを <strong>冷静に評価</strong> することで、フィルタリング機能を果たします。</p>
 <hr />
-<h2 id="step-1-explore">Step 1: 探索フェーズ（<code>/explore-strategies</code> / <code>/explore-strategies-loop</code>）<a class="headerlink" href="#step-1-explore" title="Permanent link">&para;</a></h2>
-<p><strong>目的</strong>: <code>goals.yaml</code> で指定した目標指標（例: Sharpe ≥ 1.5）を満たす戦略を <strong>未試行の指標×銘柄組み合わせ</strong> から探す。</p>
+<h2 id="step-1-explore">Step 1: 探索フェーズ（<code>/explore-strategies</code>）<a class="headerlink" href="#step-1-explore" title="Permanent link">&para;</a></h2>
+<p><strong>目的</strong>: <code>goals/&lt;goal_name&gt;/goals.yaml</code> で指定した目標指標（例: Sharpe ≥ 1.5）を満たす戦略を <strong>未試行の指標×銘柄組み合わせ</strong> から探す。</p>
 <h3 id="_5">実行ステップ（要約）<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>事前確認</strong>: <code>data/explorer/goals.yaml</code>、<code>explored_log.md</code>、既存戦略 JSON を読み、未試行の組み合わせを把握</li>
+<li><strong>事前確認</strong>: <code>goals/&lt;goal_name&gt;/goals.yaml</code>、<code>goals/&lt;goal_name&gt;/explored_log.md</code>、既存戦略 JSON を読み、未試行の組み合わせを把握</li>
 <li><strong>戦略生成</strong>: 未試行の指標×銘柄を 1 つ選び、戦略 JSON を生成して <code>data/strategies/&lt;name&gt;.json</code> に保存</li>
 <li><strong>登録 → 検証</strong>: <code>forge strategy save</code> → <code>forge strategy validate</code> で論理整合性を確認（失敗時はロールバック）</li>
 <li><strong>シグナル件数チェック</strong>: <code>forge backtest signal-count &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code>　<code>entry_signal_days = 0</code> ならスキップ</li>
 <li><strong>バックテスト</strong>: <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code></li>
 <li><strong>初期フィルタ通過時のみ最適化</strong>: <code>Sharpe ≥ 1.0 &amp;&amp; MaxDD ≤ 25%</code> を満たせば <code>forge optimize run</code> + <code>forge optimize walk-forward --windows 5</code></li>
-<li><strong>合否記録</strong>: <code>explored_log.md</code> と <code>reports/YYYY-MM-DD.md</code> に追記。不合格は戦略 JSON / DB エントリ / 結果 JSON を全削除（冪等性確保）</li>
+<li><strong>合否記録</strong>: <code>goals/&lt;goal_name&gt;/explored_log.md</code> と <code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code> に追記。不合格は戦略 JSON / DB エントリ / 結果 JSON を全削除（冪等性確保）</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&gt; /explore-strategies       # 1 サイクル実行
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&gt; /explore-strategies-loop  # レートリミットまたは全組み合わせ消化まで連続実行
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&gt; /explore-strategies                          # 1 ラン実行（デフォルトゴール）
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&gt; /explore-strategies --goal stocks            # ゴールを指定
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>&gt; /explore-strategies --runs 3                 # 3 ラン連続実行
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>&gt; /explore-strategies --goal crypto --runs 0   # レートリミットまたは全組み合わせ消化まで連続実行
 </code></pre></div>
 <h3 id="_6">合否基準<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <table>
@@ -2450,14 +2452,14 @@
 </tr>
 <tr>
 <td>WFT 最終合格</td>
-<td>WFT 全ウィンドウ平均 Sharpe ≥ <code>goals.yaml</code> の <code>target_metrics.sharpe_ratio</code></td>
+<td>WFT 全ウィンドウ平均 Sharpe ≥ <code>goals/&lt;goal_name&gt;/goals.yaml</code> の <code>target_metrics.sharpe_ratio</code></td>
 </tr>
 </tbody>
 </table>
 <h3 id="_7">冪等性のポイント<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p><code>explored_log.md</code> がチェックポイントになるため、何度実行しても同じ組み合わせを重複探索しません。中断・再開は安全です。</p>
-<h3 id="_8">ループ運用とレートリミット対策<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p><code>/explore-strategies-loop</code> はレートリミット到達まで繰り返し自動実行します。</p>
+<p><code>goals/&lt;goal_name&gt;/explored_log.md</code> がチェックポイントになるため、同じゴール内で同じ組み合わせを重複探索しません。中断・再開は安全です。</p>
+<h3 id="_8">連続ランとレートリミット対策<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p><code>--runs 0</code> を指定するとレートリミット到達または全組み合わせ消化まで繰り返し実行されます。</p>
 <table>
 <thead>
 <tr>
@@ -2484,9 +2486,9 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition warning">
-<p class="admonition-title">並列実行は非推奨</p>
-<p><code>/explore-strategies-loop</code> は <code>explored_log.md</code> を共有するため <strong>直列実行が前提</strong> です。並列化する場合は、別の <code>goals.yaml</code>（別銘柄セット）を別ディレクトリに用意し、それぞれ別エージェントで回してください。</p>
+<div class="admonition tip">
+<p class="admonition-title">複数ゴールによる並列実行</p>
+<p>ゴールはそれぞれ独立しており、<code>goals/&lt;name&gt;/</code> 配下に専用の <code>explored_log.md</code> を持ちます。異なるゴールを別々の Claude Code セッションで同時実行しても競合しません。バックテスト結果は <code>exploration.db</code> を通じて全ゴールで共有されるため、同一の銘柄×指標の組み合わせが重複してバックテストされることもありません。</p>
 </div>
 <hr />
 <h2 id="step-2-analyze">Step 2: 分析・絞り込み（<code>/analyze-exploration</code>）<a class="headerlink" href="#step-2-analyze" title="Permanent link">&para;</a></h2>
@@ -2495,7 +2497,7 @@
 </code></pre></div>
 <h3 id="_9">処理内容<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <ol>
-<li><code>explored_log.md</code> + <code>reports/*.md</code> を全読み込み</li>
+<li><code>goals/*/explored_log.md</code> + <code>goals/*/reports/*.md</code> を全読み込み</li>
 <li><strong>銘柄別パフォーマンス表</strong>（試行数、最高/平均 Sharpe、最低 MaxDD、合格数）を生成</li>
 <li><strong>指標組み合わせ別パフォーマンス表</strong>（試行回数、平均/最高 Sharpe、合格率）を生成</li>
 <li><strong>未試行組み合わせのスコアリング</strong>（0–10 点）：<ul>
@@ -2552,7 +2554,7 @@
 </code></pre></div>
 <h3 id="_11">実行ステップ<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>乖離検出</strong>: <code>forge live list</code> → 各戦略 ID で <code>forge live compare &lt;strategy_id&gt;</code> を実行し、<code>goals.yaml</code> の <code>live_tuning.sharpe_drift_threshold</code> を超えたものを抽出</li>
+<li><strong>乖離検出</strong>: <code>forge live list</code> → 各戦略 ID で <code>forge live compare &lt;strategy_id&gt;</code> を実行し、<code>goals/&lt;goal_name&gt;/goals.yaml</code> の <code>live_tuning.sharpe_drift_threshold</code> を超えたものを抽出</li>
 <li><strong>再最適化</strong>: 乖離が大きい戦略ごとに：<ul>
 <li><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;name&gt; --metric sharpe_ratio --save</code></li>
 <li><code>forge optimize walk-forward &lt;SYMBOL&gt; --strategy &lt;name&gt; --windows 5</code></li>
@@ -2565,16 +2567,29 @@
 <hr />
 <h2 id="_12">キーファイルの役割<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>alpha-strategies/data/explorer/
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── goals.yaml                         # 目標指標と探索範囲を定義
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>├── explored_log.md                    # 全試行の冪等チェックポイント（重複防止）
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>├── reports/
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│   ├── YYYY-MM-DD.md                  # /explore-strategies の日次レポート
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│   └── tuning-YYYY-MM-DD.md          # /tune-live-strategies のレポート
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>└── analysis/
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    └── YYYY-MM-DD_HH-MM.md           # /analyze-exploration の出力
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├── goals/
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>│   ├── default/                       # デフォルトゴール（--goal 省略時に使用）
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│   │   ├── goals.yaml                 # 目標指標と探索範囲を定義
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│   │   ├── explored_log.md            # このゴールの冪等チェックポイント
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│   │   └── reports/
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│   │       ├── YYYY-MM-DD.md          # /explore-strategies の日次レポート
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>│   │       └── tuning-YYYY-MM-DD.md   # /tune-live-strategies のレポート
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>│   ├── stocks/                        # 米国株・ETF ゴール
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>│   │   ├── goals.yaml
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>│   │   ├── explored_log.md
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>│   │   └── reports/
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>│   ├── commodities/                   # コモディティゴール
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>│   │   └── ...
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>│   └── crypto/                        # 暗号資産ゴール
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>│       └── ...
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>├── exploration.db                     # 全ゴール共有のバックテスト結果キャッシュ
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>├── recommendations.yaml               # /analyze-exploration が出力する次回推奨候補
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>└── analysis/
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    └── YYYY-MM-DD_HH-MM.md           # /analyze-exploration の出力
 </code></pre></div>
-<p><strong><code>goals.yaml</code></strong>: 目標 Sharpe・MaxDD・探索対象の銘柄・指標セット・<code>strategies_per_run</code> などを定義します。すべてのスラッシュコマンドがこのファイルを参照します。</p>
-<p><strong><code>explored_log.md</code></strong>: 試行済みの組み合わせを記録するチェックポイント。このファイルが存在する限り、同じ組み合わせが重複して探索されることはありません。</p>
+<p><strong><code>goals/&lt;goal_name&gt;/goals.yaml</code></strong>: 目標 Sharpe・MaxDD・探索対象の銘柄・指標セット・<code>strategies_per_run</code> などをゴールごとに定義します。<code>/explore-strategies --goal &lt;name&gt;</code> でゴールを指定し、省略時は <code>goals/default/</code> を使用します。</p>
+<p><strong><code>goals/&lt;goal_name&gt;/explored_log.md</code></strong>: ゴール内で試行済みの組み合わせを記録するチェックポイント。このファイルが存在する限り、同じゴール内で同じ組み合わせが重複探索されることはありません。</p>
+<p><strong><code>exploration.db</code></strong>: 全ゴールで共有する SQLite キャッシュ。同じ銘柄×指標の組み合わせがいずれかのゴールで既にバックテスト済みの場合、結果を再利用します（重複実行なし）。</p>
 <p><strong><code>recommendations.yaml</code></strong>: <code>/analyze-exploration</code> が生成する次回推奨候補。<code>/explore-strategies</code> はこのファイルを読み、スコアの高い組み合わせを優先的に選択します。</p>
 <hr />
 <h2 id="wft">なぜ最適化後に WFT を実施するか<a class="headerlink" href="#wft" title="Permanent link">&para;</a></h2>
@@ -2646,7 +2661,7 @@
 <li><a href="../../templates/">戦略テンプレート</a> — HMM × BB × RSI 等の同梱戦略</li>
 </ul>
 <hr />
-<!-- 同期元: `alpha-trade/.claude/commands/{explore-strategies,explore-strategies-loop,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md` のスラッシュコマンド定義。エージェント比較は 2026 年 4 月時点。 -->
+<!-- 同期元: `alpha-trade/.claude/commands/{explore-strategies,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md` のスラッシュコマンド定義。エージェント比較は 2026 年 4 月時点。 -->
 
 
 
