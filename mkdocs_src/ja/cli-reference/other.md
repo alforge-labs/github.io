@@ -119,8 +119,8 @@ forge init [OPTIONS]
 | 出力先 | 内容 |
 |--------|------|
 | `.claude/skills/` | Claude Code スキル（forge-backtest, forge-analyze, forge-data） |
-| `.claude/commands/` | Claude Code スラッシュコマンド（explore-strategies, grid-tune 他 6 件） |
-| `.codex/commands/` | Codex スラッシュコマンド（explore-strategies, grid-tune 他 6 件） |
+| `.claude/commands/` | Claude Code スラッシュコマンド（explore-strategies, grid-tune 他 4 件） |
+| `.agents/skills/` | Codex スキル（explore-strategies, grid-tune 他 4 件） |
 
 ### サンプル出力
 
@@ -145,11 +145,11 @@ AlphaForge: 作業ディレクトリを初期化します...
   ✓ .claude/skills/forge-backtest/SKILL.md
   ✓ .claude/commands/explore-strategies.md
   ✓ .claude/commands/grid-tune.md
-  ✓ .codex/commands/explore-strategies.md
-  ✓ .codex/commands/grid-tune.md
+  ✓ .agents/skills/explore-strategies/SKILL.md
+  ✓ .agents/skills/grid-tune/SKILL.md
   ...
 
-完了: 24 件を作成, 2 件をスキップ
+完了: 26 件を作成, 0 件をスキップ
 
 次のステップ:
   1. forge.yaml を編集して設定をカスタマイズしてください
