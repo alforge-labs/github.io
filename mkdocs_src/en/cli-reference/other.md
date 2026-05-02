@@ -95,7 +95,7 @@ Logs out and removes local credentials. No arguments or options.
 
 ## init
 
-Initialize the working directory: creates `forge.yaml`, data directories, documentation, and Claude Code integration files.
+Initialize the working directory: creates `forge.yaml`, data directories, documentation, and AI assistant integration files.
 
 ### Synopsis
 
@@ -108,11 +108,19 @@ forge init [OPTIONS]
 | Name | Kind | Default | Description |
 |------|------|---------|-------------|
 | `--force` / `-f` | flag | false | Overwrite existing files without confirmation |
-| `--no-claude` | flag | false | Skip Claude Code integration files |
+| `--no-claude` | flag | false | Skip AI assistant integration files |
 
 ### Directories created
 
 - `data/historical/`, `data/strategies/`, `data/results/`, `data/journal/`, `data/ideas/`, `output/pinescript/`
+
+### AI integration files installed
+
+| Destination | Contents |
+|-------------|----------|
+| `.claude/skills/` | Claude Code skills (forge-backtest, forge-analyze, forge-data) |
+| `.claude/commands/` | Claude Code slash commands (explore-strategies, grid-tune, and 4 more) |
+| `.codex/commands/` | Codex slash commands (explore-strategies, grid-tune, and 4 more) |
 
 ### Sample output
 
@@ -133,12 +141,15 @@ AlphaForge: Initializing working directory...
   ✓ docs/user-guide.en.md
   ...
 
-[4/4] Claude Code integration files
-  ✓ .claude/skills/explore-strategies/SKILL.md
+[4/4] AI assistant integration files
+  ✓ .claude/skills/forge-backtest/SKILL.md
   ✓ .claude/commands/explore-strategies.md
+  ✓ .claude/commands/grid-tune.md
+  ✓ .codex/commands/explore-strategies.md
+  ✓ .codex/commands/grid-tune.md
   ...
 
-Done: 18 created, 2 skipped
+Done: 24 created, 2 skipped
 
 Next steps:
   1. Edit forge.yaml to customize your settings

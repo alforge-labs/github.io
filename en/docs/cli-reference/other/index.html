@@ -1556,6 +1556,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ai-integration-files-installed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI integration files installed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2324,6 +2335,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ai-integration-files-installed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI integration files installed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2871,7 +2893,7 @@
 <p>Logs out and removes local credentials. No arguments or options.</p>
 <hr />
 <h2 id="init">init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
-<p>Initialize the working directory: creates <code>forge.yaml</code>, data directories, documentation, and Claude Code integration files.</p>
+<p>Initialize the working directory: creates <code>forge.yaml</code>, data directories, documentation, and AI assistant integration files.</p>
 <h3 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>init<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
@@ -2896,7 +2918,7 @@
 <td><code>--no-claude</code></td>
 <td>flag</td>
 <td>false</td>
-<td>Skip Claude Code integration files</td>
+<td>Skip AI assistant integration files</td>
 </tr>
 </tbody>
 </table>
@@ -2904,6 +2926,29 @@
 <ul>
 <li><code>data/historical/</code>, <code>data/strategies/</code>, <code>data/results/</code>, <code>data/journal/</code>, <code>data/ideas/</code>, <code>output/pinescript/</code></li>
 </ul>
+<h3 id="ai-integration-files-installed">AI integration files installed<a class="headerlink" href="#ai-integration-files-installed" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Destination</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.claude/skills/</code></td>
+<td>Claude Code skills (forge-backtest, forge-analyze, forge-data)</td>
+</tr>
+<tr>
+<td><code>.claude/commands/</code></td>
+<td>Claude Code slash commands (explore-strategies, grid-tune, and 4 more)</td>
+</tr>
+<tr>
+<td><code>.codex/commands/</code></td>
+<td>Codex slash commands (explore-strategies, grid-tune, and 4 more)</td>
+</tr>
+</tbody>
+</table>
 <h3 id="sample-output">Sample output<a class="headerlink" href="#sample-output" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>AlphaForge: Initializing working directory...
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
@@ -2921,17 +2966,20 @@
 <a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>  ✓ docs/user-guide.en.md
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>  ...
 <a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>[4/4] Claude Code integration files
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>  ✓ .claude/skills/explore-strategies/SKILL.md
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>[4/4] AI assistant integration files
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>  ✓ .claude/skills/forge-backtest/SKILL.md
 <a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>  ✓ .claude/commands/explore-strategies.md
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>  ...
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>Done: 18 created, 2 skipped
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>Next steps:
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>  1. Edit forge.yaml to customize your settings
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>  2. Add the following to ~/.zshrc / ~/.bashrc:
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>     export FORGE_CONFIG=/path/to/forge.yaml
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>  ✓ .claude/commands/grid-tune.md
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>  ✓ .codex/commands/explore-strategies.md
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>  ✓ .codex/commands/grid-tune.md
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>  ...
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>Done: 24 created, 2 skipped
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>Next steps:
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>  1. Edit forge.yaml to customize your settings
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>  2. Add the following to ~/.zshrc / ~/.bashrc:
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>     export FORGE_CONFIG=/path/to/forge.yaml
 </code></pre></div>
 <hr />
 <h2 id="pine">pine<a class="headerlink" href="#pine" title="Permanent link">&para;</a></h2>
