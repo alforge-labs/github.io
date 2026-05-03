@@ -2386,6 +2386,7 @@
 <h2 id="3">3 つの探索シナリオ<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
 <p>AI エージェント × AlphaForge の使い方は、<strong>起点となる材料</strong> で大きく 3 つに分類できます。</p>
 <p><img alt="AI 駆動の戦略探索ワークフロー" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-ja.png" /></p>
+<p><img alt="3 つの探索シナリオ分岐" src="../../assets/illustrations/ai-exploration-workflow/exploration-3scenarios-branches-ja.png" /></p>
 <h3 id="1">シナリオ 1: 既存戦略・指標の組み合わせ<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p><strong>起点</strong>: 手元の戦略 JSON、<code>forge indicator list</code> の指標カタログ</p>
 <p><strong>典型フロー</strong>:</p>
@@ -2459,6 +2460,7 @@
 </table>
 <h3 id="_7">冪等性のポイント<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p><code>goals/&lt;goal_name&gt;/explored_log.md</code> がチェックポイントになるため、同じゴール内で同じ組み合わせを重複探索しません。中断・再開は安全です。</p>
+<p><img alt="冪等性チェックフロー" src="../../assets/illustrations/ai-exploration-workflow/exploration-idempotency-flowchart-ja.png" /></p>
 <h3 id="_8">連続ランとレートリミット対策<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p><code>--runs 0</code> を指定するとレートリミット到達または全組み合わせ消化まで繰り返し実行されます。</p>
 <table>
