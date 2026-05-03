@@ -2,6 +2,10 @@
 
 ヒストリカルデータの取得から自動発注までの典型的な開発フロー。Claude Code などのコーディングエージェントと組み合わせると、各ステップの自動化やパラメータ探索を高速化できます。
 
+![AlphaForge 6ステップ ワークフロー全体図](../assets/illustrations/alphaforge-technical-workflow-ja.png)
+
+![バックテスト 入出力 DAG（有向無環グラフ）](../assets/illustrations/quant-backtesting-data-flow-dag-ja.png)
+
 !!! note "前提"
     以下のコマンドはすべて `alpha-strategies/` ディレクトリから `FORGE_CONFIG=forge.yaml uv run` 付きで実行することを想定しています。
 
