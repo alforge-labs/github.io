@@ -2,6 +2,10 @@
 
 A typical flow from raw data to live execution. This pairs naturally with a coding agent (e.g. Claude Code) for automated parameter exploration and strategy generation.
 
+![AlphaForge 6-Step Technical Workflow](../assets/illustrations/alphaforge-technical-workflow-en.png)
+
+![Quantitative Backtesting Data Flow DAG](../assets/illustrations/quant-backtesting-data-flow-dag-en.png)
+
 !!! note "Prerequisite"
     All commands below assume you are running from `alpha-strategies/` with `FORGE_CONFIG=forge.yaml uv run` prepended.
 
