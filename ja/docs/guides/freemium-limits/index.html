@@ -1932,10 +1932,12 @@
 </tr>
 </tbody>
 </table>
+<p><img alt="Free プランと有料プランの機能比較カード" src="../../assets/illustrations/guides/freemium-free-vs-pro-plans.png" /></p>
 <p>内部的には Lifetime / Annual / Monthly はいずれも「制限なし」挙動が同一のため、<code>lifetime</code> プランとして一括して扱われます。プラン構成や価格はランディングページの最新情報を参照してください。</p>
 <h2 id="_3">挙動<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <h3 id="free">Free プラン<a class="headerlink" href="#free" title="Permanent link">&para;</a></h3>
 <h4 id="forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data">データ取得時（<code>forge data fetch</code> / <code>forge data update</code> / <code>forge pine generate --with-training-data</code> / 外部シンボル自動取得）<a class="headerlink" href="#forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data" title="Permanent link">&para;</a></h4>
+<p><img alt="Free プランのデータ日付クリップ図" src="../../assets/illustrations/guides/freemium-data-date-clip.png" /></p>
 <ul>
 <li><code>end</code> 引数（明示指定または <code>today</code> のフォールバック）が 2023-12-31 を超える場合、強制的に 2023-12-31 にキャップして取得します。</li>
 <li><code>forge data update</code> で保有最終日が 2023-12-31 以降のアイテムは「Free プラン制限により」スキップされます。</li>

@@ -20,6 +20,8 @@ AlphaForge offers four plans: **Free, Monthly, Annual, and Lifetime**. The non-F
 | Annual | No limit | No limit | Annual subscription. Latest data with unlimited trials. Pine Script export enabled. |
 | Lifetime | No limit | No limit | One-time purchase. Latest data with unlimited trials. Pine Script export enabled. |
 
+![Free plan vs paid plan feature comparison card](../assets/illustrations/guides/freemium-free-vs-pro-plans.png)
+
 Internally, Lifetime / Annual / Monthly are all treated as the `lifetime` plan because they share the same "no-limit" behavior. Please refer to the landing page for the most up-to-date plan and pricing details.
 
 ## Behavior
@@ -27,6 +29,9 @@ Internally, Lifetime / Annual / Monthly are all treated as the `lifetime` plan b
 ### Free plan
 
 #### Data fetch (`forge data fetch` / `forge data update` / `forge pine generate --with-training-data` / external-symbol auto-fetch)
+
+![Free plan data date clip diagram](../assets/illustrations/guides/freemium-data-date-clip.png)
+
 - The `end` argument (whether explicitly passed or falling back to `today`) is capped at 2023-12-31 if it would otherwise exceed it.
 - `forge data update` skips items whose stored `end` is on or after 2023-12-31 with a "Free plan limit prevents fetching data after 2023-12-31" message.
 - The CLI's normal output displays a yellow Panel warning along with an upgrade hint pointing to a paid plan.

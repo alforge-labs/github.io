@@ -1932,10 +1932,12 @@
 </tr>
 </tbody>
 </table>
+<p><img alt="Free plan vs paid plan feature comparison card" src="../../assets/illustrations/guides/freemium-free-vs-pro-plans.png" /></p>
 <p>Internally, Lifetime / Annual / Monthly are all treated as the <code>lifetime</code> plan because they share the same "no-limit" behavior. Please refer to the landing page for the most up-to-date plan and pricing details.</p>
 <h2 id="behavior">Behavior<a class="headerlink" href="#behavior" title="Permanent link">&para;</a></h2>
 <h3 id="free-plan">Free plan<a class="headerlink" href="#free-plan" title="Permanent link">&para;</a></h3>
 <h4 id="data-fetch-forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data-external-symbol-auto-fetch">Data fetch (<code>forge data fetch</code> / <code>forge data update</code> / <code>forge pine generate --with-training-data</code> / external-symbol auto-fetch)<a class="headerlink" href="#data-fetch-forge-data-fetch-forge-data-update-forge-pine-generate-with-training-data-external-symbol-auto-fetch" title="Permanent link">&para;</a></h4>
+<p><img alt="Free plan data date clip diagram" src="../../assets/illustrations/guides/freemium-data-date-clip.png" /></p>
 <ul>
 <li>The <code>end</code> argument (whether explicitly passed or falling back to <code>today</code>) is capped at 2023-12-31 if it would otherwise exceed it.</li>
 <li><code>forge data update</code> skips items whose stored <code>end</code> is on or after 2023-12-31 with a "Free plan limit prevents fetching data after 2023-12-31" message.</li>
