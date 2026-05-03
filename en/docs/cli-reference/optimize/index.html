@@ -3005,6 +3005,7 @@
 <li><strong>Multi-objective display</strong>: header (strategy, symbol, objective directions), progress bar, Current Trial (current value of each objective), and a Pareto Front table with the top 10 solutions plus the total count (<code>Top 10 / Total = N</code>).</li>
 <li><code>--json</code> suppresses the dashboard and outputs JSON only.</li>
 </ul>
+<p><img alt="Pareto Front Multi-Objective Optimization Scatter Plot" src="../../assets/illustrations/optimize/optimize-pareto-front.png" /></p>
 <h3 id="sample-output-text">Sample output (text)<a class="headerlink" href="#sample-output-text" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>✅ Optimization complete
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Best score (sharpe_ratio): 1.32
@@ -3295,6 +3296,7 @@
 <hr />
 <h2 id="forge-optimize-walk-forward">forge optimize walk-forward<a class="headerlink" href="#forge-optimize-walk-forward" title="Permanent link">&para;</a></h2>
 <p>Split the time series into <code>--windows</code> consecutive windows and repeat in-sample optimization → out-of-sample evaluation in each window to measure overfitting resistance.</p>
+<p><img alt="Walk-Forward Test Window Sliding Diagram" src="../../assets/illustrations/optimize/optimize-walk-forward-windows.png" /></p>
 <h3 id="synopsis_4">Synopsis<a class="headerlink" href="#synopsis_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>

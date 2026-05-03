@@ -58,6 +58,8 @@ A live dashboard is shown in your terminal during optimization. Single-objective
 - **Multi-objective display**: header (strategy, symbol, objective directions), progress bar, Current Trial (current value of each objective), and a Pareto Front table with the top 10 solutions plus the total count (`Top 10 / Total = N`).
 - `--json` suppresses the dashboard and outputs JSON only.
 
+![Pareto Front Multi-Objective Optimization Scatter Plot](../assets/illustrations/optimize/optimize-pareto-front.png)
+
 ### Sample output (text)
 
 ```text
@@ -235,6 +237,8 @@ Portfolio metrics:
 ## forge optimize walk-forward
 
 Split the time series into `--windows` consecutive windows and repeat in-sample optimization → out-of-sample evaluation in each window to measure overfitting resistance.
+
+![Walk-Forward Test Window Sliding Diagram](../assets/illustrations/optimize/optimize-walk-forward-windows.png)
 
 ### Synopsis
 

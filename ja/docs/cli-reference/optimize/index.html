@@ -3005,6 +3005,7 @@
 <li><strong>多目的時の表示要素</strong>: ヘッダー（戦略・銘柄・目的関数の方向）、プログレスバー、Current Trial（各目的関数の現在値）、Pareto Front テーブル（上位 10 件 + 全件数 <code>Top 10 / Total = N</code>）</li>
 <li><code>--json</code> を指定するとダッシュボードは表示されず JSON のみ出力されます。</li>
 </ul>
+<p><img alt="Pareto Front 多目的最適化散布図" src="../../assets/illustrations/optimize/optimize-pareto-front.png" /></p>
 <h3 id="_5">サンプル出力（テキスト）<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>✅ 最適化完了
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>ベストスコア (sharpe_ratio): 1.32
@@ -3295,6 +3296,7 @@
 <hr />
 <h2 id="forge-optimize-walk-forward">forge optimize walk-forward<a class="headerlink" href="#forge-optimize-walk-forward" title="Permanent link">&para;</a></h2>
 <p>時系列を <code>--windows</code> 個の連続ウィンドウに分割し、各ウィンドウで IS（イン・サンプル）最適化 → OOS（アウト・オブ・サンプル）評価を繰り返して、過学習耐性を計測する。</p>
+<p><img alt="Walk-Forward Test ウィンドウスライド図" src="../../assets/illustrations/optimize/optimize-walk-forward-windows.png" /></p>
 <h3 id="_18">構文<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
