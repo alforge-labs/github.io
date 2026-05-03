@@ -5,6 +5,8 @@ Combining Claude Code, Codex, and similar AI coding agents with AlphaForge as th
 !!! info "Prerequisite"
     The commands and flows shown here assume the `alpha-trade` monorepo (a combination of `alpha-forge` and `alpha-strategies`). **Binary** users should substitute internal commands like `op run --env-file=...` with `forge` directly.
 
+![AI-driven strategy exploration workflow](../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png)
+
 ## Why AI agents × AlphaForge
 
 AlphaForge is designed so that **all configuration, strategies, and execution flow through JSON / YAML / CLI**. This means:
@@ -134,10 +136,10 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 1. **Pre-flight**: Read `goals/<goal_name>/goals.yaml`, `goals/<goal_name>/explored_log.md`, and existing strategy JSON files; identify untried combinations
 2. **Strategy generation**: Pick one indicator × symbol combo, generate the strategy JSON, and save under `data/strategies/<name>.json`
 3. **Register → validate**: `forge strategy save` → `forge strategy validate` for logical consistency (rollback on failure)
-4. **Signal count check**: `forge backtest signal-count <SYMBOL> --strategy <name> --json`; skip if `entry_signal_days = 0`
-5. **Backtest**: `forge backtest run <SYMBOL> --strategy <name> --json`
-6. **Optimize only when pre-filter passes**: `Sharpe ≥ 1.0 && MaxDD ≤ 25%` triggers `forge optimize run` + `forge optimize walk-forward --windows 5`
-7. **Record outcome**: Append to `goals/<goal_name>/explored_log.md` and `goals/<goal_name>/reports/YYYY-MM-DD.md`. On failure, delete strategy JSON / DB entry / result JSON (idempotency)
+4. **Data fetch**: `forge data fetch <SYMBOL> --period 5y` (only if not already cached)
+5. **Run the full pipeline in one command**: `forge explore run <SYMBOL> --strategy <name> --goal <goal_name> --json`
+   Signal check → backtest → optimize → walk-forward → coverage update → DB registration — all in one step
+6. **Record outcome**: Read `passed` / `skip_reason` from the output JSON, then append to `goals/<goal_name>/explored_log.md` and `goals/<goal_name>/reports/YYYY-MM-DD.md`. When `passed: false` and `cleanup_done: true`, strategy JSON and result JSON have already been removed automatically
 
 ```
 > /explore-strategies                          # One run (default goal)

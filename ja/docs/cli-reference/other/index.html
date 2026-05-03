@@ -1583,6 +1583,51 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#explore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        explore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="explore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-explore-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge explore run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge explore run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        出力 JSON の例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pine" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2362,6 +2407,51 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#explore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        explore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="explore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-explore-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge explore run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge explore run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        出力 JSON の例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pine" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2982,6 +3072,132 @@
 <a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>     export FORGE_CONFIG=/path/to/forge.yaml
 </code></pre></div>
 <hr />
+<h2 id="explore">explore<a class="headerlink" href="#explore" title="Permanent link">&para;</a></h2>
+<p>戦略探索パイプラインの状態管理と一括実行を行います。AI エージェント（<code>/explore-strategies</code>）から利用されるコマンド群です。</p>
+<table>
+<thead>
+<tr>
+<th>サブコマンド</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run</code></td>
+<td>バックテスト→最適化→WFT→DB登録を一気通貫実行（<strong>メインコマンド</strong>）</td>
+</tr>
+<tr>
+<td><code>index</code></td>
+<td><code>explored_log.md</code> から <code>exploration_index.yaml</code> を生成</td>
+</tr>
+<tr>
+<td><code>import</code></td>
+<td>既存 Markdown ログを探索 DB へ投入</td>
+</tr>
+<tr>
+<td><code>log</code></td>
+<td>探索試行を DB に手動記録</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>ゴールに対する網羅状況マップを表示</td>
+</tr>
+<tr>
+<td><code>recommend</code></td>
+<td>次の探索候補を <code>recommendations.yaml</code> へ出力</td>
+</tr>
+<tr>
+<td><code>coverage</code></td>
+<td>パラメータカバレッジ（YAML）の更新・参照</td>
+</tr>
+</tbody>
+</table>
+<h3 id="forge-explore-run">forge explore run<a class="headerlink" href="#forge-explore-run" title="Permanent link">&para;</a></h3>
+<p>バックテスト → 最適化 → ウォークフォワードテスト（WFT）→ coverage 更新 → DB 登録を 1 コマンドで完結させます。<br />
+エージェントの <code>/explore-strategies</code> スキルから内部的に呼び出されます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>forge<span class="w"> </span>explore<span class="w"> </span>run<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span>--goal<span class="w"> </span>&lt;GOAL&gt;<span class="w"> </span><span class="o">[</span>--no-cleanup<span class="o">]</span><span class="w"> </span><span class="o">[</span>--dry-run<span class="o">]</span><span class="w"> </span><span class="o">[</span>--json<span class="o">]</span><span class="w"> </span><span class="o">[</span>--db<span class="w"> </span>&lt;PATH&gt;<span class="o">]</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+<th>デフォルト</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--strategy</code></td>
+<td>戦略名（必須）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--goal</code></td>
+<td>ゴール名（<code>goals.yaml</code> の <code>pre_filter</code> / <code>target_metrics</code> を適用）</td>
+<td><code>default</code></td>
+</tr>
+<tr>
+<td><code>--no-cleanup</code></td>
+<td>不合格時もファイル・DB エントリを削除しない（デバッグ用）</td>
+<td>off</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td>実行予定ステップを表示して終了（実際の処理は行わない）</td>
+<td>off</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>結果を JSON 形式で標準出力する</td>
+<td>off</td>
+</tr>
+<tr>
+<td><code>--db</code></td>
+<td>探索 DB のパス（省略時は <code>forge.yaml</code> のデフォルトパス）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h4 id="json">出力 JSON の例<a class="headerlink" href="#json" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SPY&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;spy_hmm_rsi_v3&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;passed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;backtest&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">&quot;sharpe&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.82</span><span class="p">,</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">&quot;max_dd&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">19.9</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nt">&quot;trades&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span><span class="nt">&quot;pre_filter_pass&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="nt">&quot;wft_avg_sharpe&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.12</span><span class="p">,</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">  </span><span class="nt">&quot;wft_target&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">  </span><span class="nt">&quot;skip_reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wft_failed&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">  </span><span class="nt">&quot;cleanup_done&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>passed</code></td>
+<td>WFT が <code>target_metrics</code> を満たした場合 <code>true</code></td>
+</tr>
+<tr>
+<td><code>skip_reason</code></td>
+<td>スキップ・失敗理由（<code>no_signals</code> / <code>pre_filter_failed</code> / <code>wft_failed</code> / <code>dry_run</code> / <code>null</code>）</td>
+</tr>
+<tr>
+<td><code>cleanup_done</code></td>
+<td>不合格時に戦略 JSON / 結果 JSON が削除済みの場合 <code>true</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2 id="pine">pine<a class="headerlink" href="#pine" title="Permanent link">&para;</a></h2>
 <p>戦略 JSON と TradingView Pine Script v6 を相互変換します。</p>
 <div class="admonition warning">
@@ -2990,7 +3206,7 @@
 </div>
 <h3 id="forge-pine-generate">forge pine generate <code>[有料プランのみ]</code><a class="headerlink" href="#forge-pine-generate" title="Permanent link">&para;</a></h3>
 <p>戦略定義から Pine Script を生成し、<code>config.pinescript.output_path / &lt;strategy_id&gt;.pine</code> に保存します。<strong>有料プラン限定</strong>。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--with-training-data<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--with-training-data<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3017,23 +3233,23 @@
 </tbody>
 </table>
 <p>サンプル出力（有料プラン）：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>✅ Pine Script が保存されました: output/pinescript/spy_sma_v1.pine
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>✅ Pine Script が保存されました: output/pinescript/spy_sma_v1.pine
 </code></pre></div>
 <p>サンプル出力（Free プラン・ハードブロック）：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>╭─────────────── 🔒 有料プラン限定機能 ───────────────╮
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>│ Pine Script エクスポートは有料プラン（Lifetime /    │
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>│ Annual / Monthly）のみ利用できます。                │
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>│ TradingView でのシームレスな運用を行うには…         │
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>│ アップグレード: https://alforgelabs.com/en/...      │
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>╰────────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>╭─────────────── 🔒 有料プラン限定機能 ───────────────╮
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>│ Pine Script エクスポートは有料プラン（Lifetime /    │
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>│ Annual / Monthly）のみ利用できます。                │
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>│ TradingView でのシームレスな運用を行うには…         │
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>│ アップグレード: https://alforgelabs.com/en/...      │
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>╰────────────────────────────────────────────────────╯
 </code></pre></div>
 <h3 id="forge-pine-preview">forge pine preview <code>[有料プランのみ]</code><a class="headerlink" href="#forge-pine-preview" title="Permanent link">&para;</a></h3>
 <p>戦略定義から生成される Pine Script を標準出力でプレビューします（ファイル保存しない）。<strong>有料プラン限定</strong>。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>preview<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>preview<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;
 </code></pre></div>
 <h3 id="forge-pine-import">forge pine import<a class="headerlink" href="#forge-pine-import" title="Permanent link">&para;</a></h3>
 <p>Pine Script (<code>.pine</code>) をパースして戦略定義として取り込みます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>import<span class="w"> </span>&lt;PINE_FILE&gt;<span class="w"> </span>--id<span class="w"> </span>&lt;STRATEGY_ID&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>import<span class="w"> </span>&lt;PINE_FILE&gt;<span class="w"> </span>--id<span class="w"> </span>&lt;STRATEGY_ID&gt;
 </code></pre></div>
 <table>
 <thead>
@@ -3062,7 +3278,7 @@
 <p><code>alpha-forge</code> がサポートするテクニカル指標 30+ のカタログ・詳細を参照します。</p>
 <h3 id="forge-indicator-list">forge indicator list<a class="headerlink" href="#forge-indicator-list" title="Permanent link">&para;</a></h3>
 <p>対応指標の一覧を表示します。<code>FILTER_NAME</code> 指定で部分一致絞り込み（大文字小文字を区別しない）。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>forge<span class="w"> </span>indicator<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>FILTER_NAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>--detail<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>indicator<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>FILTER_NAME<span class="o">]</span><span class="w"> </span><span class="o">[</span>--detail<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3089,20 +3305,20 @@
 </tbody>
 </table>
 <p>サンプル出力：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>利用可能なインジケーター一覧（35件）:
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  [トレンド]      SMA  EMA  WMA  HMA  TEMA  MACD  ADX  SUPERTREND
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>  [モメンタム]    RSI  STOCH  CCI  WILLR  ROC
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>  [ボラティリティ] ATR  BBANDS  KELTNER
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>  [出来高]        OBV  VWAP  CMF
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>  [レジーム]      HMM
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>  [その他]        EXPR  ALTDATA
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>詳細: forge indicator show &lt;TYPE&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>利用可能なインジケーター一覧（35件）:
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>  [トレンド]      SMA  EMA  WMA  HMA  TEMA  MACD  ADX  SUPERTREND
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>  [モメンタム]    RSI  STOCH  CCI  WILLR  ROC
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>  [ボラティリティ] ATR  BBANDS  KELTNER
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>  [出来高]        OBV  VWAP  CMF
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>  [レジーム]      HMM
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>  [その他]        EXPR  ALTDATA
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>詳細: forge indicator show &lt;TYPE&gt;
 </code></pre></div>
 <h3 id="forge-indicator-show">forge indicator show<a class="headerlink" href="#forge-indicator-show" title="Permanent link">&para;</a></h3>
 <p>指定指標の詳細（説明・パラメータ・出力・使用例）を表示します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>indicator<span class="w"> </span>show<span class="w"> </span>&lt;INDICATOR_TYPE&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>indicator<span class="w"> </span>show<span class="w"> </span>&lt;INDICATOR_TYPE&gt;
 </code></pre></div>
 <table>
 <thead>
@@ -3121,19 +3337,19 @@
 </tbody>
 </table>
 <p>サンプル出力：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>SMA — Simple Moving Average
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>カテゴリー: トレンド
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>パラメーター:
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>  名前                 型       デフォルト              説明
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>  length              int      14                    期間
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>  source              str      close                 ソース列
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
-<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>出力: スカラー時系列
-<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>使用例 (JSON):
-<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>  {&quot;id&quot;: &quot;sma_20&quot;, &quot;type&quot;: &quot;SMA&quot;, &quot;params&quot;: {&quot;length&quot;: 20}, &quot;source&quot;: &quot;close&quot;}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>SMA — Simple Moving Average
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>カテゴリー: トレンド
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>パラメーター:
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  名前                 型       デフォルト              説明
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  length              int      14                    期間
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>  source              str      close                 ソース列
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>出力: スカラー時系列
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>使用例 (JSON):
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>  {&quot;id&quot;: &quot;sma_20&quot;, &quot;type&quot;: &quot;SMA&quot;, &quot;params&quot;: {&quot;length&quot;: 20}, &quot;source&quot;: &quot;close&quot;}
 </code></pre></div>
 <p>未知の指標名を指定すると <code>エラー: '&lt;TYPE&gt;' は認識されないインジケーターです。</code> を出して終了コード <code>1</code>。</p>
 <hr />
@@ -3141,7 +3357,7 @@
 <p>投資アイデアの記録・タグ付け・検索を行うコマンドグループ。<code>config.ideas.ideas_path</code> 配下の <code>ideas.json</code> で管理します。</p>
 <h3 id="forge-idea-add">forge idea add<a class="headerlink" href="#forge-idea-add" title="Permanent link">&para;</a></h3>
 <p>新しいアイデアを追加します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>add<span class="w"> </span>&lt;TITLE&gt;<span class="w"> </span>--type<span class="w"> </span>&lt;new_strategy<span class="p">|</span>improvement&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>add<span class="w"> </span>&lt;TITLE&gt;<span class="w"> </span>--type<span class="w"> </span>&lt;new_strategy<span class="p">|</span>improvement&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3182,7 +3398,7 @@
 <p>出力: <code>追加しました: [&lt;idea_id&gt;] &lt;title&gt;</code></p>
 <h3 id="forge-idea-list">forge idea list<a class="headerlink" href="#forge-idea-list" title="Permanent link">&para;</a></h3>
 <p>アイデア一覧を表示します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>--status<span class="w"> </span>&lt;STATUS&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--tag<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>--status<span class="w"> </span>&lt;STATUS&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--tag<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3212,17 +3428,17 @@
 </table>
 <h3 id="forge-idea-show">forge idea show<a class="headerlink" href="#forge-idea-show" title="Permanent link">&para;</a></h3>
 <p>アイデアの詳細を表示します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>show<span class="w"> </span>&lt;IDEA_ID&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>show<span class="w"> </span>&lt;IDEA_ID&gt;
 </code></pre></div>
 <p>存在しない場合は <code>見つかりません: &lt;id&gt;</code> を出して終了コード <code>1</code>。</p>
 <h3 id="forge-idea-status">forge idea status<a class="headerlink" href="#forge-idea-status" title="Permanent link">&para;</a></h3>
 <p>アイデアのステータスを更新します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>status<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span>&lt;backlog<span class="p">|</span>in_progress<span class="p">|</span>tested<span class="p">|</span>archived&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>status<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span>&lt;backlog<span class="p">|</span>in_progress<span class="p">|</span>tested<span class="p">|</span>archived&gt;
 </code></pre></div>
 <p>出力: <code>ステータスを更新しました: &lt;title&gt; → &lt;status&gt;</code></p>
 <h3 id="forge-idea-link">forge idea link<a class="headerlink" href="#forge-idea-link" title="Permanent link">&para;</a></h3>
 <p>アイデアに戦略または実行記録をリンクします。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>link<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--run<span class="w"> </span>&lt;RUN_ID&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--note<span class="w"> </span>&lt;TEXT&gt;<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>link<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--run<span class="w"> </span>&lt;RUN_ID&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--note<span class="w"> </span>&lt;TEXT&gt;<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3252,15 +3468,15 @@
 </table>
 <h3 id="forge-idea-tag">forge idea tag<a class="headerlink" href="#forge-idea-tag" title="Permanent link">&para;</a></h3>
 <p>アイデアのタグを追加・削除します（<code>--add</code> と <code>--remove</code> は同時指定可、両方未指定はエラー）。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>tag<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span><span class="o">[</span>--add<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--remove<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>tag<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span><span class="o">[</span>--add<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--remove<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span>
 </code></pre></div>
 <h3 id="forge-idea-note">forge idea note<a class="headerlink" href="#forge-idea-note" title="Permanent link">&para;</a></h3>
 <p>アイデアにメモを追加します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>note<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span>&lt;TEXT&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>note<span class="w"> </span>&lt;IDEA_ID&gt;<span class="w"> </span>&lt;TEXT&gt;
 </code></pre></div>
 <h3 id="forge-idea-search">forge idea search<a class="headerlink" href="#forge-idea-search" title="Permanent link">&para;</a></h3>
 <p>アイデアを全文検索します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>search<span class="w"> </span><span class="o">[</span>QUERY<span class="o">]</span><span class="w"> </span><span class="o">[</span>--status<span class="w"> </span>&lt;STATUS&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--tag<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>search<span class="w"> </span><span class="o">[</span>QUERY<span class="o">]</span><span class="w"> </span><span class="o">[</span>--status<span class="w"> </span>&lt;STATUS&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--tag<span class="w"> </span>&lt;TAG&gt;<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3290,14 +3506,14 @@
 </table>
 <h3 id="forge-idea-dashboard">forge idea dashboard<a class="headerlink" href="#forge-idea-dashboard" title="Permanent link">&para;</a></h3>
 <p><code>forge dashboard</code> と同等の Web ダッシュボードを起動します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>dashboard<span class="w"> </span><span class="o">[</span>--port<span class="w"> </span><span class="m">8000</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-open<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>dashboard<span class="w"> </span><span class="o">[</span>--port<span class="w"> </span><span class="m">8000</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-open<span class="o">]</span>
 </code></pre></div>
 <p>詳細は <a href="#dashboard"><code>forge dashboard</code></a> を参照。</p>
 <hr />
 <h2 id="altdata">altdata<a class="headerlink" href="#altdata" title="Permanent link">&para;</a></h2>
 <p>代替データ（センチメント、マクロ指標等）の取得・管理。<code>config.data.alt_storage_path</code> 配下に保存され、戦略 JSON では <code>ALTDATA</code> 指標タイプで参照できます。</p>
 <h3 id="forge-altdata-fetch">forge altdata fetch<a class="headerlink" href="#forge-altdata-fetch" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>fetch<span class="w"> </span>&lt;SOURCE_KEY&gt;<span class="w"> </span>--start<span class="w"> </span>&lt;YYYY-MM-DD&gt;<span class="w"> </span>--end<span class="w"> </span>&lt;YYYY-MM-DD&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>fetch<span class="w"> </span>&lt;SOURCE_KEY&gt;<span class="w"> </span>--start<span class="w"> </span>&lt;YYYY-MM-DD&gt;<span class="w"> </span>--end<span class="w"> </span>&lt;YYYY-MM-DD&gt;
 </code></pre></div>
 <table>
 <thead>
@@ -3327,16 +3543,16 @@
 </table>
 <p>出力: <code>✅ &lt;SOURCE_KEY&gt;: &lt;N&gt;行を保存しました</code>。プロバイダー未登録時は <code>ClickException</code>。</p>
 <h3 id="forge-altdata-list">forge altdata list<a class="headerlink" href="#forge-altdata-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>list
 </code></pre></div>
 <p>サンプル出力：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>保存済み代替データ件数: 2
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>SOURCE_KEY                INTERVAL   ROWS         START           END
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>fear_greed_index          1d          1525   2020-01-01   2025-12-31
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>vix_termstructure         1d          1530   2020-01-01   2025-12-31
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>保存済み代替データ件数: 2
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>SOURCE_KEY                INTERVAL   ROWS         START           END
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>fear_greed_index          1d          1525   2020-01-01   2025-12-31
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>vix_termstructure         1d          1530   2020-01-01   2025-12-31
 </code></pre></div>
 <h3 id="forge-altdata-info">forge altdata info<a class="headerlink" href="#forge-altdata-info" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>info<span class="w"> </span>&lt;SOURCE_KEY&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>info<span class="w"> </span>&lt;SOURCE_KEY&gt;
 </code></pre></div>
 <p>ソースキー、時間足、行数、開始日・終了日、カラム、ファイルパス、ファイルサイズを表示。データ未取得時は <code>ClickException</code>。</p>
 <hr />
@@ -3344,7 +3560,7 @@
 <p>ペアトレード戦略のためのコインテグレーション検定とスプレッド構築。<code>statsmodels</code> ベースの Engle–Granger 検定を使用。</p>
 <h3 id="forge-pairs-scan">forge pairs scan<a class="headerlink" href="#forge-pairs-scan" title="Permanent link">&para;</a></h3>
 <p>2 銘柄のコインテグレーション検定を実行します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan<span class="w"> </span>&lt;SYM_A&gt;<span class="w"> </span>&lt;SYM_B&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan<span class="w"> </span>&lt;SYM_A&gt;<span class="w"> </span>&lt;SYM_B&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3383,16 +3599,16 @@
 </tbody>
 </table>
 <p>サンプル出力：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>✅ コインテグレーションあり
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>  ペア      : SPY / QQQ
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>  p_value    : 0.012345
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>  閾値      : 0.05
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>  検定統計量: -3.5421
-<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>  臨界値 5%: -2.8623
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>✅ コインテグレーションあり
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>  ペア      : SPY / QQQ
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>  p_value    : 0.012345
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>  閾値      : 0.05
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>  検定統計量: -3.5421
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>  臨界値 5%: -2.8623
 </code></pre></div>
 <h3 id="forge-pairs-scan-all">forge pairs scan-all<a class="headerlink" href="#forge-pairs-scan-all" title="Permanent link">&para;</a></h3>
 <p>ウォッチリスト内の全ペアをスキャンします（最大 20 件まで表示）。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan-all<span class="w"> </span>--symbols-file<span class="w"> </span>&lt;FILE&gt;<span class="w"> </span><span class="o">[</span>--pvalue<span class="w"> </span><span class="m">0</span>.05<span class="o">]</span><span class="w"> </span><span class="o">[</span>--interval<span class="w"> </span>1d<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan-all<span class="w"> </span>--symbols-file<span class="w"> </span>&lt;FILE&gt;<span class="w"> </span><span class="o">[</span>--pvalue<span class="w"> </span><span class="m">0</span>.05<span class="o">]</span><span class="w"> </span><span class="o">[</span>--interval<span class="w"> </span>1d<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3417,7 +3633,7 @@
 </table>
 <h3 id="forge-pairs-build">forge pairs build<a class="headerlink" href="#forge-pairs-build" title="Permanent link">&para;</a></h3>
 <p>スプレッド系列を計算し、<code>alt_data</code> ストアに保存します（戦略 JSON から <code>ALTDATA</code> で参照可能）。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>build<span class="w"> </span>--sym-a<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span>--sym-b<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>build<span class="w"> </span>--sym-a<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span>--sym-b<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3462,21 +3678,21 @@
 </tbody>
 </table>
 <p>サンプル出力：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>ヘッジ比率を推定中... (SPY / QQQ)
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>  ヘッジ比率: 0.823145
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>  OU 半減期 : 12.4 日
-<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>  データ点数: 1530
-<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>
-<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>✅ スプレッドを保存しました: source_key=&#39;SPY_QQQ_spread&#39;
-<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>   戦略 JSON での参照方法:
-<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>   {&quot;id&quot;: &quot;spread&quot;, &quot;type&quot;: &quot;ALTDATA&quot;, &quot;params&quot;: {&quot;source_key&quot;: &quot;SPY_QQQ_spread&quot;, &quot;column&quot;: &quot;spread&quot;}}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>ヘッジ比率を推定中... (SPY / QQQ)
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>  ヘッジ比率: 0.823145
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>  OU 半減期 : 12.4 日
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>  データ点数: 1530
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>✅ スプレッドを保存しました: source_key=&#39;SPY_QQQ_spread&#39;
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>   戦略 JSON での参照方法:
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>   {&quot;id&quot;: &quot;spread&quot;, &quot;type&quot;: &quot;ALTDATA&quot;, &quot;params&quot;: {&quot;source_key&quot;: &quot;SPY_QQQ_spread&quot;, &quot;column&quot;: &quot;spread&quot;}}
 </code></pre></div>
 <p>平均回帰がない場合、半減期は <code>N/A (平均回帰なし)</code> と表示されます。</p>
 <hr />
 <h2 id="dashboard">dashboard<a class="headerlink" href="#dashboard" title="Permanent link">&para;</a></h2>
 <p>Web ダッシュボードを起動します（FastAPI + uvicorn）。エクイティカーブ・ドローダウン・モンテカルロ・WFO 結果などをブラウザで閲覧可能。</p>
 <h3 id="_7">構文<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>forge<span class="w"> </span>dashboard<span class="w"> </span><span class="o">[</span>--port<span class="w"> </span><span class="m">8000</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-open<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>forge<span class="w"> </span>dashboard<span class="w"> </span><span class="o">[</span>--port<span class="w"> </span><span class="m">8000</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-open<span class="o">]</span>
 </code></pre></div>
 <h3 id="_8">オプション<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <table>
@@ -3510,18 +3726,18 @@
 </tbody>
 </table>
 <p>サンプル出力：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>ダッシュボードを起動中: http://127.0.0.1:8000  (Ctrl+C で停止)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>ダッシュボードを起動中: http://127.0.0.1:8000  (Ctrl+C で停止)
 </code></pre></div>
 <p><code>fastapi</code> / <code>uvicorn</code> 未インストール時は案内メッセージを出して終了します（<code>forge.yaml</code> セットアップ後の <code>uv sync</code> で同梱されます）。</p>
 <hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p><code>alpha-forge</code> に同梱されているドキュメント・スキル・コマンド参考資料を参照します。</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>利用可能な同梱ドキュメントの一覧を表示します。<code>✓</code> / <code>✗</code> でファイル存在を表します。</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

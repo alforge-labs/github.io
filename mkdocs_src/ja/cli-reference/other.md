@@ -159,6 +159,66 @@ AlphaForge: 作業ディレクトリを初期化します...
 
 ---
 
+## explore {#explore}
+
+戦略探索パイプラインの状態管理と一括実行を行います。AI エージェント（`/explore-strategies`）から利用されるコマンド群です。
+
+| サブコマンド | 説明 |
+|-------------|------|
+| `run` | バックテスト→最適化→WFT→DB登録を一気通貫実行（**メインコマンド**） |
+| `index` | `explored_log.md` から `exploration_index.yaml` を生成 |
+| `import` | 既存 Markdown ログを探索 DB へ投入 |
+| `log` | 探索試行を DB に手動記録 |
+| `status` | ゴールに対する網羅状況マップを表示 |
+| `recommend` | 次の探索候補を `recommendations.yaml` へ出力 |
+| `coverage` | パラメータカバレッジ（YAML）の更新・参照 |
+
+### forge explore run
+
+バックテスト → 最適化 → ウォークフォワードテスト（WFT）→ coverage 更新 → DB 登録を 1 コマンドで完結させます。  
+エージェントの `/explore-strategies` スキルから内部的に呼び出されます。
+
+```bash
+forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--json] [--db <PATH>]
+```
+
+| オプション | 説明 | デフォルト |
+|-----------|------|-----------|
+| `--strategy` | 戦略名（必須） | — |
+| `--goal` | ゴール名（`goals.yaml` の `pre_filter` / `target_metrics` を適用） | `default` |
+| `--no-cleanup` | 不合格時もファイル・DB エントリを削除しない（デバッグ用） | off |
+| `--dry-run` | 実行予定ステップを表示して終了（実際の処理は行わない） | off |
+| `--json` | 結果を JSON 形式で標準出力する | off |
+| `--db` | 探索 DB のパス（省略時は `forge.yaml` のデフォルトパス） | — |
+
+#### 出力 JSON の例
+
+```json
+{
+  "symbol": "SPY",
+  "strategy_id": "spy_hmm_rsi_v3",
+  "passed": false,
+  "backtest": {
+    "sharpe": 0.82,
+    "max_dd": 19.9,
+    "trades": 42
+  },
+  "pre_filter_pass": true,
+  "wft_avg_sharpe": 1.12,
+  "wft_target": 1.5,
+  "skip_reason": "wft_failed",
+  "cleanup_done": true
+}
+```
+
+| フィールド | 説明 |
+|-----------|------|
+| `passed` | WFT が `target_metrics` を満たした場合 `true` |
+| `skip_reason` | スキップ・失敗理由（`no_signals` / `pre_filter_failed` / `wft_failed` / `dry_run` / `null`） |
+| `cleanup_done` | 不合格時に戦略 JSON / 結果 JSON が削除済みの場合 `true` |
+
+---
+
 ## pine
 
 戦略 JSON と TradingView Pine Script v6 を相互変換します。

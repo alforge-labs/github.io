@@ -2281,6 +2281,7 @@
 <p class="admonition-title">Prerequisite</p>
 <p>The commands and flows shown here assume the <code>alpha-trade</code> monorepo (a combination of <code>alpha-forge</code> and <code>alpha-strategies</code>). <strong>Binary</strong> users should substitute internal commands like <code>op run --env-file=...</code> with <code>forge</code> directly.</p>
 </div>
+<p><img alt="AI-driven strategy exploration workflow" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png" /></p>
 <h2 id="why-ai-agents-alphaforge">Why AI agents × AlphaForge<a class="headerlink" href="#why-ai-agents-alphaforge" title="Permanent link">&para;</a></h2>
 <p>AlphaForge is designed so that <strong>all configuration, strategies, and execution flow through JSON / YAML / CLI</strong>. This means:</p>
 <ul>
@@ -2427,10 +2428,10 @@
 <li><strong>Pre-flight</strong>: Read <code>goals/&lt;goal_name&gt;/goals.yaml</code>, <code>goals/&lt;goal_name&gt;/explored_log.md</code>, and existing strategy JSON files; identify untried combinations</li>
 <li><strong>Strategy generation</strong>: Pick one indicator × symbol combo, generate the strategy JSON, and save under <code>data/strategies/&lt;name&gt;.json</code></li>
 <li><strong>Register → validate</strong>: <code>forge strategy save</code> → <code>forge strategy validate</code> for logical consistency (rollback on failure)</li>
-<li><strong>Signal count check</strong>: <code>forge backtest signal-count &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code>; skip if <code>entry_signal_days = 0</code></li>
-<li><strong>Backtest</strong>: <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code></li>
-<li><strong>Optimize only when pre-filter passes</strong>: <code>Sharpe ≥ 1.0 &amp;&amp; MaxDD ≤ 25%</code> triggers <code>forge optimize run</code> + <code>forge optimize walk-forward --windows 5</code></li>
-<li><strong>Record outcome</strong>: Append to <code>goals/&lt;goal_name&gt;/explored_log.md</code> and <code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code>. On failure, delete strategy JSON / DB entry / result JSON (idempotency)</li>
+<li><strong>Data fetch</strong>: <code>forge data fetch &lt;SYMBOL&gt; --period 5y</code> (only if not already cached)</li>
+<li><strong>Run the full pipeline in one command</strong>: <code>forge explore run &lt;SYMBOL&gt; --strategy &lt;name&gt; --goal &lt;goal_name&gt; --json</code>
+   Signal check → backtest → optimize → walk-forward → coverage update → DB registration — all in one step</li>
+<li><strong>Record outcome</strong>: Read <code>passed</code> / <code>skip_reason</code> from the output JSON, then append to <code>goals/&lt;goal_name&gt;/explored_log.md</code> and <code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code>. When <code>passed: false</code> and <code>cleanup_done: true</code>, strategy JSON and result JSON have already been removed automatically</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&gt; /explore-strategies                          # One run (default goal)
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&gt; /explore-strategies --goal stocks            # Specify goal

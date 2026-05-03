@@ -37,7 +37,7 @@
 
 ## 全コマンド早見表
 
-実装ベースで網羅した全 16 コマンドグループ × 約 77 サブコマンドの一覧です。
+実装ベースで網羅した全 17 コマンドグループ × 約 85 サブコマンドの一覧です。
 
 | グループ | サブコマンド |
 |---------|-------------|
@@ -47,6 +47,7 @@
 | data | `fetch` `list` `trend` `update` |
 | journal | `list` `show` `runs` `compare` `tag` `note` `verdict` |
 | live | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` |
+| **explore** | **`run` `index` `import` `log` `status` `recommend` `coverage`** |
 | license | `activate` `deactivate` `status` |
 | login / logout | `login` `logout` |
 | init | （単一コマンド） |
