@@ -159,6 +159,66 @@ Next steps:
 
 ---
 
+## explore {#explore}
+
+Manage exploration pipeline state and run the full pipeline in one command. These commands are used internally by the AI agent skill `/explore-strategies`.
+
+| Subcommand | Description |
+|-----------|-------------|
+| `run` | Run backtest → optimize → WFT → DB registration end-to-end (**main command**) |
+| `index` | Build `exploration_index.yaml` from `explored_log.md` |
+| `import` | Bulk-import a Markdown log into the exploration DB |
+| `log` | Manually record an exploration trial to the DB |
+| `status` | Show coverage map against a goal |
+| `recommend` | Write next-exploration candidates to `recommendations.yaml` |
+| `coverage` | Update or view parameter coverage YAML |
+
+### forge explore run
+
+Runs backtest → optimize → walk-forward test (WFT) → coverage update → DB registration in a single command.  
+Called internally by the `/explore-strategies` agent skill.
+
+```bash
+forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--json] [--db <PATH>]
+```
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--strategy` | Strategy name (required) | — |
+| `--goal` | Goal name — applies `pre_filter` / `target_metrics` from `goals.yaml` | `default` |
+| `--no-cleanup` | Skip file / DB cleanup on failure (for debugging) | off |
+| `--dry-run` | Print planned steps and exit without running | off |
+| `--json` | Output result as JSON to stdout | off |
+| `--db` | Path to exploration DB (defaults to path from `forge.yaml`) | — |
+
+#### Output JSON example
+
+```json
+{
+  "symbol": "SPY",
+  "strategy_id": "spy_hmm_rsi_v3",
+  "passed": false,
+  "backtest": {
+    "sharpe": 0.82,
+    "max_dd": 19.9,
+    "trades": 42
+  },
+  "pre_filter_pass": true,
+  "wft_avg_sharpe": 1.12,
+  "wft_target": 1.5,
+  "skip_reason": "wft_failed",
+  "cleanup_done": true
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `passed` | `true` when WFT meets `target_metrics` |
+| `skip_reason` | Reason for skip/failure: `no_signals` / `pre_filter_failed` / `wft_failed` / `dry_run` / `null` |
+| `cleanup_done` | `true` when strategy JSON and result JSON were automatically removed on failure |
+
+---
+
 ## pine
 
 Convert between strategy JSON and TradingView Pine Script v6.

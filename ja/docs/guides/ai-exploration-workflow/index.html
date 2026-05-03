@@ -2427,10 +2427,10 @@
 <li><strong>事前確認</strong>: <code>goals/&lt;goal_name&gt;/goals.yaml</code>、<code>goals/&lt;goal_name&gt;/explored_log.md</code>、既存戦略 JSON を読み、未試行の組み合わせを把握</li>
 <li><strong>戦略生成</strong>: 未試行の指標×銘柄を 1 つ選び、戦略 JSON を生成して <code>data/strategies/&lt;name&gt;.json</code> に保存</li>
 <li><strong>登録 → 検証</strong>: <code>forge strategy save</code> → <code>forge strategy validate</code> で論理整合性を確認（失敗時はロールバック）</li>
-<li><strong>シグナル件数チェック</strong>: <code>forge backtest signal-count &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code>　<code>entry_signal_days = 0</code> ならスキップ</li>
-<li><strong>バックテスト</strong>: <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;name&gt; --json</code></li>
-<li><strong>初期フィルタ通過時のみ最適化</strong>: <code>Sharpe ≥ 1.0 &amp;&amp; MaxDD ≤ 25%</code> を満たせば <code>forge optimize run</code> + <code>forge optimize walk-forward --windows 5</code></li>
-<li><strong>合否記録</strong>: <code>goals/&lt;goal_name&gt;/explored_log.md</code> と <code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code> に追記。不合格は戦略 JSON / DB エントリ / 結果 JSON を全削除（冪等性確保）</li>
+<li><strong>データ取得</strong>: <code>forge data fetch &lt;SYMBOL&gt; --period 5y</code>（未取得の場合のみ）</li>
+<li><strong>パイプライン一括実行</strong>: <code>forge explore run &lt;SYMBOL&gt; --strategy &lt;name&gt; --goal &lt;goal_name&gt; --json</code>
+   シグナルチェック → バックテスト → 最適化 → WFT → coverage 更新 → DB 登録を 1 コマンドで完結</li>
+<li><strong>合否記録</strong>: 出力 JSON の <code>passed</code> / <code>skip_reason</code> を読み、<code>goals/&lt;goal_name&gt;/explored_log.md</code> と <code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code> に追記。<code>passed: false</code> かつ <code>cleanup_done: true</code> の場合、戦略 JSON / 結果 JSON は自動削除済み</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&gt; /explore-strategies                          # 1 ラン実行（デフォルトゴール）
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&gt; /explore-strategies --goal stocks            # ゴールを指定
