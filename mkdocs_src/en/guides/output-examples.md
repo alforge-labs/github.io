@@ -115,6 +115,10 @@ The dashboard (`forge dashboard`) provides these tabs:
 | Trades | Individual trade list (entry/exit date, P&L, holding period) |
 | Statistics | Annual/monthly stats, key risk metrics |
 
+![Sample Equity Curve and Drawdown Chart](../assets/illustrations/guides/output-equity-curve-drawdown.png)
+
+![Sample Individual Trade Scatter Plot](../assets/illustrations/guides/output-trade-scatter-plot.png)
+
 ---
 
 ## Batch Backtest (compare multiple strategies)
