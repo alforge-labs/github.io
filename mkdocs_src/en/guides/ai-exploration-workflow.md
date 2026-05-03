@@ -5,6 +5,8 @@ Combining Claude Code, Codex, and similar AI coding agents with AlphaForge as th
 !!! info "Prerequisite"
     The commands and flows shown here assume the `alpha-trade` monorepo (a combination of `alpha-forge` and `alpha-strategies`). **Binary** users should substitute internal commands like `op run --env-file=...` with `forge` directly.
 
+![AI-driven strategy exploration workflow](../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png)
+
 ## Why AI agents × AlphaForge
 
 AlphaForge is designed so that **all configuration, strategies, and execution flow through JSON / YAML / CLI**. This means:
