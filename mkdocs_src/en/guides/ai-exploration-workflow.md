@@ -82,6 +82,8 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 ![AI-driven strategy exploration workflow](../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png)
 
+![3 Exploration Scenario Branches](../assets/illustrations/ai-exploration-workflow/exploration-3scenarios-branches-en.png)
+
 ### Scenario 1: Combinations from existing strategies / indicators
 
 **Starting point**: Your existing strategy JSON files and the `forge indicator list` catalog.
@@ -158,6 +160,8 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 ### Idempotency
 
 `goals/<goal_name>/explored_log.md` acts as the checkpoint, so re-runs never re-explore the same combination within a goal. Safe to interrupt and resume at any time.
+
+![Idempotency Check Flow](../assets/illustrations/ai-exploration-workflow/exploration-idempotency-flowchart-en.png)
 
 ### Continuous runs and rate limit handling
 

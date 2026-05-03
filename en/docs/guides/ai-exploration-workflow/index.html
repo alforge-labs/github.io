@@ -2386,6 +2386,7 @@
 <h2 id="three-exploration-scenarios">Three exploration scenarios<a class="headerlink" href="#three-exploration-scenarios" title="Permanent link">&para;</a></h2>
 <p>AI agent × AlphaForge usage falls into three categories based on <strong>what you're starting from</strong>.</p>
 <p><img alt="AI-driven strategy exploration workflow" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png" /></p>
+<p><img alt="3 Exploration Scenario Branches" src="../../assets/illustrations/ai-exploration-workflow/exploration-3scenarios-branches-en.png" /></p>
 <h3 id="scenario-1-combinations-from-existing-strategies-indicators">Scenario 1: Combinations from existing strategies / indicators<a class="headerlink" href="#scenario-1-combinations-from-existing-strategies-indicators" title="Permanent link">&para;</a></h3>
 <p><strong>Starting point</strong>: Your existing strategy JSON files and the <code>forge indicator list</code> catalog.</p>
 <p><strong>Typical flow</strong>:</p>
@@ -2459,6 +2460,7 @@
 </table>
 <h3 id="idempotency">Idempotency<a class="headerlink" href="#idempotency" title="Permanent link">&para;</a></h3>
 <p><code>goals/&lt;goal_name&gt;/explored_log.md</code> acts as the checkpoint, so re-runs never re-explore the same combination within a goal. Safe to interrupt and resume at any time.</p>
+<p><img alt="Idempotency Check Flow" src="../../assets/illustrations/ai-exploration-workflow/exploration-idempotency-flowchart-en.png" /></p>
 <h3 id="continuous-runs-and-rate-limit-handling">Continuous runs and rate limit handling<a class="headerlink" href="#continuous-runs-and-rate-limit-handling" title="Permanent link">&para;</a></h3>
 <p>Use <code>--runs 0</code> to loop until a rate limit is hit or all combinations are exhausted.</p>
 <table>
