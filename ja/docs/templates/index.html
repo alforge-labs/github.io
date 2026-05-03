@@ -2377,6 +2377,7 @@
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  &quot;optimizer_config&quot;: {...}     // 最適化パラメータ範囲
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>}
 </code></pre></div>
+<p><img alt="Strategy JSON スキーマ構造" src="../assets/illustrations/templates/strategy-json-schema-tree.png" /></p>
 <p>主要概念の詳細：</p>
 <ul>
 <li><strong><code>indicators[].lock_on_entry: true</code></strong> — エントリーバーの値で固定（SL/TP 価格用）</li>
@@ -2385,11 +2386,13 @@
 <li><strong><code>HMM</code> 指標</strong> — 隠れマルコフモデルでレジーム検出</li>
 <li><strong><code>regime_config</code></strong> — HMM 出力をキーにレジーム別の <code>entry/exit/risk_override</code> を切替</li>
 </ul>
+<p><img alt="インジケーター計算フロー (HMM × BB × RSI)" src="../assets/illustrations/templates/indicator-calculation-dag.png" /></p>
 <hr />
 <h2 id="hmm-bb-rsi">HMM × BB × RSI<a class="headerlink" href="#hmm-bb-rsi" title="Permanent link">&para;</a></h2>
 <h3 id="_3">概要<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p><strong>3 状態の HMM レジーム検出</strong> で相場をフィルタしつつ、<strong>ボリンジャーバンド下限 + RSI 過売</strong> を起点とした平均回帰エントリー。Bull/Neutral/Bear の 3 つを区別し、Bull は強気のレバレッジ（5x）、Neutral は控えめ（3x）、Bear はスキップという構造です。</p>
 <p>このテンプレートの強みは、<strong>1 つの戦略 JSON で 3 つのレジームを同時に管理</strong> できる点にあります。レンジ相場で機能する平均回帰戦略を、トレンドが強すぎたり弱すぎたりする局面では自動的に控えめに（または完全に休止）するため、ドローダウンを抑えやすくなります。</p>
+<p><img alt="HMM 3 状態レジーム遷移" src="../assets/illustrations/templates/hmm-state-transition-diagram.png" /></p>
 <h3 id="_4">適用シナリオ<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>対象銘柄</strong>: 米国大型株 ETF（QQQ、SPY）、グロース株（NVDA）、長期で取引コストが低いもの</li>
