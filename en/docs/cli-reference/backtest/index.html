@@ -1288,6 +1288,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#is-oos-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS / OOS Split (--split)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#progress-bar-rich-ui" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2362,6 +2373,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#is-oos-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS / OOS Split (--split)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#progress-bar-rich-ui" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3144,7 +3166,7 @@
 <td><code>--split</code></td>
 <td>flag</td>
 <td>false</td>
-<td>Split into in-sample / out-of-sample periods</td>
+<td>Split into in-sample / out-of-sample periods (<a href="#is-oos-split">details</a>)</td>
 </tr>
 <tr>
 <td><code>--benchmark</code></td>
@@ -3202,6 +3224,9 @@
 </tr>
 </tbody>
 </table>
+<h3 id="is-oos-split">IS / OOS Split (<code>--split</code>)<a class="headerlink" href="#is-oos-split" title="Permanent link">&para;</a></h3>
+<p>When <code>--split</code> is specified, the full data range is divided into an In-Sample (IS / training) period and an Out-of-Sample (OOS / validation) period. The IS performance is then independently validated on the OOS period, making it the recommended approach for evaluating strategy generalization.</p>
+<p><img alt="IS / OOS Split Flow" src="../../assets/illustrations/backtest/backtest-is-oos-split.png" /></p>
 <h3 id="progress-bar-rich-ui">Progress bar (Rich UI)<a class="headerlink" href="#progress-bar-rich-ui" title="Permanent link">&para;</a></h3>
 <p>While running in a TTY, a Rich-powered progress bar is shown on stderr. The backtest progresses through 6 phases below; with <code>--split</code>, both IS and OOS flows run, totaling 12 steps.</p>
 <table>
@@ -3238,6 +3263,7 @@
 </tr>
 </tbody>
 </table>
+<p><img alt="Backtest 6-Phase Pipeline" src="../../assets/illustrations/backtest/backtest-pipeline-6phases.png" /></p>
 <p>The progress bar is rendered on <strong>stderr</strong>, so combining it with <code>--json</code> keeps stdout as pure JSON (when <code>--json</code> is passed and stderr is a TTY, the dashboard is still drawn on stderr). When stderr is not a TTY (CI, pipes, redirected files), the progress bar is automatically suppressed. This way, <code>--json</code> invocations from agent loops like <code>/explore-strategies</code> show progress in interactive terminals without polluting CI logs.</p>
 <h3 id="sample-output-text">Sample output (text)<a class="headerlink" href="#sample-output-text" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Running backtest: SPY x sma_crossover_v1
