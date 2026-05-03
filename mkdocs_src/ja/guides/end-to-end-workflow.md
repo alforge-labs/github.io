@@ -4,8 +4,6 @@
 
 ![AlphaForge 6ステップ ワークフロー全体図](../assets/illustrations/alphaforge-technical-workflow-ja.png)
 
-![バックテスト 入出力 DAG（有向無環グラフ）](../assets/illustrations/quant-backtesting-data-flow-dag-ja.png)
-
 !!! note "前提"
     以下のコマンドはすべて `alpha-strategies/` ディレクトリから `FORGE_CONFIG=forge.yaml uv run` 付きで実行することを想定しています。
 
