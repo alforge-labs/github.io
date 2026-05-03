@@ -1864,6 +1864,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#forge-strategy-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge strategy signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge strategy signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-output-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text output example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-output-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON output example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#common-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2765,6 +2804,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#forge-strategy-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge strategy signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge strategy signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-output-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text output example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-output-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON output example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#common-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2838,6 +2916,10 @@
 <tr>
 <td><a href="#forge-strategy-validate"><code>forge strategy validate</code></a></td>
 <td>Validate strategy logical consistency</td>
+</tr>
+<tr>
+<td><a href="#forge-strategy-signals"><code>forge strategy signals</code></a></td>
+<td>Count entry signals for a strategy</td>
 </tr>
 </tbody>
 </table>
@@ -3462,6 +3544,83 @@
 <td><code>Error: file not found - &lt;path&gt;</code></td>
 <td><code>.json</code> path not found</td>
 <td>Verify the path</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="forge-strategy-signals">forge strategy signals<a class="headerlink" href="#forge-strategy-signals" title="Permanent link">&para;</a></h2>
+<p>Count entry signals, estimated trades, and WFT window coverage without running optimization or WFT (#321).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>signals<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span><span class="o">[</span>--period<span class="w"> </span>&lt;PERIOD&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--json<span class="o">]</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--strategy</code></td>
+<td>Strategy name (required)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--period</code></td>
+<td>Historical data period</td>
+<td><code>5y</code></td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>Output as JSON</td>
+<td>off</td>
+</tr>
+</tbody>
+</table>
+<h4 id="text-output-example">Text output example<a class="headerlink" href="#text-output-example" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>📊 Signal Summary: my_rsi_v1 / SPY (5y)
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>  Long signals:      45 days
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>  Estimated trades:  38
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>  Avg trades/year:   7.6
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>  WFT coverage:      low (5-10 trades/window)
+</code></pre></div>
+<h4 id="json-output-example">JSON output example<a class="headerlink" href="#json-output-example" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="p">{</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_rsi_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SPY&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">  </span><span class="nt">&quot;period&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5y&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">  </span><span class="nt">&quot;total_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1260</span><span class="p">,</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">  </span><span class="nt">&quot;long_signals&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">  </span><span class="nt">&quot;short_signals&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span><span class="nt">&quot;estimated_trades&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="p">,</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">  </span><span class="nt">&quot;avg_per_year&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.6</span><span class="p">,</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">  </span><span class="nt">&quot;wft_window_coverage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;low (5-10 trades/window)&quot;</span>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>long_signals</code></td>
+<td>Number of days with long entry signal</td>
+</tr>
+<tr>
+<td><code>estimated_trades</code></td>
+<td>Estimated trades (counted as signal blocks)</td>
+</tr>
+<tr>
+<td><code>avg_per_year</code></td>
+<td>Average trades per year</td>
+</tr>
+<tr>
+<td><code>wft_window_coverage</code></td>
+<td>Coverage assessment based on trades per WFT window</td>
 </tr>
 </tbody>
 </table>

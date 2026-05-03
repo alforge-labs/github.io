@@ -179,7 +179,7 @@ AlphaForge: 作業ディレクトリを初期化します...
 エージェントの `/explore-strategies` スキルから内部的に呼び出されます。
 
 ```bash
-forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--json] [--db <PATH>]
+forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--pre-check] [--json] [--db <PATH>]
 ```
 
 | オプション | 説明 | デフォルト |
@@ -188,8 +188,31 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
 | `--goal` | ゴール名（`goals.yaml` の `pre_filter` / `target_metrics` を適用） | `default` |
 | `--no-cleanup` | 不合格時もファイル・DB エントリを削除しない（デバッグ用） | off |
 | `--dry-run` | 実行予定ステップを表示して終了（実際の処理は行わない） | off |
+| `--pre-check` | バックテスト（デフォルトパラメータ）のみ実行し、最適化/WFT はスキップする（#321） | off |
 | `--json` | 結果を JSON 形式で標準出力する | off |
 | `--db` | 探索 DB のパス（省略時は `forge.yaml` のデフォルトパス） | — |
+
+#### `--pre-check` の使い方
+
+戦略設計段階のスクリーニングに使用します。最適化・WFT は実行されません。
+
+```bash
+forge explore run SPY --strategy my_rsi_v1 --pre-check
+forge explore run SPY --strategy my_rsi_v1 --pre-check --json
+```
+
+`--pre-check` 実行時のテキスト出力例:
+
+```
+📊 Pre-check (バックテスト・デフォルトパラメータ)
+  Sharpe:     0.821
+  MaxDD:      19.9%
+  Trades:     24 ⚠️ 少ない（WFT 窓に対して不十分な可能性）
+  Signals:    31
+  Pre-filter: FAIL ❌
+
+→ 最適化・WFT はスキップされます。
+```
 
 #### 出力 JSON の例
 
@@ -207,15 +230,17 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
   "wft_avg_sharpe": 1.12,
   "wft_target": 1.5,
   "skip_reason": "wft_failed",
-  "cleanup_done": true
+  "cleanup_done": true,
+  "entry_signals": 31
 }
 ```
 
 | フィールド | 説明 |
 |-----------|------|
 | `passed` | WFT が `target_metrics` を満たした場合 `true` |
-| `skip_reason` | スキップ・失敗理由（`no_signals` / `pre_filter_failed` / `wft_failed` / `dry_run` / `null`） |
+| `skip_reason` | スキップ・失敗理由（`no_signals` / `pre_filter_failed` / `wft_failed` / `pre_check_only` / `dry_run` / `null`） |
 | `cleanup_done` | 不合格時に戦略 JSON / 結果 JSON が削除済みの場合 `true` |
+| `entry_signals` | エントリーシグナルが立った日数（`--pre-check` 時に設定、後方互換で `null` になる場合あり） |
 
 ---
 

@@ -17,6 +17,7 @@
 | [`forge strategy delete`](#forge-strategy-delete) | 登録済み戦略を DB から削除する |
 | [`forge strategy purge`](#forge-strategy-purge) | 戦略 JSON・関連結果・DB エントリを 1 コマンドで完全削除する |
 | [`forge strategy validate`](#forge-strategy-validate) | 戦略の論理整合性チェックを実行する |
+| [`forge strategy signals`](#forge-strategy-signals) | エントリーシグナル数を軽量集計する |
 
 ---
 
@@ -455,6 +456,55 @@ forge strategy validate <STRATEGY_ID|FILE.json> [OPTIONS]
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
 | `エラー: 指定されたファイルが見つかりません - <path>` | `.json` 指定時に未存在 | パスを確認 |
+
+---
+
+## forge strategy signals
+
+最適化・WFT を実行せず、デフォルトパラメータでエントリーシグナル数・推定取引数・WFT 窓カバレッジを素早く集計します（#321）。
+
+```bash
+forge strategy signals <SYMBOL> --strategy <NAME> [--period <PERIOD>] [--json]
+```
+
+| オプション | 説明 | デフォルト |
+|-----------|------|-----------|
+| `--strategy` | 戦略名（必須） | — |
+| `--period` | データ期間 | `5y` |
+| `--json` | JSON 形式で出力する | off |
+
+#### 出力例（テキスト）
+
+```
+📊 シグナル集計: my_rsi_v1 / SPY (5y)
+  ロングシグナル: 45 日
+  推定取引数:     38
+  年平均取引数:   7.6
+  WFT 窓カバレッジ: 低 (5-10 取引/窓)
+```
+
+#### 出力 JSON の例
+
+```json
+{
+  "strategy_id": "my_rsi_v1",
+  "symbol": "SPY",
+  "period": "5y",
+  "total_days": 1260,
+  "long_signals": 45,
+  "short_signals": 0,
+  "estimated_trades": 38,
+  "avg_per_year": 7.6,
+  "wft_window_coverage": "低 (5-10 取引/窓)"
+}
+```
+
+| フィールド | 説明 |
+|-----------|------|
+| `long_signals` | ロングエントリーシグナルが立った日数 |
+| `estimated_trades` | 連続シグナルをブロック単位でカウントした推定取引数 |
+| `avg_per_year` | 年平均取引数 |
+| `wft_window_coverage` | WFT 窓あたりの推定取引数に基づくカバレッジ判定 |
 
 ---
 

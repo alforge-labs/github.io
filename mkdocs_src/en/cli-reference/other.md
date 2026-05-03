@@ -179,7 +179,7 @@ Runs backtest → optimize → walk-forward test (WFT) → coverage update → D
 Called internally by the `/explore-strategies` agent skill.
 
 ```bash
-forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--json] [--db <PATH>]
+forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--pre-check] [--json] [--db <PATH>]
 ```
 
 | Option | Description | Default |
@@ -188,8 +188,31 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
 | `--goal` | Goal name — applies `pre_filter` / `target_metrics` from `goals.yaml` | `default` |
 | `--no-cleanup` | Skip file / DB cleanup on failure (for debugging) | off |
 | `--dry-run` | Print planned steps and exit without running | off |
+| `--pre-check` | Run backtest only (default params), skip optimization and WFT (#321) | off |
 | `--json` | Output result as JSON to stdout | off |
 | `--db` | Path to exploration DB (defaults to path from `forge.yaml`) | — |
+
+#### Using `--pre-check`
+
+Use for rapid screening during strategy design. Optimization and WFT are not executed.
+
+```bash
+forge explore run SPY --strategy my_rsi_v1 --pre-check
+forge explore run SPY --strategy my_rsi_v1 --pre-check --json
+```
+
+Sample text output with `--pre-check`:
+
+```
+📊 Pre-check (backtest, default params)
+  Sharpe:     0.821
+  MaxDD:      19.9%
+  Trades:     24 ⚠️ low (may be insufficient for WFT windows)
+  Signals:    31
+  Pre-filter: FAIL ❌
+
+→ Optimization and WFT are skipped.
+```
 
 #### Output JSON example
 
@@ -207,15 +230,17 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
   "wft_avg_sharpe": 1.12,
   "wft_target": 1.5,
   "skip_reason": "wft_failed",
-  "cleanup_done": true
+  "cleanup_done": true,
+  "entry_signals": 31
 }
 ```
 
 | Field | Description |
 |-------|-------------|
 | `passed` | `true` when WFT meets `target_metrics` |
-| `skip_reason` | Reason for skip/failure: `no_signals` / `pre_filter_failed` / `wft_failed` / `dry_run` / `null` |
+| `skip_reason` | Reason for skip/failure: `no_signals` / `pre_filter_failed` / `wft_failed` / `pre_check_only` / `dry_run` / `null` |
 | `cleanup_done` | `true` when strategy JSON and result JSON were automatically removed on failure |
+| `entry_signals` | Number of days with long entry signal (set during `--pre-check`; may be `null` for backward compatibility) |
 
 ---
 

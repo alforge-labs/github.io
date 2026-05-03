@@ -17,6 +17,7 @@ Create, register, validate, and manage strategy JSON definitions. Covers scaffol
 | [`forge strategy delete`](#forge-strategy-delete) | Delete a registered strategy from the DB |
 | [`forge strategy purge`](#forge-strategy-purge) | Purge the strategy JSON, related results, and DB entry in a single command |
 | [`forge strategy validate`](#forge-strategy-validate) | Validate strategy logical consistency |
+| [`forge strategy signals`](#forge-strategy-signals) | Count entry signals for a strategy |
 
 ---
 
@@ -455,6 +456,55 @@ Strategy: my_v1  [NG]
 | Message | Cause | Fix |
 |---------|-------|-----|
 | `Error: file not found - <path>` | `.json` path not found | Verify the path |
+
+---
+
+## forge strategy signals
+
+Count entry signals, estimated trades, and WFT window coverage without running optimization or WFT (#321).
+
+```bash
+forge strategy signals <SYMBOL> --strategy <NAME> [--period <PERIOD>] [--json]
+```
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--strategy` | Strategy name (required) | — |
+| `--period` | Historical data period | `5y` |
+| `--json` | Output as JSON | off |
+
+#### Text output example
+
+```
+📊 Signal Summary: my_rsi_v1 / SPY (5y)
+  Long signals:      45 days
+  Estimated trades:  38
+  Avg trades/year:   7.6
+  WFT coverage:      low (5-10 trades/window)
+```
+
+#### JSON output example
+
+```json
+{
+  "strategy_id": "my_rsi_v1",
+  "symbol": "SPY",
+  "period": "5y",
+  "total_days": 1260,
+  "long_signals": 45,
+  "short_signals": 0,
+  "estimated_trades": 38,
+  "avg_per_year": 7.6,
+  "wft_window_coverage": "low (5-10 trades/window)"
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `long_signals` | Number of days with long entry signal |
+| `estimated_trades` | Estimated trades (counted as signal blocks) |
+| `avg_per_year` | Average trades per year |
+| `wft_window_coverage` | Coverage assessment based on trades per WFT window |
 
 ---
 

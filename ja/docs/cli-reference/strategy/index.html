@@ -1864,7 +1864,46 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#forge-strategy-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge strategy signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge strategy signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        出力例（テキスト）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        出力 JSON の例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_37" class="md-nav__link">
     <span class="md-ellipsis">
       
         共通の挙動
@@ -2765,7 +2804,46 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#forge-strategy-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge strategy signals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="forge strategy signals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        出力例（テキスト）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        出力 JSON の例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_37" class="md-nav__link">
     <span class="md-ellipsis">
       
         共通の挙動
@@ -2838,6 +2916,10 @@
 <tr>
 <td><a href="#forge-strategy-validate"><code>forge strategy validate</code></a></td>
 <td>戦略の論理整合性チェックを実行する</td>
+</tr>
+<tr>
+<td><a href="#forge-strategy-signals"><code>forge strategy signals</code></a></td>
+<td>エントリーシグナル数を軽量集計する</td>
 </tr>
 </tbody>
 </table>
@@ -3466,7 +3548,84 @@
 </tbody>
 </table>
 <hr />
-<h2 id="_36">共通の挙動<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h2>
+<h2 id="forge-strategy-signals">forge strategy signals<a class="headerlink" href="#forge-strategy-signals" title="Permanent link">&para;</a></h2>
+<p>最適化・WFT を実行せず、デフォルトパラメータでエントリーシグナル数・推定取引数・WFT 窓カバレッジを素早く集計します（#321）。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>signals<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span><span class="o">[</span>--period<span class="w"> </span>&lt;PERIOD&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--json<span class="o">]</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+<th>デフォルト</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--strategy</code></td>
+<td>戦略名（必須）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--period</code></td>
+<td>データ期間</td>
+<td><code>5y</code></td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>JSON 形式で出力する</td>
+<td>off</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_36">出力例（テキスト）<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>📊 シグナル集計: my_rsi_v1 / SPY (5y)
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>  ロングシグナル: 45 日
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>  推定取引数:     38
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>  年平均取引数:   7.6
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>  WFT 窓カバレッジ: 低 (5-10 取引/窓)
+</code></pre></div>
+<h4 id="json">出力 JSON の例<a class="headerlink" href="#json" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="p">{</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_rsi_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SPY&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">  </span><span class="nt">&quot;period&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5y&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">  </span><span class="nt">&quot;total_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1260</span><span class="p">,</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">  </span><span class="nt">&quot;long_signals&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">  </span><span class="nt">&quot;short_signals&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span><span class="nt">&quot;estimated_trades&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="p">,</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">  </span><span class="nt">&quot;avg_per_year&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.6</span><span class="p">,</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">  </span><span class="nt">&quot;wft_window_coverage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;低 (5-10 取引/窓)&quot;</span>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>long_signals</code></td>
+<td>ロングエントリーシグナルが立った日数</td>
+</tr>
+<tr>
+<td><code>estimated_trades</code></td>
+<td>連続シグナルをブロック単位でカウントした推定取引数</td>
+</tr>
+<tr>
+<td><code>avg_per_year</code></td>
+<td>年平均取引数</td>
+</tr>
+<tr>
+<td><code>wft_window_coverage</code></td>
+<td>WFT 窓あたりの推定取引数に基づくカバレッジ判定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_37">共通の挙動<a class="headerlink" href="#_37" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>ストレージ</strong>: <code>config.strategies.use_db</code> が true なら <code>SQLiteStrategyRepository</code>、false ならファイルベース。<code>forge.yaml</code> で切り替え。</li>
 <li><strong>保存先</strong>: <code>config.strategies.path</code>（戦略 JSON）、<code>config.report.output_path</code>（バックテスト・最適化結果）、<code>config.journal.journal_path</code>（ジャーナル）。</li>
