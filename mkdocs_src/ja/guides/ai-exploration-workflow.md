@@ -82,6 +82,8 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 
 ![AI 駆動の戦略探索ワークフロー](../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-ja.png)
 
+![3 つの探索シナリオ分岐](../assets/illustrations/ai-exploration-workflow/exploration-3scenarios-branches-ja.png)
+
 ### シナリオ 1: 既存戦略・指標の組み合わせ
 
 **起点**: 手元の戦略 JSON、`forge indicator list` の指標カタログ
@@ -158,6 +160,8 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 ### 冪等性のポイント
 
 `goals/<goal_name>/explored_log.md` がチェックポイントになるため、同じゴール内で同じ組み合わせを重複探索しません。中断・再開は安全です。
+
+![冪等性チェックフロー](../assets/illustrations/ai-exploration-workflow/exploration-idempotency-flowchart-ja.png)
 
 ### 連続ランとレートリミット対策
 
