@@ -35,6 +35,8 @@ Every strategy follows the same Pydantic schema. Indicator details are available
 }
 ```
 
+![Strategy JSON Schema Structure](assets/illustrations/templates/strategy-json-schema-tree.png)
+
 Key concepts:
 
 - **`indicators[].lock_on_entry: true`** — Freeze the value at the entry bar (used for SL/TP prices)
@@ -42,6 +44,8 @@ Key concepts:
 - **`EXPR` indicator** — Arbitrary pandas expression (e.g., `"close * 0.98"`)
 - **`HMM` indicator** — Hidden Markov Model regime detection
 - **`regime_config`** — Switch `entry/exit/risk_override` per regime, keyed on the HMM output
+
+![Indicator Calculation Flow (HMM × BB × RSI)](assets/illustrations/templates/indicator-calculation-dag.png)
 
 ---
 
@@ -52,6 +56,8 @@ Key concepts:
 Mean-reversion entries triggered by **Bollinger Band lower break + RSI oversold**, filtered through a **3-state HMM regime detector**. Bull/Neutral/Bear regimes are distinguished, with aggressive leverage in Bull (5x), conservative in Neutral (3x), and skip in Bear.
 
 The strength of this template is **managing three regimes within a single strategy JSON**. A mean-reversion strategy that works in range markets is automatically muted (or fully paused) when trends are too strong or too weak — keeping drawdowns under control.
+
+![HMM 3-State Regime Transition](assets/illustrations/templates/hmm-state-transition-diagram.png)
 
 ### Suitable scenarios
 

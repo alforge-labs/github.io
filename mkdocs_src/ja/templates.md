@@ -35,6 +35,8 @@ AlphaForge で使われる代表的な戦略パターンを 3 種類紹介しま
 }
 ```
 
+![Strategy JSON スキーマ構造](assets/illustrations/templates/strategy-json-schema-tree.png)
+
 主要概念の詳細：
 
 - **`indicators[].lock_on_entry: true`** — エントリーバーの値で固定（SL/TP 価格用）
@@ -42,6 +44,8 @@ AlphaForge で使われる代表的な戦略パターンを 3 種類紹介しま
 - **`EXPR` 指標** — 任意の pandas 式（例: `"close * 0.98"`）
 - **`HMM` 指標** — 隠れマルコフモデルでレジーム検出
 - **`regime_config`** — HMM 出力をキーにレジーム別の `entry/exit/risk_override` を切替
+
+![インジケーター計算フロー (HMM × BB × RSI)](assets/illustrations/templates/indicator-calculation-dag.png)
 
 ---
 
@@ -52,6 +56,8 @@ AlphaForge で使われる代表的な戦略パターンを 3 種類紹介しま
 **3 状態の HMM レジーム検出** で相場をフィルタしつつ、**ボリンジャーバンド下限 + RSI 過売** を起点とした平均回帰エントリー。Bull/Neutral/Bear の 3 つを区別し、Bull は強気のレバレッジ（5x）、Neutral は控えめ（3x）、Bear はスキップという構造です。
 
 このテンプレートの強みは、**1 つの戦略 JSON で 3 つのレジームを同時に管理** できる点にあります。レンジ相場で機能する平均回帰戦略を、トレンドが強すぎたり弱すぎたりする局面では自動的に控えめに（または完全に休止）するため、ドローダウンを抑えやすくなります。
+
+![HMM 3 状態レジーム遷移](assets/illustrations/templates/hmm-state-transition-diagram.png)
 
 ### 適用シナリオ
 
