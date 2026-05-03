@@ -263,6 +263,12 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 | **Profit Factor** | Gross profit ÷ gross loss | ≥ 1.5 is good, ≥ 2.0 is excellent. < 1.0 means net loss. |
 | **Total Trades** | Number of trades over the test period | Aim for 30+ for statistical significance. Too few suggests overfitting risk. |
 
+![Max Drawdown time-series chart](assets/illustrations/concepts/metrics-max-drawdown-chart.png)
+
+![Sharpe Ratio concept diagram](assets/illustrations/concepts/metrics-sharpe-ratio-concept.png)
+
+![Win Rate and Profit Factor relationship](assets/illustrations/concepts/metrics-win-rate-profit-factor.png)
+
 !!! info "What to try next"
     - Parameter optimization: [`forge optimize run`](cli-reference/optimize.md) for Optuna Bayesian search
     - Walk-forward validation: [`forge optimize walk-forward`](cli-reference/optimize.md) to detect overfitting

@@ -263,6 +263,12 @@ forge backtest --help
 | **Profit Factor** | 総利益 ÷ 総損失 | 1.5 以上で良好、2.0 超は優秀。1.0 未満は損失過剰。 |
 | **Total Trades** | 期間中の総トレード数 | 統計的有意性のため最低 30 件以上は欲しい。少なすぎると過学習リスク。 |
 
+![Max Drawdown の時系列チャート](assets/illustrations/concepts/metrics-max-drawdown-chart.png)
+
+![Sharpe Ratio の概念図](assets/illustrations/concepts/metrics-sharpe-ratio-concept.png)
+
+![Win Rate と Profit Factor の関係図](assets/illustrations/concepts/metrics-win-rate-profit-factor.png)
+
 !!! info "次に試すべきこと"
     - パラメータ最適化: [`forge optimize run`](cli-reference/optimize.md) で Optuna ベイズ最適化
     - ウォークフォワード検証: [`forge optimize walk-forward`](cli-reference/optimize.md) で過学習を検証
