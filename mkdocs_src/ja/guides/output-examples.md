@@ -115,6 +115,10 @@ forge backtest chart sma_crossover_v1 --open
 | Trades | 個別トレード一覧（参入日・決済日・損益・保有期間） |
 | Statistics | 年次・月次統計・主要リスク指標 |
 
+![Equity Curve と Drawdown のサンプルチャート](../assets/illustrations/guides/output-equity-curve-drawdown.png)
+
+![個別トレード散布図のサンプル](../assets/illustrations/guides/output-trade-scatter-plot.png)
+
 ---
 
 ## バッチバックテスト（複数戦略を一括比較）
