@@ -58,6 +58,8 @@ forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 - **多目的時の表示要素**: ヘッダー（戦略・銘柄・目的関数の方向）、プログレスバー、Current Trial（各目的関数の現在値）、Pareto Front テーブル（上位 10 件 + 全件数 `Top 10 / Total = N`）
 - `--json` を指定するとダッシュボードは表示されず JSON のみ出力されます。
 
+![Pareto Front 多目的最適化散布図](../assets/illustrations/optimize/optimize-pareto-front.png)
+
 ### サンプル出力（テキスト）
 
 ```text
@@ -235,6 +237,8 @@ forge optimize multi-portfolio <SYMBOL:STRATEGY> [<SYMBOL:STRATEGY> ...] [OPTION
 ## forge optimize walk-forward
 
 時系列を `--windows` 個の連続ウィンドウに分割し、各ウィンドウで IS（イン・サンプル）最適化 → OOS（アウト・オブ・サンプル）評価を繰り返して、過学習耐性を計測する。
+
+![Walk-Forward Test ウィンドウスライド図](../assets/illustrations/optimize/optimize-walk-forward-windows.png)
 
 ### 構文
 
