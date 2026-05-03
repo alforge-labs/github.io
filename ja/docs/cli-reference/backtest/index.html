@@ -1288,6 +1288,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#is-oos-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS / OOS 分割（--split）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#rich" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2362,6 +2373,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#is-oos-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS / OOS 分割（--split）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#rich" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3144,7 +3166,7 @@
 <td><code>--split</code></td>
 <td>フラグ</td>
 <td>false</td>
-<td>イン/アウトサンプル分割</td>
+<td>イン/アウトサンプル分割（<a href="#is-oos-split">詳細</a>）</td>
 </tr>
 <tr>
 <td><code>--benchmark</code></td>
@@ -3202,6 +3224,9 @@
 </tr>
 </tbody>
 </table>
+<h3 id="is-oos-split">IS / OOS 分割（<code>--split</code>）<a class="headerlink" href="#is-oos-split" title="Permanent link">&para;</a></h3>
+<p><code>--split</code> を指定すると、全データ期間をインサンプル（IS / 訓練）とアウトオブサンプル（OOS / 検証）に分割してバックテストを実行します。IS での過学習を OOS 期間で独立検証できるため、戦略の汎化性能を評価する際に推奨されます。</p>
+<p><img alt="IS / OOS 分割フロー" src="../../assets/illustrations/backtest/backtest-is-oos-split.png" /></p>
 <h3 id="rich">進捗表示（Rich プログレスバー）<a class="headerlink" href="#rich" title="Permanent link">&para;</a></h3>
 <p>実行中、ターミナルが TTY であれば Rich によるプログレスバーが標準エラー出力に表示されます。バックテストは以下の 6 フェーズで進行し、<code>--split</code> 指定時は IS / OOS の 2 フローで合計 12 ステップとなります。</p>
 <table>
@@ -3238,6 +3263,7 @@
 </tr>
 </tbody>
 </table>
+<p><img alt="バックテスト 6 フェーズパイプライン" src="../../assets/illustrations/backtest/backtest-pipeline-6phases.png" /></p>
 <p>プログレスバーは <strong>stderr</strong> に描画されるため、<code>--json</code> を併用しても stdout は純粋な JSON のみが出力されます（<code>--json</code> 指定時かつ stderr が TTY のときは進捗バーを stderr に出します）。stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合は自動で抑制されます。これにより <code>/explore-strategies</code> などのエージェント経由の <code>--json</code> 実行でも、対話端末では進捗が可視化されつつ、CI ではログが汚染されません。</p>
 <h3 id="_4">出力例（テキスト）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>バックテストを実行中: SPY x sma_crossover_v1

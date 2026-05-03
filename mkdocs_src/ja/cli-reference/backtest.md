@@ -43,7 +43,7 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `--json` | フラグ | false | 結果を JSON 形式で標準出力 |
 | `--start` | オプション | - | 開始日 `YYYY-MM-DD` |
 | `--end` | オプション | - | 終了日 `YYYY-MM-DD` |
-| `--split` | フラグ | false | イン/アウトサンプル分割 |
+| `--split` | フラグ | false | イン/アウトサンプル分割（[詳細](#is-oos-split)） |
 | `--benchmark` | オプション | config 値 | ベンチマークシンボル |
 | `--check-criteria` | フラグ | false | 受け入れ基準チェックを行う |
 | `--cagr-min` | float | `20.0` | CAGR 最低基準（%、`--check-criteria` と併用） |
@@ -53,6 +53,12 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `--pf-min` | float | `1.3` | PF 最低基準 |
 | `--min-trades` | int | - | 最低取引数。閾値未満で終了コード 1 |
 | `--regime` | フラグ | false | レジーム別統計をコンソールに表示 |
+
+### IS / OOS 分割（`--split`）  {#is-oos-split}
+
+`--split` を指定すると、全データ期間をインサンプル（IS / 訓練）とアウトオブサンプル（OOS / 検証）に分割してバックテストを実行します。IS での過学習を OOS 期間で独立検証できるため、戦略の汎化性能を評価する際に推奨されます。
+
+![IS / OOS 分割フロー](../assets/illustrations/backtest/backtest-is-oos-split.png)
 
 ### 進捗表示（Rich プログレスバー）
 
@@ -66,6 +72,8 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `シミュレーション` | vectorbt によるポートフォリオ実行 |
 | `メトリクス算出` | Sharpe / MDD / 勝率などの計算 |
 | `レジーム分析` | レジーム別メトリクス分析（設定が無い場合は即時完了） |
+
+![バックテスト 6 フェーズパイプライン](../assets/illustrations/backtest/backtest-pipeline-6phases.png)
 
 プログレスバーは **stderr** に描画されるため、`--json` を併用しても stdout は純粋な JSON のみが出力されます（`--json` 指定時かつ stderr が TTY のときは進捗バーを stderr に出します）。stderr が非 TTY（CI、パイプ、ファイルへリダイレクト）の場合は自動で抑制されます。これにより `/explore-strategies` などのエージェント経由の `--json` 実行でも、対話端末では進捗が可視化されつつ、CI ではログが汚染されません。
 
