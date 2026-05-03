@@ -2281,7 +2281,6 @@
 <p class="admonition-title">前提</p>
 <p>本ページのコマンド例とフローは <code>alpha-trade</code> モノレポ（<code>alpha-forge</code> + <code>alpha-strategies</code> の組み合わせ）における運用パターンです。<strong>バイナリ版</strong> ユーザーは <code>op run --env-file=...</code> などの内部コマンドを <code>forge</code> に読み替えてください。</p>
 </div>
-<p><img alt="AI 駆動の戦略探索ワークフロー" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-ja.png" /></p>
 <h2 id="ai-alphaforge">なぜ AI エージェント × AlphaForge か<a class="headerlink" href="#ai-alphaforge" title="Permanent link">&para;</a></h2>
 <p>AlphaForge は <strong>すべての設定・戦略・実行が JSON / YAML / CLI で完結する</strong> ように設計されています。これにより：</p>
 <ul>
@@ -2386,6 +2385,7 @@
 <hr />
 <h2 id="3">3 つの探索シナリオ<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
 <p>AI エージェント × AlphaForge の使い方は、<strong>起点となる材料</strong> で大きく 3 つに分類できます。</p>
+<p><img alt="AI 駆動の戦略探索ワークフロー" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-ja.png" /></p>
 <h3 id="1">シナリオ 1: 既存戦略・指標の組み合わせ<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p><strong>起点</strong>: 手元の戦略 JSON、<code>forge indicator list</code> の指標カタログ</p>
 <p><strong>典型フロー</strong>:</p>
