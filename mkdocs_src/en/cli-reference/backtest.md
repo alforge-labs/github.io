@@ -43,7 +43,7 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `--json` | flag | false | Output results as JSON to stdout |
 | `--start` | option | - | Start date `YYYY-MM-DD` |
 | `--end` | option | - | End date `YYYY-MM-DD` |
-| `--split` | flag | false | Split into in-sample / out-of-sample periods |
+| `--split` | flag | false | Split into in-sample / out-of-sample periods ([details](#is-oos-split)) |
 | `--benchmark` | option | config | Benchmark symbol |
 | `--check-criteria` | flag | false | Run acceptance criteria check |
 | `--cagr-min` | float | `20.0` | Minimum CAGR (%), used with `--check-criteria` |
@@ -53,6 +53,12 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `--pf-min` | float | `1.3` | Minimum profit factor |
 | `--min-trades` | int | - | Minimum trade count; exits with code 1 if below |
 | `--regime` | flag | false | Display per-regime statistics on the console |
+
+### IS / OOS Split (`--split`)  {#is-oos-split}
+
+When `--split` is specified, the full data range is divided into an In-Sample (IS / training) period and an Out-of-Sample (OOS / validation) period. The IS performance is then independently validated on the OOS period, making it the recommended approach for evaluating strategy generalization.
+
+![IS / OOS Split Flow](../assets/illustrations/backtest/backtest-is-oos-split.png)
 
 ### Progress bar (Rich UI)
 
@@ -66,6 +72,8 @@ While running in a TTY, a Rich-powered progress bar is shown on stderr. The back
 | `シミュレーション` (Simulate) | Run the vectorbt portfolio simulation |
 | `メトリクス算出` (Metrics) | Compute Sharpe / MDD / win rate, etc. |
 | `レジーム分析` (Regime) | Compute per-regime metrics (no-op when not configured) |
+
+![Backtest 6-Phase Pipeline](../assets/illustrations/backtest/backtest-pipeline-6phases.png)
 
 The progress bar is rendered on **stderr**, so combining it with `--json` keeps stdout as pure JSON (when `--json` is passed and stderr is a TTY, the dashboard is still drawn on stderr). When stderr is not a TTY (CI, pipes, redirected files), the progress bar is automatically suppressed. This way, `--json` invocations from agent loops like `/explore-strategies` show progress in interactive terminals without polluting CI logs.
 
