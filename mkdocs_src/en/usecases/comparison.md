@@ -15,6 +15,8 @@ This page provides an honest comparison of AlphaForge against commonly used alte
 | **Live Order Integration** | TradingView → AlphaStrike | Custom implementation | Custom implementation | Via alerts | Custom implementation |
 | **Learning Curve** | CLI + JSON | Python classes | Python + NumPy | Pine Script | Python |
 
+![Tool Comparison Radar Chart — Feature Score Comparison Across 7 Axes](../assets/illustrations/usecases/tool-comparison-radar-chart.png)
+
 ---
 
 ## AlphaForge vs Backtrader
@@ -238,6 +240,8 @@ See the [Quants & Researchers Guide](quants.md) for details.
 | You want to enhance TradingView with scientific backtesting | **AlphaForge + TradingView** |
 
 AlphaForge is not a "do-everything" universal tool. If you need complex event-driven logic or direct connections to specific brokers, consider combining with other tools.
+
+![Tool Selection Flowchart — Decision Tree for Recommended Tools by Use Case](../assets/illustrations/usecases/tool-selection-flowchart.png)
 
 ## Related Docs
 

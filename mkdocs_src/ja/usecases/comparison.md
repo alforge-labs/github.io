@@ -15,6 +15,8 @@
 | **自動発注連携** | TradingView → AlphaStrike | 個別実装が必要 | 個別実装が必要 | アラート経由 | 個別実装が必要 |
 | **学習コスト** | CLI + JSON | Python クラス | Python + numpy | Pine Script | Python |
 
+![ツール比較レーダーチャート — 7軸での機能スコア比較](../assets/illustrations/usecases/tool-comparison-radar-chart.png)
+
 ---
 
 ## AlphaForge vs Backtrader
@@ -238,6 +240,8 @@ IS期間   OOS期間  Sharpe(IS)  Sharpe(OOS)  判定
 | TradingView を科学的なバックテストで補強したい | **AlphaForge + TradingView** |
 
 AlphaForge は「何でもできる万能ツール」ではありません。複雑なイベント駆動ロジックや特定ブローカーへの直接接続が必要な場合は、他のツールとの組み合わせを検討してください。
+
+![ツール選択フローチャート — ユースケース別推奨ツール判定木](../assets/illustrations/usecases/tool-selection-flowchart.png)
 
 ## 関連ドキュメント
 
