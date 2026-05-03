@@ -82,8 +82,6 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 ![AI-driven strategy exploration workflow](../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png)
 
-![3 Exploration Scenario Branches](../assets/illustrations/ai-exploration-workflow/exploration-3scenarios-branches-en.png)
-
 ### Scenario 1: Combinations from existing strategies / indicators
 
 **Starting point**: Your existing strategy JSON files and the `forge indicator list` catalog.
