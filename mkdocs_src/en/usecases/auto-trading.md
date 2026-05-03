@@ -4,6 +4,8 @@ For traders who want a complete end-to-end environment — from strategy develop
 
 ## End-to-End System Architecture
 
+![AlphaForge auto-trading pipeline architecture](../assets/illustrations/auto-trading/auto-trading-pipeline-architecture-en.png)
+
 ```
 AlphaForge (strategy development & validation)
       ↓  Pine Script generation
@@ -24,6 +26,8 @@ Broker API (actual orders)
 | **Alpha Strike** | Receives webhook and submits orders to broker API |
 
 ## Pre-Production Checklist
+
+![Auto-trading 3-stage risk management gates](../assets/illustrations/auto-trading/auto-trading-risk-gate-en.png)
 
 !!! warning "Verify Before Going Live"
     - [ ] IS/OOS degradation rate within acceptable range (guideline: below 50%) in walk-forward validation
