@@ -14,10 +14,9 @@ Utility and management commands not covered by the [core groups](index.md), bund
 | [init](#init) | (single command) | Initialize working directory |
 | [pine](#pine) | `generate` `preview` `import` | Generate / import TradingView Pine Script |
 | [indicator](#indicator) | `list` `show` | Browse supported technical indicators |
-| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` `dashboard` | Track investment ideas |
+| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
 | [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
 | [pairs](#pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
-| [dashboard](#dashboard) | (single command) | Launch the web dashboard |
 | [docs](#docs) | `list` `show` | Browse bundled documentation |
 
 ---
@@ -471,16 +470,6 @@ forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 | `--status` | choice | Status filter |
 | `--tag` | repeatable | Tag filter |
 
-### forge idea dashboard
-
-Launch the web dashboard (equivalent to `forge dashboard`).
-
-```bash
-forge idea dashboard [--port 8000] [--no-open]
-```
-
-See [`forge dashboard`](#dashboard) for details.
-
 ---
 
 ## altdata
@@ -602,31 +591,17 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 ---
 
-## dashboard
+## dashboard (→ moved to alpha-visualizer)
 
-Start the web dashboard (FastAPI + uvicorn). Browse equity curves, drawdowns, Monte Carlo, WFO results, and more in the browser.
+!!! info "Moved to alpha-visualizer"
+    The `forge dashboard` command has been moved to the **alpha-visualizer** package (`vis serve`).
 
-### Synopsis
+    ```bash
+    uv tool install alpha-visualizer
+    vis serve
+    ```
 
-```bash
-forge dashboard [--port 8000] [--host 127.0.0.1] [--no-open]
-```
-
-### Options
-
-| Name | Kind | Default | Description |
-|------|------|---------|-------------|
-| `--port` | int | `8000` | Bind port |
-| `--host` | option | `127.0.0.1` | Bind host |
-| `--no-open` | flag | false | Do not open browser automatically |
-
-Sample output:
-
-```text
-Starting dashboard: http://127.0.0.1:8000  (Ctrl+C to stop)
-```
-
-If `fastapi` / `uvicorn` are not installed, an instruction message is printed and the command exits (they are bundled when running `uv sync` after `forge.yaml` setup).
+    See the [alpha-visualizer docs](../alpha-visualizer.md) for details.
 
 ---
 

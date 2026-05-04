@@ -75,6 +75,7 @@ nav:
   - 戦略カタログ:
       - 戦略テンプレート: templates.md
       - 戦略実例ギャラリー: strategy-gallery.md
+  - alpha-visualizer: alpha-visualizer.md
   - CLI リファレンス:
       - 概要: cli-reference/index.md
       - backtest: cli-reference/backtest.md
