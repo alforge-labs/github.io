@@ -32,7 +32,7 @@ License management, utilities, and supporting features are bundled on the [Other
 | **idea** | Manage and search investment ideas | [other#idea →](other.md#idea) |
 | **altdata** | Fetch and manage alternative data (sentiment, etc.) | [other#altdata →](other.md#altdata) |
 | **pairs** | Pair trading (cointegration tests) | [other#pairs →](other.md#pairs) |
-| **dashboard** | Launch the web dashboard | [other#dashboard →](other.md#dashboard) |
+| **dashboard** | Web dashboard (→ alpha-visualizer `vis serve`) | [alpha-visualizer →](../alpha-visualizer.md) |
 | **docs** | Browse bundled documentation | [other#docs →](other.md#docs) |
 
 ## All Commands at a Glance
@@ -52,10 +52,9 @@ Implementation-derived catalog covering all 16 groups and ~77 subcommands.
 | init | (single command) |
 | pine | `generate` `preview` `import` |
 | indicator | `list` `show` |
-| idea | `add` `list` `show` `status` `link` `tag` `note` `search` `dashboard` |
+| idea | `add` `list` `show` `status` `link` `tag` `note` `search` |
 | altdata | `fetch` `list` `info` |
 | pairs | `scan` `scan-all` `build` |
-| dashboard | (single command) |
 | docs | `list` `show` |
 
 ## Built-in Help

@@ -14,10 +14,9 @@
 | [init](#init) | （単一コマンド） | 作業ディレクトリの初期化 |
 | [pine](#pine) | `generate` `preview` `import` | TradingView Pine Script の生成・取り込み |
 | [indicator](#indicator) | `list` `show` | 対応テクニカル指標の参照 |
-| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` `dashboard` | 投資アイデアの記録・追跡 |
+| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | 投資アイデアの記録・追跡 |
 | [altdata](#altdata) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
 | [pairs](#pairs) | `scan` `scan-all` `build` | ペアトレード（コインテグレーション） |
-| [dashboard](#dashboard) | （単一コマンド） | Web ダッシュボードの起動 |
 | [docs](#docs) | `list` `show` | 同梱ドキュメント参照 |
 
 ---
@@ -471,16 +470,6 @@ forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 | `--status` | choice | ステータスフィルタ |
 | `--tag` | 複数指定可 | タグフィルタ |
 
-### forge idea dashboard
-
-`forge dashboard` と同等の Web ダッシュボードを起動します。
-
-```bash
-forge idea dashboard [--port 8000] [--no-open]
-```
-
-詳細は [`forge dashboard`](#dashboard) を参照。
-
 ---
 
 ## altdata
@@ -602,31 +591,17 @@ forge pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 
 ---
 
-## dashboard
+## dashboard（→ alpha-visualizer へ移行）
 
-Web ダッシュボードを起動します（FastAPI + uvicorn）。エクイティカーブ・ドローダウン・モンテカルロ・WFO 結果などをブラウザで閲覧可能。
+!!! info "alpha-visualizer として独立しました"
+    `forge dashboard` コマンドは **alpha-visualizer** パッケージ（`vis serve`）に移行しました。
 
-### 構文
+    ```bash
+    uv tool install alpha-visualizer
+    vis serve
+    ```
 
-```bash
-forge dashboard [--port 8000] [--host 127.0.0.1] [--no-open]
-```
-
-### オプション
-
-| 名前 | 種別 | デフォルト | 説明 |
-|------|------|----------|------|
-| `--port` | int | `8000` | バインドポート |
-| `--host` | オプション | `127.0.0.1` | バインドホスト |
-| `--no-open` | フラグ | false | ブラウザを自動で開かない |
-
-サンプル出力：
-
-```text
-ダッシュボードを起動中: http://127.0.0.1:8000  (Ctrl+C で停止)
-```
-
-`fastapi` / `uvicorn` 未インストール時は案内メッセージを出して終了します（`forge.yaml` セットアップ後の `uv sync` で同梱されます）。
+    詳細は [alpha-visualizer ドキュメント](../alpha-visualizer.md) を参照してください。
 
 ---
 
