@@ -92,6 +92,43 @@ All paths are relative to `alpha-trade/` as the working root.
     "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore *)"
     ```
 
+## Setting up Codex CLI for unattended runs {#codex-unattended-setup}
+
+To run the same kind of long job with Codex CLI, configure the **approval policy** and **sandbox scope** instead of a command-by-command allow list like Claude Code's `permissions.allow`.
+
+First, add an unattended profile to `~/.codex/config.toml`:
+
+```toml
+[profiles.alforge-labs-unattended]
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+```
+
+Then start `codex exec` with that profile, pinning the working root and any additional writable directories:
+
+```bash
+codex exec \
+  --profile alforge-labs-unattended \
+  --cd /absolute/path/alpha-trade \
+  --add-dir /absolute/path/alpha-trade/alpha-strategies \
+  "Use the explore-strategies skill to explore the default goal with the equivalent of --runs 0."
+```
+
+Replace `/absolute/path/` with your actual path (e.g., `/Users/yourname/dev/alpha-trade`). If `--cd` points at the `alpha-trade` monorepo root, most operations already stay inside the workspace. Add `--add-dir` when your strategy JSON output lives in a separate worktree or an external `alpha-strategies` checkout.
+
+| Setting / option | Purpose |
+|------------------|---------|
+| `approval_policy = "never"` | Prevent approval prompts during the run; failures are returned to Codex directly |
+| `sandbox_mode = "workspace-write"` | Limit writes to the workspace and explicitly added directories |
+| `--cd /.../alpha-trade` | Fix Codex's working root to the monorepo |
+| `--add-dir /.../alpha-strategies` | Allow writes to a strategy JSON directory outside the working root |
+
+!!! warning "Avoid full bypass by default"
+    `--dangerously-bypass-approvals-and-sandbox` disables both approvals and sandboxing. Do not use it for normal local exploration unless you are running inside an externally isolated throwaway environment.
+
+!!! tip "Prefetch data first"
+    Codex's `workspace-write` sandbox may restrict network access depending on your environment. For symbols that need `forge data fetch` / `forge data update`, run `/update-market-data` or `forge data fetch <SYMBOL>` manually before starting the unattended run.
+
 ---
 
 ## Overall flow
