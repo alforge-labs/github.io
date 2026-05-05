@@ -50,23 +50,31 @@ Add the following patterns to `permissions.allow` in `.claude/settings.local.jso
 {
   "permissions": {
     "allow": [
-      "Write(/absolute/path/alpha-strategies/data/strategies/*.json)",
+      "Write(alpha-strategies/data/strategies/*.json)",
       "Bash(uv --directory alpha-forge run forge *)",
       "Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)",
-      "Bash(git *)"
+      "Bash(git -C */alpha-strategies add data/)",
+      "Bash(git -C */alpha-strategies commit *)",
+      "Bash(git -C */alpha-strategies push)",
+      "Bash(rm */alpha-strategies/data/strategies/*.json)",
+      "Bash(rm */data/strategies/*.json)"
     ]
   }
 }
 ```
 
-Replace `/absolute/path/` with your actual path (e.g., `/Users/yourname/dev/alpha-trade`).
+All paths are relative to `alpha-trade/` as the working root.
 
 | Pattern | What it authorizes |
 |---------|-------------------|
-| `Write(.../strategies/*.json)` | Writing strategy JSON files (one per strategy) |
+| `Write(alpha-strategies/data/strategies/*.json)` | Writing strategy JSON files (one per strategy) |
 | `Bash(uv --directory alpha-forge run forge *)` | Direct forge execution |
 | `Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)` | Forge commands with any FORGE_CONFIG (relative or absolute) |
-| `Bash(git *)` | git add / commit / push |
+| `Bash(git -C */alpha-strategies add data/)` | Staging exploration results |
+| `Bash(git -C */alpha-strategies commit *)` | Committing exploration results |
+| `Bash(git -C */alpha-strategies push)` | Pushing to alpha-strategies |
+| `Bash(rm */alpha-strategies/data/strategies/*.json)` | Deleting temp files for failed strategies |
+| `Bash(rm */data/strategies/*.json)` | Same, handling different working directory contexts |
 
 !!! note "About settings.local.json"
     `settings.local.json` is listed in `.gitignore` and is never shared with teammates. Each developer must configure it individually in their own environment. Do not add these entries to the tracked `settings.json`.
@@ -75,10 +83,13 @@ Replace `/absolute/path/` with your actual path (e.g., `/Users/yourname/dev/alph
     Merge the new entries into your existing array — do not overwrite the entire file, or you will lose your existing permissions.
 
 !!! info "Using 1Password"
-    If you run forge via `op run`, add these two patterns as well:
+    If you run forge via `op run`, add these patterns as well:
     ```json
-    "Bash(op run *)",
-    "Bash(FORGE_CONFIG=* op run *)"
+    "Bash(op run --env-file=alpha-forge/.env.op -- uv --directory alpha-forge run forge *)",
+    "Bash(FORCE_COLOR=* FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore run *)",
+    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge strategy *)",
+    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge data fetch *)",
+    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore *)"
     ```
 
 ---
