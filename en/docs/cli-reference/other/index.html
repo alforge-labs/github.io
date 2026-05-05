@@ -1827,17 +1827,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#forge-idea-dashboard" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        forge idea dashboard
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1932,45 +1921,6 @@
     <span class="md-ellipsis">
       
         forge pairs build
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dashboard" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dashboard
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="dashboard">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#synopsis_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Synopsis
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#options_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options
       
     </span>
   </a>
@@ -2662,17 +2612,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#forge-idea-dashboard" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        forge idea dashboard
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -2767,45 +2706,6 @@
     <span class="md-ellipsis">
       
         forge pairs build
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dashboard" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dashboard
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="dashboard">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#synopsis_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Synopsis
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#options_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options
       
     </span>
   </a>
@@ -2927,7 +2827,7 @@
 </tr>
 <tr>
 <td><a href="#idea">idea</a></td>
-<td><code>add</code> <code>list</code> <code>show</code> <code>status</code> <code>link</code> <code>tag</code> <code>note</code> <code>search</code> <code>dashboard</code></td>
+<td><code>add</code> <code>list</code> <code>show</code> <code>status</code> <code>link</code> <code>tag</code> <code>note</code> <code>search</code></td>
 <td>Track investment ideas</td>
 </tr>
 <tr>
@@ -2940,18 +2840,9 @@
 <td><code>scan</code> <code>scan-all</code> <code>build</code></td>
 <td>Pairs trading (cointegration)</td>
 </tr>
-<tr>
-<td><a href="#dashboard">dashboard</a></td>
-<td>(single command)</td>
-<td>Launch the web dashboard</td>
-</tr>
-<tr>
-<td><a href="#docs">docs</a></td>
-<td><code>list</code> <code>show</code></td>
-<td>Browse bundled documentation</td>
-</tr>
 </tbody>
 </table>
+<p>| <a href="#docs">docs</a> | <code>list</code> <code>show</code> | Browse bundled documentation |</p>
 <hr />
 <h2 id="license">license<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p>Activate, deactivate, and check license status. For installation steps, see <a href="../../getting-started/">Getting Started</a>.</p>
@@ -3551,16 +3442,11 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="forge-idea-dashboard">forge idea dashboard<a class="headerlink" href="#forge-idea-dashboard" title="Permanent link">&para;</a></h3>
-<p>Launch the web dashboard (equivalent to <code>forge dashboard</code>).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>forge<span class="w"> </span>idea<span class="w"> </span>dashboard<span class="w"> </span><span class="o">[</span>--port<span class="w"> </span><span class="m">8000</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-open<span class="o">]</span>
-</code></pre></div>
-<p>See <a href="#dashboard"><code>forge dashboard</code></a> for details.</p>
 <hr />
 <h2 id="altdata">altdata<a class="headerlink" href="#altdata" title="Permanent link">&para;</a></h2>
 <p>Fetch and manage alternative data (sentiment, macro indicators, etc.). Stored under <code>config.data.alt_storage_path</code> and referenceable from strategy JSON via the <code>ALTDATA</code> indicator type.</p>
 <h3 id="forge-altdata-fetch">forge altdata fetch<a class="headerlink" href="#forge-altdata-fetch" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>fetch<span class="w"> </span>&lt;SOURCE_KEY&gt;<span class="w"> </span>--start<span class="w"> </span>&lt;YYYY-MM-DD&gt;<span class="w"> </span>--end<span class="w"> </span>&lt;YYYY-MM-DD&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>fetch<span class="w"> </span>&lt;SOURCE_KEY&gt;<span class="w"> </span>--start<span class="w"> </span>&lt;YYYY-MM-DD&gt;<span class="w"> </span>--end<span class="w"> </span>&lt;YYYY-MM-DD&gt;
 </code></pre></div>
 <table>
 <thead>
@@ -3590,16 +3476,16 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 </table>
 <p>Output: <code>✅ &lt;SOURCE_KEY&gt;: saved &lt;N&gt; rows</code>. Unregistered providers raise <code>ClickException</code>.</p>
 <h3 id="forge-altdata-list">forge altdata list<a class="headerlink" href="#forge-altdata-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>list
 </code></pre></div>
 <p>Sample output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>Stored alternative data count: 2
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>SOURCE_KEY                INTERVAL   ROWS         START           END
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>fear_greed_index          1d          1525   2020-01-01   2025-12-31
-<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>vix_termstructure         1d          1530   2020-01-01   2025-12-31
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>Stored alternative data count: 2
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>SOURCE_KEY                INTERVAL   ROWS         START           END
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>fear_greed_index          1d          1525   2020-01-01   2025-12-31
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>vix_termstructure         1d          1530   2020-01-01   2025-12-31
 </code></pre></div>
 <h3 id="forge-altdata-info">forge altdata info<a class="headerlink" href="#forge-altdata-info" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>info<span class="w"> </span>&lt;SOURCE_KEY&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>forge<span class="w"> </span>altdata<span class="w"> </span>info<span class="w"> </span>&lt;SOURCE_KEY&gt;
 </code></pre></div>
 <p>Shows source key, interval, row count, start / end dates, columns, file path, and file size. If data is missing, raises <code>ClickException</code>.</p>
 <hr />
@@ -3607,7 +3493,7 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 <p>Cointegration tests and spread series for pair trading. Uses the Engle–Granger test from <code>statsmodels</code>.</p>
 <h3 id="forge-pairs-scan">forge pairs scan<a class="headerlink" href="#forge-pairs-scan" title="Permanent link">&para;</a></h3>
 <p>Run a cointegration test on two symbols.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan<span class="w"> </span>&lt;SYM_A&gt;<span class="w"> </span>&lt;SYM_B&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan<span class="w"> </span>&lt;SYM_A&gt;<span class="w"> </span>&lt;SYM_B&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3646,16 +3532,16 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 </tbody>
 </table>
 <p>Sample output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>✅ Cointegrated
-<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>  Pair       : SPY / QQQ
-<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>  p_value    : 0.012345
-<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>  Threshold  : 0.05
-<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>  Test stat  : -3.5421
-<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>  Critical 5%: -2.8623
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>✅ Cointegrated
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>  Pair       : SPY / QQQ
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>  p_value    : 0.012345
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>  Threshold  : 0.05
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>  Test stat  : -3.5421
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>  Critical 5%: -2.8623
 </code></pre></div>
 <h3 id="forge-pairs-scan-all">forge pairs scan-all<a class="headerlink" href="#forge-pairs-scan-all" title="Permanent link">&para;</a></h3>
 <p>Scan all pairs in a watchlist (top 20 displayed).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan-all<span class="w"> </span>--symbols-file<span class="w"> </span>&lt;FILE&gt;<span class="w"> </span><span class="o">[</span>--pvalue<span class="w"> </span><span class="m">0</span>.05<span class="o">]</span><span class="w"> </span><span class="o">[</span>--interval<span class="w"> </span>1d<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>scan-all<span class="w"> </span>--symbols-file<span class="w"> </span>&lt;FILE&gt;<span class="w"> </span><span class="o">[</span>--pvalue<span class="w"> </span><span class="m">0</span>.05<span class="o">]</span><span class="w"> </span><span class="o">[</span>--interval<span class="w"> </span>1d<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3680,7 +3566,7 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 </table>
 <h3 id="forge-pairs-build">forge pairs build<a class="headerlink" href="#forge-pairs-build" title="Permanent link">&para;</a></h3>
 <p>Compute spread series and save to the <code>alt_data</code> store (referenceable from strategy JSON via <code>ALTDATA</code>).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>build<span class="w"> </span>--sym-a<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span>--sym-b<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>forge<span class="w"> </span>pairs<span class="w"> </span>build<span class="w"> </span>--sym-a<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span>--sym-b<span class="w"> </span>&lt;SYM&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3725,66 +3611,25 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 </tbody>
 </table>
 <p>Sample output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Estimating hedge ratio... (SPY / QQQ)
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>  Hedge ratio: 0.823145
-<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>  OU half-life: 12.4 days
-<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>  Data points: 1530
-<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>
-<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>✅ Spread saved: source_key=&#39;SPY_QQQ_spread&#39;
-<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>   How to reference in strategy JSON:
-<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>   {&quot;id&quot;: &quot;spread&quot;, &quot;type&quot;: &quot;ALTDATA&quot;, &quot;params&quot;: {&quot;source_key&quot;: &quot;SPY_QQQ_spread&quot;, &quot;column&quot;: &quot;spread&quot;}}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>Estimating hedge ratio... (SPY / QQQ)
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>  Hedge ratio: 0.823145
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>  OU half-life: 12.4 days
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>  Data points: 1530
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>✅ Spread saved: source_key=&#39;SPY_QQQ_spread&#39;
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>   How to reference in strategy JSON:
+<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>   {&quot;id&quot;: &quot;spread&quot;, &quot;type&quot;: &quot;ALTDATA&quot;, &quot;params&quot;: {&quot;source_key&quot;: &quot;SPY_QQQ_spread&quot;, &quot;column&quot;: &quot;spread&quot;}}
 </code></pre></div>
 <p>When there is no mean reversion, the half-life is shown as <code>N/A (no mean reversion)</code>.</p>
-<hr />
-<h2 id="dashboard">dashboard<a class="headerlink" href="#dashboard" title="Permanent link">&para;</a></h2>
-<p>Start the web dashboard (FastAPI + uvicorn). Browse equity curves, drawdowns, Monte Carlo, WFO results, and more in the browser.</p>
-<h3 id="synopsis_1">Synopsis<a class="headerlink" href="#synopsis_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>forge<span class="w"> </span>dashboard<span class="w"> </span><span class="o">[</span>--port<span class="w"> </span><span class="m">8000</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="o">]</span><span class="w"> </span><span class="o">[</span>--no-open<span class="o">]</span>
-</code></pre></div>
-<h3 id="options_1">Options<a class="headerlink" href="#options_1" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Kind</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--port</code></td>
-<td>int</td>
-<td><code>8000</code></td>
-<td>Bind port</td>
-</tr>
-<tr>
-<td><code>--host</code></td>
-<td>option</td>
-<td><code>127.0.0.1</code></td>
-<td>Bind host</td>
-</tr>
-<tr>
-<td><code>--no-open</code></td>
-<td>flag</td>
-<td>false</td>
-<td>Do not open browser automatically</td>
-</tr>
-</tbody>
-</table>
-<p>Sample output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>Starting dashboard: http://127.0.0.1:8000  (Ctrl+C to stop)
-</code></pre></div>
-<p>If <code>fastapi</code> / <code>uvicorn</code> are not installed, an instruction message is printed and the command exits (they are bundled when running <code>uv sync</code> after <code>forge.yaml</code> setup).</p>
 <hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p>Browse the documentation, skills, and command references bundled with <code>alpha-forge</code>.</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>List available bundled documents. <code>✓</code> / <code>✗</code> indicates whether each file exists.</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>
@@ -3811,7 +3656,7 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 <li><strong>i18n</strong>: All commands have both Japanese and English <code>--help</code> text (via <code>alpha_forge.i18n.L</code>)</li>
 </ul>
 <hr />
-<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,dashboard,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->
 
 
 

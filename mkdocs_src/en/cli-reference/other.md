@@ -14,10 +14,10 @@ Utility and management commands not covered by the [core groups](index.md), bund
 | [init](#init) | (single command) | Initialize working directory |
 | [pine](#pine) | `generate` `preview` `import` | Generate / import TradingView Pine Script |
 | [indicator](#indicator) | `list` `show` | Browse supported technical indicators |
-| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` `dashboard` | Track investment ideas |
+| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
 | [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
 | [pairs](#pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
-| [dashboard](#dashboard) | (single command) | Launch the web dashboard |
+
 | [docs](#docs) | `list` `show` | Browse bundled documentation |
 
 ---
@@ -471,16 +471,6 @@ forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 | `--status` | choice | Status filter |
 | `--tag` | repeatable | Tag filter |
 
-### forge idea dashboard
-
-Launch the web dashboard (equivalent to `forge dashboard`).
-
-```bash
-forge idea dashboard [--port 8000] [--no-open]
-```
-
-See [`forge dashboard`](#dashboard) for details.
-
 ---
 
 ## altdata
@@ -602,34 +592,6 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 ---
 
-## dashboard
-
-Start the web dashboard (FastAPI + uvicorn). Browse equity curves, drawdowns, Monte Carlo, WFO results, and more in the browser.
-
-### Synopsis
-
-```bash
-forge dashboard [--port 8000] [--host 127.0.0.1] [--no-open]
-```
-
-### Options
-
-| Name | Kind | Default | Description |
-|------|------|---------|-------------|
-| `--port` | int | `8000` | Bind port |
-| `--host` | option | `127.0.0.1` | Bind host |
-| `--no-open` | flag | false | Do not open browser automatically |
-
-Sample output:
-
-```text
-Starting dashboard: http://127.0.0.1:8000  (Ctrl+C to stop)
-```
-
-If `fastapi` / `uvicorn` are not installed, an instruction message is printed and the command exits (they are bundled when running `uv sync` after `forge.yaml` setup).
-
----
-
 ## docs
 
 Browse the documentation, skills, and command references bundled with `alpha-forge`.
@@ -664,4 +626,4 @@ Print the document content to stdout. Unknown names display the available list a
 
 ---
 
-<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,dashboard,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->

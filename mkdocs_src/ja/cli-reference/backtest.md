@@ -421,18 +421,18 @@ forge backtest chart [RESULT_ID] [--open] [--compare <ID> ...]
 ### 出力例
 
 ```text
-📊 チャートを表示するには `forge dashboard` を起動してください:
+📊 チャートを表示するには `vis serve`（alpha-visualizer）を起動してください:
    http://localhost:8000/?run_id=spy_sma_v1_20260415_103021
 ```
 
 複数戦略比較時:
 
 ```text
-📊 チャートを表示するには `forge dashboard` を起動してください:
+📊 チャートを表示するには `vis serve`（alpha-visualizer）を起動してください:
    http://localhost:8000/?ids=sma_crossover,rsi_reversion
 ```
 
-このコマンド自体は URL を表示するだけです。チャート閲覧には `forge dashboard` を起動する必要があります。
+このコマンド自体は URL を表示するだけです。チャート閲覧には `vis serve`（[alpha-visualizer](https://github.com/ysakae/alpha-visualizer)）を起動する必要があります。
 
 ---
 

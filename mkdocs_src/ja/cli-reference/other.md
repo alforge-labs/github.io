@@ -14,10 +14,10 @@
 | [init](#init) | （単一コマンド） | 作業ディレクトリの初期化 |
 | [pine](#pine) | `generate` `preview` `import` | TradingView Pine Script の生成・取り込み |
 | [indicator](#indicator) | `list` `show` | 対応テクニカル指標の参照 |
-| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` `dashboard` | 投資アイデアの記録・追跡 |
+| [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | 投資アイデアの記録・追跡 |
 | [altdata](#altdata) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
 | [pairs](#pairs) | `scan` `scan-all` `build` | ペアトレード（コインテグレーション） |
-| [dashboard](#dashboard) | （単一コマンド） | Web ダッシュボードの起動 |
+
 | [docs](#docs) | `list` `show` | 同梱ドキュメント参照 |
 
 ---
@@ -471,16 +471,6 @@ forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 | `--status` | choice | ステータスフィルタ |
 | `--tag` | 複数指定可 | タグフィルタ |
 
-### forge idea dashboard
-
-`forge dashboard` と同等の Web ダッシュボードを起動します。
-
-```bash
-forge idea dashboard [--port 8000] [--no-open]
-```
-
-詳細は [`forge dashboard`](#dashboard) を参照。
-
 ---
 
 ## altdata
@@ -602,34 +592,6 @@ forge pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 
 ---
 
-## dashboard
-
-Web ダッシュボードを起動します（FastAPI + uvicorn）。エクイティカーブ・ドローダウン・モンテカルロ・WFO 結果などをブラウザで閲覧可能。
-
-### 構文
-
-```bash
-forge dashboard [--port 8000] [--host 127.0.0.1] [--no-open]
-```
-
-### オプション
-
-| 名前 | 種別 | デフォルト | 説明 |
-|------|------|----------|------|
-| `--port` | int | `8000` | バインドポート |
-| `--host` | オプション | `127.0.0.1` | バインドホスト |
-| `--no-open` | フラグ | false | ブラウザを自動で開かない |
-
-サンプル出力：
-
-```text
-ダッシュボードを起動中: http://127.0.0.1:8000  (Ctrl+C で停止)
-```
-
-`fastapi` / `uvicorn` 未インストール時は案内メッセージを出して終了します（`forge.yaml` セットアップ後の `uv sync` で同梱されます）。
-
----
-
 ## docs
 
 `alpha-forge` に同梱されているドキュメント・スキル・コマンド参考資料を参照します。
@@ -664,4 +626,4 @@ forge docs show <NAME>
 
 ---
 
-<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,dashboard,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
