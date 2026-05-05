@@ -175,7 +175,7 @@ Manage exploration pipeline state and run the full pipeline in one command. Thes
 
 ### forge explore run
 
-Runs backtest → optimize → walk-forward test (WFT) → coverage update → DB registration in a single command.  
+Runs validation → auto data fetch → backtest → optimize → walk-forward test (WFT) → coverage update → DB registration in a single command. Returns exit code 1 on failure (except `--dry-run` / `--pre-check`).  
 Called internally by the `/explore-strategies` agent skill.
 
 ```bash
@@ -189,7 +189,7 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
 | `--no-cleanup` | Skip file / DB cleanup on failure (for debugging) | off |
 | `--dry-run` | Print planned steps and exit without running | off |
 | `--pre-check` | Run backtest only (default params), skip optimization and WFT (#321) | off |
-| `--json` | Output result as JSON to stdout | off |
+| `--json` | Output result as JSON to stdout (**deprecated**: use `forge explore result show <id> --json` instead) | off |
 | `--db` | Path to exploration DB (defaults to path from `forge.yaml`) | — |
 
 #### Using `--pre-check`
@@ -238,9 +238,43 @@ Sample text output with `--pre-check`:
 | Field | Description |
 |-------|-------------|
 | `passed` | `true` when WFT meets `target_metrics` |
-| `skip_reason` | Reason for skip/failure: `no_signals` / `pre_filter_failed` / `wft_failed` / `pre_check_only` / `dry_run` / `null` |
+| `skip_reason` | Reason for skip/failure: `validation_failed` / `no_signals` / `pre_filter_failed` / `wft_failed` / `pre_check_only` / `dry_run` / `null` |
 | `cleanup_done` | `true` when strategy JSON and result JSON were automatically removed on failure |
 | `entry_signals` | Number of days with long entry signal (set during `--pre-check`; may be `null` for backward compatibility) |
+
+### forge explore result show
+
+Display the latest exploration result for a strategy from the DB. Use this to inspect failure details after `forge explore run` exits with code 1.
+
+```bash
+forge explore result show <STRATEGY_ID> [--goal <GOAL>] [--json] [--db <PATH>]
+```
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--goal` | Filter by goal name | — |
+| `--json` | Output result as JSON to stdout | off |
+| `--db` | Path to exploration DB (defaults to path from `forge.yaml`) | — |
+
+#### Examples
+
+```bash
+# Display latest result in human-readable format
+forge explore result show gc_bb_hmm_rsi_v1
+
+# Filter by goal and output as JSON (includes wft_diagnostics and more)
+forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
+```
+
+Typical failure investigation flow after `forge explore run` returns exit code 1:
+
+```bash
+FORGE_CONFIG=forge.yaml forge explore run GC=F --strategy gc_bb_hmm_rsi_v1 --goal commodities
+# exit code 1 → retrieve details from DB
+FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
+```
+
+The `--json` output includes `wft_diagnostics`, `pre_filter_diagnostics`, and `opt_metrics` fields.
 
 ---
 

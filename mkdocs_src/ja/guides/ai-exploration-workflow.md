@@ -225,12 +225,10 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 ### 実行ステップ（要約）
 
 1. **事前確認**: `goals/<goal_name>/goals.yaml`、`goals/<goal_name>/explored_log.md`、既存戦略 JSON を読み、未試行の組み合わせを把握
-2. **戦略生成**: 未試行の指標×銘柄を 1 つ選び、戦略 JSON を生成して `data/strategies/<name>.json` に保存
-3. **登録 → 検証**: `forge strategy save` → `forge strategy validate` で論理整合性を確認（失敗時はロールバック）
-4. **データ取得**: `forge data fetch <SYMBOL> --period 5y`（未取得の場合のみ）
-5. **パイプライン一括実行**: `forge explore run <SYMBOL> --strategy <name> --goal <goal_name> --json`
-   シグナルチェック → バックテスト → 最適化 → WFT → coverage 更新 → DB 登録を 1 コマンドで完結
-6. **合否記録**: 出力 JSON の `passed` / `skip_reason` を読み、`goals/<goal_name>/explored_log.md` と `goals/<goal_name>/reports/YYYY-MM-DD.md` に追記。`passed: false` かつ `cleanup_done: true` の場合、戦略 JSON / 結果 JSON は自動削除済み
+2. **戦略生成**: 未試行の指標×銘柄を 1 つ選び、`forge strategy scaffold --save` で戦略を直接 DB 登録（JSON ファイル不要）
+3. **パイプライン一括実行**: `forge explore run <SYMBOL> --strategy <name> --goal <goal_name>`
+   バリデーション → データ自動取得 → シグナルチェック → バックテスト → 最適化 → WFT → coverage 更新 → DB 登録を 1 コマンドで完結
+4. **合否確認**: exit code で判断。exit code 1 の場合は `forge explore result show <name> --goal <goal_name> --json` で DB から詳細を取得し、`goals/<goal_name>/reports/YYYY-MM-DD.md` に追記。`cleanup_done: true` の場合、戦略 JSON / 結果 JSON は自動削除済み
 
 ```
 > /explore-strategies                          # 1 ラン実行（デフォルトゴール）

@@ -175,7 +175,7 @@ AlphaForge: 作業ディレクトリを初期化します...
 
 ### forge explore run
 
-バックテスト → 最適化 → ウォークフォワードテスト（WFT）→ coverage 更新 → DB 登録を 1 コマンドで完結させます。  
+バリデーション → データ自動取得 → バックテスト → 最適化 → ウォークフォワードテスト（WFT）→ coverage 更新 → DB 登録を 1 コマンドで完結させます。不合格時は exit code 1 を返します（`--dry-run` / `--pre-check` 時を除く）。  
 エージェントの `/explore-strategies` スキルから内部的に呼び出されます。
 
 ```bash
@@ -189,7 +189,7 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
 | `--no-cleanup` | 不合格時もファイル・DB エントリを削除しない（デバッグ用） | off |
 | `--dry-run` | 実行予定ステップを表示して終了（実際の処理は行わない） | off |
 | `--pre-check` | バックテスト（デフォルトパラメータ）のみ実行し、最適化/WFT はスキップする（#321） | off |
-| `--json` | 結果を JSON 形式で標準出力する | off |
+| `--json` | 結果を JSON 形式で標準出力する（**非推奨**: `forge explore result show <id> --json` を使用してください） | off |
 | `--db` | 探索 DB のパス（省略時は `forge.yaml` のデフォルトパス） | — |
 
 #### `--pre-check` の使い方
@@ -238,9 +238,43 @@ forge explore run SPY --strategy my_rsi_v1 --pre-check --json
 | フィールド | 説明 |
 |-----------|------|
 | `passed` | WFT が `target_metrics` を満たした場合 `true` |
-| `skip_reason` | スキップ・失敗理由（`no_signals` / `pre_filter_failed` / `wft_failed` / `pre_check_only` / `dry_run` / `null`） |
+| `skip_reason` | スキップ・失敗理由（`validation_failed` / `no_signals` / `pre_filter_failed` / `wft_failed` / `pre_check_only` / `dry_run` / `null`） |
 | `cleanup_done` | 不合格時に戦略 JSON / 結果 JSON が削除済みの場合 `true` |
 | `entry_signals` | エントリーシグナルが立った日数（`--pre-check` 時に設定、後方互換で `null` になる場合あり） |
+
+### forge explore result show
+
+探索 DB に保存されている最新の探索結果を表示します。`forge explore run` 不合格時の詳細確認に使用します。
+
+```bash
+forge explore result show <STRATEGY_ID> [--goal <GOAL>] [--json] [--db <PATH>]
+```
+
+| オプション | 説明 | デフォルト |
+|-----------|------|-----------|
+| `--goal` | ゴール名で絞り込む | — |
+| `--json` | 結果を JSON 形式で標準出力する | off |
+| `--db` | 探索 DB のパス（省略時は `forge.yaml` のデフォルトパス） | — |
+
+#### 使用例
+
+```bash
+# 最新結果を人間可読形式で表示
+forge explore result show gc_bb_hmm_rsi_v1
+
+# ゴール絞り込みで JSON 出力（wft_diagnostics など診断情報を含む）
+forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
+```
+
+`forge explore run` が exit code 1 を返した場合の詳細確認フロー:
+
+```bash
+FORGE_CONFIG=forge.yaml forge explore run GC=F --strategy gc_bb_hmm_rsi_v1 --goal commodities
+# exit code 1 → DB から詳細を取得
+FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
+```
+
+`--json` 出力には `wft_diagnostics`・`pre_filter_diagnostics`・`opt_metrics` フィールドが含まれます。
 
 ---
 
