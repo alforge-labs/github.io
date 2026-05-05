@@ -1979,17 +1979,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dashboard-alpha-visualizer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dashboard（→ alpha-visualizer へ移行）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2775,17 +2764,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dashboard-alpha-visualizer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dashboard（→ alpha-visualizer へ移行）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2908,13 +2886,9 @@
 <td><code>scan</code> <code>scan-all</code> <code>build</code></td>
 <td>ペアトレード（コインテグレーション）</td>
 </tr>
-<tr>
-<td><a href="#docs">docs</a></td>
-<td><code>list</code> <code>show</code></td>
-<td>同梱ドキュメント参照</td>
-</tr>
 </tbody>
 </table>
+<p>| <a href="#docs">docs</a> | <code>list</code> <code>show</code> | 同梱ドキュメント参照 |</p>
 <hr />
 <h2 id="license">license<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p>ライセンスキーの認証・解除・状態確認を行います。詳しいインストール手順は <a href="../../getting-started/">はじめに</a> を参照。</p>
@@ -3694,24 +3668,14 @@
 </code></pre></div>
 <p>平均回帰がない場合、半減期は <code>N/A (平均回帰なし)</code> と表示されます。</p>
 <hr />
-<h2 id="dashboard-alpha-visualizer">dashboard（→ alpha-visualizer へ移行）<a class="headerlink" href="#dashboard-alpha-visualizer" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">alpha-visualizer として独立しました</p>
-<p><code>forge dashboard</code> コマンドは <strong>alpha-visualizer</strong> パッケージ（<code>vis serve</code>）に移行しました。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>alpha-visualizer
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>vis<span class="w"> </span>serve
-</code></pre></div>
-<p>詳細は <a href="../../alpha-visualizer/">alpha-visualizer ドキュメント</a> を参照してください。</p>
-</div>
-<hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p><code>alpha-forge</code> に同梱されているドキュメント・スキル・コマンド参考資料を参照します。</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>利用可能な同梱ドキュメントの一覧を表示します。<code>✓</code> / <code>✗</code> でファイル存在を表します。</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>
@@ -3738,7 +3702,7 @@
 <li><strong>国際化</strong>: すべてのコマンドは日本語と英語の両方の <code>--help</code> テキストを持ちます（<code>alpha_forge.i18n.L</code> 経由）</li>
 </ul>
 <hr />
-<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,dashboard,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
 
 
 

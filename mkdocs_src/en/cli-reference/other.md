@@ -17,6 +17,7 @@ Utility and management commands not covered by the [core groups](index.md), bund
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
 | [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
 | [pairs](#pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
+
 | [docs](#docs) | `list` `show` | Browse bundled documentation |
 
 ---
@@ -591,20 +592,6 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 ---
 
-## dashboard (→ moved to alpha-visualizer)
-
-!!! info "Moved to alpha-visualizer"
-    The `forge dashboard` command has been moved to the **alpha-visualizer** package (`vis serve`).
-
-    ```bash
-    uv tool install alpha-visualizer
-    vis serve
-    ```
-
-    See the [alpha-visualizer docs](../alpha-visualizer.md) for details.
-
----
-
 ## docs
 
 Browse the documentation, skills, and command references bundled with `alpha-forge`.
@@ -639,4 +626,4 @@ Print the document content to stdout. Unknown names display the available list a
 
 ---
 
-<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,dashboard,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->

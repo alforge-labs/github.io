@@ -32,12 +32,11 @@
 | **idea** | 投資アイデアの管理・検索 | [other#idea →](other.md#idea) |
 | **altdata** | 代替データ（センチメント等）の取得・管理 | [other#altdata →](other.md#altdata) |
 | **pairs** | ペアトレード（コインテグレーション検定） | [other#pairs →](other.md#pairs) |
-| **dashboard** | Web ダッシュボード（→ alpha-visualizer `vis serve`） | [alpha-visualizer →](../alpha-visualizer.md) |
 | **docs** | 同梱ドキュメントの参照 | [other#docs →](other.md#docs) |
 
 ## 全コマンド早見表
 
-実装ベースで網羅した全 17 コマンドグループ × 約 85 サブコマンドの一覧です。
+実装ベースで網羅した全 16 コマンドグループ × 約 83 サブコマンドの一覧です。
 
 | グループ | サブコマンド |
 |---------|-------------|

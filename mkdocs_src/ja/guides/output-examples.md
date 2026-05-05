@@ -97,16 +97,16 @@ forge backtest report sma_crossover_v1 --json
 # チャート URL を表示
 forge backtest chart sma_crossover_v1
 
-# ブラウザで直接開く（forge dashboard が起動中の場合）
+# ブラウザで直接開く（vis serve が起動中の場合）
 forge backtest chart sma_crossover_v1 --open
 ```
 
 ```text
-📊 チャートを表示するには `forge dashboard` を起動してください:
+📊 チャートを表示するには `vis serve`（alpha-visualizer）を起動してください:
    http://localhost:8000/?run_id=sma_crossover_v1_20260415_103021
 ```
 
-ダッシュボード（`forge dashboard`）では以下のタブを確認できます:
+ダッシュボード（`vis serve`）では以下のタブを確認できます:
 
 | タブ | 表示内容 |
 |------|---------|

@@ -97,16 +97,16 @@ After a backtest, use the local dashboard to visually inspect the equity curve, 
 # Show chart URL
 forge backtest chart sma_crossover_v1
 
-# Open directly in browser (requires forge dashboard running)
+# Open directly in browser (requires vis serve running)
 forge backtest chart sma_crossover_v1 --open
 ```
 
 ```text
-📊 Start `forge dashboard` to view the chart:
+📊 Start `vis serve` (alpha-visualizer) to view the chart:
    http://localhost:8000/?run_id=sma_crossover_v1_20260415_103021
 ```
 
-The dashboard (`forge dashboard`) provides these tabs:
+The dashboard (`vis serve`) provides these tabs:
 
 | Tab | Contents |
 |-----|---------|

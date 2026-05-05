@@ -1979,17 +1979,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dashboard-moved-to-alpha-visualizer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dashboard (→ moved to alpha-visualizer)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2775,17 +2764,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dashboard-moved-to-alpha-visualizer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dashboard (→ moved to alpha-visualizer)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2908,13 +2886,9 @@
 <td><code>scan</code> <code>scan-all</code> <code>build</code></td>
 <td>Pairs trading (cointegration)</td>
 </tr>
-<tr>
-<td><a href="#docs">docs</a></td>
-<td><code>list</code> <code>show</code></td>
-<td>Browse bundled documentation</td>
-</tr>
 </tbody>
 </table>
+<p>| <a href="#docs">docs</a> | <code>list</code> <code>show</code> | Browse bundled documentation |</p>
 <hr />
 <h2 id="license">license<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p>Activate, deactivate, and check license status. For installation steps, see <a href="../../getting-started/">Getting Started</a>.</p>
@@ -3694,24 +3668,14 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 </code></pre></div>
 <p>When there is no mean reversion, the half-life is shown as <code>N/A (no mean reversion)</code>.</p>
 <hr />
-<h2 id="dashboard-moved-to-alpha-visualizer">dashboard (→ moved to alpha-visualizer)<a class="headerlink" href="#dashboard-moved-to-alpha-visualizer" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">Moved to alpha-visualizer</p>
-<p>The <code>forge dashboard</code> command has been moved to the <strong>alpha-visualizer</strong> package (<code>vis serve</code>).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>alpha-visualizer
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>vis<span class="w"> </span>serve
-</code></pre></div>
-<p>See the <a href="../../alpha-visualizer/">alpha-visualizer docs</a> for details.</p>
-</div>
-<hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p>Browse the documentation, skills, and command references bundled with <code>alpha-forge</code>.</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>List available bundled documents. <code>✓</code> / <code>✗</code> indicates whether each file exists.</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>
@@ -3738,7 +3702,7 @@ Called internally by the <code>/explore-strategies</code> agent skill.</p>
 <li><strong>i18n</strong>: All commands have both Japanese and English <code>--help</code> text (via <code>alpha_forge.i18n.L</code>)</li>
 </ul>
 <hr />
-<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,dashboard,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->
+<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py`. This page must be kept in sync when CLI arguments or commands change. -->
 
 
 

@@ -32,12 +32,11 @@ License management, utilities, and supporting features are bundled on the [Other
 | **idea** | Manage and search investment ideas | [other#idea →](other.md#idea) |
 | **altdata** | Fetch and manage alternative data (sentiment, etc.) | [other#altdata →](other.md#altdata) |
 | **pairs** | Pair trading (cointegration tests) | [other#pairs →](other.md#pairs) |
-| **dashboard** | Web dashboard (→ alpha-visualizer `vis serve`) | [alpha-visualizer →](../alpha-visualizer.md) |
 | **docs** | Browse bundled documentation | [other#docs →](other.md#docs) |
 
 ## All Commands at a Glance
 
-Implementation-derived catalog covering all 16 groups and ~77 subcommands.
+Implementation-derived catalog covering all 15 groups and ~75 subcommands.
 
 | Group | Subcommands |
 |-------|-------------|

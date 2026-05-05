@@ -17,6 +17,7 @@
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | 投資アイデアの記録・追跡 |
 | [altdata](#altdata) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
 | [pairs](#pairs) | `scan` `scan-all` `build` | ペアトレード（コインテグレーション） |
+
 | [docs](#docs) | `list` `show` | 同梱ドキュメント参照 |
 
 ---
@@ -591,20 +592,6 @@ forge pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 
 ---
 
-## dashboard（→ alpha-visualizer へ移行）
-
-!!! info "alpha-visualizer として独立しました"
-    `forge dashboard` コマンドは **alpha-visualizer** パッケージ（`vis serve`）に移行しました。
-
-    ```bash
-    uv tool install alpha-visualizer
-    vis serve
-    ```
-
-    詳細は [alpha-visualizer ドキュメント](../alpha-visualizer.md) を参照してください。
-
----
-
 ## docs
 
 `alpha-forge` に同梱されているドキュメント・スキル・コマンド参考資料を参照します。
@@ -639,4 +626,4 @@ forge docs show <NAME>
 
 ---
 
-<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,dashboard,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
