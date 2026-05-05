@@ -40,6 +40,49 @@ The rest of this page assumes **Claude Code**. With other agents, point them at 
 
 ---
 
+## Setting up Claude Code for unattended runs {#unattended-setup}
+
+To run `/explore-strategies --runs 0` (or any long continuous run) without stopping for permission prompts, you need to pre-authorize the required operations in Claude Code's allow list. Without this, Claude Code will pause and ask for confirmation every time it encounters an unlisted operation.
+
+Add the following patterns to `permissions.allow` in `.claude/settings.local.json` (your personal settings — gitignored):
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Write(/absolute/path/alpha-strategies/data/strategies/*.json)",
+      "Bash(uv --directory alpha-forge run forge *)",
+      "Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)",
+      "Bash(git *)"
+    ]
+  }
+}
+```
+
+Replace `/absolute/path/` with your actual path (e.g., `/Users/yourname/dev/alpha-trade`).
+
+| Pattern | What it authorizes |
+|---------|-------------------|
+| `Write(.../strategies/*.json)` | Writing strategy JSON files (one per strategy) |
+| `Bash(uv --directory alpha-forge run forge *)` | Direct forge execution |
+| `Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)` | Forge commands with any FORGE_CONFIG (relative or absolute) |
+| `Bash(git *)` | git add / commit / push |
+
+!!! note "About settings.local.json"
+    `settings.local.json` is listed in `.gitignore` and is never shared with teammates. Each developer must configure it individually in their own environment. Do not add these entries to the tracked `settings.json`.
+
+!!! tip "If you already have a permissions.allow section"
+    Merge the new entries into your existing array — do not overwrite the entire file, or you will lose your existing permissions.
+
+!!! info "Using 1Password"
+    If you run forge via `op run`, add these two patterns as well:
+    ```json
+    "Bash(op run *)",
+    "Bash(FORGE_CONFIG=* op run *)"
+    ```
+
+---
+
 ## Overall flow
 
 ```
