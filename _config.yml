@@ -1,6 +1,5 @@
 exclude:
   - docs/superpowers/
   - "*.py"
-  - "*.jsx"
   - node_modules/
   - .superpowers/
