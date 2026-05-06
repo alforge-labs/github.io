@@ -18,7 +18,23 @@ PAGES = [
     "terms",
 ]
 
+# sitemap.xml から除外するページ（リダイレクト専用ページなど、独立した正規ページではないもの）。
+# docs.html は install.html#commands への単純リダイレクトのため、sitemap に登録すると
+# Google が「代替ページ（適切な canonical タグあり）」と判定してしまう。
+SITEMAP_EXCLUDED_PAGES = {"docs"}
+
 PAGE_FILE = {p: ("index.html" if p == "index" else f"{p}.html") for p in PAGES}
+
+
+def page_url_path(page: str) -> str:
+    """SEO 用 URL パス。
+
+    index ページは末尾スラッシュのクリーン URL（``/{lang}/``）として扱い、
+    それ以外は明示的な拡張子付き（``/{lang}/{file}.html``）とする。
+    canonical / hreflang / sitemap でこの関数を共通利用することで、
+    ``/{lang}/index.html`` と ``/{lang}/`` のような表記揺れを排除する。
+    """
+    return "" if page == "index" else PAGE_FILE[page]
 
 CHANGEFREQ = {
     "index": ("weekly", 1.0),
@@ -93,15 +109,15 @@ def build_json_ld(json_ld_type: str, base: str, lang: str, page: str, site_meta:
 
 def make_ctx(site: dict, page: str, lang: str, data: dict) -> dict:
     base = site["base_url"]
-    page_file = PAGE_FILE[page]
+    url_path = page_url_path(page)
     json_ld_type = data.get("json_ld_type", "breadcrumb")
     return {
         "lang": lang,
         "og_locale": "ja_JP" if lang == "ja" else "en_US",
-        "canonical_url": f"{base}/{lang}/{page_file}",
-        "hreflang_ja": f"{base}/ja/{page_file}",
-        "hreflang_en": f"{base}/en/{page_file}",
-        "hreflang_x_default": f"{base}/en/{page_file}",
+        "canonical_url": f"{base}/{lang}/{url_path}",
+        "hreflang_ja": f"{base}/ja/{url_path}",
+        "hreflang_en": f"{base}/en/{url_path}",
+        "hreflang_x_default": f"{base}/en/{url_path}",
         "og_image": site["og_image"],
         "twitter_site": site["twitter_site"],
         "robots": site.get("robots", "index, follow"),
@@ -147,10 +163,12 @@ def generate_sitemap(base_url: str, site: dict) -> None:
     lastmod_line = f"    <lastmod>{modified}</lastmod>\n" if modified else ""
     entries: list[str] = []
     for page in PAGES:
-        page_file = PAGE_FILE[page]
+        if page in SITEMAP_EXCLUDED_PAGES:
+            continue
+        url_path = page_url_path(page)
         freq, priority = CHANGEFREQ[page]
-        ja_url = f"{base_url}/ja/{page_file}"
-        en_url = f"{base_url}/en/{page_file}"
+        ja_url = f"{base_url}/ja/{url_path}"
+        en_url = f"{base_url}/en/{url_path}"
         for loc, alt_ja, alt_en in [(ja_url, ja_url, en_url), (en_url, ja_url, en_url)]:
             entries.append(
                 f"  <url>\n"
