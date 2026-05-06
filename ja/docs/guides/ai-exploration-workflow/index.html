@@ -976,6 +976,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scaffold-issue-427" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scaffold の対応指標と動作（issue #427 対応後）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2239,6 +2250,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scaffold-issue-427" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scaffold の対応指標と動作（issue #427 対応後）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2801,6 +2823,14 @@
 <p class="admonition-title">複数ゴールによる並列実行</p>
 <p>ゴールはそれぞれ独立しており、<code>goals/&lt;name&gt;/</code> 配下に専用の <code>explored_log.md</code> を持ちます。異なるゴールを別々の Claude Code セッションで同時実行しても競合しません。バックテスト結果は <code>exploration.db</code> を通じて全ゴールで共有されるため、同一の銘柄×指標の組み合わせが重複してバックテストされることもありません。</p>
 </div>
+<h3 id="scaffold-issue-427">scaffold の対応指標と動作（issue #427 対応後）<a class="headerlink" href="#scaffold-issue-427" title="Permanent link">&para;</a></h3>
+<p><code>forge strategy scaffold</code> は以下の指標をサポートしています：</p>
+<ul>
+<li><strong>mean-reversion</strong>: BB（必須）、RSI、MACD、ADX、SUPERTREND、STOCH、HMM、SMA（長期トレンドフィルター）、EMA（中期トレンドフィルター）</li>
+<li><strong>trend-following</strong>: EMA（必須）、ADX、MACD、RSI、SUPERTREND、STOCH、HMM、BB（ボラティリティ／トレンド確認フィルター）、SMA（長期 bull/bear フィルター）</li>
+<li>ATR は全タイプで自動追加（<code>--no-atr</code> フラグで無効化可能）</li>
+</ul>
+<p>戦略タイプと互換性のない指標を要求すると ValueError で明示的にエラーを返します（silently 削除されません）。詳細は <a href="https://github.com/ysakae/alpha-forge/issues/427">alpha-forge issue #427</a> を参照。</p>
 <h3 id="_9">ヘルスチェックゲート（連続失敗の自動エスカレーション）<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p><code>--runs 0</code> の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、<code>/explore-strategies</code> は各ラン冒頭で <code>forge explore health --strict</code> を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。</p>
 <p>判定条件と挙動:</p>

@@ -288,6 +288,16 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 !!! tip "複数ゴールによる並列実行"
     ゴールはそれぞれ独立しており、`goals/<name>/` 配下に専用の `explored_log.md` を持ちます。異なるゴールを別々の Claude Code セッションで同時実行しても競合しません。バックテスト結果は `exploration.db` を通じて全ゴールで共有されるため、同一の銘柄×指標の組み合わせが重複してバックテストされることもありません。
 
+### scaffold の対応指標と動作（issue #427 対応後）
+
+`forge strategy scaffold` は以下の指標をサポートしています：
+
+- **mean-reversion**: BB（必須）、RSI、MACD、ADX、SUPERTREND、STOCH、HMM、SMA（長期トレンドフィルター）、EMA（中期トレンドフィルター）
+- **trend-following**: EMA（必須）、ADX、MACD、RSI、SUPERTREND、STOCH、HMM、BB（ボラティリティ／トレンド確認フィルター）、SMA（長期 bull/bear フィルター）
+- ATR は全タイプで自動追加（`--no-atr` フラグで無効化可能）
+
+戦略タイプと互換性のない指標を要求すると ValueError で明示的にエラーを返します（silently 削除されません）。詳細は [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) を参照。
+
 ### ヘルスチェックゲート（連続失敗の自動エスカレーション）
 
 `--runs 0` の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、`/explore-strategies` は各ラン冒頭で `forge explore health --strict` を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。
