@@ -100,6 +100,23 @@ All paths are relative to `alpha-trade/` as the working root.
     "Bash(FORCE_COLOR=1 uv --directory alpha-forge run forge *)"
     ```
 
+### Detecting 1Password session expiry early (unattended runs) {#op-session-precheck}
+
+For unattended runs (overnight batches, etc.), an expired `op` session causes every subsequent `op run` invocation to fail with an authentication error. The `/explore-strategies` skill runs `forge auth check op` at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid ([alpha-forge issue #411](https://github.com/ysakae/alpha-forge/issues/411)).
+
+```bash
+# Verify session validity
+uv --directory alpha-forge run forge auth check op
+echo "exit: $?"   # 0 = valid, 2 = session expired / op missing / timeout
+```
+
+| Exit code | Meaning | Recommended action |
+|-----------|---------|-------------------|
+| `0` | Session valid | Continue the loop |
+| `2` | Auth error (expired session, op CLI missing, etc.) | Stop the loop immediately, append a note to `<goal_dir>/explored_log.md`, and prompt the user to run interactive `op signin` |
+
+The skill performs this check automatically — no extra configuration is needed. If you build a long-running loop manually, insert the same check at the head of each iteration.
+
 ## Setting up Codex CLI for unattended runs {#codex-unattended-setup}
 
 To run the same kind of long job with Codex CLI, configure the **approval policy** and **sandbox scope** instead of a command-by-command allow list like Claude Code's `permissions.allow`.
