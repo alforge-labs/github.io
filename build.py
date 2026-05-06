@@ -18,6 +18,11 @@ PAGES = [
     "terms",
 ]
 
+# sitemap.xml から除外するページ（リダイレクト専用ページなど、独立した正規ページではないもの）。
+# docs.html は install.html#commands への単純リダイレクトのため、sitemap に登録すると
+# Google が「代替ページ（適切な canonical タグあり）」と判定してしまう。
+SITEMAP_EXCLUDED_PAGES = {"docs"}
+
 PAGE_FILE = {p: ("index.html" if p == "index" else f"{p}.html") for p in PAGES}
 
 CHANGEFREQ = {
@@ -147,6 +152,8 @@ def generate_sitemap(base_url: str, site: dict) -> None:
     lastmod_line = f"    <lastmod>{modified}</lastmod>\n" if modified else ""
     entries: list[str] = []
     for page in PAGES:
+        if page in SITEMAP_EXCLUDED_PAGES:
+            continue
         page_file = PAGE_FILE[page]
         freq, priority = CHANGEFREQ[page]
         ja_url = f"{base_url}/ja/{page_file}"
