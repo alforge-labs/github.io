@@ -976,6 +976,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scaffold-supported-indicators-and-behavior-post-issue-427" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaffold supported indicators and behavior (post issue #427)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#health-check-gate-auto-escalation-on-consecutive-failures" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2239,6 +2250,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scaffold-supported-indicators-and-behavior-post-issue-427" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaffold supported indicators and behavior (post issue #427)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#health-check-gate-auto-escalation-on-consecutive-failures" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2803,6 +2825,14 @@
 <p class="admonition-title">Parallel execution with multiple goals</p>
 <p>Goals are independent — each has its own <code>explored_log.md</code> under <code>goals/&lt;name&gt;/</code>. You can run different goals simultaneously in separate Claude Code sessions without conflicts. Backtest results are shared via <code>exploration.db</code>, so the same symbol × indicator combination is never backtested twice across goals.</p>
 </div>
+<h3 id="scaffold-supported-indicators-and-behavior-post-issue-427">Scaffold supported indicators and behavior (post issue #427)<a class="headerlink" href="#scaffold-supported-indicators-and-behavior-post-issue-427" title="Permanent link">&para;</a></h3>
+<p><code>forge strategy scaffold</code> supports the following indicators:</p>
+<ul>
+<li><strong>mean-reversion</strong>: BB (required), RSI, MACD, ADX, SUPERTREND, STOCH, HMM, SMA (long-term trend filter), EMA (mid-term trend filter)</li>
+<li><strong>trend-following</strong>: EMA (required), ADX, MACD, RSI, SUPERTREND, STOCH, HMM, BB (volatility / trend confirmation filter), SMA (long-term bull/bear filter)</li>
+<li>ATR is auto-added for all types (use <code>--no-atr</code> to disable)</li>
+</ul>
+<p>Requesting an indicator that is incompatible with the chosen strategy type raises an explicit <code>ValueError</code>; indicators are never silently dropped. See <a href="https://github.com/ysakae/alpha-forge/issues/427">alpha-forge issue #427</a> for details.</p>
 <h3 id="health-check-gate-auto-escalation-on-consecutive-failures">Health-check gate (auto-escalation on consecutive failures)<a class="headerlink" href="#health-check-gate-auto-escalation-on-consecutive-failures" title="Permanent link">&para;</a></h3>
 <p>When running unattended with <code>--runs 0</code>, a scaffold bug or <code>goals.yaml</code> drift can quietly produce a loop where every trial fails. To catch this early, <code>/explore-strategies</code> invokes <code>forge explore health --strict</code> at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).</p>
 <p>Trigger conditions and behavior:</p>

@@ -290,6 +290,16 @@ Use `--runs 0` to loop until a rate limit is hit or all combinations are exhaust
 !!! tip "Parallel execution with multiple goals"
     Goals are independent — each has its own `explored_log.md` under `goals/<name>/`. You can run different goals simultaneously in separate Claude Code sessions without conflicts. Backtest results are shared via `exploration.db`, so the same symbol × indicator combination is never backtested twice across goals.
 
+### Scaffold supported indicators and behavior (post issue #427)
+
+`forge strategy scaffold` supports the following indicators:
+
+- **mean-reversion**: BB (required), RSI, MACD, ADX, SUPERTREND, STOCH, HMM, SMA (long-term trend filter), EMA (mid-term trend filter)
+- **trend-following**: EMA (required), ADX, MACD, RSI, SUPERTREND, STOCH, HMM, BB (volatility / trend confirmation filter), SMA (long-term bull/bear filter)
+- ATR is auto-added for all types (use `--no-atr` to disable)
+
+Requesting an indicator that is incompatible with the chosen strategy type raises an explicit `ValueError`; indicators are never silently dropped. See [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) for details.
+
 ### Health-check gate (auto-escalation on consecutive failures)
 
 When running unattended with `--runs 0`, a scaffold bug or `goals.yaml` drift can quietly produce a loop where every trial fails. To catch this early, `/explore-strategies` invokes `forge explore health --strict` at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).
