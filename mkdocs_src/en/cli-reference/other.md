@@ -278,6 +278,34 @@ FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commod
 
 The `--json` output includes `wft_diagnostics`, `pre_filter_diagnostics`, and `opt_metrics` fields.
 
+#### pre_filter_diagnostics structure (issue #409)
+
+When `skip_reason: "pre_filter_failed"`, the `pre_filter_diagnostics` field contains a
+structured `{value, threshold, passed, gap}` object for each criterion so autonomous
+exploration agents can decide programmatically which criterion failed and by how much.
+
+```json
+{
+  "pre_filter_diagnostics": {
+    "sharpe_ratio":      {"value": 0.716, "threshold": 1.0,  "passed": false, "gap": -0.284},
+    "max_drawdown":      {"value": 1.66,  "threshold": 25.0, "passed": true,  "gap": 23.34},
+    "trades":            {"value": 16,    "threshold": 30,   "passed": false, "gap": -14},
+    "monthly_volume_usd":{"value": null,  "threshold": 0.0,  "passed": null,  "note": "not evaluated"},
+    "verdict": "failed",
+    "failed_criteria": ["sharpe_ratio", "trades"]
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `value` | Observed metric from the backtest (`monthly_volume_usd` is currently not computed, so `null`) |
+| `threshold` | Threshold resolved from the `pre_filter` section of goals.yaml |
+| `passed` | Whether the criterion is met (`null` means not evaluated) |
+| `gap` | "value − threshold" (for `max_drawdown` it is "threshold − value"). Negative = shortfall, positive = headroom |
+| `verdict` | `"passed"` if all criteria pass, otherwise `"failed"` |
+| `failed_criteria` | Names of failed criteria in stable order: `sharpe_ratio` → `max_drawdown` → `trades` |
+
 ### forge explore health
 
 Aggregate the most recent N trials and detect consecutive failures or scaffold fixation (issue #408). Designed to be invoked at the start of every iteration of the unattended `/explore-strategies --runs 0` loop, so structural failures (scaffold bugs, goals.yaml drift) can be caught early instead of burning runs forever.

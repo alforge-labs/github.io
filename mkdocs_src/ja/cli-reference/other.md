@@ -278,6 +278,34 @@ FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commod
 
 `--json` 出力には `wft_diagnostics`・`pre_filter_diagnostics`・`opt_metrics` フィールドが含まれます。
 
+#### pre_filter_diagnostics の構造（issue #409）
+
+`skip_reason: "pre_filter_failed"` のとき、`pre_filter_diagnostics` には各基準について
+`{value, threshold, passed, gap}` の構造化情報が格納されます。自律探索エージェントが
+「どの基準がどれだけ不足したか」を機械的に判断するために使用します。
+
+```json
+{
+  "pre_filter_diagnostics": {
+    "sharpe_ratio":      {"value": 0.716, "threshold": 1.0,  "passed": false, "gap": -0.284},
+    "max_drawdown":      {"value": 1.66,  "threshold": 25.0, "passed": true,  "gap": 23.34},
+    "trades":            {"value": 16,    "threshold": 30,   "passed": false, "gap": -14},
+    "monthly_volume_usd":{"value": null,  "threshold": 0.0,  "passed": null,  "note": "未チェック"},
+    "verdict": "failed",
+    "failed_criteria": ["sharpe_ratio", "trades"]
+  }
+}
+```
+
+| フィールド | 説明 |
+|-----------|------|
+| `value` | バックテストでの実測値（`monthly_volume_usd` は現状計算しないため `null`） |
+| `threshold` | goals.yaml の `pre_filter` セクションから解決した閾値 |
+| `passed` | 基準を満たしているかどうか（`null` の場合は未チェック） |
+| `gap` | 「実測値 − 閾値」（max_drawdown のみ「閾値 − 実測値」）。負なら不足量、正なら余裕量 |
+| `verdict` | 全基準合格時 `"passed"`、いずれか不合格なら `"failed"` |
+| `failed_criteria` | 不合格となった基準名のリスト（評価順: `sharpe_ratio` → `max_drawdown` → `trades`） |
+
 ### forge explore health
 
 直近 N 件の試行を集計して連続失敗・scaffold 固定化を自動検出します（issue #408）。
