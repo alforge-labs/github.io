@@ -300,6 +300,25 @@ Use `--runs 0` to loop until a rate limit is hit or all combinations are exhaust
 
 Requesting an indicator that is incompatible with the chosen strategy type raises an explicit `ValueError`; indicators are never silently dropped. See [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) for details.
 
+### Early cutoff via pre_filter min_trades (issue #429)
+
+Adding `min_trades` to the `pre_filter` section of `goals.yaml` makes `forge explore run` abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.
+
+```yaml
+pre_filter:
+  sharpe_ratio:        ">= 1.0"
+  max_drawdown:        "<= 25%"
+  min_trades:          ">= 15"          # issue #429: roughly half of target_metrics.min_trades is recommended
+  monthly_volume_usd:  ">= 500000"
+```
+
+**Behavior**:
+
+- When `total_trades` after the backtest is below `pre_filter.min_trades`, `pre_filter_pass=false` and the run is aborted with `status="pre_filter_failed"`
+- `pre_filter_diagnostics.failed_criteria` includes `"trades"`, and `trades.threshold` matches the `goals.yaml` value
+- When `min_trades` is omitted (or set to `>= 0`), the trade count check is disabled (backwards compatibility)
+- Genuinely promising strategies (Sharpe>1.0 with insufficient trades) are still rescued by the **auto-relaxation variants (#428)** described below, which broaden the search space
+
 ### Auto-relaxation of failed variants (issue #428)
 
 `forge explore run` automatically generates a relaxed v(N+1) variant JSON for any strategy that **passed pre_filter but failed WFT** (`status="wft_failed"`), and registers it as rank: 1 in `recommendations.yaml`. The agent no longer needs to craft v(N+1) variants by hand.

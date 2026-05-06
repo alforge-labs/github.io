@@ -298,6 +298,25 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 
 戦略タイプと互換性のない指標を要求すると ValueError で明示的にエラーを返します（silently 削除されません）。詳細は [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) を参照。
 
+### pre_filter min_trades による早期足切り（issue #429）
+
+`goals.yaml` の `pre_filter` に `min_trades` を設定すると、バックテスト直後に取引数が閾値未満の戦略は即座に `pre_filter_failed` で打ち切られ、Optuna 最適化（数十秒〜数分）と WFT の実行をスキップして計算リソースを節約します。
+
+```yaml
+pre_filter:
+  sharpe_ratio:        ">= 1.0"
+  max_drawdown:        "<= 25%"
+  min_trades:          ">= 15"          # issue #429: 推奨は target_metrics.min_trades の半分程度
+  monthly_volume_usd:  ">= 500000"
+```
+
+**動作**:
+
+- バックテスト後の `total_trades` が `pre_filter.min_trades` 未満なら `pre_filter_pass=false` となり、`status="pre_filter_failed"` で打ち切り
+- `pre_filter_diagnostics.failed_criteria` に `"trades"` が含まれ、`trades.threshold` が `goals.yaml` の値と一致
+- `min_trades` 未指定（または `>= 0`）のときは取引数チェックは無効（後方互換性維持）
+- 真に有望な戦略（Sharpe>1.0 だが trades 不足）は、続いて説明する **自動緩和バリアント生成（#428）** でパラメータを広げて救済する設計
+
 ### 自動緩和バリアント生成（issue #428）
 
 `forge explore run` は、pre_filter は通過したが WFT で不合格となった戦略（`status="wft_failed"`）に対して、**緩和バリアント JSON v(N+1) を自動生成**し `recommendations.yaml` の rank: 1 に登録します。エージェントが手動で v(N+1) を作る必要はありません。
