@@ -334,6 +334,7 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
   "most_common_combo": "ATR+BB+RSI",
   "same_combo_streak": 5,
   "escalation": true,
+  "escalation_type": "scaffold_degradation",
   "recommended_actions": [
     "Pass rate over the last 5 trials is 0%. Check pre_filter thresholds, target symbols, and candidate indicators in goals.yaml.",
     "All recent trials had their indicators transformed by the scaffold. Inspect the indicator filters in `alpha_forge.strategy.scaffold` (see alpha-forge issues #399 and #400)."
@@ -348,15 +349,18 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
 | `failure_breakdown` | Failure counts grouped by `skip_reason` |
 | `scaffold_transformation_rate` | Ratio of trials whose scaffold transformed the requested indicators (excluding the auto-added ATR-only case) |
 | `same_combo_streak` | How many of the most recent trials share the same `indicator_combo` |
-| `escalation` | `true` when `pass_rate==0` AND (`scaffold_transformation_rate==1.0` OR `same_combo_streak==last_n`) |
+| `escalation` | `true` when `pass_rate==0` AND (`scaffold_transformation_rate>=0.5` OR `same_combo_streak==last_n`) |
+| `escalation_type` | Cause classification (issue #436): `"scaffold_degradation"` / `"agent_selection_bias"` / `null` |
 | `recommended_actions` | Human-facing remediation hints derived from the detected pattern |
 
 #### Escalation rules
 
 If the DB contains fewer than `--last` rows for the goal, the report stays observational (`escalation: false` is forced) and never blocks the loop. Once enough history accumulates, escalation triggers when **either** of the following holds:
 
-- 0% pass rate and 100% scaffold transformation rate
-- 0% pass rate and all of the most recent N trials share the same `indicator_combo`
+- 0% pass rate and scaffold transformation rate `>= 50%` → `escalation_type: "scaffold_degradation"`
+- 0% pass rate and all of the most recent N trials share the same `indicator_combo`:
+  - scaffold transformation rate `<= 10%` → `escalation_type: "agent_selection_bias"` (the agent is intentionally repeating the same combo)
+  - mid-range (10% < rate < 50%) → conservatively classified as `"scaffold_degradation"`
 
 #### Use inside the unattended skill
 
