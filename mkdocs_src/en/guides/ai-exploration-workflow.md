@@ -265,6 +265,18 @@ Use `--runs 0` to loop until a rate limit is hit or all combinations are exhaust
 !!! tip "Parallel execution with multiple goals"
     Goals are independent — each has its own `explored_log.md` under `goals/<name>/`. You can run different goals simultaneously in separate Claude Code sessions without conflicts. Backtest results are shared via `exploration.db`, so the same symbol × indicator combination is never backtested twice across goals.
 
+### Health-check gate (auto-escalation on consecutive failures)
+
+When running unattended with `--runs 0`, a scaffold bug or `goals.yaml` drift can quietly produce a loop where every trial fails. To catch this early, `/explore-strategies` invokes `forge explore health --strict` at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).
+
+Trigger conditions and behavior:
+
+- All last 5 trials failed **and** the scaffold transformed the requested indicators every time → `escalation: true`
+- All last 5 trials share the same `indicator_combo` → `escalation: true`
+- Fewer than 5 trials in the DB (shallow history) → observe-only, never blocks
+
+When escalation fires the command exits with code `1`, and the skill stops the loop and surfaces `recommended_actions` to the human operator. See the [`forge explore health` reference](../cli-reference/other.md#forge-explore-health) for full details.
+
 ---
 
 ## Step 2: Analysis & narrowing down (`/analyze-exploration`) {#step-2-analyze}
