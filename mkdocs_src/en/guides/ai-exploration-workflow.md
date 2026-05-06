@@ -92,6 +92,14 @@ All paths are relative to `alpha-trade/` as the working root.
     "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore *)"
     ```
 
+!!! warning "FORCE_COLOR=1 prefix is required"
+    The `/explore-strategies` skill mandates that `forge backtest run` / `forge optimize run` / `forge optimize walk-forward` / `forge explore run` be prefixed with `FORCE_COLOR=1` so that progress bars render correctly ([alpha-forge issue #410](https://github.com/ysakae/alpha-forge/issues/410)). Because the command line begins with `FORCE_COLOR=1 `, it does not match existing patterns that start with `FORGE_CONFIG=...` and may trigger a permission prompt that blocks unattended runs. Add the following patterns:
+    ```json
+    "Bash(FORCE_COLOR=1 FORGE_CONFIG=* op run *)",
+    "Bash(FORCE_COLOR=1 FORGE_CONFIG=* uv --directory alpha-forge run forge *)",
+    "Bash(FORCE_COLOR=1 uv --directory alpha-forge run forge *)"
+    ```
+
 ## Setting up Codex CLI for unattended runs {#codex-unattended-setup}
 
 To run the same kind of long job with Codex CLI, configure the **approval policy** and **sandbox scope** instead of a command-by-command allow list like Claude Code's `permissions.allow`.
