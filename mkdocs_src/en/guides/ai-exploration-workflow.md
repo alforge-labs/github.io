@@ -300,6 +300,30 @@ Use `--runs 0` to loop until a rate limit is hit or all combinations are exhaust
 
 Requesting an indicator that is incompatible with the chosen strategy type raises an explicit `ValueError`; indicators are never silently dropped. See [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) for details.
 
+### Auto-relaxation of failed variants (issue #428)
+
+`forge explore run` automatically generates a relaxed v(N+1) variant JSON for any strategy that **passed pre_filter but failed WFT** (`status="wft_failed"`), and registers it as rank: 1 in `recommendations.yaml`. The agent no longer needs to craft v(N+1) variants by hand.
+
+**Trigger**: `status="wft_failed"` (covers `skip_reason` of `wft_insufficient_oos_data` / `wft_no_valid_oos_windows` / `wft_failed`) **and** pre_filter passed.
+
+**Relaxation rules** (up to 2 per variant, in priority order):
+
+| Parameter pattern | Mutation |
+|---|---|
+| `rsi*_th` / `rsi*entry*` / `rsi2_entry_th` | `max += 10` (loosen entry threshold) |
+| `adx_threshold` | `min -= 5` (loosen ADX filter) |
+| `*length` / `*period` | `max *= 0.7` (shorten lookback period) |
+
+Example CLI output:
+
+```
+❌ SPY / spy_atr_ema_macd_v1 — failed (wft_insufficient_oos_data)
+  ✓ Sharpe=1.17; quality is acceptable. Auto-generated relaxed variant spy_atr_ema_macd_v2 (rsi_th.max=80→90)
+  ✓ Registered in recommendations.yaml as rank: 1
+```
+
+`forge explore result show <name> --json` exposes an `auto_relax` field. `skipped_reason="duplicate_id"` means the variant already exists; `"no_relaxable_params"` means no parameter in `param_ranges` matched the relaxation rules. Disable the feature with `forge explore run --no-auto-relax`.
+
 ### Health-check gate (auto-escalation on consecutive failures)
 
 When running unattended with `--runs 0`, a scaffold bug or `goals.yaml` drift can quietly produce a loop where every trial fails. To catch this early, `/explore-strategies` invokes `forge explore health --strict` at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).
