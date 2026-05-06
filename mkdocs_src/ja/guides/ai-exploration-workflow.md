@@ -298,6 +298,30 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 
 戦略タイプと互換性のない指標を要求すると ValueError で明示的にエラーを返します（silently 削除されません）。詳細は [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) を参照。
 
+### 自動緩和バリアント生成（issue #428）
+
+`forge explore run` は、pre_filter は通過したが WFT で不合格となった戦略（`status="wft_failed"`）に対して、**緩和バリアント JSON v(N+1) を自動生成**し `recommendations.yaml` の rank: 1 に登録します。エージェントが手動で v(N+1) を作る必要はありません。
+
+**緩和トリガー**: `status="wft_failed"` （`skip_reason` が `wft_insufficient_oos_data` / `wft_no_valid_oos_windows` / `wft_failed` のいずれか）かつ pre_filter を通過していること。
+
+**適用ルール**（最大 2 個まで、優先度順）:
+
+| パラメータ名のパターン | 変更内容 |
+|---|---|
+| `rsi*_th` / `rsi*entry*` / `rsi2_entry_th` | `max += 10`（エントリー閾値を緩める） |
+| `adx_threshold` | `min -= 5`（ADX フィルタを緩める） |
+| `*length` / `*period` | `max *= 0.7`（期間短縮で取引増） |
+
+CLI 出力例:
+
+```
+❌ SPY / spy_atr_ema_macd_v1 — 不合格 (wft_insufficient_oos_data)
+  ✓ Sharpe=1.17 で品質は良好。緩和バリアント spy_atr_ema_macd_v2 を自動生成しました（rsi_th.max=80→90）
+  ✓ recommendations.yaml に rank: 1 として登録
+```
+
+`forge explore result show <name> --json` の `auto_relax` フィールドで結果を確認できます。`skipped_reason="duplicate_id"` は既に同名のバリアントが存在することを、`"no_relaxable_params"` は緩和対象パラメータが見つからなかったことを示します。`forge explore run --no-auto-relax` で機能を無効化できます。
+
 ### ヘルスチェックゲート（連続失敗の自動エスカレーション）
 
 `--runs 0` の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、`/explore-strategies` は各ラン冒頭で `forge explore health --strict` を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。
