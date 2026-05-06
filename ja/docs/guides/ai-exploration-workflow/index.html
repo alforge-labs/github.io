@@ -2926,11 +2926,13 @@
 <p><code>--runs 0</code> の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、<code>/explore-strategies</code> は各ラン冒頭で <code>forge explore health --strict</code> を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。</p>
 <p>判定条件と挙動:</p>
 <ul>
-<li>直近 5 件すべて不合格 <strong>かつ</strong> scaffold が指標を変換し続けている → <code>escalation: true</code></li>
+<li>直近 5 件すべて不合格 <strong>かつ</strong> scaffold 変換率が 50% 以上 → <code>escalation: true</code>（<code>escalation_type: "scaffold_degradation"</code>）</li>
 <li>直近 5 件すべての <code>indicator_combo</code> が同一 → <code>escalation: true</code></li>
+<li>scaffold 変換率が 10% 以下 → <code>escalation_type: "agent_selection_bias"</code>（エージェントが意図的に同じ組み合わせを連続選択している）</li>
+<li>中間域（変換率 10〜50%）→ 保守的に <code>"scaffold_degradation"</code> として扱う</li>
 <li>DB 件数が 5 件未満（履歴が浅い）→ 観測のみ（ブロックしない）</li>
 </ul>
-<p><code>escalation: true</code> を検出するとコマンドは exit code <code>1</code> を返し、スキル側はループを停止して <code>recommended_actions</code> を人間に提示します。詳細は <a href="../../cli-reference/other/#forge-explore-health"><code>forge explore health</code> リファレンス</a> を参照してください。</p>
+<p><code>escalation: true</code> を検出するとコマンドは exit code <code>1</code> を返し、スキル側はループを停止して <code>recommended_actions</code> を人間に提示します。<code>escalation_type</code> で原因を区別することで、scaffold 修正（alpha-forge 側の調査）とエージェント側プロンプト調整のどちらが必要かを判断できます（alpha-forge issue #436）。詳細は <a href="../../cli-reference/other/#forge-explore-health"><code>forge explore health</code> リファレンス</a> を参照してください。</p>
 <hr />
 <h2 id="step-2-analyze">Step 2: 分析・絞り込み（<code>/analyze-exploration</code>）<a class="headerlink" href="#step-2-analyze" title="Permanent link">&para;</a></h2>
 <p><strong>目的</strong>: 過去のすべての探索ログを集計・分析し、次に試すべき組み合わせを <strong>科学的に推薦</strong> する。</p>

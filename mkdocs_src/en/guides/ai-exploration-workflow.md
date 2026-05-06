@@ -349,11 +349,13 @@ When running unattended with `--runs 0`, a scaffold bug or `goals.yaml` drift ca
 
 Trigger conditions and behavior:
 
-- All last 5 trials failed **and** the scaffold transformed the requested indicators every time → `escalation: true`
+- All last 5 trials failed **and** scaffold transformation rate is `>= 50%` → `escalation: true` (`escalation_type: "scaffold_degradation"`)
 - All last 5 trials share the same `indicator_combo` → `escalation: true`
+  - scaffold transformation rate `<= 10%` → `escalation_type: "agent_selection_bias"` (the agent is intentionally repeating the same combo)
+  - mid-range (10% < rate < 50%) → conservatively treated as `"scaffold_degradation"`
 - Fewer than 5 trials in the DB (shallow history) → observe-only, never blocks
 
-When escalation fires the command exits with code `1`, and the skill stops the loop and surfaces `recommended_actions` to the human operator. See the [`forge explore health` reference](../cli-reference/other.md#forge-explore-health) for full details.
+When escalation fires the command exits with code `1`, and the skill stops the loop and surfaces `recommended_actions` to the human operator. The `escalation_type` field tells you whether to investigate scaffold (alpha-forge) or adjust the agent's prompt (alpha-forge issue #436). See the [`forge explore health` reference](../cli-reference/other.md#forge-explore-health) for full details.
 
 ---
 
