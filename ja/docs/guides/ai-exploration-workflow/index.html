@@ -958,6 +958,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ヘルスチェックゲート（連続失敗の自動エスカレーション）
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -976,7 +987,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       
         処理内容
@@ -1015,7 +1026,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
+  <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
       
         実行ステップ
@@ -1054,7 +1065,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
       
         実行ステップ
@@ -1070,7 +1081,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
+  <a href="#_13" class="md-nav__link">
     <span class="md-ellipsis">
       
         キーファイルの役割
@@ -1092,7 +1103,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
+  <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
       
         ワンサイクル実例（探索 → 最適化 → 検証 → 運用）
@@ -1103,7 +1114,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
+  <a href="#_15" class="md-nav__link">
     <span class="md-ellipsis">
       
         関連ドキュメント
@@ -2193,6 +2204,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ヘルスチェックゲート（連続失敗の自動エスカレーション）
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2211,7 +2233,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       
         処理内容
@@ -2250,7 +2272,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
+  <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
       
         実行ステップ
@@ -2289,7 +2311,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
       
         実行ステップ
@@ -2305,7 +2327,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
+  <a href="#_13" class="md-nav__link">
     <span class="md-ellipsis">
       
         キーファイルの役割
@@ -2327,7 +2349,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
+  <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
       
         ワンサイクル実例（探索 → 最適化 → 検証 → 運用）
@@ -2338,7 +2360,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
+  <a href="#_15" class="md-nav__link">
     <span class="md-ellipsis">
       
         関連ドキュメント
@@ -2709,12 +2731,21 @@
 <p class="admonition-title">複数ゴールによる並列実行</p>
 <p>ゴールはそれぞれ独立しており、<code>goals/&lt;name&gt;/</code> 配下に専用の <code>explored_log.md</code> を持ちます。異なるゴールを別々の Claude Code セッションで同時実行しても競合しません。バックテスト結果は <code>exploration.db</code> を通じて全ゴールで共有されるため、同一の銘柄×指標の組み合わせが重複してバックテストされることもありません。</p>
 </div>
+<h3 id="_9">ヘルスチェックゲート（連続失敗の自動エスカレーション）<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p><code>--runs 0</code> の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、<code>/explore-strategies</code> は各ラン冒頭で <code>forge explore health --strict</code> を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。</p>
+<p>判定条件と挙動:</p>
+<ul>
+<li>直近 5 件すべて不合格 <strong>かつ</strong> scaffold が指標を変換し続けている → <code>escalation: true</code></li>
+<li>直近 5 件すべての <code>indicator_combo</code> が同一 → <code>escalation: true</code></li>
+<li>DB 件数が 5 件未満（履歴が浅い）→ 観測のみ（ブロックしない）</li>
+</ul>
+<p><code>escalation: true</code> を検出するとコマンドは exit code <code>1</code> を返し、スキル側はループを停止して <code>recommended_actions</code> を人間に提示します。詳細は <a href="../../cli-reference/other/#forge-explore-health"><code>forge explore health</code> リファレンス</a> を参照してください。</p>
 <hr />
 <h2 id="step-2-analyze">Step 2: 分析・絞り込み（<code>/analyze-exploration</code>）<a class="headerlink" href="#step-2-analyze" title="Permanent link">&para;</a></h2>
 <p><strong>目的</strong>: 過去のすべての探索ログを集計・分析し、次に試すべき組み合わせを <strong>科学的に推薦</strong> する。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&gt; /analyze-exploration
 </code></pre></div>
-<h3 id="_9">処理内容<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<h3 id="_10">処理内容<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <ol>
 <li><code>goals/*/explored_log.md</code> + <code>goals/*/reports/*.md</code> を全読み込み</li>
 <li><strong>銘柄別パフォーマンス表</strong>（試行数、最高/平均 Sharpe、最低 MaxDD、合格数）を生成</li>
@@ -2745,7 +2776,7 @@
 <p><strong>目的</strong>: Step 1 で合格した戦略について、<code>optimizer_config.param_ranges</code> を <strong>Cartesian Grid に展開して網羅探索</strong>、合格すれば自動で <code>&lt;name&gt;_optimized</code> として保存。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&gt; /grid-tune &lt;strategy_name&gt; &lt;SYMBOL&gt;
 </code></pre></div>
-<h3 id="_10">実行ステップ<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h3 id="_11">実行ステップ<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <ol>
 <li>戦略確認: <code>forge strategy show &lt;strategy_name&gt;</code> で <code>param_ranges</code> の存在と Grid 総数を確認</li>
 <li>シグナル件数チェック（必須）: <code>forge backtest signal-count</code></li>
@@ -2771,7 +2802,7 @@
 <p><strong>目的</strong>: 実運用中の戦略について、ライブ成績がバックテストから乖離しているものを検出し、<strong>自動的に再最適化</strong> する。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&gt; /tune-live-strategies
 </code></pre></div>
-<h3 id="_11">実行ステップ<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<h3 id="_12">実行ステップ<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>乖離検出</strong>: <code>forge live list</code> → 各戦略 ID で <code>forge live compare &lt;strategy_id&gt;</code> を実行し、<code>goals/&lt;goal_name&gt;/goals.yaml</code> の <code>live_tuning.sharpe_drift_threshold</code> を超えたものを抽出</li>
 <li><strong>再最適化</strong>: 乖離が大きい戦略ごとに：<ul>
@@ -2784,7 +2815,7 @@
 </ol>
 <p>週次の定期実行か、乖離が気になったときの手動実行で十分です。乖離が連続 N 週続く場合は戦略の根本見直し（指標差し替え、別シナリオへの転換）を検討してください。</p>
 <hr />
-<h2 id="_12">キーファイルの役割<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h2 id="_13">キーファイルの役割<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>alpha-strategies/data/explorer/
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── goals/
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>│   ├── default/                       # デフォルトゴール（--goal 省略時に使用）
@@ -2821,7 +2852,7 @@
 </ol>
 <p>これにより「過去データには強いが将来には機能しない」戦略を弾く設計になっています。</p>
 <hr />
-<h2 id="_13">ワンサイクル実例（探索 → 最適化 → 検証 → 運用）<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h2 id="_14">ワンサイクル実例（探索 → 最適化 → 検証 → 運用）<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
 <p>「QQQ で HMM × BB × RSI に MACD を加えるアイデア」を検証 → 採用するまでの実例です。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># 1. アイデアを記録（任意、後でリンク可能）</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>forge<span class="w"> </span>idea<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;QQQ HMM×BB×RSI に MACD を追加&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -2872,7 +2903,7 @@
 </ol>
 <p>それ以外は全部 AI が自動で進めます。</p>
 <hr />
-<h2 id="_14">関連ドキュメント<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h2 id="_15">関連ドキュメント<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../end-to-end-workflow/">エンドツーエンド戦略開発ワークフロー</a> — 手動 CLI による全ステップの詳細</li>
 <li><a href="../../getting-started/">はじめに</a> — 初回バックテストまでのチュートリアル</li>

@@ -170,6 +170,8 @@ AlphaForge: 作業ディレクトリを初期化します...
 | `import` | 既存 Markdown ログを探索 DB へ投入 |
 | `log` | 探索試行を DB に手動記録 |
 | `status` | ゴールに対する網羅状況マップを表示 |
+| `result` | 探索 DB に保存された最新試行の詳細を表示 |
+| `health` | 直近 N 件の試行から連続失敗・scaffold 固定化を検出（無人運転の品質ゲート） |
 | `recommend` | 次の探索候補を `recommendations.yaml` へ出力 |
 | `coverage` | パラメータカバレッジ（YAML）の更新・参照 |
 
@@ -275,6 +277,70 @@ FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commod
 ```
 
 `--json` 出力には `wft_diagnostics`・`pre_filter_diagnostics`・`opt_metrics` フィールドが含まれます。
+
+### forge explore health
+
+直近 N 件の試行を集計して連続失敗・scaffold 固定化を自動検出します（issue #408）。
+無人運転（`/explore-strategies --runs 0`）の各イテレーション開始前に呼び出し、
+全敗ループや scaffold バグの早期検知に使用します。
+
+```bash
+forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
+```
+
+| オプション | 説明 | デフォルト |
+|-----------|------|-----------|
+| `--goal` | 集計対象のゴール名 | `default` |
+| `--last` | 分析対象とする直近件数 | `5` |
+| `--strict` | `escalation: true` のとき終了コード `1` を返す（無人運転ループ停止用） | off |
+| `--json` | 結果を JSON 形式で標準出力する | off |
+| `--db` | 探索 DB のパス（省略時は `forge.yaml` のデフォルトパス） | — |
+
+#### 出力 JSON の例
+
+```json
+{
+  "goal": "default",
+  "last_n": 5,
+  "pass_rate": 0.0,
+  "failure_breakdown": {"pre_filter_failed": 3, "no_signals": 2},
+  "scaffold_transformation_rate": 1.0,
+  "most_common_combo": "ATR+BB+RSI",
+  "same_combo_streak": 5,
+  "escalation": true,
+  "recommended_actions": [
+    "直近 5 件の合格率が 0% です。goals.yaml の pre_filter 閾値・対象銘柄・候補指標が現実的か再点検してください。",
+    "直近すべての試行で scaffold が指標を変換しています。`alpha_forge.strategy.scaffold` の指標フィルタを点検してください（参考: alpha-forge issue #399, #400）。"
+  ]
+}
+```
+
+| フィールド | 説明 |
+|-----------|------|
+| `last_n` | 実際に集計対象となった件数（DB 件数 < `--last` の場合は実件数） |
+| `pass_rate` | `passed=True` の比率（0.0〜1.0） |
+| `failure_breakdown` | `skip_reason` 別の失敗件数 |
+| `scaffold_transformation_rate` | scaffold で指標が変換された試行の比率（ATR 自動追加のみは除外） |
+| `same_combo_streak` | 直近で連続して同一 `indicator_combo` だった件数 |
+| `escalation` | `pass_rate==0` かつ（`scaffold_transformation_rate==1.0` または `same_combo_streak==last_n`）のとき `true` |
+| `recommended_actions` | 検出された問題に対する人間向けの推奨アクション |
+
+#### エスカレーション判定
+
+DB 件数が `--last` に満たない場合は観測のみ（`escalation: false` 固定）でブロックしません。
+`--last` 件以上の履歴がある場合のみ、以下のいずれかで `escalation: true` を返します。
+
+- 合格率 `0%` かつ scaffold 変換率 `100%`
+- 合格率 `0%` かつ直近 N 件すべての `indicator_combo` が同一
+
+#### 無人運転スキルでの使用例
+
+```bash
+# /explore-strategies の各ラン冒頭で実行
+FORGE_CONFIG=forge.yaml forge explore health \
+  --goal default --last 5 --strict --json
+# exit code 1 → recommended_actions を提示してループ停止
+```
 
 ---
 

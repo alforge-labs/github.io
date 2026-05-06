@@ -170,6 +170,8 @@ Manage exploration pipeline state and run the full pipeline in one command. Thes
 | `import` | Bulk-import a Markdown log into the exploration DB |
 | `log` | Manually record an exploration trial to the DB |
 | `status` | Show coverage map against a goal |
+| `result` | Show details of the latest trial saved in the exploration DB |
+| `health` | Detect consecutive failures and scaffold fixation from recent trials (quality gate for unattended runs) |
 | `recommend` | Write next-exploration candidates to `recommendations.yaml` |
 | `coverage` | Update or view parameter coverage YAML |
 
@@ -275,6 +277,67 @@ FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commod
 ```
 
 The `--json` output includes `wft_diagnostics`, `pre_filter_diagnostics`, and `opt_metrics` fields.
+
+### forge explore health
+
+Aggregate the most recent N trials and detect consecutive failures or scaffold fixation (issue #408). Designed to be invoked at the start of every iteration of the unattended `/explore-strategies --runs 0` loop, so structural failures (scaffold bugs, goals.yaml drift) can be caught early instead of burning runs forever.
+
+```bash
+forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
+```
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--goal` | Goal name to aggregate | `default` |
+| `--last` | Number of recent trials to analyze | `5` |
+| `--strict` | Exit with code `1` when `escalation: true` (used to break the unattended loop) | off |
+| `--json` | Output result as JSON to stdout | off |
+| `--db` | Path to exploration DB (defaults to path from `forge.yaml`) | — |
+
+#### Output JSON example
+
+```json
+{
+  "goal": "default",
+  "last_n": 5,
+  "pass_rate": 0.0,
+  "failure_breakdown": {"pre_filter_failed": 3, "no_signals": 2},
+  "scaffold_transformation_rate": 1.0,
+  "most_common_combo": "ATR+BB+RSI",
+  "same_combo_streak": 5,
+  "escalation": true,
+  "recommended_actions": [
+    "Pass rate over the last 5 trials is 0%. Check pre_filter thresholds, target symbols, and candidate indicators in goals.yaml.",
+    "All recent trials had their indicators transformed by the scaffold. Inspect the indicator filters in `alpha_forge.strategy.scaffold` (see alpha-forge issues #399 and #400)."
+  ]
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `last_n` | Actual number of trials analyzed (capped by DB row count when fewer than `--last` exist) |
+| `pass_rate` | Ratio of trials with `passed=True` (0.0–1.0) |
+| `failure_breakdown` | Failure counts grouped by `skip_reason` |
+| `scaffold_transformation_rate` | Ratio of trials whose scaffold transformed the requested indicators (excluding the auto-added ATR-only case) |
+| `same_combo_streak` | How many of the most recent trials share the same `indicator_combo` |
+| `escalation` | `true` when `pass_rate==0` AND (`scaffold_transformation_rate==1.0` OR `same_combo_streak==last_n`) |
+| `recommended_actions` | Human-facing remediation hints derived from the detected pattern |
+
+#### Escalation rules
+
+If the DB contains fewer than `--last` rows for the goal, the report stays observational (`escalation: false` is forced) and never blocks the loop. Once enough history accumulates, escalation triggers when **either** of the following holds:
+
+- 0% pass rate and 100% scaffold transformation rate
+- 0% pass rate and all of the most recent N trials share the same `indicator_combo`
+
+#### Use inside the unattended skill
+
+```bash
+# Run at the start of every iteration of /explore-strategies
+FORGE_CONFIG=forge.yaml forge explore health \
+  --goal default --last 5 --strict --json
+# exit code 1 → surface recommended_actions to a human and break the loop
+```
 
 ---
 

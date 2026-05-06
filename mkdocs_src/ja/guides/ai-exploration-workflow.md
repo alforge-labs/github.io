@@ -263,6 +263,18 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 !!! tip "複数ゴールによる並列実行"
     ゴールはそれぞれ独立しており、`goals/<name>/` 配下に専用の `explored_log.md` を持ちます。異なるゴールを別々の Claude Code セッションで同時実行しても競合しません。バックテスト結果は `exploration.db` を通じて全ゴールで共有されるため、同一の銘柄×指標の組み合わせが重複してバックテストされることもありません。
 
+### ヘルスチェックゲート（連続失敗の自動エスカレーション）
+
+`--runs 0` の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、`/explore-strategies` は各ラン冒頭で `forge explore health --strict` を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。
+
+判定条件と挙動:
+
+- 直近 5 件すべて不合格 **かつ** scaffold が指標を変換し続けている → `escalation: true`
+- 直近 5 件すべての `indicator_combo` が同一 → `escalation: true`
+- DB 件数が 5 件未満（履歴が浅い）→ 観測のみ（ブロックしない）
+
+`escalation: true` を検出するとコマンドは exit code `1` を返し、スキル側はループを停止して `recommended_actions` を人間に提示します。詳細は [`forge explore health` リファレンス](../cli-reference/other.md#forge-explore-health) を参照してください。
+
 ---
 
 ## Step 2: 分析・絞り込み（`/analyze-exploration`） {#step-2-analyze}

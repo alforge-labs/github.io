@@ -958,6 +958,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#health-check-gate-auto-escalation-on-consecutive-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health-check gate (auto-escalation on consecutive failures)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2193,6 +2204,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#health-check-gate-auto-escalation-on-consecutive-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health-check gate (auto-escalation on consecutive failures)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2711,6 +2733,15 @@
 <p class="admonition-title">Parallel execution with multiple goals</p>
 <p>Goals are independent — each has its own <code>explored_log.md</code> under <code>goals/&lt;name&gt;/</code>. You can run different goals simultaneously in separate Claude Code sessions without conflicts. Backtest results are shared via <code>exploration.db</code>, so the same symbol × indicator combination is never backtested twice across goals.</p>
 </div>
+<h3 id="health-check-gate-auto-escalation-on-consecutive-failures">Health-check gate (auto-escalation on consecutive failures)<a class="headerlink" href="#health-check-gate-auto-escalation-on-consecutive-failures" title="Permanent link">&para;</a></h3>
+<p>When running unattended with <code>--runs 0</code>, a scaffold bug or <code>goals.yaml</code> drift can quietly produce a loop where every trial fails. To catch this early, <code>/explore-strategies</code> invokes <code>forge explore health --strict</code> at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).</p>
+<p>Trigger conditions and behavior:</p>
+<ul>
+<li>All last 5 trials failed <strong>and</strong> the scaffold transformed the requested indicators every time → <code>escalation: true</code></li>
+<li>All last 5 trials share the same <code>indicator_combo</code> → <code>escalation: true</code></li>
+<li>Fewer than 5 trials in the DB (shallow history) → observe-only, never blocks</li>
+</ul>
+<p>When escalation fires the command exits with code <code>1</code>, and the skill stops the loop and surfaces <code>recommended_actions</code> to the human operator. See the <a href="../../cli-reference/other/#forge-explore-health"><code>forge explore health</code> reference</a> for full details.</p>
 <hr />
 <h2 id="step-2-analyze">Step 2: Analysis &amp; narrowing down (<code>/analyze-exploration</code>)<a class="headerlink" href="#step-2-analyze" title="Permanent link">&para;</a></h2>
 <p><strong>Purpose</strong>: Aggregate all past exploration logs and <strong>scientifically recommend</strong> the next set of combinations to try.</p>
