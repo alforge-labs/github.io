@@ -263,6 +263,12 @@ forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 
 `<id>.journal.json` is **kept**.
 
+### Automatic cleanup of recommendations.yaml (issue #454)
+
+When a strategy is deleted, any matching entry in `data/explorer/recommendations.yaml` is automatically removed (ranks are renumbered). Deleting an auto-relax recommendation will not leave a stale entry that causes `forge explore run` to fail with `StrategyNotFoundError`.
+
+In addition, `forge explore recommend show` performs a DB existence check at display time and auto-prunes any stale entries left over from previous runs.
+
 ### Sample output
 
 ```text

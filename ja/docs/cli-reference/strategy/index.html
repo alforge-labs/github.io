@@ -1717,6 +1717,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#recommendationsyaml-issue-454" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        recommendations.yaml の自動クリーンアップ（issue #454）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_25" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2657,6 +2668,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#recommendationsyaml-issue-454" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        recommendations.yaml の自動クリーンアップ（issue #454）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_25" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3321,6 +3343,9 @@
 <li><code>report.output_path / optimize_&lt;id&gt;_*.json</code>（複数あれば全て）</li>
 </ul>
 <p><code>&lt;id&gt;.journal.json</code> は <strong>保持</strong> されます。</p>
+<h3 id="recommendationsyaml-issue-454">recommendations.yaml の自動クリーンアップ（issue #454）<a class="headerlink" href="#recommendationsyaml-issue-454" title="Permanent link">&para;</a></h3>
+<p>戦略削除時に <code>data/explorer/recommendations.yaml</code> 上の該当エントリも自動的に削除されます（rank は詰め直されます）。auto-relax で生成された推薦戦略を削除しても、stale な推薦が残って <code>forge explore run</code> が <code>StrategyNotFoundError</code> で停止することはありません。</p>
+<p>なお、<code>forge explore recommend show</code> 実行時には DB 存在チェックが走り、過去に取り残された stale エントリも自動的に prune されます。</p>
 <h3 id="_25">サンプル出力<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>削除対象: my_strategy_v1
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>

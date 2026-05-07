@@ -1717,6 +1717,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#automatic-cleanup-of-recommendationsyaml-issue-454" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic cleanup of recommendations.yaml (issue #454)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2657,6 +2668,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#automatic-cleanup-of-recommendationsyaml-issue-454" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic cleanup of recommendations.yaml (issue #454)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sample-output_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3321,6 +3343,9 @@
 <li><code>report.output_path / optimize_&lt;id&gt;_*.json</code> (all matching files)</li>
 </ul>
 <p><code>&lt;id&gt;.journal.json</code> is <strong>kept</strong>.</p>
+<h3 id="automatic-cleanup-of-recommendationsyaml-issue-454">Automatic cleanup of recommendations.yaml (issue #454)<a class="headerlink" href="#automatic-cleanup-of-recommendationsyaml-issue-454" title="Permanent link">&para;</a></h3>
+<p>When a strategy is deleted, any matching entry in <code>data/explorer/recommendations.yaml</code> is automatically removed (ranks are renumbered). Deleting an auto-relax recommendation will not leave a stale entry that causes <code>forge explore run</code> to fail with <code>StrategyNotFoundError</code>.</p>
+<p>In addition, <code>forge explore recommend show</code> performs a DB existence check at display time and auto-prunes any stale entries left over from previous runs.</p>
 <h3 id="sample-output_5">Sample output<a class="headerlink" href="#sample-output_5" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>To delete: my_strategy_v1
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>

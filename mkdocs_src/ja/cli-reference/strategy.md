@@ -263,6 +263,12 @@ forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 
 `<id>.journal.json` は **保持** されます。
 
+### recommendations.yaml の自動クリーンアップ（issue #454）
+
+戦略削除時に `data/explorer/recommendations.yaml` 上の該当エントリも自動的に削除されます（rank は詰め直されます）。auto-relax で生成された推薦戦略を削除しても、stale な推薦が残って `forge explore run` が `StrategyNotFoundError` で停止することはありません。
+
+なお、`forge explore recommend show` 実行時には DB 存在チェックが走り、過去に取り残された stale エントリも自動的に prune されます。
+
 ### サンプル出力
 
 ```text
