@@ -341,6 +341,29 @@ forge strategy scaffold ... \
 - `commodities`: 先物のレバ 5〜10 倍
 - `default`/`stocks`: ノーレバ・10〜15% サイジング（既存デフォルトのまま）
 
+### ゴール別 timeframe / backtest_period（issue #463）
+
+短い時間足（1h 等）対応のため、`goals.yaml` の `exploration.timeframe` と `exploration.backtest_period` でゴール別デフォルトを指定できます。
+
+```yaml
+# 例: oanda_gold/goals.yaml（高頻度 FX 戦略想定）
+exploration:
+  timeframe: "1h"           # scaffold が生成する戦略の timeframe（既定: "1d"）
+  backtest_period: "2y"     # explore run のデータ取得 period（既定: "5y"）
+```
+
+`forge strategy scaffold --goal <name>` で生成される戦略の `timeframe` と、`forge explore run --goal <name>` のデータ取得 period に反映されます。CLI で個別指定したい場合は `--timeframe` を使えます：
+
+```bash
+forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
+  --type mean-reversion --strategy-id usdjpy_bb_rsi_1h_v1 \
+  --timeframe 1h --save
+```
+
+**優先順位**: 明示 `--timeframe` > `goals.yaml.exploration.timeframe` > 既存デフォルト `"1d"`
+
+**yfinance の制約**: yfinance プロバイダーは Yahoo Finance API の 730 日制限により、**1h × 5y は取得不可**です（実測: 1h × 2y は約 12,000 bars）。1h を使う場合は `backtest_period: "2y"` のように短縮するか、Dukascopy / OANDA 等の別プロバイダーを使用してください。
+
 ### pre_filter min_trades による早期足切り（issue #429）
 
 `goals.yaml` の `pre_filter` に `min_trades` を設定すると、バックテスト直後に取引数が閾値未満の戦略は即座に `pre_filter_failed` で打ち切られ、Optuna 最適化（数十秒〜数分）と WFT の実行をスキップして計算リソースを節約します。
