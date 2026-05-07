@@ -351,6 +351,50 @@ DB の `pre_filter_diagnostics.near_pass` に `eligible_via`（`factors`/`cross_
 - QQQ ADX+EMA+SuperTrend: sharpe 0.771 / MDD 0.91% / trades 705 → MDD が閾値の 1/33 で大幅余裕 → cross_compensation で救済
 - CL=F BB+RSI: sharpe 0.758 / MDD 1.84% / trades 36 → 同パターンで救済
 
+### pre_filter.monthly_volume_usd の判定（issue #459）
+
+`monthly_volume_usd` は `MetricsCalculator._calc_monthly_volume_usd` で月平均取引量（USD 換算）として計算済みです。`pre_filter.monthly_volume_usd >= N` を `goals.yaml` に設定すると pre_filter で実評価され、未達の戦略は `failed_criteria` に `monthly_volume_usd` が追加されます。
+
+OANDA Gold ステータスの維持ライン（月間取引量 50万 USD）の強制に使えます：
+
+```yaml
+pre_filter:
+  monthly_volume_usd: ">= 500000"
+```
+
+未指定または `>= 0` のときは従来通り評価 skip（後方互換）。
+
+### target_metrics 任意 metric 評価（issue #458）
+
+`goals.yaml` の `target_metrics` セクションには次の任意 metric を記述できます。`forge explore run` の Step 5 で全 metric が照合され、結果は DB の `target_metrics_diagnostics` に構造化保存されます。
+
+| metric 名 | 意味 | 評価ソース |
+|----------|------|-----------|
+| `sharpe_ratio` | Sharpe 比 | **WFT 平均**（既存仕様） |
+| `max_drawdown` | 最大ドローダウン (%) | backtest |
+| `cagr` | 年率リターン (%) | backtest |
+| `win_rate_pct` | 取引勝率 (%) | backtest |
+| `profit_factor` | 利益÷損失 | backtest |
+| `min_trades` | 取引数下限 | backtest |
+| `calmar_ratio` | CAGR / MDD | backtest |
+| `positive_months_ratio` | 月別勝率（0〜1） | backtest |
+| `worst_month_pnl_pct` | 最悪月の P&L (%) | backtest |
+| `best_month_pnl_pct` | 最高月の P&L (%) | backtest |
+| `consecutive_negative_months` | 連続マイナス月の最大長 | backtest |
+
+「ほぼ確実に毎月プラス」を表現する例：
+
+```yaml
+target_metrics:
+  positive_months_ratio: ">= 0.9"
+  worst_month_pnl_pct: ">= -1.5"
+  consecutive_negative_months: "<= 2"
+  max_drawdown: "<= 5%"
+  profit_factor: ">= 1.3"
+```
+
+未対応の metric 名や未サポート operator は warning + skip（戦略は失格扱いにしない）。
+
 ### 自動緩和バリアント生成（issue #428）
 
 `forge explore run` は、pre_filter は通過したが WFT で不合格となった戦略（`status="wft_failed"`）に対して、**緩和バリアント JSON v(N+1) を自動生成**し `recommendations.yaml` の rank: 1 に登録します。エージェントが手動で v(N+1) を作る必要はありません。

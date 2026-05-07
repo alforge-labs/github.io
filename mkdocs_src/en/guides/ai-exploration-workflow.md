@@ -353,6 +353,50 @@ pre_filter:
 - QQQ ADX+EMA+SuperTrend: sharpe 0.771 / MDD 0.91% / trades 705 → MDD is 1/33 of the threshold → rescued via cross_compensation
 - CL=F BB+RSI: sharpe 0.758 / MDD 1.84% / trades 36 → same pattern, rescued
 
+### pre_filter.monthly_volume_usd evaluation (issue #459)
+
+`monthly_volume_usd` (monthly USD turnover) is computed by `MetricsCalculator._calc_monthly_volume_usd`. Setting `pre_filter.monthly_volume_usd >= N` in `goals.yaml` actively evaluates the value at pre_filter time, and shortfall strategies have `monthly_volume_usd` added to `failed_criteria`.
+
+Useful for enforcing OANDA Gold status (monthly turnover ≥ 500,000 USD):
+
+```yaml
+pre_filter:
+  monthly_volume_usd: ">= 500000"
+```
+
+When unset or `>= 0`, evaluation is skipped (backwards compatible).
+
+### target_metrics arbitrary-metric evaluation (issue #458)
+
+The `target_metrics` section of `goals.yaml` accepts the following arbitrary metrics. `forge explore run` Step 5 evaluates every entry, and the structured outcome is stored in DB under `target_metrics_diagnostics`.
+
+| Metric | Meaning | Source |
+|--------|---------|--------|
+| `sharpe_ratio` | Sharpe ratio | **WFT average** (existing behavior) |
+| `max_drawdown` | Max drawdown (%) | backtest |
+| `cagr` | Annual return (%) | backtest |
+| `win_rate_pct` | Trade win rate (%) | backtest |
+| `profit_factor` | Profit / loss | backtest |
+| `min_trades` | Lower bound on trade count | backtest |
+| `calmar_ratio` | CAGR / MDD | backtest |
+| `positive_months_ratio` | Fraction of profitable months (0–1) | backtest |
+| `worst_month_pnl_pct` | Worst-month P&L (%) | backtest |
+| `best_month_pnl_pct` | Best-month P&L (%) | backtest |
+| `consecutive_negative_months` | Max consecutive negative months | backtest |
+
+Example targeting "almost surely positive every month":
+
+```yaml
+target_metrics:
+  positive_months_ratio: ">= 0.9"
+  worst_month_pnl_pct: ">= -1.5"
+  consecutive_negative_months: "<= 2"
+  max_drawdown: "<= 5%"
+  profit_factor: ">= 1.3"
+```
+
+Unsupported metric names or operators are skipped with a warning (the strategy is not marked failed because of them).
+
 ### Auto-relaxation of failed variants (issue #428)
 
 `forge explore run` automatically generates a relaxed v(N+1) variant JSON for any strategy that **passed pre_filter but failed WFT** (`status="wft_failed"`), and registers it as rank: 1 in `recommendations.yaml`. The agent no longer needs to craft v(N+1) variants by hand.
