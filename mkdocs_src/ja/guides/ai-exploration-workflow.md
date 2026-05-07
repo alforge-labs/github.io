@@ -317,6 +317,40 @@ pre_filter:
 - `min_trades` 未指定（または `>= 0`）のときは取引数チェックは無効（後方互換性維持）
 - 真に有望な戦略（Sharpe>1.0 だが trades 不足）は、続いて説明する **自動緩和バリアント生成（#428）** でパラメータを広げて救済する設計
 
+### pre_filter.near_pass 救済ゾーン（issue #452 / #456）
+
+「あと一歩で pre_filter 通過」の戦略を optimizer に進めるための救済機構。`goals.yaml` の `pre_filter.near_pass` セクションで設定し、3 段階評価で eligibility を判定します。
+
+```yaml
+pre_filter:
+  sharpe_ratio: ">= 1.0"
+  max_drawdown: "<= 30%"
+  near_pass:
+    # 段階 1: factors（独立係数評価 / issue #452）
+    sharpe_ratio: 0.9
+    max_drawdown: 1.1
+    min_trades: 0.8
+
+    # 段階 2: cross_compensation（クロス補完救済 / issue #456）
+    cross_compensation:
+      max_drawdown_floor: 0.1     # MDD <= 30% × 0.1 = 3% なら sharpe 緩和発動
+      sharpe_relax_factor: 0.7    # sharpe を 1.0 × 0.7 = 0.7 まで許容
+      # 任意: min_trades_floor: 5.0  # trades >= 30 × 5 = 150 でも発動
+
+    # 段階 3: composite（複合スコア救済 / issue #456）
+    composite:
+      calmar_ratio: 5.0           # CAGR/MDD >= 5.0 なら sharpe 不足を救済
+```
+
+**判定順**: factors → cross_compensation → composite。いずれかで eligible になれば救済され optimizer が走ります。`cross_compensation` と `composite` は **sharpe 単独不足のみ**に適用（複数 metric 同時不足は救済対象外）。
+
+DB の `pre_filter_diagnostics.near_pass` に `eligible_via`（`factors`/`cross_compensation`/`composite`/`null`）と `compensation_evidence`（救済根拠）が記録され、観測可能です。
+
+**典型的な救済ケース** (issue #456):
+
+- QQQ ADX+EMA+SuperTrend: sharpe 0.771 / MDD 0.91% / trades 705 → MDD が閾値の 1/33 で大幅余裕 → cross_compensation で救済
+- CL=F BB+RSI: sharpe 0.758 / MDD 1.84% / trades 36 → 同パターンで救済
+
 ### 自動緩和バリアント生成（issue #428）
 
 `forge explore run` は、pre_filter は通過したが WFT で不合格となった戦略（`status="wft_failed"`）に対して、**緩和バリアント JSON v(N+1) を自動生成**し `recommendations.yaml` の rank: 1 に登録します。エージェントが手動で v(N+1) を作る必要はありません。

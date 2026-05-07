@@ -319,6 +319,40 @@ pre_filter:
 - When `min_trades` is omitted (or set to `>= 0`), the trade count check is disabled (backwards compatibility)
 - Genuinely promising strategies (Sharpe>1.0 with insufficient trades) are still rescued by the **auto-relaxation variants (#428)** described below, which broaden the search space
 
+### pre_filter.near_pass rescue zone (issue #452 / #456)
+
+Mechanism that lets "almost-passing" strategies proceed to the optimizer. Configure under `pre_filter.near_pass` in `goals.yaml`; eligibility is decided in 3 stages.
+
+```yaml
+pre_filter:
+  sharpe_ratio: ">= 1.0"
+  max_drawdown: "<= 30%"
+  near_pass:
+    # Stage 1: factors (independent coefficient evaluation / issue #452)
+    sharpe_ratio: 0.9
+    max_drawdown: 1.1
+    min_trades: 0.8
+
+    # Stage 2: cross_compensation (issue #456)
+    cross_compensation:
+      max_drawdown_floor: 0.1     # MDD <= 30% × 0.1 = 3% triggers sharpe relaxation
+      sharpe_relax_factor: 0.7    # sharpe acceptable down to 1.0 × 0.7 = 0.7
+      # optional: min_trades_floor: 5.0  # trades >= 30 × 5 = 150 also triggers
+
+    # Stage 3: composite (issue #456)
+    composite:
+      calmar_ratio: 5.0           # CAGR/MDD >= 5.0 rescues sharpe shortfall
+```
+
+**Order**: factors → cross_compensation → composite. The first stage that returns eligible runs the optimizer. `cross_compensation` and `composite` only apply when **sharpe is the only failed criterion** (multi-metric failures are not rescued).
+
+`pre_filter_diagnostics.near_pass` records `eligible_via` (`factors`/`cross_compensation`/`composite`/`null`) and `compensation_evidence` (rescue rationale) for observability.
+
+**Typical rescue cases** (issue #456):
+
+- QQQ ADX+EMA+SuperTrend: sharpe 0.771 / MDD 0.91% / trades 705 → MDD is 1/33 of the threshold → rescued via cross_compensation
+- CL=F BB+RSI: sharpe 0.758 / MDD 1.84% / trades 36 → same pattern, rescued
+
 ### Auto-relaxation of failed variants (issue #428)
 
 `forge explore run` automatically generates a relaxed v(N+1) variant JSON for any strategy that **passed pre_filter but failed WFT** (`status="wft_failed"`), and registers it as rank: 1 in `recommendations.yaml`. The agent no longer needs to craft v(N+1) variants by hand.
