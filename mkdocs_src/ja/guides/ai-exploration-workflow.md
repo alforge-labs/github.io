@@ -298,6 +298,49 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 
 戦略タイプと互換性のない指標を要求すると ValueError で明示的にエラーを返します（silently 削除されません）。詳細は [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) を参照。
 
+### ゴール別 scaffold デフォルト（issue #461）
+
+`goals.yaml` の `exploration.scaffold_defaults` セクションでゴール別のレバレッジ・ポジションサイズ・ストップを指定し、`forge strategy scaffold --goal <name>` で自動適用できます。さらに `exploration.initial_capital` で `forge.yaml` の想定資金を override できます。
+
+```yaml
+# 例: oanda_gold/goals.yaml
+exploration:
+  initial_capital: 6800              # USD 換算想定資金（forge.yaml override）
+  scaffold_defaults:
+    position_size_pct: 100
+    leverage: 5
+    type_overrides:
+      mean-reversion:
+        stop_loss_pct: 1.5
+        take_profit_pct: 3.0
+      trend-following:
+        stop_loss_pct: null          # null = scaffold の既存デフォルト維持
+```
+
+CLI:
+
+```bash
+# ゴール参照
+forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
+  --type mean-reversion --strategy-id usdjpy_bb_rsi_v1 \
+  --goal oanda_gold --save
+
+# 個別フラグ（オーバーライド）
+forge strategy scaffold ... \
+  --position-size-pct 100 --leverage 5 \
+  --stop-loss-pct 1.5 --take-profit-pct 3.0 --save
+```
+
+**優先順位**: 明示 CLI フラグ > `goals.yaml.scaffold_defaults` (+ `type_overrides`) > 既存デフォルト
+
+`forge backtest run --goal <name>` および `forge explore run --goal <name>` 実行時にも `goals.yaml.exploration.initial_capital` が読まれ、その値で BacktestConfig が override されます（forge.yaml を直接編集する必要はありません）。
+
+**典型的な用途**:
+
+- `oanda_gold`（OANDA Gold 維持）: 100万円口座（6,800 USD）× レバ 5 倍
+- `commodities`: 先物のレバ 5〜10 倍
+- `default`/`stocks`: ノーレバ・10〜15% サイジング（既存デフォルトのまま）
+
 ### pre_filter min_trades による早期足切り（issue #429）
 
 `goals.yaml` の `pre_filter` に `min_trades` を設定すると、バックテスト直後に取引数が閾値未満の戦略は即座に `pre_filter_failed` で打ち切られ、Optuna 最適化（数十秒〜数分）と WFT の実行をスキップして計算リソースを節約します。

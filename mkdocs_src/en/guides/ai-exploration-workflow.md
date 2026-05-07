@@ -300,6 +300,49 @@ Use `--runs 0` to loop until a rate limit is hit or all combinations are exhaust
 
 Requesting an indicator that is incompatible with the chosen strategy type raises an explicit `ValueError`; indicators are never silently dropped. See [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) for details.
 
+### Per-goal scaffold defaults (issue #461)
+
+Goal-specific leverage / position size / stop can be set in the `exploration.scaffold_defaults` section of `goals.yaml`, and `forge strategy scaffold --goal <name>` applies them automatically. `exploration.initial_capital` overrides the `forge.yaml` capital assumption.
+
+```yaml
+# Example: oanda_gold/goals.yaml
+exploration:
+  initial_capital: 6800              # USD-denominated capital assumption (forge.yaml override)
+  scaffold_defaults:
+    position_size_pct: 100
+    leverage: 5
+    type_overrides:
+      mean-reversion:
+        stop_loss_pct: 1.5
+        take_profit_pct: 3.0
+      trend-following:
+        stop_loss_pct: null          # null = keep scaffold's existing default
+```
+
+CLI:
+
+```bash
+# Goal reference
+forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
+  --type mean-reversion --strategy-id usdjpy_bb_rsi_v1 \
+  --goal oanda_gold --save
+
+# Explicit flags (override)
+forge strategy scaffold ... \
+  --position-size-pct 100 --leverage 5 \
+  --stop-loss-pct 1.5 --take-profit-pct 3.0 --save
+```
+
+**Priority**: explicit CLI flag > `goals.yaml.scaffold_defaults` (+ `type_overrides`) > existing defaults
+
+`forge backtest run --goal <name>` and `forge explore run --goal <name>` also read `goals.yaml.exploration.initial_capital` and override the `BacktestConfig` (no need to edit `forge.yaml`).
+
+**Typical use cases**:
+
+- `oanda_gold` (maintain OANDA Gold): 1M JPY (~6,800 USD) × 5x leverage
+- `commodities`: 5-10x leverage for futures
+- `default`/`stocks`: no leverage / 10-15% sizing (existing defaults)
+
 ### Early cutoff via pre_filter min_trades (issue #429)
 
 Adding `min_trades` to the `pre_filter` section of `goals.yaml` makes `forge explore run` abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.
