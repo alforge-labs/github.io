@@ -75,7 +75,12 @@ nav:
   - Strategy Catalog:
       - Strategy Templates: templates.md
       - Strategy Gallery: strategy-gallery.md
-  - alpha-visualizer: alpha-visualizer.md
+  - alpha-visualizer:
+      - Overview: alpha-visualizer/index.md
+      - Installation: alpha-visualizer/installation.md
+      - Features: alpha-visualizer/features.md
+      - Configuration: alpha-visualizer/configuration.md
+      - FAQ: alpha-visualizer/faq.md
   - CLI Reference:
       - Overview: cli-reference/index.md
       - backtest: cli-reference/backtest.md
