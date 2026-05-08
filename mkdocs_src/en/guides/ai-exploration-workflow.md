@@ -300,6 +300,23 @@ Use `--runs 0` to loop until a rate limit is hit or all combinations are exhaust
 
 Requesting an indicator that is incompatible with the chosen strategy type raises an explicit `ValueError`; indicators are never silently dropped. See [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) for details.
 
+### Both long and short entries (issue #469)
+
+scaffold now generates **both long and short** `entry_conditions` / `exit_conditions`. In symmetric markets such as FX this doubles the opportunity surface and lets the strategy capture profit on the down leg as well.
+
+| Strategy type | long | short |
+|---------------|------|-------|
+| mean-reversion | BB lower touch → exit on bb_mid cross up | BB upper touch → exit on bb_mid cross down |
+| trend-following | EMA fast cross up → exit on cross down | EMA fast cross down → exit on cross up |
+
+Filters are mirrored across directions:
+- RSI: oversold → overbought (long) / overbought → oversold (short)
+- MACD histogram: `< 0` (long) / `> 0` (short)
+- ADX: identical (range detection is direction-agnostic)
+- SuperTrend / SMA / EMA: price above (long) / price below (short)
+
+When HMM is enabled, the range regime (mean-reversion state 1) or the high-return state (trend-following state 0) allows both directions. For long-only stock strategies, delete `entry_conditions.short` after scaffolding.
+
 ### Per-goal scaffold defaults (issue #461)
 
 Goal-specific leverage / position size / stop can be set in the `exploration.scaffold_defaults` section of `goals.yaml`, and `forge strategy scaffold --goal <name>` applies them automatically. `exploration.initial_capital` overrides the `forge.yaml` capital assumption.

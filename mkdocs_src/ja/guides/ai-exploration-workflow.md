@@ -298,6 +298,23 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 
 戦略タイプと互換性のない指標を要求すると ValueError で明示的にエラーを返します（silently 削除されません）。詳細は [alpha-forge issue #427](https://github.com/ysakae/alpha-forge/issues/427) を参照。
 
+### long / short 両方向の自動生成（issue #469）
+
+scaffold は **long と short の両方** の `entry_conditions` / `exit_conditions` を生成します。FX 等の対称市場では取引機会が 2 倍になり、長下げ局面でも収益機会を取り込めます。
+
+| 戦略タイプ | long | short |
+|-----------|------|-------|
+| mean-reversion | BB 下タッチ → bb_mid クロス上で利確 | BB 上タッチ → bb_mid クロス下で利確 |
+| trend-following | EMA fast クロス上 → クロス下で exit | EMA fast クロス下 → クロス上で exit |
+
+各フィルタも対称適用：
+- RSI: oversold → overbought（long）／overbought → oversold（short）
+- MACD hist: < 0 → > 0（long と short が反転）
+- ADX: 同条件（レンジ判定は方向に依存しない）
+- SuperTrend / SMA / EMA: 価格が指標上 → 下（long と short が反転）
+
+HMM 適用時は range レジーム（mean-reversion state 1）または高リターン状態（trend-following state 0）で long/short 両方向のエントリーを許可します。stock 系で long-only にしたい場合は scaffold 後に `entry_conditions.short` を削除してください。
+
 ### ゴール別 scaffold デフォルト（issue #461）
 
 `goals.yaml` の `exploration.scaffold_defaults` セクションでゴール別のレバレッジ・ポジションサイズ・ストップを指定し、`forge strategy scaffold --goal <name>` で自動適用できます。さらに `exploration.initial_capital` で `forge.yaml` の想定資金を override できます。

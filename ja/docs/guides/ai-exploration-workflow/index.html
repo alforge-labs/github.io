@@ -988,6 +988,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#long-short-issue-469" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        long / short 両方向の自動生成（issue #469）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#scaffold-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2511,6 +2522,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#long-short-issue-469" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        long / short 両方向の自動生成（issue #469）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#scaffold-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3158,6 +3180,35 @@
 <li>ATR は全タイプで自動追加（<code>--no-atr</code> フラグで無効化可能）</li>
 </ul>
 <p>戦略タイプと互換性のない指標を要求すると ValueError で明示的にエラーを返します（silently 削除されません）。詳細は <a href="https://github.com/ysakae/alpha-forge/issues/427">alpha-forge issue #427</a> を参照。</p>
+<h3 id="long-short-issue-469">long / short 両方向の自動生成（issue #469）<a class="headerlink" href="#long-short-issue-469" title="Permanent link">&para;</a></h3>
+<p>scaffold は <strong>long と short の両方</strong> の <code>entry_conditions</code> / <code>exit_conditions</code> を生成します。FX 等の対称市場では取引機会が 2 倍になり、長下げ局面でも収益機会を取り込めます。</p>
+<table>
+<thead>
+<tr>
+<th>戦略タイプ</th>
+<th>long</th>
+<th>short</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mean-reversion</td>
+<td>BB 下タッチ → bb_mid クロス上で利確</td>
+<td>BB 上タッチ → bb_mid クロス下で利確</td>
+</tr>
+<tr>
+<td>trend-following</td>
+<td>EMA fast クロス上 → クロス下で exit</td>
+<td>EMA fast クロス下 → クロス上で exit</td>
+</tr>
+</tbody>
+</table>
+<p>各フィルタも対称適用：
+- RSI: oversold → overbought（long）／overbought → oversold（short）
+- MACD hist: &lt; 0 → &gt; 0（long と short が反転）
+- ADX: 同条件（レンジ判定は方向に依存しない）
+- SuperTrend / SMA / EMA: 価格が指標上 → 下（long と short が反転）</p>
+<p>HMM 適用時は range レジーム（mean-reversion state 1）または高リターン状態（trend-following state 0）で long/short 両方向のエントリーを許可します。stock 系で long-only にしたい場合は scaffold 後に <code>entry_conditions.short</code> を削除してください。</p>
 <h3 id="scaffold-issue-461">ゴール別 scaffold デフォルト（issue #461）<a class="headerlink" href="#scaffold-issue-461" title="Permanent link">&para;</a></h3>
 <p><code>goals.yaml</code> の <code>exploration.scaffold_defaults</code> セクションでゴール別のレバレッジ・ポジションサイズ・ストップを指定し、<code>forge strategy scaffold --goal &lt;name&gt;</code> で自動適用できます。さらに <code>exploration.initial_capital</code> で <code>forge.yaml</code> の想定資金を override できます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># 例: oanda_gold/goals.yaml</span>

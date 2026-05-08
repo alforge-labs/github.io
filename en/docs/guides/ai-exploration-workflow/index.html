@@ -988,6 +988,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#both-long-and-short-entries-issue-469" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Both long and short entries (issue #469)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-goal-scaffold-defaults-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2511,6 +2522,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#both-long-and-short-entries-issue-469" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Both long and short entries (issue #469)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-goal-scaffold-defaults-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3160,6 +3182,35 @@
 <li>ATR is auto-added for all types (use <code>--no-atr</code> to disable)</li>
 </ul>
 <p>Requesting an indicator that is incompatible with the chosen strategy type raises an explicit <code>ValueError</code>; indicators are never silently dropped. See <a href="https://github.com/ysakae/alpha-forge/issues/427">alpha-forge issue #427</a> for details.</p>
+<h3 id="both-long-and-short-entries-issue-469">Both long and short entries (issue #469)<a class="headerlink" href="#both-long-and-short-entries-issue-469" title="Permanent link">&para;</a></h3>
+<p>scaffold now generates <strong>both long and short</strong> <code>entry_conditions</code> / <code>exit_conditions</code>. In symmetric markets such as FX this doubles the opportunity surface and lets the strategy capture profit on the down leg as well.</p>
+<table>
+<thead>
+<tr>
+<th>Strategy type</th>
+<th>long</th>
+<th>short</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mean-reversion</td>
+<td>BB lower touch → exit on bb_mid cross up</td>
+<td>BB upper touch → exit on bb_mid cross down</td>
+</tr>
+<tr>
+<td>trend-following</td>
+<td>EMA fast cross up → exit on cross down</td>
+<td>EMA fast cross down → exit on cross up</td>
+</tr>
+</tbody>
+</table>
+<p>Filters are mirrored across directions:
+- RSI: oversold → overbought (long) / overbought → oversold (short)
+- MACD histogram: <code>&lt; 0</code> (long) / <code>&gt; 0</code> (short)
+- ADX: identical (range detection is direction-agnostic)
+- SuperTrend / SMA / EMA: price above (long) / price below (short)</p>
+<p>When HMM is enabled, the range regime (mean-reversion state 1) or the high-return state (trend-following state 0) allows both directions. For long-only stock strategies, delete <code>entry_conditions.short</code> after scaffolding.</p>
 <h3 id="per-goal-scaffold-defaults-issue-461">Per-goal scaffold defaults (issue #461)<a class="headerlink" href="#per-goal-scaffold-defaults-issue-461" title="Permanent link">&para;</a></h3>
 <p>Goal-specific leverage / position size / stop can be set in the <code>exploration.scaffold_defaults</code> section of <code>goals.yaml</code>, and <code>forge strategy scaffold --goal &lt;name&gt;</code> applies them automatically. <code>exploration.initial_capital</code> overrides the <code>forge.yaml</code> capital assumption.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Example: oanda_gold/goals.yaml</span>
