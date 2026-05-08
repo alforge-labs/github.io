@@ -102,6 +102,7 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `kama_rsi_mtf_atr_v1` | **KAMA + RSI + 4h trend + ATR SL MTF variant** (issue #486). Adds an ATR(14) × 2 entry-locked stop loss (`lock_on_entry=true`) to `kama_rsi_mtf_v1`. Aims to improve win rate and CAGR while keeping low trade count |
 | `kama_rsi_mtf_atr_v2` | **KAMA-exit-removed variant** (issue #489). Fixes v1's dead ATR SL by removing `close < kama` from exits, simplifying to RSI (take profit) + ATR SL (hard stop). KAMA is used purely as an entry trend filter |
 | `kama_rsi_mtf_trail_v1` | **True trailing-SL variant** (issue #488). Replaces v2's fixed ATR SL with `risk_management.trailing_stop_pct=1.0`, enabling vectorbt's `sl_trail=True` for a true "ratchet up only" trailing stop |
+| `kama_rsi_mtf_trail_v2` | **Tight trailing-SL variant** (issue #492). Tightens trail_v1's `trailing_stop_pct` from 1.0 to 0.5 (FX 1h ATR ≈ 0.3-0.5%) to suppress MDD |
 
 ### Sample output
 

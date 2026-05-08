@@ -3327,6 +3327,10 @@
 <td><code>kama_rsi_mtf_trail_v1</code></td>
 <td><strong>真のトレーリング SL 版</strong>（issue #488）。v2 の固定 ATR SL を <code>risk_management.trailing_stop_pct=1.0</code> で置換し、vectorbt の <code>sl_trail=True</code> 経由で「一度上げたら下げない」動的トレーリングを実現</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_trail_v2</code></td>
+<td><strong>トレーリング SL タイト版</strong>（issue #492）。trail_v1 の <code>trailing_stop_pct</code> を 1.0 → 0.5 に縮め、FX 1h ATR ≈ 0.3-0.5% を意識した距離設定で MDD 抑制を狙う</td>
+</tr>
 </tbody>
 </table>
 <h3 id="_8">サンプル出力<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
