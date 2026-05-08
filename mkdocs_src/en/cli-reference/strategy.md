@@ -97,6 +97,8 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h variant** (issue #480). fast/slow/signal re-scaled from 13/25/13 to 48/120/48. FX 1h validation: trades 0-4 (over-filtered) |
 | `kama_rsi_fx1h_v2` | **KAMA+RSI FX 1h, RSI loose** (issue #482). v1 RSI 35/65 → 45/55. FX 1h validation: trades 215+ (~35× of v1) but MDD 93-99% (over-relaxed) |
 | `kama_rsi_fx1h_v3` | **KAMA+RSI FX 1h, fast KAMA** (issue #482). length 48/slow 120 → 24/60. FX 1h validation: trades 2-9 / MDD 8-36% / CAGR negative |
+| `kama_rsi_mtf_v1` | **KAMA+RSI + 4h trend filter MTF variant** (issue #484). Adds a 4h EMA(50) AND filter to `kama_rsi_fx1h_v1`, allowing 1h entries only when the higher timeframe trend agrees. The engine resamples 4h series from 1h data automatically — no extra fetch required |
+| `donchian_turtle_mtf_v1` | **Donchian Turtle + 4h trend filter MTF variant** (issue #484). Adds a 4h EMA(50) AND filter to `donchian_turtle_fx1h_v1`. Long-only in uptrends and short-only in downtrends to suppress trend-following drawdowns |
 
 ### Sample output
 

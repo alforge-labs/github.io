@@ -97,6 +97,8 @@ forge strategy create --template <NAME> --out <FILE>
 | `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h バリアント**（issue #480）。fast/slow/signal を 13/25/13 → 48/120/48 に再スケール。FX 1h 検証: trades 0-4（過剰絞り込み）|
 | `kama_rsi_fx1h_v2` | **KAMA+RSI FX 1h・RSI 緩和版**（issue #482）。v1 の RSI 35/65 → 45/55 に。FX 1h 検証: trades 215+（v1 の 35 倍）も MDD 93-99% で破綻 |
 | `kama_rsi_fx1h_v3` | **KAMA+RSI FX 1h・KAMA 短縮版**（issue #482）。length 48/slow 120 → 24/60。FX 1h 検証: trades 2-9（v1 同等）/ MDD 8-36%・CAGR マイナス |
+| `kama_rsi_mtf_v1` | **KAMA+RSI+4h トレンドフィルタ MTF 版**（issue #484）。`kama_rsi_fx1h_v1` に 4h EMA(50) を AND で追加し、上位タイムフレームのトレンドと一致する 1h エントリーのみ許可。4h 系列はエンジンが 1h データから自動 resample するため追加データ取得は不要 |
+| `donchian_turtle_mtf_v1` | **Donchian Turtle+4h トレンドフィルタ MTF 版**（issue #484）。`donchian_turtle_fx1h_v1` に 4h EMA(50) を AND で追加。上昇トレンド中は long のみ・下降中は short のみ許可で trend-following のドローダウン抑制を狙う |
 
 ### サンプル出力
 
