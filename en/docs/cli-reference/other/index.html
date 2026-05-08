@@ -2274,6 +2274,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#forge-ml-train" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml train
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml models
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3187,6 +3209,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#forge-ml-train" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml train
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml models
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3317,8 +3361,8 @@
 </tr>
 <tr>
 <td><a href="#ml">ml</a></td>
-<td><code>dataset build</code> <code>dataset feature-sets</code></td>
-<td>ML dataset builder (issue #512 Phase 1)</td>
+<td><code>dataset build</code> <code>dataset feature-sets</code> <code>train</code> <code>models</code></td>
+<td>ML dataset &amp; model training (issue #512 Phase 1-2)</td>
 </tr>
 </tbody>
 </table>
@@ -4321,7 +4365,7 @@ exploration agents can decide programmatically which criterion failed and by how
 <p>When there is no mean reversion, the half-life is shown as <code>N/A (no mean reversion)</code>.</p>
 <hr />
 <h2 id="ml">ml<a class="headerlink" href="#ml" title="Permanent link">&para;</a></h2>
-<p>Machine-learning dataset and model commands (issue #512 Phase 1). Phase 2+ will add <code>forge ml train</code> and related training/evaluation commands.</p>
+<p>Machine-learning dataset and model training commands (issue #512 Phase 1-2). Trained joblib models can be referenced from the existing <code>ML_SIGNAL</code> indicator via <code>model_path</code> for inference.</p>
 <h3 id="forge-ml-dataset-build">forge ml dataset build<a class="headerlink" href="#forge-ml-dataset-build" title="Permanent link">&para;</a></h3>
 <p>Build a feature+forward-return-label parquet dataset from stored OHLCV.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--feature-set<span class="w"> </span>default_v1<span class="w"> </span>--label<span class="w"> </span>binary:24:0.005<span class="w"> </span>--interval<span class="w"> </span>1h
@@ -4382,15 +4426,127 @@ exploration agents can decide programmatically which criterion failed and by how
 <p>List available built-in feature sets.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>feature-sets
 </code></pre></div>
+<h3 id="forge-ml-train">forge ml train<a class="headerlink" href="#forge-ml-train" title="Permanent link">&para;</a></h3>
+<p>Train a model from a Phase 1 dataset parquet and save joblib + metrics.json (issue #512 Phase 2).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>train<span class="w"> </span>&lt;DATASET.parquet&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<p><strong>Key options</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--model</code></td>
+<td>Model type (see <code>forge ml models</code>)</td>
+<td><code>logistic_regression</code></td>
+</tr>
+<tr>
+<td><code>--test-ratio</code></td>
+<td>Tail fraction used as the test split (time-series order preserved)</td>
+<td><code>0.2</code></td>
+</tr>
+<tr>
+<td><code>--random-state</code></td>
+<td>Random seed</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><code>--params</code></td>
+<td>Extra model parameters as a JSON string</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--out</code></td>
+<td>Output joblib path</td>
+<td><code>&lt;storage_path&gt;/../ml_models/&lt;dataset_stem&gt;_&lt;model&gt;.joblib</code></td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>Print summary as JSON</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Supported models</strong></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Task</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>logistic_regression</code></td>
+<td>Classification</td>
+<td>StandardScaler + LogisticRegression pipeline</td>
+</tr>
+<tr>
+<td><code>random_forest_classifier</code></td>
+<td>Classification</td>
+<td>sklearn</td>
+</tr>
+<tr>
+<td><code>gradient_boosting_classifier</code></td>
+<td>Classification</td>
+<td>sklearn</td>
+</tr>
+<tr>
+<td><code>xgboost_classifier</code></td>
+<td>Classification</td>
+<td>optional (<code>uv add xgboost</code>)</td>
+</tr>
+<tr>
+<td><code>linear_regression</code></td>
+<td>Regression</td>
+<td>StandardScaler + LinearRegression</td>
+</tr>
+<tr>
+<td><code>random_forest_regressor</code></td>
+<td>Regression</td>
+<td>sklearn</td>
+</tr>
+<tr>
+<td><code>gradient_boosting_regressor</code></td>
+<td>Regression</td>
+<td>sklearn</td>
+</tr>
+<tr>
+<td><code>xgboost_regressor</code></td>
+<td>Regression</td>
+<td>optional (<code>uv add xgboost</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Evaluation metrics</strong></p>
+<ul>
+<li>Classification: accuracy / precision / recall / f1 / auc (binary only). Weighted averages.</li>
+<li>Regression: mse / mae / rmse / r2</li>
+</ul>
+<p><strong>Storage format</strong></p>
+<ul>
+<li>Model: joblib (sklearn-compatible API; <code>predict</code> / <code>predict_proba</code> callable from <code>ML_SIGNAL</code> indicator as is)</li>
+<li>Metrics: <code>&lt;model&gt;.joblib.metrics.json</code> (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config / trained_at)</li>
+</ul>
+<h3 id="forge-ml-models">forge ml models<a class="headerlink" href="#forge-ml-models" title="Permanent link">&para;</a></h3>
+<p>List available model types (classification + regression).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>models
+</code></pre></div>
 <hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p>Browse the documentation, skills, and command references bundled with <code>alpha-forge</code>.</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>List available bundled documents. <code>✓</code> / <code>✗</code> indicates whether each file exists.</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

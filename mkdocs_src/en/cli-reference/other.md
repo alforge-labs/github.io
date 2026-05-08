@@ -17,7 +17,7 @@ Utility and management commands not covered by the [core groups](index.md), bund
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
 | [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
 | [pairs](#pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
-| [ml](#ml) | `dataset build` `dataset feature-sets` | ML dataset builder (issue #512 Phase 1) |
+| [ml](#ml) | `dataset build` `dataset feature-sets` `train` `models` | ML dataset & model training (issue #512 Phase 1-2) |
 
 | [docs](#docs) | `list` `show` | Browse bundled documentation |
 
@@ -726,7 +726,7 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 ## ml
 
-Machine-learning dataset and model commands (issue #512 Phase 1). Phase 2+ will add `forge ml train` and related training/evaluation commands.
+Machine-learning dataset and model training commands (issue #512 Phase 1-2). Trained joblib models can be referenced from the existing `ML_SIGNAL` indicator via `model_path` for inference.
 
 ### forge ml dataset build
 
@@ -764,6 +764,56 @@ List available built-in feature sets.
 
 ```bash
 forge ml dataset feature-sets
+```
+
+### forge ml train
+
+Train a model from a Phase 1 dataset parquet and save joblib + metrics.json (issue #512 Phase 2).
+
+```bash
+forge ml train <DATASET.parquet> [OPTIONS]
+```
+
+**Key options**
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--model` | Model type (see `forge ml models`) | `logistic_regression` |
+| `--test-ratio` | Tail fraction used as the test split (time-series order preserved) | `0.2` |
+| `--random-state` | Random seed | `42` |
+| `--params` | Extra model parameters as a JSON string | — |
+| `--out` | Output joblib path | `<storage_path>/../ml_models/<dataset_stem>_<model>.joblib` |
+| `--json` | Print summary as JSON | False |
+
+**Supported models**
+
+| Model | Task | Notes |
+|-------|------|-------|
+| `logistic_regression` | Classification | StandardScaler + LogisticRegression pipeline |
+| `random_forest_classifier` | Classification | sklearn |
+| `gradient_boosting_classifier` | Classification | sklearn |
+| `xgboost_classifier` | Classification | optional (`uv add xgboost`) |
+| `linear_regression` | Regression | StandardScaler + LinearRegression |
+| `random_forest_regressor` | Regression | sklearn |
+| `gradient_boosting_regressor` | Regression | sklearn |
+| `xgboost_regressor` | Regression | optional (`uv add xgboost`) |
+
+**Evaluation metrics**
+
+- Classification: accuracy / precision / recall / f1 / auc (binary only). Weighted averages.
+- Regression: mse / mae / rmse / r2
+
+**Storage format**
+
+- Model: joblib (sklearn-compatible API; `predict` / `predict_proba` callable from `ML_SIGNAL` indicator as is)
+- Metrics: `<model>.joblib.metrics.json` (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config / trained_at)
+
+### forge ml models
+
+List available model types (classification + regression).
+
+```bash
+forge ml models
 ```
 
 ---
