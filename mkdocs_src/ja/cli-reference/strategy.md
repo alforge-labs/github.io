@@ -105,6 +105,7 @@ forge strategy create --template <NAME> --out <FILE>
 | `kama_rsi_mtf_trail_v2` | **トレーリング SL タイト版**（issue #492）。trail_v1 の `trailing_stop_pct` を 1.0 → 0.5 に縮め、FX 1h ATR ≈ 0.3-0.5% を意識した距離設定で MDD 抑制を狙う |
 | `kama_rsi_mtf_trail_loose_v1` | **RSI 緩和高頻度版**（issue #495）。trail_v1 の RSI 閾値を 35/65 → 40/60 に緩め trades を 4-7 → 8-12 に底上げ。`min_trades` / vol 軸 pass + MDD 1-3pt 悪化トレードオフ |
 | `kama_rsi_mtf_trail_loose_v2` | **RSI 緩和 + tight 0.5% トレーリング**（issue #497）。trail_loose_v1 (RSI 40/60) と trail_v2 (trailing 0.5%) の組み合わせ。trades / vol を維持しつつ MDD 30-40% 域へ戻す trade-off 解消版 |
+| `kama_rsi_mtf_trail_loose_kama_short_v1` | **KAMA 24/60 短縮版**（issue #502）。trail_loose_v2 の KAMA 48/120 → 24/60 に短縮し、過熱検出強化で勝率と profit_factor の改善を狙う |
 
 ### サンプル出力
 
