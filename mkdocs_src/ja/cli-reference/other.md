@@ -320,7 +320,7 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
 |-----------|------|-----------|
 | `--goal` | 集計対象のゴール名 | `default` |
 | `--last` | 分析対象とする直近件数 | `5` |
-| `--strict` | `escalation: true` のとき終了コード `1` を返す（無人運転ループ停止用） | off |
+| `--strict` | `escalation: true` のとき終了コード `1` を返す（無人運転ループ停止用、`warning: true` のみのときは `0`） | off |
 | `--json` | 結果を JSON 形式で標準出力する | off |
 | `--db` | 探索 DB のパス（省略時は `forge.yaml` のデフォルトパス） | — |
 
@@ -336,6 +336,7 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
   "most_common_combo": "ATR+BB+RSI",
   "same_combo_streak": 5,
   "escalation": true,
+  "warning": false,
   "escalation_type": "scaffold_degradation",
   "recommended_actions": [
     "直近 5 件の合格率が 0% です。goals.yaml の pre_filter 閾値・対象銘柄・候補指標が現実的か再点検してください。",
@@ -351,19 +352,20 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
 | `failure_breakdown` | `skip_reason` 別の失敗件数 |
 | `scaffold_transformation_rate` | scaffold で指標が変換された試行の比率（ATR 自動追加のみは除外） |
 | `same_combo_streak` | 直近で連続して同一 `indicator_combo` だった件数 |
-| `escalation` | `pass_rate==0` かつ（`scaffold_transformation_rate>=0.5` または `same_combo_streak==last_n`）のとき `true` |
-| `escalation_type` | エスカレーションの原因種別（issue #436）。`"scaffold_degradation"` / `"agent_selection_bias"` / `null` |
+| `escalation` | `pass_rate==0` かつ scaffold バグ起因（`scaffold_transformation_rate>=0.5` もしくは中間域）のとき `true`。loop 即停止対象（issue #467） |
+| `warning` | `pass_rate==0` かつ `same_combo_streak==last_n` で `scaffold_transformation_rate<=0.1` のとき `true`。`agent_selection_bias` のみ。loop は続行可能（exit 0）で、エージェントは次のランで他指標を選んで自動解消する（issue #467） |
+| `escalation_type` | 原因種別（issue #436 / #467）。`"scaffold_degradation"`（escalation） / `"agent_selection_bias"`（warning） / `null` |
 | `recommended_actions` | 検出された問題に対する人間向けの推奨アクション |
 
 #### エスカレーション判定
 
-DB 件数が `--last` に満たない場合は観測のみ（`escalation: false` 固定）でブロックしません。
-`--last` 件以上の履歴がある場合のみ、以下のいずれかで `escalation: true` を返します。
+DB 件数が `--last` に満たない場合は観測のみ（`escalation: false` / `warning: false` 固定）でブロックしません。
+`--last` 件以上の履歴がある場合のみ、以下のいずれかを返します。
 
-- 合格率 `0%` かつ scaffold 変換率 `>=50%` → `escalation_type: "scaffold_degradation"`
+- 合格率 `0%` かつ scaffold 変換率 `>=50%` → `escalation: true` / `escalation_type: "scaffold_degradation"`（即停止）
 - 合格率 `0%` かつ直近 N 件すべての `indicator_combo` が同一：
-  - scaffold 変換率 `<=10%` → `escalation_type: "agent_selection_bias"`（エージェントが意図的に同じ組み合わせを連続選択している）
-  - 中間域（10% < 変換率 < 50%）→ 保守的に `"scaffold_degradation"` に倒す
+  - scaffold 変換率 `<=10%` → `warning: true` / `escalation: false` / `escalation_type: "agent_selection_bias"`（エージェント側の選択バイアス、issue #467 で warning に格下げ。`--strict` でも exit 0）
+  - 中間域（10% < 変換率 < 50%）→ 保守的に `escalation: true` / `"scaffold_degradation"` に倒す
 
 #### 無人運転スキルでの使用例
 

@@ -3657,7 +3657,7 @@ exploration agents can decide programmatically which criterion failed and by how
 </tr>
 <tr>
 <td><code>--strict</code></td>
-<td>Exit with code <code>1</code> when <code>escalation: true</code> (used to break the unattended loop)</td>
+<td>Exit with code <code>1</code> when <code>escalation: true</code> (used to break the unattended loop). Returns <code>0</code> when only <code>warning: true</code> (issue #467)</td>
 <td>off</td>
 </tr>
 <tr>
@@ -3682,12 +3682,13 @@ exploration agents can decide programmatically which criterion failed and by how
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">&quot;most_common_combo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ATR+BB+RSI&quot;</span><span class="p">,</span>
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">&quot;same_combo_streak&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">  </span><span class="nt">&quot;escalation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">  </span><span class="nt">&quot;escalation_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scaffold_degradation&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">  </span><span class="nt">&quot;recommended_actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">    </span><span class="s2">&quot;Pass rate over the last 5 trials is 0%. Check pre_filter thresholds, target symbols, and candidate indicators in goals.yaml.&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="s2">&quot;All recent trials had their indicators transformed by the scaffold. Inspect the indicator filters in `alpha_forge.strategy.scaffold` (see alpha-forge issues #399 and #400).&quot;</span>
-<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">  </span><span class="p">]</span>
-<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="p">}</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">  </span><span class="nt">&quot;warning&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">  </span><span class="nt">&quot;escalation_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scaffold_degradation&quot;</span><span class="p">,</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">  </span><span class="nt">&quot;recommended_actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="s2">&quot;Pass rate over the last 5 trials is 0%. Check pre_filter thresholds, target symbols, and candidate indicators in goals.yaml.&quot;</span><span class="p">,</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">    </span><span class="s2">&quot;All recent trials had their indicators transformed by the scaffold. Inspect the indicator filters in `alpha_forge.strategy.scaffold` (see alpha-forge issues #399 and #400).&quot;</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="p">}</span>
 </code></pre></div>
 <table>
 <thead>
@@ -3719,11 +3720,15 @@ exploration agents can decide programmatically which criterion failed and by how
 </tr>
 <tr>
 <td><code>escalation</code></td>
-<td><code>true</code> when <code>pass_rate==0</code> AND (<code>scaffold_transformation_rate&gt;=0.5</code> OR <code>same_combo_streak==last_n</code>)</td>
+<td><code>true</code> when <code>pass_rate==0</code> AND scaffold-related root cause (<code>scaffold_transformation_rate&gt;=0.5</code> or mid-range). Hard-stop signal (issue #467)</td>
+</tr>
+<tr>
+<td><code>warning</code></td>
+<td><code>true</code> when <code>pass_rate==0</code> AND <code>same_combo_streak==last_n</code> AND <code>scaffold_transformation_rate&lt;=0.1</code> (only <code>agent_selection_bias</code>). Loop continues (exit 0) and the agent is expected to switch to a different indicator combo on the next run (issue #467)</td>
 </tr>
 <tr>
 <td><code>escalation_type</code></td>
-<td>Cause classification (issue #436): <code>"scaffold_degradation"</code> / <code>"agent_selection_bias"</code> / <code>null</code></td>
+<td>Cause classification (issues #436 / #467): <code>"scaffold_degradation"</code> (escalation) / <code>"agent_selection_bias"</code> (warning) / <code>null</code></td>
 </tr>
 <tr>
 <td><code>recommended_actions</code></td>
@@ -3732,12 +3737,12 @@ exploration agents can decide programmatically which criterion failed and by how
 </tbody>
 </table>
 <h4 id="escalation-rules">Escalation rules<a class="headerlink" href="#escalation-rules" title="Permanent link">&para;</a></h4>
-<p>If the DB contains fewer than <code>--last</code> rows for the goal, the report stays observational (<code>escalation: false</code> is forced) and never blocks the loop. Once enough history accumulates, escalation triggers when <strong>either</strong> of the following holds:</p>
+<p>If the DB contains fewer than <code>--last</code> rows for the goal, the report stays observational (<code>escalation: false</code> and <code>warning: false</code> are both forced) and never blocks the loop. Once enough history accumulates, the report takes one of the following shapes:</p>
 <ul>
-<li>0% pass rate and scaffold transformation rate <code>&gt;= 50%</code> → <code>escalation_type: "scaffold_degradation"</code></li>
+<li>0% pass rate and scaffold transformation rate <code>&gt;= 50%</code> → <code>escalation: true</code> / <code>escalation_type: "scaffold_degradation"</code> (hard stop)</li>
 <li>0% pass rate and all of the most recent N trials share the same <code>indicator_combo</code>:</li>
-<li>scaffold transformation rate <code>&lt;= 10%</code> → <code>escalation_type: "agent_selection_bias"</code> (the agent is intentionally repeating the same combo)</li>
-<li>mid-range (10% &lt; rate &lt; 50%) → conservatively classified as <code>"scaffold_degradation"</code></li>
+<li>scaffold transformation rate <code>&lt;= 10%</code> → <code>warning: true</code> / <code>escalation: false</code> / <code>escalation_type: "agent_selection_bias"</code> (loop continues; downgraded to warning by issue #467 because the agent can resolve it by picking a different combo)</li>
+<li>mid-range (10% &lt; rate &lt; 50%) → conservatively classified as <code>escalation: true</code> / <code>"scaffold_degradation"</code></li>
 </ul>
 <h4 id="use-inside-the-unattended-skill">Use inside the unattended skill<a class="headerlink" href="#use-inside-the-unattended-skill" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Run at the start of every iteration of /explore-strategies</span>

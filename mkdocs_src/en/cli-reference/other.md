@@ -318,7 +318,7 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
 |--------|-------------|---------|
 | `--goal` | Goal name to aggregate | `default` |
 | `--last` | Number of recent trials to analyze | `5` |
-| `--strict` | Exit with code `1` when `escalation: true` (used to break the unattended loop) | off |
+| `--strict` | Exit with code `1` when `escalation: true` (used to break the unattended loop). Returns `0` when only `warning: true` (issue #467) | off |
 | `--json` | Output result as JSON to stdout | off |
 | `--db` | Path to exploration DB (defaults to path from `forge.yaml`) | — |
 
@@ -334,6 +334,7 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
   "most_common_combo": "ATR+BB+RSI",
   "same_combo_streak": 5,
   "escalation": true,
+  "warning": false,
   "escalation_type": "scaffold_degradation",
   "recommended_actions": [
     "Pass rate over the last 5 trials is 0%. Check pre_filter thresholds, target symbols, and candidate indicators in goals.yaml.",
@@ -349,18 +350,19 @@ forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
 | `failure_breakdown` | Failure counts grouped by `skip_reason` |
 | `scaffold_transformation_rate` | Ratio of trials whose scaffold transformed the requested indicators (excluding the auto-added ATR-only case) |
 | `same_combo_streak` | How many of the most recent trials share the same `indicator_combo` |
-| `escalation` | `true` when `pass_rate==0` AND (`scaffold_transformation_rate>=0.5` OR `same_combo_streak==last_n`) |
-| `escalation_type` | Cause classification (issue #436): `"scaffold_degradation"` / `"agent_selection_bias"` / `null` |
+| `escalation` | `true` when `pass_rate==0` AND scaffold-related root cause (`scaffold_transformation_rate>=0.5` or mid-range). Hard-stop signal (issue #467) |
+| `warning` | `true` when `pass_rate==0` AND `same_combo_streak==last_n` AND `scaffold_transformation_rate<=0.1` (only `agent_selection_bias`). Loop continues (exit 0) and the agent is expected to switch to a different indicator combo on the next run (issue #467) |
+| `escalation_type` | Cause classification (issues #436 / #467): `"scaffold_degradation"` (escalation) / `"agent_selection_bias"` (warning) / `null` |
 | `recommended_actions` | Human-facing remediation hints derived from the detected pattern |
 
 #### Escalation rules
 
-If the DB contains fewer than `--last` rows for the goal, the report stays observational (`escalation: false` is forced) and never blocks the loop. Once enough history accumulates, escalation triggers when **either** of the following holds:
+If the DB contains fewer than `--last` rows for the goal, the report stays observational (`escalation: false` and `warning: false` are both forced) and never blocks the loop. Once enough history accumulates, the report takes one of the following shapes:
 
-- 0% pass rate and scaffold transformation rate `>= 50%` → `escalation_type: "scaffold_degradation"`
+- 0% pass rate and scaffold transformation rate `>= 50%` → `escalation: true` / `escalation_type: "scaffold_degradation"` (hard stop)
 - 0% pass rate and all of the most recent N trials share the same `indicator_combo`:
-  - scaffold transformation rate `<= 10%` → `escalation_type: "agent_selection_bias"` (the agent is intentionally repeating the same combo)
-  - mid-range (10% < rate < 50%) → conservatively classified as `"scaffold_degradation"`
+  - scaffold transformation rate `<= 10%` → `warning: true` / `escalation: false` / `escalation_type: "agent_selection_bias"` (loop continues; downgraded to warning by issue #467 because the agent can resolve it by picking a different combo)
+  - mid-range (10% < rate < 50%) → conservatively classified as `escalation: true` / `"scaffold_degradation"`
 
 #### Use inside the unattended skill
 
