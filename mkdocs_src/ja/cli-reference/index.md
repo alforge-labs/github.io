@@ -20,12 +20,11 @@
 
 ## その他のコマンド
 
-ライセンス管理、ユーティリティ、補助機能などは [その他コマンド](other.md) ページにまとめています。
+認証管理、ユーティリティ、補助機能などは [その他コマンド](other.md) ページにまとめています。
 
 | グループ | 説明 | リンク |
 |---------|------|------|
-| **license** | ライセンスキーの認証・解除・状態確認 | [other#license →](other.md#license) |
-| **login / logout** | Whop アカウント認証 | [other →](other.md) |
+| **auth** | Whop OAuth ログイン・ログアウト・認証状態確認 | [other#auth →](other.md#auth) |
 | **init** | プロジェクトの初期セットアップ | [other#init →](other.md#init) |
 | **pine** | 戦略 JSON ↔ TradingView Pine Script 変換 | [other#pine →](other.md#pine) |
 | **indicator** | 対応テクニカル指標の一覧と詳細 | [other#indicator →](other.md#indicator) |
@@ -47,8 +46,7 @@
 | journal | `list` `show` `runs` `compare` `tag` `note` `verdict` |
 | live | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` |
 | **explore** | **`run` `index` `import` `log` `status` `recommend` `coverage`** |
-| license | `activate` `deactivate` `status` |
-| login / logout | `login` `logout` |
+| auth | `login` `logout` `status` `check op` |
 | init | （単一コマンド） |
 | pine | `generate` `preview` `import` |
 | indicator | `list` `show` |

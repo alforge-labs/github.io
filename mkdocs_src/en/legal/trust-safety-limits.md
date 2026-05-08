@@ -8,11 +8,11 @@ AlphaForge CLI is designed around local execution. Backtest settings, optimizati
 
 If you configure external data providers or broker APIs, those integrations communicate with the providers you choose. You are responsible for securing and managing API keys and brokerage credentials.
 
-## What is sent during license activation
+## What is sent during authentication
 
-During license activation, only information required for license verification is sent to the external license service. When you run `forge license activate`, the license key, instance name, activation timestamp, and related activation details are sent.
+During authentication, only information required by the Whop OAuth 2.0 PKCE flow is sent to the external auth service. When you run `forge auth login`, the authorization code and PKCE parameters are sent, and the response returns OAuth tokens together with your Whop user ID and membership status.
 
-Backtest settings, API keys, trade history, and strategy data are not sent for license activation. See the [Privacy Policy](privacy.md) for details.
+Backtest settings, API keys, trade history, and strategy data are not sent during authentication. See the [Privacy Policy](privacy.md) for details.
 
 ## Not financial advice
 

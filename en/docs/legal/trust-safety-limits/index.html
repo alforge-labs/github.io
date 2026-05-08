@@ -1728,10 +1728,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-is-sent-during-license-activation" class="md-nav__link">
+  <a href="#what-is-sent-during-authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What is sent during license activation
+        What is sent during authentication
       
     </span>
   </a>
@@ -1920,10 +1920,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-is-sent-during-license-activation" class="md-nav__link">
+  <a href="#what-is-sent-during-authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What is sent during license activation
+        What is sent during authentication
       
     </span>
   </a>
@@ -1996,9 +1996,9 @@
 <h2 id="local-execution-and-data-handling">Local execution and data handling<a class="headerlink" href="#local-execution-and-data-handling" title="Permanent link">&para;</a></h2>
 <p>AlphaForge CLI is designed around local execution. Backtest settings, optimization parameters, strategy data, trade history, positions, local files, and usage logs normally stay on your machine and are not sent to Alforge Labs servers.</p>
 <p>If you configure external data providers or broker APIs, those integrations communicate with the providers you choose. You are responsible for securing and managing API keys and brokerage credentials.</p>
-<h2 id="what-is-sent-during-license-activation">What is sent during license activation<a class="headerlink" href="#what-is-sent-during-license-activation" title="Permanent link">&para;</a></h2>
-<p>During license activation, only information required for license verification is sent to the external license service. When you run <code>forge license activate</code>, the license key, instance name, activation timestamp, and related activation details are sent.</p>
-<p>Backtest settings, API keys, trade history, and strategy data are not sent for license activation. See the <a href="../privacy/">Privacy Policy</a> for details.</p>
+<h2 id="what-is-sent-during-authentication">What is sent during authentication<a class="headerlink" href="#what-is-sent-during-authentication" title="Permanent link">&para;</a></h2>
+<p>During authentication, only information required by the Whop OAuth 2.0 PKCE flow is sent to the external auth service. When you run <code>forge auth login</code>, the authorization code and PKCE parameters are sent, and the response returns OAuth tokens together with your Whop user ID and membership status.</p>
+<p>Backtest settings, API keys, trade history, and strategy data are not sent during authentication. See the <a href="../privacy/">Privacy Policy</a> for details.</p>
 <h2 id="not-financial-advice">Not financial advice<a class="headerlink" href="#not-financial-advice" title="Permanent link">&para;</a></h2>
 <p>AlphaForge is developer software for strategy research, backtesting, and optimization. It is not financial advice, trading signals, managed investing, or brokerage service.</p>
 <p>Backtests, optimization outputs, and simulation results are based on historical data or hypothetical assumptions and do not guarantee future outcomes. You are solely responsible for trading decisions, instrument selection, parameter settings, position sizing, and execution.</p>

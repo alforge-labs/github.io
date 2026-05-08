@@ -3,7 +3,7 @@
 AlphaForge CLI のインストールから最初のバックテスト結果を読むまでをまとめた入門ガイドです。
 
 - **Free プランだけで完結する 10 分体験**を冒頭に配置しています。ライセンス購入は不要です。
-- その後ろに、**詳細なインストール手順・ライセンス認証・アンインストール・トラブルシューティング**を載せています。
+- その後ろに、**詳細なインストール手順・Whop ログイン認証・アンインストール・トラブルシューティング**を載せています。
 
 ---
 
@@ -48,27 +48,31 @@ AlphaForge CLI v1.x.x
 
 バージョンが表示されれば完了です。手動インストールやインストール先のカスタマイズは、本ページ後半の「詳細インストール」セクションを参照してください。
 
-### ステップ 2 — ライセンスを確認する（約 1 分）
+### ステップ 2 — Whop でログインする（約 1 分）
 
-Free プランは**ライセンスキーなしで動作します**。現在のプランを確認します。
+AlphaForge は Whop アカウントによる OAuth 2.0 PKCE 認証を行います。次のコマンドでブラウザが自動で開きます。
 
 ```bash
-forge license status
+forge auth login
+```
+
+ブラウザで認証を完了すると、認証情報が `$XDG_CONFIG_HOME/forge/credentials.json`（未設定時 `~/.config/forge/credentials.json`）に保存されます。
+
+ログイン状態は次のコマンドで確認できます。
+
+```bash
+forge auth status
 ```
 
 ```
-Plan  : free
-Expiry: n/a
+ユーザー ID      : user_abc123
+アクセストークン: 2026-04-12 12:30 UTC（あと 45 分）
+最終検証        : 2026-04-12 11:45 UTC（13 分前）
+プラン          : annual
 ```
 
-!!! tip "有料プランをお持ちの場合"
-    購入完了メールに記載されているキーで認証してください。
-
-    ```bash
-    forge license activate <YOUR_LICENSE_KEY>
-    ```
-
-    詳しい手順は本ページ後半の「ライセンス認証」セクションを参照してください。
+!!! tip "Free プランでも基本機能は利用できます"
+    Pine Script エクスポートなど一部機能は有料プラン限定ですが、バックテスト・最適化・戦略管理など基本機能は Free プランでも利用可能です。
 
 ### ステップ 3 — 戦略ファイルを用意する（約 2 分）
 
@@ -172,7 +176,7 @@ forge backtest run SPY \
 ### 前提条件
 
 - macOS 12 (Monterey) 以降 / Ubuntu 22.04 以降 / Windows 11
-- インターネット接続（ライセンス認証時、または初回データ取得時）
+- インターネット接続（Whop ログイン時、または初回データ取得時）
 - 有料プラン利用時のみ: 有効な AlphaForge ライセンスキー（[購入ページ](https://alforgelabs.com/ja/index.html#pricing)から入手）
 
 ### インストール手順
@@ -218,9 +222,9 @@ forge backtest run SPY \
 
 ---
 
-## ライセンス認証
+## Whop ログイン認証
 
-Free プランはライセンスキーなしで動作します。有料プラン（Pro / Team 等）を購入した場合のみ、以下の手順で認証してください。
+AlphaForge は Whop アカウントによる OAuth 2.0 PKCE 認証を行います。プランに関わらず初回起動時に一度ログインが必要です。
 
 ### 1. インストール確認
 
@@ -230,17 +234,25 @@ Free プランはライセンスキーなしで動作します。有料プラン
 forge --version
 ```
 
-### 2. ライセンスキーの認証
+### 2. Whop でログイン
 
-購入完了メールに記載されているライセンスキーで認証します。
+ブラウザを起動して認証フローを実行します。
 
 ```bash
-forge license activate <YOUR_LICENSE_KEY>
+forge auth login
 ```
 
-認証情報は `~/.forge/license.json` に保存されます。オンライン接続が必要です。
+認証情報は `$XDG_CONFIG_HOME/forge/credentials.json`（未設定時 `~/.config/forge/credentials.json`）に保存されます。オンライン接続が必要です。
 
-### 3. コマンド利用可能性の確認
+### 3. 認証状態の確認
+
+ユーザー ID やトークン期限を確認できます。
+
+```bash
+forge auth status
+```
+
+### 4. コマンド利用可能性の確認
 
 バックテストコマンドが利用可能なことを確認します。
 
@@ -302,7 +314,7 @@ forge backtest --help
 | `No data found for SPY` | `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を先に実行してください。 |
 | `Free plan: date clipped to 2023-12-31` | 仕様どおりの動作です。Free プランの上限日以降のデータは自動的に除外されます。 |
 | `Strategy not found: sma_cross_qs` | JSON の `strategy_id` が `sma_cross_qs` になっているか確認してください。 |
-| ライセンス認証エラー | ネットワーク接続を確認し、キーに余分なスペースがないか確認してください。 |
+| 認証エラー | ネットワーク接続を確認のうえ `forge auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
 | macOS セキュリティ警告 | システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。 |
 
 その他のトラブルや詳細な FAQ は [`/ja/install.html`](https://alforgelabs.com/ja/install.html) も参照してください。問題が解決しない場合は [support@alforgelabs.com](mailto:support@alforgelabs.com) までお問い合わせください。
@@ -318,4 +330,4 @@ forge backtest --help
 
 ---
 
-<!-- 同期元: `ja/install.html`（インストール・ライセンス認証・トラブルシューティング部分）。バックテスト実行例は alpha-forge の戦略 JSON スキーマ（`spy_sma_crossover_v1.json` を参考）に基づく。issue #117 で旧 `quickstart.md` を本ページに統合。 -->
+<!-- 同期元: `ja/install.html`（インストール・Whop ログイン・トラブルシューティング部分）。バックテスト実行例は alpha-forge の戦略 JSON スキーマ（`spy_sma_crossover_v1.json` を参考）に基づく。issue #117 で旧 `quickstart.md` を本ページに統合。 -->

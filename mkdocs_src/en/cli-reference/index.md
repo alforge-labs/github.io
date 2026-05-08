@@ -20,12 +20,11 @@ The commands you'll use most often in real strategy development. Each has a dedi
 
 ## Other Commands
 
-License management, utilities, and supporting features are bundled on the [Other commands](other.md) page.
+Authentication, utilities, and supporting features are bundled on the [Other commands](other.md) page.
 
 | Group | Description | Link |
 |-------|-------------|------|
-| **license** | Activate, deactivate, and check license status | [other#license →](other.md#license) |
-| **login / logout** | Whop account authentication | [other →](other.md) |
+| **auth** | Whop OAuth login / logout and authentication status | [other#auth →](other.md#auth) |
 | **init** | Initial project setup | [other#init →](other.md#init) |
 | **pine** | Convert between strategy JSON and TradingView Pine Script | [other#pine →](other.md#pine) |
 | **indicator** | List and inspect supported technical indicators | [other#indicator →](other.md#indicator) |
@@ -46,8 +45,7 @@ Implementation-derived catalog covering all 15 groups and ~75 subcommands.
 | data | `fetch` `list` `trend` `update` |
 | journal | `list` `show` `runs` `compare` `tag` `note` `verdict` |
 | live | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` |
-| license | `activate` `deactivate` `status` |
-| login / logout | `login` `logout` |
+| auth | `login` `logout` `status` `check op` |
 | init | (single command) |
 | pine | `generate` `preview` `import` |
 | indicator | `list` `show` |
