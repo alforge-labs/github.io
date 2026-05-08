@@ -91,6 +91,10 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `donchian_turtle_v1` | **Donchian Channel Breakout (Turtle)** (issue #475 Phase 2). Ported from Richard Dennis "Turtle Trading Rules". Long on 20-period high break, exit on 10-period low cross-down. 45% win rate verified on daily futures/equities (**Note: designed for daily timeframes; FX 1h adoption requires length re-scaling**) |
 | `kama_rsi_v1` | **KAMA + RSI regime-adaptive** (issue #475 Phase 2). Ported from Perry Kaufman "New Trading Systems and Methods" (2013). KAMA auto-detects trend/range; RSI captures overbought/oversold. **FX 1h validation: MDD 46-76% (better than prior two) but CAGR still negative** |
 | `tsi_reversion_v1` | **TSI Mean Reversion** (issue #475 Phase 2). Ported from Daniel Requejo (2024) SSRN paper "Efficacy of a Mean Reversion Trading Strategy Using TSI". Long when TSI < -25 + signal cross-up, short when TSI > +25 + cross-down. Verified on SPY/QQQ. **FX 1h validation: MDD 82-97% with negative CAGR** |
+| `connors_rsi2_fx1h_v1` | **Connors RSI-2 FX 1h variant** (issue #480). SMA(200)/SMA(5) re-scaled to SMA(480)/SMA(24). FX 1h validation: trades 350+ but MDD 99-100% (still broken) |
+| `donchian_turtle_fx1h_v1` | **Donchian Turtle FX 1h variant** (issue #480). length 20/10 re-scaled to 120/60. FX 1h validation: MDD 13-96% (large variance) |
+| `kama_rsi_fx1h_v1` | **KAMA + RSI FX 1h variant** (issue #480). length 10/slow 30 → 48/120 re-scaled. 🎯 **EURUSD reached CAGR +0.54% / MDD 7.95%** (only positive CAGR across 4 pairs) |
+| `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h variant** (issue #480). fast/slow/signal re-scaled from 13/25/13 to 48/120/48. FX 1h validation: trades 0-4 (over-filtered) |
 
 ### Sample output
 

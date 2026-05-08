@@ -91,6 +91,10 @@ forge strategy create --template <NAME> --out <FILE>
 | `donchian_turtle_v1` | **Donchian Channel Breakout（Turtle 系）**（issue #475 / Phase 2）。Richard Dennis "Turtle Trading Rules" から移植、20 期間高値ブレイクで long・10 期間安値クロスで exit、ATR 併記。先物・株式 1d で勝率 45% 実証だが**長期足用のため FX 1h 適用には length 再スケール推奨** |
 | `kama_rsi_v1` | **KAMA + RSI レジーム適応戦略**（issue #475 / Phase 2）。Perry Kaufman "New Trading Systems and Methods" (2013) から移植。KAMA がトレンド/レンジを自動判定 + RSI 過熱反転。**FX 1h 検証: MDD 46-76%（前 2 候補より改善）も CAGR マイナス** |
 | `tsi_reversion_v1` | **TSI 平均回帰戦略**（issue #475 / Phase 2）。Daniel Requejo (2024) SSRN paper "Efficacy of a Mean Reversion Trading Strategy Using TSI" から移植。TSI ±25 極値 + シグナル線クロスで反転狙い。SPY/QQQ で実証。**FX 1h 検証: MDD 82-97%・CAGR マイナス** |
+| `connors_rsi2_fx1h_v1` | **Connors RSI-2 FX 1h バリアント**（issue #480）。元 SMA(200)/SMA(5) → SMA(480)/SMA(24) に再スケール。FX 1h 検証: trades 350+ も MDD 99-100% で破綻 |
+| `donchian_turtle_fx1h_v1` | **Donchian Turtle FX 1h バリアント**（issue #480）。length 20/10 → 120/60 に再スケール。FX 1h 検証: 通貨により MDD 13-96% と分散大 |
+| `kama_rsi_fx1h_v1` | **KAMA + RSI FX 1h バリアント**（issue #480）。length 10/slow 30 → 48/120 に再スケール。🎯 **EURUSD で CAGR +0.54%・MDD 7.95% を達成**（4 通貨中唯一プラス転換）|
+| `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h バリアント**（issue #480）。fast/slow/signal を 13/25/13 → 48/120/48 に再スケール。FX 1h 検証: trades 0-4（過剰絞り込み）|
 
 ### サンプル出力
 

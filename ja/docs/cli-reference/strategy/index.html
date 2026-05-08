@@ -3283,6 +3283,22 @@
 <td><code>tsi_reversion_v1</code></td>
 <td><strong>TSI 平均回帰戦略</strong>（issue #475 / Phase 2）。Daniel Requejo (2024) SSRN paper "Efficacy of a Mean Reversion Trading Strategy Using TSI" から移植。TSI ±25 極値 + シグナル線クロスで反転狙い。SPY/QQQ で実証。<strong>FX 1h 検証: MDD 82-97%・CAGR マイナス</strong></td>
 </tr>
+<tr>
+<td><code>connors_rsi2_fx1h_v1</code></td>
+<td><strong>Connors RSI-2 FX 1h バリアント</strong>（issue #480）。元 SMA(200)/SMA(5) → SMA(480)/SMA(24) に再スケール。FX 1h 検証: trades 350+ も MDD 99-100% で破綻</td>
+</tr>
+<tr>
+<td><code>donchian_turtle_fx1h_v1</code></td>
+<td><strong>Donchian Turtle FX 1h バリアント</strong>（issue #480）。length 20/10 → 120/60 に再スケール。FX 1h 検証: 通貨により MDD 13-96% と分散大</td>
+</tr>
+<tr>
+<td><code>kama_rsi_fx1h_v1</code></td>
+<td><strong>KAMA + RSI FX 1h バリアント</strong>（issue #480）。length 10/slow 30 → 48/120 に再スケール。🎯 <strong>EURUSD で CAGR +0.54%・MDD 7.95% を達成</strong>（4 通貨中唯一プラス転換）</td>
+</tr>
+<tr>
+<td><code>tsi_reversion_fx1h_v1</code></td>
+<td><strong>TSI Reversion FX 1h バリアント</strong>（issue #480）。fast/slow/signal を 13/25/13 → 48/120/48 に再スケール。FX 1h 検証: trades 0-4（過剰絞り込み）</td>
+</tr>
 </tbody>
 </table>
 <h3 id="_8">サンプル出力<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
