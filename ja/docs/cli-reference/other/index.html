@@ -2213,6 +2213,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ml
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-feature-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset feature-sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3059,6 +3098,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ml
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-feature-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset feature-sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3175,6 +3253,11 @@
 <td><a href="#pairs">pairs</a></td>
 <td><code>scan</code> <code>scan-all</code> <code>build</code></td>
 <td>ペアトレード（コインテグレーション）</td>
+</tr>
+<tr>
+<td><a href="#ml">ml</a></td>
+<td><code>dataset build</code> <code>dataset feature-sets</code></td>
+<td>ML データセットビルダー（issue #512 Phase 1）</td>
 </tr>
 </tbody>
 </table>
@@ -4161,14 +4244,77 @@
 </code></pre></div>
 <p>平均回帰がない場合、半減期は <code>N/A (平均回帰なし)</code> と表示されます。</p>
 <hr />
+<h2 id="ml">ml<a class="headerlink" href="#ml" title="Permanent link">&para;</a></h2>
+<p>機械学習モデル用のデータセット作成・管理コマンド群です（issue #512 Phase 1）。Phase 2 以降で <code>forge ml train</code> などの学習・評価コマンドが追加される予定です。</p>
+<h3 id="forge-ml-dataset-build">forge ml dataset build<a class="headerlink" href="#forge-ml-dataset-build" title="Permanent link">&para;</a></h3>
+<p>保存済み OHLCV から特徴量行列と将来リターンラベルを結合した parquet データセットを生成します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--feature-set<span class="w"> </span>default_v1<span class="w"> </span>--label<span class="w"> </span>binary:24:0.005<span class="w"> </span>--interval<span class="w"> </span>1h
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--label<span class="w"> </span>ternary:24:0.005
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--label<span class="w"> </span>regression:5
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--label<span class="w"> </span>binary:24:0.005<span class="w"> </span>--json
+</code></pre></div>
+<p><strong>主なオプション</strong></p>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+<th>既定値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--feature-set</code></td>
+<td>組み込み feature set 名（<code>forge ml dataset feature-sets</code> で一覧）</td>
+<td><code>default_v1</code></td>
+</tr>
+<tr>
+<td><code>--label</code></td>
+<td>ラベル仕様文字列（必須）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--interval</code></td>
+<td>時間足（OHLCV ロード時に使用）</td>
+<td><code>1d</code></td>
+</tr>
+<tr>
+<td><code>--out</code></td>
+<td>出力 parquet パス</td>
+<td><code>&lt;storage_path&gt;/../ml_datasets/&lt;symbol&gt;_&lt;feature_set&gt;_&lt;label_type&gt;_&lt;interval&gt;.parquet</code></td>
+</tr>
+<tr>
+<td><code>--keep-nan</code></td>
+<td>NaN を含む行を残す</td>
+<td>False（除外）</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>サマリを JSON 出力</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ラベル仕様文字列</strong></p>
+<ul>
+<li><code>binary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> … forward_n バー後リターンが閾値を超えると 1</li>
+<li><code>ternary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> … +閾値超 → 1、−閾値未満 → −1、それ以外 → 0</li>
+<li><code>regression:&lt;forward_n&gt;</code> … forward_n バー後の単純リターンをそのままラベル化</li>
+</ul>
+<p>parquet ファイルにはシンボル・タイムフレーム・特徴量列名・ラベル設定がメタデータとして同梱されるため、Phase 2 の学習側はファイル単独で再現可能な学習が行えます。</p>
+<h3 id="forge-ml-dataset-feature-sets">forge ml dataset feature-sets<a class="headerlink" href="#forge-ml-dataset-feature-sets" title="Permanent link">&para;</a></h3>
+<p>利用可能な組み込み feature set を一覧表示します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>feature-sets
+</code></pre></div>
+<hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p><code>alpha-forge</code> に同梱されているドキュメント・スキル・コマンド参考資料を参照します。</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>利用可能な同梱ドキュメントの一覧を表示します。<code>✓</code> / <code>✗</code> でファイル存在を表します。</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

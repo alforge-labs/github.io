@@ -31,6 +31,7 @@ Authentication, utilities, and supporting features are bundled on the [Other com
 | **idea** | Manage and search investment ideas | [other#idea →](other.md#idea) |
 | **altdata** | Fetch and manage alternative data (sentiment, etc.) | [other#altdata →](other.md#altdata) |
 | **pairs** | Pair trading (cointegration tests) | [other#pairs →](other.md#pairs) |
+| **ml** | ML dataset / model management (issue #512) | [other#ml →](other.md#ml) |
 | **docs** | Browse bundled documentation | [other#docs →](other.md#docs) |
 
 ## All Commands at a Glance
@@ -52,6 +53,7 @@ Implementation-derived catalog covering all 15 groups and ~75 subcommands.
 | idea | `add` `list` `show` `status` `link` `tag` `note` `search` |
 | altdata | `fetch` `list` `info` |
 | pairs | `scan` `scan-all` `build` |
+| **ml** | **`dataset build` `dataset feature-sets`** (issue #512 Phase 1) |
 | docs | `list` `show` |
 
 ## Built-in Help

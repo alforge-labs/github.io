@@ -16,6 +16,7 @@
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | 投資アイデアの記録・追跡 |
 | [altdata](#altdata) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
 | [pairs](#pairs) | `scan` `scan-all` `build` | ペアトレード（コインテグレーション） |
+| [ml](#ml) | `dataset build` `dataset feature-sets` | ML データセットビルダー（issue #512 Phase 1） |
 
 | [docs](#docs) | `list` `show` | 同梱ドキュメント参照 |
 
@@ -713,6 +714,50 @@ forge pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 ```
 
 平均回帰がない場合、半減期は `N/A (平均回帰なし)` と表示されます。
+
+---
+
+## ml
+
+機械学習モデル用のデータセット作成・管理コマンド群です（issue #512 Phase 1）。Phase 2 以降で `forge ml train` などの学習・評価コマンドが追加される予定です。
+
+### forge ml dataset build
+
+保存済み OHLCV から特徴量行列と将来リターンラベルを結合した parquet データセットを生成します。
+
+```bash
+forge ml dataset build EURUSD=X --feature-set default_v1 --label binary:24:0.005 --interval 1h
+forge ml dataset build EURUSD=X --label ternary:24:0.005
+forge ml dataset build EURUSD=X --label regression:5
+forge ml dataset build EURUSD=X --label binary:24:0.005 --json
+```
+
+**主なオプション**
+
+| オプション | 説明 | 既定値 |
+|-----------|------|-------|
+| `--feature-set` | 組み込み feature set 名（`forge ml dataset feature-sets` で一覧） | `default_v1` |
+| `--label` | ラベル仕様文字列（必須） | — |
+| `--interval` | 時間足（OHLCV ロード時に使用） | `1d` |
+| `--out` | 出力 parquet パス | `<storage_path>/../ml_datasets/<symbol>_<feature_set>_<label_type>_<interval>.parquet` |
+| `--keep-nan` | NaN を含む行を残す | False（除外） |
+| `--json` | サマリを JSON 出力 | False |
+
+**ラベル仕様文字列**
+
+- `binary:<forward_n>:<threshold_pct>` … forward_n バー後リターンが閾値を超えると 1
+- `ternary:<forward_n>:<threshold_pct>` … +閾値超 → 1、−閾値未満 → −1、それ以外 → 0
+- `regression:<forward_n>` … forward_n バー後の単純リターンをそのままラベル化
+
+parquet ファイルにはシンボル・タイムフレーム・特徴量列名・ラベル設定がメタデータとして同梱されるため、Phase 2 の学習側はファイル単独で再現可能な学習が行えます。
+
+### forge ml dataset feature-sets
+
+利用可能な組み込み feature set を一覧表示します。
+
+```bash
+forge ml dataset feature-sets
+```
 
 ---
 
