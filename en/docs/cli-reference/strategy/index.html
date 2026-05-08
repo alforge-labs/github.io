@@ -3279,6 +3279,10 @@
 <td><code>kama_rsi_v1</code></td>
 <td><strong>KAMA + RSI regime-adaptive</strong> (issue #475 Phase 2). Ported from Perry Kaufman "New Trading Systems and Methods" (2013). KAMA auto-detects trend/range; RSI captures overbought/oversold. <strong>FX 1h validation: MDD 46-76% (better than prior two) but CAGR still negative</strong></td>
 </tr>
+<tr>
+<td><code>tsi_reversion_v1</code></td>
+<td><strong>TSI Mean Reversion</strong> (issue #475 Phase 2). Ported from Daniel Requejo (2024) SSRN paper "Efficacy of a Mean Reversion Trading Strategy Using TSI". Long when TSI &lt; -25 + signal cross-up, short when TSI &gt; +25 + cross-down. Verified on SPY/QQQ. <strong>FX 1h validation: MDD 82-97% with negative CAGR</strong></td>
+</tr>
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>
