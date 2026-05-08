@@ -3339,6 +3339,10 @@
 <td><code>kama_rsi_mtf_trail_loose_v2</code></td>
 <td><strong>High-frequency + tight 0.5% trailing</strong> (issue #497). Combines trail_loose_v1 (RSI 40/60) with trail_v2 (trailing 0.5%) to preserve trades / vol gains while reducing MDD back into the 30-40% range</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_trail_loose_kama_short_v1</code></td>
+<td><strong>Short KAMA (24/60) variant</strong> (issue #502). Shortens trail_loose_v2's KAMA from 48/120 to 24/60 for sharper overheating detection, targeting win rate / profit_factor improvement</td>
+</tr>
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>
