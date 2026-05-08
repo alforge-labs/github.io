@@ -3331,6 +3331,10 @@
 <td><code>kama_rsi_mtf_trail_v2</code></td>
 <td><strong>Tight trailing-SL variant</strong> (issue #492). Tightens trail_v1's <code>trailing_stop_pct</code> from 1.0 to 0.5 (FX 1h ATR ≈ 0.3-0.5%) to suppress MDD</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_trail_loose_v1</code></td>
+<td><strong>High-frequency variant</strong> (issue #495). Loosens trail_v1's RSI thresholds from 35/65 to 40/60 to lift trades from 4-7 to 8-12, targeting <code>min_trades</code> and vol filter pass at the cost of 1-3pt MDD</td>
+</tr>
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>

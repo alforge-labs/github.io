@@ -103,6 +103,7 @@ forge strategy create --template <NAME> --out <FILE>
 | `kama_rsi_mtf_atr_v2` | **KAMA exit 除外版**（issue #489）。v1 の `close < kama` exit が ATR SL より先に発動して死活していた問題を修正し、exit を RSI（利確）+ ATR SL（ハードストップ）の 2 軸へ単純化。KAMA は entry トレンドフィルタ専念 |
 | `kama_rsi_mtf_trail_v1` | **真のトレーリング SL 版**（issue #488）。v2 の固定 ATR SL を `risk_management.trailing_stop_pct=1.0` で置換し、vectorbt の `sl_trail=True` 経由で「一度上げたら下げない」動的トレーリングを実現 |
 | `kama_rsi_mtf_trail_v2` | **トレーリング SL タイト版**（issue #492）。trail_v1 の `trailing_stop_pct` を 1.0 → 0.5 に縮め、FX 1h ATR ≈ 0.3-0.5% を意識した距離設定で MDD 抑制を狙う |
+| `kama_rsi_mtf_trail_loose_v1` | **RSI 緩和高頻度版**（issue #495）。trail_v1 の RSI 閾値を 35/65 → 40/60 に緩め trades を 4-7 → 8-12 に底上げ。`min_trades` / vol 軸 pass + MDD 1-3pt 悪化トレードオフ |
 
 ### サンプル出力
 
