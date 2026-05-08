@@ -31,7 +31,7 @@
 | **idea** | 投資アイデアの管理・検索 | [other#idea →](other.md#idea) |
 | **altdata** | 代替データ（センチメント等）の取得・管理 | [other#altdata →](other.md#altdata) |
 | **pairs** | ペアトレード（コインテグレーション検定） | [other#pairs →](other.md#pairs) |
-| **ml** | ML データセット作成・モデル学習（issue #512 Phase 1-2） | [other#ml →](other.md#ml) |
+| **ml** | ML データセット作成・モデル学習・walk-forward 検証（issue #512 Phase 1-2, 4） | [other#ml →](other.md#ml) |
 | **docs** | 同梱ドキュメントの参照 | [other#docs →](other.md#docs) |
 
 ## 全コマンド早見表
@@ -54,7 +54,7 @@
 | idea | `add` `list` `show` `status` `link` `tag` `note` `search` |
 | altdata | `fetch` `list` `info` |
 | pairs | `scan` `scan-all` `build` |
-| **ml** | **`dataset build` `dataset feature-sets` `train` `models`**（issue #512 Phase 1-2） |
+| **ml** | **`dataset build` `dataset feature-sets` `train` `models` `walk-forward`**（issue #512 Phase 1-2, 4） |
 | docs | `list` `show` |
 
 ## 共通ヘルプ
