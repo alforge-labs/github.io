@@ -3323,6 +3323,10 @@
 <td><code>kama_rsi_mtf_atr_v2</code></td>
 <td><strong>KAMA-exit-removed variant</strong> (issue #489). Fixes v1's dead ATR SL by removing <code>close &lt; kama</code> from exits, simplifying to RSI (take profit) + ATR SL (hard stop). KAMA is used purely as an entry trend filter</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_trail_v1</code></td>
+<td><strong>True trailing-SL variant</strong> (issue #488). Replaces v2's fixed ATR SL with <code>risk_management.trailing_stop_pct=1.0</code>, enabling vectorbt's <code>sl_trail=True</code> for a true "ratchet up only" trailing stop</td>
+</tr>
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>
