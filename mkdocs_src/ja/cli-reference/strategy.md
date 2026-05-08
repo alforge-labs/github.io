@@ -107,6 +107,7 @@ forge strategy create --template <NAME> --out <FILE>
 | `kama_rsi_mtf_trail_loose_v2` | **RSI 緩和 + tight 0.5% トレーリング**（issue #497）。trail_loose_v1 (RSI 40/60) と trail_v2 (trailing 0.5%) の組み合わせ。trades / vol を維持しつつ MDD 30-40% 域へ戻す trade-off 解消版 |
 | `kama_rsi_mtf_trail_loose_kama_short_v1` | **KAMA 24/60 短縮版**（issue #502）。trail_loose_v2 の KAMA 48/120 → 24/60 に短縮し、過熱検出強化で勝率と profit_factor の改善を狙う |
 | `kama_rsi_mtf_trail_loose_tp_v1` | **TP 追加版**（issue #504）。trail_loose_v2 に `take_profit_pct=2.0` を追加し、+2% TP : -0.5% trail SL の 4:1 構造で profit_factor 1.0+ を狙う |
+| `kama_rsi_mtf_trail_v15_tp_v1` | **trail 2.0% + TP 1.5% 設計**（issue #506）。trail_loose_tp_v1 の TP が trailing 0.5% に阻まれ不発動だった失敗を修正し、TP を trailing trigger range の内側に配置。TP 確実発動で profit_factor 改善を狙う |
 
 ### サンプル出力
 
