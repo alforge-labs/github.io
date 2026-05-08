@@ -328,7 +328,14 @@ For mean-reversion strategies, `--confirm-bars 1` requires that **the bar after 
 
 Short is mirrored (prev-bar BB upper break + current-bar bearish candle). Set the default per goal with `goals.yaml.exploration.scaffold_defaults.confirm_bars: 1`.
 
-**Current limit**: only 0 / 1 are supported (N≥2 sequential reversal will follow). The `close > open` check looks only at candle color; stronger confirmation (consecutive reversal bars, wick length) is a future enhancement.
+**confirm_bars=2/3 (issue #473)**: 2 / 3 consecutive reversal bars. **wick_ratio** option additionally requires pin-bar reversals (wick ≥ body × N):
+
+```bash
+forge strategy scaffold --symbol GBPUSD=X --indicators BB,EMA,ADX \
+  --type mean-reversion --confirm-bars 2 --wick-ratio 1.0 --save
+```
+
+Set `goals.yaml.scaffold_defaults.wick_ratio: 1.0` for a goal default. **Measured impact (GBPUSD BB+EMA+ADX 1h)**: confirm_bars=2 + wick_ratio=1.0 yields **trades 140→7 / MDD 87% → 8.84% / CAGR -55% → +3.40%** (MDD shrinks to 1/10, CAGR flips positive). For more trades, lower `wick_ratio` to ~0.5.
 
 ### Per-goal scaffold defaults (issue #461)
 
