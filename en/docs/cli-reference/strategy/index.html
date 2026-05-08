@@ -3327,6 +3327,10 @@
 <td><code>kama_rsi_mtf_trail_v1</code></td>
 <td><strong>True trailing-SL variant</strong> (issue #488). Replaces v2's fixed ATR SL with <code>risk_management.trailing_stop_pct=1.0</code>, enabling vectorbt's <code>sl_trail=True</code> for a true "ratchet up only" trailing stop</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_trail_v2</code></td>
+<td><strong>Tight trailing-SL variant</strong> (issue #492). Tightens trail_v1's <code>trailing_stop_pct</code> from 1.0 to 0.5 (FX 1h ATR ≈ 0.3-0.5%) to suppress MDD</td>
+</tr>
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>
