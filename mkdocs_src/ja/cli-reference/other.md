@@ -16,7 +16,7 @@
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | 投資アイデアの記録・追跡 |
 | [altdata](#altdata) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
 | [pairs](#pairs) | `scan` `scan-all` `build` | ペアトレード（コインテグレーション） |
-| [ml](#ml) | `dataset build` `dataset feature-sets` `train` `models` | ML データセット・モデル学習（issue #512 Phase 1-2） |
+| [ml](#ml) | `dataset build` `dataset feature-sets` `train` `models` `walk-forward` | ML データセット・モデル学習・walk-forward 検証（issue #512 Phase 1-2, 4） |
 
 | [docs](#docs) | `list` `show` | 同梱ドキュメント参照 |
 
@@ -719,7 +719,7 @@ forge pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 
 ## ml
 
-機械学習モデル用のデータセット作成・モデル学習コマンド群です（issue #512 Phase 1-2）。学習済み joblib モデルは既存の `ML_SIGNAL` 指標から `model_path` 指定で推論に利用できます。
+機械学習モデル用のデータセット作成・モデル学習・walk-forward 検証コマンド群です（issue #512 Phase 1-2, 4）。学習済み joblib モデルは既存の `ML_SIGNAL` 指標から `model_path` 指定で推論に利用できます。
 
 ### forge ml dataset build
 
@@ -808,6 +808,39 @@ forge ml train <DATASET.parquet> [OPTIONS]
 ```bash
 forge ml models
 ```
+
+### forge ml walk-forward
+
+ML データセット parquet を N ウィンドウに分割し、各ウィンドウで独立に学習・評価して時系列安定性を検証します（issue #512 Phase 4）。モデル本体は保存しません（最終モデルは `forge ml train` で別途学習）。
+
+```bash
+forge ml walk-forward <DATASET.parquet> [OPTIONS]
+```
+
+**主なオプション**
+
+| オプション | 説明 | 既定値 |
+|-----------|------|-------|
+| `--model` | モデル種別（`forge ml models` で一覧） | `logistic_regression` |
+| `--n-splits` | ウィンドウ数 | `5` |
+| `--train-ratio` | 各ウィンドウ内の学習比率 | `0.7` |
+| `--random-state` | 乱数シード | `42` |
+| `--params` | モデル追加パラメータの JSON 文字列 | — |
+| `--out` | レポート JSON 出力先 | `<storage_path>/../ml_models/<dataset_stem>_<model>.walkforward.json` |
+| `--json` | サマリを JSON 出力 | False |
+
+**レポート JSON の主要フィールド**
+
+- `model_type` / `task` / `n_splits` / `train_ratio`
+- `windows[]`: 各ウィンドウの `fold` / `train_start` / `train_end` / `test_start` / `test_end` / `n_train` / `n_test` / `train_metrics` / `test_metrics`
+- `aggregate_train_metrics` / `aggregate_test_metrics`: 各ウィンドウの単純平均
+- `dataset`: 元データセットの symbol / interval / feature_set / label_type
+
+**戦略 JSON の WFT との関係**
+
+- `forge ml walk-forward`: **ML モデル単体** の時系列安定性検証
+- `forge optimize walk-forward`: **戦略 JSON 全体**（ML_SIGNAL 指標を含む場合もあり）の WFT
+- ML 補強戦略の真価は最終的に `forge optimize walk-forward` で計測。本コマンドはその前段で「学習可能なシグナルか」を選別するために使用する。
 
 ---
 
