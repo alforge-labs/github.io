@@ -999,6 +999,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#issue-470" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        反転確認バー（issue #470）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#scaffold-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2533,6 +2544,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#issue-470" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        反転確認バー（issue #470）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#scaffold-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3209,6 +3231,28 @@
 - ADX: 同条件（レンジ判定は方向に依存しない）
 - SuperTrend / SMA / EMA: 価格が指標上 → 下（long と short が反転）</p>
 <p>HMM 適用時は range レジーム（mean-reversion state 1）または高リターン状態（trend-following state 0）で long/short 両方向のエントリーを許可します。stock 系で long-only にしたい場合は scaffold 後に <code>entry_conditions.short</code> を削除してください。</p>
+<h3 id="issue-470">反転確認バー（issue #470）<a class="headerlink" href="#issue-470" title="Permanent link">&para;</a></h3>
+<p>mean-reversion で <code>--confirm-bars 1</code> を指定すると、BB タッチの<strong>次バーで陽線（または陰線）が確認できたとき</strong>のみエントリーするように変わります。BB を割った瞬間の「ナイフキャッチ」問題を回避します。</p>
+<table>
+<thead>
+<tr>
+<th>confirm_bars</th>
+<th>long entry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0（既定）</td>
+<td><code>close &lt; bb_lower</code>（瞬間）</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>close.shift(1) &lt; bb_lower.shift(1) &amp; close &gt; open</code>（前バー BB 下抜け + 現バー陽線）</td>
+</tr>
+</tbody>
+</table>
+<p>short も対称（前バー BB 上抜け + 現バー陰線）。<code>goals.yaml.exploration.scaffold_defaults.confirm_bars: 1</code> で goal ごとの既定値も指定可能。</p>
+<p><strong>現状の制約</strong>: <code>confirm_bars</code> は 0 / 1 のみサポート（N≥2 の連続反転は将来拡張）。<code>close &gt; open</code> ローソク色のみのフィルタなので、強い反転確認には連続反転バーや wick 長さチェック等の追加実装が必要。</p>
 <h3 id="scaffold-issue-461">ゴール別 scaffold デフォルト（issue #461）<a class="headerlink" href="#scaffold-issue-461" title="Permanent link">&para;</a></h3>
 <p><code>goals.yaml</code> の <code>exploration.scaffold_defaults</code> セクションでゴール別のレバレッジ・ポジションサイズ・ストップを指定し、<code>forge strategy scaffold --goal &lt;name&gt;</code> で自動適用できます。さらに <code>exploration.initial_capital</code> で <code>forge.yaml</code> の想定資金を override できます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># 例: oanda_gold/goals.yaml</span>

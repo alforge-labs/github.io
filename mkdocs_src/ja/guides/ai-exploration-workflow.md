@@ -315,6 +315,19 @@ scaffold は **long と short の両方** の `entry_conditions` / `exit_conditi
 
 HMM 適用時は range レジーム（mean-reversion state 1）または高リターン状態（trend-following state 0）で long/short 両方向のエントリーを許可します。stock 系で long-only にしたい場合は scaffold 後に `entry_conditions.short` を削除してください。
 
+### 反転確認バー（issue #470）
+
+mean-reversion で `--confirm-bars 1` を指定すると、BB タッチの**次バーで陽線（または陰線）が確認できたとき**のみエントリーするように変わります。BB を割った瞬間の「ナイフキャッチ」問題を回避します。
+
+| confirm_bars | long entry |
+|--------------|-----------|
+| 0（既定） | `close < bb_lower`（瞬間） |
+| 1 | `close.shift(1) < bb_lower.shift(1) & close > open`（前バー BB 下抜け + 現バー陽線） |
+
+short も対称（前バー BB 上抜け + 現バー陰線）。`goals.yaml.exploration.scaffold_defaults.confirm_bars: 1` で goal ごとの既定値も指定可能。
+
+**現状の制約**: `confirm_bars` は 0 / 1 のみサポート（N≥2 の連続反転は将来拡張）。`close > open` ローソク色のみのフィルタなので、強い反転確認には連続反転バーや wick 長さチェック等の追加実装が必要。
+
 ### ゴール別 scaffold デフォルト（issue #461）
 
 `goals.yaml` の `exploration.scaffold_defaults` セクションでゴール別のレバレッジ・ポジションサイズ・ストップを指定し、`forge strategy scaffold --goal <name>` で自動適用できます。さらに `exploration.initial_capital` で `forge.yaml` の想定資金を override できます。

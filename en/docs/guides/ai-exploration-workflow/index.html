@@ -999,6 +999,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#reversal-confirmation-bar-issue-470" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reversal confirmation bar (issue #470)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-goal-scaffold-defaults-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2533,6 +2544,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#reversal-confirmation-bar-issue-470" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reversal confirmation bar (issue #470)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-goal-scaffold-defaults-issue-461" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3211,6 +3233,28 @@
 - ADX: identical (range detection is direction-agnostic)
 - SuperTrend / SMA / EMA: price above (long) / price below (short)</p>
 <p>When HMM is enabled, the range regime (mean-reversion state 1) or the high-return state (trend-following state 0) allows both directions. For long-only stock strategies, delete <code>entry_conditions.short</code> after scaffolding.</p>
+<h3 id="reversal-confirmation-bar-issue-470">Reversal confirmation bar (issue #470)<a class="headerlink" href="#reversal-confirmation-bar-issue-470" title="Permanent link">&para;</a></h3>
+<p>For mean-reversion strategies, <code>--confirm-bars 1</code> requires that <strong>the bar after a BB touch closes as a reversal candle</strong> before an entry fires. This avoids the "knife-catch" problem of entering at the moment of a BB break.</p>
+<table>
+<thead>
+<tr>
+<th>confirm_bars</th>
+<th>long entry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 (default)</td>
+<td><code>close &lt; bb_lower</code> (instant)</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>close.shift(1) &lt; bb_lower.shift(1) &amp; close &gt; open</code> (prev-bar break + current-bar bullish candle)</td>
+</tr>
+</tbody>
+</table>
+<p>Short is mirrored (prev-bar BB upper break + current-bar bearish candle). Set the default per goal with <code>goals.yaml.exploration.scaffold_defaults.confirm_bars: 1</code>.</p>
+<p><strong>Current limit</strong>: only 0 / 1 are supported (N≥2 sequential reversal will follow). The <code>close &gt; open</code> check looks only at candle color; stronger confirmation (consecutive reversal bars, wick length) is a future enhancement.</p>
 <h3 id="per-goal-scaffold-defaults-issue-461">Per-goal scaffold defaults (issue #461)<a class="headerlink" href="#per-goal-scaffold-defaults-issue-461" title="Permanent link">&para;</a></h3>
 <p>Goal-specific leverage / position size / stop can be set in the <code>exploration.scaffold_defaults</code> section of <code>goals.yaml</code>, and <code>forge strategy scaffold --goal &lt;name&gt;</code> applies them automatically. <code>exploration.initial_capital</code> overrides the <code>forge.yaml</code> capital assumption.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Example: oanda_gold/goals.yaml</span>

@@ -317,6 +317,19 @@ Filters are mirrored across directions:
 
 When HMM is enabled, the range regime (mean-reversion state 1) or the high-return state (trend-following state 0) allows both directions. For long-only stock strategies, delete `entry_conditions.short` after scaffolding.
 
+### Reversal confirmation bar (issue #470)
+
+For mean-reversion strategies, `--confirm-bars 1` requires that **the bar after a BB touch closes as a reversal candle** before an entry fires. This avoids the "knife-catch" problem of entering at the moment of a BB break.
+
+| confirm_bars | long entry |
+|--------------|-----------|
+| 0 (default) | `close < bb_lower` (instant) |
+| 1 | `close.shift(1) < bb_lower.shift(1) & close > open` (prev-bar break + current-bar bullish candle) |
+
+Short is mirrored (prev-bar BB upper break + current-bar bearish candle). Set the default per goal with `goals.yaml.exploration.scaffold_defaults.confirm_bars: 1`.
+
+**Current limit**: only 0 / 1 are supported (N≥2 sequential reversal will follow). The `close > open` check looks only at candle color; stronger confirmation (consecutive reversal bars, wick length) is a future enhancement.
+
 ### Per-goal scaffold defaults (issue #461)
 
 Goal-specific leverage / position size / stop can be set in the `exploration.scaffold_defaults` section of `goals.yaml`, and `forge strategy scaffold --goal <name>` applies them automatically. `exploration.initial_capital` overrides the `forge.yaml` capital assumption.
