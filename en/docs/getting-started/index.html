@@ -573,10 +573,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-2-check-your-license-1-min" class="md-nav__link">
+  <a href="#step-2-sign-in-with-whop-1-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2 — Check your license (~1 min)
+        Step 2 — Sign in with Whop (~1 min)
       
     </span>
   </a>
@@ -672,15 +672,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#license-activation" class="md-nav__link">
+  <a href="#whop-login" class="md-nav__link">
     <span class="md-ellipsis">
       
-        License Activation
+        Whop Login
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="License Activation">
+    <nav class="md-nav" aria-label="Whop Login">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -695,10 +695,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-activate-your-license" class="md-nav__link">
+  <a href="#2-sign-in-with-whop" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Activate your license
+        2. Sign in with Whop
       
     </span>
   </a>
@@ -706,10 +706,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-verify-commands" class="md-nav__link">
+  <a href="#3-verify-the-login-state" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Verify commands
+        3. Verify the login state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-verify-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Verify commands
       
     </span>
   </a>
@@ -2082,10 +2093,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-2-check-your-license-1-min" class="md-nav__link">
+  <a href="#step-2-sign-in-with-whop-1-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2 — Check your license (~1 min)
+        Step 2 — Sign in with Whop (~1 min)
       
     </span>
   </a>
@@ -2181,15 +2192,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#license-activation" class="md-nav__link">
+  <a href="#whop-login" class="md-nav__link">
     <span class="md-ellipsis">
       
-        License Activation
+        Whop Login
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="License Activation">
+    <nav class="md-nav" aria-label="Whop Login">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2204,10 +2215,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-activate-your-license" class="md-nav__link">
+  <a href="#2-sign-in-with-whop" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Activate your license
+        2. Sign in with Whop
       
     </span>
   </a>
@@ -2215,10 +2226,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-verify-commands" class="md-nav__link">
+  <a href="#3-verify-the-login-state" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Verify commands
+        3. Verify the login state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-verify-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Verify commands
       
     </span>
   </a>
@@ -2295,7 +2317,7 @@
 <p>A complete onboarding guide — from installing AlphaForge CLI to reading your first backtest.</p>
 <ul>
 <li>The <strong>10-minute Free-plan walkthrough</strong> is at the top. No license purchase required.</li>
-<li>After that you'll find <strong>detailed install instructions, license activation, uninstall, and troubleshooting</strong>.</li>
+<li>After that you'll find <strong>detailed install instructions, Whop login, uninstall, and troubleshooting</strong>.</li>
 </ul>
 <hr />
 <h2 id="10-minute-first-backtest-on-the-free-plan">10-Minute First Backtest on the Free Plan<a class="headerlink" href="#10-minute-first-backtest-on-the-free-plan" title="Permanent link">&para;</a></h2>
@@ -2330,19 +2352,22 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>AlphaForge CLI v1.x.x
 </code></pre></div>
 <p>If you see a version number, you're ready. For manual installation or custom install paths, see <a href="#detailed-installation">Detailed Installation</a>.</p>
-<h3 id="step-2-check-your-license-1-min">Step 2 — Check your license (~1 min)<a class="headerlink" href="#step-2-check-your-license-1-min" title="Permanent link">&para;</a></h3>
-<p>The Free plan <strong>works without a license key</strong>. Check your current plan.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>license<span class="w"> </span>status
+<h3 id="step-2-sign-in-with-whop-1-min">Step 2 — Sign in with Whop (~1 min)<a class="headerlink" href="#step-2-sign-in-with-whop-1-min" title="Permanent link">&para;</a></h3>
+<p>AlphaForge uses OAuth 2.0 PKCE authentication via your Whop account. The next command opens a browser automatically.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Plan  : free
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Expiry: n/a
+<p>After you complete the browser flow, credentials are cached at <code>$XDG_CONFIG_HOME/forge/credentials.json</code> (default <code>~/.config/forge/credentials.json</code>).</p>
+<p>You can confirm the login state at any time:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>status
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>User ID         : user_abc123
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Access token    : 2026-04-12 12:30 UTC (45 min remaining)
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Last verified   : 2026-04-12 11:45 UTC (13 min ago)
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Plan            : annual
 </code></pre></div>
 <div class="admonition tip">
-<p class="admonition-title">If you have a paid plan</p>
-<p>Activate it with the key from your purchase confirmation email.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>license<span class="w"> </span>activate<span class="w"> </span>&lt;YOUR_LICENSE_KEY&gt;
-</code></pre></div>
-<p>See <a href="#license-activation">License Activation</a> for the full procedure.</p>
+<p class="admonition-title">Free plan works for the basics</p>
+<p>Some features (e.g. Pine Script export) require a paid plan, but backtesting, optimization, and strategy management are available on Free.</p>
 </div>
 <h3 id="step-3-prepare-a-strategy-file-2-min">Step 3 — Prepare a strategy file (~2 min)<a class="headerlink" href="#step-3-prepare-a-strategy-file-2-min" title="Permanent link">&para;</a></h3>
 <p>Create a <code>quickstart/</code> directory and save the sample strategy JSON.</p>
@@ -2486,7 +2511,7 @@
 <h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h3>
 <ul>
 <li>macOS 12 (Monterey) or later / Ubuntu 22.04 or later / Windows 11</li>
-<li>Internet access (for license activation and the first data fetch)</li>
+<li>Internet access (for Whop login and the first data fetch)</li>
 <li>Paid plans only: a valid AlphaForge license key from the <a href="https://alforgelabs.com/en/index.html#pricing">pricing page</a></li>
 </ul>
 <h3 id="install-procedure">Install procedure<a class="headerlink" href="#install-procedure" title="Permanent link">&para;</a></h3>
@@ -2531,20 +2556,24 @@
 </div>
 </div>
 <hr />
-<h2 id="license-activation">License Activation<a class="headerlink" href="#license-activation" title="Permanent link">&para;</a></h2>
-<p>The Free plan works without a license key. Only paid plans (Pro / Team etc.) require activation.</p>
+<h2 id="whop-login">Whop Login<a class="headerlink" href="#whop-login" title="Permanent link">&para;</a></h2>
+<p>AlphaForge uses OAuth 2.0 PKCE authentication with your Whop account. A one-time login is required for all plans.</p>
 <h3 id="1-check-installation">1. Check installation<a class="headerlink" href="#1-check-installation" title="Permanent link">&para;</a></h3>
 <p>Confirm that the binary is available.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>--version
 </code></pre></div>
-<h3 id="2-activate-your-license">2. Activate your license<a class="headerlink" href="#2-activate-your-license" title="Permanent link">&para;</a></h3>
-<p>Use the license key from your purchase email.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>license<span class="w"> </span>activate<span class="w"> </span>&lt;YOUR_LICENSE_KEY&gt;
+<h3 id="2-sign-in-with-whop">2. Sign in with Whop<a class="headerlink" href="#2-sign-in-with-whop" title="Permanent link">&para;</a></h3>
+<p>The command launches the OAuth flow in your browser.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
-<p>Activation data is cached at <code>~/.forge/license.json</code>. Internet access is required.</p>
-<h3 id="3-verify-commands">3. Verify commands<a class="headerlink" href="#3-verify-commands" title="Permanent link">&para;</a></h3>
+<p>Credentials are cached at <code>$XDG_CONFIG_HOME/forge/credentials.json</code> (default <code>~/.config/forge/credentials.json</code>). Internet access is required.</p>
+<h3 id="3-verify-the-login-state">3. Verify the login state<a class="headerlink" href="#3-verify-the-login-state" title="Permanent link">&para;</a></h3>
+<p>You can inspect the cached user ID and token expiry:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>status
+</code></pre></div>
+<h3 id="4-verify-commands">4. Verify commands<a class="headerlink" href="#4-verify-commands" title="Permanent link">&para;</a></h3>
 <p>Confirm that backtest commands are available.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help
 </code></pre></div>
 <hr />
 <h2 id="reading-the-results-detailed">Reading the Results (Detailed)<a class="headerlink" href="#reading-the-results-detailed" title="Permanent link">&para;</a></h2>
@@ -2606,13 +2635,13 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">macOS / Linux</label><label for="__tabbed_3_2">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo<span class="w"> </span>rm<span class="w"> </span>/usr/local/bin/forge
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>~/.forge
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sudo<span class="w"> </span>rm<span class="w"> </span>/usr/local/bin/forge
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>~/.forge
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">Remove-Item</span> <span class="n">-Recurse</span> <span class="nv">$env:USERPROFILE</span><span class="p">\.</span><span class="n">forge</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="c"># Manually remove %USERPROFILE%\.forge\bin from PATH</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">Remove-Item</span> <span class="n">-Recurse</span> <span class="nv">$env:USERPROFILE</span><span class="p">\.</span><span class="n">forge</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="c"># Manually remove %USERPROFILE%\.forge\bin from PATH</span>
 </code></pre></div>
 </div>
 </div>
@@ -2644,8 +2673,8 @@
 <td>Check that the <code>strategy_id</code> in your JSON is exactly <code>sma_cross_qs</code>.</td>
 </tr>
 <tr>
-<td>License activation error</td>
-<td>Check your network and remove any extra whitespace from the key.</td>
+<td>Authentication error</td>
+<td>Verify your network connection and rerun <code>forge auth login</code>. Confirm your Whop membership is active.</td>
 </tr>
 <tr>
 <td>macOS security warning</td>
@@ -2663,7 +2692,7 @@
 <li><a href="../guides/ai-exploration-workflow/">AI-Driven Strategy Exploration Workflow</a> — Autonomous exploration with Claude Code / Codex × AlphaForge</li>
 </ul>
 <hr />
-<!-- Synced from: `en/install.html` (install / license activation / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`). Issue #117 merged the former `quickstart.md` into this page. -->
+<!-- Synced from: `en/install.html` (install / Whop login / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`). Issue #117 merged the former `quickstart.md` into this page. -->
 
 
 

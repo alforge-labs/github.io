@@ -1822,10 +1822,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#12-license-activation-information" class="md-nav__link">
+  <a href="#12-authentication-information" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.2 License Activation Information
+        1.2 Authentication Information
       
     </span>
   </a>
@@ -1980,10 +1980,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#12-license-activation-information" class="md-nav__link">
+  <a href="#12-authentication-information" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.2 License Activation Information
+        1.2 Authentication Information
       
     </span>
   </a>
@@ -2095,8 +2095,8 @@
 <h2 id="1-information-we-collect">1. Information We Collect<a class="headerlink" href="#1-information-we-collect" title="Permanent link">&para;</a></h2>
 <h3 id="11-purchase-information">1.1 Purchase Information<a class="headerlink" href="#11-purchase-information" title="Permanent link">&para;</a></h3>
 <p>When you purchase a license through LemonSqueezy, information such as your name or company name, email address, payment details, and country or region may be collected. Payment details are processed by LemonSqueezy and are not stored by Alforge Labs.</p>
-<h3 id="12-license-activation-information">1.2 License Activation Information<a class="headerlink" href="#12-license-activation-information" title="Permanent link">&para;</a></h3>
-<p>When you run <code>forge license activate</code>, the license key, instance name, and activation timestamp are sent to the LemonSqueezy License API.</p>
+<h3 id="12-authentication-information">1.2 Authentication Information<a class="headerlink" href="#12-authentication-information" title="Permanent link">&para;</a></h3>
+<p>When you run <code>forge auth login</code>, the Whop OAuth 2.0 PKCE flow exchanges an authorization code for OAuth tokens with the Whop API and returns your Whop account ID and membership status.</p>
 <h3 id="13-information-we-do-not-collect">1.3 Information We Do Not Collect<a class="headerlink" href="#13-information-we-do-not-collect" title="Permanent link">&para;</a></h3>
 <div class="admonition info">
 <p class="admonition-title">Local-first software</p>
@@ -2116,7 +2116,7 @@
 <ul>
 <li>Purchase and license information: retained according to LemonSqueezy's data retention policy</li>
 <li>Support email: retained for two years after the support request is resolved</li>
-<li>Local authentication cache: retained until the user removes it or runs <code>forge license deactivate</code></li>
+<li>Local authentication cache: retained until the user removes it or runs <code>forge auth logout</code></li>
 </ul>
 <h2 id="5-cookies-and-tracking">5. Cookies and Tracking<a class="headerlink" href="#5-cookies-and-tracking" title="Permanent link">&para;</a></h2>
 <p>This website uses Google Analytics to analyze site traffic. You can opt out of measurement by disabling cookies in your browser settings.</p>

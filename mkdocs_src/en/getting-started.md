@@ -3,7 +3,7 @@
 A complete onboarding guide — from installing AlphaForge CLI to reading your first backtest.
 
 - The **10-minute Free-plan walkthrough** is at the top. No license purchase required.
-- After that you'll find **detailed install instructions, license activation, uninstall, and troubleshooting**.
+- After that you'll find **detailed install instructions, Whop login, uninstall, and troubleshooting**.
 
 ---
 
@@ -48,27 +48,31 @@ AlphaForge CLI v1.x.x
 
 If you see a version number, you're ready. For manual installation or custom install paths, see [Detailed Installation](#detailed-installation).
 
-### Step 2 — Check your license (~1 min)
+### Step 2 — Sign in with Whop (~1 min)
 
-The Free plan **works without a license key**. Check your current plan.
+AlphaForge uses OAuth 2.0 PKCE authentication via your Whop account. The next command opens a browser automatically.
 
 ```bash
-forge license status
+forge auth login
+```
+
+After you complete the browser flow, credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`).
+
+You can confirm the login state at any time:
+
+```bash
+forge auth status
 ```
 
 ```
-Plan  : free
-Expiry: n/a
+User ID         : user_abc123
+Access token    : 2026-04-12 12:30 UTC (45 min remaining)
+Last verified   : 2026-04-12 11:45 UTC (13 min ago)
+Plan            : annual
 ```
 
-!!! tip "If you have a paid plan"
-    Activate it with the key from your purchase confirmation email.
-
-    ```bash
-    forge license activate <YOUR_LICENSE_KEY>
-    ```
-
-    See [License Activation](#license-activation) for the full procedure.
+!!! tip "Free plan works for the basics"
+    Some features (e.g. Pine Script export) require a paid plan, but backtesting, optimization, and strategy management are available on Free.
 
 ### Step 3 — Prepare a strategy file (~2 min)
 
@@ -172,7 +176,7 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 ### Requirements
 
 - macOS 12 (Monterey) or later / Ubuntu 22.04 or later / Windows 11
-- Internet access (for license activation and the first data fetch)
+- Internet access (for Whop login and the first data fetch)
 - Paid plans only: a valid AlphaForge license key from the [pricing page](https://alforgelabs.com/en/index.html#pricing)
 
 ### Install procedure
@@ -218,9 +222,9 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 
 ---
 
-## License Activation
+## Whop Login
 
-The Free plan works without a license key. Only paid plans (Pro / Team etc.) require activation.
+AlphaForge uses OAuth 2.0 PKCE authentication with your Whop account. A one-time login is required for all plans.
 
 ### 1. Check installation
 
@@ -230,17 +234,25 @@ Confirm that the binary is available.
 forge --version
 ```
 
-### 2. Activate your license
+### 2. Sign in with Whop
 
-Use the license key from your purchase email.
+The command launches the OAuth flow in your browser.
 
 ```bash
-forge license activate <YOUR_LICENSE_KEY>
+forge auth login
 ```
 
-Activation data is cached at `~/.forge/license.json`. Internet access is required.
+Credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`). Internet access is required.
 
-### 3. Verify commands
+### 3. Verify the login state
+
+You can inspect the cached user ID and token expiry:
+
+```bash
+forge auth status
+```
+
+### 4. Verify commands
 
 Confirm that backtest commands are available.
 
@@ -302,7 +314,7 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 | `No data found for SPY` | Run `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` first. |
 | `Free plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Free plan cap is automatically excluded. |
 | `Strategy not found: sma_cross_qs` | Check that the `strategy_id` in your JSON is exactly `sma_cross_qs`. |
-| License activation error | Check your network and remove any extra whitespace from the key. |
+| Authentication error | Verify your network connection and rerun `forge auth login`. Confirm your Whop membership is active. |
 | macOS security warning | System Settings → Privacy & Security → click "Open forge". |
 
 For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.com/en/install.html). If the problem persists, contact [support@alforgelabs.com](mailto:support@alforgelabs.com).
@@ -318,4 +330,4 @@ For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.
 
 ---
 
-<!-- Synced from: `en/install.html` (install / license activation / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`). Issue #117 merged the former `quickstart.md` into this page. -->
+<!-- Synced from: `en/install.html` (install / Whop login / troubleshooting). The backtest example follows the alpha-forge strategy JSON schema (based on `spy_sma_crossover_v1.json`). Issue #117 merged the former `quickstart.md` into this page. -->

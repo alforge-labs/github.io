@@ -1641,22 +1641,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+  <a href="#auth" class="md-nav__link">
     <span class="md-ellipsis">
       
-        license
+        auth
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="license">
+    <nav class="md-nav" aria-label="auth">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forge-license-activate" class="md-nav__link">
+  <a href="#forge-auth-login" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge license activate
+        forge auth login
       
     </span>
   </a>
@@ -1664,10 +1664,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-license-deactivate" class="md-nav__link">
+  <a href="#forge-auth-logout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge license deactivate
+        forge auth logout
       
     </span>
   </a>
@@ -1675,38 +1675,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-license-status" class="md-nav__link">
+  <a href="#forge-auth-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge license status
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#login-logout" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        login と logout
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="login と logout">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#forge-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        forge login
+        forge auth status
       
     </span>
   </a>
@@ -1714,10 +1686,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-logout" class="md-nav__link">
+  <a href="#forge-auth-check-op" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge logout
+        forge auth check op
       
     </span>
   </a>
@@ -2515,22 +2487,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+  <a href="#auth" class="md-nav__link">
     <span class="md-ellipsis">
       
-        license
+        auth
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="license">
+    <nav class="md-nav" aria-label="auth">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forge-license-activate" class="md-nav__link">
+  <a href="#forge-auth-login" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge license activate
+        forge auth login
       
     </span>
   </a>
@@ -2538,10 +2510,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-license-deactivate" class="md-nav__link">
+  <a href="#forge-auth-logout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge license deactivate
+        forge auth logout
       
     </span>
   </a>
@@ -2549,38 +2521,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-license-status" class="md-nav__link">
+  <a href="#forge-auth-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge license status
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#login-logout" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        login と logout
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="login と logout">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#forge-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        forge login
+        forge auth status
       
     </span>
   </a>
@@ -2588,10 +2532,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-logout" class="md-nav__link">
+  <a href="#forge-auth-check-op" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge logout
+        forge auth check op
       
     </span>
   </a>
@@ -3198,14 +3142,9 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="#license">license</a></td>
-<td><code>activate</code> <code>deactivate</code> <code>status</code></td>
-<td>ライセンスキーの認証・解除・状態確認</td>
-</tr>
-<tr>
-<td><a href="#login-logout">login と logout</a></td>
-<td><code>login</code> <code>logout</code></td>
-<td>Whop アカウント認証</td>
+<td><a href="#auth">auth</a></td>
+<td><code>login</code> <code>logout</code> <code>status</code> <code>check op</code></td>
+<td>Whop OAuth 認証と認証状態の確認</td>
 </tr>
 <tr>
 <td><a href="#init">init</a></td>
@@ -3241,56 +3180,38 @@
 </table>
 <p>| <a href="#docs">docs</a> | <code>list</code> <code>show</code> | 同梱ドキュメント参照 |</p>
 <hr />
-<h2 id="license">license<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
-<p>ライセンスキーの認証・解除・状態確認を行います。詳しいインストール手順は <a href="../../getting-started/">はじめに</a> を参照。</p>
-<h3 id="forge-license-activate">forge license activate<a class="headerlink" href="#forge-license-activate" title="Permanent link">&para;</a></h3>
-<p>ライセンスキーを認証します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>license<span class="w"> </span>activate<span class="w"> </span>&lt;KEY&gt;
+<h2 id="auth">auth<a class="headerlink" href="#auth" title="Permanent link">&para;</a></h2>
+<p>Whop OAuth 2.0 PKCE による認証コマンド群。サブコマンドはすべて <code>forge auth &lt;subcommand&gt;</code> で実行します。詳しい初回セットアップは <a href="../../getting-started/">はじめに</a> を参照。</p>
+<h3 id="forge-auth-login">forge auth login<a class="headerlink" href="#forge-auth-login" title="Permanent link">&para;</a></h3>
+<p>ブラウザを開いて Whop で認証します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
-<table>
-<thead>
-<tr>
-<th>名前</th>
-<th>種別</th>
-<th>説明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>KEY</code></td>
-<td>引数（必須）</td>
-<td>ライセンスキー（購入完了メールに記載）</td>
-</tr>
-</tbody>
-</table>
-<p>成功すると認証情報が <code>~/.forge/license.json</code> にキャッシュされます。</p>
-<h3 id="forge-license-deactivate">forge license deactivate<a class="headerlink" href="#forge-license-deactivate" title="Permanent link">&para;</a></h3>
-<p>このマシンのライセンスを解除します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>license<span class="w"> </span>deactivate
+<p>ブラウザが自動で開き、Whop の OAuth 認証フローを実行します。引数・オプションなし。成功すると認証情報が <code>$XDG_CONFIG_HOME/forge/credentials.json</code>（未設定時 <code>~/.config/forge/credentials.json</code>）にキャッシュされます。</p>
+<h3 id="forge-auth-logout">forge auth logout<a class="headerlink" href="#forge-auth-logout" title="Permanent link">&para;</a></h3>
+<p>ログアウトして認証情報を削除します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>auth<span class="w"> </span><span class="nb">logout</span>
 </code></pre></div>
-<p>別マシンへ移行する際に使用してください。</p>
-<h3 id="forge-license-status">forge license status<a class="headerlink" href="#forge-license-status" title="Permanent link">&para;</a></h3>
-<p>現在のライセンス状態を表示します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>license<span class="w"> </span>status
+<p><code>credentials.json</code> を削除します。引数・オプションなし。Whop マイページのメンバーシップ自体は影響を受けません。</p>
+<h3 id="forge-auth-status">forge auth status<a class="headerlink" href="#forge-auth-status" title="Permanent link">&para;</a></h3>
+<p>現在の認証状態を表示します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>status
 </code></pre></div>
 <p>サンプル出力：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ライセンスキー  : 1A2B3C4D...
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>最終検証        : 2026-04-12 09:30 UTC (3日前)
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>フィンガープリント: 一致
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>キャッシュ      : 有効（3日以内）
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ユーザー ID      : user_abc123
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>アクセストークン: 2026-04-12 12:30 UTC（あと 45 分）
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>最終検証        : 2026-04-12 11:45 UTC（13 分前）
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>プラン          : annual
 </code></pre></div>
-<p>未登録時は <code>[AlphaForge] ライセンス未登録</code> と表示されます。</p>
-<hr />
-<h2 id="login-logout">login と logout<a class="headerlink" href="#login-logout" title="Permanent link">&para;</a></h2>
-<p>Whop アカウントによる認証コマンド。</p>
-<h3 id="forge-login">forge login<a class="headerlink" href="#forge-login" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>login
+<p>未認証時は次のように案内します：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>[AlphaForge] ログイン情報がありません。
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  実行: forge auth login
 </code></pre></div>
-<p>ブラウザが自動で開き、Whop で認証フローを実行します。引数・オプションなし。</p>
-<h3 id="forge-logout">forge logout<a class="headerlink" href="#forge-logout" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span><span class="nb">logout</span>
+<p>開発スキップ環境変数（<code>ALPHA_FORGE_DEV_SKIP_LICENSE=1</code>）が有効な場合は <code>[AlphaForge] 開発スキップ中（EULA/認証は未完了）</code> を表示します。</p>
+<h3 id="forge-auth-check-op">forge auth check op<a class="headerlink" href="#forge-auth-check-op" title="Permanent link">&para;</a></h3>
+<p>1Password CLI（<code>op</code>）のセッション有効性を検証します。<code>.env.op</code> を併用するチームの CI フックで使用するためのもの（issue #411）。詳細は実装コメントを参照。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op<span class="w"> </span><span class="o">[</span>--json<span class="o">]</span>
 </code></pre></div>
-<p>ログアウトしてローカルの認証情報を削除します。引数・オプションなし。</p>
+<p>セッション有効時に exit code <code>0</code>、無効時に exit code <code>2</code> を返します。</p>
 <hr />
 <h2 id="init">init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
 <p>作業ディレクトリを初期化します。<code>forge.yaml</code>、データディレクトリ、ドキュメント、AI アシスタント統合ファイルを作成。</p>
@@ -4274,7 +4195,7 @@
 <li><strong>国際化</strong>: すべてのコマンドは日本語と英語の両方の <code>--help</code> テキストを持ちます（<code>alpha_forge.i18n.L</code> 経由）</li>
 </ul>
 <hr />
-<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{auth,init,pine,indicator,idea,altdata,pairs,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
 
 
 

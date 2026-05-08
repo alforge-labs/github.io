@@ -9,8 +9,7 @@
 
 | グループ | サブコマンド | 主な用途 |
 |---------|-------------|----------|
-| [license](#license) | `activate` `deactivate` `status` | ライセンスキーの認証・解除・状態確認 |
-| [login と logout](#login-logout) | `login` `logout` | Whop アカウント認証 |
+| [auth](#auth) | `login` `logout` `status` `check op` | Whop OAuth 認証と認証状態の確認 |
 | [init](#init) | （単一コマンド） | 作業ディレクトリの初期化 |
 | [pine](#pine) | `generate` `preview` `import` | TradingView Pine Script の生成・取り込み |
 | [indicator](#indicator) | `list` `show` | 対応テクニカル指標の参照 |
@@ -22,74 +21,65 @@
 
 ---
 
-## license
+## auth
 
-ライセンスキーの認証・解除・状態確認を行います。詳しいインストール手順は [はじめに](../getting-started.md) を参照。
+Whop OAuth 2.0 PKCE による認証コマンド群。サブコマンドはすべて `forge auth <subcommand>` で実行します。詳しい初回セットアップは [はじめに](../getting-started.md) を参照。
 
-### forge license activate
+### forge auth login
 
-ライセンスキーを認証します。
+ブラウザを開いて Whop で認証します。
 
 ```bash
-forge license activate <KEY>
+forge auth login
 ```
 
-| 名前 | 種別 | 説明 |
-|------|------|------|
-| `KEY` | 引数（必須） | ライセンスキー（購入完了メールに記載） |
+ブラウザが自動で開き、Whop の OAuth 認証フローを実行します。引数・オプションなし。成功すると認証情報が `$XDG_CONFIG_HOME/forge/credentials.json`（未設定時 `~/.config/forge/credentials.json`）にキャッシュされます。
 
-成功すると認証情報が `~/.forge/license.json` にキャッシュされます。
+### forge auth logout
 
-### forge license deactivate
-
-このマシンのライセンスを解除します。
+ログアウトして認証情報を削除します。
 
 ```bash
-forge license deactivate
+forge auth logout
 ```
 
-別マシンへ移行する際に使用してください。
+`credentials.json` を削除します。引数・オプションなし。Whop マイページのメンバーシップ自体は影響を受けません。
 
-### forge license status
+### forge auth status
 
-現在のライセンス状態を表示します。
+現在の認証状態を表示します。
 
 ```bash
-forge license status
+forge auth status
 ```
 
 サンプル出力：
 
 ```text
-ライセンスキー  : 1A2B3C4D...
-最終検証        : 2026-04-12 09:30 UTC (3日前)
-フィンガープリント: 一致
-キャッシュ      : 有効（3日以内）
+ユーザー ID      : user_abc123
+アクセストークン: 2026-04-12 12:30 UTC（あと 45 分）
+最終検証        : 2026-04-12 11:45 UTC（13 分前）
+プラン          : annual
 ```
 
-未登録時は `[AlphaForge] ライセンス未登録` と表示されます。
+未認証時は次のように案内します：
 
----
+```text
+[AlphaForge] ログイン情報がありません。
+  実行: forge auth login
+```
 
-## login と logout
+開発スキップ環境変数（`ALPHA_FORGE_DEV_SKIP_LICENSE=1`）が有効な場合は `[AlphaForge] 開発スキップ中（EULA/認証は未完了）` を表示します。
 
-Whop アカウントによる認証コマンド。
+### forge auth check op
 
-### forge login
+1Password CLI（`op`）のセッション有効性を検証します。`.env.op` を併用するチームの CI フックで使用するためのもの（issue #411）。詳細は実装コメントを参照。
 
 ```bash
-forge login
+forge auth check op [--json]
 ```
 
-ブラウザが自動で開き、Whop で認証フローを実行します。引数・オプションなし。
-
-### forge logout
-
-```bash
-forge logout
-```
-
-ログアウトしてローカルの認証情報を削除します。引数・オプションなし。
+セッション有効時に exit code `0`、無効時に exit code `2` を返します。
 
 ---
 
@@ -760,4 +750,4 @@ forge docs show <NAME>
 
 ---
 
-<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{license,login,init,pine,indicator,idea,altdata,pairs,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->
+<!-- 同期元: `alpha-forge/src/alpha_forge/commands/{auth,init,pine,indicator,idea,altdata,pairs,docs}.py` の Click decorator。alpha-forge 側で引数追加・コマンド変更があった場合、本ページも追従更新が必要。 -->

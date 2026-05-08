@@ -9,8 +9,7 @@ Utility and management commands not covered by the [core groups](index.md), bund
 
 | Group | Subcommands | Purpose |
 |-------|-------------|---------|
-| [license](#license) | `activate` `deactivate` `status` | Activate, deactivate, check license |
-| [login & logout](#login-and-logout) | `login` `logout` | Whop account auth |
+| [auth](#auth) | `login` `logout` `status` `check op` | Whop OAuth authentication and status |
 | [init](#init) | (single command) | Initialize working directory |
 | [pine](#pine) | `generate` `preview` `import` | Generate / import TradingView Pine Script |
 | [indicator](#indicator) | `list` `show` | Browse supported technical indicators |
@@ -22,74 +21,65 @@ Utility and management commands not covered by the [core groups](index.md), bund
 
 ---
 
-## license
+## auth
 
-Activate, deactivate, and check license status. For installation steps, see [Getting Started](../getting-started.md).
+Whop OAuth 2.0 PKCE authentication commands. All subcommands run as `forge auth <subcommand>`. For first-time setup, see [Getting Started](../getting-started.md).
 
-### forge license activate
+### forge auth login
 
-Activate a license key.
+Open a browser and authenticate with Whop.
 
 ```bash
-forge license activate <KEY>
+forge auth login
 ```
 
-| Name | Kind | Description |
-|------|------|-------------|
-| `KEY` | argument (required) | License key (from your purchase email) |
+Opens a browser automatically and runs the Whop OAuth flow. No arguments or options. On success, credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`).
 
-On success, activation data is cached at `~/.forge/license.json`.
+### forge auth logout
 
-### forge license deactivate
-
-Deactivate the license on this machine.
+Log out and remove cached credentials.
 
 ```bash
-forge license deactivate
+forge auth logout
 ```
 
-Use this when migrating to another machine.
+Removes `credentials.json`. No arguments or options. Your Whop membership itself is unaffected.
 
-### forge license status
+### forge auth status
 
-Show current license status.
+Show current authentication status.
 
 ```bash
-forge license status
+forge auth status
 ```
 
 Sample output:
 
 ```text
-License key    : 1A2B3C4D...
-Last validated : 2026-04-12 09:30 UTC (3 days ago)
-Fingerprint    : match
-Cache          : valid (within 3 days)
+User ID         : user_abc123
+Access token    : 2026-04-12 12:30 UTC (45 min remaining)
+Last verified   : 2026-04-12 11:45 UTC (13 min ago)
+Plan            : annual
 ```
 
-When unregistered: `[AlphaForge] License not registered`.
+When not logged in:
 
----
+```text
+[AlphaForge] Not logged in.
+  Run: forge auth login
+```
 
-## login and logout
+If the development skip env var (`ALPHA_FORGE_DEV_SKIP_LICENSE=1`) is enabled, the message is `[AlphaForge] Development skip active (EULA/authentication is not verified)`.
 
-Authenticate with your Whop account.
+### forge auth check op
 
-### forge login
+Verify the 1Password CLI (`op`) session validity. Used as a CI hook for teams sharing `.env.op` (issue #411).
 
 ```bash
-forge login
+forge auth check op [--json]
 ```
 
-Opens a browser and runs the Whop authentication flow. No arguments or options.
-
-### forge logout
-
-```bash
-forge logout
-```
-
-Logs out and removes local credentials. No arguments or options.
+Exits with code `0` when the session is valid, `2` otherwise.
 
 ---
 

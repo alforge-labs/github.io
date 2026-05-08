@@ -10,9 +10,9 @@ Alforge Labs defines this privacy policy to explain how personal information is 
 
 When you purchase a license through LemonSqueezy, information such as your name or company name, email address, payment details, and country or region may be collected. Payment details are processed by LemonSqueezy and are not stored by Alforge Labs.
 
-### 1.2 License Activation Information
+### 1.2 Authentication Information
 
-When you run `forge license activate`, the license key, instance name, and activation timestamp are sent to the LemonSqueezy License API.
+When you run `forge auth login`, the Whop OAuth 2.0 PKCE flow exchanges an authorization code for OAuth tokens with the Whop API and returns your Whop account ID and membership status.
 
 ### 1.3 Information We Do Not Collect
 
@@ -35,7 +35,7 @@ We do not share personal information with third parties except when necessary fo
 
 - Purchase and license information: retained according to LemonSqueezy's data retention policy
 - Support email: retained for two years after the support request is resolved
-- Local authentication cache: retained until the user removes it or runs `forge license deactivate`
+- Local authentication cache: retained until the user removes it or runs `forge auth logout`
 
 ## 5. Cookies and Tracking
 
