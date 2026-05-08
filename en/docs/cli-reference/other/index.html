@@ -2241,6 +2241,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ml
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-feature-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset feature-sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3115,6 +3154,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ml
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-ml-dataset-feature-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml dataset feature-sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#docs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3236,6 +3314,11 @@
 <td><a href="#pairs">pairs</a></td>
 <td><code>scan</code> <code>scan-all</code> <code>build</code></td>
 <td>Pairs trading (cointegration)</td>
+</tr>
+<tr>
+<td><a href="#ml">ml</a></td>
+<td><code>dataset build</code> <code>dataset feature-sets</code></td>
+<td>ML dataset builder (issue #512 Phase 1)</td>
 </tr>
 </tbody>
 </table>
@@ -4237,14 +4320,77 @@ exploration agents can decide programmatically which criterion failed and by how
 </code></pre></div>
 <p>When there is no mean reversion, the half-life is shown as <code>N/A (no mean reversion)</code>.</p>
 <hr />
+<h2 id="ml">ml<a class="headerlink" href="#ml" title="Permanent link">&para;</a></h2>
+<p>Machine-learning dataset and model commands (issue #512 Phase 1). Phase 2+ will add <code>forge ml train</code> and related training/evaluation commands.</p>
+<h3 id="forge-ml-dataset-build">forge ml dataset build<a class="headerlink" href="#forge-ml-dataset-build" title="Permanent link">&para;</a></h3>
+<p>Build a feature+forward-return-label parquet dataset from stored OHLCV.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--feature-set<span class="w"> </span>default_v1<span class="w"> </span>--label<span class="w"> </span>binary:24:0.005<span class="w"> </span>--interval<span class="w"> </span>1h
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--label<span class="w"> </span>ternary:24:0.005
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--label<span class="w"> </span>regression:5
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--label<span class="w"> </span>binary:24:0.005<span class="w"> </span>--json
+</code></pre></div>
+<p><strong>Key options</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--feature-set</code></td>
+<td>Built-in feature set name (see <code>forge ml dataset feature-sets</code>)</td>
+<td><code>default_v1</code></td>
+</tr>
+<tr>
+<td><code>--label</code></td>
+<td>Label spec string (required)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--interval</code></td>
+<td>Bar interval used to load OHLCV</td>
+<td><code>1d</code></td>
+</tr>
+<tr>
+<td><code>--out</code></td>
+<td>Output parquet path</td>
+<td><code>&lt;storage_path&gt;/../ml_datasets/&lt;symbol&gt;_&lt;feature_set&gt;_&lt;label_type&gt;_&lt;interval&gt;.parquet</code></td>
+</tr>
+<tr>
+<td><code>--keep-nan</code></td>
+<td>Keep rows containing NaN</td>
+<td>False (drops them)</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>Print summary as JSON</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Label spec strings</strong></p>
+<ul>
+<li><code>binary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> — 1 if forward_return &gt; threshold, else 0</li>
+<li><code>ternary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> — +1 above threshold, −1 below −threshold, 0 in between</li>
+<li><code>regression:&lt;forward_n&gt;</code> — raw forward return as the label</li>
+</ul>
+<p>The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.</p>
+<h3 id="forge-ml-dataset-feature-sets">forge ml dataset feature-sets<a class="headerlink" href="#forge-ml-dataset-feature-sets" title="Permanent link">&para;</a></h3>
+<p>List available built-in feature sets.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>feature-sets
+</code></pre></div>
+<hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p>Browse the documentation, skills, and command references bundled with <code>alpha-forge</code>.</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>List available bundled documents. <code>✓</code> / <code>✗</code> indicates whether each file exists.</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>
