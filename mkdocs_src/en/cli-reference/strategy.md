@@ -106,6 +106,7 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `kama_rsi_mtf_trail_loose_v1` | **High-frequency variant** (issue #495). Loosens trail_v1's RSI thresholds from 35/65 to 40/60 to lift trades from 4-7 to 8-12, targeting `min_trades` and vol filter pass at the cost of 1-3pt MDD |
 | `kama_rsi_mtf_trail_loose_v2` | **High-frequency + tight 0.5% trailing** (issue #497). Combines trail_loose_v1 (RSI 40/60) with trail_v2 (trailing 0.5%) to preserve trades / vol gains while reducing MDD back into the 30-40% range |
 | `kama_rsi_mtf_trail_loose_kama_short_v1` | **Short KAMA (24/60) variant** (issue #502). Shortens trail_loose_v2's KAMA from 48/120 to 24/60 for sharper overheating detection, targeting win rate / profit_factor improvement |
+| `kama_rsi_mtf_trail_loose_tp_v1` | **Take-profit variant** (issue #504). Adds `take_profit_pct=2.0` on top of trail_loose_v2 for a 4:1 (TP +2% : SL -0.5%) ratio structure targeting `profit_factor` above 1.0 |
 
 ### Sample output
 
