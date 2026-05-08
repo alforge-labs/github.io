@@ -2296,6 +2296,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#forge-ml-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml walk-forward
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3231,6 +3242,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#forge-ml-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml walk-forward
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3361,8 +3383,8 @@
 </tr>
 <tr>
 <td><a href="#ml">ml</a></td>
-<td><code>dataset build</code> <code>dataset feature-sets</code> <code>train</code> <code>models</code></td>
-<td>ML データセット・モデル学習（issue #512 Phase 1-2）</td>
+<td><code>dataset build</code> <code>dataset feature-sets</code> <code>train</code> <code>models</code> <code>walk-forward</code></td>
+<td>ML データセット・モデル学習・walk-forward 検証（issue #512 Phase 1-2, 4）</td>
 </tr>
 </tbody>
 </table>
@@ -4368,7 +4390,7 @@
 <p>平均回帰がない場合、半減期は <code>N/A (平均回帰なし)</code> と表示されます。</p>
 <hr />
 <h2 id="ml">ml<a class="headerlink" href="#ml" title="Permanent link">&para;</a></h2>
-<p>機械学習モデル用のデータセット作成・モデル学習コマンド群です（issue #512 Phase 1-2）。学習済み joblib モデルは既存の <code>ML_SIGNAL</code> 指標から <code>model_path</code> 指定で推論に利用できます。</p>
+<p>機械学習モデル用のデータセット作成・モデル学習・walk-forward 検証コマンド群です（issue #512 Phase 1-2, 4）。学習済み joblib モデルは既存の <code>ML_SIGNAL</code> 指標から <code>model_path</code> 指定で推論に利用できます。</p>
 <h3 id="forge-ml-dataset-build">forge ml dataset build<a class="headerlink" href="#forge-ml-dataset-build" title="Permanent link">&para;</a></h3>
 <p>保存済み OHLCV から特徴量行列と将来リターンラベルを結合した parquet データセットを生成します。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--feature-set<span class="w"> </span>default_v1<span class="w"> </span>--label<span class="w"> </span>binary:24:0.005<span class="w"> </span>--interval<span class="w"> </span>1h
@@ -4541,15 +4563,79 @@
 <p>利用可能なモデル種別（分類 + 回帰）を一覧表示します。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>models
 </code></pre></div>
+<h3 id="forge-ml-walk-forward">forge ml walk-forward<a class="headerlink" href="#forge-ml-walk-forward" title="Permanent link">&para;</a></h3>
+<p>ML データセット parquet を N ウィンドウに分割し、各ウィンドウで独立に学習・評価して時系列安定性を検証します（issue #512 Phase 4）。モデル本体は保存しません（最終モデルは <code>forge ml train</code> で別途学習）。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>walk-forward<span class="w"> </span>&lt;DATASET.parquet&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<p><strong>主なオプション</strong></p>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+<th>既定値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--model</code></td>
+<td>モデル種別（<code>forge ml models</code> で一覧）</td>
+<td><code>logistic_regression</code></td>
+</tr>
+<tr>
+<td><code>--n-splits</code></td>
+<td>ウィンドウ数</td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>--train-ratio</code></td>
+<td>各ウィンドウ内の学習比率</td>
+<td><code>0.7</code></td>
+</tr>
+<tr>
+<td><code>--random-state</code></td>
+<td>乱数シード</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><code>--params</code></td>
+<td>モデル追加パラメータの JSON 文字列</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--out</code></td>
+<td>レポート JSON 出力先</td>
+<td><code>&lt;storage_path&gt;/../ml_models/&lt;dataset_stem&gt;_&lt;model&gt;.walkforward.json</code></td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>サマリを JSON 出力</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p><strong>レポート JSON の主要フィールド</strong></p>
+<ul>
+<li><code>model_type</code> / <code>task</code> / <code>n_splits</code> / <code>train_ratio</code></li>
+<li><code>windows[]</code>: 各ウィンドウの <code>fold</code> / <code>train_start</code> / <code>train_end</code> / <code>test_start</code> / <code>test_end</code> / <code>n_train</code> / <code>n_test</code> / <code>train_metrics</code> / <code>test_metrics</code></li>
+<li><code>aggregate_train_metrics</code> / <code>aggregate_test_metrics</code>: 各ウィンドウの単純平均</li>
+<li><code>dataset</code>: 元データセットの symbol / interval / feature_set / label_type</li>
+</ul>
+<p><strong>戦略 JSON の WFT との関係</strong></p>
+<ul>
+<li><code>forge ml walk-forward</code>: <strong>ML モデル単体</strong> の時系列安定性検証</li>
+<li><code>forge optimize walk-forward</code>: <strong>戦略 JSON 全体</strong>（ML_SIGNAL 指標を含む場合もあり）の WFT</li>
+<li>ML 補強戦略の真価は最終的に <code>forge optimize walk-forward</code> で計測。本コマンドはその前段で「学習可能なシグナルか」を選別するために使用する。</li>
+</ul>
 <hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p><code>alpha-forge</code> に同梱されているドキュメント・スキル・コマンド参考資料を参照します。</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>利用可能な同梱ドキュメントの一覧を表示します。<code>✓</code> / <code>✗</code> でファイル存在を表します。</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

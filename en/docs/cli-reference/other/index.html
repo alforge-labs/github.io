@@ -2296,6 +2296,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#forge-ml-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml walk-forward
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3231,6 +3242,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#forge-ml-walk-forward" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forge ml walk-forward
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3361,8 +3383,8 @@
 </tr>
 <tr>
 <td><a href="#ml">ml</a></td>
-<td><code>dataset build</code> <code>dataset feature-sets</code> <code>train</code> <code>models</code></td>
-<td>ML dataset &amp; model training (issue #512 Phase 1-2)</td>
+<td><code>dataset build</code> <code>dataset feature-sets</code> <code>train</code> <code>models</code> <code>walk-forward</code></td>
+<td>ML dataset, training &amp; walk-forward (issue #512 Phase 1-2, 4)</td>
 </tr>
 </tbody>
 </table>
@@ -4365,7 +4387,7 @@ exploration agents can decide programmatically which criterion failed and by how
 <p>When there is no mean reversion, the half-life is shown as <code>N/A (no mean reversion)</code>.</p>
 <hr />
 <h2 id="ml">ml<a class="headerlink" href="#ml" title="Permanent link">&para;</a></h2>
-<p>Machine-learning dataset and model training commands (issue #512 Phase 1-2). Trained joblib models can be referenced from the existing <code>ML_SIGNAL</code> indicator via <code>model_path</code> for inference.</p>
+<p>Machine-learning dataset, model training, and walk-forward validation commands (issue #512 Phase 1-2, 4). Trained joblib models can be referenced from the existing <code>ML_SIGNAL</code> indicator via <code>model_path</code> for inference.</p>
 <h3 id="forge-ml-dataset-build">forge ml dataset build<a class="headerlink" href="#forge-ml-dataset-build" title="Permanent link">&para;</a></h3>
 <p>Build a feature+forward-return-label parquet dataset from stored OHLCV.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>build<span class="w"> </span><span class="nv">EURUSD</span><span class="o">=</span>X<span class="w"> </span>--feature-set<span class="w"> </span>default_v1<span class="w"> </span>--label<span class="w"> </span>binary:24:0.005<span class="w"> </span>--interval<span class="w"> </span>1h
@@ -4538,15 +4560,79 @@ exploration agents can decide programmatically which criterion failed and by how
 <p>List available model types (classification + regression).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>models
 </code></pre></div>
+<h3 id="forge-ml-walk-forward">forge ml walk-forward<a class="headerlink" href="#forge-ml-walk-forward" title="Permanent link">&para;</a></h3>
+<p>Split a dataset into N windows and train + evaluate a fresh model in each window for time-series stability checks (issue #512 Phase 4). The model is <strong>not</strong> persisted — use <code>forge ml train</code> to produce the final model.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>walk-forward<span class="w"> </span>&lt;DATASET.parquet&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<p><strong>Key options</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--model</code></td>
+<td>Model type (see <code>forge ml models</code>)</td>
+<td><code>logistic_regression</code></td>
+</tr>
+<tr>
+<td><code>--n-splits</code></td>
+<td>Number of windows</td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>--train-ratio</code></td>
+<td>Train fraction within each window</td>
+<td><code>0.7</code></td>
+</tr>
+<tr>
+<td><code>--random-state</code></td>
+<td>Random seed</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><code>--params</code></td>
+<td>Extra model params as JSON string</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--out</code></td>
+<td>Report JSON output path</td>
+<td><code>&lt;storage_path&gt;/../ml_models/&lt;dataset_stem&gt;_&lt;model&gt;.walkforward.json</code></td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>Print summary as JSON</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Report JSON fields</strong></p>
+<ul>
+<li><code>model_type</code> / <code>task</code> / <code>n_splits</code> / <code>train_ratio</code></li>
+<li><code>windows[]</code>: per-window <code>fold</code> / <code>train_start</code> / <code>train_end</code> / <code>test_start</code> / <code>test_end</code> / <code>n_train</code> / <code>n_test</code> / <code>train_metrics</code> / <code>test_metrics</code></li>
+<li><code>aggregate_train_metrics</code> / <code>aggregate_test_metrics</code>: arithmetic mean across windows</li>
+<li><code>dataset</code>: symbol / interval / feature_set / label_type from the source dataset</li>
+</ul>
+<p><strong>Relation to strategy WFT</strong></p>
+<ul>
+<li><code>forge ml walk-forward</code>: stability of the <strong>ML model itself</strong> over time</li>
+<li><code>forge optimize walk-forward</code>: WFT of the <strong>whole strategy JSON</strong> (which may include <code>ML_SIGNAL</code>)</li>
+<li>The end-to-end measure of an ML-augmented strategy is <code>forge optimize walk-forward</code>. This command is a screening step: is the signal even learnable?</li>
+</ul>
 <hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p>Browse the documentation, skills, and command references bundled with <code>alpha-forge</code>.</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>List available bundled documents. <code>✓</code> / <code>✗</code> indicates whether each file exists.</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

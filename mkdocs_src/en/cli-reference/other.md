@@ -17,7 +17,7 @@ Utility and management commands not covered by the [core groups](index.md), bund
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
 | [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
 | [pairs](#pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
-| [ml](#ml) | `dataset build` `dataset feature-sets` `train` `models` | ML dataset & model training (issue #512 Phase 1-2) |
+| [ml](#ml) | `dataset build` `dataset feature-sets` `train` `models` `walk-forward` | ML dataset, training & walk-forward (issue #512 Phase 1-2, 4) |
 
 | [docs](#docs) | `list` `show` | Browse bundled documentation |
 
@@ -726,7 +726,7 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 ## ml
 
-Machine-learning dataset and model training commands (issue #512 Phase 1-2). Trained joblib models can be referenced from the existing `ML_SIGNAL` indicator via `model_path` for inference.
+Machine-learning dataset, model training, and walk-forward validation commands (issue #512 Phase 1-2, 4). Trained joblib models can be referenced from the existing `ML_SIGNAL` indicator via `model_path` for inference.
 
 ### forge ml dataset build
 
@@ -815,6 +815,39 @@ List available model types (classification + regression).
 ```bash
 forge ml models
 ```
+
+### forge ml walk-forward
+
+Split a dataset into N windows and train + evaluate a fresh model in each window for time-series stability checks (issue #512 Phase 4). The model is **not** persisted — use `forge ml train` to produce the final model.
+
+```bash
+forge ml walk-forward <DATASET.parquet> [OPTIONS]
+```
+
+**Key options**
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--model` | Model type (see `forge ml models`) | `logistic_regression` |
+| `--n-splits` | Number of windows | `5` |
+| `--train-ratio` | Train fraction within each window | `0.7` |
+| `--random-state` | Random seed | `42` |
+| `--params` | Extra model params as JSON string | — |
+| `--out` | Report JSON output path | `<storage_path>/../ml_models/<dataset_stem>_<model>.walkforward.json` |
+| `--json` | Print summary as JSON | False |
+
+**Report JSON fields**
+
+- `model_type` / `task` / `n_splits` / `train_ratio`
+- `windows[]`: per-window `fold` / `train_start` / `train_end` / `test_start` / `test_end` / `n_train` / `n_test` / `train_metrics` / `test_metrics`
+- `aggregate_train_metrics` / `aggregate_test_metrics`: arithmetic mean across windows
+- `dataset`: symbol / interval / feature_set / label_type from the source dataset
+
+**Relation to strategy WFT**
+
+- `forge ml walk-forward`: stability of the **ML model itself** over time
+- `forge optimize walk-forward`: WFT of the **whole strategy JSON** (which may include `ML_SIGNAL`)
+- The end-to-end measure of an ML-augmented strategy is `forge optimize walk-forward`. This command is a screening step: is the signal even learnable?
 
 ---
 
