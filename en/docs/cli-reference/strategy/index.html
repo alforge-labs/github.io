@@ -3299,6 +3299,14 @@
 <td><code>tsi_reversion_fx1h_v1</code></td>
 <td><strong>TSI Reversion FX 1h variant</strong> (issue #480). fast/slow/signal re-scaled from 13/25/13 to 48/120/48. FX 1h validation: trades 0-4 (over-filtered)</td>
 </tr>
+<tr>
+<td><code>kama_rsi_fx1h_v2</code></td>
+<td><strong>KAMA+RSI FX 1h, RSI loose</strong> (issue #482). v1 RSI 35/65 → 45/55. FX 1h validation: trades 215+ (~35× of v1) but MDD 93-99% (over-relaxed)</td>
+</tr>
+<tr>
+<td><code>kama_rsi_fx1h_v3</code></td>
+<td><strong>KAMA+RSI FX 1h, fast KAMA</strong> (issue #482). length 48/slow 120 → 24/60. FX 1h validation: trades 2-9 / MDD 8-36% / CAGR negative</td>
+</tr>
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>

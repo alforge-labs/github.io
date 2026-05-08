@@ -3299,6 +3299,14 @@
 <td><code>tsi_reversion_fx1h_v1</code></td>
 <td><strong>TSI Reversion FX 1h バリアント</strong>（issue #480）。fast/slow/signal を 13/25/13 → 48/120/48 に再スケール。FX 1h 検証: trades 0-4（過剰絞り込み）</td>
 </tr>
+<tr>
+<td><code>kama_rsi_fx1h_v2</code></td>
+<td><strong>KAMA+RSI FX 1h・RSI 緩和版</strong>（issue #482）。v1 の RSI 35/65 → 45/55 に。FX 1h 検証: trades 215+（v1 の 35 倍）も MDD 93-99% で破綻</td>
+</tr>
+<tr>
+<td><code>kama_rsi_fx1h_v3</code></td>
+<td><strong>KAMA+RSI FX 1h・KAMA 短縮版</strong>（issue #482）。length 48/slow 120 → 24/60。FX 1h 検証: trades 2-9（v1 同等）/ MDD 8-36%・CAGR マイナス</td>
+</tr>
 </tbody>
 </table>
 <h3 id="_8">サンプル出力<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>

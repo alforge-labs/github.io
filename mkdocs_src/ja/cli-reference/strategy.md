@@ -95,6 +95,8 @@ forge strategy create --template <NAME> --out <FILE>
 | `donchian_turtle_fx1h_v1` | **Donchian Turtle FX 1h バリアント**（issue #480）。length 20/10 → 120/60 に再スケール。FX 1h 検証: 通貨により MDD 13-96% と分散大 |
 | `kama_rsi_fx1h_v1` | **KAMA + RSI FX 1h バリアント**（issue #480）。length 10/slow 30 → 48/120 に再スケール。🎯 **EURUSD で CAGR +0.54%・MDD 7.95% を達成**（4 通貨中唯一プラス転換）|
 | `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h バリアント**（issue #480）。fast/slow/signal を 13/25/13 → 48/120/48 に再スケール。FX 1h 検証: trades 0-4（過剰絞り込み）|
+| `kama_rsi_fx1h_v2` | **KAMA+RSI FX 1h・RSI 緩和版**（issue #482）。v1 の RSI 35/65 → 45/55 に。FX 1h 検証: trades 215+（v1 の 35 倍）も MDD 93-99% で破綻 |
+| `kama_rsi_fx1h_v3` | **KAMA+RSI FX 1h・KAMA 短縮版**（issue #482）。length 48/slow 120 → 24/60。FX 1h 検証: trades 2-9（v1 同等）/ MDD 8-36%・CAGR マイナス |
 
 ### サンプル出力
 

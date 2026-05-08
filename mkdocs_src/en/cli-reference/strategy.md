@@ -95,6 +95,8 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `donchian_turtle_fx1h_v1` | **Donchian Turtle FX 1h variant** (issue #480). length 20/10 re-scaled to 120/60. FX 1h validation: MDD 13-96% (large variance) |
 | `kama_rsi_fx1h_v1` | **KAMA + RSI FX 1h variant** (issue #480). length 10/slow 30 → 48/120 re-scaled. 🎯 **EURUSD reached CAGR +0.54% / MDD 7.95%** (only positive CAGR across 4 pairs) |
 | `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h variant** (issue #480). fast/slow/signal re-scaled from 13/25/13 to 48/120/48. FX 1h validation: trades 0-4 (over-filtered) |
+| `kama_rsi_fx1h_v2` | **KAMA+RSI FX 1h, RSI loose** (issue #482). v1 RSI 35/65 → 45/55. FX 1h validation: trades 215+ (~35× of v1) but MDD 93-99% (over-relaxed) |
+| `kama_rsi_fx1h_v3` | **KAMA+RSI FX 1h, fast KAMA** (issue #482). length 48/slow 120 → 24/60. FX 1h validation: trades 2-9 / MDD 8-36% / CAGR negative |
 
 ### Sample output
 
