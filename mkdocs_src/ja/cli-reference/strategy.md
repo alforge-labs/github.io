@@ -88,6 +88,7 @@ forge strategy create --template <NAME> --out <FILE>
 | `macd_reversal_v1` | MACD ベースの転換点リバーサル |
 | `grid_bot_template` | グリッドボット用テンプレート |
 | `connors_rsi2_v1` | **Connors RSI-2 平均回帰戦略**（issue #475 / Phase 2）。Larry Connors の "Short-Term Trading Strategies That Work" から移植、SMA(200) 上で RSI(2) < 10 ロング・SMA(5) クロスで利確。SPY/QQQ で 70-85% 勝率実証だが**株式 1d 用のため FX 1h 適用には period 再スケール推奨** |
+| `donchian_turtle_v1` | **Donchian Channel Breakout（Turtle 系）**（issue #475 / Phase 2）。Richard Dennis "Turtle Trading Rules" から移植、20 期間高値ブレイクで long・10 期間安値クロスで exit、ATR 併記。先物・株式 1d で勝率 45% 実証だが**長期足用のため FX 1h 適用には length 再スケール推奨** |
 
 ### サンプル出力
 
