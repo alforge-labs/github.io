@@ -100,6 +100,7 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `kama_rsi_mtf_v1` | **KAMA+RSI + 4h trend filter MTF variant** (issue #484). Adds a 4h EMA(50) AND filter to `kama_rsi_fx1h_v1`, allowing 1h entries only when the higher timeframe trend agrees. The engine resamples 4h series from 1h data automatically — no extra fetch required |
 | `donchian_turtle_mtf_v1` | **Donchian Turtle + 4h trend filter MTF variant** (issue #484). Adds a 4h EMA(50) AND filter to `donchian_turtle_fx1h_v1`. Long-only in uptrends and short-only in downtrends to suppress trend-following drawdowns |
 | `kama_rsi_mtf_atr_v1` | **KAMA + RSI + 4h trend + ATR SL MTF variant** (issue #486). Adds an ATR(14) × 2 entry-locked stop loss (`lock_on_entry=true`) to `kama_rsi_mtf_v1`. Aims to improve win rate and CAGR while keeping low trade count |
+| `kama_rsi_mtf_atr_v2` | **KAMA-exit-removed variant** (issue #489). Fixes v1's dead ATR SL by removing `close < kama` from exits, simplifying to RSI (take profit) + ATR SL (hard stop). KAMA is used purely as an entry trend filter |
 
 ### Sample output
 

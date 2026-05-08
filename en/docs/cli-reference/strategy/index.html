@@ -3319,6 +3319,10 @@
 <td><code>kama_rsi_mtf_atr_v1</code></td>
 <td><strong>KAMA + RSI + 4h trend + ATR SL MTF variant</strong> (issue #486). Adds an ATR(14) × 2 entry-locked stop loss (<code>lock_on_entry=true</code>) to <code>kama_rsi_mtf_v1</code>. Aims to improve win rate and CAGR while keeping low trade count</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_atr_v2</code></td>
+<td><strong>KAMA-exit-removed variant</strong> (issue #489). Fixes v1's dead ATR SL by removing <code>close &lt; kama</code> from exits, simplifying to RSI (take profit) + ATR SL (hard stop). KAMA is used purely as an entry trend filter</td>
+</tr>
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>
