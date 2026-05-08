@@ -99,6 +99,7 @@ forge strategy create --template <NAME> --out <FILE>
 | `kama_rsi_fx1h_v3` | **KAMA+RSI FX 1h・KAMA 短縮版**（issue #482）。length 48/slow 120 → 24/60。FX 1h 検証: trades 2-9（v1 同等）/ MDD 8-36%・CAGR マイナス |
 | `kama_rsi_mtf_v1` | **KAMA+RSI+4h トレンドフィルタ MTF 版**（issue #484）。`kama_rsi_fx1h_v1` に 4h EMA(50) を AND で追加し、上位タイムフレームのトレンドと一致する 1h エントリーのみ許可。4h 系列はエンジンが 1h データから自動 resample するため追加データ取得は不要 |
 | `donchian_turtle_mtf_v1` | **Donchian Turtle+4h トレンドフィルタ MTF 版**（issue #484）。`donchian_turtle_fx1h_v1` に 4h EMA(50) を AND で追加。上昇トレンド中は long のみ・下降中は short のみ許可で trend-following のドローダウン抑制を狙う |
+| `kama_rsi_mtf_atr_v1` | **KAMA+RSI+4h トレンド+ATR SL MTF 版**（issue #486）。`kama_rsi_mtf_v1` に ATR(14) × 2 倍のエントリー時固定 SL（`lock_on_entry=true`）を追加。少 trades のまま勝率改善と CAGR + を狙う |
 
 ### サンプル出力
 
