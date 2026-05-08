@@ -16,6 +16,7 @@ Utility and management commands not covered by the [core groups](index.md), bund
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
 | [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
 | [pairs](#pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
+| [ml](#ml) | `dataset build` `dataset feature-sets` | ML dataset builder (issue #512 Phase 1) |
 
 | [docs](#docs) | `list` `show` | Browse bundled documentation |
 
@@ -710,6 +711,50 @@ Estimating hedge ratio... (SPY / QQQ)
 ```
 
 When there is no mean reversion, the half-life is shown as `N/A (no mean reversion)`.
+
+---
+
+## ml
+
+Machine-learning dataset and model commands (issue #512 Phase 1). Phase 2+ will add `forge ml train` and related training/evaluation commands.
+
+### forge ml dataset build
+
+Build a feature+forward-return-label parquet dataset from stored OHLCV.
+
+```bash
+forge ml dataset build EURUSD=X --feature-set default_v1 --label binary:24:0.005 --interval 1h
+forge ml dataset build EURUSD=X --label ternary:24:0.005
+forge ml dataset build EURUSD=X --label regression:5
+forge ml dataset build EURUSD=X --label binary:24:0.005 --json
+```
+
+**Key options**
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--feature-set` | Built-in feature set name (see `forge ml dataset feature-sets`) | `default_v1` |
+| `--label` | Label spec string (required) | — |
+| `--interval` | Bar interval used to load OHLCV | `1d` |
+| `--out` | Output parquet path | `<storage_path>/../ml_datasets/<symbol>_<feature_set>_<label_type>_<interval>.parquet` |
+| `--keep-nan` | Keep rows containing NaN | False (drops them) |
+| `--json` | Print summary as JSON | False |
+
+**Label spec strings**
+
+- `binary:<forward_n>:<threshold_pct>` — 1 if forward_return > threshold, else 0
+- `ternary:<forward_n>:<threshold_pct>` — +1 above threshold, −1 below −threshold, 0 in between
+- `regression:<forward_n>` — raw forward return as the label
+
+The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.
+
+### forge ml dataset feature-sets
+
+List available built-in feature sets.
+
+```bash
+forge ml dataset feature-sets
+```
 
 ---
 
