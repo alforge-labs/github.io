@@ -104,6 +104,7 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `kama_rsi_mtf_trail_v1` | **True trailing-SL variant** (issue #488). Replaces v2's fixed ATR SL with `risk_management.trailing_stop_pct=1.0`, enabling vectorbt's `sl_trail=True` for a true "ratchet up only" trailing stop |
 | `kama_rsi_mtf_trail_v2` | **Tight trailing-SL variant** (issue #492). Tightens trail_v1's `trailing_stop_pct` from 1.0 to 0.5 (FX 1h ATR ≈ 0.3-0.5%) to suppress MDD |
 | `kama_rsi_mtf_trail_loose_v1` | **High-frequency variant** (issue #495). Loosens trail_v1's RSI thresholds from 35/65 to 40/60 to lift trades from 4-7 to 8-12, targeting `min_trades` and vol filter pass at the cost of 1-3pt MDD |
+| `kama_rsi_mtf_trail_loose_v2` | **High-frequency + tight 0.5% trailing** (issue #497). Combines trail_loose_v1 (RSI 40/60) with trail_v2 (trailing 0.5%) to preserve trades / vol gains while reducing MDD back into the 30-40% range |
 
 ### Sample output
 
