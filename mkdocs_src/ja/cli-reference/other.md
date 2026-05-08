@@ -16,7 +16,7 @@
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | 投資アイデアの記録・追跡 |
 | [altdata](#altdata) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
 | [pairs](#pairs) | `scan` `scan-all` `build` | ペアトレード（コインテグレーション） |
-| [ml](#ml) | `dataset build` `dataset feature-sets` | ML データセットビルダー（issue #512 Phase 1） |
+| [ml](#ml) | `dataset build` `dataset feature-sets` `train` `models` | ML データセット・モデル学習（issue #512 Phase 1-2） |
 
 | [docs](#docs) | `list` `show` | 同梱ドキュメント参照 |
 
@@ -719,7 +719,7 @@ forge pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 
 ## ml
 
-機械学習モデル用のデータセット作成・管理コマンド群です（issue #512 Phase 1）。Phase 2 以降で `forge ml train` などの学習・評価コマンドが追加される予定です。
+機械学習モデル用のデータセット作成・モデル学習コマンド群です（issue #512 Phase 1-2）。学習済み joblib モデルは既存の `ML_SIGNAL` 指標から `model_path` 指定で推論に利用できます。
 
 ### forge ml dataset build
 
@@ -757,6 +757,56 @@ parquet ファイルにはシンボル・タイムフレーム・特徴量列名
 
 ```bash
 forge ml dataset feature-sets
+```
+
+### forge ml train
+
+Phase 1 で生成したデータセット parquet からモデルを学習し、joblib + metrics.json を保存します（issue #512 Phase 2）。
+
+```bash
+forge ml train <DATASET.parquet> [OPTIONS]
+```
+
+**主なオプション**
+
+| オプション | 説明 | 既定値 |
+|-----------|------|-------|
+| `--model` | モデル種別（`forge ml models` で一覧） | `logistic_regression` |
+| `--test-ratio` | 末尾から test に回す比率（時系列順保持） | `0.2` |
+| `--random-state` | 乱数シード | `42` |
+| `--params` | モデル追加パラメータの JSON 文字列 | — |
+| `--out` | 出力 joblib パス | `<storage_path>/../ml_models/<dataset_stem>_<model>.joblib` |
+| `--json` | サマリを JSON 出力 | False |
+
+**サポートモデル**
+
+| モデル名 | タスク | 備考 |
+|----------|-------|------|
+| `logistic_regression` | 分類 | StandardScaler + LogisticRegression パイプライン |
+| `random_forest_classifier` | 分類 | sklearn |
+| `gradient_boosting_classifier` | 分類 | sklearn |
+| `xgboost_classifier` | 分類 | optional（`uv add xgboost` が必要） |
+| `linear_regression` | 回帰 | StandardScaler + LinearRegression |
+| `random_forest_regressor` | 回帰 | sklearn |
+| `gradient_boosting_regressor` | 回帰 | sklearn |
+| `xgboost_regressor` | 回帰 | optional（`uv add xgboost` が必要） |
+
+**評価メトリクス**
+
+- 分類: accuracy / precision / recall / f1 / auc（二値分類時のみ）。weighted 平均を採用。
+- 回帰: mse / mae / rmse / r2
+
+**保存形式**
+
+- モデル本体: joblib（scikit-learn 互換 API。`predict` / `predict_proba` をそのまま `ML_SIGNAL` 指標から呼べる）
+- メトリクス: `<model>.joblib.metrics.json`（`model_type` / `task` / `feature_columns` / `n_train` / `n_test` / `train_metrics` / `test_metrics` / `config` / `trained_at` を格納）
+
+### forge ml models
+
+利用可能なモデル種別（分類 + 回帰）を一覧表示します。
+
+```bash
+forge ml models
 ```
 
 ---
