@@ -101,6 +101,7 @@ forge strategy create --template <NAME> --out <FILE>
 | `donchian_turtle_mtf_v1` | **Donchian Turtle+4h トレンドフィルタ MTF 版**（issue #484）。`donchian_turtle_fx1h_v1` に 4h EMA(50) を AND で追加。上昇トレンド中は long のみ・下降中は short のみ許可で trend-following のドローダウン抑制を狙う |
 | `kama_rsi_mtf_atr_v1` | **KAMA+RSI+4h トレンド+ATR SL MTF 版**（issue #486）。`kama_rsi_mtf_v1` に ATR(14) × 2 倍のエントリー時固定 SL（`lock_on_entry=true`）を追加。少 trades のまま勝率改善と CAGR + を狙う |
 | `kama_rsi_mtf_atr_v2` | **KAMA exit 除外版**（issue #489）。v1 の `close < kama` exit が ATR SL より先に発動して死活していた問題を修正し、exit を RSI（利確）+ ATR SL（ハードストップ）の 2 軸へ単純化。KAMA は entry トレンドフィルタ専念 |
+| `kama_rsi_mtf_trail_v1` | **真のトレーリング SL 版**（issue #488）。v2 の固定 ATR SL を `risk_management.trailing_stop_pct=1.0` で置換し、vectorbt の `sl_trail=True` 経由で「一度上げたら下げない」動的トレーリングを実現 |
 
 ### サンプル出力
 

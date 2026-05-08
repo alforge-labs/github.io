@@ -3323,6 +3323,10 @@
 <td><code>kama_rsi_mtf_atr_v2</code></td>
 <td><strong>KAMA exit 除外版</strong>（issue #489）。v1 の <code>close &lt; kama</code> exit が ATR SL より先に発動して死活していた問題を修正し、exit を RSI（利確）+ ATR SL（ハードストップ）の 2 軸へ単純化。KAMA は entry トレンドフィルタ専念</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_trail_v1</code></td>
+<td><strong>真のトレーリング SL 版</strong>（issue #488）。v2 の固定 ATR SL を <code>risk_management.trailing_stop_pct=1.0</code> で置換し、vectorbt の <code>sl_trail=True</code> 経由で「一度上げたら下げない」動的トレーリングを実現</td>
+</tr>
 </tbody>
 </table>
 <h3 id="_8">サンプル出力<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
