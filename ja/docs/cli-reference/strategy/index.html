@@ -3319,6 +3319,10 @@
 <td><code>kama_rsi_mtf_atr_v1</code></td>
 <td><strong>KAMA+RSI+4h トレンド+ATR SL MTF 版</strong>（issue #486）。<code>kama_rsi_mtf_v1</code> に ATR(14) × 2 倍のエントリー時固定 SL（<code>lock_on_entry=true</code>）を追加。少 trades のまま勝率改善と CAGR + を狙う</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_atr_v2</code></td>
+<td><strong>KAMA exit 除外版</strong>（issue #489）。v1 の <code>close &lt; kama</code> exit が ATR SL より先に発動して死活していた問題を修正し、exit を RSI（利確）+ ATR SL（ハードストップ）の 2 軸へ単純化。KAMA は entry トレンドフィルタ専念</td>
+</tr>
 </tbody>
 </table>
 <h3 id="_8">サンプル出力<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
