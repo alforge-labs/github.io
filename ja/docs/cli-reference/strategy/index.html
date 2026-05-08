@@ -3335,6 +3335,10 @@
 <td><code>kama_rsi_mtf_trail_loose_v1</code></td>
 <td><strong>RSI 緩和高頻度版</strong>（issue #495）。trail_v1 の RSI 閾値を 35/65 → 40/60 に緩め trades を 4-7 → 8-12 に底上げ。<code>min_trades</code> / vol 軸 pass + MDD 1-3pt 悪化トレードオフ</td>
 </tr>
+<tr>
+<td><code>kama_rsi_mtf_trail_loose_v2</code></td>
+<td><strong>RSI 緩和 + tight 0.5% トレーリング</strong>（issue #497）。trail_loose_v1 (RSI 40/60) と trail_v2 (trailing 0.5%) の組み合わせ。trades / vol を維持しつつ MDD 30-40% 域へ戻す trade-off 解消版</td>
+</tr>
 </tbody>
 </table>
 <h3 id="_8">サンプル出力<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
