@@ -89,6 +89,7 @@ Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_T
 | `grid_bot_template` | Grid bot template |
 | `connors_rsi2_v1` | **Connors RSI-2 mean reversion** (issue #475 Phase 2). Ported from Larry Connors "Short-Term Trading Strategies That Work". Long when SMA(200) up + RSI(2) < 10, exit on SMA(5) cross-up. 70-85% win rate verified on SPY/QQQ (**Note: designed for daily equities; FX 1h adoption requires SMA period re-scaling**) |
 | `donchian_turtle_v1` | **Donchian Channel Breakout (Turtle)** (issue #475 Phase 2). Ported from Richard Dennis "Turtle Trading Rules". Long on 20-period high break, exit on 10-period low cross-down. 45% win rate verified on daily futures/equities (**Note: designed for daily timeframes; FX 1h adoption requires length re-scaling**) |
+| `kama_rsi_v1` | **KAMA + RSI regime-adaptive** (issue #475 Phase 2). Ported from Perry Kaufman "New Trading Systems and Methods" (2013). KAMA auto-detects trend/range; RSI captures overbought/oversold. **FX 1h validation: MDD 46-76% (better than prior two) but CAGR still negative** |
 
 ### Sample output
 
