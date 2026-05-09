@@ -24,4 +24,5 @@ This documentation walks through installation, strategy development, and integra
 
 - [Alforge Labs official site](https://alforgelabs.com/en/index.html) — Product overview and install guide
 - [Tutorial](https://alforgelabs.com/en/tutorial-strategy.html) — Build and run a strategy JSON
+- [GitHub Discussions](https://github.com/alforge-labs/alforge-labs.github.io/discussions) — Community for questions, ideas, and strategy showcases
 - [Support](mailto:support@alforgelabs.com) — Technical inquiries

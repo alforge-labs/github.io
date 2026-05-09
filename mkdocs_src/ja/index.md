@@ -24,4 +24,5 @@ AlphaForge は、時系列バックテスト・ベイズ最適化・ウォーク
 
 - [Alforge Labs 公式サイト](https://alforgelabs.com/ja/index.html) — 製品紹介とインストールガイド
 - [チュートリアル](https://alforgelabs.com/ja/tutorial-strategy.html) — 戦略 JSON を作って動かす入門
+- [GitHub Discussions](https://github.com/alforge-labs/alforge-labs.github.io/discussions) — 質問・アイデア・戦略共有のコミュニティ
 - [サポート](mailto:support@alforgelabs.com) — 技術的なお問い合わせ

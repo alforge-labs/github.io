@@ -317,7 +317,10 @@ forge backtest --help
 | 認証エラー | ネットワーク接続を確認のうえ `forge auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
 | macOS セキュリティ警告 | システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。 |
 
-その他のトラブルや詳細な FAQ は [`/ja/install.html`](https://alforgelabs.com/ja/install.html) も参照してください。問題が解決しない場合は [support@alforgelabs.com](mailto:support@alforgelabs.com) までお問い合わせください。
+その他のトラブルや詳細な FAQ は [`/ja/install.html`](https://alforgelabs.com/ja/install.html) も参照してください。
+
+- 使い方の質問や他のユーザーとの情報交換は [GitHub Discussions](https://github.com/alforge-labs/alforge-labs.github.io/discussions) をご活用ください。
+- 個別のサポートが必要な場合は [support@alforgelabs.com](mailto:support@alforgelabs.com) までお問い合わせください。
 
 ---
 

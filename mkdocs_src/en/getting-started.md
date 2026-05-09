@@ -317,7 +317,10 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 | Authentication error | Verify your network connection and rerun `forge auth login`. Confirm your Whop membership is active. |
 | macOS security warning | System Settings → Privacy & Security → click "Open forge". |
 
-For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.com/en/install.html). If the problem persists, contact [support@alforgelabs.com](mailto:support@alforgelabs.com).
+For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.com/en/install.html).
+
+- For usage questions and conversations with other users, head to [GitHub Discussions](https://github.com/alforge-labs/alforge-labs.github.io/discussions).
+- For individual support, contact [support@alforgelabs.com](mailto:support@alforgelabs.com).
 
 ---
 
