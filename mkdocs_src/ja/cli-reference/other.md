@@ -842,6 +842,66 @@ forge ml walk-forward <DATASET.parquet> [OPTIONS]
 - `forge optimize walk-forward`: **戦略 JSON 全体**（ML_SIGNAL 指標を含む場合もあり）の WFT
 - ML 補強戦略の真価は最終的に `forge optimize walk-forward` で計測。本コマンドはその前段で「学習可能なシグナルか」を選別するために使用する。
 
+### `ML_SIGNAL_WFT` 指標 — leak 安全な ML 補強（issue #517）
+
+`forge ml train` で保存した joblib モデルを `ML_SIGNAL` 指標から参照すると、`forge optimize walk-forward` の OOS が学習期間と重複した場合に **look-ahead leak** が発生します（issue #512 Phase 4 検証で確認済み）。これを構造的に解消する新指標が `ML_SIGNAL_WFT` です。
+
+`ML_SIGNAL_WFT` は **指標計算関数自体が「渡された df の先頭 train_ratio で自己学習 → 全体に対して predict」** を行う自己完結型の指標で、WFT エンジン側の変更は不要です。学習区間の予測値は NaN にされ、取引判断には test 区間の予測値のみが使われます。
+
+**戦略 JSON の例**
+
+```json
+{
+  "id": "ml_long_prob",
+  "type": "ML_SIGNAL_WFT",
+  "params": {
+    "model_type": "gradient_boosting_classifier",
+    "model_params": {"n_estimators": 200, "max_depth": 5},
+    "features": [
+      {"type": "LAG", "source": "close", "periods": [1, 2, 5, 10]},
+      {"type": "PCT_CHANGE", "source": "close", "periods": 1},
+      {"type": "ROLLING_MEAN", "source": "close", "window": 20}
+    ],
+    "label": "binary:24:0.005",
+    "train_ratio": 0.7,
+    "min_train_rows": 500,
+    "random_state": 42,
+    "output": "proba",
+    "proba_class": 1,
+    "threshold": null
+  }
+}
+```
+
+**主要パラメータ**
+
+| パラメータ | 型 | 既定 | 説明 |
+|---|---|---|---|
+| `model_type` | str | — | `forge ml models` で表示されるモデル種別 |
+| `model_params` | dict | `{}` | モデル追加パラメータ |
+| `features` | list | — | `build_feature_matrix` 互換のスペック |
+| `label` | str | — | `binary:N:thr` / `ternary:N:thr` / `regression:N` |
+| `train_ratio` | float | 0.7 | 先頭の何割を学習に使うか |
+| `min_train_rows` | int | 100 | 学習行数がこれ未満なら全 NaN（leak 防止優先） |
+| `output` | str | "proba" | "proba"（確率）または "predict"（クラス） |
+| `proba_class` | int | 1 | predict_proba のクラスインデックス |
+| `threshold` | float \| null | null | 指定があれば proba >= threshold を 1 化 |
+
+**`ML_SIGNAL` との使い分け**
+
+| 指標 | 用途 | leak 耐性 |
+|---|---|---|
+| `ML_SIGNAL` | 事前学習済みの joblib モデルを参照 | OOS が学習期間外なら安全、重複あれば leak |
+| `ML_SIGNAL_WFT` | **WFT 整合の本番運用** — 評価コンテキスト内で自己学習 | **構造的に leak 不可能** |
+
+**学習結果のキャッシュ**
+
+WFT は各ウィンドウで Optuna を N 回試行するため、同じ IS データに対して `_calc_ml_signal_wft` が N 回呼ばれます。再学習を避けるため本指標は **コンテンツアドレス指定型のディスクキャッシュ**（既定: `<storage_path>/../ml_models/wft_cache/`）を持ち、SHA-256 で `(feature_columns, label values, model_type, model_params, random_state)` をキー化して joblib を再利用します。同じ入力なら 2 回目以降はキャッシュヒットで即座に推論可能です。
+
+**Pine Script との関係**
+
+`ML_SIGNAL` と同様、`ML_SIGNAL_WFT` も Pine Script には変換できません。`forge pine generate` 時には警告コメント付きで `<id> = true` として扱われます。
+
 ---
 
 ## docs
