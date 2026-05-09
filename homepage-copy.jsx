@@ -82,7 +82,7 @@ window.COPY = {
             'ウォークフォワード分析',
             'Pine Script v6 自動生成',
             'v1.x の全アップデート対象（v2 は50%アップグレード）',
-            '最大2台のマシンでアクティベート',
+            '個人利用の範囲で複数端末対応',
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
@@ -100,7 +100,7 @@ window.COPY = {
             'ウォークフォワード分析',
             'Pine Script v6 自動生成',
             '常に最新バージョン',
-            '最大2台のマシンでアクティベート',
+            '個人利用の範囲で複数端末対応',
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
@@ -118,7 +118,7 @@ window.COPY = {
             'ウォークフォワード分析',
             'Pine Script v6 自動生成',
             '常に最新バージョン',
-            '最大2台のマシンでアクティベート',
+            '個人利用の範囲で複数端末対応',
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
@@ -138,7 +138,7 @@ window.COPY = {
           { feature: '最新ヒストリカルデータ取得',        free: 'no',    paid: 'ok' },
           { feature: 'Pine Script v6 自動生成',          free: 'no',    paid: 'ok' },
           { feature: 'メジャーバージョンアップデート',    free: 'ok',    paid: 'limit', paidNote: 'v1.x 系のみ。v2 は50%アップグレード料金' },
-          { feature: 'マシンでアクティベート',            free: 'limit', freeNote: '1 台のみ', paid: 'ok', paidNote: '✓ 最大2台まで' },
+          { feature: '複数端末での利用',                  free: 'limit', freeNote: '1 端末のみ', paid: 'ok', paidNote: '✓ 個人利用の範囲で複数端末' },
         ],
       },
     },
@@ -499,7 +499,7 @@ window.COPY = {
             'Walk-forward analysis',
             'Pine Script v6 auto-generation',
             'All v1.x updates included (v2 = 50% upgrade fee)',
-            'Activate on up to 2 machines',
+            'Personal use across multiple devices',
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
@@ -517,7 +517,7 @@ window.COPY = {
             'Walk-forward analysis',
             'Pine Script v6 auto-generation',
             'Always on the latest version',
-            'Activate on up to 2 machines',
+            'Personal use across multiple devices',
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
@@ -535,7 +535,7 @@ window.COPY = {
             'Walk-forward analysis',
             'Pine Script v6 auto-generation',
             'Always on the latest version',
-            'Activate on up to 2 machines',
+            'Personal use across multiple devices',
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
@@ -555,7 +555,7 @@ window.COPY = {
           { feature: 'Latest historical data download',  free: 'no',    paid: 'ok' },
           { feature: 'Pine Script v6 auto-generation',   free: 'no',    paid: 'ok' },
           { feature: 'Major version updates',             free: 'ok',    paid: 'limit', paidNote: 'v1.x only. v2 = 50% upgrade fee' },
-          { feature: 'Machine activation',                free: 'limit', freeNote: '1 machine only', paid: 'ok', paidNote: '✓ Up to 2 machines' },
+          { feature: 'Multi-device use',                  free: 'limit', freeNote: '1 device only', paid: 'ok', paidNote: '✓ Personal use across devices' },
         ],
       },
     },

@@ -1,7 +1,7 @@
 # AlphaForge End-User License Agreement (EULA)
 
-**Effective Date:** 2026-04-29
-**Version:** 1.0
+**Effective Date:** 2026-05-10
+**Version:** 1.1
 
 !!! info "Source of Truth"
     This page is a direct copy of [`EULA.md`](https://github.com/alforge-labs/alforge-labs.github.io/blob/main/EULA.md) at the root of the repository. The repository copy is the source of truth — if there is any discrepancy, the repository version prevails.
@@ -26,7 +26,7 @@ BY INSTALLING, COPYING, ACCESSING, OR OTHERWISE USING THE SOFTWARE — OR BY SEL
 
 Subject to Your continuous compliance with this Agreement and payment of all applicable fees, Licensor grants You a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to install and use the Software in object-code form solely for Your own internal research, development, and personal trading workflows.
 
-This license is granted on a per-Authorized-User basis. No multi-user, service-bureau, hosted, or time-sharing use is permitted without a separate written agreement.
+This license is granted on a per-Authorized-User basis. The same Authorized User may install and use the Software on multiple personal devices that they personally own and operate (such as a desktop and a laptop), provided the use remains within the personal-use scope of that single individual. Sharing a single license across multiple individuals, multi-user use, service-bureau, hosted, or time-sharing use is not permitted without a separate written agreement. Licensor reserves the right to introduce technical activation limits (such as device-count enforcement) in future versions of the Software.
 
 ---
 
