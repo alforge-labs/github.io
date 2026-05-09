@@ -4516,18 +4516,45 @@ exploration agents can decide programmatically which criterion failed and by how
 <li>Classification: accuracy / precision / recall / f1 / auc (binary only). Weighted averages.</li>
 <li>Regression: mse / mae / rmse / r2</li>
 </ul>
+<p><strong>Probability calibration (<code>--calibration</code>, issue #519)</strong></p>
+<p>Raw probabilities from models like <code>gradient_boosting_classifier</code> can cluster in narrow ranges, causing thresholds like <code>ml_long_prob &gt;= 0.6</code> to become no-ops (confirmed in issue #512 verification). The <code>--calibration</code> option scales <code>predict_proba</code> output for classification models.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code> (default)</td>
+<td>No calibration</td>
+</tr>
+<tr>
+<td><code>sigmoid</code></td>
+<td>Platt scaling (suitable for small samples)</td>
+</tr>
+<tr>
+<td><code>isotonic</code></td>
+<td>Isotonic regression (more flexible, larger samples)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>train<span class="w"> </span>ds.parquet<span class="w"> </span>--model<span class="w"> </span>random_forest_classifier<span class="w"> </span>--calibration<span class="w"> </span>isotonic
+</code></pre></div>
+<p>Specifying <code>--calibration</code> on a regression model emits a warning and is ignored (base model is used). Calibrated joblib models work as is from the <code>ML_SIGNAL</code> / <code>ML_SIGNAL_WFT</code> indicators (sklearn-compatible API).</p>
 <p><strong>Storage format</strong></p>
 <ul>
 <li>Model: joblib (sklearn-compatible API; <code>predict</code> / <code>predict_proba</code> callable from <code>ML_SIGNAL</code> indicator as is)</li>
-<li>Metrics: <code>&lt;model&gt;.joblib.metrics.json</code> (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config / trained_at)</li>
+<li>Metrics: <code>&lt;model&gt;.joblib.metrics.json</code> (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config (including <code>calibration</code>) / trained_at)</li>
 </ul>
 <h3 id="forge-ml-models">forge ml models<a class="headerlink" href="#forge-ml-models" title="Permanent link">&para;</a></h3>
 <p>List available model types (classification + regression).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>models
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>models
 </code></pre></div>
 <h3 id="forge-ml-walk-forward">forge ml walk-forward<a class="headerlink" href="#forge-ml-walk-forward" title="Permanent link">&para;</a></h3>
 <p>Split a dataset into N windows and train + evaluate a fresh model in each window for time-series stability checks (issue #512 Phase 4). The model is <strong>not</strong> persisted — use <code>forge ml train</code> to produce the final model.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>walk-forward<span class="w"> </span>&lt;DATASET.parquet&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>walk-forward<span class="w"> </span>&lt;DATASET.parquet&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <p><strong>Key options</strong></p>
 <table>
@@ -4593,26 +4620,26 @@ exploration agents can decide programmatically which criterion failed and by how
 <p>Referencing a <code>forge ml train</code> joblib via the <code>ML_SIGNAL</code> indicator causes <strong>look-ahead leak</strong> in <code>forge optimize walk-forward</code> whenever the OOS overlaps the model's training period (confirmed in issue #512 Phase 4 verification). The new <code>ML_SIGNAL_WFT</code> indicator resolves this structurally.</p>
 <p><code>ML_SIGNAL_WFT</code> is <strong>a self-contained indicator that trains on the first <code>train_ratio</code> of the input df and predicts over the whole df</strong>. The WFT engine itself is unchanged. Predictions over the training segment are forced to NaN, so only the test segment ever drives trade decisions.</p>
 <p><strong>Strategy JSON example</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="p">{</span>
-<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml_long_prob&quot;</span><span class="p">,</span>
-<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ML_SIGNAL_WFT&quot;</span><span class="p">,</span>
-<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="w">    </span><span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gradient_boosting_classifier&quot;</span><span class="p">,</span>
-<a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a><span class="w">    </span><span class="nt">&quot;model_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n_estimators&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">},</span>
-<a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="w">    </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LAG&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">]},</span>
-<a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PCT_CHANGE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span>
-<a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ROLLING_MEAN&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;window&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">}</span>
-<a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a><span class="w">    </span><span class="p">],</span>
-<a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a><span class="w">    </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;binary:24:0.005&quot;</span><span class="p">,</span>
-<a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="w">    </span><span class="nt">&quot;train_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
-<a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a><span class="w">    </span><span class="nt">&quot;min_train_rows&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
-<a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a><span class="w">    </span><span class="nt">&quot;random_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
-<a id="__codelineno-50-16" name="__codelineno-50-16" href="#__codelineno-50-16"></a><span class="w">    </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proba&quot;</span><span class="p">,</span>
-<a id="__codelineno-50-17" name="__codelineno-50-17" href="#__codelineno-50-17"></a><span class="w">    </span><span class="nt">&quot;proba_class&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<a id="__codelineno-50-18" name="__codelineno-50-18" href="#__codelineno-50-18"></a><span class="w">    </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
-<a id="__codelineno-50-19" name="__codelineno-50-19" href="#__codelineno-50-19"></a><span class="w">  </span><span class="p">}</span>
-<a id="__codelineno-50-20" name="__codelineno-50-20" href="#__codelineno-50-20"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="p">{</span>
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml_long_prob&quot;</span><span class="p">,</span>
+<a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ML_SIGNAL_WFT&quot;</span><span class="p">,</span>
+<a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a><span class="w">    </span><span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gradient_boosting_classifier&quot;</span><span class="p">,</span>
+<a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a><span class="w">    </span><span class="nt">&quot;model_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n_estimators&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">},</span>
+<a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a><span class="w">    </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LAG&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">]},</span>
+<a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PCT_CHANGE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span>
+<a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ROLLING_MEAN&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;window&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">}</span>
+<a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a><span class="w">    </span><span class="p">],</span>
+<a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a><span class="w">    </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;binary:24:0.005&quot;</span><span class="p">,</span>
+<a id="__codelineno-51-13" name="__codelineno-51-13" href="#__codelineno-51-13"></a><span class="w">    </span><span class="nt">&quot;train_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
+<a id="__codelineno-51-14" name="__codelineno-51-14" href="#__codelineno-51-14"></a><span class="w">    </span><span class="nt">&quot;min_train_rows&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<a id="__codelineno-51-15" name="__codelineno-51-15" href="#__codelineno-51-15"></a><span class="w">    </span><span class="nt">&quot;random_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-51-16" name="__codelineno-51-16" href="#__codelineno-51-16"></a><span class="w">    </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proba&quot;</span><span class="p">,</span>
+<a id="__codelineno-51-17" name="__codelineno-51-17" href="#__codelineno-51-17"></a><span class="w">    </span><span class="nt">&quot;proba_class&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-51-18" name="__codelineno-51-18" href="#__codelineno-51-18"></a><span class="w">    </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<a id="__codelineno-51-19" name="__codelineno-51-19" href="#__codelineno-51-19"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-51-20" name="__codelineno-51-20" href="#__codelineno-51-20"></a><span class="p">}</span>
 </code></pre></div>
 <p><strong>Key parameters</strong></p>
 <table>
@@ -4679,6 +4706,12 @@ exploration agents can decide programmatically which criterion failed and by how
 <td>null</td>
 <td>Binarize proba &gt;= threshold to 1 if set</td>
 </tr>
+<tr>
+<td><code>calibration</code></td>
+<td>str</td>
+<td>"none"</td>
+<td>Probability calibration (issue #519). "none" / "sigmoid" / "isotonic"</td>
+</tr>
 </tbody>
 </table>
 <p><strong><code>ML_SIGNAL</code> vs <code>ML_SIGNAL_WFT</code></strong></p>
@@ -4711,11 +4744,11 @@ exploration agents can decide programmatically which criterion failed and by how
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p>Browse the documentation, skills, and command references bundled with <code>alpha-forge</code>.</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>List available bundled documents. <code>✓</code> / <code>✗</code> indicates whether each file exists.</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

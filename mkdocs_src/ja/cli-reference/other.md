@@ -803,10 +803,26 @@ forge ml train <DATASET.parquet> [OPTIONS]
 - 分類: accuracy / precision / recall / f1 / auc（二値分類時のみ）。weighted 平均を採用。
 - 回帰: mse / mae / rmse / r2
 
+**確率校正（`--calibration`、issue #519）**
+
+`gradient_boosting_classifier` 等の確率出力は素のままだと特定領域に偏ることがあり、`ml_long_prob >= 0.6` のような閾値が機能しなくなることがあります（issue #512 検証で確認）。`--calibration` オプションで分類モデルの `predict_proba` 出力を校正できます。
+
+| 値 | 説明 |
+|---|---|
+| `none`（既定） | 校正なし |
+| `sigmoid` | Platt scaling（少サンプル向け） |
+| `isotonic` | 等浸透回帰（多サンプル向け） |
+
+```bash
+forge ml train ds.parquet --model random_forest_classifier --calibration isotonic
+```
+
+回帰モデルに指定した場合は warning 出力 + 無視（base model のまま）。校正された joblib も `ML_SIGNAL` / `ML_SIGNAL_WFT` 指標からそのまま推論可能（scikit-learn 互換 API）。
+
 **保存形式**
 
 - モデル本体: joblib（scikit-learn 互換 API。`predict` / `predict_proba` をそのまま `ML_SIGNAL` 指標から呼べる）
-- メトリクス: `<model>.joblib.metrics.json`（`model_type` / `task` / `feature_columns` / `n_train` / `n_test` / `train_metrics` / `test_metrics` / `config` / `trained_at` を格納）
+- メトリクス: `<model>.joblib.metrics.json`（`model_type` / `task` / `feature_columns` / `n_train` / `n_test` / `train_metrics` / `test_metrics` / `config`（`calibration` 含む）/ `trained_at` を格納）
 
 ### forge ml models
 
@@ -893,6 +909,7 @@ forge ml walk-forward <DATASET.parquet> [OPTIONS]
 | `output` | str | "proba" | "proba"（確率）または "predict"（クラス） |
 | `proba_class` | int | 1 | predict_proba のクラスインデックス |
 | `threshold` | float \| null | null | 指定があれば proba >= threshold を 1 化 |
+| `calibration` | str | "none" | 確率校正（issue #519）。"none" / "sigmoid" / "isotonic" |
 
 **`ML_SIGNAL` との使い分け**
 
