@@ -759,6 +759,13 @@ parquet ファイルにはシンボル・タイムフレーム・特徴量列名
 forge ml dataset feature-sets
 ```
 
+**組み込み feature set**
+
+| 名前 | 用途 | 内容 |
+|---|---|---|
+| `default_v1` | 株式・先物等 Volume が有効な銘柄 | LAG(close 1/2/5/10) + PCT_CHANGE(close 1/5) + ROLLING_MEAN/STD/MIN/MAX(20) + PCT_CHANGE(volume 1) |
+| `default_v1_fx` | **FX 銘柄**（issue #518） | `default_v1` から `PCT_CHANGE(volume)` を除いたもの。yfinance 系 FX は Volume が常に 0 のため、`default_v1` を使うと `dropna` で全行が消えるバグを回避 |
+
 ### forge ml train
 
 Phase 1 で生成したデータセット parquet からモデルを学習し、joblib + metrics.json を保存します（issue #512 Phase 2）。

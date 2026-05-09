@@ -4394,6 +4394,28 @@
 <p>利用可能な組み込み feature set を一覧表示します。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>feature-sets
 </code></pre></div>
+<p><strong>組み込み feature set</strong></p>
+<table>
+<thead>
+<tr>
+<th>名前</th>
+<th>用途</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>default_v1</code></td>
+<td>株式・先物等 Volume が有効な銘柄</td>
+<td>LAG(close 1/2/5/10) + PCT_CHANGE(close 1/5) + ROLLING_MEAN/STD/MIN/MAX(20) + PCT_CHANGE(volume 1)</td>
+</tr>
+<tr>
+<td><code>default_v1_fx</code></td>
+<td><strong>FX 銘柄</strong>（issue #518）</td>
+<td><code>default_v1</code> から <code>PCT_CHANGE(volume)</code> を除いたもの。yfinance 系 FX は Volume が常に 0 のため、<code>default_v1</code> を使うと <code>dropna</code> で全行が消えるバグを回避</td>
+</tr>
+</tbody>
+</table>
 <h3 id="forge-ml-train">forge ml train<a class="headerlink" href="#forge-ml-train" title="Permanent link">&para;</a></h3>
 <p>Phase 1 で生成したデータセット parquet からモデルを学習し、joblib + metrics.json を保存します（issue #512 Phase 2）。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>train<span class="w"> </span>&lt;DATASET.parquet&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>

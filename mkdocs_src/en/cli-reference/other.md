@@ -756,6 +756,13 @@ List available built-in feature sets.
 forge ml dataset feature-sets
 ```
 
+**Built-in feature sets**
+
+| Name | Use case | Contents |
+|---|---|---|
+| `default_v1` | Equities, futures, etc. with non-zero Volume | LAG(close 1/2/5/10) + PCT_CHANGE(close 1/5) + ROLLING_MEAN/STD/MIN/MAX(20) + PCT_CHANGE(volume 1) |
+| `default_v1_fx` | **FX symbols** (issue #518) | `default_v1` minus `PCT_CHANGE(volume)`. yfinance FX has Volume always 0 — using `default_v1` would cause `dropna` to wipe out every row. |
+
 ### forge ml train
 
 Train a model from a Phase 1 dataset parquet and save joblib + metrics.json (issue #512 Phase 2).

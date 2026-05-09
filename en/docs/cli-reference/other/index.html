@@ -4391,6 +4391,28 @@ exploration agents can decide programmatically which criterion failed and by how
 <p>List available built-in feature sets.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>dataset<span class="w"> </span>feature-sets
 </code></pre></div>
+<p><strong>Built-in feature sets</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Use case</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>default_v1</code></td>
+<td>Equities, futures, etc. with non-zero Volume</td>
+<td>LAG(close 1/2/5/10) + PCT_CHANGE(close 1/5) + ROLLING_MEAN/STD/MIN/MAX(20) + PCT_CHANGE(volume 1)</td>
+</tr>
+<tr>
+<td><code>default_v1_fx</code></td>
+<td><strong>FX symbols</strong> (issue #518)</td>
+<td><code>default_v1</code> minus <code>PCT_CHANGE(volume)</code>. yfinance FX has Volume always 0 — using <code>default_v1</code> would cause <code>dropna</code> to wipe out every row.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="forge-ml-train">forge ml train<a class="headerlink" href="#forge-ml-train" title="Permanent link">&para;</a></h3>
 <p>Train a model from a Phase 1 dataset parquet and save joblib + metrics.json (issue #512 Phase 2).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>forge<span class="w"> </span>ml<span class="w"> </span>train<span class="w"> </span>&lt;DATASET.parquet&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
