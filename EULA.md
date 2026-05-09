@@ -1,7 +1,7 @@
 # AlphaForge End-User License Agreement (EULA)
 
-**Effective Date:** 2026-04-29
-**Version:** 1.0
+**Effective Date:** 2026-05-10
+**Version:** 1.1
 
 IMPORTANT — READ CAREFULLY: This End-User License Agreement ("Agreement")
 is a legal contract between you ("Licensee" or "You") and the AlphaForge
@@ -41,9 +41,15 @@ non-transferable, non-sublicensable, revocable license to install and
 use the Software in object-code form solely for Your own internal
 research, development, and personal trading workflows.
 
-This license is granted on a per-Authorized-User basis. No multi-user,
-service-bureau, hosted, or time-sharing use is permitted without a
-separate written agreement.
+This license is granted on a per-Authorized-User basis. The same
+Authorized User may install and use the Software on multiple personal
+devices that they personally own and operate (such as a desktop and a
+laptop), provided the use remains within the personal-use scope of that
+single individual. Sharing a single license across multiple individuals,
+multi-user use, service-bureau, hosted, or time-sharing use is not
+permitted without a separate written agreement. Licensor reserves the
+right to introduce technical activation limits (such as device-count
+enforcement) in future versions of the Software.
 
 ---
 
