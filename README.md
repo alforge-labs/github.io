@@ -41,3 +41,7 @@ GitHub Pages に自動デプロイされます（`alforge-labs/alforge-labs.gith
 - **Roadmap**: 2025 Q1 〜 2027 の開発マイルストーン
 - **FAQ**: よくある質問
 - **Follow CTA**: X（旧 Twitter）@alforge_bot へ誘導
+
+## コミュニティ
+
+- [GitHub Discussions](https://github.com/alforge-labs/alforge-labs.github.io/discussions) — 質問・アイデア・戦略共有のコミュニティ（日英両対応）
