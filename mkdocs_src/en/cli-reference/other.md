@@ -800,10 +800,26 @@ forge ml train <DATASET.parquet> [OPTIONS]
 - Classification: accuracy / precision / recall / f1 / auc (binary only). Weighted averages.
 - Regression: mse / mae / rmse / r2
 
+**Probability calibration (`--calibration`, issue #519)**
+
+Raw probabilities from models like `gradient_boosting_classifier` can cluster in narrow ranges, causing thresholds like `ml_long_prob >= 0.6` to become no-ops (confirmed in issue #512 verification). The `--calibration` option scales `predict_proba` output for classification models.
+
+| Value | Description |
+|---|---|
+| `none` (default) | No calibration |
+| `sigmoid` | Platt scaling (suitable for small samples) |
+| `isotonic` | Isotonic regression (more flexible, larger samples) |
+
+```bash
+forge ml train ds.parquet --model random_forest_classifier --calibration isotonic
+```
+
+Specifying `--calibration` on a regression model emits a warning and is ignored (base model is used). Calibrated joblib models work as is from the `ML_SIGNAL` / `ML_SIGNAL_WFT` indicators (sklearn-compatible API).
+
 **Storage format**
 
 - Model: joblib (sklearn-compatible API; `predict` / `predict_proba` callable from `ML_SIGNAL` indicator as is)
-- Metrics: `<model>.joblib.metrics.json` (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config / trained_at)
+- Metrics: `<model>.joblib.metrics.json` (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config (including `calibration`) / trained_at)
 
 ### forge ml models
 
@@ -890,6 +906,7 @@ Referencing a `forge ml train` joblib via the `ML_SIGNAL` indicator causes **loo
 | `output` | str | "proba" | "proba" (probability) or "predict" (class) |
 | `proba_class` | int | 1 | Class index for `predict_proba` |
 | `threshold` | float \| null | null | Binarize proba >= threshold to 1 if set |
+| `calibration` | str | "none" | Probability calibration (issue #519). "none" / "sigmoid" / "isotonic" |
 
 **`ML_SIGNAL` vs `ML_SIGNAL_WFT`**
 
