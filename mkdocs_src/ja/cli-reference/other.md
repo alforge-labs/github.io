@@ -748,6 +748,7 @@ forge ml dataset build EURUSD=X --label binary:24:0.005 --json
 - `binary:<forward_n>:<threshold_pct>` … forward_n バー後リターンが閾値を超えると 1
 - `ternary:<forward_n>:<threshold_pct>` … +閾値超 → 1、−閾値未満 → −1、それ以外 → 0
 - `regression:<forward_n>` … forward_n バー後の単純リターンをそのままラベル化
+- `triple_barrier:<max_holding>:<atr_mult_up>:<atr_mult_down>:<atr_window>` … López de Prado triple-barrier（issue #520、3 値）。各バーで ATR ベースの上下バリアを設置し、max_holding バーまでの間で先に当たったものでラベル付け（上 → 1、下 → −1、timeout → 0）。ボラティリティ適応的で固定閾値より regime ロバスト
 
 parquet ファイルにはシンボル・タイムフレーム・特徴量列名・ラベル設定がメタデータとして同梱されるため、Phase 2 の学習側はファイル単独で再現可能な学習が行えます。
 
@@ -765,6 +766,7 @@ forge ml dataset feature-sets
 |---|---|---|
 | `default_v1` | 株式・先物等 Volume が有効な銘柄 | LAG(close 1/2/5/10) + PCT_CHANGE(close 1/5) + ROLLING_MEAN/STD/MIN/MAX(20) + PCT_CHANGE(volume 1) |
 | `default_v1_fx` | **FX 銘柄**（issue #518） | `default_v1` から `PCT_CHANGE(volume)` を除いたもの。yfinance 系 FX は Volume が常に 0 のため、`default_v1` を使うと `dropna` で全行が消えるバグを回避 |
+| `mtf_v1` | **複数タイムフレーム表現**（issue #520） | 短期 lag (1, 6, 24, 48, 120) + 複数 window の rolling 統計 (5, 20, 120, 480) + ボラレジーム + 高安レンジ。Volume を含まないので FX でも使える。`triple_barrier` ラベルとの組合せ推奨 |
 
 ### forge ml train
 

@@ -4388,6 +4388,7 @@
 <li><code>binary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> … forward_n バー後リターンが閾値を超えると 1</li>
 <li><code>ternary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> … +閾値超 → 1、−閾値未満 → −1、それ以外 → 0</li>
 <li><code>regression:&lt;forward_n&gt;</code> … forward_n バー後の単純リターンをそのままラベル化</li>
+<li><code>triple_barrier:&lt;max_holding&gt;:&lt;atr_mult_up&gt;:&lt;atr_mult_down&gt;:&lt;atr_window&gt;</code> … López de Prado triple-barrier（issue #520、3 値）。各バーで ATR ベースの上下バリアを設置し、max_holding バーまでの間で先に当たったものでラベル付け（上 → 1、下 → −1、timeout → 0）。ボラティリティ適応的で固定閾値より regime ロバスト</li>
 </ul>
 <p>parquet ファイルにはシンボル・タイムフレーム・特徴量列名・ラベル設定がメタデータとして同梱されるため、Phase 2 の学習側はファイル単独で再現可能な学習が行えます。</p>
 <h3 id="forge-ml-dataset-feature-sets">forge ml dataset feature-sets<a class="headerlink" href="#forge-ml-dataset-feature-sets" title="Permanent link">&para;</a></h3>
@@ -4413,6 +4414,11 @@
 <td><code>default_v1_fx</code></td>
 <td><strong>FX 銘柄</strong>（issue #518）</td>
 <td><code>default_v1</code> から <code>PCT_CHANGE(volume)</code> を除いたもの。yfinance 系 FX は Volume が常に 0 のため、<code>default_v1</code> を使うと <code>dropna</code> で全行が消えるバグを回避</td>
+</tr>
+<tr>
+<td><code>mtf_v1</code></td>
+<td><strong>複数タイムフレーム表現</strong>（issue #520）</td>
+<td>短期 lag (1, 6, 24, 48, 120) + 複数 window の rolling 統計 (5, 20, 120, 480) + ボラレジーム + 高安レンジ。Volume を含まないので FX でも使える。<code>triple_barrier</code> ラベルとの組合せ推奨</td>
 </tr>
 </tbody>
 </table>
