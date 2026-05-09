@@ -2279,6 +2279,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ml_signal_wft-indicator-leak-safe-ml-augmentation-issue-517" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ML_SIGNAL_WFT indicator — leak-safe ML augmentation (issue #517)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3191,6 +3202,17 @@
     <span class="md-ellipsis">
       
         forge ml walk-forward
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ml_signal_wft-indicator-leak-safe-ml-augmentation-issue-517" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ML_SIGNAL_WFT indicator — leak-safe ML augmentation (issue #517)
       
     </span>
   </a>
@@ -4545,15 +4567,133 @@ exploration agents can decide programmatically which criterion failed and by how
 <li><code>forge optimize walk-forward</code>: WFT of the <strong>whole strategy JSON</strong> (which may include <code>ML_SIGNAL</code>)</li>
 <li>The end-to-end measure of an ML-augmented strategy is <code>forge optimize walk-forward</code>. This command is a screening step: is the signal even learnable?</li>
 </ul>
+<h3 id="ml_signal_wft-indicator-leak-safe-ml-augmentation-issue-517"><code>ML_SIGNAL_WFT</code> indicator — leak-safe ML augmentation (issue #517)<a class="headerlink" href="#ml_signal_wft-indicator-leak-safe-ml-augmentation-issue-517" title="Permanent link">&para;</a></h3>
+<p>Referencing a <code>forge ml train</code> joblib via the <code>ML_SIGNAL</code> indicator causes <strong>look-ahead leak</strong> in <code>forge optimize walk-forward</code> whenever the OOS overlaps the model's training period (confirmed in issue #512 Phase 4 verification). The new <code>ML_SIGNAL_WFT</code> indicator resolves this structurally.</p>
+<p><code>ML_SIGNAL_WFT</code> is <strong>a self-contained indicator that trains on the first <code>train_ratio</code> of the input df and predicts over the whole df</strong>. The WFT engine itself is unchanged. Predictions over the training segment are forced to NaN, so only the test segment ever drives trade decisions.</p>
+<p><strong>Strategy JSON example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="p">{</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml_long_prob&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ML_SIGNAL_WFT&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="w">    </span><span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gradient_boosting_classifier&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a><span class="w">    </span><span class="nt">&quot;model_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n_estimators&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">},</span>
+<a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="w">    </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LAG&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">]},</span>
+<a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PCT_CHANGE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span>
+<a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ROLLING_MEAN&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;window&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">}</span>
+<a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a><span class="w">    </span><span class="p">],</span>
+<a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a><span class="w">    </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;binary:24:0.005&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="w">    </span><span class="nt">&quot;train_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
+<a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a><span class="w">    </span><span class="nt">&quot;min_train_rows&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a><span class="w">    </span><span class="nt">&quot;random_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-50-16" name="__codelineno-50-16" href="#__codelineno-50-16"></a><span class="w">    </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proba&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-17" name="__codelineno-50-17" href="#__codelineno-50-17"></a><span class="w">    </span><span class="nt">&quot;proba_class&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-50-18" name="__codelineno-50-18" href="#__codelineno-50-18"></a><span class="w">    </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<a id="__codelineno-50-19" name="__codelineno-50-19" href="#__codelineno-50-19"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-50-20" name="__codelineno-50-20" href="#__codelineno-50-20"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Key parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model_type</code></td>
+<td>str</td>
+<td>—</td>
+<td>Model type from <code>forge ml models</code></td>
+</tr>
+<tr>
+<td><code>model_params</code></td>
+<td>dict</td>
+<td><code>{}</code></td>
+<td>Extra model parameters</td>
+</tr>
+<tr>
+<td><code>features</code></td>
+<td>list</td>
+<td>—</td>
+<td><code>build_feature_matrix</code>-compatible spec</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>str</td>
+<td>—</td>
+<td><code>binary:N:thr</code> / <code>ternary:N:thr</code> / <code>regression:N</code></td>
+</tr>
+<tr>
+<td><code>train_ratio</code></td>
+<td>float</td>
+<td>0.7</td>
+<td>Head fraction used for training</td>
+</tr>
+<tr>
+<td><code>min_train_rows</code></td>
+<td>int</td>
+<td>100</td>
+<td>All-NaN if training rows fall below (leak-prevention priority)</td>
+</tr>
+<tr>
+<td><code>output</code></td>
+<td>str</td>
+<td>"proba"</td>
+<td>"proba" (probability) or "predict" (class)</td>
+</tr>
+<tr>
+<td><code>proba_class</code></td>
+<td>int</td>
+<td>1</td>
+<td>Class index for <code>predict_proba</code></td>
+</tr>
+<tr>
+<td><code>threshold</code></td>
+<td>float | null</td>
+<td>null</td>
+<td>Binarize proba &gt;= threshold to 1 if set</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>ML_SIGNAL</code> vs <code>ML_SIGNAL_WFT</code></strong></p>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Use case</th>
+<th>Leak resilience</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ML_SIGNAL</code></td>
+<td>Reference a pretrained joblib</td>
+<td>Safe only if OOS is outside the training period</td>
+</tr>
+<tr>
+<td><code>ML_SIGNAL_WFT</code></td>
+<td><strong>WFT-aligned production</strong> — self-trains within the evaluation context</td>
+<td><strong>Structurally leak-free</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cache for trained artifacts</strong></p>
+<p>WFT runs Optuna N trials per window, calling <code>_calc_ml_signal_wft</code> N times on identical IS data. To avoid redundant retraining, this indicator uses a <strong>content-addressed disk cache</strong> (default: <code>&lt;storage_path&gt;/../ml_models/wft_cache/</code>), keying joblib artifacts by SHA-256 over <code>(feature_columns, label values, model_type, model_params, random_state)</code>. Subsequent calls with the same input hit the cache instantly.</p>
+<p><strong>Pine Script integration</strong></p>
+<p>Like <code>ML_SIGNAL</code>, <code>ML_SIGNAL_WFT</code> is not Pine Script-translatable. <code>forge pine generate</code> emits a warning comment and treats the signal as <code>&lt;id&gt; = true</code>.</p>
 <hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p>Browse the documentation, skills, and command references bundled with <code>alpha-forge</code>.</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>List available bundled documents. <code>✓</code> / <code>✗</code> indicates whether each file exists.</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

@@ -2279,6 +2279,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ml_signal_wft-leak-ml-issue-517" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ML_SIGNAL_WFT 指標 — leak 安全な ML 補強（issue #517）
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3191,6 +3202,17 @@
     <span class="md-ellipsis">
       
         forge ml walk-forward
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ml_signal_wft-leak-ml-issue-517" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ML_SIGNAL_WFT 指標 — leak 安全な ML 補強（issue #517）
       
     </span>
   </a>
@@ -4548,15 +4570,133 @@
 <li><code>forge optimize walk-forward</code>: <strong>戦略 JSON 全体</strong>（ML_SIGNAL 指標を含む場合もあり）の WFT</li>
 <li>ML 補強戦略の真価は最終的に <code>forge optimize walk-forward</code> で計測。本コマンドはその前段で「学習可能なシグナルか」を選別するために使用する。</li>
 </ul>
+<h3 id="ml_signal_wft-leak-ml-issue-517"><code>ML_SIGNAL_WFT</code> 指標 — leak 安全な ML 補強（issue #517）<a class="headerlink" href="#ml_signal_wft-leak-ml-issue-517" title="Permanent link">&para;</a></h3>
+<p><code>forge ml train</code> で保存した joblib モデルを <code>ML_SIGNAL</code> 指標から参照すると、<code>forge optimize walk-forward</code> の OOS が学習期間と重複した場合に <strong>look-ahead leak</strong> が発生します（issue #512 Phase 4 検証で確認済み）。これを構造的に解消する新指標が <code>ML_SIGNAL_WFT</code> です。</p>
+<p><code>ML_SIGNAL_WFT</code> は <strong>指標計算関数自体が「渡された df の先頭 train_ratio で自己学習 → 全体に対して predict」</strong> を行う自己完結型の指標で、WFT エンジン側の変更は不要です。学習区間の予測値は NaN にされ、取引判断には test 区間の予測値のみが使われます。</p>
+<p><strong>戦略 JSON の例</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="p">{</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml_long_prob&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ML_SIGNAL_WFT&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="w">    </span><span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gradient_boosting_classifier&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a><span class="w">    </span><span class="nt">&quot;model_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n_estimators&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">},</span>
+<a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="w">    </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LAG&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">]},</span>
+<a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PCT_CHANGE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span>
+<a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="w">      </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ROLLING_MEAN&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;close&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;window&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">}</span>
+<a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a><span class="w">    </span><span class="p">],</span>
+<a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a><span class="w">    </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;binary:24:0.005&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="w">    </span><span class="nt">&quot;train_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
+<a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a><span class="w">    </span><span class="nt">&quot;min_train_rows&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a><span class="w">    </span><span class="nt">&quot;random_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-50-16" name="__codelineno-50-16" href="#__codelineno-50-16"></a><span class="w">    </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proba&quot;</span><span class="p">,</span>
+<a id="__codelineno-50-17" name="__codelineno-50-17" href="#__codelineno-50-17"></a><span class="w">    </span><span class="nt">&quot;proba_class&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-50-18" name="__codelineno-50-18" href="#__codelineno-50-18"></a><span class="w">    </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<a id="__codelineno-50-19" name="__codelineno-50-19" href="#__codelineno-50-19"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-50-20" name="__codelineno-50-20" href="#__codelineno-50-20"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>主要パラメータ</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>型</th>
+<th>既定</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model_type</code></td>
+<td>str</td>
+<td>—</td>
+<td><code>forge ml models</code> で表示されるモデル種別</td>
+</tr>
+<tr>
+<td><code>model_params</code></td>
+<td>dict</td>
+<td><code>{}</code></td>
+<td>モデル追加パラメータ</td>
+</tr>
+<tr>
+<td><code>features</code></td>
+<td>list</td>
+<td>—</td>
+<td><code>build_feature_matrix</code> 互換のスペック</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>str</td>
+<td>—</td>
+<td><code>binary:N:thr</code> / <code>ternary:N:thr</code> / <code>regression:N</code></td>
+</tr>
+<tr>
+<td><code>train_ratio</code></td>
+<td>float</td>
+<td>0.7</td>
+<td>先頭の何割を学習に使うか</td>
+</tr>
+<tr>
+<td><code>min_train_rows</code></td>
+<td>int</td>
+<td>100</td>
+<td>学習行数がこれ未満なら全 NaN（leak 防止優先）</td>
+</tr>
+<tr>
+<td><code>output</code></td>
+<td>str</td>
+<td>"proba"</td>
+<td>"proba"（確率）または "predict"（クラス）</td>
+</tr>
+<tr>
+<td><code>proba_class</code></td>
+<td>int</td>
+<td>1</td>
+<td>predict_proba のクラスインデックス</td>
+</tr>
+<tr>
+<td><code>threshold</code></td>
+<td>float | null</td>
+<td>null</td>
+<td>指定があれば proba &gt;= threshold を 1 化</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>ML_SIGNAL</code> との使い分け</strong></p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>用途</th>
+<th>leak 耐性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ML_SIGNAL</code></td>
+<td>事前学習済みの joblib モデルを参照</td>
+<td>OOS が学習期間外なら安全、重複あれば leak</td>
+</tr>
+<tr>
+<td><code>ML_SIGNAL_WFT</code></td>
+<td><strong>WFT 整合の本番運用</strong> — 評価コンテキスト内で自己学習</td>
+<td><strong>構造的に leak 不可能</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>学習結果のキャッシュ</strong></p>
+<p>WFT は各ウィンドウで Optuna を N 回試行するため、同じ IS データに対して <code>_calc_ml_signal_wft</code> が N 回呼ばれます。再学習を避けるため本指標は <strong>コンテンツアドレス指定型のディスクキャッシュ</strong>（既定: <code>&lt;storage_path&gt;/../ml_models/wft_cache/</code>）を持ち、SHA-256 で <code>(feature_columns, label values, model_type, model_params, random_state)</code> をキー化して joblib を再利用します。同じ入力なら 2 回目以降はキャッシュヒットで即座に推論可能です。</p>
+<p><strong>Pine Script との関係</strong></p>
+<p><code>ML_SIGNAL</code> と同様、<code>ML_SIGNAL_WFT</code> も Pine Script には変換できません。<code>forge pine generate</code> 時には警告コメント付きで <code>&lt;id&gt; = true</code> として扱われます。</p>
 <hr />
 <h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
 <p><code>alpha-forge</code> に同梱されているドキュメント・スキル・コマンド参考資料を参照します。</p>
 <h3 id="forge-docs-list">forge docs list<a class="headerlink" href="#forge-docs-list" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>list
 </code></pre></div>
 <p>利用可能な同梱ドキュメントの一覧を表示します。<code>✓</code> / <code>✗</code> でファイル存在を表します。</p>
 <h3 id="forge-docs-show">forge docs show<a class="headerlink" href="#forge-docs-show" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>forge<span class="w"> </span>docs<span class="w"> </span>show<span class="w"> </span>&lt;NAME&gt;
 </code></pre></div>
 <table>
 <thead>

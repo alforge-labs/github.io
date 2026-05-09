@@ -839,6 +839,66 @@ forge ml walk-forward <DATASET.parquet> [OPTIONS]
 - `forge optimize walk-forward`: WFT of the **whole strategy JSON** (which may include `ML_SIGNAL`)
 - The end-to-end measure of an ML-augmented strategy is `forge optimize walk-forward`. This command is a screening step: is the signal even learnable?
 
+### `ML_SIGNAL_WFT` indicator — leak-safe ML augmentation (issue #517)
+
+Referencing a `forge ml train` joblib via the `ML_SIGNAL` indicator causes **look-ahead leak** in `forge optimize walk-forward` whenever the OOS overlaps the model's training period (confirmed in issue #512 Phase 4 verification). The new `ML_SIGNAL_WFT` indicator resolves this structurally.
+
+`ML_SIGNAL_WFT` is **a self-contained indicator that trains on the first `train_ratio` of the input df and predicts over the whole df**. The WFT engine itself is unchanged. Predictions over the training segment are forced to NaN, so only the test segment ever drives trade decisions.
+
+**Strategy JSON example**
+
+```json
+{
+  "id": "ml_long_prob",
+  "type": "ML_SIGNAL_WFT",
+  "params": {
+    "model_type": "gradient_boosting_classifier",
+    "model_params": {"n_estimators": 200, "max_depth": 5},
+    "features": [
+      {"type": "LAG", "source": "close", "periods": [1, 2, 5, 10]},
+      {"type": "PCT_CHANGE", "source": "close", "periods": 1},
+      {"type": "ROLLING_MEAN", "source": "close", "window": 20}
+    ],
+    "label": "binary:24:0.005",
+    "train_ratio": 0.7,
+    "min_train_rows": 500,
+    "random_state": 42,
+    "output": "proba",
+    "proba_class": 1,
+    "threshold": null
+  }
+}
+```
+
+**Key parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `model_type` | str | — | Model type from `forge ml models` |
+| `model_params` | dict | `{}` | Extra model parameters |
+| `features` | list | — | `build_feature_matrix`-compatible spec |
+| `label` | str | — | `binary:N:thr` / `ternary:N:thr` / `regression:N` |
+| `train_ratio` | float | 0.7 | Head fraction used for training |
+| `min_train_rows` | int | 100 | All-NaN if training rows fall below (leak-prevention priority) |
+| `output` | str | "proba" | "proba" (probability) or "predict" (class) |
+| `proba_class` | int | 1 | Class index for `predict_proba` |
+| `threshold` | float \| null | null | Binarize proba >= threshold to 1 if set |
+
+**`ML_SIGNAL` vs `ML_SIGNAL_WFT`**
+
+| Indicator | Use case | Leak resilience |
+|---|---|---|
+| `ML_SIGNAL` | Reference a pretrained joblib | Safe only if OOS is outside the training period |
+| `ML_SIGNAL_WFT` | **WFT-aligned production** — self-trains within the evaluation context | **Structurally leak-free** |
+
+**Cache for trained artifacts**
+
+WFT runs Optuna N trials per window, calling `_calc_ml_signal_wft` N times on identical IS data. To avoid redundant retraining, this indicator uses a **content-addressed disk cache** (default: `<storage_path>/../ml_models/wft_cache/`), keying joblib artifacts by SHA-256 over `(feature_columns, label values, model_type, model_params, random_state)`. Subsequent calls with the same input hit the cache instantly.
+
+**Pine Script integration**
+
+Like `ML_SIGNAL`, `ML_SIGNAL_WFT` is not Pine Script-translatable. `forge pine generate` emits a warning comment and treats the signal as `<id> = true`.
+
 ---
 
 ## docs
