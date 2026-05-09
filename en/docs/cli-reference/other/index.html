@@ -4385,6 +4385,7 @@ exploration agents can decide programmatically which criterion failed and by how
 <li><code>binary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> — 1 if forward_return &gt; threshold, else 0</li>
 <li><code>ternary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> — +1 above threshold, −1 below −threshold, 0 in between</li>
 <li><code>regression:&lt;forward_n&gt;</code> — raw forward return as the label</li>
+<li><code>triple_barrier:&lt;max_holding&gt;:&lt;atr_mult_up&gt;:&lt;atr_mult_down&gt;:&lt;atr_window&gt;</code> — López de Prado triple-barrier (issue #520, 3-value). For each bar set ATR-based upper / lower barriers; whichever is hit first within <code>max_holding</code> determines the label (up → 1, down → −1, timeout → 0). Volatility-adaptive — more regime-robust than fixed-threshold binary/ternary.</li>
 </ul>
 <p>The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.</p>
 <h3 id="forge-ml-dataset-feature-sets">forge ml dataset feature-sets<a class="headerlink" href="#forge-ml-dataset-feature-sets" title="Permanent link">&para;</a></h3>
@@ -4410,6 +4411,11 @@ exploration agents can decide programmatically which criterion failed and by how
 <td><code>default_v1_fx</code></td>
 <td><strong>FX symbols</strong> (issue #518)</td>
 <td><code>default_v1</code> minus <code>PCT_CHANGE(volume)</code>. yfinance FX has Volume always 0 — using <code>default_v1</code> would cause <code>dropna</code> to wipe out every row.</td>
+</tr>
+<tr>
+<td><code>mtf_v1</code></td>
+<td><strong>Multi-timeframe representation</strong> (issue #520)</td>
+<td>Multi-scale lags (1, 6, 24, 48, 120) + multi-window rolling stats (5, 20, 120, 480) + volatility regime + high/low ranges. Volume-free so it works on FX. Recommended pairing with <code>triple_barrier</code> labels.</td>
 </tr>
 </tbody>
 </table>

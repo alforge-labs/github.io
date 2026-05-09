@@ -745,6 +745,7 @@ forge ml dataset build EURUSD=X --label binary:24:0.005 --json
 - `binary:<forward_n>:<threshold_pct>` — 1 if forward_return > threshold, else 0
 - `ternary:<forward_n>:<threshold_pct>` — +1 above threshold, −1 below −threshold, 0 in between
 - `regression:<forward_n>` — raw forward return as the label
+- `triple_barrier:<max_holding>:<atr_mult_up>:<atr_mult_down>:<atr_window>` — López de Prado triple-barrier (issue #520, 3-value). For each bar set ATR-based upper / lower barriers; whichever is hit first within `max_holding` determines the label (up → 1, down → −1, timeout → 0). Volatility-adaptive — more regime-robust than fixed-threshold binary/ternary.
 
 The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.
 
@@ -762,6 +763,7 @@ forge ml dataset feature-sets
 |---|---|---|
 | `default_v1` | Equities, futures, etc. with non-zero Volume | LAG(close 1/2/5/10) + PCT_CHANGE(close 1/5) + ROLLING_MEAN/STD/MIN/MAX(20) + PCT_CHANGE(volume 1) |
 | `default_v1_fx` | **FX symbols** (issue #518) | `default_v1` minus `PCT_CHANGE(volume)`. yfinance FX has Volume always 0 — using `default_v1` would cause `dropna` to wipe out every row. |
+| `mtf_v1` | **Multi-timeframe representation** (issue #520) | Multi-scale lags (1, 6, 24, 48, 120) + multi-window rolling stats (5, 20, 120, 480) + volatility regime + high/low ranges. Volume-free so it works on FX. Recommended pairing with `triple_barrier` labels. |
 
 ### forge ml train
 
