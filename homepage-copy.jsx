@@ -84,7 +84,7 @@ window.COPY = {
             '将来バージョンのアップデート込み',
             '1台のマシンでアクティベート',
           ],
-          url: 'https://whop.com/alforge-labs'
+          url: 'https://whop.com/alforge-labs/alphaforge/'
         },
         {
           name: 'Annual',
@@ -102,7 +102,7 @@ window.COPY = {
             '将来バージョンのアップデート込み',
             '1台のマシンでアクティベート',
           ],
-          url: 'https://whop.com/alforge-labs'
+          url: 'https://whop.com/alforge-labs/alphaforge/'
         },
         {
           name: 'Monthly',
@@ -120,7 +120,7 @@ window.COPY = {
             '将来バージョンのアップデート込み',
             '1台のマシンでアクティベート',
           ],
-          url: 'https://whop.com/alforge-labs'
+          url: 'https://whop.com/alforge-labs/alphaforge/'
         },
       ],
       buyNow: '今すぐ購入',
@@ -501,7 +501,7 @@ window.COPY = {
             'Future version updates included',
             'Activate on 1 machine',
           ],
-          url: 'https://whop.com/alforge-labs'
+          url: 'https://whop.com/alforge-labs/alphaforge/'
         },
         {
           name: 'Annual',
@@ -519,7 +519,7 @@ window.COPY = {
             'Future version updates included',
             'Activate on 1 machine',
           ],
-          url: 'https://whop.com/alforge-labs'
+          url: 'https://whop.com/alforge-labs/alphaforge/'
         },
         {
           name: 'Monthly',
@@ -537,7 +537,7 @@ window.COPY = {
             'Future version updates included',
             'Activate on 1 machine',
           ],
-          url: 'https://whop.com/alforge-labs'
+          url: 'https://whop.com/alforge-labs/alphaforge/'
         },
       ],
       buyNow: 'Get Access',
