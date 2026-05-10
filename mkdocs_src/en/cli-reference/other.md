@@ -877,6 +877,27 @@ proba_dispersion: max=0.568 p90=0.412 p95=0.456 share>=0.55=0.54% share>=0.60=0.
 
 **How to read it**: A near-zero `share>=0.55` means an `ml_long_prob >= 0.55` entry filter never fires — lower the threshold to 0.45–0.50, calibrate the model with `--calibration`, or revise the label spec (for example, symmetrize the `triple_barrier` ratio). Regression tasks have no `predict_proba`, so these keys are omitted.
 
+**Screening verdict and recommendations (issue #565)**
+
+For classification tasks, `forge ml walk-forward` automatically prints a **three-axis verdict** and **recommendations** (the SCREENING RESULT / RECOMMENDATION block at the end of the output).
+
+| Axis | Default threshold | CLI override |
+|---|---|---|
+| `accuracy` (aggregate test mean) | `>= 0.55` | `--screen-accuracy-min` |
+| `fold_spread` (max - min of per-fold test accuracy) | `<= 0.15` | `--screen-spread-max` |
+| `proba_dispersion` (`proba_above_055`) | `>= 0.05` | `--screen-proba055-min` |
+
+Recommendations follow the pass/fail pattern across the three axes:
+
+| Pattern | Recommendation |
+|---|---|
+| accuracy NG | More data / wider feature set / try another model (`accuracy_low`) |
+| accuracy OK / spread NG | Non-stationarity → shorten label horizon / regime-split training (`fold_spread_high`) |
+| accuracy/spread OK / proba NG | Lower entry threshold / change calibration / symmetrize labels (`proba_low_dispersion`) |
+| All NG | Not a learnable signal → redesign features (`no_learnable_signal`) |
+
+The JSON output carries the same data as a top-level `screening` field with `criteria` / `recommendations` / `overall_pass`. Regression tasks are out of scope and the field is omitted.
+
 **Relation to strategy WFT**
 
 - `forge ml walk-forward`: stability of the **ML model itself** over time

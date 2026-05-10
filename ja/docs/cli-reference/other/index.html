@@ -4651,6 +4651,62 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>proba_dispersion: max=0.568 p90=0.412 p95=0.456 share&gt;=0.55=0.54% share&gt;=0.60=0.12%
 </code></pre></div>
 <p><strong>読み方の目安</strong>: <code>share&gt;=0.55</code> が極小（数 % 以下）の場合、entry 条件で <code>ml_long_prob &gt;= 0.55</code> を使うとフィルタが事実上機能しません。閾値を 0.45–0.50 に下げる、<code>--calibration</code> で校正する、ラベル仕様を変える（例: <code>triple_barrier</code> の barrier 比対称化）などを検討してください。回帰タスクではこれらのキーは出力されません。</p>
+<p><strong>screening 判定と推奨アクション（issue #565）</strong></p>
+<p><code>forge ml walk-forward</code> は分類タスクの場合、上記メトリクスを使って <strong>3 軸の自動判定</strong> と <strong>推奨アクション</strong> を出力します（出力末尾の SCREENING RESULT / RECOMMENDATION ブロック）。</p>
+<table>
+<thead>
+<tr>
+<th>軸</th>
+<th>既定閾値</th>
+<th>上書き CLI オプション</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accuracy</code>（test 集計平均）</td>
+<td><code>&gt;= 0.55</code></td>
+<td><code>--screen-accuracy-min</code></td>
+</tr>
+<tr>
+<td><code>fold_spread</code>（各 fold accuracy の最大-最小）</td>
+<td><code>&lt;= 0.15</code></td>
+<td><code>--screen-spread-max</code></td>
+</tr>
+<tr>
+<td><code>proba_dispersion</code>（<code>proba_above_055</code>）</td>
+<td><code>&gt;= 0.05</code></td>
+<td><code>--screen-proba055-min</code></td>
+</tr>
+</tbody>
+</table>
+<p>不合格パターン別の推奨アクション:</p>
+<table>
+<thead>
+<tr>
+<th>パターン</th>
+<th>推奨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accuracy NG</td>
+<td>データ量・特徴量を増やす / モデル種別を変える（<code>accuracy_low</code>）</td>
+</tr>
+<tr>
+<td>accuracy OK / spread NG</td>
+<td>データ非定常性が強い → ラベル期間短縮 / regime 別学習（<code>fold_spread_high</code>）</td>
+</tr>
+<tr>
+<td>accuracy/spread OK / proba NG</td>
+<td>閾値下げる / calibration 変える / ラベル比対称化（<code>proba_low_dispersion</code>）</td>
+</tr>
+<tr>
+<td>すべて NG</td>
+<td>学習可能なシグナルではない → 特徴量設計から見直す（<code>no_learnable_signal</code>）</td>
+</tr>
+</tbody>
+</table>
+<p>JSON 出力では <code>screening</code> フィールドに <code>criteria</code> / <code>recommendations</code> / <code>overall_pass</code> がそのまま入ります。回帰タスクは現状 screening 対象外で、このフィールドは出力されません。</p>
 <p><strong>戦略 JSON の WFT との関係</strong></p>
 <ul>
 <li><code>forge ml walk-forward</code>: <strong>ML モデル単体</strong> の時系列安定性検証</li>

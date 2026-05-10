@@ -4648,6 +4648,62 @@ exploration agents can decide programmatically which criterion failed and by how
 <div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>proba_dispersion: max=0.568 p90=0.412 p95=0.456 share&gt;=0.55=0.54% share&gt;=0.60=0.12%
 </code></pre></div>
 <p><strong>How to read it</strong>: A near-zero <code>share&gt;=0.55</code> means an <code>ml_long_prob &gt;= 0.55</code> entry filter never fires — lower the threshold to 0.45–0.50, calibrate the model with <code>--calibration</code>, or revise the label spec (for example, symmetrize the <code>triple_barrier</code> ratio). Regression tasks have no <code>predict_proba</code>, so these keys are omitted.</p>
+<p><strong>Screening verdict and recommendations (issue #565)</strong></p>
+<p>For classification tasks, <code>forge ml walk-forward</code> automatically prints a <strong>three-axis verdict</strong> and <strong>recommendations</strong> (the SCREENING RESULT / RECOMMENDATION block at the end of the output).</p>
+<table>
+<thead>
+<tr>
+<th>Axis</th>
+<th>Default threshold</th>
+<th>CLI override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accuracy</code> (aggregate test mean)</td>
+<td><code>&gt;= 0.55</code></td>
+<td><code>--screen-accuracy-min</code></td>
+</tr>
+<tr>
+<td><code>fold_spread</code> (max - min of per-fold test accuracy)</td>
+<td><code>&lt;= 0.15</code></td>
+<td><code>--screen-spread-max</code></td>
+</tr>
+<tr>
+<td><code>proba_dispersion</code> (<code>proba_above_055</code>)</td>
+<td><code>&gt;= 0.05</code></td>
+<td><code>--screen-proba055-min</code></td>
+</tr>
+</tbody>
+</table>
+<p>Recommendations follow the pass/fail pattern across the three axes:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accuracy NG</td>
+<td>More data / wider feature set / try another model (<code>accuracy_low</code>)</td>
+</tr>
+<tr>
+<td>accuracy OK / spread NG</td>
+<td>Non-stationarity → shorten label horizon / regime-split training (<code>fold_spread_high</code>)</td>
+</tr>
+<tr>
+<td>accuracy/spread OK / proba NG</td>
+<td>Lower entry threshold / change calibration / symmetrize labels (<code>proba_low_dispersion</code>)</td>
+</tr>
+<tr>
+<td>All NG</td>
+<td>Not a learnable signal → redesign features (<code>no_learnable_signal</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>The JSON output carries the same data as a top-level <code>screening</code> field with <code>criteria</code> / <code>recommendations</code> / <code>overall_pass</code>. Regression tasks are out of scope and the field is omitted.</p>
 <p><strong>Relation to strategy WFT</strong></p>
 <ul>
 <li><code>forge ml walk-forward</code>: stability of the <strong>ML model itself</strong> over time</li>

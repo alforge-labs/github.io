@@ -880,6 +880,27 @@ proba_dispersion: max=0.568 p90=0.412 p95=0.456 share>=0.55=0.54% share>=0.60=0.
 
 **読み方の目安**: `share>=0.55` が極小（数 % 以下）の場合、entry 条件で `ml_long_prob >= 0.55` を使うとフィルタが事実上機能しません。閾値を 0.45–0.50 に下げる、`--calibration` で校正する、ラベル仕様を変える（例: `triple_barrier` の barrier 比対称化）などを検討してください。回帰タスクではこれらのキーは出力されません。
 
+**screening 判定と推奨アクション（issue #565）**
+
+`forge ml walk-forward` は分類タスクの場合、上記メトリクスを使って **3 軸の自動判定** と **推奨アクション** を出力します（出力末尾の SCREENING RESULT / RECOMMENDATION ブロック）。
+
+| 軸 | 既定閾値 | 上書き CLI オプション |
+|---|---|---|
+| `accuracy`（test 集計平均） | `>= 0.55` | `--screen-accuracy-min` |
+| `fold_spread`（各 fold accuracy の最大-最小） | `<= 0.15` | `--screen-spread-max` |
+| `proba_dispersion`（`proba_above_055`） | `>= 0.05` | `--screen-proba055-min` |
+
+不合格パターン別の推奨アクション:
+
+| パターン | 推奨 |
+|---|---|
+| accuracy NG | データ量・特徴量を増やす / モデル種別を変える（`accuracy_low`） |
+| accuracy OK / spread NG | データ非定常性が強い → ラベル期間短縮 / regime 別学習（`fold_spread_high`） |
+| accuracy/spread OK / proba NG | 閾値下げる / calibration 変える / ラベル比対称化（`proba_low_dispersion`） |
+| すべて NG | 学習可能なシグナルではない → 特徴量設計から見直す（`no_learnable_signal`） |
+
+JSON 出力では `screening` フィールドに `criteria` / `recommendations` / `overall_pass` がそのまま入ります。回帰タスクは現状 screening 対象外で、このフィールドは出力されません。
+
 **戦略 JSON の WFT との関係**
 
 - `forge ml walk-forward`: **ML モデル単体** の時系列安定性検証
