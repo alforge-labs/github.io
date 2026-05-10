@@ -749,6 +749,11 @@ forge ml dataset build EURUSD=X --label binary:24:0.005 --json
 - `ternary:<forward_n>:<threshold_pct>` … +閾値超 → 1、−閾値未満 → −1、それ以外 → 0
 - `regression:<forward_n>` … forward_n バー後の単純リターンをそのままラベル化
 - `triple_barrier:<max_holding>:<atr_mult_up>:<atr_mult_down>:<atr_window>` … López de Prado triple-barrier（issue #520、3 値）。各バーで ATR ベースの上下バリアを設置し、max_holding バーまでの間で先に当たったものでラベル付け（上 → 1、下 → −1、timeout → 0）。ボラティリティ適応的で固定閾値より regime ロバスト
+- `triple_barrier_sym:<max_holding>:<atr_mult>:<atr_window>` … triple_barrier の対称版 shorthand（up=down=`atr_mult`）。**新規 dataset の既定推奨**は `triple_barrier_sym:24:1.5:14`（issue #538）
+- `triple_barrier_vol:<max_holding>:<vol_mult>:<atr_window>` … barrier scale を ATR の代わりに `rolling_std(returns, atr_window) × close` で計算する volatility-adaptive 版（issue #538）。低ボラ局面で barrier も自動的に縮む
+- `triple_barrier_balanced:<max_holding>:<target_long_share>:<atr_window>` … 二分探索で対称 atr_mult を調整して long クラス比率を target に合わせる rebalance mode（issue #538）。例: `target_long_share=0.33` で 3 クラスをほぼ均等にしたい場合
+
+> **issue #538 の背景**: 非対称比 `2.0:1.0` だと SL ヒット側（−1）が分布の半数以上を占める偏向が起きやすい（issue #520 検証で −1 が 64% に集中）。新規 dataset は `triple_barrier_sym:24:1.5:14` を出発点にすると、proba dispersion（issue #537）の screening を通りやすくなります。
 
 parquet ファイルにはシンボル・タイムフレーム・特徴量列名・ラベル設定がメタデータとして同梱されるため、Phase 2 の学習側はファイル単独で再現可能な学習が行えます。
 
