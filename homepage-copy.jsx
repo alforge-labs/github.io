@@ -66,6 +66,7 @@ window.COPY = {
         ctaLabel: '$0 で登録',
         ctaHint: 'インストール手順へ',
         comingSummer: '今夏提供開始予定',
+        url: 'https://whop.com/alforge-labs/alphaforge-free/',
       },
       plans: [
         {
@@ -483,6 +484,7 @@ window.COPY = {
         ctaLabel: 'Register for $0',
         ctaHint: 'View install steps',
         comingSummer: 'Coming This Summer',
+        url: 'https://whop.com/alforge-labs/alphaforge-free/',
       },
       plans: [
         {

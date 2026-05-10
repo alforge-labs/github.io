@@ -313,11 +313,20 @@ function FreeBanner({ plan, comingSummer, lang }) {
       </div>
       <div className="free-banner-cta">
         <a
-          href={`/${lang}/install.html`}
-          className="btn-secondary"
+          href={plan.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary"
           style={{ justifyContent: 'center' }}
         >
-          {plan.ctaHint || plan.ctaLabel}
+          {plan.ctaLabel}
+        </a>
+        <a
+          href={`/${lang}/install.html`}
+          className="free-banner-install-link"
+          style={{ fontSize: '0.85em', textAlign: 'center', marginTop: '0.4rem', color: 'var(--text2)' }}
+        >
+          {plan.ctaHint}
         </a>
         <div className="free-banner-status">{comingSummer}</div>
       </div>
@@ -393,7 +402,9 @@ function Pricing({ t, lang }) {
                 ))}
               </ul>
               <a
-                href="#roadmap"
+                href={plan.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={plan.featured ? 'btn-primary' : 'btn-secondary'}
                 style={{ justifyContent: 'center', marginTop: 'auto', flexDirection: 'column', gap: '2px' }}
               >
