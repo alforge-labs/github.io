@@ -16,20 +16,20 @@ echo $PATH
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-### `forge.db` not found / no strategies shown
+### `backtest_results.db` not found / no strategies shown
 
-`vis serve` may not see `<forge-dir>/data/results/forge.db`.
+`vis serve` may not see `<forge-dir>/data/results/backtest_results.db`.
 
 ```bash
 # Inspect resolved paths (printed at startup)
 vis serve --forge-dir <path>
 
 # Verify directly
-ls <path>/data/results/forge.db
+ls <path>/data/results/backtest_results.db
 ls <path>/data/strategies/
 ```
 
-If you have never executed `forge backtest run`, `forge.db` does not exist yet. Run at least one backtest before launching `vis serve`.
+If you have never executed `forge backtest run`, `backtest_results.db` does not exist yet. Run at least one backtest before launching `vis serve`.
 
 ### Port already in use
 
@@ -103,7 +103,7 @@ See [CONTRIBUTING.en.md](https://github.com/alforge-labs/alpha-visualizer/blob/m
 
 ### Compatible `forge` versions
 
-`alpha-visualizer` reads `forge.db` (SQLite) and strategy JSON. See the CHANGELOG or [Releases](https://github.com/alforge-labs/alpha-visualizer/releases) for compatibility windows.
+`alpha-visualizer` reads `backtest_results.db` (SQLite) and strategy JSON. See the CHANGELOG or [Releases](https://github.com/alforge-labs/alpha-visualizer/releases) for compatibility windows.
 
 ### Running on Python 3.11 or older
 

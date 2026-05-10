@@ -2105,7 +2105,7 @@
 <tbody>
 <tr>
 <td>バックテスト結果 DB</td>
-<td><code>&lt;forge-dir&gt;/data/results/forge.db</code></td>
+<td><code>&lt;forge-dir&gt;/data/results/backtest_results.db</code></td>
 </tr>
 <tr>
 <td>戦略 JSON</td>
@@ -2125,7 +2125,7 @@
 <h2 id="forgeyaml"><code>forge.yaml</code> の例<a class="headerlink" href="#forgeyaml" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">report</span><span class="p">:</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">output_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./data/results</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">db_filename</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">forge.db</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">db_filename</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backtest_results.db</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">strategies</span><span class="p">:</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./data/strategies</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">use_db</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
@@ -2157,7 +2157,7 @@
 <li>ブラウザ⇄サーバー間の通信は HTTP です。TLS が必要ならリバースプロキシで終端します。</li>
 </ul>
 <h2 id="_4">ファイル変更の反映<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p><code>forge backtest run</code> や <code>forge optimize run</code> を実行すると <code>forge.db</code> が更新されます。ダッシュボードはリロード（<code>Cmd+R</code> / <code>F5</code>）で最新結果を取得します（自動再読み込みは未対応）。</p>
+<p><code>forge backtest run</code> や <code>forge optimize run</code> を実行すると <code>backtest_results.db</code> が更新されます。ダッシュボードはリロード（<code>Cmd+R</code> / <code>F5</code>）で最新結果を取得します（自動再読み込みは未対応）。</p>
 <h2 id="_5">関連リンク<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../features/">機能詳細</a>: ダッシュボード各画面</li>

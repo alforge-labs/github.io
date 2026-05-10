@@ -31,7 +31,7 @@ vis serve --help
 
 | Purpose | Path |
 |---|---|
-| Backtest results DB | `<forge-dir>/data/results/forge.db` |
+| Backtest results DB | `<forge-dir>/data/results/backtest_results.db` |
 | Strategy JSON | `<forge-dir>/data/strategies/*.json` |
 | Idea list | `<forge-dir>/data/ideas/ideas.json` |
 | Live results | `<forge-dir>/data/live/` |
@@ -43,7 +43,7 @@ When `forge.yaml` defines `report.output_path`, `report.db_filename`, `strategie
 ```yaml
 report:
   output_path: ./data/results
-  db_filename: forge.db
+  db_filename: backtest_results.db
 strategies:
   path: ./data/strategies
   use_db: false
@@ -71,7 +71,7 @@ When running with `--host 0.0.0.0`:
 
 ## Reflecting changes
 
-Each `forge backtest run` or `forge optimize run` updates `forge.db`. Reload the dashboard (`Cmd+R` / `F5`) to see new results — automatic reload is not implemented yet.
+Each `forge backtest run` or `forge optimize run` updates `backtest_results.db`. Reload the dashboard (`Cmd+R` / `F5`) to see new results — automatic reload is not implemented yet.
 
 ## Related
 

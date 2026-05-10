@@ -16,20 +16,20 @@ echo $PATH
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-### `forge.db` が見つからない / 戦略が表示されない
+### `backtest_results.db` が見つからない / 戦略が表示されない
 
-`vis serve` が見ている `<forge-dir>/data/results/forge.db` が存在しない可能性があります。
+`vis serve` が見ている `<forge-dir>/data/results/backtest_results.db` が存在しない可能性があります。
 
 ```bash
 # 起動時に解決されたパスを確認（vis serve のログに表示される）
 vis serve --forge-dir <path>
 
 # 想定パスを直接確認
-ls <path>/data/results/forge.db
+ls <path>/data/results/backtest_results.db
 ls <path>/data/strategies/
 ```
 
-`forge backtest run` を一度も実行していない場合、`forge.db` は作成されません。最低 1 件のバックテストを実行してから `vis serve` を試してください。
+`forge backtest run` を一度も実行していない場合、`backtest_results.db` は作成されません。最低 1 件のバックテストを実行してから `vis serve` を試してください。
 
 ### ポートが既に使用されている
 
@@ -54,7 +54,7 @@ lsof -i :8000
 
 ### 結果が古いまま表示される
 
-`forge.db` 更新後はダッシュボードをリロード（`Cmd+R` / `F5`）してください。自動再読み込み機能は現状ありません。
+`backtest_results.db` 更新後はダッシュボードをリロード（`Cmd+R` / `F5`）してください。自動再読み込み機能は現状ありません。
 
 ### 戦略名が `undefined` と表示される
 
@@ -103,7 +103,7 @@ vis serve --host 0.0.0.0 --port 8000
 
 ### 動作確認済みの forge バージョン
 
-`alpha-visualizer` は `forge.db`（SQLite）のスキーマと戦略 JSON 構造に依存します。`forge` の互換性のある範囲は CHANGELOG または [Releases](https://github.com/alforge-labs/alpha-visualizer/releases) を参照してください。
+`alpha-visualizer` は `backtest_results.db`（SQLite）のスキーマと戦略 JSON 構造に依存します。`forge` の互換性のある範囲は CHANGELOG または [Releases](https://github.com/alforge-labs/alpha-visualizer/releases) を参照してください。
 
 ### Python 3.11 以下で動かしたい
 
