@@ -858,6 +858,25 @@ forge ml walk-forward <DATASET.parquet> [OPTIONS]
 - `aggregate_train_metrics` / `aggregate_test_metrics`: arithmetic mean across windows
 - `dataset`: symbol / interval / feature_set / label_type from the source dataset
 
+**Proba dispersion metrics (classification only, issue #537)**
+
+For classification tasks, `aggregate_test_metrics` and each `windows[].test_metrics` include `predict_proba` distribution metrics in addition to accuracy/precision/recall/f1. They surface "models that look learnable by accuracy/spread but whose proba output is squashed into a low range so any entry threshold filters out almost every bar":
+
+| Key | Meaning |
+|---|---|
+| `proba_max` | Per-fold maximum positive-class probability (fold mean) |
+| `proba_p90` / `proba_p95` | 90 / 95 percentile (fold mean) |
+| `proba_above_055` | Share of bars with positive-class probability >= 0.55 (fold mean, 0.0–1.0) |
+| `proba_above_060` | Share with probability >= 0.60 (fold mean, 0.0–1.0) |
+
+The text output also prints a one-line summary right after the aggregate block:
+
+```text
+proba_dispersion: max=0.568 p90=0.412 p95=0.456 share>=0.55=0.54% share>=0.60=0.12%
+```
+
+**How to read it**: A near-zero `share>=0.55` means an `ml_long_prob >= 0.55` entry filter never fires — lower the threshold to 0.45–0.50, calibrate the model with `--calibration`, or revise the label spec (for example, symmetrize the `triple_barrier` ratio). Regression tasks have no `predict_proba`, so these keys are omitted.
+
 **Relation to strategy WFT**
 
 - `forge ml walk-forward`: stability of the **ML model itself** over time

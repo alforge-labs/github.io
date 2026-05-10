@@ -861,6 +861,25 @@ forge ml walk-forward <DATASET.parquet> [OPTIONS]
 - `aggregate_train_metrics` / `aggregate_test_metrics`: 各ウィンドウの単純平均
 - `dataset`: 元データセットの symbol / interval / feature_set / label_type
 
+**proba dispersion メトリクス（分類タスクのみ、issue #537）**
+
+`aggregate_test_metrics` および各 `windows[].test_metrics` には、accuracy/precision/recall/f1 に加えて `predict_proba` の分布メトリクスが含まれます。これは「accuracy/spread は基準を満たすが proba 値が低位レンジに集中して entry 閾値で実質ほぼ False になる」モデルを screening 段階で検出するためのものです。
+
+| キー | 内容 |
+|---|---|
+| `proba_max` | 各 fold の正クラス確率の最大値（fold 平均） |
+| `proba_p90` / `proba_p95` | 90 / 95 パーセンタイル（fold 平均） |
+| `proba_above_055` | 正クラス確率 >= 0.55 の比率（fold 平均、0.0–1.0） |
+| `proba_above_060` | 同 >= 0.60 の比率 |
+
+テキスト出力でも集計直下に 1 行表示されます:
+
+```text
+proba_dispersion: max=0.568 p90=0.412 p95=0.456 share>=0.55=0.54% share>=0.60=0.12%
+```
+
+**読み方の目安**: `share>=0.55` が極小（数 % 以下）の場合、entry 条件で `ml_long_prob >= 0.55` を使うとフィルタが事実上機能しません。閾値を 0.45–0.50 に下げる、`--calibration` で校正する、ラベル仕様を変える（例: `triple_barrier` の barrier 比対称化）などを検討してください。回帰タスクではこれらのキーは出力されません。
+
 **戦略 JSON の WFT との関係**
 
 - `forge ml walk-forward`: **ML モデル単体** の時系列安定性検証
