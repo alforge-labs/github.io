@@ -4386,7 +4386,13 @@ exploration agents can decide programmatically which criterion failed and by how
 <li><code>ternary:&lt;forward_n&gt;:&lt;threshold_pct&gt;</code> — +1 above threshold, −1 below −threshold, 0 in between</li>
 <li><code>regression:&lt;forward_n&gt;</code> — raw forward return as the label</li>
 <li><code>triple_barrier:&lt;max_holding&gt;:&lt;atr_mult_up&gt;:&lt;atr_mult_down&gt;:&lt;atr_window&gt;</code> — López de Prado triple-barrier (issue #520, 3-value). For each bar set ATR-based upper / lower barriers; whichever is hit first within <code>max_holding</code> determines the label (up → 1, down → −1, timeout → 0). Volatility-adaptive — more regime-robust than fixed-threshold binary/ternary.</li>
+<li><code>triple_barrier_sym:&lt;max_holding&gt;:&lt;atr_mult&gt;:&lt;atr_window&gt;</code> — symmetric shorthand for triple_barrier (up = down = <code>atr_mult</code>). <strong>Recommended default for new datasets</strong>: <code>triple_barrier_sym:24:1.5:14</code> (issue #538).</li>
+<li><code>triple_barrier_vol:&lt;max_holding&gt;:&lt;vol_mult&gt;:&lt;atr_window&gt;</code> — volatility-adaptive variant that uses <code>rolling_std(returns, atr_window) × close</code> instead of ATR (issue #538). Barriers shrink automatically in low-vol regimes.</li>
+<li><code>triple_barrier_balanced:&lt;max_holding&gt;:&lt;target_long_share&gt;:&lt;atr_window&gt;</code> — rebalance mode that bisects symmetric <code>atr_mult</code> until the long-class share matches <code>target_long_share</code> (issue #538). Use <code>target_long_share=0.33</code> to roughly balance the three classes.</li>
 </ul>
+<blockquote>
+<p><strong>Why issue #538</strong>: An asymmetric ratio like <code>2.0:1.0</code> tends to bias the label distribution heavily toward the SL side (−1) — issue #520 verification observed −1 ≈ 64% of all labels. Starting new datasets from <code>triple_barrier_sym:24:1.5:14</code> makes them far more likely to pass the proba-dispersion screening (issue #537).</p>
+</blockquote>
 <p>The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.</p>
 <h3 id="forge-ml-dataset-feature-sets">forge ml dataset feature-sets<a class="headerlink" href="#forge-ml-dataset-feature-sets" title="Permanent link">&para;</a></h3>
 <p>List available built-in feature sets.</p>

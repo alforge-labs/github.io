@@ -746,6 +746,11 @@ forge ml dataset build EURUSD=X --label binary:24:0.005 --json
 - `ternary:<forward_n>:<threshold_pct>` — +1 above threshold, −1 below −threshold, 0 in between
 - `regression:<forward_n>` — raw forward return as the label
 - `triple_barrier:<max_holding>:<atr_mult_up>:<atr_mult_down>:<atr_window>` — López de Prado triple-barrier (issue #520, 3-value). For each bar set ATR-based upper / lower barriers; whichever is hit first within `max_holding` determines the label (up → 1, down → −1, timeout → 0). Volatility-adaptive — more regime-robust than fixed-threshold binary/ternary.
+- `triple_barrier_sym:<max_holding>:<atr_mult>:<atr_window>` — symmetric shorthand for triple_barrier (up = down = `atr_mult`). **Recommended default for new datasets**: `triple_barrier_sym:24:1.5:14` (issue #538).
+- `triple_barrier_vol:<max_holding>:<vol_mult>:<atr_window>` — volatility-adaptive variant that uses `rolling_std(returns, atr_window) × close` instead of ATR (issue #538). Barriers shrink automatically in low-vol regimes.
+- `triple_barrier_balanced:<max_holding>:<target_long_share>:<atr_window>` — rebalance mode that bisects symmetric `atr_mult` until the long-class share matches `target_long_share` (issue #538). Use `target_long_share=0.33` to roughly balance the three classes.
+
+> **Why issue #538**: An asymmetric ratio like `2.0:1.0` tends to bias the label distribution heavily toward the SL side (−1) — issue #520 verification observed −1 ≈ 64% of all labels. Starting new datasets from `triple_barrier_sym:24:1.5:14` makes them far more likely to pass the proba-dispersion screening (issue #537).
 
 The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.
 
