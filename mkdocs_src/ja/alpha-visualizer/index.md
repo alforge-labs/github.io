@@ -1,6 +1,6 @@
 # alpha-visualizer
 
-**alpha-visualizer** は、AlphaForge（`forge`）が出力するバックテスト結果を Web ブラウザで可視化するスタンドアロンの OSS パッケージです。`forge` 本体に依存せず `forge.db`（SQLite）と戦略 JSON を直接読み取るため、`forge` を未インストールの環境でも動作します。
+**alpha-visualizer** は、AlphaForge（`forge`）が出力するバックテスト結果を Web ブラウザで可視化するスタンドアロンの OSS パッケージです。`forge` 本体に依存せず `backtest_results.db`（SQLite）と戦略 JSON を直接読み取るため、`forge` を未インストールの環境でも動作します。
 
 ![Browse 画面](assets/browse.png){ loading=lazy }
 

@@ -31,7 +31,7 @@ vis serve --help
 
 | 用途 | パス |
 |---|---|
-| バックテスト結果 DB | `<forge-dir>/data/results/forge.db` |
+| バックテスト結果 DB | `<forge-dir>/data/results/backtest_results.db` |
 | 戦略 JSON | `<forge-dir>/data/strategies/*.json` |
 | アイデア一覧 | `<forge-dir>/data/ideas/ideas.json` |
 | ライブ実績 | `<forge-dir>/data/live/` |
@@ -43,7 +43,7 @@ vis serve --help
 ```yaml
 report:
   output_path: ./data/results
-  db_filename: forge.db
+  db_filename: backtest_results.db
 strategies:
   path: ./data/strategies
   use_db: false
@@ -71,7 +71,7 @@ CI などで明示的にクリアしたい場合は `env FORGE_CONFIG= vis serve
 
 ## ファイル変更の反映
 
-`forge backtest run` や `forge optimize run` を実行すると `forge.db` が更新されます。ダッシュボードはリロード（`Cmd+R` / `F5`）で最新結果を取得します（自動再読み込みは未対応）。
+`forge backtest run` や `forge optimize run` を実行すると `backtest_results.db` が更新されます。ダッシュボードはリロード（`Cmd+R` / `F5`）で最新結果を取得します（自動再読み込みは未対応）。
 
 ## 関連リンク
 

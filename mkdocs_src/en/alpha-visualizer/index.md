@@ -1,6 +1,6 @@
 # alpha-visualizer
 
-**alpha-visualizer** is a standalone OSS package that visualizes AlphaForge (`forge`) backtest results in your web browser. It reads `forge.db` (SQLite) and strategy JSON files directly, so it works on hosts without `forge` installed.
+**alpha-visualizer** is a standalone OSS package that visualizes AlphaForge (`forge`) backtest results in your web browser. It reads `backtest_results.db` (SQLite) and strategy JSON files directly, so it works on hosts without `forge` installed.
 
 ![Browse view](assets/browse.png){ loading=lazy }
 
