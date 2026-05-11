@@ -456,7 +456,7 @@ forge pine verify --strategy <ID> [--check-mode <MODE>] [--mcp-server <CMD>] [--
 |------|---------|
 | `compile_only` | Validate Pine Script syntax / compilation only (`tradesdontlie` is fine) |
 | `metrics` | Compare TV Strategy Tester aggregate metrics (PF, win rate, total trades, etc.) against alpha-forge metrics. **`vinicius` recommended** (avoids the `data_get_strategy_results` bug in `tradesdontlie`) |
-| `signal` | Match TV's trade list to alpha-forge `trades` by entry time and compute a match rate |
+| `signal` | tradesdontlie: match TV trade list to alpha-forge `trades` by entry time and compute a match rate.<br>vinicius: returns no timestamps, so the comparison auto-switches to **count-based** (totals only, issue #580) |
 | `regime` | Phase 1.5c-γ and beyond. HMM state column comparison (work in progress) |
 
 **Examples**

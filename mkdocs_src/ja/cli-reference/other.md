@@ -459,7 +459,7 @@ forge pine verify --strategy <ID> [--check-mode <MODE>] [--mcp-server <CMD>] [--
 |--------|------|
 | `compile_only` | Pine Script の構文・コンパイルだけを検証（`tradesdontlie` で十分） |
 | `metrics` | TV Strategy Tester の総合メトリクス（PF・勝率・トレード数等）と alpha-forge のメトリクスを比較。**`vinicius` 推奨**（`tradesdontlie` の `data_get_strategy_results` バグ回避） |
-| `signal` | TV のトレードリストと alpha-forge の `trades` を時刻ベースで突合し一致率を算出 |
+| `signal` | tradesdontlie: TV のトレードリストと alpha-forge の `trades` を時刻ベースで突合し一致率を算出。<br>vinicius: 時刻情報を返さないため **count-based 比較**（トレード件数のみで合否判定）に自動切替（issue #580） |
 | `regime` | Phase 1.5c-γ 以降。HMM 状態列の比較（実装中） |
 
 **実行例**
