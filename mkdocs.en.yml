@@ -71,6 +71,7 @@ nav:
           - Quants & Researchers: usecases/quants.md
           - Automated Trading: usecases/auto-trading.md
           - AI Agent Users: usecases/ai-agents.md
+          - Discretionary → Systematic: usecases/discretionary.md
           - Comparison with Other Tools: usecases/comparison.md
   - Strategy Catalog:
       - Strategy Templates: templates.md
