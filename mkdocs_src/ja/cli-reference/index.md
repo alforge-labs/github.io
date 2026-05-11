@@ -2,8 +2,8 @@
 
 `forge` コマンドが提供するすべてのコマンドグループの一覧です。各グループの詳細はリンク先の専用ページを参照してください。
 
-!!! info "雛形ページについて"
-    各コマンドグループの詳細リファレンス（パラメータ・出力例・エラーコード）は、本ページで網羅的に整理した上で、グループごとの個別 issue で順次充填中です。本ページの「サブコマンド一覧」は実装と一致するように維持されます。
+!!! info "コマンド階層整理 (alpha-forge #610)"
+    商用リリースに向けて、トップレベル 17 個並列だった構造を **論理的なグループ**に再編しました。**旧コマンド名は引き続き利用可能**ですが、新階層への移行を推奨します。詳細は [旧→新マッピング](#旧コマンド-新コマンドの対応) を参照。
 
 ## コアコマンドグループ
 
@@ -11,28 +11,37 @@
 
 | グループ | 説明 | 詳細 |
 |---------|------|------|
+| **strategy** | 戦略 JSON の作成・登録・管理 | [strategy →](strategy.md) |
 | **backtest** | 戦略のバックテスト実行と結果分析 | [backtest →](backtest.md) |
 | **optimize** | パラメータ最適化（ベイズ・グリッド・ウォークフォワード） | [optimize →](optimize.md) |
-| **strategy** | 戦略 JSON の作成・登録・管理 | [strategy →](strategy.md) |
-| **data** | ヒストリカルデータの取得・更新 | [data →](data.md) |
-| **journal** | 実行履歴・タグ・判定の管理 | [journal →](journal.md) |
+| **explore** | 自律探索ループ（バックテスト → 最適化 → WFT） | — |
 | **live** | ライブトレード分析と運用記録 | [live →](live.md) |
+| **pine** | 戦略 JSON ↔ TradingView Pine Script 変換 | — |
+| **journal** | 実行履歴・タグ・判定の管理 | [journal →](journal.md) |
+| **idea** | 投資アイデアの管理・検索 | — |
+| **data** | ヒストリカル・代替データ・TV MCP データ取得 | [data →](data.md) |
 
-## その他のコマンド
+## 補助グループ（D1 #610 で新設）
 
-認証管理、ユーティリティ、補助機能などは [その他コマンド](other.md) ページにまとめています。
+| 新グループ | サブコマンド | 説明 |
+|---|---|---|
+| **analyze** | `indicator` / `ml` / `pairs` | 戦略構築の分析ツール群（旧トップレベルを集約） |
+| **system** | `init` / `auth` / `docs` | 運用ユーティリティ（旧トップレベルを集約） |
 
-| グループ | 説明 | リンク |
-|---------|------|------|
-| **auth** | Whop OAuth ログイン・ログアウト・認証状態確認 | [other#auth →](other.md#auth) |
-| **init** | プロジェクトの初期セットアップ | [other#init →](other.md#init) |
-| **pine** | 戦略 JSON ↔ TradingView Pine Script 変換 | [other#pine →](other.md#pine) |
-| **indicator** | 対応テクニカル指標の一覧と詳細 | [other#indicator →](other.md#indicator) |
-| **idea** | 投資アイデアの管理・検索 | [other#idea →](other.md#idea) |
-| **altdata** | 代替データ（センチメント等）の取得・管理 | [other#altdata →](other.md#altdata) |
-| **pairs** | ペアトレード（コインテグレーション検定） | [other#pairs →](other.md#pairs) |
-| **ml** | ML データセット作成・モデル学習・walk-forward 検証（issue #512 Phase 1-2, 4） | [other#ml →](other.md#ml) |
-| **docs** | 同梱ドキュメントの参照 | [other#docs →](other.md#docs) |
+## 旧コマンド → 新コマンドの対応
+
+旧名でも引き続き呼び出せますが、新階層への移行を推奨します（将来 DeprecationWarning を表示予定）。
+
+| 旧コマンド | 新コマンド |
+|---|---|
+| `forge altdata <sub>` | `forge data alt <sub>` |
+| `forge tv <sub>` | `forge data tv-mcp <sub>` |
+| `forge indicator <sub>` | `forge analyze indicator <sub>` |
+| `forge ml <sub>` | `forge analyze ml <sub>` |
+| `forge pairs <sub>` | `forge analyze pairs <sub>` |
+| `forge init` | `forge system init` |
+| `forge auth <sub>` | `forge system auth <sub>` |
+| `forge docs <sub>` | `forge system docs <sub>` |
 
 ## 全コマンド早見表
 

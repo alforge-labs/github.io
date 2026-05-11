@@ -1561,10 +1561,21 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#d1-610" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        補助グループ（D1 #610 で新設）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        その他のコマンド
+        旧コマンド → 新コマンドの対応
       
     </span>
   </a>
@@ -2025,10 +2036,21 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#d1-610" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        補助グループ（D1 #610 で新設）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        その他のコマンド
+        旧コマンド → 新コマンドの対応
       
     </span>
   </a>
@@ -2088,8 +2110,8 @@
 <h1 id="cli">CLI リファレンス<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h1>
 <p><code>forge</code> コマンドが提供するすべてのコマンドグループの一覧です。各グループの詳細はリンク先の専用ページを参照してください。</p>
 <div class="admonition info">
-<p class="admonition-title">雛形ページについて</p>
-<p>各コマンドグループの詳細リファレンス（パラメータ・出力例・エラーコード）は、本ページで網羅的に整理した上で、グループごとの個別 issue で順次充填中です。本ページの「サブコマンド一覧」は実装と一致するように維持されます。</p>
+<p class="admonition-title">コマンド階層整理 (alpha-forge #610)</p>
+<p>商用リリースに向けて、トップレベル 17 個並列だった構造を <strong>論理的なグループ</strong>に再編しました。<strong>旧コマンド名は引き続き利用可能</strong>ですが、新階層への移行を推奨します。詳細は <a href="#旧コマンド-新コマンドの対応">旧→新マッピング</a> を参照。</p>
 </div>
 <h2 id="_1">コアコマンドグループ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>実戦略開発で頻繁に使うコマンド群です。それぞれ専用ページで詳述します。</p>
@@ -2103,6 +2125,11 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>strategy</strong></td>
+<td>戦略 JSON の作成・登録・管理</td>
+<td><a href="strategy/">strategy →</a></td>
+</tr>
+<tr>
 <td><strong>backtest</strong></td>
 <td>戦略のバックテスト実行と結果分析</td>
 <td><a href="backtest/">backtest →</a></td>
@@ -2113,14 +2140,19 @@
 <td><a href="optimize/">optimize →</a></td>
 </tr>
 <tr>
-<td><strong>strategy</strong></td>
-<td>戦略 JSON の作成・登録・管理</td>
-<td><a href="strategy/">strategy →</a></td>
+<td><strong>explore</strong></td>
+<td>自律探索ループ（バックテスト → 最適化 → WFT）</td>
+<td>—</td>
 </tr>
 <tr>
-<td><strong>data</strong></td>
-<td>ヒストリカルデータの取得・更新</td>
-<td><a href="data/">data →</a></td>
+<td><strong>live</strong></td>
+<td>ライブトレード分析と運用記録</td>
+<td><a href="live/">live →</a></td>
+</tr>
+<tr>
+<td><strong>pine</strong></td>
+<td>戦略 JSON ↔ TradingView Pine Script 変換</td>
+<td>—</td>
 </tr>
 <tr>
 <td><strong>journal</strong></td>
@@ -2128,67 +2160,80 @@
 <td><a href="journal/">journal →</a></td>
 </tr>
 <tr>
-<td><strong>live</strong></td>
-<td>ライブトレード分析と運用記録</td>
-<td><a href="live/">live →</a></td>
+<td><strong>idea</strong></td>
+<td>投資アイデアの管理・検索</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>data</strong></td>
+<td>ヒストリカル・代替データ・TV MCP データ取得</td>
+<td><a href="data/">data →</a></td>
 </tr>
 </tbody>
 </table>
-<h2 id="_2">その他のコマンド<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>認証管理、ユーティリティ、補助機能などは <a href="other/">その他コマンド</a> ページにまとめています。</p>
+<h2 id="d1-610">補助グループ（D1 #610 で新設）<a class="headerlink" href="#d1-610" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>グループ</th>
+<th>新グループ</th>
+<th>サブコマンド</th>
 <th>説明</th>
-<th>リンク</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>auth</strong></td>
-<td>Whop OAuth ログイン・ログアウト・認証状態確認</td>
-<td><a href="other/#auth">other#auth →</a></td>
+<td><strong>analyze</strong></td>
+<td><code>indicator</code> / <code>ml</code> / <code>pairs</code></td>
+<td>戦略構築の分析ツール群（旧トップレベルを集約）</td>
 </tr>
 <tr>
-<td><strong>init</strong></td>
-<td>プロジェクトの初期セットアップ</td>
-<td><a href="other/#init">other#init →</a></td>
+<td><strong>system</strong></td>
+<td><code>init</code> / <code>auth</code> / <code>docs</code></td>
+<td>運用ユーティリティ（旧トップレベルを集約）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">旧コマンド → 新コマンドの対応<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>旧名でも引き続き呼び出せますが、新階層への移行を推奨します（将来 DeprecationWarning を表示予定）。</p>
+<table>
+<thead>
+<tr>
+<th>旧コマンド</th>
+<th>新コマンド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forge altdata &lt;sub&gt;</code></td>
+<td><code>forge data alt &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>pine</strong></td>
-<td>戦略 JSON ↔ TradingView Pine Script 変換</td>
-<td><a href="other/#pine">other#pine →</a></td>
+<td><code>forge tv &lt;sub&gt;</code></td>
+<td><code>forge data tv-mcp &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>indicator</strong></td>
-<td>対応テクニカル指標の一覧と詳細</td>
-<td><a href="other/#indicator">other#indicator →</a></td>
+<td><code>forge indicator &lt;sub&gt;</code></td>
+<td><code>forge analyze indicator &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>idea</strong></td>
-<td>投資アイデアの管理・検索</td>
-<td><a href="other/#idea">other#idea →</a></td>
+<td><code>forge ml &lt;sub&gt;</code></td>
+<td><code>forge analyze ml &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>altdata</strong></td>
-<td>代替データ（センチメント等）の取得・管理</td>
-<td><a href="other/#altdata">other#altdata →</a></td>
+<td><code>forge pairs &lt;sub&gt;</code></td>
+<td><code>forge analyze pairs &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>pairs</strong></td>
-<td>ペアトレード（コインテグレーション検定）</td>
-<td><a href="other/#pairs">other#pairs →</a></td>
+<td><code>forge init</code></td>
+<td><code>forge system init</code></td>
 </tr>
 <tr>
-<td><strong>ml</strong></td>
-<td>ML データセット作成・モデル学習・walk-forward 検証（issue #512 Phase 1-2, 4）</td>
-<td><a href="other/#ml">other#ml →</a></td>
+<td><code>forge auth &lt;sub&gt;</code></td>
+<td><code>forge system auth &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>docs</strong></td>
-<td>同梱ドキュメントの参照</td>
-<td><a href="other/#docs">other#docs →</a></td>
+<td><code>forge docs &lt;sub&gt;</code></td>
+<td><code>forge system docs &lt;sub&gt;</code></td>
 </tr>
 </tbody>
 </table>

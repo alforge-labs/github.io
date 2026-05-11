@@ -2,8 +2,8 @@
 
 A complete catalog of every command group provided by the `forge` CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.
 
-!!! info "Scaffolded pages"
-    Detailed references (parameters, output examples, error codes) for each group are being filled in incrementally via per-group issues. The "Subcommands" tables on this page are kept in sync with the implementation.
+!!! info "Command hierarchy reorganization (alpha-forge #610)"
+    The top-level was reorganized from a flat 17-command layout into a **logical group hierarchy** ahead of the commercial release. **Old command names still work**, but migration to the new hierarchy is recommended. See [Legacy → New mapping](#legacy-to-new-command-mapping) below.
 
 ## Core Command Groups
 
@@ -11,28 +11,37 @@ The commands you'll use most often in real strategy development. Each has a dedi
 
 | Group | Description | Details |
 |-------|-------------|---------|
+| **strategy** | Create, register, and manage strategy JSON | [strategy →](strategy.md) |
 | **backtest** | Run backtests and analyze results | [backtest →](backtest.md) |
 | **optimize** | Parameter optimization (Bayesian, grid, walk-forward) | [optimize →](optimize.md) |
-| **strategy** | Create, register, and manage strategy JSON | [strategy →](strategy.md) |
-| **data** | Fetch and update historical data | [data →](data.md) |
-| **journal** | Track run history, tags, and verdicts | [journal →](journal.md) |
+| **explore** | Autonomous exploration loop (backtest → optimize → WFT) | — |
 | **live** | Live trading analysis and records | [live →](live.md) |
+| **pine** | Convert between strategy JSON and TradingView Pine Script | — |
+| **journal** | Track run history, tags, and verdicts | [journal →](journal.md) |
+| **idea** | Manage and search investment ideas | — |
+| **data** | Historical / alternative / TradingView MCP data | [data →](data.md) |
 
-## Other Commands
+## Auxiliary Groups (added in D1 #610)
 
-Authentication, utilities, and supporting features are bundled on the [Other commands](other.md) page.
+| New Group | Subcommands | Description |
+|---|---|---|
+| **analyze** | `indicator` / `ml` / `pairs` | Strategy-analysis utilities (consolidates former top-level commands) |
+| **system** | `init` / `auth` / `docs` | Operational utilities (consolidates former top-level commands) |
 
-| Group | Description | Link |
-|-------|-------------|------|
-| **auth** | Whop OAuth login / logout and authentication status | [other#auth →](other.md#auth) |
-| **init** | Initial project setup | [other#init →](other.md#init) |
-| **pine** | Convert between strategy JSON and TradingView Pine Script | [other#pine →](other.md#pine) |
-| **indicator** | List and inspect supported technical indicators | [other#indicator →](other.md#indicator) |
-| **idea** | Manage and search investment ideas | [other#idea →](other.md#idea) |
-| **altdata** | Fetch and manage alternative data (sentiment, etc.) | [other#altdata →](other.md#altdata) |
-| **pairs** | Pair trading (cointegration tests) | [other#pairs →](other.md#pairs) |
-| **ml** | ML dataset, model training & walk-forward validation (issue #512 Phase 1-2, 4) | [other#ml →](other.md#ml) |
-| **docs** | Browse bundled documentation | [other#docs →](other.md#docs) |
+## Legacy to New Command Mapping
+
+Old names remain callable but migrating to the new hierarchy is recommended (a `DeprecationWarning` will be shown in a future release).
+
+| Legacy Command | New Command |
+|---|---|
+| `forge altdata <sub>` | `forge data alt <sub>` |
+| `forge tv <sub>` | `forge data tv-mcp <sub>` |
+| `forge indicator <sub>` | `forge analyze indicator <sub>` |
+| `forge ml <sub>` | `forge analyze ml <sub>` |
+| `forge pairs <sub>` | `forge analyze pairs <sub>` |
+| `forge init` | `forge system init` |
+| `forge auth <sub>` | `forge system auth <sub>` |
+| `forge docs <sub>` | `forge system docs <sub>` |
 
 ## All Commands at a Glance
 
