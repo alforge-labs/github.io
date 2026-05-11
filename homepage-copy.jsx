@@ -44,8 +44,8 @@ window.COPY = {
       ],
     },
     heroStats: [
-      { val: '3', accent: false, lbl: '開発中プロダクト' },
-      { val: 'Sharpe 1.09', accent: true, lbl: 'シミュレーション実績（CL=F・5年データ）' },
+      { val: 'AI 自律', accent: false, lbl: '戦略探索 × 検証 × Pine Script 生成' },
+      { val: 'Sharpe 2倍超', accent: true, lbl: 'vs SPY・QQQ Buy & Hold（5年検証）' },
       { val: '2026夏', accent: false, lbl: '正式リリース目標' },
     ],
     pricing: {
@@ -462,8 +462,8 @@ window.COPY = {
       ],
     },
     heroStats: [
-      { val: '3', accent: false, lbl: 'Products in Dev' },
-      { val: 'Sharpe 1.09', accent: true, lbl: 'Simulation Result (CL=F · 5yr data)' },
+      { val: 'AI-Driven', accent: false, lbl: 'Discovery × Validation × Pine Script' },
+      { val: '2× Sharpe', accent: true, lbl: 'vs SPY · QQQ Buy & Hold (5yr backtest)' },
       { val: 'Summer 2026', accent: false, lbl: 'Target Release' },
     ],
     pricing: {
