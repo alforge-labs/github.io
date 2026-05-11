@@ -3122,9 +3122,9 @@
 </code></pre></div></p>
 </div>
 <h3 id="op-session-precheck">Detecting 1Password session expiry early (unattended runs)<a class="headerlink" href="#op-session-precheck" title="Permanent link">&para;</a></h3>
-<p>For unattended runs (overnight batches, etc.), an expired <code>op</code> session causes every subsequent <code>op run</code> invocation to fail with an authentication error. The <code>/explore-strategies</code> skill runs <code>forge auth check op</code> at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid (<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>).</p>
+<p>For unattended runs (overnight batches, etc.), an expired <code>op</code> session causes every subsequent <code>op run</code> invocation to fail with an authentication error. The <code>/explore-strategies</code> skill runs <code>forge system auth check op</code> at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid (<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Verify session validity</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;exit: </span><span class="nv">$?</span><span class="s2">&quot;</span><span class="w">   </span><span class="c1"># 0 = valid, 2 = session expired / op missing / timeout</span>
 </code></pre></div>
 <table>
@@ -3229,7 +3229,7 @@
 <p>AI agent × AlphaForge usage falls into three categories based on <strong>what you're starting from</strong>.</p>
 <p><img alt="AI-driven strategy exploration workflow" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png" /></p>
 <h3 id="scenario-1-combinations-from-existing-strategies-indicators">Scenario 1: Combinations from existing strategies / indicators<a class="headerlink" href="#scenario-1-combinations-from-existing-strategies-indicators" title="Permanent link">&para;</a></h3>
-<p><strong>Starting point</strong>: Your existing strategy JSON files and the <code>forge indicator list</code> catalog.</p>
+<p><strong>Starting point</strong>: Your existing strategy JSON files and the <code>forge analyze indicator list</code> catalog.</p>
 <p><strong>Typical flow</strong>:</p>
 <ol>
 <li>Tell Claude Code: "Take <code>forge strategy show multi_asset_hmm_bb_rsi_v1_qqq</code> as the base and add MACD to create a derivative."</li>

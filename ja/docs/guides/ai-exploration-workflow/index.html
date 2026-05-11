@@ -3122,9 +3122,9 @@
 </code></pre></div></p>
 </div>
 <h3 id="op-session-precheck">1Password セッション切れの早期検出（無人運転）<a class="headerlink" href="#op-session-precheck" title="Permanent link">&para;</a></h3>
-<p>無人運転（夜間バッチ等）で <code>op</code> セッションが切れると、以降のすべての <code>op run</code> 配下コマンドが認証エラーで失敗します。<code>/explore-strategies</code> スキルは各ループ反復の冒頭で <code>forge auth check op</code> を実行し、セッションが無効な場合は exit code 2 を返してループを停止します（<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>）。</p>
+<p>無人運転（夜間バッチ等）で <code>op</code> セッションが切れると、以降のすべての <code>op run</code> 配下コマンドが認証エラーで失敗します。<code>/explore-strategies</code> スキルは各ループ反復の冒頭で <code>forge system auth check op</code> を実行し、セッションが無効な場合は exit code 2 を返してループを停止します（<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>）。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># セッション有効性の検証</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;exit: </span><span class="nv">$?</span><span class="s2">&quot;</span><span class="w">   </span><span class="c1"># 0 = 有効、2 = セッション切れ・op 不在・タイムアウト等</span>
 </code></pre></div>
 <table>
@@ -3229,7 +3229,7 @@
 <p>AI エージェント × AlphaForge の使い方は、<strong>起点となる材料</strong> で大きく 3 つに分類できます。</p>
 <p><img alt="AI 駆動の戦略探索ワークフロー" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-ja.png" /></p>
 <h3 id="1">シナリオ 1: 既存戦略・指標の組み合わせ<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
-<p><strong>起点</strong>: 手元の戦略 JSON、<code>forge indicator list</code> の指標カタログ</p>
+<p><strong>起点</strong>: 手元の戦略 JSON、<code>forge analyze indicator list</code> の指標カタログ</p>
 <p><strong>典型フロー</strong>:</p>
 <ol>
 <li>Claude Code に「<code>forge strategy show multi_asset_hmm_bb_rsi_v1_qqq</code> の戦略をベースに、MACD を追加した派生版を作って」と指示</li>

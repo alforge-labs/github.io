@@ -15,7 +15,7 @@ AlphaForge で使われる代表的な戦略パターンを 3 種類紹介しま
 
 ## 戦略 JSON の基本構造
 
-すべての戦略は同じ Pydantic スキーマに従います。詳細は [`forge indicator list`](cli-reference/other.md#indicator) で確認できます。
+すべての戦略は同じ Pydantic スキーマに従います。詳細は [`forge analyze indicator list`](cli-reference/other.md#indicator) で確認できます。
 
 ```text
 {

@@ -25,34 +25,34 @@ Utility and management commands not covered by the [core groups](index.md), bund
 
 ## auth
 
-Whop OAuth 2.0 PKCE authentication commands. All subcommands run as `forge auth <subcommand>`. For first-time setup, see [Getting Started](../getting-started.md).
+Whop OAuth 2.0 PKCE authentication commands. All subcommands run as `forge system auth <subcommand>`. For first-time setup, see [Getting Started](../getting-started.md).
 
-### forge auth login
+### forge system auth login
 
 Open a browser and authenticate with Whop.
 
 ```bash
-forge auth login
+forge system auth login
 ```
 
 Opens a browser automatically and runs the Whop OAuth flow. No arguments or options. On success, credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`).
 
-### forge auth logout
+### forge system auth logout
 
 Log out and remove cached credentials.
 
 ```bash
-forge auth logout
+forge system auth logout
 ```
 
 Removes `credentials.json`. No arguments or options. Your Whop membership itself is unaffected.
 
-### forge auth status
+### forge system auth status
 
 Show current authentication status.
 
 ```bash
-forge auth status
+forge system auth status
 ```
 
 Sample output:
@@ -68,17 +68,17 @@ When not logged in:
 
 ```text
 [AlphaForge] Not logged in.
-  Run: forge auth login
+  Run: forge system auth login
 ```
 
 If the development skip env var (`ALPHA_FORGE_DEV_SKIP_LICENSE=1`) is enabled, the message is `[AlphaForge] Development skip active (EULA/authentication is not verified)`.
 
-### forge auth check op
+### forge system auth check op
 
 Verify the 1Password CLI (`op`) session validity. Used as a CI hook for teams sharing `.env.op` (issue #411).
 
 ```bash
-forge auth check op [--json]
+forge system auth check op [--json]
 ```
 
 Exits with code `0` when the session is valid, `2` otherwise.
@@ -92,7 +92,7 @@ Initialize the working directory: creates `forge.yaml`, data directories, docume
 ### Synopsis
 
 ```bash
-forge init [OPTIONS]
+forge system init [OPTIONS]
 ```
 
 ### Options
@@ -482,12 +482,12 @@ For the verification workflow walkthrough, see [Bringing Pine Scripts into Tradi
 
 Drive a TradingView MCP server for chart snapshots and ad-hoc tool calls (issue #523).
 
-### forge tv chart
+### forge data tv-mcp chart
 
 Capture a TradingView chart snapshot as a PNG (Phase 1.5d).
 
 ```bash
-forge tv chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
+forge data tv-mcp chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
 ```
 
 | Name | Kind | Default | Description |
@@ -506,16 +506,16 @@ forge tv chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|d
 Example:
 
 ```bash
-forge tv chart SPY --interval D --output charts/spy_d.png \
+forge data tv-mcp chart SPY --interval D --output charts/spy_d.png \
   --mcp-server "python /opt/tv-mcp-chart/server.py"
 ```
 
-### forge tv inspect
+### forge data tv-mcp inspect
 
 Invoke any MCP tool and print the JSON response (Phase 1.5c-α). Handy for poking at a new MCP server or discovering the available tools.
 
 ```bash
-forge tv inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
+forge data tv-mcp inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
 ```
 
 | Name | Kind | Default | Description |
@@ -533,11 +533,11 @@ Examples:
 
 ```bash
 # Tool listing (depends on the server implementation)
-forge tv inspect list_tools --server-type pine \
+forge data tv-mcp inspect list_tools --server-type pine \
   --mcp-server "node /opt/tv-mcp/server.js"
 
 # Try data_get_ohlcv
-forge tv inspect data_get_ohlcv \
+forge data tv-mcp inspect data_get_ohlcv \
   --arg symbol=SPY --arg interval=D --arg bars=10
 ```
 
@@ -547,12 +547,12 @@ forge tv inspect data_get_ohlcv \
 
 Browse the catalog of 30+ technical indicators supported by `alpha-forge`.
 
-### forge indicator list
+### forge analyze indicator list
 
 List supported indicators. With `FILTER_NAME`, filter by case-insensitive substring.
 
 ```bash
-forge indicator list [FILTER_NAME] [--detail]
+forge analyze indicator list [FILTER_NAME] [--detail]
 ```
 
 | Name | Kind | Default | Description |
@@ -572,15 +572,15 @@ Supported indicators (35):
   [Regime]        HMM
   [Other]         EXPR  ALTDATA
 
-Details: forge indicator show <TYPE>
+Details: forge analyze indicator show <TYPE>
 ```
 
-### forge indicator show
+### forge analyze indicator show
 
 Show detailed information for a specific indicator (description, parameters, output, example).
 
 ```bash
-forge indicator show <INDICATOR_TYPE>
+forge analyze indicator show <INDICATOR_TYPE>
 ```
 
 | Name | Kind | Description |
@@ -714,10 +714,10 @@ forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 
 Fetch and manage alternative data (sentiment, macro indicators, etc.). Stored under `config.data.alt_storage_path` and referenceable from strategy JSON via the `ALTDATA` indicator type.
 
-### forge altdata fetch
+### forge data alt fetch
 
 ```bash
-forge altdata fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
+forge data alt fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
 ```
 
 | Name | Kind | Description |
@@ -728,10 +728,10 @@ forge altdata fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
 
 Output: `✅ <SOURCE_KEY>: saved <N> rows`. Unregistered providers raise `ClickException`.
 
-### forge altdata list
+### forge data alt list
 
 ```bash
-forge altdata list
+forge data alt list
 ```
 
 Sample output:
@@ -743,10 +743,10 @@ fear_greed_index          1d          1525   2020-01-01   2025-12-31
 vix_termstructure         1d          1530   2020-01-01   2025-12-31
 ```
 
-### forge altdata info
+### forge data alt info
 
 ```bash
-forge altdata info <SOURCE_KEY>
+forge data alt info <SOURCE_KEY>
 ```
 
 Shows source key, interval, row count, start / end dates, columns, file path, and file size. If data is missing, raises `ClickException`.
@@ -757,12 +757,12 @@ Shows source key, interval, row count, start / end dates, columns, file path, an
 
 Cointegration tests and spread series for pair trading. Uses the Engle–Granger test from `statsmodels`.
 
-### forge pairs scan
+### forge analyze pairs scan
 
 Run a cointegration test on two symbols.
 
 ```bash
-forge pairs scan <SYM_A> <SYM_B> [OPTIONS]
+forge analyze pairs scan <SYM_A> <SYM_B> [OPTIONS]
 ```
 
 | Name | Kind | Default | Description |
@@ -783,12 +783,12 @@ Sample output:
   Critical 5%: -2.8623
 ```
 
-### forge pairs scan-all
+### forge analyze pairs scan-all
 
 Scan all pairs in a watchlist (top 20 displayed).
 
 ```bash
-forge pairs scan-all --symbols-file <FILE> [--pvalue 0.05] [--interval 1d]
+forge analyze pairs scan-all --symbols-file <FILE> [--pvalue 0.05] [--interval 1d]
 ```
 
 | Name | Kind | Description |
@@ -796,12 +796,12 @@ forge pairs scan-all --symbols-file <FILE> [--pvalue 0.05] [--interval 1d]
 | `--symbols-file` | required (file) | Symbol list (one per line; `#` comments allowed) |
 | `--pvalue` | float | p-value threshold (default 0.05) |
 
-### forge pairs build
+### forge analyze pairs build
 
 Compute spread series and save to the `alt_data` store (referenceable from strategy JSON via `ALTDATA`).
 
 ```bash
-forge pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
+forge analyze pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 ```
 
 | Name | Kind | Default | Description |
@@ -833,22 +833,22 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 Machine-learning dataset, model training, and walk-forward validation commands (issue #512 Phase 1-2, 4). Trained joblib models can be referenced from the existing `ML_SIGNAL` indicator via `model_path` for inference.
 
-### forge ml dataset build
+### forge analyze ml dataset build
 
 Build a feature+forward-return-label parquet dataset from stored OHLCV.
 
 ```bash
-forge ml dataset build EURUSD=X --feature-set default_v1 --label binary:24:0.005 --interval 1h
-forge ml dataset build EURUSD=X --label ternary:24:0.005
-forge ml dataset build EURUSD=X --label regression:5
-forge ml dataset build EURUSD=X --label binary:24:0.005 --json
+forge analyze ml dataset build EURUSD=X --feature-set default_v1 --label binary:24:0.005 --interval 1h
+forge analyze ml dataset build EURUSD=X --label ternary:24:0.005
+forge analyze ml dataset build EURUSD=X --label regression:5
+forge analyze ml dataset build EURUSD=X --label binary:24:0.005 --json
 ```
 
 **Key options**
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--feature-set` | Built-in feature set name (see `forge ml dataset feature-sets`) | `default_v1` |
+| `--feature-set` | Built-in feature set name (see `forge analyze ml dataset feature-sets`) | `default_v1` |
 | `--label` | Label spec string (required) | — |
 | `--interval` | Bar interval used to load OHLCV | `1d` |
 | `--out` | Output parquet path | `<storage_path>/../ml_datasets/<symbol>_<feature_set>_<label_type>_<interval>.parquet` |
@@ -869,12 +869,12 @@ forge ml dataset build EURUSD=X --label binary:24:0.005 --json
 
 The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.
 
-### forge ml dataset feature-sets
+### forge analyze ml dataset feature-sets
 
 List available built-in feature sets.
 
 ```bash
-forge ml dataset feature-sets
+forge analyze ml dataset feature-sets
 ```
 
 **Built-in feature sets**
@@ -885,19 +885,19 @@ forge ml dataset feature-sets
 | `default_v1_fx` | **FX symbols** (issue #518) | `default_v1` minus `PCT_CHANGE(volume)`. yfinance FX has Volume always 0 — using `default_v1` would cause `dropna` to wipe out every row. |
 | `mtf_v1` | **Multi-timeframe representation** (issue #520) | Multi-scale lags (1, 6, 24, 48, 120) + multi-window rolling stats (5, 20, 120, 480) + volatility regime + high/low ranges. Volume-free so it works on FX. Recommended pairing with `triple_barrier` labels. |
 
-### forge ml train
+### forge analyze ml train
 
 Train a model from a Phase 1 dataset parquet and save joblib + metrics.json (issue #512 Phase 2).
 
 ```bash
-forge ml train <DATASET.parquet> [OPTIONS]
+forge analyze ml train <DATASET.parquet> [OPTIONS]
 ```
 
 **Key options**
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--model` | Model type (see `forge ml models`) | `logistic_regression` |
+| `--model` | Model type (see `forge analyze ml models`) | `logistic_regression` |
 | `--test-ratio` | Tail fraction used as the test split (time-series order preserved) | `0.2` |
 | `--random-state` | Random seed | `42` |
 | `--params` | Extra model parameters as a JSON string | — |
@@ -933,7 +933,7 @@ Raw probabilities from models like `gradient_boosting_classifier` can cluster in
 | `isotonic` | Isotonic regression (more flexible, larger samples) |
 
 ```bash
-forge ml train ds.parquet --model random_forest_classifier --calibration isotonic
+forge analyze ml train ds.parquet --model random_forest_classifier --calibration isotonic
 ```
 
 Specifying `--calibration` on a regression model emits a warning and is ignored (base model is used). Calibrated joblib models work as is from the `ML_SIGNAL` / `ML_SIGNAL_WFT` indicators (sklearn-compatible API).
@@ -943,27 +943,27 @@ Specifying `--calibration` on a regression model emits a warning and is ignored 
 - Model: joblib (sklearn-compatible API; `predict` / `predict_proba` callable from `ML_SIGNAL` indicator as is)
 - Metrics: `<model>.joblib.metrics.json` (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config (including `calibration`) / trained_at)
 
-### forge ml models
+### forge analyze ml models
 
 List available model types (classification + regression).
 
 ```bash
-forge ml models
+forge analyze ml models
 ```
 
-### forge ml walk-forward
+### forge analyze ml walk-forward
 
-Split a dataset into N windows and train + evaluate a fresh model in each window for time-series stability checks (issue #512 Phase 4). The model is **not** persisted — use `forge ml train` to produce the final model.
+Split a dataset into N windows and train + evaluate a fresh model in each window for time-series stability checks (issue #512 Phase 4). The model is **not** persisted — use `forge analyze ml train` to produce the final model.
 
 ```bash
-forge ml walk-forward <DATASET.parquet> [OPTIONS]
+forge analyze ml walk-forward <DATASET.parquet> [OPTIONS]
 ```
 
 **Key options**
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--model` | Model type (see `forge ml models`) | `logistic_regression` |
+| `--model` | Model type (see `forge analyze ml models`) | `logistic_regression` |
 | `--n-splits` | Number of windows | `5` |
 | `--train-ratio` | Train fraction within each window | `0.7` |
 | `--random-state` | Random seed | `42` |
@@ -999,7 +999,7 @@ proba_dispersion: max=0.568 p90=0.412 p95=0.456 share>=0.55=0.54% share>=0.60=0.
 
 **Screening verdict and recommendations (issue #565)**
 
-For classification tasks, `forge ml walk-forward` automatically prints a **three-axis verdict** and **recommendations** (the SCREENING RESULT / RECOMMENDATION block at the end of the output).
+For classification tasks, `forge analyze ml walk-forward` automatically prints a **three-axis verdict** and **recommendations** (the SCREENING RESULT / RECOMMENDATION block at the end of the output).
 
 | Axis | Default threshold | CLI override |
 |---|---|---|
@@ -1020,13 +1020,13 @@ The JSON output carries the same data as a top-level `screening` field with `cri
 
 **Relation to strategy WFT**
 
-- `forge ml walk-forward`: stability of the **ML model itself** over time
+- `forge analyze ml walk-forward`: stability of the **ML model itself** over time
 - `forge optimize walk-forward`: WFT of the **whole strategy JSON** (which may include `ML_SIGNAL`)
 - The end-to-end measure of an ML-augmented strategy is `forge optimize walk-forward`. This command is a screening step: is the signal even learnable?
 
 ### `ML_SIGNAL_WFT` indicator — leak-safe ML augmentation (issue #517)
 
-Referencing a `forge ml train` joblib via the `ML_SIGNAL` indicator causes **look-ahead leak** in `forge optimize walk-forward` whenever the OOS overlaps the model's training period (confirmed in issue #512 Phase 4 verification). The new `ML_SIGNAL_WFT` indicator resolves this structurally.
+Referencing a `forge analyze ml train` joblib via the `ML_SIGNAL` indicator causes **look-ahead leak** in `forge optimize walk-forward` whenever the OOS overlaps the model's training period (confirmed in issue #512 Phase 4 verification). The new `ML_SIGNAL_WFT` indicator resolves this structurally.
 
 `ML_SIGNAL_WFT` is **a self-contained indicator that trains on the first `train_ratio` of the input df and predicts over the whole df**. The WFT engine itself is unchanged. Predictions over the training segment are forced to NaN, so only the test segment ever drives trade decisions.
 
@@ -1059,7 +1059,7 @@ Referencing a `forge ml train` joblib via the `ML_SIGNAL` indicator causes **loo
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `model_type` | str | — | Model type from `forge ml models` |
+| `model_type` | str | — | Model type from `forge analyze ml models` |
 | `model_params` | dict | `{}` | Extra model parameters |
 | `features` | list | — | `build_feature_matrix`-compatible spec |
 | `label` | str | — | `binary:N:thr` / `ternary:N:thr` / `regression:N` |
@@ -1091,23 +1091,23 @@ Like `ML_SIGNAL`, `ML_SIGNAL_WFT` is not Pine Script-translatable. `forge pine g
 
 Browse the documentation, skills, and command references bundled with `alpha-forge`.
 
-### forge docs list
+### forge system docs list
 
 ```bash
-forge docs list
+forge system docs list
 ```
 
 List available bundled documents. `✓` / `✗` indicates whether each file exists.
 
-### forge docs show
+### forge system docs show
 
 ```bash
-forge docs show <NAME>
+forge system docs show <NAME>
 ```
 
 | Name | Kind | Description |
 |------|------|-------------|
-| `NAME` | argument (required) | Document name (find with `forge docs list`) |
+| `NAME` | argument (required) | Document name (find with `forge system docs list`) |
 
 Print the document content to stdout. Unknown names display the available list and exit with code `1`.
 
