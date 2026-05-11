@@ -53,7 +53,7 @@ If you see a version number, you're ready. For manual installation or custom ins
 AlphaForge uses OAuth 2.0 PKCE authentication via your Whop account. The next command opens a browser automatically.
 
 ```bash
-forge auth login
+forge system auth login
 ```
 
 After you complete the browser flow, credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`).
@@ -61,7 +61,7 @@ After you complete the browser flow, credentials are cached at `$XDG_CONFIG_HOME
 You can confirm the login state at any time:
 
 ```bash
-forge auth status
+forge system auth status
 ```
 
 ```
@@ -239,7 +239,7 @@ forge --version
 The command launches the OAuth flow in your browser.
 
 ```bash
-forge auth login
+forge system auth login
 ```
 
 Credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`). Internet access is required.
@@ -249,7 +249,7 @@ Credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/
 You can inspect the cached user ID and token expiry:
 
 ```bash
-forge auth status
+forge system auth status
 ```
 
 ### 4. Verify commands
@@ -314,7 +314,7 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 | `No data found for SPY` | Run `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` first. |
 | `Free plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Free plan cap is automatically excluded. |
 | `Strategy not found: sma_cross_qs` | Check that the `strategy_id` in your JSON is exactly `sma_cross_qs`. |
-| Authentication error | Verify your network connection and rerun `forge auth login`. Confirm your Whop membership is active. |
+| Authentication error | Verify your network connection and rerun `forge system auth login`. Confirm your Whop membership is active. |
 | macOS security warning | System Settings → Privacy & Security → click "Open forge". |
 
 For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.com/en/install.html).

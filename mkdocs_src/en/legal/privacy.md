@@ -12,7 +12,7 @@ When you purchase a license through LemonSqueezy, information such as your name 
 
 ### 1.2 Authentication Information
 
-When you run `forge auth login`, the Whop OAuth 2.0 PKCE flow exchanges an authorization code for OAuth tokens with the Whop API and returns your Whop account ID and membership status.
+When you run `forge system auth login`, the Whop OAuth 2.0 PKCE flow exchanges an authorization code for OAuth tokens with the Whop API and returns your Whop account ID and membership status.
 
 ### 1.3 Information We Do Not Collect
 
@@ -35,7 +35,7 @@ We do not share personal information with third parties except when necessary fo
 
 - Purchase and license information: retained according to LemonSqueezy's data retention policy
 - Support email: retained for two years after the support request is resolved
-- Local authentication cache: retained until the user removes it or runs `forge auth logout`
+- Local authentication cache: retained until the user removes it or runs `forge system auth logout`
 
 ## 5. Cookies and Tracking
 

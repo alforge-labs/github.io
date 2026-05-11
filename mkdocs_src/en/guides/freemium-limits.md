@@ -133,7 +133,7 @@ No limits are applied; you can fetch and evaluate the latest data with unlimited
 To unlock the limits, upgrade to a **paid plan** (Lifetime, Annual, or Monthly). Manually trimming a CSV to 2023-12-31 and re-running will produce the same result, because the clip is always enforced at the evaluation engine boundary.
 
 - Upgrade to a paid plan: pick Monthly, Annual, or Lifetime from the AlphaForge sales page.
-- If a Whop membership is not reflected in the auth cache, re-run `forge auth login`.
+- If a Whop membership is not reflected in the auth cache, re-run `forge system auth login`.
 
 ## Related pages
 

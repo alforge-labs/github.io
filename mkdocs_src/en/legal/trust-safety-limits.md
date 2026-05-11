@@ -10,7 +10,7 @@ If you configure external data providers or broker APIs, those integrations comm
 
 ## What is sent during authentication
 
-During authentication, only information required by the Whop OAuth 2.0 PKCE flow is sent to the external auth service. When you run `forge auth login`, the authorization code and PKCE parameters are sent, and the response returns OAuth tokens together with your Whop user ID and membership status.
+During authentication, only information required by the Whop OAuth 2.0 PKCE flow is sent to the external auth service. When you run `forge system auth login`, the authorization code and PKCE parameters are sent, and the response returns OAuth tokens together with your Whop user ID and membership status.
 
 Backtest settings, API keys, trade history, and strategy data are not sent during authentication. See the [Privacy Policy](privacy.md) for details.
 

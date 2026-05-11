@@ -2470,11 +2470,11 @@
 <p>バージョンが表示されれば完了です。手動インストールやインストール先のカスタマイズは、本ページ後半の「詳細インストール」セクションを参照してください。</p>
 <h3 id="2-whop-1">ステップ 2 — Whop でログインする（約 1 分）<a class="headerlink" href="#2-whop-1" title="Permanent link">&para;</a></h3>
 <p>AlphaForge は Whop アカウントによる OAuth 2.0 PKCE 認証を行います。次のコマンドでブラウザが自動で開きます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>login
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
 <p>ブラウザで認証を完了すると、認証情報が <code>$XDG_CONFIG_HOME/forge/credentials.json</code>（未設定時 <code>~/.config/forge/credentials.json</code>）に保存されます。</p>
 <p>ログイン状態は次のコマンドで確認できます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>status
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ユーザー ID      : user_abc123
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>アクセストークン: 2026-04-12 12:30 UTC（あと 45 分）
@@ -2680,12 +2680,12 @@
 </code></pre></div>
 <h3 id="2-whop">2. Whop でログイン<a class="headerlink" href="#2-whop" title="Permanent link">&para;</a></h3>
 <p>ブラウザを起動して認証フローを実行します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>login
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
 <p>認証情報は <code>$XDG_CONFIG_HOME/forge/credentials.json</code>（未設定時 <code>~/.config/forge/credentials.json</code>）に保存されます。オンライン接続が必要です。</p>
 <h3 id="3">3. 認証状態の確認<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
 <p>ユーザー ID やトークン期限を確認できます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>auth<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>status
 </code></pre></div>
 <h3 id="4">4. コマンド利用可能性の確認<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
 <p>バックテストコマンドが利用可能なことを確認します。</p>
@@ -2790,7 +2790,7 @@
 </tr>
 <tr>
 <td>認証エラー</td>
-<td>ネットワーク接続を確認のうえ <code>forge auth login</code> を再実行してください。Whop マイページでメンバーシップが有効か確認してください。</td>
+<td>ネットワーク接続を確認のうえ <code>forge system auth login</code> を再実行してください。Whop マイページでメンバーシップが有効か確認してください。</td>
 </tr>
 <tr>
 <td>macOS セキュリティ警告</td>

@@ -2212,7 +2212,7 @@
 <h3 id="11">1.1 購入時に収集する情報<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
 <p>LemonSqueezy を通じたライセンス購入時に、氏名または会社名、メールアドレス、決済情報、国・地域情報が収集されます。決済情報は LemonSqueezy が処理し、当社は保持しません。</p>
 <h3 id="12">1.2 認証時に収集する情報<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
-<p><code>forge auth login</code> 実行時に、Whop の OAuth 2.0 PKCE フローを通じて Whop アカウント情報（ユーザー ID、メンバーシップ状態）と OAuth トークンが Whop の API から取得されます。</p>
+<p><code>forge system auth login</code> 実行時に、Whop の OAuth 2.0 PKCE フローを通じて Whop アカウント情報（ユーザー ID、メンバーシップ状態）と OAuth トークンが Whop の API から取得されます。</p>
 <h3 id="13">1.3 収集しない情報<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
 <div class="admonition info">
 <p class="admonition-title">ローカル完結型ソフトウェア</p>
@@ -2232,7 +2232,7 @@
 <ul>
 <li>購入情報・ライセンス情報: LemonSqueezy のデータ保持ポリシーに準拠</li>
 <li>サポートメール: 対応完了後 2 年間</li>
-<li>ローカル認証キャッシュ: ユーザーが削除するまで、または <code>forge auth logout</code> 実行まで保持</li>
+<li>ローカル認証キャッシュ: ユーザーが削除するまで、または <code>forge system auth logout</code> 実行まで保持</li>
 </ul>
 <h2 id="5-cookie">5. Cookie・トラッキング<a class="headerlink" href="#5-cookie" title="Permanent link">&para;</a></h2>
 <p>本ウェブサイトでは Google Analytics を使用してアクセス状況を分析しています。ブラウザの設定から Cookie を無効化することで計測を拒否できます。</p>

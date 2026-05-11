@@ -102,11 +102,11 @@ All paths are relative to `alpha-trade/` as the working root.
 
 ### Detecting 1Password session expiry early (unattended runs) {#op-session-precheck}
 
-For unattended runs (overnight batches, etc.), an expired `op` session causes every subsequent `op run` invocation to fail with an authentication error. The `/explore-strategies` skill runs `forge auth check op` at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid ([alpha-forge issue #411](https://github.com/ysakae/alpha-forge/issues/411)).
+For unattended runs (overnight batches, etc.), an expired `op` session causes every subsequent `op run` invocation to fail with an authentication error. The `/explore-strategies` skill runs `forge system auth check op` at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid ([alpha-forge issue #411](https://github.com/ysakae/alpha-forge/issues/411)).
 
 ```bash
 # Verify session validity
-uv --directory alpha-forge run forge auth check op
+uv --directory alpha-forge run forge system auth check op
 echo "exit: $?"   # 0 = valid, 2 = session expired / op missing / timeout
 ```
 
@@ -200,7 +200,7 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 ### Scenario 1: Combinations from existing strategies / indicators
 
-**Starting point**: Your existing strategy JSON files and the `forge indicator list` catalog.
+**Starting point**: Your existing strategy JSON files and the `forge analyze indicator list` catalog.
 
 **Typical flow**:
 

@@ -133,7 +133,7 @@ Pine Script ハードブロック時の `freemium_limit_notices` 例:
 制限を解除するには、**有料プラン**（Lifetime / Annual / Monthly のいずれか）へのアップグレードが必要です。なお、CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。
 
 - 有料プランへのアップグレード: AlphaForge の販売ページから Monthly / Annual / Lifetime を選択してください。
-- Whop メンバーシップが認証キャッシュに反映されないときは、`forge auth login` を再実行してください。
+- Whop メンバーシップが認証キャッシュに反映されないときは、`forge system auth login` を再実行してください。
 
 ## 関連ページ
 

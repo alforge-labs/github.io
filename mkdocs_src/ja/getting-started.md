@@ -53,7 +53,7 @@ AlphaForge CLI v1.x.x
 AlphaForge は Whop アカウントによる OAuth 2.0 PKCE 認証を行います。次のコマンドでブラウザが自動で開きます。
 
 ```bash
-forge auth login
+forge system auth login
 ```
 
 ブラウザで認証を完了すると、認証情報が `$XDG_CONFIG_HOME/forge/credentials.json`（未設定時 `~/.config/forge/credentials.json`）に保存されます。
@@ -61,7 +61,7 @@ forge auth login
 ログイン状態は次のコマンドで確認できます。
 
 ```bash
-forge auth status
+forge system auth status
 ```
 
 ```
@@ -239,7 +239,7 @@ forge --version
 ブラウザを起動して認証フローを実行します。
 
 ```bash
-forge auth login
+forge system auth login
 ```
 
 認証情報は `$XDG_CONFIG_HOME/forge/credentials.json`（未設定時 `~/.config/forge/credentials.json`）に保存されます。オンライン接続が必要です。
@@ -249,7 +249,7 @@ forge auth login
 ユーザー ID やトークン期限を確認できます。
 
 ```bash
-forge auth status
+forge system auth status
 ```
 
 ### 4. コマンド利用可能性の確認
@@ -314,7 +314,7 @@ forge backtest --help
 | `No data found for SPY` | `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を先に実行してください。 |
 | `Free plan: date clipped to 2023-12-31` | 仕様どおりの動作です。Free プランの上限日以降のデータは自動的に除外されます。 |
 | `Strategy not found: sma_cross_qs` | JSON の `strategy_id` が `sma_cross_qs` になっているか確認してください。 |
-| 認証エラー | ネットワーク接続を確認のうえ `forge auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
+| 認証エラー | ネットワーク接続を確認のうえ `forge system auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
 | macOS セキュリティ警告 | システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。 |
 
 その他のトラブルや詳細な FAQ は [`/ja/install.html`](https://alforgelabs.com/ja/install.html) も参照してください。
