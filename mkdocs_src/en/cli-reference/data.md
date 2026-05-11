@@ -246,6 +246,43 @@ forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js"
 forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 ```
 
+### `auto` routing (issue #583, Phase 1.5e-δ)
+
+Setting `stock_provider` / `fx_provider` to `auto` makes alpha-forge classify each symbol into an asset type and pick the provider through the new `auto_routing` table. Useful when a single `forge data fetch <SYM>` should choose different providers depending on the symbol.
+
+```yaml
+data:
+  providers:
+    stock_provider: auto
+    fx_provider: auto
+    auto_routing:
+      stock: tv_mcp      # US / JP equities → TV MCP (long history)
+      etf: tv_mcp
+      fx: oanda          # FX → OANDA
+      commodity: yfinance
+      crypto: yfinance
+      index: yfinance
+    tv_mcp:
+      endpoint: "node /opt/tv-mcp/server.js"
+      flavor: tradesdontlie
+    oanda:
+      access_token: ${OANDA_ACCESS_TOKEN}
+      account_id: ${OANDA_ACCOUNT_ID}
+```
+
+Asset-type classification is delegated to `alpha_forge.data.symbols.detect_asset_type`:
+
+| Type | Example detection rule |
+|------|------------------------|
+| `fx` | `USDJPY=X` / `EUR/USD` / `USD_JPY` |
+| `index` | `^GSPC`, `^VIX`, `^NDX` (leading `^`) |
+| `commodity` | `GC=F`, `CL=F`, `SI=F` (trailing `=F`) |
+| `crypto` | `BTC-USD`, `ETH-USDT`, `ADA-BTC` |
+| `etf` | Matches the built-in known-ETF list (`SPY`, `QQQ`, etc.) |
+| `stock` | Everything else |
+
+If `auto_routing` has no entry for the resolved asset type, alpha-forge errors out explicitly (it does **not** silently fall back to `yfinance`).
+
 ### Symbol notation examples
 
 | Asset type | Examples |
