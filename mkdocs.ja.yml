@@ -71,6 +71,7 @@ nav:
           - クオンツ・研究者: usecases/quants.md
           - 自動売買検討者: usecases/auto-trading.md
           - AIエージェント利用者: usecases/ai-agents.md
+          - 裁量トレーダーのシステム化: usecases/discretionary.md
           - 他ツールとの比較: usecases/comparison.md
   - 戦略カタログ:
       - 戦略テンプレート: templates.md

@@ -9,6 +9,7 @@ Choose the entry point that matches your background and goals.
 | [Quants & Researchers](quants.md) | You prioritize statistical rigor and want systematic optimization and walk-forward validation |
 | [Automated Trading](auto-trading.md) | You want an end-to-end environment from backtesting to live order execution |
 | [AI Agent Users](ai-agents.md) | You want to automate strategy exploration with Claude Code or similar AI agents |
+| [Discretionary → Systematic](discretionary.md) | You want to codify your discretionary playbook as JSON and quantify emotional bias |
 | [Comparison with Other Tools](comparison.md) | You want to understand how AlphaForge compares to Backtrader, vectorbt, or TradingView |
 
 ---
