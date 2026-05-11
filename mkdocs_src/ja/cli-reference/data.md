@@ -246,6 +246,43 @@ forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js"
 forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 ```
 
+### `auto` ルーティング（issue #583 Phase 1.5e-δ）
+
+`stock_provider` / `fx_provider` に `auto` を指定すると、シンボルから判定したアセット種別ごとに `auto_routing` テーブルから provider を解決します。`forge data fetch <SYM>` を実行するたびに別 provider を選びたい運用に便利です。
+
+```yaml
+data:
+  providers:
+    stock_provider: auto
+    fx_provider: auto
+    auto_routing:
+      stock: tv_mcp      # 米株 / 日本株は TV MCP（長期データ）
+      etf: tv_mcp
+      fx: oanda          # FX は OANDA
+      commodity: yfinance
+      crypto: yfinance
+      index: yfinance
+    tv_mcp:
+      endpoint: "node /opt/tv-mcp/server.js"
+      flavor: tradesdontlie
+    oanda:
+      access_token: ${OANDA_ACCESS_TOKEN}
+      account_id: ${OANDA_ACCOUNT_ID}
+```
+
+アセット種別の判定は `alpha_forge.data.symbols.detect_asset_type` を利用：
+
+| 種別 | 判定ルール例 |
+|------|--------------|
+| `fx` | `USDJPY=X` / `EUR/USD` / `USD_JPY` |
+| `index` | `^GSPC`、`^VIX`、`^NDX`（`^` 始まり） |
+| `commodity` | `GC=F`、`CL=F`、`SI=F`（`=F` 末尾） |
+| `crypto` | `BTC-USD`、`ETH-USDT`、`ADA-BTC` |
+| `etf` | 既知 ETF リストに含まれるもの（`SPY`、`QQQ` 等） |
+| `stock` | 上記以外 |
+
+`auto_routing` テーブルにエントリが無いアセット種別が来た場合は明示的にエラーになります（`yfinance` への暗黙的フォールバックはしない）。
+
 ### シンボル表記の例
 
 | 資産タイプ | 例 |

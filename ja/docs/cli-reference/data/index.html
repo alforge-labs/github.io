@@ -1923,6 +1923,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#auto-issue-583-phase-15e-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto ルーティング（issue #583 Phase 1.5e-δ）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2536,6 +2547,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#auto-issue-583-phase-15e-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto ルーティング（issue #583 Phase 1.5e-δ）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2944,6 +2966,62 @@
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># forge.yaml の設定を利用（CLI から endpoint を省略）</span>
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
 </code></pre></div>
+<h3 id="auto-issue-583-phase-15e-"><code>auto</code> ルーティング（issue #583 Phase 1.5e-δ）<a class="headerlink" href="#auto-issue-583-phase-15e-" title="Permanent link">&para;</a></h3>
+<p><code>stock_provider</code> / <code>fx_provider</code> に <code>auto</code> を指定すると、シンボルから判定したアセット種別ごとに <code>auto_routing</code> テーブルから provider を解決します。<code>forge data fetch &lt;SYM&gt;</code> を実行するたびに別 provider を選びたい運用に便利です。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">providers</span><span class="p">:</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nt">stock_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">fx_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nt">auto_routing</span><span class="p">:</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">      </span><span class="nt">stock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">      </span><span class="c1"># 米株 / 日本株は TV MCP（長期データ）</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">      </span><span class="nt">etf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">      </span><span class="nt">fx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oanda</span><span class="w">          </span><span class="c1"># FX は OANDA</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">      </span><span class="nt">commodity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">      </span><span class="nt">crypto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">      </span><span class="nt">index</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="nt">tv_mcp</span><span class="p">:</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">/opt/tv-mcp/server.js&quot;</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">    </span><span class="nt">oanda</span><span class="p">:</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">      </span><span class="nt">access_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OANDA_ACCESS_TOKEN}</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">      </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OANDA_ACCOUNT_ID}</span>
+</code></pre></div>
+<p>アセット種別の判定は <code>alpha_forge.data.symbols.detect_asset_type</code> を利用：</p>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>判定ルール例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fx</code></td>
+<td><code>USDJPY=X</code> / <code>EUR/USD</code> / <code>USD_JPY</code></td>
+</tr>
+<tr>
+<td><code>index</code></td>
+<td><code>^GSPC</code>、<code>^VIX</code>、<code>^NDX</code>（<code>^</code> 始まり）</td>
+</tr>
+<tr>
+<td><code>commodity</code></td>
+<td><code>GC=F</code>、<code>CL=F</code>、<code>SI=F</code>（<code>=F</code> 末尾）</td>
+</tr>
+<tr>
+<td><code>crypto</code></td>
+<td><code>BTC-USD</code>、<code>ETH-USDT</code>、<code>ADA-BTC</code></td>
+</tr>
+<tr>
+<td><code>etf</code></td>
+<td>既知 ETF リストに含まれるもの（<code>SPY</code>、<code>QQQ</code> 等）</td>
+</tr>
+<tr>
+<td><code>stock</code></td>
+<td>上記以外</td>
+</tr>
+</tbody>
+</table>
+<p><code>auto_routing</code> テーブルにエントリが無いアセット種別が来た場合は明示的にエラーになります（<code>yfinance</code> への暗黙的フォールバックはしない）。</p>
 <h3 id="_19">シンボル表記の例<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
