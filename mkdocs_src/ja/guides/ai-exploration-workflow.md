@@ -269,6 +269,15 @@ AI エージェント × AlphaForge の使い方は、**起点となる材料** 
 | 初期フィルタ | Sharpe ≥ 1.0 **かつ** MaxDD ≤ 25% |
 | WFT 最終合格 | WFT 全ウィンドウ平均 Sharpe ≥ `goals/<goal_name>/goals.yaml` の `target_metrics.sharpe_ratio` |
 
+### 任意: 合格戦略への TradingView MCP 添付（issue #582）
+
+`forge.yaml` の `tv_mcp.pine_verify.enabled: true` で MCP server が起動済みのとき、`/explore-strategies` スキルは合格戦略 1 件あたり以下を自動実行して `goals/<goal_name>/reports/<strategy_id>/` に **TV 整合性チェック** と **チャート PNG** を残します（fail-soft：MCP 接続失敗・metrics 取得失敗は warning ログを出すだけで、戦略の合格判定や coverage 登録は変更しません）：
+
+- `forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/<id>/verify.md`
+- `forge journal report --with-chart --symbol <SYM> --interval D --output reports/<id>/journal.md`
+
+MCP server が起動していない・`tv_mcp.pine_verify.enabled: false` の goal ではこのステップはスキップされ、既存ループの挙動は変わりません。詳細は [TradingView Pine 連携ガイド](tradingview-pine-integration.md) を参照してください。
+
 ### 冪等性のポイント
 
 `goals/<goal_name>/explored_log.md` がチェックポイントになるため、同じゴール内で同じ組み合わせを重複探索しません。中断・再開は安全です。
