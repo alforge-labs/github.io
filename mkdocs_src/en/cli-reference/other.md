@@ -11,7 +11,8 @@ Utility and management commands not covered by the [core groups](index.md), bund
 |-------|-------------|---------|
 | [auth](#auth) | `login` `logout` `status` `check op` | Whop OAuth authentication and status |
 | [init](#init) | (single command) | Initialize working directory |
-| [pine](#pine) | `generate` `preview` `import` | Generate / import TradingView Pine Script |
+| [pine](#pine) | `generate` `preview` `import` `verify` | Generate / import TradingView Pine Script and verify via TV MCP |
+| [tv](#tv) | `chart` `inspect` | TradingView MCP integration (chart snapshots, ad-hoc tool calls) |
 | [indicator](#indicator) | `list` `show` | Browse supported technical indicators |
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
 | [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
@@ -425,6 +426,120 @@ forge pine import <PINE_FILE> --id <STRATEGY_ID>
 | `--id` | required | Strategy ID to save as |
 
 On parse failure: `Error: failed to parse Pine Script - <details>` (writes to stderr).
+
+### forge pine verify
+
+Verify the Pine Script generated from a strategy via a **TradingView MCP server** (issue #523). Beyond compile checks, it can compare the Strategy Tester aggregate metrics or the per-trade list against the matching alpha-forge backtest result.
+
+```bash
+forge pine verify --strategy <ID> [--check-mode <MODE>] [--mcp-server <CMD>] [--mcp-server-flavor <tradesdontlie|vinicius>] [OPTIONS]
+```
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `--strategy` | required | - | Strategy name |
+| `--check-mode` | choice | `compile_only` | `compile_only` / `metrics` / `signal` / `regime` |
+| `--mcp-server` | option | - | MCP server command (defaults to `tv_mcp.pine_verify.endpoint` in `forge.yaml`) |
+| `--mcp-server-flavor` | choice | `tradesdontlie` | `vinicius` is the `oviniciusramosp/tradingview-mcp` fork; recommended for metrics / signal modes |
+| `--mock` | flag | false | Use the mock MCP client (PoC / CI) |
+| `--symbol` / `--interval` | option | - | TV symbol / interval (required for metrics / signal modes) |
+| `--auto-backtest` | flag | false | Run the alpha-forge backtest internally for comparison |
+| `--backtest-result` | option | - | alpha-forge backtest result for comparison (JSON path or `run_id`) |
+| `--metric-tolerance` | float | `0.10` | Relative tolerance for metrics mode (10%) |
+| `--match-tolerance-seconds` | int | `60` | Trade-time tolerance for signal mode (seconds) |
+| `--min-match-rate` | float | `0.95` | Minimum trade match rate for signal mode |
+| `--output` | file | - | Markdown report destination |
+
+**check-mode**
+
+| Mode | Purpose |
+|------|---------|
+| `compile_only` | Validate Pine Script syntax / compilation only (`tradesdontlie` is fine) |
+| `metrics` | Compare TV Strategy Tester aggregate metrics (PF, win rate, total trades, etc.) against alpha-forge metrics. **`vinicius` recommended** (avoids the `data_get_strategy_results` bug in `tradesdontlie`) |
+| `signal` | Match TV's trade list to alpha-forge `trades` by entry time and compute a match rate |
+| `regime` | Phase 1.5c-γ and beyond. HMM state column comparison (work in progress) |
+
+**Examples**
+
+```bash
+# Compile-only verification (fastest)
+forge pine verify --strategy spy_sma_v1 --mcp-server "node /opt/tv-mcp/server.js"
+
+# Strategy Tester metrics comparison (vinicius recommended)
+forge pine verify --strategy spy_sma_v1 \
+  --check-mode metrics \
+  --symbol SPY --interval D \
+  --mcp-server-flavor vinicius \
+  --auto-backtest \
+  --output reports/verify_spy.md
+```
+
+For the verification workflow walkthrough, see [Bringing Pine Scripts into TradingView](../guides/tradingview-pine-integration.md).
+
+---
+
+## tv
+
+Drive a TradingView MCP server for chart snapshots and ad-hoc tool calls (issue #523).
+
+### forge tv chart
+
+Capture a TradingView chart snapshot as a PNG (Phase 1.5d).
+
+```bash
+forge tv chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
+```
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `SYMBOL` | argument (required) | - | TV symbol |
+| `--interval` | option | `D` | Timeframe (`1`, `5`, `60`, `D`, `W`, `M`) |
+| `--width` / `--height` | int | from `forge.yaml` (`tv_mcp.chart_snapshot`) | Image dimensions |
+| `--theme` | choice | from `forge.yaml` | `light` / `dark` |
+| `--output` | file | - | PNG output path. When omitted, only the cache path is printed |
+| `--mcp-server` | option | - | MCP server (defaults to `tv_mcp.chart_snapshot.endpoint`) |
+| `--mock` | flag | false | Mock MCP (CI) |
+| `--no-cache` | flag | false | Bypass cache |
+| `--md-output` | file | - | Append a Markdown image link (requires `--output`) |
+| `--md-alt` | option | - | Markdown image alt text (default: `SYMBOL Interval`) |
+
+Example:
+
+```bash
+forge tv chart SPY --interval D --output charts/spy_d.png \
+  --mcp-server "python /opt/tv-mcp-chart/server.py"
+```
+
+### forge tv inspect
+
+Invoke any MCP tool and print the JSON response (Phase 1.5c-α). Handy for poking at a new MCP server or discovering the available tools.
+
+```bash
+forge tv inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
+```
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `TOOL_NAME` | argument (required) | - | MCP tool name |
+| `--server-type` | choice | `pine` | Endpoint default selector (`pine` = `tv_mcp.pine_verify`, `chart` = `tv_mcp.chart_snapshot`) |
+| `--mcp-server` | option | - | Server command override |
+| `--mock` | flag | false | Static mock response (CI) |
+| `--arg` | repeatable | - | Tool arg `key=value` (value is JSON-parsed when possible) |
+| `--args-json` | option | - | Tool args as a JSON object (mutually exclusive with `--arg`) |
+| `--output` | file | - | JSON output destination |
+| `--pretty` / `--compact` | flag | `--pretty` | Indented vs single-line JSON |
+
+Examples:
+
+```bash
+# Tool listing (depends on the server implementation)
+forge tv inspect list_tools --server-type pine \
+  --mcp-server "node /opt/tv-mcp/server.js"
+
+# Try data_get_ohlcv
+forge tv inspect data_get_ohlcv \
+  --arg symbol=SPY --arg interval=D --arg bars=10
+```
 
 ---
 

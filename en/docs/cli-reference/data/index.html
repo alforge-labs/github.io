@@ -1824,6 +1824,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#tradingview-mcp-provider-tv_mcp-issue-576" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView MCP provider (tv_mcp, issue #576)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#symbol-notation-examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2426,6 +2437,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#tradingview-mcp-provider-tv_mcp-issue-576" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView MCP provider (tv_mcp, issue #576)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#symbol-notation-examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2470,7 +2492,7 @@
 
 
 <h1 id="forge-data">forge data<a class="headerlink" href="#forge-data" title="Permanent link">&para;</a></h1>
-<p>Fetch, update, and inspect historical market data. Pulls OHLCV from configured providers (yfinance / moomoo / OANDA / Dukascopy) and caches it locally as Parquet.</p>
+<p>Fetch, update, and inspect historical market data. Pulls OHLCV from configured providers (yfinance / moomoo / OANDA / Dukascopy / TradingView MCP) and caches it locally as Parquet.</p>
 <div class="admonition info">
 <p class="admonition-title">About sample output</p>
 <p>Sample outputs in this page are based on the formats read from the <code>alpha-forge</code> source. Actual numbers depend on the data and environment.</p>
@@ -2530,7 +2552,7 @@
 <td><code>--period</code></td>
 <td>option</td>
 <td><code>1y</code></td>
-<td>Fetch period (e.g. <code>1y</code>, <code>5y</code>, <code>6m</code>, <code>30d</code>)</td>
+<td>Fetch period (e.g. <code>1y</code>, <code>5y</code>, <code>6m</code>, <code>30d</code>, <code>max</code>)</td>
 </tr>
 <tr>
 <td><code>--interval</code></td>
@@ -2550,9 +2572,27 @@
 <td>false</td>
 <td>Force re-fetch regardless of TTL</td>
 </tr>
+<tr>
+<td><code>--provider</code></td>
+<td>choice</td>
+<td>-</td>
+<td>Explicit provider override (<code>yfinance</code> / <code>moomoo</code> / <code>tv_mcp</code>). Falls back to <code>data.providers</code> in <code>forge.yaml</code> when omitted</td>
+</tr>
+<tr>
+<td><code>--mcp-server</code></td>
+<td>option</td>
+<td>-</td>
+<td>MCP server command for <code>--provider tv_mcp</code> (e.g. <code>node /opt/tv-mcp/server.js</code>). Falls back to <code>data.providers.tv_mcp.endpoint</code> in <code>forge.yaml</code></td>
+</tr>
+<tr>
+<td><code>--mcp-server-flavor</code></td>
+<td>choice</td>
+<td>-</td>
+<td>MCP server flavor for <code>--provider tv_mcp</code> (<code>tradesdontlie</code> / <code>vinicius</code>). CLI value takes precedence over <code>forge.yaml</code></td>
+</tr>
 </tbody>
 </table>
-<p>You must provide either <code>SYMBOL</code> or <code>--watchlist</code>.</p>
+<p>You must provide either <code>SYMBOL</code> or <code>--watchlist</code>. With <code>--provider tv_mcp</code>, the command fails fast if no <code>endpoint</code> can be resolved.</p>
 <h3 id="sample-output-single-symbol">Sample output (single symbol)<a class="headerlink" href="#sample-output-single-symbol" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Fetching data: SPY (period=5y, interval=1d)
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Fetched and saved data for SPY (1258 lines)
@@ -2780,8 +2820,42 @@
 <td>Decades</td>
 <td><code>1d</code>, <code>1h</code>, <code>5m</code></td>
 </tr>
+<tr>
+<td><strong>tv_mcp</strong></td>
+<td>Anything visible on TradingView (stocks, ETFs, FX, futures, crypto, etc.)</td>
+<td>Requires TradingView Desktop launched with <code>--remote-debugging-port=9222</code> and a running MCP server</td>
+<td>TradingView's own (decades on <code>1d</code>, 10+ years on <code>1h</code>)</td>
+<td>TradingView interval names (<code>D</code>, <code>60</code>, <code>5</code>, etc.) — input is normalized internally</td>
+</tr>
 </tbody>
 </table>
+<h3 id="tradingview-mcp-provider-tv_mcp-issue-576">TradingView MCP provider (<code>tv_mcp</code>, issue #576)<a class="headerlink" href="#tradingview-mcp-provider-tv_mcp-issue-576" title="Permanent link">&para;</a></h3>
+<p><code>--provider tv_mcp</code> pulls OHLCV through an MCP server attached to TradingView Desktop. This is mainly useful when you need history beyond yfinance's ~5y limit.</p>
+<ul>
+<li><strong>Prerequisites</strong>: launch TradingView Desktop with <code>--remote-debugging-port=9222</code>, then start <code>tradesdontlie/tradingview-mcp</code> or <code>oviniciusramosp/tradingview-mcp</code> (the vinicius fork) in a separate process.</li>
+<li><strong>Range sliding</strong>: a single MCP request returns at most 500 bars; alpha-forge transparently slides the visible range and concatenates chunks (cap: <code>data.providers.tv_mcp.max_chunks</code>). <code>--period max</code> works.</li>
+<li><strong>Flavor</strong>: <code>data_get_ohlcv</code> works on both flavors. For OHLCV-only use, the default <code>tradesdontlie</code> is sufficient.</li>
+<li><strong><code>forge.yaml</code> example</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">providers</span><span class="p">:</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">stock_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">     </span><span class="c1"># use tv_mcp for stocks / ETFs</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">fx_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">        </span><span class="c1"># also for FX</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">enable_fallback</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">      </span><span class="c1"># fall back to yfinance on tv_mcp failure</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">tv_mcp</span><span class="p">:</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">/opt/tv-mcp/server.js&quot;</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span><span class="w">    </span><span class="c1"># tradesdontlie is fine for OHLCV</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">      </span><span class="nt">max_bars_per_call</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">   </span><span class="c1"># MCP-side cap</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">      </span><span class="nt">max_chunks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span><span class="w">          </span><span class="c1"># safeguard for range sliding</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
+</code></pre></div>
+<p>Examples:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># pass the endpoint via CLI</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>SPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--mcp-server<span class="w"> </span><span class="s2">&quot;node /opt/tv-mcp/server.js&quot;</span><span class="w"> </span>--period<span class="w"> </span>max
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># rely on forge.yaml (no --mcp-server needed)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+</code></pre></div>
 <h3 id="symbol-notation-examples">Symbol notation examples<a class="headerlink" href="#symbol-notation-examples" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2806,6 +2880,10 @@
 <tr>
 <td>Futures (yfinance)</td>
 <td><code>CL=F</code> (oil), <code>GC=F</code> (gold), <code>SI=F</code> (silver)</td>
+</tr>
+<tr>
+<td>TradingView MCP</td>
+<td>TradingView's own notation (<code>AAPL</code>, <code>USDJPY</code>, <code>OANDA:EURUSD</code>, <code>COMEX:GC1!</code>, etc.)</td>
 </tr>
 </tbody>
 </table>

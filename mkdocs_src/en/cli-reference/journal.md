@@ -16,6 +16,7 @@ Manage strategy execution history, snapshots, tags, notes, and verdicts (pass / 
 | [`forge journal tag`](#forge-journal-tag) | Add or remove tags |
 | [`forge journal note`](#forge-journal-note) | Append a note |
 | [`forge journal verdict`](#forge-journal-verdict) | Record a verdict (pass / fail / review) for a run result |
+| [`forge journal report`](#forge-journal-report) | Render the strategy history as a Markdown report (with optional TV chart embedding) |
 
 ---
 
@@ -275,6 +276,48 @@ The verdict is reflected in `forge journal show` and `forge journal runs` output
 |---------|-------|-----|
 | `Error: run_id not found - <id>` | Specified `run_id` does not exist in the journal | Verify with `forge journal runs <strategy_id>` |
 | Click: `Invalid value for 'VERDICT'` | Value other than `pass` / `fail` / `review` | Use one of the choices |
+
+---
+
+## forge journal report
+
+Render the strategy's full history (snapshots, runs, tags, notes, verdicts) as a **Markdown report** (issue #523 Phase 1.5d-γ). With `--with-chart`, append a TradingView chart PNG fetched from a TV MCP server at the bottom.
+
+### Synopsis
+
+```bash
+forge journal report <STRATEGY_ID> [--output <FILE>] [--with-chart --symbol <SYM> --interval <TF>]
+```
+
+### Arguments and options
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `STRATEGY_ID` | argument (required) | - | Strategy ID |
+| `--output` | file path | - | Markdown output destination. Stdout when omitted |
+| `--with-chart` | flag | false | Append a TradingView chart PNG at the end of the report |
+| `--symbol` | option | - | TV symbol for the chart (required when `--with-chart`) |
+| `--interval` | option | - | TV interval for the chart (e.g. `D`, `60`) |
+| `--mock` | flag | false | Use the mock MCP client for chart retrieval (CI) |
+| `--mcp-server` | option | - | MCP server endpoint for chart retrieval (defaults to `tv_mcp.chart_snapshot.endpoint` in `forge.yaml`) |
+
+### Examples
+
+```bash
+# Print to stdout
+forge journal report spy_sma_v1
+
+# Write to file with embedded TV chart
+forge journal report spy_sma_v1 --output reports/spy.md \
+  --with-chart --symbol SPY --interval D
+```
+
+### Common errors
+
+| Message | Cause | Fix |
+|---------|-------|-----|
+| `No journal found: <id>` | Journal missing | Verify with `forge journal list` |
+| `--with-chart requires --symbol / --interval.` | Missing chart args | Add `--symbol` and `--interval` |
 
 ---
 

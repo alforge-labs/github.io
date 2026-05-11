@@ -16,6 +16,7 @@
 | [`forge journal tag`](#forge-journal-tag) | タグを追加・削除する |
 | [`forge journal note`](#forge-journal-note) | メモを追記する |
 | [`forge journal verdict`](#forge-journal-verdict) | 実行結果に判定（pass / fail / review）を記録する |
+| [`forge journal report`](#forge-journal-report) | 戦略履歴を Markdown レポートとして出力する（TV チャート埋込対応） |
 
 ---
 
@@ -275,6 +276,48 @@ forge journal verdict <STRATEGY_ID> <RUN_ID> <pass|fail|review>
 |----------|------|------|
 | `エラー: run_id が見つかりません - <id>` | 指定 `run_id` がジャーナルに存在しない | `forge journal runs <strategy_id>` で確認 |
 | Click: `Invalid value for 'VERDICT'` | `pass` / `fail` / `review` 以外を指定 | choice の値を使用 |
+
+---
+
+## forge journal report
+
+ジャーナルの全履歴（スナップショット・実行履歴・タグ・メモ・判定）を **Markdown レポート** として出力します（issue #523 Phase 1.5d-γ）。`--with-chart` を併用すると、TradingView から取得した最新チャートの PNG をレポート末尾に埋め込めます。
+
+### 構文
+
+```bash
+forge journal report <STRATEGY_ID> [--output <FILE>] [--with-chart --symbol <SYM> --interval <TF>]
+```
+
+### 引数とオプション
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `STRATEGY_ID` | 引数（必須） | - | 戦略 ID |
+| `--output` | ファイルパス | - | Markdown 出力先。省略時は標準出力 |
+| `--with-chart` | フラグ | false | TradingView チャート PNG をレポート末尾に埋め込む |
+| `--symbol` | オプション | - | チャート用 TV シンボル（`--with-chart` 必須） |
+| `--interval` | オプション | - | チャート用 TV インターバル（例: `D`, `60`） |
+| `--mock` | フラグ | false | チャート取得を Mock MCP で行う（CI 用） |
+| `--mcp-server` | オプション | - | チャート取得用 MCP サーバー（省略時 `forge.yaml` の `tv_mcp.chart_snapshot.endpoint`） |
+
+### 実行例
+
+```bash
+# 標準出力
+forge journal report spy_sma_v1
+
+# ファイル出力 + TV チャート埋込
+forge journal report spy_sma_v1 --output reports/spy.md \
+  --with-chart --symbol SPY --interval D
+```
+
+### 主なエラー
+
+| メッセージ | 原因 | 対処 |
+|----------|------|------|
+| `ジャーナルがありません: <id>` | ジャーナル不存在 | `forge journal list` で確認 |
+| `--with-chart には --symbol / --interval を指定してください。` | チャート埋込時の引数不足 | `--symbol` と `--interval` を追加 |
 
 ---
 

@@ -1824,6 +1824,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#tradingview-mcp-tv_mcpissue-576" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView MCP プロバイダー（tv_mcp、issue #576）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2426,6 +2437,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#tradingview-mcp-tv_mcpissue-576" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TradingView MCP プロバイダー（tv_mcp、issue #576）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2470,7 +2492,7 @@
 
 
 <h1 id="forge-data">forge data<a class="headerlink" href="#forge-data" title="Permanent link">&para;</a></h1>
-<p>ヒストリカルマーケットデータの取得・更新・参照を行うコマンドグループ。プロバイダー（yfinance / moomoo / OANDA / Dukascopy）から OHLCV を取得し、Parquet 形式でローカルキャッシュします。</p>
+<p>ヒストリカルマーケットデータの取得・更新・参照を行うコマンドグループ。プロバイダー（yfinance / moomoo / OANDA / Dukascopy / TradingView MCP）から OHLCV を取得し、Parquet 形式でローカルキャッシュします。</p>
 <div class="admonition info">
 <p class="admonition-title">サンプル出力について</p>
 <p>本ページの出力例は <code>alpha-forge</code> のソースから読み取ったフォーマットを元にしたサンプルです。実際の数値はデータと環境によって異なります。</p>
@@ -2530,7 +2552,7 @@
 <td><code>--period</code></td>
 <td>オプション</td>
 <td><code>1y</code></td>
-<td>取得期間（例: <code>1y</code>、<code>5y</code>、<code>6m</code>、<code>30d</code>）</td>
+<td>取得期間（例: <code>1y</code>、<code>5y</code>、<code>6m</code>、<code>30d</code>、<code>max</code>）</td>
 </tr>
 <tr>
 <td><code>--interval</code></td>
@@ -2550,9 +2572,27 @@
 <td>false</td>
 <td>TTL に関わらず強制的に再取得</td>
 </tr>
+<tr>
+<td><code>--provider</code></td>
+<td>choice</td>
+<td>-</td>
+<td>データソースを明示指定（<code>yfinance</code> / <code>moomoo</code> / <code>tv_mcp</code>）。省略時は <code>forge.yaml</code> の <code>data.providers</code> 設定で自動解決</td>
+</tr>
+<tr>
+<td><code>--mcp-server</code></td>
+<td>オプション</td>
+<td>-</td>
+<td><code>--provider tv_mcp</code> 用 MCP サーバーコマンド（例: <code>node /opt/tv-mcp/server.js</code>）。省略時は <code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code></td>
+</tr>
+<tr>
+<td><code>--mcp-server-flavor</code></td>
+<td>choice</td>
+<td>-</td>
+<td><code>--provider tv_mcp</code> 用 MCP server 系統（<code>tradesdontlie</code> / <code>vinicius</code>）。CLI 指定が <code>forge.yaml</code> より優先</td>
+</tr>
 </tbody>
 </table>
-<p><code>SYMBOL</code> も <code>--watchlist</code> も指定しないとエラーになります。</p>
+<p><code>SYMBOL</code> も <code>--watchlist</code> も指定しないとエラーになります。<code>--provider tv_mcp</code> を指定しても <code>endpoint</code> が解決できない場合はエラーで停止します。</p>
 <h3 id="_4">サンプル出力（単一シンボル）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>データの取得を開始します: SPY (period=5y, interval=1d)
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>SPY のデータを取得し保存しました (1258 lines)
@@ -2780,8 +2820,42 @@
 <td>数十年</td>
 <td><code>1d</code>、<code>1h</code>、<code>5m</code></td>
 </tr>
+<tr>
+<td><strong>tv_mcp</strong></td>
+<td>TradingView 上で表示できる全銘柄（株・ETF・FX・先物・暗号通貨等）</td>
+<td>要 TradingView Desktop（<code>--remote-debugging-port=9222</code>）+ MCP server 起動</td>
+<td>TradingView 仕様（<code>1d</code> で数十年、<code>1h</code> で十年以上が可能）</td>
+<td>TradingView の interval 表記（<code>D</code>、<code>60</code>、<code>5</code> 等）に正規化される</td>
+</tr>
 </tbody>
 </table>
+<h3 id="tradingview-mcp-tv_mcpissue-576">TradingView MCP プロバイダー（<code>tv_mcp</code>、issue #576）<a class="headerlink" href="#tradingview-mcp-tv_mcpissue-576" title="Permanent link">&para;</a></h3>
+<p><code>--provider tv_mcp</code> を指定すると、TradingView Desktop に接続した MCP server から OHLCV を取得します。yfinance の period 上限（<code>5y</code> 程度）を超える長期データの取得を主目的としています。</p>
+<ul>
+<li><strong>前提</strong>: TradingView Desktop を <code>--remote-debugging-port=9222</code> で起動し、<code>tradesdontlie/tradingview-mcp</code> または <code>oviniciusramosp/tradingview-mcp</code>（vinicius fork）を別プロセスで起動しておく</li>
+<li><strong>範囲スライド</strong>: 1 リクエスト 500 bars 上限を内部で自動分割し、<code>--period max</code> でも複数チャンクを連結する（上限は <code>data.providers.tv_mcp.max_chunks</code>）</li>
+<li><strong>flavor</strong>: <code>data_get_ohlcv</code> は両系共通で動作。OHLCV のみ用途なら既定の <code>tradesdontlie</code> で十分</li>
+<li><strong>設定例</strong>（<code>forge.yaml</code>）:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">providers</span><span class="p">:</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">stock_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">     </span><span class="c1"># 株 / ETF を tv_mcp で取得</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">fx_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">        </span><span class="c1"># FX も tv_mcp で取得</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">enable_fallback</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">      </span><span class="c1"># tv_mcp 失敗時 yfinance へフォールバック</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">tv_mcp</span><span class="p">:</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">/opt/tv-mcp/server.js&quot;</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span><span class="w">    </span><span class="c1"># OHLCV 用途なら tradesdontlie で OK</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">      </span><span class="nt">max_bars_per_call</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">   </span><span class="c1"># MCP 上限</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">      </span><span class="nt">max_chunks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span><span class="w">          </span><span class="c1"># 範囲スライド時のチャンク上限</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
+</code></pre></div>
+<p>実行例：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># CLI で endpoint を直接指定して fetch</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>SPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--mcp-server<span class="w"> </span><span class="s2">&quot;node /opt/tv-mcp/server.js&quot;</span><span class="w"> </span>--period<span class="w"> </span>max
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># forge.yaml の設定を利用（CLI から endpoint を省略）</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+</code></pre></div>
 <h3 id="_19">シンボル表記の例<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2806,6 +2880,10 @@
 <tr>
 <td>先物（yfinance）</td>
 <td><code>CL=F</code>（原油）、<code>GC=F</code>（金）、<code>SI=F</code>（銀）</td>
+</tr>
+<tr>
+<td>TradingView MCP</td>
+<td>TradingView 表記そのまま（<code>AAPL</code>、<code>USDJPY</code>、<code>OANDA:EURUSD</code>、<code>COMEX:GC1!</code> 等）</td>
 </tr>
 </tbody>
 </table>
