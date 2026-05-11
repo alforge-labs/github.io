@@ -11,7 +11,8 @@
 |---------|-------------|----------|
 | [auth](#auth) | `login` `logout` `status` `check op` | Whop OAuth 認証と認証状態の確認 |
 | [init](#init) | （単一コマンド） | 作業ディレクトリの初期化 |
-| [pine](#pine) | `generate` `preview` `import` | TradingView Pine Script の生成・取り込み |
+| [pine](#pine) | `generate` `preview` `import` `verify` | TradingView Pine Script の生成・取り込み・MCP 検証 |
+| [tv](#tv) | `chart` `inspect` | TradingView MCP（チャートスナップショット・任意ツール呼び出し） |
 | [indicator](#indicator) | `list` `show` | 対応テクニカル指標の参照 |
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | 投資アイデアの記録・追跡 |
 | [altdata](#altdata) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
@@ -428,6 +429,120 @@ forge pine import <PINE_FILE> --id <STRATEGY_ID>
 | `--id` | 必須 | 保存する戦略 ID |
 
 パース失敗時は `エラー: Pine Script のパースに失敗しました - <details>` を出して標準エラーへ。
+
+### forge pine verify
+
+戦略から生成した Pine Script を **TradingView MCP server** で検証します（issue #523）。コンパイルチェックに加えて、Strategy Tester の集計値や個別トレードを alpha-forge のバックテスト結果と突き合わせて差異を検出できます。
+
+```bash
+forge pine verify --strategy <ID> [--check-mode <MODE>] [--mcp-server <CMD>] [--mcp-server-flavor <tradesdontlie|vinicius>] [OPTIONS]
+```
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `--strategy` | 必須 | - | 戦略名 |
+| `--check-mode` | choice | `compile_only` | `compile_only` / `metrics` / `signal` / `regime` |
+| `--mcp-server` | オプション | - | MCP サーバーコマンド（省略時 `forge.yaml` の `tv_mcp.pine_verify.endpoint`） |
+| `--mcp-server-flavor` | choice | `tradesdontlie` | `vinicius` は `oviniciusramosp/tradingview-mcp` フォーク。metrics/signal モードでは推奨 |
+| `--mock` | フラグ | false | Mock MCP クライアント（PoC・CI 用） |
+| `--symbol` / `--interval` | オプション | - | TV シンボル / インターバル（metrics / signal モードで必須） |
+| `--auto-backtest` | フラグ | false | alpha-forge バックテストを内部で実行して比較する |
+| `--backtest-result` | オプション | - | 比較対象 alpha-forge バックテスト結果（JSON パスまたは `run_id`） |
+| `--metric-tolerance` | float | `0.10` | metrics モードの相対差許容（10%） |
+| `--match-tolerance-seconds` | int | `60` | signal モードのトレード時刻許容差（秒） |
+| `--min-match-rate` | float | `0.95` | signal モードの最低トレード一致率 |
+| `--output` | ファイル | - | レポート Markdown 出力先 |
+
+**check-mode**
+
+| モード | 用途 |
+|--------|------|
+| `compile_only` | Pine Script の構文・コンパイルだけを検証（`tradesdontlie` で十分） |
+| `metrics` | TV Strategy Tester の総合メトリクス（PF・勝率・トレード数等）と alpha-forge のメトリクスを比較。**`vinicius` 推奨**（`tradesdontlie` の `data_get_strategy_results` バグ回避） |
+| `signal` | TV のトレードリストと alpha-forge の `trades` を時刻ベースで突合し一致率を算出 |
+| `regime` | Phase 1.5c-γ 以降。HMM 状態列の比較（実装中） |
+
+**実行例**
+
+```bash
+# コンパイル検証のみ（最速）
+forge pine verify --strategy spy_sma_v1 --mcp-server "node /opt/tv-mcp/server.js"
+
+# Strategy Tester 集計の比較（vinicius 推奨）
+forge pine verify --strategy spy_sma_v1 \
+  --check-mode metrics \
+  --symbol SPY --interval D \
+  --mcp-server-flavor vinicius \
+  --auto-backtest \
+  --output reports/verify_spy.md
+```
+
+検証ガイドの詳細は [TradingView との Pine Script 連携](../guides/tradingview-pine-integration.md) を参照してください。
+
+---
+
+## tv
+
+TradingView MCP server を介したチャート取得・任意ツール呼び出しを行うコマンドグループ（issue #523）。
+
+### forge tv chart
+
+TradingView チャートのスナップショット PNG を取得します（Phase 1.5d）。
+
+```bash
+forge tv chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
+```
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `SYMBOL` | 引数（必須） | - | TV シンボル |
+| `--interval` | オプション | `D` | タイムフレーム（`1`, `5`, `60`, `D`, `W`, `M`） |
+| `--width` / `--height` | int | `forge.yaml` の `tv_mcp.chart_snapshot` | 画像サイズ |
+| `--theme` | choice | `forge.yaml` 既定 | `light` / `dark` |
+| `--output` | ファイル | - | 出力 PNG パス。省略時はキャッシュパスのみ表示 |
+| `--mcp-server` | オプション | - | MCP サーバー（省略時 `tv_mcp.chart_snapshot.endpoint`） |
+| `--mock` | フラグ | false | Mock MCP（CI 用） |
+| `--no-cache` | フラグ | false | キャッシュを無視 |
+| `--md-output` | ファイル | - | Markdown ファイルに画像リンクを追記（`--output` 必須） |
+| `--md-alt` | オプション | - | Markdown 画像 alt（既定: `SYMBOL Interval`） |
+
+実行例：
+
+```bash
+forge tv chart SPY --interval D --output charts/spy_d.png \
+  --mcp-server "python /opt/tv-mcp-chart/server.py"
+```
+
+### forge tv inspect
+
+任意の MCP tool を呼び出して JSON でレスポンスを表示します（Phase 1.5c-α）。新しい MCP server の挙動確認や、サポートされているツール一覧の探索に使います。
+
+```bash
+forge tv inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
+```
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `TOOL_NAME` | 引数（必須） | - | 呼び出す MCP tool 名 |
+| `--server-type` | choice | `pine` | endpoint 既定値の選択（`pine` = `tv_mcp.pine_verify`、`chart` = `tv_mcp.chart_snapshot`） |
+| `--mcp-server` | オプション | - | 直接サーバーコマンドを指定 |
+| `--mock` | フラグ | false | 固定 Mock レスポンス（CI 用） |
+| `--arg` | 複数指定可 | - | tool 引数 `key=value`（値は JSON として解釈試行） |
+| `--args-json` | オプション | - | tool 引数を JSON オブジェクトで指定（`--arg` と排他） |
+| `--output` | ファイル | - | JSON 出力先 |
+| `--pretty` / `--compact` | フラグ | `--pretty` | 整形 / 1 行 JSON |
+
+実行例：
+
+```bash
+# tool 一覧（実装に依存）
+forge tv inspect list_tools --server-type pine \
+  --mcp-server "node /opt/tv-mcp/server.js"
+
+# data_get_ohlcv を試す
+forge tv inspect data_get_ohlcv \
+  --arg symbol=SPY --arg interval=D --arg bars=10
+```
 
 ---
 

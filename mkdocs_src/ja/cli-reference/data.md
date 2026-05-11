@@ -1,6 +1,6 @@
 # forge data
 
-ヒストリカルマーケットデータの取得・更新・参照を行うコマンドグループ。プロバイダー（yfinance / moomoo / OANDA / Dukascopy）から OHLCV を取得し、Parquet 形式でローカルキャッシュします。
+ヒストリカルマーケットデータの取得・更新・参照を行うコマンドグループ。プロバイダー（yfinance / moomoo / OANDA / Dukascopy / TradingView MCP）から OHLCV を取得し、Parquet 形式でローカルキャッシュします。
 
 !!! info "サンプル出力について"
     本ページの出力例は `alpha-forge` のソースから読み取ったフォーマットを元にしたサンプルです。実際の数値はデータと環境によって異なります。
@@ -32,12 +32,15 @@ forge data fetch --watchlist <FILE> [OPTIONS]
 | 名前 | 種別 | デフォルト | 説明 |
 |------|------|----------|------|
 | `SYMBOL` | 引数（任意） | - | 銘柄シンボル。`--watchlist` と排他 |
-| `--period` | オプション | `1y` | 取得期間（例: `1y`、`5y`、`6m`、`30d`） |
+| `--period` | オプション | `1y` | 取得期間（例: `1y`、`5y`、`6m`、`30d`、`max`） |
 | `--interval` | オプション | `1d` | 時間足（例: `1d`、`1h`、`5m`） |
 | `--watchlist` | オプション | - | 複数銘柄リストファイル（行ごとに 1 銘柄、`#` 始まりはコメント） |
 | `--force` | フラグ | false | TTL に関わらず強制的に再取得 |
+| `--provider` | choice | - | データソースを明示指定（`yfinance` / `moomoo` / `tv_mcp`）。省略時は `forge.yaml` の `data.providers` 設定で自動解決 |
+| `--mcp-server` | オプション | - | `--provider tv_mcp` 用 MCP サーバーコマンド（例: `node /opt/tv-mcp/server.js`）。省略時は `forge.yaml` の `data.providers.tv_mcp.endpoint` |
+| `--mcp-server-flavor` | choice | - | `--provider tv_mcp` 用 MCP server 系統（`tradesdontlie` / `vinicius`）。CLI 指定が `forge.yaml` より優先 |
 
-`SYMBOL` も `--watchlist` も指定しないとエラーになります。
+`SYMBOL` も `--watchlist` も指定しないとエラーになります。`--provider tv_mcp` を指定しても `endpoint` が解決できない場合はエラーで停止します。
 
 ### サンプル出力（単一シンボル）
 
@@ -208,6 +211,40 @@ forge data update
 | **moomoo** | 株 / ETF（米・香港・本土） | 要 OpenD ローカル接続 | プロバイダー仕様 | `1d`、`1h`、`5m` ほか |
 | **OANDA** | FX | 要 API キー | プロバイダー仕様 | `1d`、`H1`、`M5` ほか |
 | **Dukascopy** | FX 超長期 | 不要（CSV ダウンロード） | 数十年 | `1d`、`1h`、`5m` |
+| **tv_mcp** | TradingView 上で表示できる全銘柄（株・ETF・FX・先物・暗号通貨等） | 要 TradingView Desktop（`--remote-debugging-port=9222`）+ MCP server 起動 | TradingView 仕様（`1d` で数十年、`1h` で十年以上が可能） | TradingView の interval 表記（`D`、`60`、`5` 等）に正規化される |
+
+### TradingView MCP プロバイダー（`tv_mcp`、issue #576）
+
+`--provider tv_mcp` を指定すると、TradingView Desktop に接続した MCP server から OHLCV を取得します。yfinance の period 上限（`5y` 程度）を超える長期データの取得を主目的としています。
+
+- **前提**: TradingView Desktop を `--remote-debugging-port=9222` で起動し、`tradesdontlie/tradingview-mcp` または `oviniciusramosp/tradingview-mcp`（vinicius fork）を別プロセスで起動しておく
+- **範囲スライド**: 1 リクエスト 500 bars 上限を内部で自動分割し、`--period max` でも複数チャンクを連結する（上限は `data.providers.tv_mcp.max_chunks`）
+- **flavor**: `data_get_ohlcv` は両系共通で動作。OHLCV のみ用途なら既定の `tradesdontlie` で十分
+- **設定例**（`forge.yaml`）:
+
+```yaml
+data:
+  providers:
+    stock_provider: tv_mcp     # 株 / ETF を tv_mcp で取得
+    fx_provider: tv_mcp        # FX も tv_mcp で取得
+    enable_fallback: true      # tv_mcp 失敗時 yfinance へフォールバック
+    tv_mcp:
+      endpoint: "node /opt/tv-mcp/server.js"
+      flavor: tradesdontlie    # OHLCV 用途なら tradesdontlie で OK
+      max_bars_per_call: 500   # MCP 上限
+      max_chunks: 200          # 範囲スライド時のチャンク上限
+      timeout_seconds: 120
+```
+
+実行例：
+
+```bash
+# CLI で endpoint を直接指定して fetch
+forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
+
+# forge.yaml の設定を利用（CLI から endpoint を省略）
+forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
+```
 
 ### シンボル表記の例
 
@@ -217,6 +254,7 @@ forge data update
 | 為替（yfinance） | `USDJPY=X`、`EURUSD=X` |
 | 為替（OANDA） | `USD_JPY`、`EUR_USD` |
 | 先物（yfinance） | `CL=F`（原油）、`GC=F`（金）、`SI=F`（銀） |
+| TradingView MCP | TradingView 表記そのまま（`AAPL`、`USDJPY`、`OANDA:EURUSD`、`COMEX:GC1!` 等） |
 
 プロバイダー固有のシンボル表記は `alpha-forge/src/alpha_forge/data/providers/<provider>.py` を参照してください。
 

@@ -1,6 +1,6 @@
 # forge data
 
-Fetch, update, and inspect historical market data. Pulls OHLCV from configured providers (yfinance / moomoo / OANDA / Dukascopy) and caches it locally as Parquet.
+Fetch, update, and inspect historical market data. Pulls OHLCV from configured providers (yfinance / moomoo / OANDA / Dukascopy / TradingView MCP) and caches it locally as Parquet.
 
 !!! info "About sample output"
     Sample outputs in this page are based on the formats read from the `alpha-forge` source. Actual numbers depend on the data and environment.
@@ -32,12 +32,15 @@ forge data fetch --watchlist <FILE> [OPTIONS]
 | Name | Kind | Default | Description |
 |------|------|---------|-------------|
 | `SYMBOL` | argument (optional) | - | Symbol. Mutually exclusive with `--watchlist` |
-| `--period` | option | `1y` | Fetch period (e.g. `1y`, `5y`, `6m`, `30d`) |
+| `--period` | option | `1y` | Fetch period (e.g. `1y`, `5y`, `6m`, `30d`, `max`) |
 | `--interval` | option | `1d` | Bar interval (e.g. `1d`, `1h`, `5m`) |
 | `--watchlist` | option | - | Watchlist file (one symbol per line; lines starting with `#` are comments) |
 | `--force` | flag | false | Force re-fetch regardless of TTL |
+| `--provider` | choice | - | Explicit provider override (`yfinance` / `moomoo` / `tv_mcp`). Falls back to `data.providers` in `forge.yaml` when omitted |
+| `--mcp-server` | option | - | MCP server command for `--provider tv_mcp` (e.g. `node /opt/tv-mcp/server.js`). Falls back to `data.providers.tv_mcp.endpoint` in `forge.yaml` |
+| `--mcp-server-flavor` | choice | - | MCP server flavor for `--provider tv_mcp` (`tradesdontlie` / `vinicius`). CLI value takes precedence over `forge.yaml` |
 
-You must provide either `SYMBOL` or `--watchlist`.
+You must provide either `SYMBOL` or `--watchlist`. With `--provider tv_mcp`, the command fails fast if no `endpoint` can be resolved.
 
 ### Sample output (single symbol)
 
@@ -208,6 +211,40 @@ No stored data found.
 | **moomoo** | Stocks / ETFs (US, HK, A-share) | Local OpenD connection required | Provider-specific | `1d`, `1h`, `5m`, etc. |
 | **OANDA** | FX | API key required | Provider-specific | `1d`, `H1`, `M5`, etc. |
 | **Dukascopy** | Long-history FX | None (CSV download) | Decades | `1d`, `1h`, `5m` |
+| **tv_mcp** | Anything visible on TradingView (stocks, ETFs, FX, futures, crypto, etc.) | Requires TradingView Desktop launched with `--remote-debugging-port=9222` and a running MCP server | TradingView's own (decades on `1d`, 10+ years on `1h`) | TradingView interval names (`D`, `60`, `5`, etc.) — input is normalized internally |
+
+### TradingView MCP provider (`tv_mcp`, issue #576)
+
+`--provider tv_mcp` pulls OHLCV through an MCP server attached to TradingView Desktop. This is mainly useful when you need history beyond yfinance's ~5y limit.
+
+- **Prerequisites**: launch TradingView Desktop with `--remote-debugging-port=9222`, then start `tradesdontlie/tradingview-mcp` or `oviniciusramosp/tradingview-mcp` (the vinicius fork) in a separate process.
+- **Range sliding**: a single MCP request returns at most 500 bars; alpha-forge transparently slides the visible range and concatenates chunks (cap: `data.providers.tv_mcp.max_chunks`). `--period max` works.
+- **Flavor**: `data_get_ohlcv` works on both flavors. For OHLCV-only use, the default `tradesdontlie` is sufficient.
+- **`forge.yaml` example**:
+
+```yaml
+data:
+  providers:
+    stock_provider: tv_mcp     # use tv_mcp for stocks / ETFs
+    fx_provider: tv_mcp        # also for FX
+    enable_fallback: true      # fall back to yfinance on tv_mcp failure
+    tv_mcp:
+      endpoint: "node /opt/tv-mcp/server.js"
+      flavor: tradesdontlie    # tradesdontlie is fine for OHLCV
+      max_bars_per_call: 500   # MCP-side cap
+      max_chunks: 200          # safeguard for range sliding
+      timeout_seconds: 120
+```
+
+Examples:
+
+```bash
+# pass the endpoint via CLI
+forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
+
+# rely on forge.yaml (no --mcp-server needed)
+forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
+```
 
 ### Symbol notation examples
 
@@ -217,6 +254,7 @@ No stored data found.
 | FX (yfinance) | `USDJPY=X`, `EURUSD=X` |
 | FX (OANDA) | `USD_JPY`, `EUR_USD` |
 | Futures (yfinance) | `CL=F` (oil), `GC=F` (gold), `SI=F` (silver) |
+| TradingView MCP | TradingView's own notation (`AAPL`, `USDJPY`, `OANDA:EURUSD`, `COMEX:GC1!`, etc.) |
 
 Provider-specific symbol notation is documented in `alpha-forge/src/alpha_forge/data/providers/<provider>.py`.
 

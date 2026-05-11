@@ -31,3 +31,83 @@ alertcondition(longSignal, title="Long Entry", message="long")
 
 !!! tip "Next step"
     Configure the webhook receiver in [TradingView × alpha-strike Integration](tradingview-alpha-strike.md).
+
+---
+
+## 5. Verifying the Pine Script through an MCP server (issue #523)
+
+`forge pine verify` ships the generated Pine Script to **TradingView Desktop via a third-party MCP server** for verification. Beyond compile checks, it can compare TV's Strategy Tester aggregate metrics or per-trade list against the matching alpha-forge backtest, surfacing translation errors mechanically.
+
+### 5.1 Prerequisites
+
+1. Launch TradingView Desktop with `--remote-debugging-port=9222`
+2. Run a third-party MCP server in a separate process:
+   - `tradesdontlie/tradingview-mcp` — good for compile checks and chart manipulation
+   - `oviniciusramosp/tradingview-mcp` (vinicius fork) — strong on Strategy Tester aggregates; **recommended for `metrics` / `signal` modes**
+3. Configure the endpoint and flavor in `forge.yaml`:
+
+```yaml
+tv_mcp:
+  pine_verify:
+    enabled: true
+    endpoint: "node /opt/tv-mcp/server.js"
+    runtime: node
+    flavor: vinicius     # use vinicius for metrics/signal
+    timeout_seconds: 60
+```
+
+### 5.2 verify modes
+
+| Mode | What it verifies | Recommended flavor |
+|------|-----------------|--------------------|
+| `compile_only` | Pine Script syntax / compilation only | `tradesdontlie` is sufficient |
+| `metrics` | TV Strategy Tester aggregates (PF, win rate, total trades, etc.) vs alpha-forge metrics | **`vinicius`** (avoids the `data_get_strategy_results` bug in `tradesdontlie`) |
+| `signal` | TV trade list matched against alpha-forge `trades` by entry time, with a match rate | **`vinicius`** |
+| `regime` | HMM state column comparison (Phase 1.5c-γ and beyond, in progress) | — |
+
+### 5.3 Workflow
+
+```bash
+# 1. Compile-only verification (fastest)
+forge pine verify --strategy spy_sma_v1 \
+  --mcp-server "node /opt/tv-mcp/server.js"
+
+# 2. Strategy Tester metrics comparison (vinicius recommended)
+forge pine verify --strategy spy_sma_v1 \
+  --check-mode metrics \
+  --symbol SPY --interval D \
+  --mcp-server-flavor vinicius \
+  --auto-backtest \
+  --output reports/verify_spy.md
+
+# 3. Per-trade time matching (±60s tolerance, 95% match required)
+forge pine verify --strategy spy_sma_v1 \
+  --check-mode signal \
+  --symbol SPY --interval D \
+  --mcp-server-flavor vinicius \
+  --auto-backtest \
+  --match-tolerance-seconds 60 \
+  --min-match-rate 0.95
+```
+
+### 5.4 Avoiding period mismatches
+
+A large `total_trades` gap in `metrics` mode is usually a data-period mismatch (yfinance's ~5y vs TradingView's decades). To bring alpha-forge's history closer to TradingView's, switch the data fetch to the TradingView MCP provider:
+
+```bash
+forge data fetch SPY --provider tv_mcp \
+  --mcp-server "node /opt/tv-mcp/server.js" --period max
+```
+
+See the [`forge data` command reference](../cli-reference/data.md#tradingview-mcp-provider-tv_mcp-issue-576) for details.
+
+### 5.5 Report output
+
+With `--output reports/xxx.md`, the Markdown report includes:
+
+- Strategy ID and verification mode
+- Comparison table (alpha-forge ↔ TradingView)
+- Detected mismatches (items beyond tolerance)
+- Verdict (PASS / FAIL) and recommended actions
+
+Combine with `forge journal report --with-chart --symbol SPY --interval D` to get strategy history + verification + TV chart in a single page.
