@@ -63,7 +63,7 @@ tv_mcp:
 | `compile_only` | Pine Script の構文・コンパイルだけ | `tradesdontlie` で十分 |
 | `metrics` | TV Strategy Tester の集計（PF・勝率・トレード数等）と alpha-forge のメトリクスを比較 | **`vinicius`**（`tradesdontlie` には `data_get_strategy_results` バグあり） |
 | `signal` | tradesdontlie: TV のトレードリストを alpha-forge `trades` と時刻ベースで突合し一致率を算出。<br>vinicius: 時刻情報を返さないため **count-based 比較**（件数のみ）に自動切替（issue #580） | `tradesdontlie`（時刻照合が必要なら） / `vinicius`（件数だけで十分なら） |
-| `regime` | HMM 状態列の比較（Phase 1.5c-γ 以降、実装中） | — |
+| `regime` | **未実装（保留中）** — upstream MCP server に時系列 study tool が無いため、HMM 状態列を bar 単位で取り出せない（[issue #581](https://github.com/ysakae/alpha-forge/issues/581)）。指定すると明示的エラーで停止する | — |
 
 ### 5.3 ワークフロー
 
