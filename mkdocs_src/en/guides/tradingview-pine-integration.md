@@ -62,7 +62,7 @@ tv_mcp:
 |------|-----------------|--------------------|
 | `compile_only` | Pine Script syntax / compilation only | `tradesdontlie` is sufficient |
 | `metrics` | TV Strategy Tester aggregates (PF, win rate, total trades, etc.) vs alpha-forge metrics | **`vinicius`** (avoids the `data_get_strategy_results` bug in `tradesdontlie`) |
-| `signal` | TV trade list matched against alpha-forge `trades` by entry time, with a match rate | **`vinicius`** |
+| `signal` | tradesdontlie: match TV trade list against alpha-forge `trades` by entry time and compute a match rate.<br>vinicius: returns no timestamps, so the comparison auto-switches to **count-based** (totals only, issue #580) | `tradesdontlie` (when time matching is required) / `vinicius` (when counts alone suffice) |
 | `regime` | HMM state column comparison (Phase 1.5c-γ and beyond, in progress) | — |
 
 ### 5.3 Workflow
