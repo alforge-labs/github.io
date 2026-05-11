@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>プライバシーポリシー — Alforge Labs</title>
-  <meta name="description" content="Alforge Labs のプライバシーポリシー。購入・ライセンス認証・サポート時のデータ取り扱いについて。" />
+  <meta name="description" content="Alforge Labs のプライバシーポリシー。購入・認証・サポート時のデータ取り扱いについて。" />
   <meta name="keywords" content="プライバシーポリシー, Alforge Labs" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://alforgelabs.com/ja/privacy.html" />
@@ -14,14 +14,14 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://alforgelabs.com/ja/privacy.html" />
   <meta property="og:title" content="プライバシーポリシー — Alforge Labs" />
-  <meta property="og:description" content="購入・ライセンス認証・サポート時のデータ取り扱い方針。" />
+  <meta property="og:description" content="購入・認証・サポート時のデータ取り扱い方針。" />
   <meta property="og:image" content="https://alforgelabs.com/assets/og-image.png" />
   <meta property="og:locale" content="ja_JP" />
   <meta property="og:site_name" content="Alforge Labs" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@alforge_bot" />
   <meta name="twitter:title" content="プライバシーポリシー — Alforge Labs" />
-  <meta name="twitter:description" content="購入・ライセンス認証・サポート時のデータ取り扱い方針。" />
+  <meta name="twitter:description" content="購入・認証・サポート時のデータ取り扱い方針。" />
   <meta name="twitter:image" content="https://alforgelabs.com/assets/og-image.png" />
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -76,25 +76,31 @@
       
       <div class="page-label">Legal</div>
       <h1 class="page-title">プライバシーポリシー</h1>
-      <p class="page-subtitle">最終更新日: 2026年4月25日</p>
+      <p class="page-subtitle">最終更新日: 2026年5月12日</p>
 
       <p>Alforge Labs（以下「当社」）は、AlphaForge CLI の提供にあたり収集する個人情報の取り扱いについて、以下の通りプライバシーポリシーを定めます。</p>
 
       <h2 class="section-heading">1. 収集する情報</h2>
       <h3 class="sub-heading">1.1 購入時に収集する情報</h3>
-      <p>LemonSqueezy を通じたライセンス購入時に、氏名または会社名、メールアドレス、決済情報、国・地域情報が収集されます。決済情報は LemonSqueezy が処理し、当社は保持しません。</p>
+      <p>Whop を通じたメンバーシップ購入時に、氏名または会社名、メールアドレス、決済情報、国・地域情報が収集されます。決済情報は Whop およびその決済プロバイダ（Stripe 等）が処理し、当社はカード番号等の機微情報を保持しません。</p>
 
-      <h3 class="sub-heading">1.2 ライセンス認証時に収集する情報</h3>
-      <p><code>forge license activate</code> 実行時に、ライセンスキー、インスタンス名、アクティベーション日時が LemonSqueezy の License API に送信されます。</p>
+      <h3 class="sub-heading">1.2 認証時に収集・送受信する情報</h3>
+      <p><code>forge system auth login</code> 実行時に、OAuth 2.0 PKCE フローに従い以下の情報が Whop API（<code>api.whop.com</code>）と送受信されます。</p>
+      <ul>
+        <li>当社からの送信: OAuth 認可コード、PKCE code_verifier、リフレッシュトークン（更新時）</li>
+        <li>Whop からの受信: アクセストークン（access_token）、リフレッシュトークン（refresh_token）、ユーザー ID、メンバーシップ有効性</li>
+        <li>定期的なアクセス検証時: アクセストークンを <code>api.whop.com/api/v1</code> に送信し、購入済みプロダクトへのアクセス権を確認</li>
+      </ul>
+      <p>取得したトークンと認証メタデータはローカルの <code>~/.forge/credentials.json</code> に保存され、当社サーバーには保管されません。</p>
 
       <h3 class="sub-heading">1.3 収集しない情報</h3>
       <div class="callout">
-        <p>AlphaForge CLI はローカル完結型ソフトウェアです。バックテスト設定、最適化パラメータ、戦略データ、取引履歴、ポジション情報、ローカルファイル、操作ログは当社サーバーへ送信されません。</p>
+        <p>AlphaForge CLI はローカル完結型ソフトウェアです。バックテスト設定、最適化パラメータ、戦略データ、取引履歴、ポジション情報、ローカルファイル、操作ログは当社サーバーへ送信されません。Whop API への通信は認証・メンバーシップ確認のみを目的とします。</p>
       </div>
 
       <h2 class="section-heading">2. 情報の利用目的</h2>
       <ul>
-        <li>ライセンスキーの発行・認証・管理</li>
+        <li>メンバーシップの認証・有効性確認</li>
         <li>購入確認メール・領収書の送付</li>
         <li>製品アップデートのお知らせ（登録ユーザーのみ、配信停止可）</li>
         <li>サポート対応</li>
@@ -102,13 +108,13 @@
       </ul>
 
       <h2 class="section-heading">3. 第三者への情報提供</h2>
-      <p>当社は、決済処理・ライセンス管理のために LemonSqueezy と必要な情報を共有する場合、および法令上の要請がある場合を除き、個人情報を第三者に提供しません。マーケティング目的でのデータ販売・共有は行いません。</p>
+      <p>当社は、決済処理・メンバーシップ管理のために Whop（および Whop の決済委託先）と必要な情報を共有する場合、および法令上の要請がある場合を除き、個人情報を第三者に提供しません。マーケティング目的でのデータ販売・共有は行いません。</p>
 
       <h2 class="section-heading">4. データの保存期間</h2>
       <ul>
-        <li>購入情報・ライセンス情報: LemonSqueezy のデータ保持ポリシーに準拠</li>
+        <li>購入情報・メンバーシップ情報: Whop のデータ保持ポリシーに準拠</li>
         <li>サポートメール: 対応完了後2年間</li>
-        <li>ローカル認証キャッシュ: ユーザーが削除するまで、または <code>forge license deactivate</code> 実行まで保持</li>
+        <li>ローカル認証キャッシュ（<code>~/.forge/credentials.json</code>）: ユーザーが削除するまで、または <code>forge system auth logout</code> 実行まで保持</li>
       </ul>
 
       <h2 class="section-heading">5. Cookie・トラッキング</h2>
