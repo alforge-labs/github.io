@@ -1575,7 +1575,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        旧コマンド → 新コマンドの対応
+        旧コマンド → 新コマンドの対応（撤去済み）
       
     </span>
   </a>
@@ -2050,7 +2050,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        旧コマンド → 新コマンドの対応
+        旧コマンド → 新コマンドの対応（撤去済み）
       
     </span>
   </a>
@@ -2110,8 +2110,8 @@
 <h1 id="cli">CLI リファレンス<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h1>
 <p><code>forge</code> コマンドが提供するすべてのコマンドグループの一覧です。各グループの詳細はリンク先の専用ページを参照してください。</p>
 <div class="admonition info">
-<p class="admonition-title">コマンド階層整理 (alpha-forge #610)</p>
-<p>商用リリースに向けて、トップレベル 17 個並列だった構造を <strong>論理的なグループ</strong>に再編しました。<strong>旧コマンド名は引き続き利用可能</strong>ですが、新階層への移行を推奨します。詳細は <a href="#旧コマンド-新コマンドの対応">旧→新マッピング</a> を参照。</p>
+<p class="admonition-title">コマンド階層整理 (alpha-forge #610 / #644)</p>
+<p>商用リリースに向けて、トップレベル 17 個並列だった構造を <strong>論理的なグループ</strong>に再編しました（#610）。続いて #644 で旧トップレベル alias を撤去済みのため、<strong>現在は新階層のみが有効</strong> です。旧名を呼ぶスクリプト等が残っていれば、下記「旧コマンド → 新コマンドの対応」表を参照して置換してください。</p>
 </div>
 <h2 id="_1">コアコマンドグループ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>実戦略開発で頻繁に使うコマンド群です。それぞれ専用ページで詳述します。</p>
@@ -2184,21 +2184,21 @@
 <tr>
 <td><strong>analyze</strong></td>
 <td><code>indicator</code> / <code>ml</code> / <code>pairs</code></td>
-<td>戦略構築の分析ツール群（旧トップレベルを集約）</td>
+<td>戦略構築の分析ツール群（旧トップレベルから集約）</td>
 </tr>
 <tr>
 <td><strong>system</strong></td>
 <td><code>init</code> / <code>auth</code> / <code>docs</code></td>
-<td>運用ユーティリティ（旧トップレベルを集約）</td>
+<td>運用ユーティリティ（旧トップレベルから集約）</td>
 </tr>
 </tbody>
 </table>
-<h2 id="_2">旧コマンド → 新コマンドの対応<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>旧名でも引き続き呼び出せますが、新階層への移行を推奨します（将来 DeprecationWarning を表示予定）。</p>
+<h2 id="_2">旧コマンド → 新コマンドの対応（撤去済み）<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>旧トップレベル alias は #644 で <strong>撤去済み</strong> です。旧名のまま呼ぶと <code>Error: No such command ...</code> で失敗するため、次の対応で完全に置き換えてください。</p>
 <table>
 <thead>
 <tr>
-<th>旧コマンド</th>
+<th>旧コマンド（撤去済み）</th>
 <th>新コマンド</th>
 </tr>
 </thead>
@@ -2238,7 +2238,7 @@
 </tbody>
 </table>
 <h2 id="_3">全コマンド早見表<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>実装ベースで網羅した全 16 コマンドグループ × 約 83 サブコマンドの一覧です。</p>
+<p>実装ベースで網羅した全コマンドグループ × サブコマンドの一覧です。</p>
 <table>
 <thead>
 <tr>
@@ -2261,7 +2261,7 @@
 </tr>
 <tr>
 <td>data</td>
-<td><code>fetch</code> <code>list</code> <code>trend</code> <code>update</code></td>
+<td><code>fetch</code> <code>list</code> <code>trend</code> <code>update</code> <code>alt fetch</code> <code>alt list</code> <code>alt info</code> <code>tv-mcp &lt;sub&gt;</code></td>
 </tr>
 <tr>
 <td>journal</td>
@@ -2276,40 +2276,20 @@
 <td><strong><code>run</code> <code>index</code> <code>import</code> <code>log</code> <code>status</code> <code>recommend</code> <code>coverage</code></strong></td>
 </tr>
 <tr>
-<td>auth</td>
-<td><code>login</code> <code>logout</code> <code>status</code> <code>check op</code></td>
-</tr>
-<tr>
-<td>init</td>
-<td>（単一コマンド）</td>
-</tr>
-<tr>
 <td>pine</td>
 <td><code>generate</code> <code>preview</code> <code>import</code></td>
-</tr>
-<tr>
-<td>indicator</td>
-<td><code>list</code> <code>show</code></td>
 </tr>
 <tr>
 <td>idea</td>
 <td><code>add</code> <code>list</code> <code>show</code> <code>status</code> <code>link</code> <code>tag</code> <code>note</code> <code>search</code></td>
 </tr>
 <tr>
-<td>altdata</td>
-<td><code>fetch</code> <code>list</code> <code>info</code></td>
+<td><strong>analyze</strong></td>
+<td><code>indicator list</code> <code>indicator show</code> <code>pairs scan</code> <code>pairs scan-all</code> <code>pairs build</code> <code>ml dataset build</code> <code>ml dataset feature-sets</code> <code>ml train</code> <code>ml models</code> <code>ml walk-forward</code></td>
 </tr>
 <tr>
-<td>pairs</td>
-<td><code>scan</code> <code>scan-all</code> <code>build</code></td>
-</tr>
-<tr>
-<td><strong>ml</strong></td>
-<td><strong><code>dataset build</code> <code>dataset feature-sets</code> <code>train</code> <code>models</code> <code>walk-forward</code></strong>（issue #512 Phase 1-2, 4）</td>
-</tr>
-<tr>
-<td>docs</td>
-<td><code>list</code> <code>show</code></td>
+<td><strong>system</strong></td>
+<td><code>init</code> <code>auth login</code> <code>auth logout</code> <code>auth status</code> <code>auth check op</code> <code>docs list</code> <code>docs show</code></td>
 </tr>
 </tbody>
 </table>

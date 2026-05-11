@@ -2,8 +2,8 @@
 
 A complete catalog of every command group provided by the `forge` CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.
 
-!!! info "Command hierarchy reorganization (alpha-forge #610)"
-    The top-level was reorganized from a flat 17-command layout into a **logical group hierarchy** ahead of the commercial release. **Old command names still work**, but migration to the new hierarchy is recommended. See [Legacy → New mapping](#legacy-to-new-command-mapping) below.
+!!! info "Command hierarchy reorganization (alpha-forge #610 / #644)"
+    The top-level was reorganized from a flat 17-command layout into a **logical group hierarchy** ahead of the commercial release (#610). The legacy top-level aliases were subsequently removed in #644, so **only the new hierarchy is valid now**. If scripts still call the old names, see [Legacy → New mapping](#legacy-to-new-command-mapping-removed) below to migrate them.
 
 ## Core Command Groups
 
@@ -28,11 +28,11 @@ The commands you'll use most often in real strategy development. Each has a dedi
 | **analyze** | `indicator` / `ml` / `pairs` | Strategy-analysis utilities (consolidates former top-level commands) |
 | **system** | `init` / `auth` / `docs` | Operational utilities (consolidates former top-level commands) |
 
-## Legacy to New Command Mapping
+## Legacy to New Command Mapping (removed)
 
-Old names remain callable but migrating to the new hierarchy is recommended (a `DeprecationWarning` will be shown in a future release).
+The legacy top-level aliases were removed in #644. Calling them now fails with `Error: No such command ...`, so replace any remaining occurrences with the new names below.
 
-| Legacy Command | New Command |
+| Legacy command (removed) | New command |
 |---|---|
 | `forge altdata <sub>` | `forge data alt <sub>` |
 | `forge tv <sub>` | `forge data tv-mcp <sub>` |
@@ -45,25 +45,21 @@ Old names remain callable but migrating to the new hierarchy is recommended (a `
 
 ## All Commands at a Glance
 
-Implementation-derived catalog covering all 15 groups and ~75 subcommands.
+Implementation-derived catalog covering every group and subcommand.
 
 | Group | Subcommands |
 |-------|-------------|
 | backtest | `run` `batch` `diagnose` `list` `report` `migrate` `compare` `portfolio` `chart` `signal-count` `monte-carlo` |
 | optimize | `run` `cross-symbol` `portfolio` `multi-portfolio` `walk-forward` `apply` `sensitivity` `history` `grid` |
 | strategy | `list` `create` `save` `show` `migrate` `delete` `purge` `validate` |
-| data | `fetch` `list` `trend` `update` |
+| data | `fetch` `list` `trend` `update` `alt fetch` `alt list` `alt info` `tv-mcp <sub>` |
 | journal | `list` `show` `runs` `compare` `tag` `note` `verdict` |
 | live | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` |
-| auth | `login` `logout` `status` `check op` |
-| init | (single command) |
+| **explore** | **`run` `index` `import` `log` `status` `recommend` `coverage`** |
 | pine | `generate` `preview` `import` |
-| indicator | `list` `show` |
 | idea | `add` `list` `show` `status` `link` `tag` `note` `search` |
-| altdata | `fetch` `list` `info` |
-| pairs | `scan` `scan-all` `build` |
-| **ml** | **`dataset build` `dataset feature-sets` `train` `models` `walk-forward`** (issue #512 Phase 1-2, 4) |
-| docs | `list` `show` |
+| **analyze** | `indicator list` `indicator show` `pairs scan` `pairs scan-all` `pairs build` `ml dataset build` `ml dataset feature-sets` `ml train` `ml models` `ml walk-forward` |
+| **system** | `init` `auth login` `auth logout` `auth status` `auth check op` `docs list` `docs show` |
 
 ## Built-in Help
 
