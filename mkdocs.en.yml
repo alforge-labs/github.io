@@ -75,7 +75,7 @@ nav:
   - Strategy Catalog:
       - Strategy Templates: templates.md
       - Strategy Gallery: strategy-gallery.md
-  - alpha-visualizer:
+  - Visualization:
       - Overview: alpha-visualizer/index.md
       - Installation: alpha-visualizer/installation.md
       - Features: alpha-visualizer/features.md

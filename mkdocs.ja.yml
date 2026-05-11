@@ -75,7 +75,7 @@ nav:
   - 戦略カタログ:
       - 戦略テンプレート: templates.md
       - 戦略実例ギャラリー: strategy-gallery.md
-  - alpha-visualizer:
+  - データ可視化:
       - 概要: alpha-visualizer/index.md
       - インストール: alpha-visualizer/installation.md
       - 機能詳細: alpha-visualizer/features.md
