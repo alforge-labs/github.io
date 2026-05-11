@@ -271,6 +271,15 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 | Pre-filter | Sharpe ≥ 1.0 **AND** MaxDD ≤ 25% |
 | WFT final pass | All-window mean WFT Sharpe ≥ `target_metrics.sharpe_ratio` in `goals/<goal_name>/goals.yaml` |
 
+### Optional: TradingView MCP attach for passing strategies (issue #582)
+
+When `tv_mcp.pine_verify.enabled: true` is set in `forge.yaml` and a TradingView MCP server is running, the `/explore-strategies` skill automatically runs the following for each passing strategy and writes the **TV consistency check** plus a **chart PNG** to `goals/<goal_name>/reports/<strategy_id>/` (fail-soft: MCP connection or metrics-fetch failures only emit a warning log and do not change the strategy verdict or coverage registration):
+
+- `forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/<id>/verify.md`
+- `forge journal report --with-chart --symbol <SYM> --interval D --output reports/<id>/journal.md`
+
+For goals without an MCP server running (or with `tv_mcp.pine_verify.enabled: false`), the step is skipped and the existing loop behavior is preserved. See the [TradingView Pine integration guide](tradingview-pine-integration.md) for details.
+
 ### Idempotency
 
 `goals/<goal_name>/explored_log.md` acts as the checkpoint, so re-runs never re-explore the same combination within a goal. Safe to interrupt and resume at any time.

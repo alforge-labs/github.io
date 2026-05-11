@@ -955,6 +955,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#tradingview-mcp-issue-582" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任意: 合格戦略への TradingView MCP 添付（issue #582）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2588,6 +2599,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#tradingview-mcp-issue-582" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任意: 合格戦略への TradingView MCP 添付（issue #582）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3247,6 +3269,13 @@
 </tr>
 </tbody>
 </table>
+<h3 id="tradingview-mcp-issue-582">任意: 合格戦略への TradingView MCP 添付（issue #582）<a class="headerlink" href="#tradingview-mcp-issue-582" title="Permanent link">&para;</a></h3>
+<p><code>forge.yaml</code> の <code>tv_mcp.pine_verify.enabled: true</code> で MCP server が起動済みのとき、<code>/explore-strategies</code> スキルは合格戦略 1 件あたり以下を自動実行して <code>goals/&lt;goal_name&gt;/reports/&lt;strategy_id&gt;/</code> に <strong>TV 整合性チェック</strong> と <strong>チャート PNG</strong> を残します（fail-soft：MCP 接続失敗・metrics 取得失敗は warning ログを出すだけで、戦略の合格判定や coverage 登録は変更しません）：</p>
+<ul>
+<li><code>forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/&lt;id&gt;/verify.md</code></li>
+<li><code>forge journal report --with-chart --symbol &lt;SYM&gt; --interval D --output reports/&lt;id&gt;/journal.md</code></li>
+</ul>
+<p>MCP server が起動していない・<code>tv_mcp.pine_verify.enabled: false</code> の goal ではこのステップはスキップされ、既存ループの挙動は変わりません。詳細は <a href="../tradingview-pine-integration/">TradingView Pine 連携ガイド</a> を参照してください。</p>
 <h3 id="_7">冪等性のポイント<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p><code>goals/&lt;goal_name&gt;/explored_log.md</code> がチェックポイントになるため、同じゴール内で同じ組み合わせを重複探索しません。中断・再開は安全です。</p>
 <p><img alt="冪等性チェックフロー" src="../../assets/illustrations/ai-exploration-workflow/exploration-idempotency-flowchart-ja.png" /></p>

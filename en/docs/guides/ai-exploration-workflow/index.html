@@ -955,6 +955,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#optional-tradingview-mcp-attach-for-passing-strategies-issue-582" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional: TradingView MCP attach for passing strategies (issue #582)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#idempotency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2588,6 +2599,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#optional-tradingview-mcp-attach-for-passing-strategies-issue-582" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional: TradingView MCP attach for passing strategies (issue #582)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#idempotency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3249,6 +3271,13 @@
 </tr>
 </tbody>
 </table>
+<h3 id="optional-tradingview-mcp-attach-for-passing-strategies-issue-582">Optional: TradingView MCP attach for passing strategies (issue #582)<a class="headerlink" href="#optional-tradingview-mcp-attach-for-passing-strategies-issue-582" title="Permanent link">&para;</a></h3>
+<p>When <code>tv_mcp.pine_verify.enabled: true</code> is set in <code>forge.yaml</code> and a TradingView MCP server is running, the <code>/explore-strategies</code> skill automatically runs the following for each passing strategy and writes the <strong>TV consistency check</strong> plus a <strong>chart PNG</strong> to <code>goals/&lt;goal_name&gt;/reports/&lt;strategy_id&gt;/</code> (fail-soft: MCP connection or metrics-fetch failures only emit a warning log and do not change the strategy verdict or coverage registration):</p>
+<ul>
+<li><code>forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/&lt;id&gt;/verify.md</code></li>
+<li><code>forge journal report --with-chart --symbol &lt;SYM&gt; --interval D --output reports/&lt;id&gt;/journal.md</code></li>
+</ul>
+<p>For goals without an MCP server running (or with <code>tv_mcp.pine_verify.enabled: false</code>), the step is skipped and the existing loop behavior is preserved. See the <a href="../tradingview-pine-integration/">TradingView Pine integration guide</a> for details.</p>
 <h3 id="idempotency">Idempotency<a class="headerlink" href="#idempotency" title="Permanent link">&para;</a></h3>
 <p><code>goals/&lt;goal_name&gt;/explored_log.md</code> acts as the checkpoint, so re-runs never re-explore the same combination within a goal. Safe to interrupt and resume at any time.</p>
 <p><img alt="Idempotency Check Flow" src="../../assets/illustrations/ai-exploration-workflow/exploration-idempotency-flowchart-en.png" /></p>
