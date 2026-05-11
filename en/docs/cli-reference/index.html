@@ -1561,10 +1561,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#other-commands" class="md-nav__link">
+  <a href="#auxiliary-groups-added-in-d1-610" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Other Commands
+        Auxiliary Groups (added in D1 #610)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legacy-to-new-command-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy to New Command Mapping
       
     </span>
   </a>
@@ -2025,10 +2036,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#other-commands" class="md-nav__link">
+  <a href="#auxiliary-groups-added-in-d1-610" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Other Commands
+        Auxiliary Groups (added in D1 #610)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legacy-to-new-command-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy to New Command Mapping
       
     </span>
   </a>
@@ -2088,8 +2110,8 @@
 <h1 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
 <p>A complete catalog of every command group provided by the <code>forge</code> CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.</p>
 <div class="admonition info">
-<p class="admonition-title">Scaffolded pages</p>
-<p>Detailed references (parameters, output examples, error codes) for each group are being filled in incrementally via per-group issues. The "Subcommands" tables on this page are kept in sync with the implementation.</p>
+<p class="admonition-title">Command hierarchy reorganization (alpha-forge #610)</p>
+<p>The top-level was reorganized from a flat 17-command layout into a <strong>logical group hierarchy</strong> ahead of the commercial release. <strong>Old command names still work</strong>, but migration to the new hierarchy is recommended. See <a href="#legacy-to-new-command-mapping">Legacy → New mapping</a> below.</p>
 </div>
 <h2 id="core-command-groups">Core Command Groups<a class="headerlink" href="#core-command-groups" title="Permanent link">&para;</a></h2>
 <p>The commands you'll use most often in real strategy development. Each has a dedicated page.</p>
@@ -2103,6 +2125,11 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>strategy</strong></td>
+<td>Create, register, and manage strategy JSON</td>
+<td><a href="strategy/">strategy →</a></td>
+</tr>
+<tr>
 <td><strong>backtest</strong></td>
 <td>Run backtests and analyze results</td>
 <td><a href="backtest/">backtest →</a></td>
@@ -2113,14 +2140,19 @@
 <td><a href="optimize/">optimize →</a></td>
 </tr>
 <tr>
-<td><strong>strategy</strong></td>
-<td>Create, register, and manage strategy JSON</td>
-<td><a href="strategy/">strategy →</a></td>
+<td><strong>explore</strong></td>
+<td>Autonomous exploration loop (backtest → optimize → WFT)</td>
+<td>—</td>
 </tr>
 <tr>
-<td><strong>data</strong></td>
-<td>Fetch and update historical data</td>
-<td><a href="data/">data →</a></td>
+<td><strong>live</strong></td>
+<td>Live trading analysis and records</td>
+<td><a href="live/">live →</a></td>
+</tr>
+<tr>
+<td><strong>pine</strong></td>
+<td>Convert between strategy JSON and TradingView Pine Script</td>
+<td>—</td>
 </tr>
 <tr>
 <td><strong>journal</strong></td>
@@ -2128,67 +2160,80 @@
 <td><a href="journal/">journal →</a></td>
 </tr>
 <tr>
-<td><strong>live</strong></td>
-<td>Live trading analysis and records</td>
-<td><a href="live/">live →</a></td>
+<td><strong>idea</strong></td>
+<td>Manage and search investment ideas</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>data</strong></td>
+<td>Historical / alternative / TradingView MCP data</td>
+<td><a href="data/">data →</a></td>
 </tr>
 </tbody>
 </table>
-<h2 id="other-commands">Other Commands<a class="headerlink" href="#other-commands" title="Permanent link">&para;</a></h2>
-<p>Authentication, utilities, and supporting features are bundled on the <a href="other/">Other commands</a> page.</p>
+<h2 id="auxiliary-groups-added-in-d1-610">Auxiliary Groups (added in D1 #610)<a class="headerlink" href="#auxiliary-groups-added-in-d1-610" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Group</th>
+<th>New Group</th>
+<th>Subcommands</th>
 <th>Description</th>
-<th>Link</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>auth</strong></td>
-<td>Whop OAuth login / logout and authentication status</td>
-<td><a href="other/#auth">other#auth →</a></td>
+<td><strong>analyze</strong></td>
+<td><code>indicator</code> / <code>ml</code> / <code>pairs</code></td>
+<td>Strategy-analysis utilities (consolidates former top-level commands)</td>
 </tr>
 <tr>
-<td><strong>init</strong></td>
-<td>Initial project setup</td>
-<td><a href="other/#init">other#init →</a></td>
+<td><strong>system</strong></td>
+<td><code>init</code> / <code>auth</code> / <code>docs</code></td>
+<td>Operational utilities (consolidates former top-level commands)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="legacy-to-new-command-mapping">Legacy to New Command Mapping<a class="headerlink" href="#legacy-to-new-command-mapping" title="Permanent link">&para;</a></h2>
+<p>Old names remain callable but migrating to the new hierarchy is recommended (a <code>DeprecationWarning</code> will be shown in a future release).</p>
+<table>
+<thead>
+<tr>
+<th>Legacy Command</th>
+<th>New Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forge altdata &lt;sub&gt;</code></td>
+<td><code>forge data alt &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>pine</strong></td>
-<td>Convert between strategy JSON and TradingView Pine Script</td>
-<td><a href="other/#pine">other#pine →</a></td>
+<td><code>forge tv &lt;sub&gt;</code></td>
+<td><code>forge data tv-mcp &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>indicator</strong></td>
-<td>List and inspect supported technical indicators</td>
-<td><a href="other/#indicator">other#indicator →</a></td>
+<td><code>forge indicator &lt;sub&gt;</code></td>
+<td><code>forge analyze indicator &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>idea</strong></td>
-<td>Manage and search investment ideas</td>
-<td><a href="other/#idea">other#idea →</a></td>
+<td><code>forge ml &lt;sub&gt;</code></td>
+<td><code>forge analyze ml &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>altdata</strong></td>
-<td>Fetch and manage alternative data (sentiment, etc.)</td>
-<td><a href="other/#altdata">other#altdata →</a></td>
+<td><code>forge pairs &lt;sub&gt;</code></td>
+<td><code>forge analyze pairs &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>pairs</strong></td>
-<td>Pair trading (cointegration tests)</td>
-<td><a href="other/#pairs">other#pairs →</a></td>
+<td><code>forge init</code></td>
+<td><code>forge system init</code></td>
 </tr>
 <tr>
-<td><strong>ml</strong></td>
-<td>ML dataset, model training &amp; walk-forward validation (issue #512 Phase 1-2, 4)</td>
-<td><a href="other/#ml">other#ml →</a></td>
+<td><code>forge auth &lt;sub&gt;</code></td>
+<td><code>forge system auth &lt;sub&gt;</code></td>
 </tr>
 <tr>
-<td><strong>docs</strong></td>
-<td>Browse bundled documentation</td>
-<td><a href="other/#docs">other#docs →</a></td>
+<td><code>forge docs &lt;sub&gt;</code></td>
+<td><code>forge system docs &lt;sub&gt;</code></td>
 </tr>
 </tbody>
 </table>
