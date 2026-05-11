@@ -324,7 +324,7 @@ function FreeBanner({ plan, comingSummer, lang }) {
         <a
           href={`/${lang}/install.html`}
           className="free-banner-install-link"
-          style={{ fontSize: '0.85em', textAlign: 'center', marginTop: '0.4rem', color: 'var(--text2)' }}
+          style={{ display: 'block', fontSize: '0.85em', textAlign: 'center', marginTop: '0.4rem', color: 'var(--text2)' }}
         >
           {plan.ctaHint}
         </a>
