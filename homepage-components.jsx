@@ -114,7 +114,7 @@ function FreeStart({ t, lang }) {
 /* ── PRODUCTS ── */
 function Products({ t }) {
   const c = t.products;
-  const badgeClass = { beta: 'badge-beta', alpha: 'badge-alpha', dev: 'badge-dev' };
+  const badgeClass = { beta: 'badge-beta', alpha: 'badge-alpha', dev: 'badge-dev', released: 'badge-released' };
   return (
     <section className="products reveal" id="products">
       <div className="container">
