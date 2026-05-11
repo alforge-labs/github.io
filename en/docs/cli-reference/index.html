@@ -1572,10 +1572,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#legacy-to-new-command-mapping" class="md-nav__link">
+  <a href="#legacy-to-new-command-mapping-removed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Legacy to New Command Mapping
+        Legacy to New Command Mapping (removed)
       
     </span>
   </a>
@@ -2047,10 +2047,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#legacy-to-new-command-mapping" class="md-nav__link">
+  <a href="#legacy-to-new-command-mapping-removed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Legacy to New Command Mapping
+        Legacy to New Command Mapping (removed)
       
     </span>
   </a>
@@ -2110,8 +2110,8 @@
 <h1 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
 <p>A complete catalog of every command group provided by the <code>forge</code> CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.</p>
 <div class="admonition info">
-<p class="admonition-title">Command hierarchy reorganization (alpha-forge #610)</p>
-<p>The top-level was reorganized from a flat 17-command layout into a <strong>logical group hierarchy</strong> ahead of the commercial release. <strong>Old command names still work</strong>, but migration to the new hierarchy is recommended. See <a href="#legacy-to-new-command-mapping">Legacy → New mapping</a> below.</p>
+<p class="admonition-title">Command hierarchy reorganization (alpha-forge #610 / #644)</p>
+<p>The top-level was reorganized from a flat 17-command layout into a <strong>logical group hierarchy</strong> ahead of the commercial release (#610). The legacy top-level aliases were subsequently removed in #644, so <strong>only the new hierarchy is valid now</strong>. If scripts still call the old names, see <a href="#legacy-to-new-command-mapping-removed">Legacy → New mapping</a> below to migrate them.</p>
 </div>
 <h2 id="core-command-groups">Core Command Groups<a class="headerlink" href="#core-command-groups" title="Permanent link">&para;</a></h2>
 <p>The commands you'll use most often in real strategy development. Each has a dedicated page.</p>
@@ -2193,13 +2193,13 @@
 </tr>
 </tbody>
 </table>
-<h2 id="legacy-to-new-command-mapping">Legacy to New Command Mapping<a class="headerlink" href="#legacy-to-new-command-mapping" title="Permanent link">&para;</a></h2>
-<p>Old names remain callable but migrating to the new hierarchy is recommended (a <code>DeprecationWarning</code> will be shown in a future release).</p>
+<h2 id="legacy-to-new-command-mapping-removed">Legacy to New Command Mapping (removed)<a class="headerlink" href="#legacy-to-new-command-mapping-removed" title="Permanent link">&para;</a></h2>
+<p>The legacy top-level aliases were removed in #644. Calling them now fails with <code>Error: No such command ...</code>, so replace any remaining occurrences with the new names below.</p>
 <table>
 <thead>
 <tr>
-<th>Legacy Command</th>
-<th>New Command</th>
+<th>Legacy command (removed)</th>
+<th>New command</th>
 </tr>
 </thead>
 <tbody>
@@ -2238,7 +2238,7 @@
 </tbody>
 </table>
 <h2 id="all-commands-at-a-glance">All Commands at a Glance<a class="headerlink" href="#all-commands-at-a-glance" title="Permanent link">&para;</a></h2>
-<p>Implementation-derived catalog covering all 15 groups and ~75 subcommands.</p>
+<p>Implementation-derived catalog covering every group and subcommand.</p>
 <table>
 <thead>
 <tr>
@@ -2261,7 +2261,7 @@
 </tr>
 <tr>
 <td>data</td>
-<td><code>fetch</code> <code>list</code> <code>trend</code> <code>update</code></td>
+<td><code>fetch</code> <code>list</code> <code>trend</code> <code>update</code> <code>alt fetch</code> <code>alt list</code> <code>alt info</code> <code>tv-mcp &lt;sub&gt;</code></td>
 </tr>
 <tr>
 <td>journal</td>
@@ -2272,40 +2272,24 @@
 <td><code>list</code> <code>events</code> <code>convert-check</code> <code>import-events</code> <code>trades</code> <code>summary</code> <code>compare</code> <code>doctor</code> <code>sync-events</code></td>
 </tr>
 <tr>
-<td>auth</td>
-<td><code>login</code> <code>logout</code> <code>status</code> <code>check op</code></td>
-</tr>
-<tr>
-<td>init</td>
-<td>(single command)</td>
+<td><strong>explore</strong></td>
+<td><strong><code>run</code> <code>index</code> <code>import</code> <code>log</code> <code>status</code> <code>recommend</code> <code>coverage</code></strong></td>
 </tr>
 <tr>
 <td>pine</td>
 <td><code>generate</code> <code>preview</code> <code>import</code></td>
 </tr>
 <tr>
-<td>indicator</td>
-<td><code>list</code> <code>show</code></td>
-</tr>
-<tr>
 <td>idea</td>
 <td><code>add</code> <code>list</code> <code>show</code> <code>status</code> <code>link</code> <code>tag</code> <code>note</code> <code>search</code></td>
 </tr>
 <tr>
-<td>altdata</td>
-<td><code>fetch</code> <code>list</code> <code>info</code></td>
+<td><strong>analyze</strong></td>
+<td><code>indicator list</code> <code>indicator show</code> <code>pairs scan</code> <code>pairs scan-all</code> <code>pairs build</code> <code>ml dataset build</code> <code>ml dataset feature-sets</code> <code>ml train</code> <code>ml models</code> <code>ml walk-forward</code></td>
 </tr>
 <tr>
-<td>pairs</td>
-<td><code>scan</code> <code>scan-all</code> <code>build</code></td>
-</tr>
-<tr>
-<td><strong>ml</strong></td>
-<td><strong><code>dataset build</code> <code>dataset feature-sets</code> <code>train</code> <code>models</code> <code>walk-forward</code></strong> (issue #512 Phase 1-2, 4)</td>
-</tr>
-<tr>
-<td>docs</td>
-<td><code>list</code> <code>show</code></td>
+<td><strong>system</strong></td>
+<td><code>init</code> <code>auth login</code> <code>auth logout</code> <code>auth status</code> <code>auth check op</code> <code>docs list</code> <code>docs show</code></td>
 </tr>
 </tbody>
 </table>

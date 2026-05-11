@@ -2,8 +2,8 @@
 
 `forge` コマンドが提供するすべてのコマンドグループの一覧です。各グループの詳細はリンク先の専用ページを参照してください。
 
-!!! info "コマンド階層整理 (alpha-forge #610)"
-    商用リリースに向けて、トップレベル 17 個並列だった構造を **論理的なグループ**に再編しました。**旧コマンド名は引き続き利用可能**ですが、新階層への移行を推奨します。詳細は [旧→新マッピング](#旧コマンド-新コマンドの対応) を参照。
+!!! info "コマンド階層整理 (alpha-forge #610 / #644)"
+    商用リリースに向けて、トップレベル 17 個並列だった構造を **論理的なグループ**に再編しました（#610）。続いて #644 で旧トップレベル alias を撤去済みのため、**現在は新階層のみが有効** です。旧名を呼ぶスクリプト等が残っていれば、下記「旧コマンド → 新コマンドの対応」表を参照して置換してください。
 
 ## コアコマンドグループ
 
@@ -25,14 +25,14 @@
 
 | 新グループ | サブコマンド | 説明 |
 |---|---|---|
-| **analyze** | `indicator` / `ml` / `pairs` | 戦略構築の分析ツール群（旧トップレベルを集約） |
-| **system** | `init` / `auth` / `docs` | 運用ユーティリティ（旧トップレベルを集約） |
+| **analyze** | `indicator` / `ml` / `pairs` | 戦略構築の分析ツール群（旧トップレベルから集約） |
+| **system** | `init` / `auth` / `docs` | 運用ユーティリティ（旧トップレベルから集約） |
 
-## 旧コマンド → 新コマンドの対応
+## 旧コマンド → 新コマンドの対応（撤去済み）
 
-旧名でも引き続き呼び出せますが、新階層への移行を推奨します（将来 DeprecationWarning を表示予定）。
+旧トップレベル alias は #644 で **撤去済み** です。旧名のまま呼ぶと `Error: No such command ...` で失敗するため、次の対応で完全に置き換えてください。
 
-| 旧コマンド | 新コマンド |
+| 旧コマンド（撤去済み） | 新コマンド |
 |---|---|
 | `forge altdata <sub>` | `forge data alt <sub>` |
 | `forge tv <sub>` | `forge data tv-mcp <sub>` |
@@ -45,26 +45,21 @@
 
 ## 全コマンド早見表
 
-実装ベースで網羅した全 16 コマンドグループ × 約 83 サブコマンドの一覧です。
+実装ベースで網羅した全コマンドグループ × サブコマンドの一覧です。
 
 | グループ | サブコマンド |
 |---------|-------------|
 | backtest | `run` `batch` `diagnose` `list` `report` `migrate` `compare` `portfolio` `chart` `signal-count` `monte-carlo` |
 | optimize | `run` `cross-symbol` `portfolio` `multi-portfolio` `walk-forward` `apply` `sensitivity` `history` `grid` |
 | strategy | `list` `create` `save` `show` `migrate` `delete` `purge` `validate` |
-| data | `fetch` `list` `trend` `update` |
+| data | `fetch` `list` `trend` `update` `alt fetch` `alt list` `alt info` `tv-mcp <sub>` |
 | journal | `list` `show` `runs` `compare` `tag` `note` `verdict` |
 | live | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` |
 | **explore** | **`run` `index` `import` `log` `status` `recommend` `coverage`** |
-| auth | `login` `logout` `status` `check op` |
-| init | （単一コマンド） |
 | pine | `generate` `preview` `import` |
-| indicator | `list` `show` |
 | idea | `add` `list` `show` `status` `link` `tag` `note` `search` |
-| altdata | `fetch` `list` `info` |
-| pairs | `scan` `scan-all` `build` |
-| **ml** | **`dataset build` `dataset feature-sets` `train` `models` `walk-forward`**（issue #512 Phase 1-2, 4） |
-| docs | `list` `show` |
+| **analyze** | `indicator list` `indicator show` `pairs scan` `pairs scan-all` `pairs build` `ml dataset build` `ml dataset feature-sets` `ml train` `ml models` `ml walk-forward` |
+| **system** | `init` `auth login` `auth logout` `auth status` `auth check op` `docs list` `docs show` |
 
 ## 共通ヘルプ
 
