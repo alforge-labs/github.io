@@ -117,15 +117,17 @@
       </div>
 
       <h2 class="section-heading">ライセンス認証</h2>
-      <p>購入完了メールに記載されているライセンスキーで認証します。認証情報は <code>~/.forge/license.json</code> に保存されます。</p>
-      <pre><code>forge license activate &lt;YOUR_LICENSE_KEY&gt;</code></pre>
+      <p>Whop アカウントで OAuth 2.0 PKCE 認証を行います。ブラウザが自動で開きます。認証情報は <code>~/.forge/auth.json</code> に保存されます。</p>
+      <pre><code>forge system auth login</code></pre>
+      <p>認証済みメンバーシップは以下で確認できます：</p>
+      <pre><code>forge system auth status</code></pre>
 
       <h2 class="section-heading">トラブルシューティング</h2>
       <table class="cmd-table">
         <thead><tr><th>症状</th><th>対処</th></tr></thead>
         <tbody>
           <tr><td><code>command not found: forge</code></td><td>新しいターミナルを開くか、<code>source ~/.bashrc</code> を実行してください。</td></tr>
-          <tr><td>ライセンス認証エラー</td><td>ネットワーク接続を確認し、キーに余分なスペースがないか確認してください。</td></tr>
+          <tr><td>認証エラー</td><td>ネットワーク接続を確認のうえ <code>forge system auth login</code> を再実行してください。Whop マイページでメンバーシップが有効か確認してください。</td></tr>
           <tr><td>macOS セキュリティ警告</td><td>システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。</td></tr>
         </tbody>
       </table>

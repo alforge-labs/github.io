@@ -210,13 +210,13 @@
                 <div>
                   <strong>alpha-forge を取得してインストール</strong>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
-                    購入後に発行されるライセンスキーとバイナリを使ってインストールします。
+                    購入後、Whop アカウントで OAuth 2.0 PKCE 認証を行います（ブラウザが自動で開きます）。
                   </p>
                   <pre><code># uv で依存関係を含めてインストール
 uv add alpha-forge
 
-# ライセンスを有効化
-forge license activate YOUR_LICENSE_KEY</code></pre>
+# Whop アカウントで認証
+forge system auth login</code></pre>
                 </div>
               </li>
               <li>
@@ -377,33 +377,34 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>最適化を実行（200 試行）</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize \
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize run CL=F \
   --strategy cl_hmm_bb_rsi_v1 \
-  --symbol CL=F \
   --trials 200 \
-  --metric sharpe_ratio</code></pre>
+  --metric sharpe_ratio \
+  --save</code></pre>
                 </div>
               </li>
               <li>
                 <div>
-                  <strong>最適化結果を確認</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize results \
-  --strategy cl_hmm_bb_rsi_v1 \
-  --top 5</code></pre>
-                  <p style="font-size:0.88rem;color:var(--text2);margin-top:0.5rem;">出力例：</p>
-                  <pre><code>Rank  Sharpe  CAGR    MaxDD   bb_length  bb_std  rsi_length  rsi_entry  rsi_exit
-1     1.24    15.3%  -16.1%  25         2.0     12          35         65
-2     1.18    14.7%  -17.4%  20         2.0     14          40         60
-3     1.15    14.2%  -18.2%  25         2.5     12          35         60</code></pre>
+                  <strong>最適化履歴を確認</strong>
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize history \
+  --strategy cl_hmm_bb_rsi_v1</code></pre>
+                  <p style="font-size:0.88rem;color:var(--text2);margin-top:0.5rem;">出力例（スコアボード形式）：</p>
+                  <pre><code>Timestamp           Sharpe  CAGR    MaxDD   bb_length  bb_std  rsi_length  rsi_entry  rsi_exit
+20260512_103200     1.24    15.3%  -16.1%  25         2.0     12          35         65
+20260511_180415     1.18    14.7%  -17.4%  20         2.0     14          40         60
+20260510_094822     1.15    14.2%  -18.2%  25         2.5     12          35         60</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>最適パラメータを戦略 JSON に反映</strong>
+                  <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
+                    結果ファイルは <code>optimize run --save</code> の出力に表示され、<code>data/results/</code> 配下に保存されます。
+                  </p>
                   <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize apply \
-  --strategy cl_hmm_bb_rsi_v1 \
-  --rank 1 \
-  --output strategies/cl_hmm_bb_rsi_v1_optimized.json</code></pre>
+  data/results/optimize_cl_hmm_bb_rsi_v1_&lt;timestamp&gt;.json \
+  --to-strategy cl_hmm_bb_rsi_v1</code></pre>
                 </div>
               </li>
             </ol>
@@ -429,18 +430,18 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>ウォークフォワード検証を実行</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge wft run CL=F \
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize walk-forward CL=F \
   --strategy cl_hmm_bb_rsi_v1_optimized \
-  --train-months 24 \
-  --test-months 6 \
-  --step-months 6</code></pre>
+  --windows 5 \
+  --metric sharpe_ratio</code></pre>
                 </div>
               </li>
               <li>
                 <div>
-                  <strong>結果レポートを確認</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge wft report \
-  --strategy cl_hmm_bb_rsi_v1_optimized</code></pre>
+                  <strong>ウィンドウ別の詳細を確認（JSON）</strong>
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize walk-forward CL=F \
+  --strategy cl_hmm_bb_rsi_v1_optimized \
+  --windows 5 --json | jq '.windows'</code></pre>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.5rem;">出力例：</p>
                   <pre><code>Walk-Forward Test Report — cl_hmm_bb_rsi_v1_optimized / CL=F
 Folds: 6  |  Train: 24M  |  Test: 6M  |  Step: 6M
@@ -513,7 +514,7 @@ Avg Sharpe: 1.10  |  Avg CAGR: 13.9%  |  WF Efficiency: 89%</code></pre>
                   <strong style="display:block;margin-bottom:0.4rem;">HMM の状態番号の意味は？</strong>
                   <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;">
                     HMM の状態番号（0, 1, ...）は学習の都度変わります。
-                    バックテスト後に <code>forge hmm inspect --strategy &lt;strategy_id&gt;</code> で
+                    バックテスト後に <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;strategy_id&gt; --regime</code> で
                     各状態の平均リターン・ボラティリティを確認して、「上昇トレンド」状態を特定してください。
                   </p>
                 </div>
@@ -522,7 +523,7 @@ Avg Sharpe: 1.10  |  Avg CAGR: 13.9%  |  WF Efficiency: 89%</code></pre>
                 <div>
                   <strong style="display:block;margin-bottom:0.4rem;">TradingView との連携方法は？</strong>
                   <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;">
-                    最適化後に <code>forge pinescript generate --strategy &lt;strategy_id&gt;</code> を実行すると
+                    最適化後に <code>forge pine generate --strategy &lt;strategy_id&gt;</code> を実行すると
                     TradingView Pine Script v6 のコードが生成されます。
                     アラートを alpha-strike に送信することで自動実行が可能です。
                   </p>
@@ -535,7 +536,7 @@ Avg Sharpe: 1.10  |  Avg CAGR: 13.9%  |  WF Efficiency: 89%</code></pre>
                     パラメータ数が 3〜5 個の場合は 100〜200 試行で十分な探索が可能です。
                     パラメータ数が多い場合や精度を高めたい場合は 500〜1000 試行を推奨します。
                   </p>
-                  <pre><code>forge optimize --strategy cl_hmm_bb_rsi_v1 --trials 500 --metric sharpe_ratio</code></pre>
+                  <pre><code>forge optimize run CL=F --strategy cl_hmm_bb_rsi_v1 --trials 500 --metric sharpe_ratio --save</code></pre>
                 </div>
               </li>
             </ul>

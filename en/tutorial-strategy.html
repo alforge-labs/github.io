@@ -211,13 +211,13 @@
                 <div>
                   <strong>Install alpha-forge</strong>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
-                    Use the license key and binary provided after purchase.
+                    After purchase, sign in with your Whop account (OAuth 2.0 PKCE) — the browser opens automatically.
                   </p>
                   <pre><code># Install with uv (includes all dependencies)
 uv add alpha-forge
 
-# Activate your license
-forge license activate YOUR_LICENSE_KEY</code></pre>
+# Sign in via Whop OAuth
+forge system auth login</code></pre>
                 </div>
               </li>
               <li>
@@ -316,7 +316,8 @@ forge data fetch SPY QQQ --period 5y</code></pre>
             <div class="callout">
               <strong>Note on HMM states:</strong> The <code>hmm_state</code> value of <code>1</code>
               typically corresponds to the bullish regime, but this can vary per dataset.
-              Use <code>forge hmm inspect</code> after backtesting to verify state meanings.
+              Run <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;id&gt; --regime</code> to inspect
+              the per-regime statistics and verify state meanings.
             </div>
           </section>
 
@@ -373,28 +374,29 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>Run optimization (200 trials)</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize \
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize run CL=F \
   --strategy cl_hmm_bb_rsi_v1 \
-  --symbol CL=F \
   --trials 200 \
-  --metric sharpe_ratio</code></pre>
+  --metric sharpe_ratio \
+  --save</code></pre>
                 </div>
               </li>
               <li>
                 <div>
-                  <strong>View top results</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize results \
-  --strategy cl_hmm_bb_rsi_v1 \
-  --top 5</code></pre>
+                  <strong>View the optimization history</strong>
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize history \
+  --strategy cl_hmm_bb_rsi_v1</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>Apply the best parameters</strong>
+                  <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
+                    The result file is printed by <code>optimize run --save</code> and lives under <code>data/results/</code>.
+                  </p>
                   <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize apply \
-  --strategy cl_hmm_bb_rsi_v1 \
-  --rank 1 \
-  --output strategies/cl_hmm_bb_rsi_v1_optimized.json</code></pre>
+  data/results/optimize_cl_hmm_bb_rsi_v1_&lt;timestamp&gt;.json \
+  --to-strategy cl_hmm_bb_rsi_v1</code></pre>
                 </div>
               </li>
             </ol>
@@ -419,18 +421,18 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>Run walk-forward test</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge wft run CL=F \
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize walk-forward CL=F \
   --strategy cl_hmm_bb_rsi_v1_optimized \
-  --train-months 24 \
-  --test-months 6 \
-  --step-months 6</code></pre>
+  --windows 5 \
+  --metric sharpe_ratio</code></pre>
                 </div>
               </li>
               <li>
                 <div>
-                  <strong>View the fold-by-fold report</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge wft report \
-  --strategy cl_hmm_bb_rsi_v1_optimized</code></pre>
+                  <strong>View the fold-by-fold report (JSON)</strong>
+                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize walk-forward CL=F \
+  --strategy cl_hmm_bb_rsi_v1_optimized \
+  --windows 5 --json | jq '.windows'</code></pre>
                 </div>
               </li>
             </ol>
@@ -490,7 +492,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
                   <strong style="display:block;margin-bottom:0.4rem;">What do HMM state numbers mean?</strong>
                   <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;">
                     HMM state numbers (0, 1, ...) can change between training runs.
-                    Run <code>forge hmm inspect --strategy &lt;strategy_id&gt;</code> after backtesting
+                    Run <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;strategy_id&gt; --regime</code>
                     to view the mean return and volatility for each state and identify which is the bullish regime.
                   </p>
                 </div>
@@ -499,7 +501,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
                 <div>
                   <strong style="display:block;margin-bottom:0.4rem;">How do I connect to TradingView?</strong>
                   <p style="font-size:0.88rem;color:var(--text2);line-height:1.7;">
-                    Run <code>forge pinescript generate --strategy &lt;strategy_id&gt;</code> to generate
+                    Run <code>forge pine generate --strategy &lt;strategy_id&gt;</code> to generate
                     TradingView Pine Script v6 code. Set up a Webhook alert in TradingView pointing to
                     alpha-strike for automated order execution.
                   </p>
@@ -512,7 +514,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
                     100–200 trials is sufficient for strategies with 3–5 parameters.
                     For more parameters or higher precision, use 500–1000 trials.
                   </p>
-                  <pre><code>forge optimize --strategy cl_hmm_bb_rsi_v1 --trials 500 --metric sharpe_ratio</code></pre>
+                  <pre><code>forge optimize run CL=F --strategy cl_hmm_bb_rsi_v1 --trials 500 --metric sharpe_ratio --save</code></pre>
                 </div>
               </li>
             </ul>
