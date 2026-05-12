@@ -270,4 +270,8 @@ if [ "${DRY_RUN}" = "false" ]; then
   fi
   echo ""
   echo "使い方: forge --help"
+  echo ""
+  echo "アンインストールするには:"
+  echo "    bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh)"
+  echo "    # 認証情報も完全削除する場合: --purge オプション"
 fi
