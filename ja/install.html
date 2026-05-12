@@ -116,11 +116,34 @@
         <pre><code>irm https://alforge-labs.github.io/install.ps1 | iex</code></pre>
       </div>
 
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text2);">
+        インストーラを使わず手動で配置したい場合は、
+        <a href="https://github.com/alforge-labs/alforge-labs.github.io/releases/latest" target="_blank" rel="noopener">GitHub Releases（最新版）</a>
+        から各プラットフォーム向けバイナリを直接ダウンロードできます。
+      </p>
+
       <h2 class="section-heading">ライセンス認証</h2>
       <p>Whop アカウントで OAuth 2.0 PKCE 認証を行います。ブラウザが自動で開きます。認証情報は <code>~/.forge/credentials.json</code> に保存されます。</p>
       <pre><code>forge system auth login</code></pre>
       <p>認証済みメンバーシップは以下で確認できます：</p>
       <pre><code>forge system auth status</code></pre>
+
+      <h2 class="section-heading">結果を可視化する — alpha-visualizer（任意）</h2>
+      <p>
+        <strong>alpha-visualizer</strong> は forge が出力するバックテスト結果を Web ブラウザで可視化する
+        OSS パッケージです（PyPI 配布・MIT ライセンス）。forge 本体に依存せず単体動作するため、必要に応じて後から追加できます。
+      </p>
+      <pre><code># uv（推奨）
+uv tool install alpha-visualizer
+
+# pip
+pip install alpha-visualizer</code></pre>
+      <p style="font-size: 0.9rem; color: var(--text2);">
+        詳しい使い方・設定は
+        <a href="/ja/docs/alpha-visualizer/installation/">alpha-visualizer インストールガイド</a>
+        を参照してください。PyPI: <a href="https://pypi.org/project/alpha-visualizer/" target="_blank" rel="noopener">pypi.org/project/alpha-visualizer</a> /
+        GitHub: <a href="https://github.com/alforge-labs/alpha-visualizer" target="_blank" rel="noopener">alforge-labs/alpha-visualizer</a>
+      </p>
 
       <h2 class="section-heading">トラブルシューティング</h2>
       <table class="cmd-table">

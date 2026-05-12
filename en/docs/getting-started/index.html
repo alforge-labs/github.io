@@ -2468,6 +2468,10 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>AlphaForge CLI v1.x.x
 </code></pre></div>
 <p>If you see a version number, you're ready. For manual installation or custom install paths, see <a href="#detailed-installation">Detailed Installation</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Download the latest binary directly</p>
+<p>Prefer a manual setup over the installer? Grab the per-platform binaries (<code>forge-macos-arm64</code> / <code>forge-linux-x64</code> / <code>forge-windows-x64.exe</code>, etc.) from <a href="https://github.com/alforge-labs/alforge-labs.github.io/releases/latest">GitHub Releases (latest)</a>. See "Detailed Installation → Manual Install" later on this page for placement and PATH details.</p>
+</div>
 <h3 id="step-2-sign-in-with-whop-1-min">Step 2 — Sign in with Whop (~1 min)<a class="headerlink" href="#step-2-sign-in-with-whop-1-min" title="Permanent link">&para;</a></h3>
 <p>AlphaForge uses OAuth 2.0 PKCE authentication via your Whop account. The next command opens a browser automatically.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
@@ -2806,6 +2810,7 @@
 <hr />
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
+<li><a href="../alpha-visualizer/installation/">Visualize results — alpha-visualizer</a> — OSS package that renders forge's backtest results in your browser (<code>uv tool install alpha-visualizer</code> / <code>pip install alpha-visualizer</code>)</li>
 <li><a href="../usecases/">Use Cases by Goal</a> — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)</li>
 <li><a href="../cli-reference/">CLI Reference</a> — Every <code>forge</code> command, parameters, and output format</li>
 <li><a href="../templates/">Strategy Templates</a> — Compound strategies like HMM × BB × RSI</li>

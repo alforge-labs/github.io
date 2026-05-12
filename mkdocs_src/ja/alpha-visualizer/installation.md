@@ -2,6 +2,9 @@
 
 `alpha-visualizer` は PyPI で配布されています。Python 3.12 以上が必要です。
 
+!!! tip "alpha-forge と一緒に使う"
+    `alpha-visualizer` は `forge` 本体（バックテストエンジン）とは独立してインストール・実行できますが、可視化対象である `backtest_results.db` は `forge` が生成します。`forge` のインストールがまだの場合は [AlphaForge スタートガイド](../getting-started.md) を参照してください（最新バイナリは [GitHub Releases](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest) からも取得可能）。
+
 ## 動作要件
 
 | 項目 | バージョン |
