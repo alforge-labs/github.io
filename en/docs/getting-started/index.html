@@ -2674,7 +2674,7 @@
 <p>Run the following command in your terminal. The installer extracts the latest binary bundle (<code>forge.dist</code>) into <code>~/.local/share/alpha-forge/</code> and symlinks the executable as <code>~/.local/bin/forge</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </code></pre></div>
-<p>During install, you'll be asked <code>Install to /usr/local/bin? [y/N]</code>. Press Enter or <code>n</code> for the default (<code>~/.local/bin</code>), or <code>y</code> to install system-wide to <code>/usr/local/bin</code> (which will prompt for sudo).</p>
+<p>The default install location is <code>~/.local/bin</code> (user-local, no sudo required). During install, you'll be asked <code>Install to system-wide /usr/local/bin instead? (requires sudo) [y/N]:</code>. Press Enter or <code>n</code> to keep the default, or <code>y</code> to install system-wide to <code>/usr/local/bin</code> (which will prompt for sudo).</p>
 <div class="admonition tip">
 <p class="admonition-title">Non-interactive install (<code>INSTALL_DIR</code> env var)</p>
 <p>For CI, Dockerfiles, or any environment where the interactive prompt can't be answered, set <code>INSTALL_DIR</code> to choose the symlink directory directly. The prompt is then skipped entirely.</p>
@@ -2687,19 +2687,30 @@
 <p>The <code>forge.dist</code> bundle is extracted under <code>&lt;dirname of INSTALL_DIR&gt;/share/alpha-forge/</code> (e.g. <code>INSTALL_DIR=/opt/forge/bin</code> → <code>/opt/forge/share/alpha-forge/</code>). Pass the same <code>INSTALL_DIR</code> to <code>uninstall.sh</code> when removing.</p>
 </div>
 <div class="admonition tip">
+<p class="admonition-title">Display language (<code>FORGE_INSTALL_LOCALE</code> env var)</p>
+<p>The installer auto-detects language from <code>LANG</code> / <code>LC_ALL</code> (Japanese for <code>ja*</code>, English otherwise). To force a specific language, set <code>FORGE_INSTALL_LOCALE=ja|en</code>. <code>uninstall.sh</code> honors the same variable.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Force English output regardless of LANG</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nv">FORGE_INSTALL_LOCALE</span><span class="o">=</span>en<span class="w"> </span>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/install.sh<span class="o">)</span>
+</code></pre></div>
+</div>
+<div class="admonition tip">
 <p class="admonition-title">Whop OAuth login</p>
 <p>After install, log in to your Whop membership via browser-based OAuth:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
 </div>
 </div>
 <div class="tabbed-block">
 <p>Run this in PowerShell (no administrator rights required). It extracts the bundled binary set (<code>forge.dist\</code>) into <code>%LOCALAPPDATA%\Programs\alpha-forge\</code> and adds the sibling <code>forge.cmd</code> launcher to your User PATH.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">install</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">iex</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">install</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">iex</span>
 </code></pre></div>
 <p>If a legacy install (<code>$HOME\bin\forge.exe</code> or <code>C:\Program Files\forge\forge.exe</code>) is detected, it is removed after confirmation and replaced with the new layout. To preview what the installer would do without touching the filesystem, run with <code>-DryRun</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">&amp;</span> <span class="p">(</span><span class="no">[scriptblock]</span><span class="p">::</span><span class="n">Create</span><span class="p">((</span><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">install</span><span class="p">.</span><span class="n">ps1</span><span class="p">)))</span> <span class="n">-DryRun</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">&amp;</span> <span class="p">(</span><span class="no">[scriptblock]</span><span class="p">::</span><span class="n">Create</span><span class="p">((</span><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">install</span><span class="p">.</span><span class="n">ps1</span><span class="p">)))</span> <span class="n">-DryRun</span>
 </code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Display language</p>
+<p>The installer auto-detects from Windows display language (<code>CurrentUICulture</code>). To force a specific language, set <code>$env:FORGE_INSTALL_LOCALE = "en"</code> (or <code>"ja"</code>) before <code>irm | iex</code>.</p>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">New terminal</p>
 <p>Open a new terminal window after installation before continuing.</p>
@@ -2712,8 +2723,8 @@
 </li>
 <li>
 <p><strong>macOS / Linux</strong>: make it executable and move it to a directory on your PATH.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>forge-macos-arm64
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>sudo<span class="w"> </span>mv<span class="w"> </span>forge-macos-arm64<span class="w"> </span>/usr/local/bin/forge
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>forge-macos-arm64
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>sudo<span class="w"> </span>mv<span class="w"> </span>forge-macos-arm64<span class="w"> </span>/usr/local/bin/forge
 </code></pre></div>
 </li>
 <li>
@@ -2732,20 +2743,20 @@
 </div>
 <h3 id="1-check-installation">1. Check installation<a class="headerlink" href="#1-check-installation" title="Permanent link">&para;</a></h3>
 <p>Confirm that the binary is available.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>--version
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>--version
 </code></pre></div>
 <h3 id="2-sign-in-with-whop">2. Sign in with Whop<a class="headerlink" href="#2-sign-in-with-whop" title="Permanent link">&para;</a></h3>
 <p>The command launches the OAuth flow in your browser.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
 <p>Credentials are cached at <code>$XDG_CONFIG_HOME/forge/credentials.json</code> (default <code>~/.config/forge/credentials.json</code>). Internet access is required.</p>
 <h3 id="3-verify-the-login-state">3. Verify the login state<a class="headerlink" href="#3-verify-the-login-state" title="Permanent link">&para;</a></h3>
 <p>You can inspect the cached user ID and token expiry:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>status
 </code></pre></div>
 <h3 id="4-verify-commands">4. Verify commands<a class="headerlink" href="#4-verify-commands" title="Permanent link">&para;</a></h3>
 <p>Confirm that backtest commands are available.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help
 </code></pre></div>
 <hr />
 <h2 id="reading-the-results-detailed">Reading the Results (Detailed)<a class="headerlink" href="#reading-the-results-detailed" title="Permanent link">&para;</a></h2>
@@ -2808,25 +2819,25 @@
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Run the official uninstaller. It removes the <code>forge</code> symlink, the entire <code>forge.dist/</code> directory (~1,100 bundled library files), and the PATH line that was appended to your shell rc.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
 </code></pre></div>
 <p>Your credentials (<code>~/.config/forge/credentials.json</code>) are <strong>kept by default</strong>. This is intentional: if you reinstall later, you can skip <code>forge system auth login</code> and the install will pick up your existing Whop OAuth session.</p>
 <div class="admonition tip">
 <p class="admonition-title">Full wipe (delete credentials and EULA acceptance too)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--purge
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--purge
 </code></pre></div>
 <p><code>--purge</code> additionally removes <code>~/.config/forge/</code> (Whop OAuth token + EULA state) and the legacy <code>~/.forge/</code> path if it exists.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Preview before deleting</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--dry-run
 </code></pre></div>
 <p>Shows exactly which paths would be removed without touching anything.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Uninstall from a custom path (<code>INSTALL_DIR</code> env var)</p>
 <p>If you installed via <code>INSTALL_DIR=...</code>, pass the same value to the uninstaller so it can locate the symlink:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nv">INSTALL_DIR</span><span class="o">=</span>/opt/forge/bin<span class="w"> </span>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nv">INSTALL_DIR</span><span class="o">=</span>/opt/forge/bin<span class="w"> </span>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
 </code></pre></div>
 <p>Without it, both <code>~/.local/bin</code> and <code>/usr/local/bin</code> are auto-discovered.</p>
 </div>
@@ -2838,10 +2849,10 @@
 </div>
 <div class="tabbed-block">
 <p>Run the official uninstaller. It removes both the new layout (<code>%LOCALAPPDATA%\Programs\alpha-forge\</code>) and any legacy layouts (<code>$HOME\bin\forge.exe</code> / <code>C:\Program Files\forge\forge.exe</code>), and cleans up the matching User PATH entries.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">uninstall</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">iex</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">uninstall</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">iex</span>
 </code></pre></div>
 <p>Authentication cache (<code>~\.config\forge\credentials.json</code>) is preserved by default. Pass <code>-Purge</code> to delete it as well:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="p">&amp;</span> <span class="p">(</span><span class="no">[scriptblock]</span><span class="p">::</span><span class="n">Create</span><span class="p">((</span><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">uninstall</span><span class="p">.</span><span class="n">ps1</span><span class="p">)))</span> <span class="n">-Yes</span> <span class="n">-Purge</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="p">&amp;</span> <span class="p">(</span><span class="no">[scriptblock]</span><span class="p">::</span><span class="n">Create</span><span class="p">((</span><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">uninstall</span><span class="p">.</span><span class="n">ps1</span><span class="p">)))</span> <span class="n">-Yes</span> <span class="n">-Purge</span>
 </code></pre></div>
 </div>
 </div>
