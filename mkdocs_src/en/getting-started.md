@@ -197,17 +197,20 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 
 === "macOS / Linux"
 
-    Run the following command in your terminal. The installer downloads the latest binary and places it in `/usr/local/bin`.
+    Run the following command in your terminal. The installer extracts the latest binary bundle (`forge.dist`) into `~/.local/share/alpha-forge/` and symlinks the executable as `~/.local/bin/forge`.
 
     ```bash
     curl -sSL https://alforge-labs.github.io/install.sh | bash
     ```
 
-    !!! tip "Custom install location"
-        Set `INSTALL_DIR` to install elsewhere.
+    During install, you'll be asked `Install to /usr/local/bin? [y/N]`. Press Enter or `n` for the default (`~/.local/bin`), or `y` to install system-wide to `/usr/local/bin` (which will prompt for sudo).
+
+    !!! tip "Whop OAuth login"
+
+        After install, log in to your Whop membership via browser-based OAuth:
 
         ```bash
-        INSTALL_DIR=~/.local/bin curl -sSL https://alforge-labs.github.io/install.sh | bash
+        forge system auth login
         ```
 
 === "Windows"
@@ -309,12 +312,38 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 
 === "macOS / Linux"
 
+    Run the official uninstaller. It removes the `forge` symlink, the entire `forge.dist/` directory (~1,100 bundled library files), and the PATH line that was appended to your shell rc.
+
     ```bash
-    sudo rm /usr/local/bin/forge
-    rm -rf ~/.forge
+    bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh)
     ```
 
+    Your credentials (`~/.config/forge/credentials.json`) are **kept by default**. This is intentional: if you reinstall later, you can skip `forge system auth login` and the install will pick up your existing Whop OAuth session.
+
+    !!! tip "Full wipe (delete credentials and EULA acceptance too)"
+
+        ```bash
+        bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh) --purge
+        ```
+
+        `--purge` additionally removes `~/.config/forge/` (Whop OAuth token + EULA state) and the legacy `~/.forge/` path if it exists.
+
+    !!! info "Preview before deleting"
+
+        ```bash
+        bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh) --dry-run
+        ```
+
+        Shows exactly which paths would be removed without touching anything.
+
+    **What is NOT removed:**
+
+    - Your **project working directories** created by `forge system init` (`forge.yaml`, `data/`, etc.) — these are your data
+    - Shared parent directories like `~/.local/share/` and `~/.config/` (used by other apps)
+
 === "Windows"
+
+    Official Windows binaries are not currently published. If you installed via the legacy `install.ps1`, remove it manually:
 
     ```powershell
     Remove-Item -Recurse $env:USERPROFILE\.forge
