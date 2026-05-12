@@ -197,17 +197,20 @@ forge backtest run SPY \
 
 === "macOS / Linux"
 
-    ターミナルで以下のコマンドを実行してください。インストーラーが最新バイナリをダウンロードし、`/usr/local/bin` に配置します。
+    ターミナルで以下のコマンドを実行してください。インストーラーが最新バイナリ（`forge.dist` 一式）を `~/.local/share/alpha-forge/` に展開し、実行ファイル `forge` への symlink を `~/.local/bin/forge` に作成します。
 
     ```bash
     curl -sSL https://alforge-labs.github.io/install.sh | bash
     ```
 
-    !!! tip "インストール先のカスタマイズ"
-        インストール先を変更したい場合は `INSTALL_DIR` 環境変数で指定できます。
+    実行中、`/usr/local/bin にインストールしますか？ [y/N]` と尋ねられます。Enter または `n` でデフォルト（`~/.local/bin`）、`y` で `/usr/local/bin` を選択できます（後者は sudo を要求します）。
+
+    !!! tip "Whop OAuth 認証"
+
+        インストール完了後、Whop メンバーシップを利用するには次のコマンドでブラウザ認証してください。
 
         ```bash
-        INSTALL_DIR=~/.local/bin curl -sSL https://alforge-labs.github.io/install.sh | bash
+        forge system auth login
         ```
 
 === "Windows"
@@ -309,12 +312,38 @@ forge backtest --help
 
 === "macOS / Linux"
 
+    公式アンインストーラーを実行してください。インストール時の symlink・`forge.dist`（同梱ライブラリ約 1,100 ファイル一式）・shell rc に追記された PATH 行を一括で削除します。
+
     ```bash
-    sudo rm /usr/local/bin/forge
-    rm -rf ~/.forge
+    bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh)
     ```
 
+    認証情報（`~/.config/forge/credentials.json`）は **デフォルトで保持** されます。再インストール時に `forge system auth login` をやり直さずに済むよう、設計上の意図的な挙動です。
+
+    !!! tip "完全削除（認証情報・EULA 同意もすべて消す）"
+
+        ```bash
+        bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh) --purge
+        ```
+
+        `--purge` を指定すると `~/.config/forge/`（Whop OAuth トークン + EULA 同意状態）と、もし存在すれば legacy 旧パス `~/.forge/` も削除します。
+
+    !!! info "事前確認したいとき"
+
+        ```bash
+        bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh) --dry-run
+        ```
+
+        実際の削除は行わず、削除予定のパスのみ表示します。
+
+    **削除しないもの:**
+
+    - `forge system init` で作成した `forge.yaml` / `data/` などの**プロジェクト作業ディレクトリ**（ユーザーのデータなので保護対象）
+    - 他アプリも使う `~/.local/share/`、`~/.config/` 直下などの**親ディレクトリ**
+
 === "Windows"
+
+    Windows 向けの公式バイナリは現在準備中です。`install.ps1` を使った旧インストールを行った場合は、以下を手動で実行してください。
 
     ```powershell
     Remove-Item -Recurse $env:USERPROFILE\.forge
