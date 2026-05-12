@@ -246,6 +246,32 @@ forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js"
 forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 ```
 
+#### Subcommand: `forge data tv-mcp check` (issue #674)
+
+Verifies that the TV MCP data provider server is reachable. The `/explore-strategies` skill runs this automatically at the start of each run for goals where `exploration.data_provider_override.{stock|fx}: tv_mcp` is configured.
+
+```bash
+# Default (ping with symbol=BATS:SPY)
+forge data tv-mcp check
+
+# JSON output (for automation)
+forge data tv-mcp check --json
+
+# Different symbol (FX)
+forge data tv-mcp check --symbol OANDA:USDJPY
+
+# Pass the endpoint via CLI
+forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--mcp-server <command>` | `data.providers.tv_mcp.endpoint` from `forge.yaml` | MCP server command |
+| `--symbol <symbol>` | `BATS:SPY` | Symbol used for the ping |
+| `--json` | false | Output as JSON |
+
+**Exit code**: `0` = session valid, `2` = endpoint missing / TV Desktop not running / MCP server connection failed. When `/explore-strategies` detects exit `2`, the loop is stopped and a "TV MCP auth error stop" line is appended to `<goal_dir>/explored_log.md` (no auto-launch / no retry).
+
 ### `auto` routing (issue #583, Phase 1.5e-δ)
 
 Setting `stock_provider` / `fx_provider` to `auto` makes alpha-forge classify each symbol into an asset type and pick the provider through the new `auto_routing` table. Useful when a single `forge data fetch <SYM>` should choose different providers depending on the symbol.

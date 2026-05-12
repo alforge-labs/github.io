@@ -412,6 +412,50 @@ forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
 
 **yfinance constraint**: The yfinance provider hits Yahoo Finance's 730-day cap, so **1h × 5y is not retrievable** (measured: 1h × 2y yields ~12,000 bars). When using 1h, shorten to `backtest_period: "2y"` or switch to an alternative provider such as Dukascopy or OANDA.
 
+### Per-goal data_provider_override (long-term data / issue #674)
+
+`exploration.data_provider_override` in `goals.yaml` overrides `data.providers.stock_provider` / `fx_provider` from `forge.yaml` on a per-goal basis. The intended use case is switching to **TradingView MCP** when more than 20 years of historical data are required (root cause fix for issue #670: WFT `min_oos_trades_per_window` is structurally hard to satisfy with only 5 years).
+
+```yaml
+# Example: long-term-stocks/goals.yaml
+exploration:
+  backtest_period: "20y"        # Long-term data
+  data_provider_override:
+    stock: tv_mcp               # Override stock_provider to tv_mcp
+    fx: tv_mcp                  # Include FX symbols
+  assets:
+    - SPY
+    - QQQ
+```
+
+**Prerequisites**:
+
+1. **TradingView Desktop is running** (the MCP server uses TV Desktop's API and therefore requires the GUI)
+2. `data.providers.tv_mcp.endpoint` is configured in `forge.yaml`
+3. The `/explore-strategies` skill automatically runs `forge data tv-mcp check` at the start of each run
+
+**Initial data fetch (recommended manual; subsequent runs reuse the parquet cache)**:
+
+```bash
+forge data fetch SPY  --provider tv_mcp --period 20y
+forge data fetch QQQ  --provider tv_mcp --period 20y
+```
+
+**`/explore-strategies` integration (issue #674)**:
+
+When a goal has `exploration.data_provider_override.{stock|fx}: tv_mcp` set, the skill executes the following preflight at the start of each run:
+
+```bash
+forge data tv-mcp check --json
+```
+
+- Exit `0`: continue
+- Exit `2`: endpoint missing / TV Desktop not running / MCP server connection failed → loop is stopped, and a "TV MCP auth error stop" line is appended to `<goal_dir>/explored_log.md` (no auto-launch / no retry)
+
+**Long-term goal template**:
+
+See `alpha-strategies/data/explorer/goals/long-term-stocks/goals.yaml`. With 20-year data, `wft.min_oos_trades_per_window=3` becomes practically achievable, improving WFT pass rates for low-frequency trend-following strategies (e.g. HMM-based combos).
+
 ### Early cutoff via pre_filter min_trades (issue #429)
 
 Adding `min_trades` to the `pre_filter` section of `goals.yaml` makes `forge explore run` abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.

@@ -246,6 +246,32 @@ forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js"
 forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 ```
 
+#### サブコマンド: `forge data tv-mcp check`（issue #674）
+
+TV MCP データ取得サーバーの起動・接続を検証します。`/explore-strategies` スキルが、`goals.yaml` の `exploration.data_provider_override.{stock|fx}: tv_mcp` 設定された goal の冒頭で自動実行します。
+
+```bash
+# 既定（symbol=BATS:SPY で疎通確認）
+forge data tv-mcp check
+
+# JSON 出力（自動化スクリプト向け）
+forge data tv-mcp check --json
+
+# シンボルを変更（FX 用）
+forge data tv-mcp check --symbol OANDA:USDJPY
+
+# CLI で endpoint を直接指定
+forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
+```
+
+| オプション | 既定 | 説明 |
+|-----------|------|------|
+| `--mcp-server <command>` | `forge.yaml` の `data.providers.tv_mcp.endpoint` | MCP サーバーコマンド |
+| `--symbol <symbol>` | `BATS:SPY` | 疎通確認に使うシンボル |
+| `--json` | false | JSON で結果を出力 |
+
+**Exit code**: `0`=セッション有効、`2`=endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗。`/explore-strategies` スキルが exit 2 を検出すると、`<goal_dir>/explored_log.md` に「TV MCP 認証エラーで停止」を記録してループを停止します（自動起動・再試行は行いません）。
+
 ### `auto` ルーティング（issue #583 Phase 1.5e-δ）
 
 `stock_provider` / `fx_provider` に `auto` を指定すると、シンボルから判定したアセット種別ごとに `auto_routing` テーブルから provider を解決します。`forge data fetch <SYM>` を実行するたびに別 provider を選びたい運用に便利です。
