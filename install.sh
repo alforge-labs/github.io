@@ -4,6 +4,10 @@
 #   bash <(curl -sSL https://alforge-labs.github.io/install.sh)
 #   bash <(curl -sSL https://alforge-labs.github.io/install.sh) --dry-run
 #
+#   # 非対話で symlink 配置先を環境変数で指定（CI / Dockerfile 等向け）
+#   INSTALL_DIR=~/.local/bin bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+#   INSTALL_DIR=/opt/forge/bin bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+#
 # 実装メモ:
 #   - Nuitka standalone ビルドの forge.dist/ は forge バイナリ + 1100+ の dylib /
 #     データファイルから成り、forge は @executable_path 相対で同居 dylib を
@@ -13,6 +17,9 @@
 #     ので、未署名バイナリの抑止解除のため xattr -dr で除去する。
 #   - curl | bash 経由実行では stdin がスクリプト本文に占有されているため、
 #     対話 read は </dev/tty で TTY 直結する。
+#   - INSTALL_DIR 環境変数が設定されていれば対話プロンプトを完全にスキップして
+#     その値を symlink 配置ディレクトリとして使う。同名で uninstall.sh も
+#     対応している。
 
 set -euo pipefail
 
@@ -25,7 +32,10 @@ fi
 REPO="alforge-labs/alforge-labs.github.io"
 
 # bin: 実行ファイル symlink を置く場所 (PATH に通っているべき)
+# INSTALL_DIR 環境変数が事前に export されていればそれを最優先で使用する。
+# 未設定なら対話プロンプト（または DRY_RUN）でデフォルト ~/.local/bin に決定。
 DEFAULT_BIN_DIR="${HOME}/.local/bin"
+INSTALL_DIR_FROM_ENV="${INSTALL_DIR:-}"
 BIN_DIR=""
 
 # lib: forge.dist/ 配下の全ファイルを置く場所 (バイナリ + dylib + データ)
@@ -123,11 +133,21 @@ fi
 
 # ── 5. インストール先を確定 ──────────────────────────────────────
 echo ""
-echo "インストール先を選択してください（デフォルト: ${DEFAULT_BIN_DIR}）"
-if [ "${DRY_RUN}" = "true" ]; then
+if [ -n "${INSTALL_DIR_FROM_ENV}" ]; then
+  # 環境変数で明示指定された場合は対話プロンプトを完全にスキップ。
+  # ~ を含む場合は呼び出し側 shell で展開されないので tilde を $HOME に置換しておく。
+  case "${INSTALL_DIR_FROM_ENV}" in
+    "~"|"~/"*) BIN_DIR="${HOME}${INSTALL_DIR_FROM_ENV#"~"}" ;;
+    *)         BIN_DIR="${INSTALL_DIR_FROM_ENV}" ;;
+  esac
+  echo "INSTALL_DIR 環境変数が指定されています: ${BIN_DIR}"
+  ok "インストール先: ${BIN_DIR}"
+elif [ "${DRY_RUN}" = "true" ]; then
   BIN_DIR="${DEFAULT_BIN_DIR}"
+  echo "インストール先を選択してください（デフォルト: ${DEFAULT_BIN_DIR}）"
   echo "  [dry-run] インストール先: ${BIN_DIR}（デフォルト）"
 else
+  echo "インストール先を選択してください（デフォルト: ${DEFAULT_BIN_DIR}）"
   REPLY="$(prompt_tty "  /usr/local/bin にインストールしますか？ [y/N] ")"
   if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
     BIN_DIR="/usr/local/bin"

@@ -205,6 +205,20 @@ forge backtest run SPY \
 
     実行中、`/usr/local/bin にインストールしますか？ [y/N]` と尋ねられます。Enter または `n` でデフォルト（`~/.local/bin`）、`y` で `/usr/local/bin` を選択できます（後者は sudo を要求します）。
 
+    !!! tip "非対話インストール (`INSTALL_DIR` 環境変数)"
+
+        CI や Dockerfile 等、対話プロンプトに答えられない環境では `INSTALL_DIR` 環境変数で symlink 配置先を直接指定できます。指定するとプロンプトを完全にスキップします。
+
+        ```bash
+        # ~/.local/bin に固定（プロンプト無し）
+        INSTALL_DIR=~/.local/bin bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+
+        # 任意のディレクトリにインストール（書き込み権限が必要）
+        INSTALL_DIR=/opt/forge/bin bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+        ```
+
+        `forge.dist` は `INSTALL_DIR` の親階層の `share/alpha-forge/` に展開されます（例: `INSTALL_DIR=/opt/forge/bin` の場合 `/opt/forge/share/alpha-forge/`）。アンインストール時は同じ `INSTALL_DIR` を渡してください。
+
     !!! tip "Whop OAuth 認証"
 
         インストール完了後、Whop メンバーシップを利用するには次のコマンドでブラウザ認証してください。
@@ -335,6 +349,16 @@ forge backtest --help
         ```
 
         実際の削除は行わず、削除予定のパスのみ表示します。
+
+    !!! tip "カスタムパスからアンインストール (`INSTALL_DIR` 環境変数)"
+
+        `INSTALL_DIR` を指定してインストールした場合、同じ値を渡して symlink 配置場所を伝えてください。
+
+        ```bash
+        INSTALL_DIR=/opt/forge/bin bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh)
+        ```
+
+        未指定の場合は `~/.local/bin` と `/usr/local/bin` の両方を自動探索します。
 
     **削除しないもの:**
 

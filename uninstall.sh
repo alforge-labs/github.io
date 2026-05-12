@@ -5,9 +5,14 @@
 #   bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh) --dry-run
 #   bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh) --purge
 #
+#   # INSTALL_DIR でインストールした場合は同じ env var で位置を伝える
+#   INSTALL_DIR=/opt/forge/bin bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh)
+#
 # 削除対象（デフォルト）:
-#   - forge symlink: ${HOME}/.local/bin/forge または /usr/local/bin/forge
-#   - forge.dist 全体: ${HOME}/.local/share/alpha-forge/ または /usr/local/share/alpha-forge/
+#   - forge symlink: INSTALL_DIR が指定されていればそこ、それ以外は
+#     ${HOME}/.local/bin/forge と /usr/local/bin/forge の両方を探索
+#   - forge.dist 全体: symlink と同階層の share/alpha-forge/
+#     （例: ~/.local/bin/forge に対して ~/.local/share/alpha-forge/）
 #   - PATH 行 (# AlphaForge forge コメント付き): ${HOME}/.zshrc 等
 #
 # --purge 指定時のみ追加で削除:
@@ -21,6 +26,7 @@ set -euo pipefail
 
 DRY_RUN=false
 PURGE=false
+INSTALL_DIR_FROM_ENV="${INSTALL_DIR:-}"
 
 usage() {
   cat <<'USAGE'
@@ -33,6 +39,11 @@ Options:
   --dry-run  削除内容を表示するだけで実際には削除しない
   --purge    認証情報 (~/.config/forge/) と legacy 設定 (~/.forge/) も削除
   -h, --help このヘルプを表示
+
+環境変数:
+  INSTALL_DIR  install.sh で INSTALL_DIR を指定してインストールした場合、
+               同じ値を渡して symlink 配置場所を特定する。未指定なら
+               ~/.local/bin と /usr/local/bin を自動探索する。
 
 デフォルトでは認証情報を残します。後で同じ forge を再インストールしたい場合、
 再認証 (forge system auth login) を省略できます。
@@ -87,7 +98,17 @@ echo "=== AlphaForge アンインストール ==="
 [ "${DRY_RUN}" = "true" ] && echo "[dry-run] 実際には削除しません"
 echo ""
 
-BIN_CANDIDATES=("${HOME}/.local/bin" "/usr/local/bin")
+if [ -n "${INSTALL_DIR_FROM_ENV}" ]; then
+  # INSTALL_DIR が明示指定された場合はそこのみを対象にする。
+  # tilde は呼び出し shell で展開されないことがあるので明示的に置換。
+  case "${INSTALL_DIR_FROM_ENV}" in
+    "~"|"~/"*) BIN_CANDIDATES=("${HOME}${INSTALL_DIR_FROM_ENV#"~"}") ;;
+    *)         BIN_CANDIDATES=("${INSTALL_DIR_FROM_ENV}") ;;
+  esac
+  echo "INSTALL_DIR 環境変数による探索: ${BIN_CANDIDATES[0]}"
+else
+  BIN_CANDIDATES=("${HOME}/.local/bin" "/usr/local/bin")
+fi
 DIST_SUFFIX="share/alpha-forge"
 removed_count=0
 
