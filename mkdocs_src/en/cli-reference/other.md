@@ -297,6 +297,73 @@ exploration agents can decide programmatically which criterion failed and by how
 | `verdict` | `"passed"` if all criteria pass, otherwise `"failed"` |
 | `failed_criteria` | Names of failed criteria in stable order: `sharpe_ratio` → `max_drawdown` → `trades` |
 
+#### wft_diagnostics structure (issue #684)
+
+When `skip_reason` is `"wft_insufficient_oos_data"` or `"wft_no_valid_oos_windows"`, the `wft_diagnostics` field contains structured per-window verdicts and an aggregate summary, mirroring the style of `pre_filter_diagnostics`. Agents can determine which windows failed and why.
+
+```json
+{
+  "wft_diagnostics": {
+    "total_oos_trades": 17,
+    "oos_trades_by_window": [3, 3, 0, 6, 5],
+    "valid_windows": 4,
+    "required_valid_windows": 3,
+    "min_oos_trades_per_window": 3,
+    "windows": [
+      {
+        "window_index": 1,
+        "oos_trades": 3,
+        "oos_metric": -0.01,
+        "valid": true,
+        "skip_reason": null,
+        "failed_criteria": [],
+        "criteria": {
+          "min_trades":     {"value": 3, "threshold": 3, "passed": true, "gap": 0},
+          "metric_finite":  {"value": -0.01, "passed": true}
+        }
+      },
+      {
+        "window_index": 3,
+        "oos_trades": 0,
+        "oos_metric": null,
+        "valid": false,
+        "skip_reason": null,
+        "failed_criteria": ["min_trades", "metric_finite"],
+        "criteria": {
+          "min_trades":     {"value": 0, "threshold": 3, "passed": false, "gap": -3},
+          "metric_finite":  {"value": null, "passed": false}
+        }
+      }
+    ],
+    "summary": {
+      "total_windows": 5,
+      "valid_windows": 4,
+      "required_valid_windows": 3,
+      "min_required_trades": 3,
+      "min_valid_windows_ratio": 0.6,
+      "min_trades_violated_windows": [3],
+      "metric_invalid_windows": [3],
+      "skipped_windows": []
+    }
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `windows[].window_index` | 1-based window index |
+| `windows[].oos_trades` | Number of trades during the OOS period |
+| `windows[].oos_metric` | OOS optimization metric (NaN/inf normalized to `null`) |
+| `windows[].valid` | True iff both `min_trades` and `metric_finite` pass |
+| `windows[].failed_criteria` | List of failed criteria (`min_trades`, `metric_finite`, `window_skip:<reason>`) |
+| `windows[].criteria` | Per-criterion `{value, threshold, passed, gap}` |
+| `summary.min_trades_violated_windows` | 1-based indices where `min_trades` failed |
+| `summary.metric_invalid_windows` | 1-based indices where the metric was NaN/inf/None |
+| `summary.skipped_windows` | 1-based indices where the engine itself skipped the window |
+| `summary.required_valid_windows` | Required valid windows = `ceil(total × min_valid_windows_ratio)` |
+
+The legacy fields (`total_oos_trades`, `oos_trades_by_window`, `valid_windows`, `required_valid_windows`, `min_oos_trades_per_window`) are kept alongside the new fields for backward compatibility.
+
 ### forge explore health
 
 Aggregate the most recent N trials and detect consecutive failures or scaffold fixation (issue #408). Designed to be invoked at the start of every iteration of the unattended `/explore-strategies --runs 0` loop, so structural failures (scaffold bugs, goals.yaml drift) can be caught early instead of burning runs forever.
