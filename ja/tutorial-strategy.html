@@ -210,10 +210,10 @@
                 <div>
                   <strong>alpha-forge を取得してインストール</strong>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
-                    購入後、Whop アカウントで OAuth 2.0 PKCE 認証を行います（ブラウザが自動で開きます）。
+                    インストーラーが最新バイナリをダウンロードします（macOS / Linux 例）。Windows / 手動配置は <a href="install.html">インストールガイド</a> を参照してください。続けて Whop アカウントで OAuth 2.0 PKCE 認証を行います（ブラウザが自動で開きます）。
                   </p>
-                  <pre><code># uv で依存関係を含めてインストール
-uv add alpha-forge
+                  <pre><code># 最新バイナリをインストール（macOS / Linux）
+curl -sSL https://alforge-labs.github.io/install.sh | bash
 
 # Whop アカウントで認証
 forge system auth login</code></pre>

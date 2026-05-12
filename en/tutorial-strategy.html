@@ -211,10 +211,10 @@
                 <div>
                   <strong>Install alpha-forge</strong>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
-                    After purchase, sign in with your Whop account (OAuth 2.0 PKCE) — the browser opens automatically.
+                    The installer downloads the latest binary (macOS / Linux shown). See the <a href="install.html">installation guide</a> for Windows or manual placement. Then sign in with your Whop account (OAuth 2.0 PKCE) — the browser opens automatically.
                   </p>
-                  <pre><code># Install with uv (includes all dependencies)
-uv add alpha-forge
+                  <pre><code># Install the latest binary (macOS / Linux)
+curl -sSL https://alforge-labs.github.io/install.sh | bash
 
 # Sign in via Whop OAuth
 forge system auth login</code></pre>
