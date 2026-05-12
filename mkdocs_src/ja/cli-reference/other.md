@@ -364,6 +364,52 @@ FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commod
 
 既存の後方互換フィールド（`total_oos_trades`, `oos_trades_by_window`, `valid_windows`, `required_valid_windows`, `min_oos_trades_per_window`）も並列で保持されます。
 
+### forge explore diagnose
+
+WFT 不合格戦略について、データ期間を延長すれば通過しそうかを線形外挿で試算するコマンド（issue #685）。`forge explore result show` で `wft_failed` を確認した直後の追加診断として使います。
+
+```bash
+forge explore diagnose <STRATEGY_ID> [--goal <GOAL>] [--periods 10y,20y,30y] \
+                                    [--windows 5] [--min-oos-trades 3] \
+                                    [--db <PATH>] [--json]
+```
+
+| オプション | 説明 | デフォルト |
+|-----------|------|-----------|
+| `--goal` | レコードを絞り込むゴール名 | DB に紐付く goal |
+| `--periods` | 試算する期間（CSV、例: `10y,20y,30y`） | `10y,20y,30y` |
+| `--windows` | WFT ウィンドウ数 | `goals.yaml` の wft 設定または `5` |
+| `--min-oos-trades` | ウィンドウあたり必要な OOS trades | `goals.yaml` の wft 設定または `3` |
+| `--json` | 結果を JSON で出力 | off |
+
+#### 試算ロジック
+
+- `trade_rate = total_trades / current_period_years`
+- 各シナリオで `expected = trade_rate × (period / windows)`
+- `ratio = expected / min_oos_trades_per_window`
+- `pass_probability`: ratio>=3 → 90%、>=2 → 70%、>=1.5 → 50%、>=1 → 30%、<1 → 0%
+- `recommendation` は通過確率 0.7 以上を満たす **最小期間**。なければ 0.5、それも無ければ最高確率を返す（全シナリオ 0 なら `null`）
+
+#### サンプル出力
+
+```
+WFT 試算: nvda_ema_macd_supertrend_lt_v1 (symbol=NVDA, goal=long-term-stocks, skip_reason=wft_failed)
+
+現状観測:
+  backtest_period: 20.0y  total_trades: 1167  trade_rate: 58.35/y
+  wft_windows: 5  min_oos_trades_per_window: 3
+
+データ期間延長の試算:
+  ✓ 10.0y / 2.0y/window → ~116.7 trades/window (req 3, ratio 38.9, pass_prob ≈ 90%)
+  ✓ 20.0y / 4.0y/window → ~233.4 trades/window (req 3, ratio 77.8, pass_prob ≈ 90%)
+  ✓ 30.0y / 6.0y/window → ~350.1 trades/window (req 3, ratio 116.7, pass_prob ≈ 90%)
+
+推奨:
+  goals.yaml: exploration.backtest_period: "10y"
+  forge data fetch NVDA --provider yfinance --period 10y --interval 1d
+  推定通過確率: ~90% (tier: high)
+```
+
 ### forge explore health
 
 直近 N 件の試行を集計して連続失敗・scaffold 固定化を自動検出します（issue #408）。

@@ -364,6 +364,52 @@ When `skip_reason` is `"wft_insufficient_oos_data"` or `"wft_no_valid_oos_window
 
 The legacy fields (`total_oos_trades`, `oos_trades_by_window`, `valid_windows`, `required_valid_windows`, `min_oos_trades_per_window`) are kept alongside the new fields for backward compatibility.
 
+### forge explore diagnose
+
+Estimate whether a longer backtest period would let a WFT-failed strategy pass, using linear extrapolation of the trade rate (issue #685). Designed as a follow-up to `forge explore result show` when you see `wft_failed`.
+
+```bash
+forge explore diagnose <STRATEGY_ID> [--goal <GOAL>] [--periods 10y,20y,30y] \
+                                    [--windows 5] [--min-oos-trades 3] \
+                                    [--db <PATH>] [--json]
+```
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--goal` | Filter records by goal | DB-attached goal |
+| `--periods` | Comma-separated periods to evaluate (e.g. `10y,20y,30y`) | `10y,20y,30y` |
+| `--windows` | WFT window count | `goals.yaml` wft config or `5` |
+| `--min-oos-trades` | Required OOS trades per window | `goals.yaml` wft config or `3` |
+| `--json` | JSON output | off |
+
+#### Extrapolation logic
+
+- `trade_rate = total_trades / current_period_years`
+- For each scenario: `expected = trade_rate × (period / windows)`
+- `ratio = expected / min_oos_trades_per_window`
+- `pass_probability`: ratio>=3 → 90%, >=2 → 70%, >=1.5 → 50%, >=1 → 30%, <1 → 0%
+- `recommendation` is the **shortest period** that meets ≥0.7. Falls back to ≥0.5, then highest. Returns `null` if all scenarios are 0.
+
+#### Sample output
+
+```
+WFT diagnose: nvda_ema_macd_supertrend_lt_v1 (symbol=NVDA, goal=long-term-stocks, skip_reason=wft_failed)
+
+Current observation:
+  backtest_period: 20.0y  total_trades: 1167  trade_rate: 58.35/y
+  wft_windows: 5  min_oos_trades_per_window: 3
+
+Extrapolation by period:
+  ✓ 10.0y / 2.0y/window → ~116.7 trades/window (req 3, ratio 38.9, pass_prob ≈ 90%)
+  ✓ 20.0y / 4.0y/window → ~233.4 trades/window (req 3, ratio 77.8, pass_prob ≈ 90%)
+  ✓ 30.0y / 6.0y/window → ~350.1 trades/window (req 3, ratio 116.7, pass_prob ≈ 90%)
+
+Recommendation:
+  goals.yaml: exploration.backtest_period: "10y"
+  forge data fetch NVDA --provider yfinance --period 10y --interval 1d
+  Estimated pass probability: ~90% (tier: high)
+```
+
 ### forge explore health
 
 Aggregate the most recent N trials and detect consecutive failures or scaffold fixation (issue #408). Designed to be invoked at the start of every iteration of the unattended `/explore-strategies --runs 0` loop, so structural failures (scaffold bugs, goals.yaml drift) can be caught early instead of burning runs forever.
