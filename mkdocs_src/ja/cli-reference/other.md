@@ -297,6 +297,73 @@ FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commod
 | `verdict` | 全基準合格時 `"passed"`、いずれか不合格なら `"failed"` |
 | `failed_criteria` | 不合格となった基準名のリスト（評価順: `sharpe_ratio` → `max_drawdown` → `trades`） |
 
+#### wft_diagnostics の構造（issue #684）
+
+`skip_reason: "wft_insufficient_oos_data"` または `"wft_no_valid_oos_windows"` のとき、`wft_diagnostics` には WFT の各 OOS ウィンドウの判定結果と全体集計が構造化されて格納されます。`pre_filter_diagnostics` と同じ流儀で、エージェントが「どのウィンドウで何が不足したか」を機械的に判定できます。
+
+```json
+{
+  "wft_diagnostics": {
+    "total_oos_trades": 17,
+    "oos_trades_by_window": [3, 3, 0, 6, 5],
+    "valid_windows": 4,
+    "required_valid_windows": 3,
+    "min_oos_trades_per_window": 3,
+    "windows": [
+      {
+        "window_index": 1,
+        "oos_trades": 3,
+        "oos_metric": -0.01,
+        "valid": true,
+        "skip_reason": null,
+        "failed_criteria": [],
+        "criteria": {
+          "min_trades":     {"value": 3, "threshold": 3, "passed": true, "gap": 0},
+          "metric_finite":  {"value": -0.01, "passed": true}
+        }
+      },
+      {
+        "window_index": 3,
+        "oos_trades": 0,
+        "oos_metric": null,
+        "valid": false,
+        "skip_reason": null,
+        "failed_criteria": ["min_trades", "metric_finite"],
+        "criteria": {
+          "min_trades":     {"value": 0, "threshold": 3, "passed": false, "gap": -3},
+          "metric_finite":  {"value": null, "passed": false}
+        }
+      }
+    ],
+    "summary": {
+      "total_windows": 5,
+      "valid_windows": 4,
+      "required_valid_windows": 3,
+      "min_required_trades": 3,
+      "min_valid_windows_ratio": 0.6,
+      "min_trades_violated_windows": [3],
+      "metric_invalid_windows": [3],
+      "skipped_windows": []
+    }
+  }
+}
+```
+
+| フィールド | 説明 |
+|-----------|------|
+| `windows[].window_index` | 1 ベースのウィンドウ番号 |
+| `windows[].oos_trades` | OOS 期間の取引数 |
+| `windows[].oos_metric` | OOS の最適化メトリクス（NaN/inf は `null` に正規化） |
+| `windows[].valid` | min_trades と metric_finite を両方満たすか |
+| `windows[].failed_criteria` | 不合格基準のリスト（`min_trades`, `metric_finite`, `window_skip:<reason>`） |
+| `windows[].criteria` | 各基準の `{value, threshold, passed, gap}` |
+| `summary.min_trades_violated_windows` | min_trades 不足ウィンドウの 1 ベース index リスト |
+| `summary.metric_invalid_windows` | metric が NaN/inf/None だったウィンドウの index リスト |
+| `summary.skipped_windows` | engine 側でスキップされたウィンドウの index リスト |
+| `summary.required_valid_windows` | 合格に必要な有効ウィンドウ数（`ceil(total × min_valid_windows_ratio)`） |
+
+既存の後方互換フィールド（`total_oos_trades`, `oos_trades_by_window`, `valid_windows`, `required_valid_windows`, `min_oos_trades_per_window`）も並列で保持されます。
+
 ### forge explore health
 
 直近 N 件の試行を集計して連続失敗・scaffold 固定化を自動検出します（issue #408）。
