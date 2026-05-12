@@ -1043,13 +1043,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#per-goal-data_provider_override-long-term-data-issue-674" class="md-nav__link">
+  <a href="#per-goal-backtest_period-and-data_provider_override-long-term-data-issue-674" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Per-goal data_provider_override (long-term data / issue #674)
+        Per-goal backtest_period and data_provider_override (long-term data / issue #674)
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Per-goal backtest_period and data_provider_override (long-term data / issue #674)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data_provider_override-per-goal-provider-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_provider_override (per-goal provider override)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-strategies-tv-mcp-preflight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /explore-strategies TV MCP preflight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2726,13 +2754,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#per-goal-data_provider_override-long-term-data-issue-674" class="md-nav__link">
+  <a href="#per-goal-backtest_period-and-data_provider_override-long-term-data-issue-674" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Per-goal data_provider_override (long-term data / issue #674)
+        Per-goal backtest_period and data_provider_override (long-term data / issue #674)
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Per-goal backtest_period and data_provider_override (long-term data / issue #674)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data_provider_override-per-goal-provider-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_provider_override (per-goal provider override)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-strategies-tv-mcp-preflight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /explore-strategies TV MCP preflight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3474,38 +3530,86 @@
 </code></pre></div>
 <p><strong>Priority</strong>: explicit <code>--timeframe</code> &gt; <code>goals.yaml.exploration.timeframe</code> &gt; default <code>"1d"</code></p>
 <p><strong>yfinance constraint</strong>: The yfinance provider hits Yahoo Finance's 730-day cap, so <strong>1h × 5y is not retrievable</strong> (measured: 1h × 2y yields ~12,000 bars). When using 1h, shorten to <code>backtest_period: "2y"</code> or switch to an alternative provider such as Dukascopy or OANDA.</p>
-<h3 id="per-goal-data_provider_override-long-term-data-issue-674">Per-goal data_provider_override (long-term data / issue #674)<a class="headerlink" href="#per-goal-data_provider_override-long-term-data-issue-674" title="Permanent link">&para;</a></h3>
-<p><code>exploration.data_provider_override</code> in <code>goals.yaml</code> overrides <code>data.providers.stock_provider</code> / <code>fx_provider</code> from <code>forge.yaml</code> on a per-goal basis. The intended use case is switching to <strong>TradingView MCP</strong> when more than 20 years of historical data are required (root cause fix for issue #670: WFT <code>min_oos_trades_per_window</code> is structurally hard to satisfy with only 5 years).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Example: long-term-stocks/goals.yaml</span>
+<h3 id="per-goal-backtest_period-and-data_provider_override-long-term-data-issue-674">Per-goal backtest_period and data_provider_override (long-term data / issue #674)<a class="headerlink" href="#per-goal-backtest_period-and-data_provider_override-long-term-data-issue-674" title="Permanent link">&para;</a></h3>
+<p>Many low-frequency strategies (HMM-based trend-following, etc.) cannot satisfy <code>wft.min_oos_trades_per_window</code> with only 5 years of data (issue #670). Long-term data exploration helps. Real-world testing confirmed that <strong>yfinance can retrieve 20y × 1d (~5030 bars) without issues</strong> (the "yfinance ~5y limit" really applies only to the 730-day cap on the 1h timeframe; 1d / 1w / 1mo retrieve 20y+ fine).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Example: long-term-stocks/goals.yaml (shipped template)</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">exploration</span><span class="p">:</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">backtest_period</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20y&quot;</span><span class="w">        </span><span class="c1"># Long-term data</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">data_provider_override</span><span class="p">:</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="nt">stock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">               </span><span class="c1"># Override stock_provider to tv_mcp</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="nt">fx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">                  </span><span class="c1"># Include FX symbols</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="nt">assets</span><span class="p">:</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SPY</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QQQ</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">backtest_period</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20y&quot;</span><span class="w">        </span><span class="c1"># 20-year data (yfinance 1d works)</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">assets</span><span class="p">:</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SPY</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QQQ</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NVDA</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AAPL</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MSFT</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GOOGL</span>
 </code></pre></div>
-<p><strong>Prerequisites</strong>:</p>
-<ol>
-<li><strong>TradingView Desktop is running</strong> (the MCP server uses TV Desktop's API and therefore requires the GUI)</li>
-<li><code>data.providers.tv_mcp.endpoint</code> is configured in <code>forge.yaml</code></li>
-<li>The <code>/explore-strategies</code> skill automatically runs <code>forge data tv-mcp check</code> at the start of each run</li>
-</ol>
-<p><strong>Initial data fetch (recommended manual; subsequent runs reuse the parquet cache)</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>SPY<span class="w">  </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>QQQ<span class="w">  </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y
+<p>Manually pre-cache the long-term data before starting <code>/explore-strategies</code> (avoids rate limits during unattended runs):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">for</span><span class="w"> </span>sym<span class="w"> </span><span class="k">in</span><span class="w"> </span>SPY<span class="w"> </span>QQQ<span class="w"> </span>NVDA<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span>GOOGL<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span><span class="nv">$sym</span><span class="w"> </span>--provider<span class="w"> </span>yfinance<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="k">done</span>
 </code></pre></div>
-<p><strong><code>/explore-strategies</code> integration (issue #674)</strong>:</p>
-<p>When a goal has <code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> set, the skill executes the following preflight at the start of each run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>data<span class="w"> </span>tv-mcp<span class="w"> </span>check<span class="w"> </span>--json
+<p><strong>Empirical result (NVDA EMA+MACD+SuperTrend, 20y)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Window</th>
+<th>OOS Sharpe</th>
+<th>OOS Trades</th>
+<th>min_oos_trades(=3)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>-0.01</td>
+<td>3</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.97</td>
+<td>3</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>3</td>
+<td>—</td>
+<td>0</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-1.68</td>
+<td>6</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-0.12</td>
+<td>5</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>4 of 5 windows met <code>min_oos_trades_per_window=3</code></strong>. With 20-year data, the per-window trade count constraint that was structurally infeasible for the default goal (5y) becomes realistic.</p>
+<h4 id="data_provider_override-per-goal-provider-override">data_provider_override (per-goal provider override)<a class="headerlink" href="#data_provider_override-per-goal-provider-override" title="Permanent link">&para;</a></h4>
+<p><code>exploration.data_provider_override.{stock|fx}</code> in <code>goals.yaml</code> overrides <code>forge.yaml</code>'s <code>stock_provider</code> / <code>fx_provider</code> on a per-goal basis. Useful when one goal needs to switch to <code>oanda</code> or <code>dukascopy</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">exploration</span><span class="p">:</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">data_provider_override</span><span class="p">:</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="nt">stock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">     </span><span class="c1"># e.g. switch to TradingView MCP for short-term chart use cases</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">fx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oanda</span><span class="w">         </span><span class="c1"># e.g. only switch FX to OANDA</span>
 </code></pre></div>
+<blockquote>
+<p>⚠️ <strong>TV MCP cannot be used for long-term fetches</strong> (issue #683)<br />
+The <code>chart_scroll_to_date</code> tool in tradesdontlie / vinicius MCP servers fails with <code>"evaluate is not defined"</code>, so TV Desktop never loads historical data beyond what is currently shown. Since <code>data_get_ohlcv</code> only returns bars currently visible on the chart, <code>forge data fetch &lt;SYM&gt; --provider tv_mcp --period 20y</code> returns only the latest ~14 months. <strong>Use yfinance for long-term data</strong>.<br />
+TV MCP is still useful for Pine verification (<code>forge pine verify --check-mode metrics</code>) and chart PNG capture (<code>forge tv chart</code>).</p>
+</blockquote>
+<h4 id="explore-strategies-tv-mcp-preflight"><code>/explore-strategies</code> TV MCP preflight<a class="headerlink" href="#explore-strategies-tv-mcp-preflight" title="Permanent link">&para;</a></h4>
+<p>When a goal has <code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> set, the skill executes <code>forge data tv-mcp check --json</code> at the start of each run:</p>
 <ul>
 <li>Exit <code>0</code>: continue</li>
-<li>Exit <code>2</code>: endpoint missing / TV Desktop not running / MCP server connection failed → loop is stopped, and a "TV MCP auth error stop" line is appended to <code>&lt;goal_dir&gt;/explored_log.md</code> (no auto-launch / no retry)</li>
+<li>Exit <code>2</code>: endpoint missing / TV Desktop not running / MCP server connection failed → loop is stopped and recorded to <code>&lt;goal_dir&gt;/explored_log.md</code> (no auto-launch / no retry)</li>
 </ul>
-<p><strong>Long-term goal template</strong>:</p>
-<p>See <code>alpha-strategies/data/explorer/goals/long-term-stocks/goals.yaml</code>. With 20-year data, <code>wft.min_oos_trades_per_window=3</code> becomes practically achievable, improving WFT pass rates for low-frequency trend-following strategies (e.g. HMM-based combos).</p>
 <h3 id="early-cutoff-via-pre_filter-min_trades-issue-429">Early cutoff via pre_filter min_trades (issue #429)<a class="headerlink" href="#early-cutoff-via-pre_filter-min_trades-issue-429" title="Permanent link">&para;</a></h3>
 <p>Adding <code>min_trades</code> to the <code>pre_filter</code> section of <code>goals.yaml</code> makes <code>forge explore run</code> abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">pre_filter</span><span class="p">:</span>

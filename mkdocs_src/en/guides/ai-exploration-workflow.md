@@ -412,49 +412,64 @@ forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
 
 **yfinance constraint**: The yfinance provider hits Yahoo Finance's 730-day cap, so **1h × 5y is not retrievable** (measured: 1h × 2y yields ~12,000 bars). When using 1h, shorten to `backtest_period: "2y"` or switch to an alternative provider such as Dukascopy or OANDA.
 
-### Per-goal data_provider_override (long-term data / issue #674)
+### Per-goal backtest_period and data_provider_override (long-term data / issue #674)
 
-`exploration.data_provider_override` in `goals.yaml` overrides `data.providers.stock_provider` / `fx_provider` from `forge.yaml` on a per-goal basis. The intended use case is switching to **TradingView MCP** when more than 20 years of historical data are required (root cause fix for issue #670: WFT `min_oos_trades_per_window` is structurally hard to satisfy with only 5 years).
+Many low-frequency strategies (HMM-based trend-following, etc.) cannot satisfy `wft.min_oos_trades_per_window` with only 5 years of data (issue #670). Long-term data exploration helps. Real-world testing confirmed that **yfinance can retrieve 20y × 1d (~5030 bars) without issues** (the "yfinance ~5y limit" really applies only to the 730-day cap on the 1h timeframe; 1d / 1w / 1mo retrieve 20y+ fine).
 
 ```yaml
-# Example: long-term-stocks/goals.yaml
+# Example: long-term-stocks/goals.yaml (shipped template)
 exploration:
-  backtest_period: "20y"        # Long-term data
-  data_provider_override:
-    stock: tv_mcp               # Override stock_provider to tv_mcp
-    fx: tv_mcp                  # Include FX symbols
+  backtest_period: "20y"        # 20-year data (yfinance 1d works)
   assets:
     - SPY
     - QQQ
+    - NVDA
+    - AAPL
+    - MSFT
+    - GOOGL
 ```
 
-**Prerequisites**:
-
-1. **TradingView Desktop is running** (the MCP server uses TV Desktop's API and therefore requires the GUI)
-2. `data.providers.tv_mcp.endpoint` is configured in `forge.yaml`
-3. The `/explore-strategies` skill automatically runs `forge data tv-mcp check` at the start of each run
-
-**Initial data fetch (recommended manual; subsequent runs reuse the parquet cache)**:
+Manually pre-cache the long-term data before starting `/explore-strategies` (avoids rate limits during unattended runs):
 
 ```bash
-forge data fetch SPY  --provider tv_mcp --period 20y
-forge data fetch QQQ  --provider tv_mcp --period 20y
+for sym in SPY QQQ NVDA AAPL MSFT GOOGL; do
+  forge data fetch $sym --provider yfinance --period 20y --interval 1d
+done
 ```
 
-**`/explore-strategies` integration (issue #674)**:
+**Empirical result (NVDA EMA+MACD+SuperTrend, 20y)**:
 
-When a goal has `exploration.data_provider_override.{stock|fx}: tv_mcp` set, the skill executes the following preflight at the start of each run:
+| Window | OOS Sharpe | OOS Trades | min_oos_trades(=3) |
+|--------|-----------|-----------|----------|
+| 1 | -0.01 | 3 | ✅ |
+| 2 | 0.97 | 3 | ✅ |
+| 3 | — | 0 | ❌ |
+| 4 | -1.68 | 6 | ✅ |
+| 5 | -0.12 | 5 | ✅ |
 
-```bash
-forge data tv-mcp check --json
+→ **4 of 5 windows met `min_oos_trades_per_window=3`**. With 20-year data, the per-window trade count constraint that was structurally infeasible for the default goal (5y) becomes realistic.
+
+#### data_provider_override (per-goal provider override)
+
+`exploration.data_provider_override.{stock|fx}` in `goals.yaml` overrides `forge.yaml`'s `stock_provider` / `fx_provider` on a per-goal basis. Useful when one goal needs to switch to `oanda` or `dukascopy`:
+
+```yaml
+exploration:
+  data_provider_override:
+    stock: tv_mcp     # e.g. switch to TradingView MCP for short-term chart use cases
+    fx: oanda         # e.g. only switch FX to OANDA
 ```
+
+> ⚠️ **TV MCP cannot be used for long-term fetches** (issue #683)  
+> The `chart_scroll_to_date` tool in tradesdontlie / vinicius MCP servers fails with `"evaluate is not defined"`, so TV Desktop never loads historical data beyond what is currently shown. Since `data_get_ohlcv` only returns bars currently visible on the chart, `forge data fetch <SYM> --provider tv_mcp --period 20y` returns only the latest ~14 months. **Use yfinance for long-term data**.  
+> TV MCP is still useful for Pine verification (`forge pine verify --check-mode metrics`) and chart PNG capture (`forge tv chart`).
+
+#### `/explore-strategies` TV MCP preflight
+
+When a goal has `exploration.data_provider_override.{stock|fx}: tv_mcp` set, the skill executes `forge data tv-mcp check --json` at the start of each run:
 
 - Exit `0`: continue
-- Exit `2`: endpoint missing / TV Desktop not running / MCP server connection failed → loop is stopped, and a "TV MCP auth error stop" line is appended to `<goal_dir>/explored_log.md` (no auto-launch / no retry)
-
-**Long-term goal template**:
-
-See `alpha-strategies/data/explorer/goals/long-term-stocks/goals.yaml`. With 20-year data, `wft.min_oos_trades_per_window=3` becomes practically achievable, improving WFT pass rates for low-frequency trend-following strategies (e.g. HMM-based combos).
+- Exit `2`: endpoint missing / TV Desktop not running / MCP server connection failed → loop is stopped and recorded to `<goal_dir>/explored_log.md` (no auto-launch / no retry)
 
 ### Early cutoff via pre_filter min_trades (issue #429)
 
