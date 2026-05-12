@@ -211,12 +211,12 @@
                 <div>
                   <strong>Install alpha-forge</strong>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
-                    The installer downloads the latest binary (macOS / Linux shown). See the <a href="install.html">installation guide</a> for Windows or manual placement. Then sign in with your Whop account (OAuth 2.0 PKCE) — the browser opens automatically.
+                    The installer downloads the latest binary (macOS / Linux shown). See the <a href="install.html">installation guide</a> for Windows or manual placement. The Trial plan (no Whop registration) runs immediately after install. Only run <code>forge system auth login</code> if you've purchased the Lifetime plan.
                   </p>
                   <pre><code># Install the latest binary (macOS / Linux)
 curl -sSL https://alforge-labs.github.io/install.sh | bash
 
-# Sign in via Whop OAuth
+# (Optional) Sign in after purchasing the Lifetime plan
 forge system auth login</code></pre>
                 </div>
               </li>
