@@ -74,17 +74,17 @@ pages:
   privacy:
     ja:
       title: "プライバシーポリシー — Alforge Labs"
-      description: "Alforge Labs のプライバシーポリシー。購入・ライセンス認証・サポート時のデータ取り扱いについて。"
+      description: "Alforge Labs のプライバシーポリシー。購入・認証・サポート時のデータ取り扱いについて。"
       keywords: "プライバシーポリシー, Alforge Labs"
       og_title: "プライバシーポリシー — Alforge Labs"
-      og_description: "購入・ライセンス認証・サポート時のデータ取り扱い方針。"
+      og_description: "購入・認証・サポート時のデータ取り扱い方針。"
       json_ld_type: breadcrumb
     en:
       title: "Privacy Policy — Alforge Labs"
-      description: "Alforge Labs privacy policy covering data handling for purchases, license activation, and support."
+      description: "Alforge Labs privacy policy covering data handling for purchases, authentication, and support."
       keywords: "privacy policy, Alforge Labs"
       og_title: "Privacy Policy — Alforge Labs"
-      og_description: "How Alforge Labs handles data for purchases, license activation, and support requests."
+      og_description: "How Alforge Labs handles data for purchases, authentication, and support requests."
       json_ld_type: breadcrumb
 
   terms:
