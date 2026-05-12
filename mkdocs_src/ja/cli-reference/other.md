@@ -545,12 +545,12 @@ FORGE_CONFIG=forge.yaml forge explore health \
 
 戦略 JSON と TradingView Pine Script v6 を相互変換します。
 
-!!! warning "[有料プランのみ] Pine Script エクスポート"
-    `forge pine generate` と `forge pine preview` は**有料プラン（Lifetime / Annual / Monthly）でのみ利用できます**。Free プランで実行すると赤枠 Panel と購入ページ URL（[https://alforgelabs.com/en/index.html#pricing](https://alforgelabs.com/en/index.html#pricing)）が表示され、終了コード `1` で完全停止します。ファイル出力も標準出力もされません。`forge pine import`（インポート機能）は対象外で、Free でも継続利用できます。詳しくは [フリーミアム制限ガイド](../guides/freemium-limits.md) を参照してください。
+!!! warning "[Lifetime プランのみ] Pine Script エクスポート"
+    `forge pine generate` と `forge pine preview` は **Lifetime プランでのみ利用できます**。Trial プランで実行すると赤枠 Panel と購入ページ URL（[https://alforgelabs.com/en/index.html#pricing](https://alforgelabs.com/en/index.html#pricing)）が表示され、終了コード `1` で完全停止します。ファイル出力も標準出力もされません。`forge pine import`（インポート機能）は対象外で、Trial プランでも継続利用できます。詳しくは [Trial 制限](../guides/trial-limits.md) を参照してください。
 
-### forge pine generate `[有料プランのみ]`
+### forge pine generate `[Lifetime プランのみ]`
 
-戦略定義から Pine Script を生成し、`config.pinescript.output_path / <strategy_id>.pine` に保存します。**有料プラン限定**。
+戦略定義から Pine Script を生成し、`config.pinescript.output_path / <strategy_id>.pine` に保存します。**Lifetime プラン限定**。
 
 ```bash
 forge pine generate --strategy <ID> [--with-training-data]
@@ -561,26 +561,25 @@ forge pine generate --strategy <ID> [--with-training-data]
 | `--strategy` | 必須 | - | 戦略名 |
 | `--with-training-data` | フラグ | false | HMM インジケータがある場合、学習済みパラメータを Pine Script に埋め込む（データを自動フェッチ） |
 
-サンプル出力（有料プラン）：
+サンプル出力（Lifetime プラン）：
 
 ```text
 ✅ Pine Script が保存されました: output/pinescript/spy_sma_v1.pine
 ```
 
-サンプル出力（Free プラン・ハードブロック）：
+サンプル出力（Trial プラン・ハードブロック）：
 
 ```text
-╭─────────────── 🔒 有料プラン限定機能 ───────────────╮
-│ Pine Script エクスポートは有料プラン（Lifetime /    │
-│ Annual / Monthly）のみ利用できます。                │
-│ TradingView でのシームレスな運用を行うには…         │
-│ アップグレード: https://alforgelabs.com/en/...      │
-╰────────────────────────────────────────────────────╯
+╭─────────────── 🔒 Lifetime プラン限定機能 ───────────────╮
+│ Pine Script エクスポートは Lifetime プランのみ利用できます。 │
+│ TradingView でのシームレスな運用を行うには…                 │
+│ アップグレード: https://alforgelabs.com/en/...              │
+╰─────────────────────────────────────────────────────────╯
 ```
 
-### forge pine preview `[有料プランのみ]`
+### forge pine preview `[Lifetime プランのみ]`
 
-戦略定義から生成される Pine Script を標準出力でプレビューします（ファイル保存しない）。**有料プラン限定**。
+戦略定義から生成される Pine Script を標準出力でプレビューします（ファイル保存しない）。**Lifetime プラン限定**。
 
 ```bash
 forge pine preview --strategy <ID>

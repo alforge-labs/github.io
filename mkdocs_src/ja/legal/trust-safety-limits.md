@@ -34,13 +34,13 @@ AlphaForge は、戦略研究・バックテスト・最適化を支援する開
 
 ## プラン制限
 
-AlphaForge には **Free / Monthly / Annual / Lifetime** の 4 プランがあります。Free プランでは、データ取得・評価の日付が **2023-12-31** までに制限され、最適化 trial 数は **50 trials** までに制限されます。
+AlphaForge は **Trial プラン**（Whop 未登録、無料、期限なし）と **Lifetime プラン**（Whop で買い切り購入）の 2 ティアで動作します。Trial プランでは、データ取得・評価の日付が **2023-12-31** までに制限され、最適化 trial 数は **50 trials** までに制限され、Pine Script エクスポートはハードブロックされます。
 
-Monthly / Annual / Lifetime は有料プランとして扱われ、最新データと無制限 trial を利用できます。詳細な対象コマンド、JSON 出力、開発時の確認方法は [フリーミアム制限](../guides/freemium-limits.md) を参照してください。
+Lifetime プランは買い切りで、最新データ・無制限 trial・Pine Script エクスポートをすべて利用できます。詳細な対象コマンド、JSON 出力、開発時の確認方法は [Trial 制限](../guides/trial-limits.md) を参照してください。
 
 ## 関連ページ
 
 - [免責事項](disclaimers.md)
 - [プライバシーポリシー](privacy.md)
 - [EULA](eula.md)
-- [フリーミアム制限](../guides/freemium-limits.md)
+- [Trial 制限](../guides/trial-limits.md)

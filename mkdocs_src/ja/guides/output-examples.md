@@ -192,8 +192,8 @@ forge strategy validate sma_crossover_v1
 
 ## Pine Script 生成（有料プラン）
 
-!!! warning "有料プラン限定"
-    `forge pine generate` は **Lifetime / Annual / Monthly プラン** のみ利用できます。Free プランでは利用できません。詳しくは [フリーミアム制限](freemium-limits.md) を参照してください。
+!!! warning "Lifetime プラン限定"
+    `forge pine generate` は **Lifetime プラン**のみ利用できます。Trial プランでは利用できません。詳しくは [Trial 制限](trial-limits.md) を参照してください。
 
 ```bash
 forge pine generate --strategy sma_crossover_v1

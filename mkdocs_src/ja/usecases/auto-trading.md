@@ -56,4 +56,4 @@ forge pine generate my_strategy --output my_strategy.pine
 - [TradingView × Alpha Strike 統合ガイド](../guides/tradingview-alpha-strike.md) — Webhookから発注までの接続方法
 - [TradingView × Pine Script 統合ガイド](../guides/tradingview-pine-integration.md) — Pine Script生成と調整方法
 - [エンドツーエンド戦略開発ワークフロー](../guides/end-to-end-workflow.md) — 開発から発注までの全体像
-- [フリーミアム制限について](../guides/freemium-limits.md) — 無料プランでできること・できないこと
+- [Trial 制限について](../guides/trial-limits.md) — Trial プランでできること・できないこと

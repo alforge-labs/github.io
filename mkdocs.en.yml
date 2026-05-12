@@ -57,7 +57,7 @@ nav:
   - Home: index.md
   - Getting Started:
       - Quickstart & Detailed Installation: getting-started.md
-      - Freemium Limits: guides/freemium-limits.md
+      - Trial Limits: guides/trial-limits.md
   - Guides:
       - End-to-End Strategy Development Workflow: guides/end-to-end-workflow.md
       - Output Examples: guides/output-examples.md

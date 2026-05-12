@@ -57,7 +57,7 @@ nav:
   - ホーム: index.md
   - はじめに:
       - クイックスタートと詳細インストール: getting-started.md
-      - フリーミアム制限: guides/freemium-limits.md
+      - Trial 制限: guides/trial-limits.md
   - ガイド:
       - エンドツーエンド戦略開発ワークフロー: guides/end-to-end-workflow.md
       - 実行結果と成果物サンプル: guides/output-examples.md

@@ -190,10 +190,10 @@ forge strategy validate sma_crossover_v1
 
 ---
 
-## Pine Script Generation (Paid Plans)
+## Pine Script Generation (Lifetime Plan)
 
-!!! warning "Paid plans only"
-    `forge pine generate` is available on **Lifetime, Annual, and Monthly plans** only. Not available on the Free plan. See [Freemium Limits](freemium-limits.md) for details.
+!!! warning "Lifetime plan only"
+    `forge pine generate` is available on the **Lifetime plan** only. Not available on the Trial plan. See [Trial Limits](trial-limits.md) for details.
 
 ```bash
 forge pine generate --strategy sma_crossover_v1

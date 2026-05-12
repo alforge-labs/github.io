@@ -545,7 +545,7 @@ fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
 - **Journal 連携**: `config.journal.auto_record` が true の場合、最適化実行は Journal にも自動記録されます。
 - **`FORGE_CONFIG`**: 戦略・データ・結果の保管場所は環境変数 `FORGE_CONFIG` が指す `forge.yaml` で決まります。
 - **終了コード**: 通常 `0`、`click.ClickException` で `1`、`click.UsageError` で `2`、`click.Abort` で `1`。
-- **Free プラン制限**: Free プランでは入力データの上限日が `2023-12-31` に強制され、最適化 trial 数も **50** 回に制限されます（`run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`、`apply` / `history` / `sensitivity` は対象外）。`grid` は組合せ > 50 のとき固定 seed で 50 件にランダムサンプリングします。詳細は [フリーミアム制限](../guides/freemium-limits.md) を参照。
+- **Trial プラン制限**: Trial プランでは入力データの上限日が `2023-12-31` に強制され、最適化 trial 数も **50** 回に制限されます（`run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`、`apply` / `history` / `sensitivity` は対象外）。`grid` は組合せ > 50 のとき固定 seed で 50 件にランダムサンプリングします。詳細は [Trial 制限](../guides/trial-limits.md) を参照。
 
 ---
 
