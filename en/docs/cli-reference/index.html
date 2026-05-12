@@ -1561,21 +1561,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#auxiliary-groups-added-in-d1-610" class="md-nav__link">
+  <a href="#auxiliary-groups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auxiliary Groups (added in D1 #610)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#legacy-to-new-command-mapping-removed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Legacy to New Command Mapping (removed)
+        Auxiliary Groups
       
     </span>
   </a>
@@ -2036,21 +2025,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#auxiliary-groups-added-in-d1-610" class="md-nav__link">
+  <a href="#auxiliary-groups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auxiliary Groups (added in D1 #610)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#legacy-to-new-command-mapping-removed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Legacy to New Command Mapping (removed)
+        Auxiliary Groups
       
     </span>
   </a>
@@ -2109,10 +2087,6 @@
 
 <h1 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
 <p>A complete catalog of every command group provided by the <code>forge</code> CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.</p>
-<div class="admonition info">
-<p class="admonition-title">Command hierarchy reorganization (alpha-forge #610 / #644)</p>
-<p>The top-level was reorganized from a flat 17-command layout into a <strong>logical group hierarchy</strong> ahead of the commercial release (#610). The legacy top-level aliases were subsequently removed in #644, so <strong>only the new hierarchy is valid now</strong>. If scripts still call the old names, see <a href="#legacy-to-new-command-mapping-removed">Legacy → New mapping</a> below to migrate them.</p>
-</div>
 <h2 id="core-command-groups">Core Command Groups<a class="headerlink" href="#core-command-groups" title="Permanent link">&para;</a></h2>
 <p>The commands you'll use most often in real strategy development. Each has a dedicated page.</p>
 <table>
@@ -2171,11 +2145,11 @@
 </tr>
 </tbody>
 </table>
-<h2 id="auxiliary-groups-added-in-d1-610">Auxiliary Groups (added in D1 #610)<a class="headerlink" href="#auxiliary-groups-added-in-d1-610" title="Permanent link">&para;</a></h2>
+<h2 id="auxiliary-groups">Auxiliary Groups<a class="headerlink" href="#auxiliary-groups" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>New Group</th>
+<th>Group</th>
 <th>Subcommands</th>
 <th>Description</th>
 </tr>
@@ -2184,56 +2158,12 @@
 <tr>
 <td><strong>analyze</strong></td>
 <td><code>indicator</code> / <code>ml</code> / <code>pairs</code></td>
-<td>Strategy-analysis utilities (consolidates former top-level commands)</td>
+<td>Strategy-analysis utilities</td>
 </tr>
 <tr>
 <td><strong>system</strong></td>
 <td><code>init</code> / <code>auth</code> / <code>docs</code></td>
-<td>Operational utilities (consolidates former top-level commands)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="legacy-to-new-command-mapping-removed">Legacy to New Command Mapping (removed)<a class="headerlink" href="#legacy-to-new-command-mapping-removed" title="Permanent link">&para;</a></h2>
-<p>The legacy top-level aliases were removed in #644. Calling them now fails with <code>Error: No such command ...</code>, so replace any remaining occurrences with the new names below.</p>
-<table>
-<thead>
-<tr>
-<th>Legacy command (removed)</th>
-<th>New command</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>forge altdata &lt;sub&gt;</code></td>
-<td><code>forge data alt &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge tv &lt;sub&gt;</code></td>
-<td><code>forge data tv-mcp &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge indicator &lt;sub&gt;</code></td>
-<td><code>forge analyze indicator &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge ml &lt;sub&gt;</code></td>
-<td><code>forge analyze ml &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge pairs &lt;sub&gt;</code></td>
-<td><code>forge analyze pairs &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge init</code></td>
-<td><code>forge system init</code></td>
-</tr>
-<tr>
-<td><code>forge auth &lt;sub&gt;</code></td>
-<td><code>forge system auth &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge docs &lt;sub&gt;</code></td>
-<td><code>forge system docs &lt;sub&gt;</code></td>
+<td>Operational utilities</td>
 </tr>
 </tbody>
 </table>

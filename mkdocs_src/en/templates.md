@@ -15,7 +15,7 @@ Three representative strategy patterns used with AlphaForge. The **strategy JSON
 
 ## Strategy JSON basics
 
-Every strategy follows the same Pydantic schema. Indicator details are available via [`forge analyze indicator list`](cli-reference/other.md#indicator).
+Every strategy follows the same Pydantic schema. Indicator details are available via [`forge analyze indicator list`](cli-reference/other.md#analyze-indicator).
 
 ```text
 {

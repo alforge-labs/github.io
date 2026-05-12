@@ -9,21 +9,20 @@ Utility and management commands not covered by the [core groups](index.md), bund
 
 | Group | Subcommands | Purpose |
 |-------|-------------|---------|
-| [auth](#auth) | `login` `logout` `status` `check op` | Whop OAuth authentication and status |
-| [init](#init) | (single command) | Initialize working directory |
+| [system auth](#system-auth) | `login` `logout` `status` `check op` | Whop OAuth authentication and status |
+| [system init](#system-init) | (single command) | Initialize working directory |
+| [system docs](#system-docs) | `list` `show` | Browse bundled documentation |
 | [pine](#pine) | `generate` `preview` `import` `verify` | Generate / import TradingView Pine Script and verify via TV MCP |
-| [tv](#tv) | `chart` `inspect` | TradingView MCP integration (chart snapshots, ad-hoc tool calls) |
-| [indicator](#indicator) | `list` `show` | Browse supported technical indicators |
+| [data tv-mcp](#data-tv-mcp) | `chart` `inspect` | TradingView MCP integration (chart snapshots, ad-hoc tool calls) |
+| [analyze indicator](#analyze-indicator) | `list` `show` | Browse supported technical indicators |
 | [idea](#idea) | `add` `list` `show` `status` `link` `tag` `note` `search` | Track investment ideas |
-| [altdata](#altdata) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
-| [pairs](#pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
-| [ml](#ml) | `dataset build` `dataset feature-sets` `train` `models` `walk-forward` | ML dataset, training & walk-forward (issue #512 Phase 1-2, 4) |
-
-| [docs](#docs) | `list` `show` | Browse bundled documentation |
+| [data alt](#data-alt) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
+| [analyze pairs](#analyze-pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
+| [analyze ml](#analyze-ml) | `dataset build` `dataset feature-sets` `train` `models` `walk-forward` | ML dataset, training & walk-forward |
 
 ---
 
-## auth
+## system auth
 
 Whop OAuth 2.0 PKCE authentication commands. All subcommands run as `forge system auth <subcommand>`. For first-time setup, see [Getting Started](../getting-started.md).
 
@@ -85,7 +84,7 @@ Exits with code `0` when the session is valid, `2` otherwise.
 
 ---
 
-## init
+## system init
 
 Initialize the working directory: creates `forge.yaml`, data directories, documentation, and AI assistant integration files.
 
@@ -478,7 +477,7 @@ For the verification workflow walkthrough, see [Bringing Pine Scripts into Tradi
 
 ---
 
-## tv
+## data tv-mcp
 
 Drive a TradingView MCP server for chart snapshots and ad-hoc tool calls (issue #523).
 
@@ -543,7 +542,7 @@ forge data tv-mcp inspect data_get_ohlcv \
 
 ---
 
-## indicator
+## analyze indicator
 
 Browse the catalog of 30+ technical indicators supported by `alpha-forge`.
 
@@ -710,7 +709,7 @@ forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 
 ---
 
-## altdata
+## data alt
 
 Fetch and manage alternative data (sentiment, macro indicators, etc.). Stored under `config.data.alt_storage_path` and referenceable from strategy JSON via the `ALTDATA` indicator type.
 
@@ -753,7 +752,7 @@ Shows source key, interval, row count, start / end dates, columns, file path, an
 
 ---
 
-## pairs
+## analyze pairs
 
 Cointegration tests and spread series for pair trading. Uses the Engle–Granger test from `statsmodels`.
 
@@ -829,7 +828,7 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 ---
 
-## ml
+## analyze ml
 
 Machine-learning dataset, model training, and walk-forward validation commands (issue #512 Phase 1-2, 4). Trained joblib models can be referenced from the existing `ML_SIGNAL` indicator via `model_path` for inference.
 
@@ -1087,7 +1086,7 @@ Like `ML_SIGNAL`, `ML_SIGNAL_WFT` is not Pine Script-translatable. `forge pine g
 
 ---
 
-## docs
+## system docs
 
 Browse the documentation, skills, and command references bundled with `alpha-forge`.
 

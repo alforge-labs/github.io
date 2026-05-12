@@ -1561,21 +1561,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#d1-610" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        補助グループ（D1 #610 で新設）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        旧コマンド → 新コマンドの対応（撤去済み）
+        補助グループ
       
     </span>
   </a>
@@ -2036,21 +2025,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#d1-610" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        補助グループ（D1 #610 で新設）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        旧コマンド → 新コマンドの対応（撤去済み）
+        補助グループ
       
     </span>
   </a>
@@ -2109,10 +2087,6 @@
 
 <h1 id="cli">CLI リファレンス<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h1>
 <p><code>forge</code> コマンドが提供するすべてのコマンドグループの一覧です。各グループの詳細はリンク先の専用ページを参照してください。</p>
-<div class="admonition info">
-<p class="admonition-title">コマンド階層整理 (alpha-forge #610 / #644)</p>
-<p>商用リリースに向けて、トップレベル 17 個並列だった構造を <strong>論理的なグループ</strong>に再編しました（#610）。続いて #644 で旧トップレベル alias を撤去済みのため、<strong>現在は新階層のみが有効</strong> です。旧名を呼ぶスクリプト等が残っていれば、下記「旧コマンド → 新コマンドの対応」表を参照して置換してください。</p>
-</div>
 <h2 id="_1">コアコマンドグループ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>実戦略開発で頻繁に使うコマンド群です。それぞれ専用ページで詳述します。</p>
 <table>
@@ -2171,11 +2145,11 @@
 </tr>
 </tbody>
 </table>
-<h2 id="d1-610">補助グループ（D1 #610 で新設）<a class="headerlink" href="#d1-610" title="Permanent link">&para;</a></h2>
+<h2 id="_2">補助グループ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>新グループ</th>
+<th>グループ</th>
 <th>サブコマンド</th>
 <th>説明</th>
 </tr>
@@ -2184,56 +2158,12 @@
 <tr>
 <td><strong>analyze</strong></td>
 <td><code>indicator</code> / <code>ml</code> / <code>pairs</code></td>
-<td>戦略構築の分析ツール群（旧トップレベルから集約）</td>
+<td>戦略分析の補助ツール群</td>
 </tr>
 <tr>
 <td><strong>system</strong></td>
 <td><code>init</code> / <code>auth</code> / <code>docs</code></td>
-<td>運用ユーティリティ（旧トップレベルから集約）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_2">旧コマンド → 新コマンドの対応（撤去済み）<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>旧トップレベル alias は #644 で <strong>撤去済み</strong> です。旧名のまま呼ぶと <code>Error: No such command ...</code> で失敗するため、次の対応で完全に置き換えてください。</p>
-<table>
-<thead>
-<tr>
-<th>旧コマンド（撤去済み）</th>
-<th>新コマンド</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>forge altdata &lt;sub&gt;</code></td>
-<td><code>forge data alt &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge tv &lt;sub&gt;</code></td>
-<td><code>forge data tv-mcp &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge indicator &lt;sub&gt;</code></td>
-<td><code>forge analyze indicator &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge ml &lt;sub&gt;</code></td>
-<td><code>forge analyze ml &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge pairs &lt;sub&gt;</code></td>
-<td><code>forge analyze pairs &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge init</code></td>
-<td><code>forge system init</code></td>
-</tr>
-<tr>
-<td><code>forge auth &lt;sub&gt;</code></td>
-<td><code>forge system auth &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td><code>forge docs &lt;sub&gt;</code></td>
-<td><code>forge system docs &lt;sub&gt;</code></td>
+<td>運用ユーティリティ</td>
 </tr>
 </tbody>
 </table>
