@@ -229,10 +229,16 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 
 === "Windows"
 
-    Run this in PowerShell. It installs the binary into `%USERPROFILE%\.forge\bin` and updates PATH automatically.
+    Run this in PowerShell (no administrator rights required). It extracts the bundled binary set (`forge.dist\`) into `%LOCALAPPDATA%\Programs\alpha-forge\` and adds the sibling `forge.cmd` launcher to your User PATH.
 
     ```powershell
     irm https://alforge-labs.github.io/install.ps1 | iex
+    ```
+
+    If a legacy install (`$HOME\bin\forge.exe` or `C:\Program Files\forge\forge.exe`) is detected, it is removed after confirmation and replaced with the new layout. To preview what the installer would do without touching the filesystem, run with `-DryRun`:
+
+    ```powershell
+    & ([scriptblock]::Create((irm https://alforge-labs.github.io/install.ps1))) -DryRun
     ```
 
     !!! tip "New terminal"
@@ -367,11 +373,16 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 
 === "Windows"
 
-    Official Windows binaries are not currently published. If you installed via the legacy `install.ps1`, remove it manually:
+    Run the official uninstaller. It removes both the new layout (`%LOCALAPPDATA%\Programs\alpha-forge\`) and any legacy layouts (`$HOME\bin\forge.exe` / `C:\Program Files\forge\forge.exe`), and cleans up the matching User PATH entries.
 
     ```powershell
-    Remove-Item -Recurse $env:USERPROFILE\.forge
-    # Manually remove %USERPROFILE%\.forge\bin from PATH
+    irm https://alforge-labs.github.io/uninstall.ps1 | iex
+    ```
+
+    Authentication cache (`~\.config\forge\credentials.json`) is preserved by default. Pass `-Purge` to delete it as well:
+
+    ```powershell
+    & ([scriptblock]::Create((irm https://alforge-labs.github.io/uninstall.ps1))) -Yes -Purge
     ```
 
 ---
