@@ -1043,13 +1043,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data_provider_override-issue-674" class="md-nav__link">
+  <a href="#backtest_period-data_provider_override-issue-674" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ゴール別 data_provider_override（長期データ用 / issue #674）
+        ゴール別 backtest_period と data_provider_override（長期データ用 / issue #674）
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="ゴール別 backtest_period と data_provider_override（長期データ用 / issue #674）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data_provider_overridegoal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_provider_override（goal 単位のプロバイダー上書き）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-strategies-tv-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /explore-strategies の TV MCP 事前確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2726,13 +2754,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data_provider_override-issue-674" class="md-nav__link">
+  <a href="#backtest_period-data_provider_override-issue-674" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ゴール別 data_provider_override（長期データ用 / issue #674）
+        ゴール別 backtest_period と data_provider_override（長期データ用 / issue #674）
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="ゴール別 backtest_period と data_provider_override（長期データ用 / issue #674）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data_provider_overridegoal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_provider_override（goal 単位のプロバイダー上書き）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-strategies-tv-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /explore-strategies の TV MCP 事前確認
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3472,38 +3528,86 @@
 </code></pre></div>
 <p><strong>優先順位</strong>: 明示 <code>--timeframe</code> &gt; <code>goals.yaml.exploration.timeframe</code> &gt; 既存デフォルト <code>"1d"</code></p>
 <p><strong>yfinance の制約</strong>: yfinance プロバイダーは Yahoo Finance API の 730 日制限により、<strong>1h × 5y は取得不可</strong>です（実測: 1h × 2y は約 12,000 bars）。1h を使う場合は <code>backtest_period: "2y"</code> のように短縮するか、Dukascopy / OANDA 等の別プロバイダーを使用してください。</p>
-<h3 id="data_provider_override-issue-674">ゴール別 data_provider_override（長期データ用 / issue #674）<a class="headerlink" href="#data_provider_override-issue-674" title="Permanent link">&para;</a></h3>
-<p><code>goals.yaml</code> の <code>exploration.data_provider_override</code> で、<code>forge.yaml</code> の <code>data.providers.stock_provider</code> / <code>fx_provider</code> をゴール単位で上書きできます。20 年超の長期ヒストリカルデータが必要な場合に <strong>TradingView MCP</strong> に切り替える用途を想定しています（WFT の <code>min_oos_trades_per_window</code> を満たすには 5 年では不足するため、issue #670 への根本対策）。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># 例: long-term-stocks/goals.yaml</span>
+<h3 id="backtest_period-data_provider_override-issue-674">ゴール別 backtest_period と data_provider_override（長期データ用 / issue #674）<a class="headerlink" href="#backtest_period-data_provider_override-issue-674" title="Permanent link">&para;</a></h3>
+<p>WFT の <code>min_oos_trades_per_window</code> を満たすには 5 年では不足する低頻度戦略（HMM トレンドフォロー等）が多く（issue #670）、長期データでの探索が有効です。実機検証の結果、<strong>yfinance で 20y × 1d を 5030 行取得できる</strong>ことを確認しています（「yfinance ~5y 制約」は 1h timeframe の 730 日上限の話で、1d/1w/1mo では 20y 以上問題なく取得できます）。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># 例: long-term-stocks/goals.yaml（実装済みテンプレート）</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">exploration</span><span class="p">:</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">backtest_period</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20y&quot;</span><span class="w">        </span><span class="c1"># 長期データ</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">data_provider_override</span><span class="p">:</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="nt">stock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">               </span><span class="c1"># forge.yaml の stock_provider を tv_mcp に上書き</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="nt">fx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">                  </span><span class="c1"># FX 銘柄を含める場合</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="nt">assets</span><span class="p">:</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SPY</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QQQ</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">backtest_period</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20y&quot;</span><span class="w">        </span><span class="c1"># 20 年データ（yfinance 1d で取得可能）</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">assets</span><span class="p">:</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SPY</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QQQ</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NVDA</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AAPL</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MSFT</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GOOGL</span>
 </code></pre></div>
-<p><strong>実行前提</strong>:</p>
-<ol>
-<li><strong>TradingView Desktop が起動している</strong>（MCP サーバーは TV Desktop の API を利用するため GUI が必要）</li>
-<li><code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code> に MCP サーバーコマンドが設定されている</li>
-<li>各ラン冒頭で <code>forge data tv-mcp check</code> で疎通確認（<code>/explore-strategies</code> スキルが自動実行）</li>
-</ol>
-<p><strong>初回データ取得（手動推奨。以降は parquet キャッシュで再利用）</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>SPY<span class="w">  </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>QQQ<span class="w">  </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y
+<p><code>/explore-strategies</code> ループ開始前に手動で長期キャッシュを作成しておくのが安全です（無人ラン中の rate limit を避けるため）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">for</span><span class="w"> </span>sym<span class="w"> </span><span class="k">in</span><span class="w"> </span>SPY<span class="w"> </span>QQQ<span class="w"> </span>NVDA<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span>GOOGL<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span><span class="nv">$sym</span><span class="w"> </span>--provider<span class="w"> </span>yfinance<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="k">done</span>
 </code></pre></div>
-<p><strong><code>/explore-strategies</code> 連携（issue #674）</strong>:</p>
-<p><code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> が設定された goal でループを開始すると、スキル冒頭で次のチェックが自動実行されます：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>data<span class="w"> </span>tv-mcp<span class="w"> </span>check<span class="w"> </span>--json
+<p><strong>実証結果（NVDA EMA+MACD+SuperTrend, 20y）</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Window</th>
+<th>OOS Sharpe</th>
+<th>OOS Trades</th>
+<th>min_oos_trades(=3)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>-0.01</td>
+<td>3</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.97</td>
+<td>3</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>3</td>
+<td>—</td>
+<td>0</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-1.68</td>
+<td>6</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-0.12</td>
+<td>5</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>5 ウィンドウ中 4 で min_oos_trades_per_window=3 を達成</strong>。default goal (5y) では構造的に不可能だったウィンドウあたり trades 確保が、20y データで現実的に可能になりました。</p>
+<h4 id="data_provider_overridegoal">data_provider_override（goal 単位のプロバイダー上書き）<a class="headerlink" href="#data_provider_overridegoal" title="Permanent link">&para;</a></h4>
+<p><code>goals.yaml</code> の <code>exploration.data_provider_override.{stock|fx}</code> で <code>forge.yaml</code> の <code>stock_provider</code> / <code>fx_provider</code> をゴール単位で上書きできます。例えば特定 goal だけ <code>oanda</code> や <code>dukascopy</code> に切り替えたい場合に便利です：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">exploration</span><span class="p">:</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">data_provider_override</span><span class="p">:</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="nt">stock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">     </span><span class="c1"># 例: 短期チャート系の用途で TradingView MCP に切替</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">fx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oanda</span><span class="w">         </span><span class="c1"># 例: FX のみ OANDA に切替</span>
 </code></pre></div>
+<blockquote>
+<p>⚠️ <strong>TV MCP は長期 fetch には使用不可</strong>（issue #683）<br />
+tradesdontlie / vinicius 系の MCP server の <code>chart_scroll_to_date</code> が <code>"evaluate is not defined"</code> エラーで動作せず、TV Desktop に過去データをロードできません。<code>data_get_ohlcv</code> は現在チャートに表示されている bars のみ返すため、<code>forge data fetch &lt;SYM&gt; --provider tv_mcp --period 20y</code> を呼んでも最新 ~14 ヶ月分しか取れません。長期データは <strong>yfinance を推奨</strong>します。<br />
+TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics</code>) や チャート PNG 取得 (<code>forge tv chart</code>) には有用です。</p>
+</blockquote>
+<h4 id="explore-strategies-tv-mcp"><code>/explore-strategies</code> の TV MCP 事前確認<a class="headerlink" href="#explore-strategies-tv-mcp" title="Permanent link">&para;</a></h4>
+<p><code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> が設定された goal でループを開始すると、スキル冒頭で <code>forge data tv-mcp check --json</code> が自動実行されます：</p>
 <ul>
 <li>終了コード <code>0</code>: 続行</li>
-<li>終了コード <code>2</code>: endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗 → ループを停止し、<code>&lt;goal_dir&gt;/explored_log.md</code> に「TV MCP 認証エラーで停止」を記録（自動起動・再試行は行わない）</li>
+<li>終了コード <code>2</code>: endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗 → ループ停止 + <code>&lt;goal_dir&gt;/explored_log.md</code> に記録（自動起動・再試行なし）</li>
 </ul>
-<p><strong>長期データ用 goals テンプレート</strong>:</p>
-<p><code>alpha-strategies/data/explorer/goals/long-term-stocks/goals.yaml</code> を参考にしてください。20 年データで <code>wft.min_oos_trades_per_window=3</code> を満たしやすくなり、HMM 等の低頻度トレンドフォロー戦略の WFT 通過率改善が期待できます。</p>
 <h3 id="pre_filter-min_trades-issue-429">pre_filter min_trades による早期足切り（issue #429）<a class="headerlink" href="#pre_filter-min_trades-issue-429" title="Permanent link">&para;</a></h3>
 <p><code>goals.yaml</code> の <code>pre_filter</code> に <code>min_trades</code> を設定すると、バックテスト直後に取引数が閾値未満の戦略は即座に <code>pre_filter_failed</code> で打ち切られ、Optuna 最適化（数十秒〜数分）と WFT の実行をスキップして計算リソースを節約します。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">pre_filter</span><span class="p">:</span>

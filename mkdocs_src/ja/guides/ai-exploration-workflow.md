@@ -410,49 +410,64 @@ forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
 
 **yfinance の制約**: yfinance プロバイダーは Yahoo Finance API の 730 日制限により、**1h × 5y は取得不可**です（実測: 1h × 2y は約 12,000 bars）。1h を使う場合は `backtest_period: "2y"` のように短縮するか、Dukascopy / OANDA 等の別プロバイダーを使用してください。
 
-### ゴール別 data_provider_override（長期データ用 / issue #674）
+### ゴール別 backtest_period と data_provider_override（長期データ用 / issue #674）
 
-`goals.yaml` の `exploration.data_provider_override` で、`forge.yaml` の `data.providers.stock_provider` / `fx_provider` をゴール単位で上書きできます。20 年超の長期ヒストリカルデータが必要な場合に **TradingView MCP** に切り替える用途を想定しています（WFT の `min_oos_trades_per_window` を満たすには 5 年では不足するため、issue #670 への根本対策）。
+WFT の `min_oos_trades_per_window` を満たすには 5 年では不足する低頻度戦略（HMM トレンドフォロー等）が多く（issue #670）、長期データでの探索が有効です。実機検証の結果、**yfinance で 20y × 1d を 5030 行取得できる**ことを確認しています（「yfinance ~5y 制約」は 1h timeframe の 730 日上限の話で、1d/1w/1mo では 20y 以上問題なく取得できます）。
 
 ```yaml
-# 例: long-term-stocks/goals.yaml
+# 例: long-term-stocks/goals.yaml（実装済みテンプレート）
 exploration:
-  backtest_period: "20y"        # 長期データ
-  data_provider_override:
-    stock: tv_mcp               # forge.yaml の stock_provider を tv_mcp に上書き
-    fx: tv_mcp                  # FX 銘柄を含める場合
+  backtest_period: "20y"        # 20 年データ（yfinance 1d で取得可能）
   assets:
     - SPY
     - QQQ
+    - NVDA
+    - AAPL
+    - MSFT
+    - GOOGL
 ```
 
-**実行前提**:
-
-1. **TradingView Desktop が起動している**（MCP サーバーは TV Desktop の API を利用するため GUI が必要）
-2. `forge.yaml` の `data.providers.tv_mcp.endpoint` に MCP サーバーコマンドが設定されている
-3. 各ラン冒頭で `forge data tv-mcp check` で疎通確認（`/explore-strategies` スキルが自動実行）
-
-**初回データ取得（手動推奨。以降は parquet キャッシュで再利用）**:
+`/explore-strategies` ループ開始前に手動で長期キャッシュを作成しておくのが安全です（無人ラン中の rate limit を避けるため）：
 
 ```bash
-forge data fetch SPY  --provider tv_mcp --period 20y
-forge data fetch QQQ  --provider tv_mcp --period 20y
+for sym in SPY QQQ NVDA AAPL MSFT GOOGL; do
+  forge data fetch $sym --provider yfinance --period 20y --interval 1d
+done
 ```
 
-**`/explore-strategies` 連携（issue #674）**:
+**実証結果（NVDA EMA+MACD+SuperTrend, 20y）**:
 
-`exploration.data_provider_override.{stock|fx}: tv_mcp` が設定された goal でループを開始すると、スキル冒頭で次のチェックが自動実行されます：
+| Window | OOS Sharpe | OOS Trades | min_oos_trades(=3) |
+|--------|-----------|-----------|----------|
+| 1 | -0.01 | 3 | ✅ |
+| 2 | 0.97 | 3 | ✅ |
+| 3 | — | 0 | ❌ |
+| 4 | -1.68 | 6 | ✅ |
+| 5 | -0.12 | 5 | ✅ |
 
-```bash
-forge data tv-mcp check --json
+→ **5 ウィンドウ中 4 で min_oos_trades_per_window=3 を達成**。default goal (5y) では構造的に不可能だったウィンドウあたり trades 確保が、20y データで現実的に可能になりました。
+
+#### data_provider_override（goal 単位のプロバイダー上書き）
+
+`goals.yaml` の `exploration.data_provider_override.{stock|fx}` で `forge.yaml` の `stock_provider` / `fx_provider` をゴール単位で上書きできます。例えば特定 goal だけ `oanda` や `dukascopy` に切り替えたい場合に便利です：
+
+```yaml
+exploration:
+  data_provider_override:
+    stock: tv_mcp     # 例: 短期チャート系の用途で TradingView MCP に切替
+    fx: oanda         # 例: FX のみ OANDA に切替
 ```
+
+> ⚠️ **TV MCP は長期 fetch には使用不可**（issue #683）  
+> tradesdontlie / vinicius 系の MCP server の `chart_scroll_to_date` が `"evaluate is not defined"` エラーで動作せず、TV Desktop に過去データをロードできません。`data_get_ohlcv` は現在チャートに表示されている bars のみ返すため、`forge data fetch <SYM> --provider tv_mcp --period 20y` を呼んでも最新 ~14 ヶ月分しか取れません。長期データは **yfinance を推奨**します。  
+> TV MCP は引き続き Pine 検証 (`forge pine verify --check-mode metrics`) や チャート PNG 取得 (`forge tv chart`) には有用です。
+
+#### `/explore-strategies` の TV MCP 事前確認
+
+`exploration.data_provider_override.{stock|fx}: tv_mcp` が設定された goal でループを開始すると、スキル冒頭で `forge data tv-mcp check --json` が自動実行されます：
 
 - 終了コード `0`: 続行
-- 終了コード `2`: endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗 → ループを停止し、`<goal_dir>/explored_log.md` に「TV MCP 認証エラーで停止」を記録（自動起動・再試行は行わない）
-
-**長期データ用 goals テンプレート**:
-
-`alpha-strategies/data/explorer/goals/long-term-stocks/goals.yaml` を参考にしてください。20 年データで `wft.min_oos_trades_per_window=3` を満たしやすくなり、HMM 等の低頻度トレンドフォロー戦略の WFT 通過率改善が期待できます。
+- 終了コード `2`: endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗 → ループ停止 + `<goal_dir>/explored_log.md` に記録（自動起動・再試行なし）
 
 ### pre_filter min_trades による早期足切り（issue #429）
 
