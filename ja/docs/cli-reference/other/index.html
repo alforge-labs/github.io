@@ -513,14 +513,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/freemium-limits/" class="md-nav__link">
+      <a href="../../guides/trial-limits/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    フリーミアム制限
+    Trial 制限
   
 
     
@@ -2164,10 +2164,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forge-pine-generate" class="md-nav__link">
+  <a href="#forge-pine-generate-lifetime" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine generate [有料プランのみ]
+        forge pine generate [Lifetime プランのみ]
       
     </span>
   </a>
@@ -2175,10 +2175,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-pine-preview" class="md-nav__link">
+  <a href="#forge-pine-preview-lifetime" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine preview [有料プランのみ]
+        forge pine preview [Lifetime プランのみ]
       
     </span>
   </a>
@@ -3260,10 +3260,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forge-pine-generate" class="md-nav__link">
+  <a href="#forge-pine-generate-lifetime" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine generate [有料プランのみ]
+        forge pine generate [Lifetime プランのみ]
       
     </span>
   </a>
@@ -3271,10 +3271,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-pine-preview" class="md-nav__link">
+  <a href="#forge-pine-preview-lifetime" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine preview [有料プランのみ]
+        forge pine preview [Lifetime プランのみ]
       
     </span>
   </a>
@@ -4539,11 +4539,11 @@
 <h2 id="pine">pine<a class="headerlink" href="#pine" title="Permanent link">&para;</a></h2>
 <p>戦略 JSON と TradingView Pine Script v6 を相互変換します。</p>
 <div class="admonition warning">
-<p class="admonition-title">[有料プランのみ] Pine Script エクスポート</p>
-<p><code>forge pine generate</code> と <code>forge pine preview</code> は<strong>有料プラン（Lifetime / Annual / Monthly）でのみ利用できます</strong>。Free プランで実行すると赤枠 Panel と購入ページ URL（<a href="https://alforgelabs.com/en/index.html#pricing">https://alforgelabs.com/en/index.html#pricing</a>）が表示され、終了コード <code>1</code> で完全停止します。ファイル出力も標準出力もされません。<code>forge pine import</code>（インポート機能）は対象外で、Free でも継続利用できます。詳しくは <a href="../../guides/freemium-limits/">フリーミアム制限ガイド</a> を参照してください。</p>
+<p class="admonition-title">[Lifetime プランのみ] Pine Script エクスポート</p>
+<p><code>forge pine generate</code> と <code>forge pine preview</code> は <strong>Lifetime プランでのみ利用できます</strong>。Trial プランで実行すると赤枠 Panel と購入ページ URL（<a href="https://alforgelabs.com/en/index.html#pricing">https://alforgelabs.com/en/index.html#pricing</a>）が表示され、終了コード <code>1</code> で完全停止します。ファイル出力も標準出力もされません。<code>forge pine import</code>（インポート機能）は対象外で、Trial プランでも継続利用できます。詳しくは <a href="../../guides/trial-limits/">Trial 制限</a> を参照してください。</p>
 </div>
-<h3 id="forge-pine-generate">forge pine generate <code>[有料プランのみ]</code><a class="headerlink" href="#forge-pine-generate" title="Permanent link">&para;</a></h3>
-<p>戦略定義から Pine Script を生成し、<code>config.pinescript.output_path / &lt;strategy_id&gt;.pine</code> に保存します。<strong>有料プラン限定</strong>。</p>
+<h3 id="forge-pine-generate-lifetime">forge pine generate <code>[Lifetime プランのみ]</code><a class="headerlink" href="#forge-pine-generate-lifetime" title="Permanent link">&para;</a></h3>
+<p>戦略定義から Pine Script を生成し、<code>config.pinescript.output_path / &lt;strategy_id&gt;.pine</code> に保存します。<strong>Lifetime プラン限定</strong>。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--with-training-data<span class="o">]</span>
 </code></pre></div>
 <table>
@@ -4570,19 +4570,18 @@
 </tr>
 </tbody>
 </table>
-<p>サンプル出力（有料プラン）：</p>
+<p>サンプル出力（Lifetime プラン）：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>✅ Pine Script が保存されました: output/pinescript/spy_sma_v1.pine
 </code></pre></div>
-<p>サンプル出力（Free プラン・ハードブロック）：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>╭─────────────── 🔒 有料プラン限定機能 ───────────────╮
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>│ Pine Script エクスポートは有料プラン（Lifetime /    │
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>│ Annual / Monthly）のみ利用できます。                │
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>│ TradingView でのシームレスな運用を行うには…         │
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>│ アップグレード: https://alforgelabs.com/en/...      │
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>╰────────────────────────────────────────────────────╯
+<p>サンプル出力（Trial プラン・ハードブロック）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>╭─────────────── 🔒 Lifetime プラン限定機能 ───────────────╮
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>│ Pine Script エクスポートは Lifetime プランのみ利用できます。 │
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>│ TradingView でのシームレスな運用を行うには…                 │
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>│ アップグレード: https://alforgelabs.com/en/...              │
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>╰─────────────────────────────────────────────────────────╯
 </code></pre></div>
-<h3 id="forge-pine-preview">forge pine preview <code>[有料プランのみ]</code><a class="headerlink" href="#forge-pine-preview" title="Permanent link">&para;</a></h3>
-<p>戦略定義から生成される Pine Script を標準出力でプレビューします（ファイル保存しない）。<strong>有料プラン限定</strong>。</p>
+<h3 id="forge-pine-preview-lifetime">forge pine preview <code>[Lifetime プランのみ]</code><a class="headerlink" href="#forge-pine-preview-lifetime" title="Permanent link">&para;</a></h3>
+<p>戦略定義から生成される Pine Script を標準出力でプレビューします（ファイル保存しない）。<strong>Lifetime プラン限定</strong>。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>preview<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;
 </code></pre></div>
 <h3 id="forge-pine-import">forge pine import<a class="headerlink" href="#forge-pine-import" title="Permanent link">&para;</a></h3>

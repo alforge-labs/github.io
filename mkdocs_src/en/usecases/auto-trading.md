@@ -56,4 +56,4 @@ forge pine generate my_strategy --output my_strategy.pine
 - [TradingView × Alpha Strike Integration Guide](../guides/tradingview-alpha-strike.md) — Connecting webhooks to order execution
 - [TradingView × Pine Script Integration Guide](../guides/tradingview-pine-integration.md) — Pine Script generation and adjustment
 - [End-to-End Strategy Development Workflow](../guides/end-to-end-workflow.md) — Full pipeline overview
-- [Freemium Limits](../guides/freemium-limits.md) — What's available on the free plan
+- [Trial Limits](../guides/trial-limits.md) — What's available on the Trial plan

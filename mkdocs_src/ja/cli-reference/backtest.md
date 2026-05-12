@@ -533,7 +533,7 @@ forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
 - **DB / ファイルモード**: `list` `report` `migrate` `monte-carlo` は `config.report.output_path / config.report.db_filename`（SQLite）を主ストアとします。
 - **`FORGE_CONFIG`**: 戦略・データ・結果の保管場所は環境変数 `FORGE_CONFIG` が指す `forge.yaml` で決まります。
 - **終了コード**: 通常 `0`、`--min-trades` 違反時は `1`、引数エラーは `click.UsageError`、致命的エラーは標準エラー出力に出して終了。
-- **Free プラン制限**: Free プランでは入力データの上限日が `2023-12-31` に強制されます。詳細は [フリーミアム制限](../guides/freemium-limits.md) を参照。
+- **Trial プラン制限**: Trial プランでは入力データの上限日が `2023-12-31` に強制されます。詳細は [Trial 制限](../guides/trial-limits.md) を参照。
 
 ---
 

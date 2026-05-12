@@ -45,19 +45,7 @@
           "@type": "Offer",
           "price": "0.00",
           "priceCurrency": "USD",
-          "name": "Free"
-        },
-        {
-          "@type": "Offer",
-          "price": "9.00",
-          "priceCurrency": "USD",
-          "name": "Monthly"
-        },
-        {
-          "@type": "Offer",
-          "price": "99.00",
-          "priceCurrency": "USD",
-          "name": "Annual"
+          "name": "Trial"
         },
         {
           "@type": "Offer",
@@ -369,42 +357,42 @@
     }
 
     /* ── FREE START ── */
-    .free-start {
+    .trial-start {
       padding: 4.75rem 0;
       border-bottom: 1px solid var(--border);
       background:
         linear-gradient(180deg, var(--bg) 0%, var(--accent-bg) 100%);
     }
-    .free-start-shell {
+    .trial-start-shell {
       display: grid;
       grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
       gap: 2rem;
       align-items: stretch;
     }
-    .free-start-copy {
+    .trial-start-copy {
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 1rem;
     }
-    .free-start-title {
+    .trial-start-title {
       color: var(--text);
       font-size: clamp(1.6rem, 3.2vw, 2.35rem);
       font-weight: 600;
       line-height: 1.15;
     }
-    .free-start-subtitle {
+    .trial-start-subtitle {
       max-width: 620px;
       color: var(--text2);
       font-size: 0.95rem;
       line-height: 1.8;
     }
-    .free-start-limits {
+    .trial-start-limits {
       display: flex;
       flex-wrap: wrap;
       gap: 0.45rem;
     }
-    .free-start-limit {
+    .trial-start-limit {
       border: 1px solid var(--accent-glow);
       border-radius: 100px;
       background: var(--surface);
@@ -413,14 +401,14 @@
       font-size: 0.68rem;
       padding: 0.25rem 0.65rem;
     }
-    .free-start-actions {
+    .trial-start-actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 0.75rem;
       margin-top: 0.35rem;
     }
-    .free-start-link {
+    .trial-start-link {
       color: var(--text2);
       font-size: 0.86rem;
       text-decoration: none;
@@ -428,18 +416,18 @@
       padding-bottom: 0.1rem;
       transition: color 0.15s, border-color 0.15s;
     }
-    .free-start-link:hover {
+    .trial-start-link:hover {
       color: var(--accent);
       border-color: var(--accent);
     }
-    .free-start-note {
+    .trial-start-note {
       max-width: 620px;
       color: var(--text3);
       font-family: var(--mono);
       font-size: 0.7rem;
       line-height: 1.7;
     }
-    .free-start-steps {
+    .trial-start-steps {
       display: grid;
       grid-template-columns: 1fr;
       gap: 1px;
@@ -448,7 +436,7 @@
       border-radius: var(--r);
       background: var(--border);
     }
-    .free-start-step {
+    .trial-start-step {
       min-height: 132px;
       background: var(--surface);
       padding: 1.35rem;
@@ -459,21 +447,21 @@
       align-content: start;
       transition: background 0.2s;
     }
-    .free-start-step:hover { background: var(--surface-h); }
-    .free-start-step-num {
+    .trial-start-step:hover { background: var(--surface-h); }
+    .trial-start-step-num {
       grid-row: span 2;
       color: var(--accent);
       font-family: var(--mono);
       font-size: 0.72rem;
       letter-spacing: 0.08em;
     }
-    .free-start-step-title {
+    .trial-start-step-title {
       color: var(--text);
       font-size: 0.98rem;
       font-weight: 600;
       line-height: 1.35;
     }
-    .free-start-step-desc {
+    .trial-start-step-desc {
       color: var(--text2);
       font-size: 0.84rem;
       line-height: 1.65;
@@ -667,7 +655,7 @@
     }
 
     /* ── FREE BANNER ── */
-    .free-banner {
+    .trial-banner {
       margin-top: 2rem;
       border: 1px dashed rgba(0,228,154,0.35);
       border-radius: var(--r);
@@ -675,37 +663,37 @@
       padding: 1.1rem 1.4rem;
       display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
     }
-    .free-banner-icon { font-size: 1.5rem; flex-shrink: 0; }
-    .free-banner-body { flex: 1; min-width: 200px; }
-    .free-banner-title {
+    .trial-banner-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .trial-banner-body { flex: 1; min-width: 200px; }
+    .trial-banner-title {
       font-size: 0.95rem; font-weight: 600;
       display: flex; align-items: center; gap: 0.5rem;
     }
-    .free-badge {
+    .trial-badge {
       font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em;
       text-transform: uppercase;
       background: rgba(0,228,154,0.12); color: var(--accent);
       border: 1px solid rgba(0,228,154,0.25); border-radius: 4px; padding: 1px 6px;
     }
-    .free-banner-desc {
+    .trial-banner-desc {
       margin-top: 0.3rem; color: var(--text2);
       font-size: 0.82rem; line-height: 1.5;
     }
-    .free-banner-pills {
+    .trial-banner-pills {
       margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem;
     }
-    .free-pill {
+    .trial-pill {
       font-size: 0.68rem; padding: 2px 8px; border-radius: 20px;
       border: 1px solid var(--border); color: var(--text2);
     }
-    .free-pill-ok    { border-color: rgba(0,228,154,0.3); color: var(--accent); }
-    .free-pill-limit { border-color: rgba(245,166,35,0.3); color: var(--amber); }
-    .free-pill-no    { border-color: rgba(255,255,255,0.1); color: var(--text3); text-decoration: line-through; }
-    .free-banner-cta { flex-shrink: 0; min-width: 140px; text-align: center; }
-    .free-banner-cta .btn-secondary {
+    .trial-pill-ok    { border-color: rgba(0,228,154,0.3); color: var(--accent); }
+    .trial-pill-limit { border-color: rgba(245,166,35,0.3); color: var(--amber); }
+    .trial-pill-no    { border-color: rgba(255,255,255,0.1); color: var(--text3); text-decoration: line-through; }
+    .trial-banner-cta { flex-shrink: 0; min-width: 140px; text-align: center; }
+    .trial-banner-cta .btn-secondary {
       width: 100%; justify-content: center;
     }
-    .free-banner-status {
+    .trial-banner-status {
       margin-top: 0.35rem;
       color: var(--text3);
       font-family: var(--mono);
@@ -729,10 +717,10 @@
     }
     .comparison-table thead tr { border-bottom: 1px solid var(--border); }
     .comparison-th-feature { padding: 0.5rem 0.75rem; text-align: left; font-weight: 600; font-size: 0.78rem; width: 48%; }
-    .comparison-th-free    { padding: 0.5rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.78rem; width: 22%; color: var(--text2); }
+    .comparison-th-trial    { padding: 0.5rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.78rem; width: 22%; color: var(--text2); }
     .comparison-th-paid    { padding: 0.5rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.78rem; width: 30%; color: var(--accent); }
     .comparison-td-feature { padding: 0.5rem 0.75rem; color: var(--text2); border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .comparison-td-free    { padding: 0.5rem 0.75rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .comparison-td-trial    { padding: 0.5rem 0.75rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .comparison-td-paid    { padding: 0.5rem 0.75rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .comparison-table tbody tr:last-child td { border-bottom: none; }
     .comparison-table tbody tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
@@ -1042,19 +1030,19 @@
       .trust-safety { padding: 4.5rem 0; }
       .trust-safety-grid { grid-template-columns: 1fr; }
       .trust-safety-card { min-height: auto; }
-      .free-start { padding: 4rem 0; }
-      .free-start-shell { grid-template-columns: 1fr; }
-      .free-start-actions { align-items: stretch; }
-      .free-start-actions .btn-primary,
-      .free-start-actions .btn-secondary {
+      .trial-start { padding: 4rem 0; }
+      .trial-start-shell { grid-template-columns: 1fr; }
+      .trial-start-actions { align-items: stretch; }
+      .trial-start-actions .btn-primary,
+      .trial-start-actions .btn-secondary {
         width: 100%;
         justify-content: center;
         text-align: center;
       }
-      .free-start-link { width: fit-content; }
-      .free-banner { flex-direction: column; align-items: flex-start; }
-      .free-banner-cta { width: 100%; }
-      .free-banner-cta .btn-secondary { width: 100%; }
+      .trial-start-link { width: fit-content; }
+      .trial-banner { flex-direction: column; align-items: flex-start; }
+      .trial-banner-cta { width: 100%; }
+      .trial-banner-cta .btn-secondary { width: 100%; }
       .nav-page-link { padding: 0 0.55rem; }
       .lang-btn { padding: 0 0.55rem; }
       .follow-btn-nav {

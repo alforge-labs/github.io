@@ -513,14 +513,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/freemium-limits/" class="md-nav__link">
+      <a href="../../guides/trial-limits/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    フリーミアム制限
+    Trial 制限
   
 
     
@@ -3165,7 +3165,7 @@
 <li><strong>プロバイダー解決</strong>: <code>get_data_fetcher(symbol=..., config=config)</code> がシンボルから <code>forge.yaml</code> の <code>data.providers</code> 設定でプロバイダーを選択</li>
 <li><strong><code>FORGE_CONFIG</code></strong>: 保存先・プロバイダー設定は環境変数 <code>FORGE_CONFIG</code> が指す <code>forge.yaml</code> で決まる</li>
 <li><strong>終了コード</strong>: 通常 <code>0</code>、<code>click.ClickException</code> で <code>1</code>、引数エラーは Click が <code>2</code> を返す</li>
-<li><strong>Free プラン制限</strong>: Free プランでは取得時にも <code>end</code> が <code>2023-12-31</code> に強制キャップされ、<code>forge data update</code> で保有最終日が 2023-12-31 以降のアイテムはスキップされます。詳細は <a href="../../guides/freemium-limits/">フリーミアム制限</a> を参照。</li>
+<li><strong>Trial プラン制限</strong>: Trial プランでは取得時にも <code>end</code> が <code>2023-12-31</code> に強制キャップされ、<code>forge data update</code> で保有最終日が 2023-12-31 以降のアイテムはスキップされます。詳細は <a href="../../guides/trial-limits/">Trial 制限</a> を参照。</li>
 </ul>
 <hr />
 <!-- 同期元: `alpha-forge/src/alpha_forge/commands/data.py` の Click decorator、`alpha-forge/src/alpha_forge/data/providers/` のプロバイダー実装、`alpha-forge/CLAUDE.md` のプロバイダー記述。alpha-forge 側で引数追加・プロバイダー追加があった場合、本ページも追従更新が必要。 -->

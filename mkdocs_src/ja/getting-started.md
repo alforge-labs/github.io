@@ -2,32 +2,24 @@
 
 AlphaForge CLI のインストールから最初のバックテスト結果を読むまでをまとめた入門ガイドです。
 
-- **Free プランだけで完結する 約 13 分体験**（Whop 無料登録 + CLI 操作）を冒頭に配置しています。ライセンス購入は不要です。
-- その後ろに、**詳細なインストール手順・Whop ログイン認証・アンインストール・トラブルシューティング**を載せています。
+- **Whop 登録なしで完結する 約 10 分の Trial 体験**を冒頭に配置しています。インストール後すぐに Trial プランとして利用できます。
+- その後ろに、**詳細なインストール手順・Lifetime プラン認証・アンインストール・トラブルシューティング**を載せています。
 
 ---
 
-## Free プランで 約 13 分の最初のバックテスト
+## Trial プランで 約 10 分の最初のバックテスト
 
-!!! info "Free プランで試せる範囲"
+!!! info "Trial プランで試せる範囲（Whop 登録不要）"
     - バックテスト・最適化 ✅（データ上限: **2023-12-31** まで）
     - 最適化トライアル: **50 回**まで
-    - Pine Script エクスポート ❌（有料プランが必要）
+    - Pine Script エクスポート ❌（Lifetime プランが必要）
 
-    上限の詳細は [フリーミアム制限](guides/freemium-limits.md) を参照してください。
+    上限の詳細は [Trial 制限](guides/trial-limits.md) を参照してください。
 
-### ステップ 1 — Whop でアカウント登録（約 3 分）
+!!! tip "Lifetime プランから始めたい場合"
+    最初から Lifetime プランで利用したい場合は [Lifetime プラン購入ページ](https://whop.com/alforge-labs/alphaforge/) から手続きしてください。Trial プランから後で Lifetime にアップグレードすることも可能です。プラン別の機能差は [Trial 制限](guides/trial-limits.md) を参照してください。
 
-AlphaForge は **Free プランも含めて全プランで Whop アカウント登録が必須** です。CLI を動かす前に、まず Whop で無料プランに登録します。
-
-1. ブラウザで [Whop の AlphaForge Free プラン](https://whop.com/alforge-labs/alphaforge-free/) を開く
-2. メールアドレス（または GitHub / Google アカウント）で Whop にサインアップ
-3. 「AlphaForge Free」プランに登録（カード情報は不要）
-
-!!! tip "有料プランから始めたい場合"
-    最初から有料プランで利用したい場合は [有料プラン一覧](https://whop.com/alforge-labs/alphaforge/) から購入してください。Free プランから後で有料へアップグレードすることも可能です。プラン別の機能差は [フリーミアム制限](guides/freemium-limits.md) を参照してください。
-
-### ステップ 2 — インストール（約 2 分）
+### ステップ 1 — インストール（約 2 分）
 
 === "macOS / Linux"
 
@@ -62,33 +54,10 @@ AlphaForge CLI v1.x.x
 !!! note "最新版バイナリの直接ダウンロード"
     インストーラを使わずバイナリを直接配置したい場合は、[GitHub Releases（最新版）](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest) から各プラットフォーム向け（`forge-macos-arm64` / `forge-linux-x64` / `forge-windows-x64.exe` 等）をダウンロードできます。詳細は本ページ「詳細インストール → 手動インストール」を参照してください。
 
-### ステップ 3 — Whop でログイン認証（約 1 分）
+!!! info "Trial プランは Whop 登録なしでそのまま使えます"
+    インストール完了直後から、`forge --version` も含めて Trial プランとして CLI を実行できます。Whop OAuth 認証は **Lifetime プランを購入したときだけ**必要で、Trial 体験には不要です。Lifetime プラン認証の手順は本ページ後半の「Lifetime プラン購入後の認証」セクションを参照してください。
 
-ステップ 1 で登録した Whop アカウントで OAuth 2.0 PKCE 認証を行います。次のコマンドでブラウザが自動で開きます。
-
-```bash
-forge system auth login
-```
-
-ブラウザで認証を完了すると、認証情報が `$XDG_CONFIG_HOME/forge/credentials.json`（未設定時 `~/.config/forge/credentials.json`）に保存されます。
-
-ログイン状態は次のコマンドで確認できます。
-
-```bash
-forge system auth status
-```
-
-```
-ユーザー ID      : user_abc123
-アクセストークン: 2026-04-12 12:30 UTC（あと 45 分）
-最終検証        : 2026-04-12 11:45 UTC（13 分前）
-プラン          : annual
-```
-
-!!! tip "Free プランでも基本機能は利用できます"
-    Pine Script エクスポートなど一部機能は有料プラン限定ですが、バックテスト・最適化・戦略管理など基本機能は Free プランでも利用可能です。
-
-### ステップ 4 — 戦略ファイルを用意する（約 2 分）
+### ステップ 2 — 戦略ファイルを用意する（約 2 分）
 
 `quickstart/` ディレクトリを作成し、サンプル戦略 JSON を保存します。
 
@@ -132,9 +101,9 @@ mkdir quickstart && cd quickstart
 }
 ```
 
-### ステップ 5 — バックテストを実行する（約 2 分）
+### ステップ 3 — バックテストを実行する（約 2 分）
 
-Free プランの範囲（〜2023-12-31）でバックテストを実行します。
+Trial プランの範囲（〜2023-12-31）でバックテストを実行します。
 
 ```bash
 forge backtest run SPY \
@@ -146,7 +115,7 @@ forge backtest run SPY \
 !!! note "データを自動取得"
     初回実行時は `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` が自動的に走ります。数秒かかる場合があります。
 
-### ステップ 6 — 結果を読む（約 3 分）
+### ステップ 4 — 結果を読む（約 3 分）
 
 実行が完了すると以下のような出力が表示されます。
 
@@ -181,7 +150,7 @@ forge backtest run SPY \
 | ウォークフォワードで過学習を検証したい | [エンドツーエンドワークフロー](guides/end-to-end-workflow.md) |
 | 複合指標の戦略テンプレートを使いたい | [戦略テンプレート](templates.md) |
 | TradingView と連携したい | [Pine Script 反映ガイド](guides/tradingview-pine-integration.md) |
-| Free プランの制限を確認したい | [フリーミアム制限](guides/freemium-limits.md) |
+| Trial プランの制限を確認したい | [Trial 制限](guides/trial-limits.md) |
 
 ---
 
@@ -190,8 +159,8 @@ forge backtest run SPY \
 ### 前提条件
 
 - macOS 12 (Monterey) 以降 / Ubuntu 22.04 以降 / Windows 11
-- インターネット接続（Whop ログイン時、または初回データ取得時）
-- **Whop アカウント**（Free / 有料プラン共通の必須要件）— 未登録の場合は [AlphaForge Free プラン（無料登録）](https://whop.com/alforge-labs/alphaforge-free/) または [有料プラン](https://whop.com/alforge-labs/alphaforge/) から登録
+- インターネット接続（初回データ取得時、または Lifetime プラン認証時）
+- **Whop アカウントは Trial プランでは不要**。Lifetime プランを利用したい場合のみ [Lifetime プラン購入ページ](https://whop.com/alforge-labs/alphaforge/) から購入してください。
 
 ### インストール手順
 
@@ -228,9 +197,9 @@ forge backtest run SPY \
         FORGE_INSTALL_LOCALE=en bash <(curl -sSL https://alforge-labs.github.io/install.sh)
         ```
 
-    !!! tip "Whop OAuth 認証"
+    !!! tip "Lifetime プラン購入後の認証（任意）"
 
-        インストール完了後、Whop メンバーシップを利用するには次のコマンドでブラウザ認証してください。
+        インストール直後は Whop 登録なしで Trial プランとして CLI が動きます。Lifetime プランを購入した場合のみ、次のコマンドでブラウザ認証してください。
 
         ```bash
         forge system auth login
@@ -271,24 +240,20 @@ forge backtest run SPY \
 
 ---
 
-## Whop ログイン認証
+## Lifetime プラン購入後の認証
 
-AlphaForge は Whop アカウントによる OAuth 2.0 PKCE 認証を行います。プランに関わらず初回起動時に一度ログインが必要です。
+AlphaForge は **Trial プランでは Whop 登録不要** で、インストール後そのまま動きます。**Lifetime プランを購入した場合のみ** Whop アカウントによる OAuth 2.0 PKCE 認証を行い、データ日付制限・最適化試行数・Pine Script エクスポートのロックを解除します。
 
-!!! warning "Whop アカウント未登録の場合"
-    `forge system auth login` を実行する前に、必ず Whop でアカウント登録を済ませてください（Free プランも含めて必須）。未登録のままログインを試みると認証が完了しません。登録は [AlphaForge Free プラン（無料）](https://whop.com/alforge-labs/alphaforge-free/) または [有料プラン](https://whop.com/alforge-labs/alphaforge/) から行えます。
+!!! info "Trial プランで満足している場合"
+    Trial プラン（2023-12-31 までのデータ・最適化 50 trials・Pine 出力ブロックあり）で十分な利用範囲に収まる場合は、本セクションをスキップしてバックテスト・最適化を続行してください。`forge system auth login` の実行は不要です。
 
-### 1. インストール確認
+### 1. Lifetime プランを購入
 
-インストールが成功したことを確認します。
+ブラウザで [Lifetime プラン購入ページ](https://whop.com/alforge-labs/alphaforge/) を開き、Whop アカウント（または GitHub / Google 経由）でサインアップしてチェックアウトを完了します。
 
-```bash
-forge --version
-```
+### 2. forge で Whop OAuth 認証
 
-### 2. Whop でログイン
-
-ブラウザを起動して認証フローを実行します。
+購入完了後、ターミナルで次を実行するとブラウザが自動で開き、Whop OAuth 2.0 PKCE 認証フローが走ります。
 
 ```bash
 forge system auth login
@@ -298,19 +263,30 @@ forge system auth login
 
 ### 3. 認証状態の確認
 
-ユーザー ID やトークン期限を確認できます。
+ユーザー ID やトークン期限、プラン種別を確認します。
 
 ```bash
 forge system auth status
 ```
 
-### 4. コマンド利用可能性の確認
+```
+ユーザー ID      : user_abc123
+アクセストークン: 2026-05-13 12:30 UTC（あと 45 分）
+最終検証        : 2026-05-13 11:45 UTC（13 分前）
+プラン          : 有料 (Lifetime)
+```
 
-バックテストコマンドが利用可能なことを確認します。
+「プラン: 有料 (Lifetime)」と表示されれば Lifetime プランで利用可能です。Whop 未登録 / 未購入時は `プラン: 無料 (Trial)` 相当の表示になります。
+
+### 4. ロック解除の確認
+
+Lifetime プラン限定機能（Pine Script エクスポート）が動くことを確認します。
 
 ```bash
-forge backtest --help
+forge pine generate --strategy sma_cross_qs
 ```
+
+赤い「Lifetime プラン限定機能」Panel が出ずに `.pine` ファイルが生成されれば、Lifetime プランで完全に動作しています。
 
 ---
 
@@ -405,7 +381,7 @@ forge backtest --help
 |------------------------|-----------|
 | `command not found: forge` | 新しいターミナルを開くか、`source ~/.bashrc` を実行してください。それでも出る場合は PATH を確認してください。 |
 | `No data found for SPY` | `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を先に実行してください。 |
-| `Free plan: date clipped to 2023-12-31` | 仕様どおりの動作です。Free プランの上限日以降のデータは自動的に除外されます。 |
+| `Trial plan: date clipped to 2023-12-31` | 仕様どおりの動作です。Trial プランの上限日以降のデータは自動的に除外されます。 Lifetime プラン購入後は制限解除されます。 |
 | `Strategy not found: sma_cross_qs` | JSON の `strategy_id` が `sma_cross_qs` になっているか確認してください。 |
 | 認証エラー | ネットワーク接続を確認のうえ `forge system auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
 | macOS セキュリティ警告 | システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。 |

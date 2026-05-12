@@ -545,7 +545,7 @@ fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
 - **Journal integration**: When `config.journal.auto_record` is true, optimization runs are also recorded in the Journal.
 - **`FORGE_CONFIG`**: The strategy / data / results locations are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable.
 - **Exit codes**: `0` on success, `1` for `click.ClickException`, `2` for `click.UsageError`, `1` for `click.Abort`.
-- **Free plan limit**: On the Free plan, the maximum input data date is capped at `2023-12-31`, and the optimization trial count is capped at **50 trials** (`run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`; `apply` / `history` / `sensitivity` are unaffected). `grid` randomly samples 50 combinations using a fixed seed when the full Cartesian product exceeds 50. See [Freemium Limits](../guides/freemium-limits.md) for details.
+- **Trial plan limit**: On the Trial plan, the maximum input data date is capped at `2023-12-31`, and the optimization trial count is capped at **50 trials** (`run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`; `apply` / `history` / `sensitivity` are unaffected). `grid` randomly samples 50 combinations using a fixed seed when the full Cartesian product exceeds 50. See [Trial Limits](../guides/trial-limits.md) for details.
 
 ---
 
