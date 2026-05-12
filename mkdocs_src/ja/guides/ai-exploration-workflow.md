@@ -410,6 +410,50 @@ forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
 
 **yfinance の制約**: yfinance プロバイダーは Yahoo Finance API の 730 日制限により、**1h × 5y は取得不可**です（実測: 1h × 2y は約 12,000 bars）。1h を使う場合は `backtest_period: "2y"` のように短縮するか、Dukascopy / OANDA 等の別プロバイダーを使用してください。
 
+### ゴール別 data_provider_override（長期データ用 / issue #674）
+
+`goals.yaml` の `exploration.data_provider_override` で、`forge.yaml` の `data.providers.stock_provider` / `fx_provider` をゴール単位で上書きできます。20 年超の長期ヒストリカルデータが必要な場合に **TradingView MCP** に切り替える用途を想定しています（WFT の `min_oos_trades_per_window` を満たすには 5 年では不足するため、issue #670 への根本対策）。
+
+```yaml
+# 例: long-term-stocks/goals.yaml
+exploration:
+  backtest_period: "20y"        # 長期データ
+  data_provider_override:
+    stock: tv_mcp               # forge.yaml の stock_provider を tv_mcp に上書き
+    fx: tv_mcp                  # FX 銘柄を含める場合
+  assets:
+    - SPY
+    - QQQ
+```
+
+**実行前提**:
+
+1. **TradingView Desktop が起動している**（MCP サーバーは TV Desktop の API を利用するため GUI が必要）
+2. `forge.yaml` の `data.providers.tv_mcp.endpoint` に MCP サーバーコマンドが設定されている
+3. 各ラン冒頭で `forge data tv-mcp check` で疎通確認（`/explore-strategies` スキルが自動実行）
+
+**初回データ取得（手動推奨。以降は parquet キャッシュで再利用）**:
+
+```bash
+forge data fetch SPY  --provider tv_mcp --period 20y
+forge data fetch QQQ  --provider tv_mcp --period 20y
+```
+
+**`/explore-strategies` 連携（issue #674）**:
+
+`exploration.data_provider_override.{stock|fx}: tv_mcp` が設定された goal でループを開始すると、スキル冒頭で次のチェックが自動実行されます：
+
+```bash
+forge data tv-mcp check --json
+```
+
+- 終了コード `0`: 続行
+- 終了コード `2`: endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗 → ループを停止し、`<goal_dir>/explored_log.md` に「TV MCP 認証エラーで停止」を記録（自動起動・再試行は行わない）
+
+**長期データ用 goals テンプレート**:
+
+`alpha-strategies/data/explorer/goals/long-term-stocks/goals.yaml` を参考にしてください。20 年データで `wft.min_oos_trades_per_window=3` を満たしやすくなり、HMM 等の低頻度トレンドフォロー戦略の WFT 通過率改善が期待できます。
+
 ### pre_filter min_trades による早期足切り（issue #429）
 
 `goals.yaml` の `pre_filter` に `min_trades` を設定すると、バックテスト直後に取引数が閾値未満の戦略は即座に `pre_filter_failed` で打ち切られ、Optuna 最適化（数十秒〜数分）と WFT の実行をスキップして計算リソースを節約します。

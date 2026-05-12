@@ -1948,6 +1948,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="TradingView MCP プロバイダー（tv_mcp、issue #576）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-data-tv-mcp-checkissue-674" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        サブコマンド: forge data tv-mcp check（issue #674）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -2572,6 +2589,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="TradingView MCP プロバイダー（tv_mcp、issue #576）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forge-data-tv-mcp-checkissue-674" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        サブコマンド: forge data tv-mcp check（issue #674）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -2994,25 +3028,66 @@
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># forge.yaml の設定を利用（CLI から endpoint を省略）</span>
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
 </code></pre></div>
+<h4 id="forge-data-tv-mcp-checkissue-674">サブコマンド: <code>forge data tv-mcp check</code>（issue #674）<a class="headerlink" href="#forge-data-tv-mcp-checkissue-674" title="Permanent link">&para;</a></h4>
+<p>TV MCP データ取得サーバーの起動・接続を検証します。<code>/explore-strategies</code> スキルが、<code>goals.yaml</code> の <code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> 設定された goal の冒頭で自動実行します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># 既定（symbol=BATS:SPY で疎通確認）</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>forge<span class="w"> </span>data<span class="w"> </span>tv-mcp<span class="w"> </span>check
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># JSON 出力（自動化スクリプト向け）</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>forge<span class="w"> </span>data<span class="w"> </span>tv-mcp<span class="w"> </span>check<span class="w"> </span>--json
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># シンボルを変更（FX 用）</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>forge<span class="w"> </span>data<span class="w"> </span>tv-mcp<span class="w"> </span>check<span class="w"> </span>--symbol<span class="w"> </span>OANDA:USDJPY
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># CLI で endpoint を直接指定</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>forge<span class="w"> </span>data<span class="w"> </span>tv-mcp<span class="w"> </span>check<span class="w"> </span>--mcp-server<span class="w"> </span><span class="s2">&quot;node /opt/tv-mcp/server.js&quot;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>既定</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--mcp-server &lt;command&gt;</code></td>
+<td><code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code></td>
+<td>MCP サーバーコマンド</td>
+</tr>
+<tr>
+<td><code>--symbol &lt;symbol&gt;</code></td>
+<td><code>BATS:SPY</code></td>
+<td>疎通確認に使うシンボル</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td>false</td>
+<td>JSON で結果を出力</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exit code</strong>: <code>0</code>=セッション有効、<code>2</code>=endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗。<code>/explore-strategies</code> スキルが exit 2 を検出すると、<code>&lt;goal_dir&gt;/explored_log.md</code> に「TV MCP 認証エラーで停止」を記録してループを停止します（自動起動・再試行は行いません）。</p>
 <h3 id="auto-issue-583-phase-15e-"><code>auto</code> ルーティング（issue #583 Phase 1.5e-δ）<a class="headerlink" href="#auto-issue-583-phase-15e-" title="Permanent link">&para;</a></h3>
 <p><code>stock_provider</code> / <code>fx_provider</code> に <code>auto</code> を指定すると、シンボルから判定したアセット種別ごとに <code>auto_routing</code> テーブルから provider を解決します。<code>forge data fetch &lt;SYM&gt;</code> を実行するたびに別 provider を選びたい運用に便利です。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">data</span><span class="p">:</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">providers</span><span class="p">:</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nt">stock_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">fx_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nt">auto_routing</span><span class="p">:</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">      </span><span class="nt">stock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">      </span><span class="c1"># 米株 / 日本株は TV MCP（長期データ）</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">      </span><span class="nt">etf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">      </span><span class="nt">fx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oanda</span><span class="w">          </span><span class="c1"># FX は OANDA</span>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">      </span><span class="nt">commodity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">      </span><span class="nt">crypto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">      </span><span class="nt">index</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
-<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="nt">tv_mcp</span><span class="p">:</span>
-<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">/opt/tv-mcp/server.js&quot;</span>
-<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span>
-<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">    </span><span class="nt">oanda</span><span class="p">:</span>
-<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">      </span><span class="nt">access_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OANDA_ACCESS_TOKEN}</span>
-<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">      </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OANDA_ACCOUNT_ID}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">data</span><span class="p">:</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">providers</span><span class="p">:</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="nt">stock_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">fx_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="nt">auto_routing</span><span class="p">:</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">      </span><span class="nt">stock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">      </span><span class="c1"># 米株 / 日本株は TV MCP（長期データ）</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">      </span><span class="nt">etf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">      </span><span class="nt">fx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oanda</span><span class="w">          </span><span class="c1"># FX は OANDA</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">      </span><span class="nt">commodity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">      </span><span class="nt">crypto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">      </span><span class="nt">index</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yfinance</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="nt">tv_mcp</span><span class="p">:</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">/opt/tv-mcp/server.js&quot;</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">    </span><span class="nt">oanda</span><span class="p">:</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">      </span><span class="nt">access_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OANDA_ACCESS_TOKEN}</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">      </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OANDA_ACCOUNT_ID}</span>
 </code></pre></div>
 <p>アセット種別の判定は <code>alpha_forge.data.symbols.detect_asset_type</code> を利用：</p>
 <table>
