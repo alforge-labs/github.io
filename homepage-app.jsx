@@ -249,7 +249,7 @@ function App() {
     <div className="app">
       <NavBar dark={dark} setDark={setDark} lang={lang} setLang={setLang} t={t} />
       <Hero t={t} lang={lang} />
-      <FreeStart t={t} lang={lang} />
+      <TrialStart t={t} lang={lang} />
       <Products t={t} />
       <SystemFlow t={t} dark={dark} lang={lang} />
       <UseCases t={t} />

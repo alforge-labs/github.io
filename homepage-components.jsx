@@ -62,8 +62,8 @@ function Hero({ t, lang }) {
 }
 
 /* ── FREE START ── */
-function FreeStart({ t, lang }) {
-  const c = t.freeStart;
+function TrialStart({ t, lang }) {
+  const c = t.trialStart;
   return (
     <section className="free-start reveal" id="free-start">
       <div className="container">
@@ -294,7 +294,7 @@ function PerformanceChart({ t, dark }) {
 }
 
 /* ── FREE BANNER ── */
-function FreeBanner({ plan, comingSummer, lang }) {
+function TrialBanner({ plan, comingSummer, lang }) {
   const pillClass = { ok: 'free-pill-ok', limit: 'free-pill-limit', no: 'free-pill-no' };
   return (
     <div className="free-banner">
@@ -344,23 +344,25 @@ function ComparisonTable({ data }) {
         <thead>
           <tr>
             <th className="comparison-th-feature"></th>
-            <th className="comparison-th-free">{data.colFree}</th>
-            <th className="comparison-th-paid">{data.colPaid}</th>
+            <th className="comparison-th-trial">{data.colTrial}</th>
+            <th className="comparison-th-lifetime">{data.colLifetime}</th>
           </tr>
         </thead>
         <tbody>
           {data.rows.map((row, i) => (
             <tr key={i}>
               <td className="comparison-td-feature">{row.feature}</td>
-              <td className="comparison-td-free">
-                {row.free === 'ok'    && <span className="cmp-ok">✓</span>}
-                {row.free === 'limit' && <span className="cmp-limit">{row.freeNote}</span>}
-                {row.free === 'no'    && <span className="cmp-no">—</span>}
+              <td className="comparison-td-trial">
+                {row.trial === 'ok'    && <span className="cmp-ok">✓</span>}
+                {row.trial === 'limit' && <span className="cmp-limit">{row.trialNote}</span>}
+                {row.trial === 'no'    && <span className="cmp-no">—</span>}
               </td>
-              <td className="comparison-td-paid">
-                {row.paid === 'ok' && (
-                  <span className="cmp-ok">{row.paidNote || '✓'}</span>
+              <td className="comparison-td-lifetime">
+                {row.lifetime === 'ok' && (
+                  <span className="cmp-ok">{row.lifetimeNote || '✓'}</span>
                 )}
+                {row.lifetime === 'limit' && <span className="cmp-limit">{row.lifetimeNote}</span>}
+                {row.lifetime === 'no'    && <span className="cmp-no">—</span>}
               </td>
             </tr>
           ))}
@@ -380,7 +382,7 @@ function Pricing({ t, lang }) {
         <div className="sec-label">{c.label}</div>
         <h2 className="sec-title" style={{ whiteSpace: 'pre-line' }}>{c.title}</h2>
         <p style={{ marginTop: '0.6rem', color: 'var(--text2)', fontSize: '0.92rem' }}>{c.subtitle}</p>
-        <FreeBanner plan={c.freePlan} comingSummer={c.freePlan.comingSummer} lang={lang} />
+        <TrialBanner plan={c.trialPlan} comingSummer={c.trialPlan.comingSummer} lang={lang} />
         <div className="pricing-grid" style={{ marginTop: '1rem' }}>
           {c.plans.map((plan, i) => (
             <div key={i} className={`pricing-card${plan.featured ? ' featured' : ''}`}>
@@ -557,4 +559,4 @@ function SystemFlow({ t, dark, lang }) {
 }
 
 /* ── EXPORT ── */
-Object.assign(window, { NavBar, Hero, FreeStart, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, FreeBanner, ComparisonTable, Pricing, UseCases, PersonaUseCases, SystemFlow, LongTermValue, TrustSafety });
+Object.assign(window, { NavBar, Hero, TrialStart, Products, useChartColors, EquityChartSVG, BenchmarkTable, PerformanceChart, TrialBanner, ComparisonTable, Pricing, UseCases, PersonaUseCases, SystemFlow, LongTermValue, TrustSafety });
