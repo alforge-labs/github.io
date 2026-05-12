@@ -48,6 +48,9 @@ AlphaForge CLI v1.x.x
 
 If you see a version number, you're ready. For manual installation or custom install paths, see [Detailed Installation](#detailed-installation).
 
+!!! note "Download the latest binary directly"
+    Prefer a manual setup over the installer? Grab the per-platform binaries (`forge-macos-arm64` / `forge-linux-x64` / `forge-windows-x64.exe`, etc.) from [GitHub Releases (latest)](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest). See "Detailed Installation → Manual Install" later on this page for placement and PATH details.
+
 ### Step 2 — Sign in with Whop (~1 min)
 
 AlphaForge uses OAuth 2.0 PKCE authentication via your Whop account. The next command opens a browser automatically.
@@ -326,6 +329,7 @@ For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.
 
 ## Next Steps
 
+- [Visualize results — alpha-visualizer](alpha-visualizer/installation.md) — OSS package that renders forge's backtest results in your browser (`uv tool install alpha-visualizer` / `pip install alpha-visualizer`)
 - [Use Cases by Goal](usecases/index.md) — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)
 - [CLI Reference](cli-reference/index.md) — Every `forge` command, parameters, and output format
 - [Strategy Templates](templates.md) — Compound strategies like HMM × BB × RSI

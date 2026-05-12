@@ -48,6 +48,9 @@ AlphaForge CLI v1.x.x
 
 バージョンが表示されれば完了です。手動インストールやインストール先のカスタマイズは、本ページ後半の「詳細インストール」セクションを参照してください。
 
+!!! note "最新版バイナリの直接ダウンロード"
+    インストーラを使わずバイナリを直接配置したい場合は、[GitHub Releases（最新版）](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest) から各プラットフォーム向け（`forge-macos-arm64` / `forge-linux-x64` / `forge-windows-x64.exe` 等）をダウンロードできます。詳細は本ページ「詳細インストール → 手動インストール」を参照してください。
+
 ### ステップ 2 — Whop でログインする（約 1 分）
 
 AlphaForge は Whop アカウントによる OAuth 2.0 PKCE 認証を行います。次のコマンドでブラウザが自動で開きます。
@@ -326,6 +329,7 @@ forge backtest --help
 
 ## 次のステップ
 
+- [結果を可視化する — alpha-visualizer](alpha-visualizer/installation.md) — バックテスト結果を Web ブラウザで確認できる OSS パッケージ（`uv tool install alpha-visualizer` / `pip install alpha-visualizer`）
 - [目的別ユースケース](usecases/index.md) — 自分の役割（TradingView ユーザー / Python 開発者 / クオント / 自動売買検討者 / AI エージェント利用者）から最適な次ページを選ぶ
 - [CLI リファレンス](cli-reference/index.md) — `forge` コマンドの全パラメータと出力形式
 - [戦略テンプレート](templates.md) — HMM × BB × RSI などの複合戦略例

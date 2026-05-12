@@ -2,6 +2,9 @@
 
 `alpha-visualizer` is published on PyPI and requires Python 3.12+.
 
+!!! tip "Pair with alpha-forge"
+    `alpha-visualizer` installs and runs independently of `forge` (the backtest engine), but the `backtest_results.db` it visualizes is produced by `forge`. If you haven't installed it yet, see the [AlphaForge Getting Started guide](../getting-started.md) (latest binaries are also on [GitHub Releases](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest)).
+
 ## Requirements
 
 | Item | Version |
