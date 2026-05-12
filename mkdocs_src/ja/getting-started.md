@@ -229,10 +229,16 @@ forge backtest run SPY \
 
 === "Windows"
 
-    PowerShell（管理者権限不要）で以下を実行してください。バイナリを `%USERPROFILE%\.forge\bin` にインストールし、PATH を自動設定します。
+    PowerShell（管理者権限不要）で以下を実行してください。バイナリ一式（`forge.dist\` ディレクトリ）を `%LOCALAPPDATA%\Programs\alpha-forge\` に展開し、同階層の `forge.cmd` ラッパーを User PATH に追加します。
 
     ```powershell
     irm https://alforge-labs.github.io/install.ps1 | iex
+    ```
+
+    旧バージョン（`$HOME\bin\forge.exe` 単体配置 / `C:\Program Files\forge\forge.exe`）が存在する場合は自動的に検出し、確認のうえ削除した後に新レイアウトを配置します。動作を事前確認したい場合は次のように `-DryRun` を付けて実行できます。
+
+    ```powershell
+    & ([scriptblock]::Create((irm https://alforge-labs.github.io/install.ps1))) -DryRun
     ```
 
     !!! tip "新しいターミナル"
@@ -367,11 +373,16 @@ forge backtest --help
 
 === "Windows"
 
-    Windows 向けの公式バイナリは現在準備中です。`install.ps1` を使った旧インストールを行った場合は、以下を手動で実行してください。
+    公式アンインストーラーを実行してください。新レイアウト（`%LOCALAPPDATA%\Programs\alpha-forge\`）と旧レイアウト（`$HOME\bin\forge.exe` / `C:\Program Files\forge\forge.exe`）の両方を検出して削除し、User PATH からも該当エントリを除去します。
 
     ```powershell
-    Remove-Item -Recurse $env:USERPROFILE\.forge
-    # PATH から %USERPROFILE%\.forge\bin を手動で除去
+    irm https://alforge-labs.github.io/uninstall.ps1 | iex
+    ```
+
+    認証情報（`~\.config\forge\credentials.json`）はデフォルトで保持されます。完全削除したい場合は `-Purge` スイッチを付けて実行してください。
+
+    ```powershell
+    & ([scriptblock]::Create((irm https://alforge-labs.github.io/uninstall.ps1))) -Yes -Purge
     ```
 
 ---

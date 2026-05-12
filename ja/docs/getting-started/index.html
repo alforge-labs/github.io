@@ -2694,8 +2694,11 @@
 </div>
 </div>
 <div class="tabbed-block">
-<p>PowerShell（管理者権限不要）で以下を実行してください。バイナリを <code>%USERPROFILE%\.forge\bin</code> にインストールし、PATH を自動設定します。</p>
+<p>PowerShell（管理者権限不要）で以下を実行してください。バイナリ一式（<code>forge.dist\</code> ディレクトリ）を <code>%LOCALAPPDATA%\Programs\alpha-forge\</code> に展開し、同階層の <code>forge.cmd</code> ラッパーを User PATH に追加します。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">install</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">iex</span>
+</code></pre></div>
+<p>旧バージョン（<code>$HOME\bin\forge.exe</code> 単体配置 / <code>C:\Program Files\forge\forge.exe</code>）が存在する場合は自動的に検出し、確認のうえ削除した後に新レイアウトを配置します。動作を事前確認したい場合は次のように <code>-DryRun</code> を付けて実行できます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">&amp;</span> <span class="p">(</span><span class="no">[scriptblock]</span><span class="p">::</span><span class="n">Create</span><span class="p">((</span><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">install</span><span class="p">.</span><span class="n">ps1</span><span class="p">)))</span> <span class="n">-DryRun</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">新しいターミナル</p>
@@ -2709,8 +2712,8 @@
 </li>
 <li>
 <p><strong>macOS / Linux</strong>: 実行権限を付与して PATH の通ったディレクトリに配置します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>forge-macos-arm64
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>sudo<span class="w"> </span>mv<span class="w"> </span>forge-macos-arm64<span class="w"> </span>/usr/local/bin/forge
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>forge-macos-arm64
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>sudo<span class="w"> </span>mv<span class="w"> </span>forge-macos-arm64<span class="w"> </span>/usr/local/bin/forge
 </code></pre></div>
 </li>
 <li>
@@ -2729,20 +2732,20 @@
 </div>
 <h3 id="1">1. インストール確認<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p>インストールが成功したことを確認します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>forge<span class="w"> </span>--version
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>--version
 </code></pre></div>
 <h3 id="2-whop">2. Whop でログイン<a class="headerlink" href="#2-whop" title="Permanent link">&para;</a></h3>
 <p>ブラウザを起動して認証フローを実行します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>login
 </code></pre></div>
 <p>認証情報は <code>$XDG_CONFIG_HOME/forge/credentials.json</code>（未設定時 <code>~/.config/forge/credentials.json</code>）に保存されます。オンライン接続が必要です。</p>
 <h3 id="3">3. 認証状態の確認<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
 <p>ユーザー ID やトークン期限を確認できます。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>status
 </code></pre></div>
 <h3 id="4">4. コマンド利用可能性の確認<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
 <p>バックテストコマンドが利用可能なことを確認します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help
 </code></pre></div>
 <hr />
 <h2 id="_6">結果の見方（詳細）<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
@@ -2805,25 +2808,25 @@
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>公式アンインストーラーを実行してください。インストール時の symlink・<code>forge.dist</code>（同梱ライブラリ約 1,100 ファイル一式）・shell rc に追記された PATH 行を一括で削除します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
 </code></pre></div>
 <p>認証情報（<code>~/.config/forge/credentials.json</code>）は <strong>デフォルトで保持</strong> されます。再インストール時に <code>forge system auth login</code> をやり直さずに済むよう、設計上の意図的な挙動です。</p>
 <div class="admonition tip">
 <p class="admonition-title">完全削除（認証情報・EULA 同意もすべて消す）</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--purge
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--purge
 </code></pre></div>
 <p><code>--purge</code> を指定すると <code>~/.config/forge/</code>（Whop OAuth トークン + EULA 同意状態）と、もし存在すれば legacy 旧パス <code>~/.forge/</code> も削除します。</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">事前確認したいとき</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span><span class="w"> </span>--dry-run
 </code></pre></div>
 <p>実際の削除は行わず、削除予定のパスのみ表示します。</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">カスタムパスからアンインストール (<code>INSTALL_DIR</code> 環境変数)</p>
 <p><code>INSTALL_DIR</code> を指定してインストールした場合、同じ値を渡して symlink 配置場所を伝えてください。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nv">INSTALL_DIR</span><span class="o">=</span>/opt/forge/bin<span class="w"> </span>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nv">INSTALL_DIR</span><span class="o">=</span>/opt/forge/bin<span class="w"> </span>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://alforge-labs.github.io/uninstall.sh<span class="o">)</span>
 </code></pre></div>
 <p>未指定の場合は <code>~/.local/bin</code> と <code>/usr/local/bin</code> の両方を自動探索します。</p>
 </div>
@@ -2834,9 +2837,11 @@
 </ul>
 </div>
 <div class="tabbed-block">
-<p>Windows 向けの公式バイナリは現在準備中です。<code>install.ps1</code> を使った旧インストールを行った場合は、以下を手動で実行してください。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">Remove-Item</span> <span class="n">-Recurse</span> <span class="nv">$env:USERPROFILE</span><span class="p">\.</span><span class="n">forge</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="c"># PATH から %USERPROFILE%\.forge\bin を手動で除去</span>
+<p>公式アンインストーラーを実行してください。新レイアウト（<code>%LOCALAPPDATA%\Programs\alpha-forge\</code>）と旧レイアウト（<code>$HOME\bin\forge.exe</code> / <code>C:\Program Files\forge\forge.exe</code>）の両方を検出して削除し、User PATH からも該当エントリを除去します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">uninstall</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">iex</span>
+</code></pre></div>
+<p>認証情報（<code>~\.config\forge\credentials.json</code>）はデフォルトで保持されます。完全削除したい場合は <code>-Purge</code> スイッチを付けて実行してください。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="p">&amp;</span> <span class="p">(</span><span class="no">[scriptblock]</span><span class="p">::</span><span class="n">Create</span><span class="p">((</span><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">alforge-labs</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span><span class="p">/</span><span class="n">uninstall</span><span class="p">.</span><span class="n">ps1</span><span class="p">)))</span> <span class="n">-Yes</span> <span class="n">-Purge</span>
 </code></pre></div>
 </div>
 </div>
