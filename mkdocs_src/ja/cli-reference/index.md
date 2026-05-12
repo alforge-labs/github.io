@@ -2,9 +2,6 @@
 
 `forge` コマンドが提供するすべてのコマンドグループの一覧です。各グループの詳細はリンク先の専用ページを参照してください。
 
-!!! info "コマンド階層整理 (alpha-forge #610 / #644)"
-    商用リリースに向けて、トップレベル 17 個並列だった構造を **論理的なグループ**に再編しました（#610）。続いて #644 で旧トップレベル alias を撤去済みのため、**現在は新階層のみが有効** です。旧名を呼ぶスクリプト等が残っていれば、下記「旧コマンド → 新コマンドの対応」表を参照して置換してください。
-
 ## コアコマンドグループ
 
 実戦略開発で頻繁に使うコマンド群です。それぞれ専用ページで詳述します。
@@ -21,27 +18,12 @@
 | **idea** | 投資アイデアの管理・検索 | — |
 | **data** | ヒストリカル・代替データ・TV MCP データ取得 | [data →](data.md) |
 
-## 補助グループ（D1 #610 で新設）
+## 補助グループ
 
-| 新グループ | サブコマンド | 説明 |
+| グループ | サブコマンド | 説明 |
 |---|---|---|
-| **analyze** | `indicator` / `ml` / `pairs` | 戦略構築の分析ツール群（旧トップレベルから集約） |
-| **system** | `init` / `auth` / `docs` | 運用ユーティリティ（旧トップレベルから集約） |
-
-## 旧コマンド → 新コマンドの対応（撤去済み）
-
-旧トップレベル alias は #644 で **撤去済み** です。旧名のまま呼ぶと `Error: No such command ...` で失敗するため、次の対応で完全に置き換えてください。
-
-| 旧コマンド（撤去済み） | 新コマンド |
-|---|---|
-| `forge altdata <sub>` | `forge data alt <sub>` |
-| `forge tv <sub>` | `forge data tv-mcp <sub>` |
-| `forge indicator <sub>` | `forge analyze indicator <sub>` |
-| `forge ml <sub>` | `forge analyze ml <sub>` |
-| `forge pairs <sub>` | `forge analyze pairs <sub>` |
-| `forge init` | `forge system init` |
-| `forge auth <sub>` | `forge system auth <sub>` |
-| `forge docs <sub>` | `forge system docs <sub>` |
+| **analyze** | `indicator` / `ml` / `pairs` | 戦略分析の補助ツール群 |
+| **system** | `init` / `auth` / `docs` | 運用ユーティリティ |
 
 ## 全コマンド早見表
 

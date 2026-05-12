@@ -2,9 +2,6 @@
 
 A complete catalog of every command group provided by the `forge` CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.
 
-!!! info "Command hierarchy reorganization (alpha-forge #610 / #644)"
-    The top-level was reorganized from a flat 17-command layout into a **logical group hierarchy** ahead of the commercial release (#610). The legacy top-level aliases were subsequently removed in #644, so **only the new hierarchy is valid now**. If scripts still call the old names, see [Legacy → New mapping](#legacy-to-new-command-mapping-removed) below to migrate them.
-
 ## Core Command Groups
 
 The commands you'll use most often in real strategy development. Each has a dedicated page.
@@ -21,27 +18,12 @@ The commands you'll use most often in real strategy development. Each has a dedi
 | **idea** | Manage and search investment ideas | — |
 | **data** | Historical / alternative / TradingView MCP data | [data →](data.md) |
 
-## Auxiliary Groups (added in D1 #610)
+## Auxiliary Groups
 
-| New Group | Subcommands | Description |
+| Group | Subcommands | Description |
 |---|---|---|
-| **analyze** | `indicator` / `ml` / `pairs` | Strategy-analysis utilities (consolidates former top-level commands) |
-| **system** | `init` / `auth` / `docs` | Operational utilities (consolidates former top-level commands) |
-
-## Legacy to New Command Mapping (removed)
-
-The legacy top-level aliases were removed in #644. Calling them now fails with `Error: No such command ...`, so replace any remaining occurrences with the new names below.
-
-| Legacy command (removed) | New command |
-|---|---|
-| `forge altdata <sub>` | `forge data alt <sub>` |
-| `forge tv <sub>` | `forge data tv-mcp <sub>` |
-| `forge indicator <sub>` | `forge analyze indicator <sub>` |
-| `forge ml <sub>` | `forge analyze ml <sub>` |
-| `forge pairs <sub>` | `forge analyze pairs <sub>` |
-| `forge init` | `forge system init` |
-| `forge auth <sub>` | `forge system auth <sub>` |
-| `forge docs <sub>` | `forge system docs <sub>` |
+| **analyze** | `indicator` / `ml` / `pairs` | Strategy-analysis utilities |
+| **system** | `init` / `auth` / `docs` | Operational utilities |
 
 ## All Commands at a Glance
 
