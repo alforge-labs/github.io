@@ -205,6 +205,20 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 
     During install, you'll be asked `Install to /usr/local/bin? [y/N]`. Press Enter or `n` for the default (`~/.local/bin`), or `y` to install system-wide to `/usr/local/bin` (which will prompt for sudo).
 
+    !!! tip "Non-interactive install (`INSTALL_DIR` env var)"
+
+        For CI, Dockerfiles, or any environment where the interactive prompt can't be answered, set `INSTALL_DIR` to choose the symlink directory directly. The prompt is then skipped entirely.
+
+        ```bash
+        # Pin to ~/.local/bin without any prompt
+        INSTALL_DIR=~/.local/bin bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+
+        # Custom directory (must be writable)
+        INSTALL_DIR=/opt/forge/bin bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+        ```
+
+        The `forge.dist` bundle is extracted under `<dirname of INSTALL_DIR>/share/alpha-forge/` (e.g. `INSTALL_DIR=/opt/forge/bin` → `/opt/forge/share/alpha-forge/`). Pass the same `INSTALL_DIR` to `uninstall.sh` when removing.
+
     !!! tip "Whop OAuth login"
 
         After install, log in to your Whop membership via browser-based OAuth:
@@ -335,6 +349,16 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
         ```
 
         Shows exactly which paths would be removed without touching anything.
+
+    !!! tip "Uninstall from a custom path (`INSTALL_DIR` env var)"
+
+        If you installed via `INSTALL_DIR=...`, pass the same value to the uninstaller so it can locate the symlink:
+
+        ```bash
+        INSTALL_DIR=/opt/forge/bin bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh)
+        ```
+
+        Without it, both `~/.local/bin` and `/usr/local/bin` are auto-discovered.
 
     **What is NOT removed:**
 
