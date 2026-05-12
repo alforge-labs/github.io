@@ -203,7 +203,7 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
     curl -sSL https://alforge-labs.github.io/install.sh | bash
     ```
 
-    During install, you'll be asked `Install to /usr/local/bin? [y/N]`. Press Enter or `n` for the default (`~/.local/bin`), or `y` to install system-wide to `/usr/local/bin` (which will prompt for sudo).
+    The default install location is `~/.local/bin` (user-local, no sudo required). During install, you'll be asked `Install to system-wide /usr/local/bin instead? (requires sudo) [y/N]:`. Press Enter or `n` to keep the default, or `y` to install system-wide to `/usr/local/bin` (which will prompt for sudo).
 
     !!! tip "Non-interactive install (`INSTALL_DIR` env var)"
 
@@ -218,6 +218,15 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
         ```
 
         The `forge.dist` bundle is extracted under `<dirname of INSTALL_DIR>/share/alpha-forge/` (e.g. `INSTALL_DIR=/opt/forge/bin` → `/opt/forge/share/alpha-forge/`). Pass the same `INSTALL_DIR` to `uninstall.sh` when removing.
+
+    !!! tip "Display language (`FORGE_INSTALL_LOCALE` env var)"
+
+        The installer auto-detects language from `LANG` / `LC_ALL` (Japanese for `ja*`, English otherwise). To force a specific language, set `FORGE_INSTALL_LOCALE=ja|en`. `uninstall.sh` honors the same variable.
+
+        ```bash
+        # Force English output regardless of LANG
+        FORGE_INSTALL_LOCALE=en bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+        ```
 
     !!! tip "Whop OAuth login"
 
@@ -240,6 +249,9 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
     ```powershell
     & ([scriptblock]::Create((irm https://alforge-labs.github.io/install.ps1))) -DryRun
     ```
+
+    !!! tip "Display language"
+        The installer auto-detects from Windows display language (`CurrentUICulture`). To force a specific language, set `$env:FORGE_INSTALL_LOCALE = "en"` (or `"ja"`) before `irm | iex`.
 
     !!! tip "New terminal"
         Open a new terminal window after installation before continuing.

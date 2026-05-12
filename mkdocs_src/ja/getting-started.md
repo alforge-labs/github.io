@@ -203,7 +203,7 @@ forge backtest run SPY \
     curl -sSL https://alforge-labs.github.io/install.sh | bash
     ```
 
-    実行中、`/usr/local/bin にインストールしますか？ [y/N]` と尋ねられます。Enter または `n` でデフォルト（`~/.local/bin`）、`y` で `/usr/local/bin` を選択できます（後者は sudo を要求します）。
+    実行中、デフォルトの `~/.local/bin`（ユーザー領域・sudo 不要）に加えて、`システム共通の /usr/local/bin にインストールしますか？（sudo が必要） [y/N]:` と尋ねられます。Enter または `n` でデフォルト、`y` で `/usr/local/bin` を選択できます（後者は sudo を要求します）。
 
     !!! tip "非対話インストール (`INSTALL_DIR` 環境変数)"
 
@@ -218,6 +218,15 @@ forge backtest run SPY \
         ```
 
         `forge.dist` は `INSTALL_DIR` の親階層の `share/alpha-forge/` に展開されます（例: `INSTALL_DIR=/opt/forge/bin` の場合 `/opt/forge/share/alpha-forge/`）。アンインストール時は同じ `INSTALL_DIR` を渡してください。
+
+    !!! tip "表示言語 (`FORGE_INSTALL_LOCALE` 環境変数)"
+
+        インストーラーは `LANG` / `LC_ALL` を見て日本語（`ja*`）と英語（それ以外）を自動切り替えします。明示的に切り替えたい場合は `FORGE_INSTALL_LOCALE=ja|en` を指定してください。`uninstall.sh` も同じ環境変数に対応しています。
+
+        ```bash
+        # 強制的に英語表示でインストール
+        FORGE_INSTALL_LOCALE=en bash <(curl -sSL https://alforge-labs.github.io/install.sh)
+        ```
 
     !!! tip "Whop OAuth 認証"
 
@@ -240,6 +249,9 @@ forge backtest run SPY \
     ```powershell
     & ([scriptblock]::Create((irm https://alforge-labs.github.io/install.ps1))) -DryRun
     ```
+
+    !!! tip "表示言語"
+        Windows の表示言語（`CurrentUICulture`）から自動判定します。明示的に切り替える場合は `$env:FORGE_INSTALL_LOCALE = "en"` を `irm | iex` の前に設定してください（`ja` または `en`）。
 
     !!! tip "新しいターミナル"
         インストール後、新しいターミナルウィンドウを開いてから次の手順に進んでください。
