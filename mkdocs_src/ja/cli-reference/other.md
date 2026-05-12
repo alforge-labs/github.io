@@ -9,6 +9,7 @@
 
 | グループ | サブコマンド | 主な用途 |
 |---------|-------------|----------|
+| [self](#self) | `update` `version` | forge バイナリの自己更新・最新版確認 |
 | [system auth](#system-auth) | `login` `logout` `status` `check op` | Whop OAuth 認証と認証状態の確認 |
 | [system init](#system-init) | （単一コマンド） | 作業ディレクトリの初期化 |
 | [system docs](#system-docs) | `list` `show` | 同梱ドキュメント参照 |
@@ -19,6 +20,64 @@
 | [data alt](#data-alt) | `fetch` `list` `info` | 代替データ（センチメント等）の管理 |
 | [analyze pairs](#analyze-pairs) | `scan` `scan-all` `build` | ペアトレード（コインテグレーション） |
 | [analyze ml](#analyze-ml) | `dataset build` `dataset feature-sets` `train` `models` `walk-forward` | ML データセット・モデル学習・walk-forward 検証 |
+
+---
+
+## self
+
+forge バイナリ自身を更新・確認するためのコマンド群（macOS arm64 / x64 サポート、Phase 1）。`alpha-forge` リポジトリで [issue #693](https://github.com/ysakae/alpha-forge/issues/693) として導入。
+
+### forge self version
+
+現在のバージョンと配布リポジトリ（`alforge-labs/alforge-labs.github.io`）の最新リリースを表示します。`self` 配下は Whop 認証チェックをスキップするため、ログイン状態に関係なく実行できます。
+
+```bash
+forge self version
+```
+
+サンプル出力：
+
+```text
+現在のバージョン: 0.3.1
+最新リリース   : 0.4.0  (https://github.com/alforge-labs/alforge-labs.github.io/releases/tag/v0.4.0)
+新しいバージョンが利用可能です: 0.4.0 (available)
+アップデート: forge self update
+```
+
+### forge self update
+
+forge バイナリを最新版に更新します。GitHub Releases から SHA256 検証付きでダウンロード → アトミックに `forge.dist` を差し替え → 旧バイナリを `forge.dist.bak-<unix_ts>` として最新 2 世代まで保持します。
+
+```bash
+forge self update                 # プロンプトで確認 [y/N]
+forge self update --yes           # 確認をスキップ（CI 用）
+forge self update --check         # ダウンロードせず確認のみ
+forge self update --version 0.4.0 # 任意バージョンへピン留め
+forge self update --dry-run       # DL・検証・展開のみ実行（差し替えなし）
+forge self update --print-target  # 検出したインストールレイアウトを表示（トラブル時に共有）
+```
+
+#### 動作する条件
+
+`install.sh` でインストールされた **forge.dist ディレクトリ + symlink 形式**（典型: `~/.local/share/alpha-forge/forge.dist/` + `~/.local/bin/forge`）で動作します。
+
+| 環境 | 動作 |
+|------|------|
+| macOS arm64 / x64（install.sh 経由） | ✅ サポート |
+| Windows x64 | ⚠️ Phase 1 では未サポート（`install.ps1` を再実行してください） |
+| Linux x64 | ⚠️ Phase 3 で対応予定 |
+| 開発モード（`uv run forge`） | ⚠️ `DevModeError` で停止（`git pull && uv sync` を使ってください） |
+
+#### 内部動作
+
+1. 配布リポジトリ `alforge-labs/alforge-labs.github.io` の Releases API から最新タグを取得
+2. プラットフォームに合うアセット（例: `forge-macos-arm64.tar.gz`）と `SHA256SUMS` をダウンロード
+3. ハッシュ検証 → 一時ディレクトリに展開
+4. `forge.dist` を `forge.dist.bak-<unix_ts>` にリネーム（atomic）
+5. 新しい `forge.dist` をアトミックに配置
+6. `$BIN_DIR/forge` symlink が壊れていれば再作成
+
+途中で失敗した場合、旧バイナリは無傷で残り、`forge.dist.bak-*` から復旧できます（Phase 2 で `forge self rollback` を提供予定）。
 
 ---
 

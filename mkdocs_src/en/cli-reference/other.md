@@ -9,6 +9,7 @@ Utility and management commands not covered by the [core groups](index.md), bund
 
 | Group | Subcommands | Purpose |
 |-------|-------------|---------|
+| [self](#self) | `update` `version` | Self-update the forge binary / show the latest release |
 | [system auth](#system-auth) | `login` `logout` `status` `check op` | Whop OAuth authentication and status |
 | [system init](#system-init) | (single command) | Initialize working directory |
 | [system docs](#system-docs) | `list` `show` | Browse bundled documentation |
@@ -19,6 +20,64 @@ Utility and management commands not covered by the [core groups](index.md), bund
 | [data alt](#data-alt) | `fetch` `list` `info` | Manage alternative data (sentiment, etc.) |
 | [analyze pairs](#analyze-pairs) | `scan` `scan-all` `build` | Pairs trading (cointegration) |
 | [analyze ml](#analyze-ml) | `dataset build` `dataset feature-sets` `train` `models` `walk-forward` | ML dataset, training & walk-forward |
+
+---
+
+## self
+
+Commands for updating and inspecting the forge binary itself (macOS arm64 / x64, Phase 1). Introduced in [issue #693](https://github.com/ysakae/alpha-forge/issues/693).
+
+### forge self version
+
+Show the current version alongside the latest release from the distribution repo (`alforge-labs/alforge-labs.github.io`). The `self` group skips Whop authentication, so it works regardless of login state.
+
+```bash
+forge self version
+```
+
+Sample output:
+
+```text
+Current version: 0.3.1
+Latest release  : 0.4.0  (https://github.com/alforge-labs/alforge-labs.github.io/releases/tag/v0.4.0)
+A new version is available: 0.4.0
+To upgrade: forge self update
+```
+
+### forge self update
+
+Update the forge binary to the latest release. Downloads with SHA256 verification, then atomically swaps `forge.dist` and keeps the previous binary as `forge.dist.bak-<unix_ts>` (latest 2 generations).
+
+```bash
+forge self update                 # interactive prompt [y/N]
+forge self update --yes           # skip the prompt (for CI)
+forge self update --check         # check only (no download)
+forge self update --version 0.4.0 # pin a specific version
+forge self update --dry-run       # download + verify + extract, no swap
+forge self update --print-target  # print the detected install layout (for bug reports)
+```
+
+#### Requirements
+
+Works against the **forge.dist directory + symlink layout** created by `install.sh` (typically `~/.local/share/alpha-forge/forge.dist/` + `~/.local/bin/forge`).
+
+| Environment | Status |
+|-------------|--------|
+| macOS arm64 / x64 (via install.sh) | ✅ Supported |
+| Windows x64 | ⚠️ Not supported in Phase 1 — re-run `install.ps1` instead |
+| Linux x64 | ⚠️ Planned for Phase 3 |
+| Dev mode (`uv run forge`) | ⚠️ Stops with `DevModeError` — use `git pull && uv sync` |
+
+#### How it works
+
+1. Fetches the latest tag from `alforge-labs/alforge-labs.github.io` via the Releases API.
+2. Downloads the platform asset (e.g. `forge-macos-arm64.tar.gz`) and `SHA256SUMS`.
+3. Verifies the hash and extracts to a temp directory.
+4. Renames `forge.dist` to `forge.dist.bak-<unix_ts>` (atomic).
+5. Atomically promotes the new `forge.dist` into place.
+6. Restores the `$BIN_DIR/forge` symlink if it was broken.
+
+If anything fails, the previous binary stays intact and can be recovered from `forge.dist.bak-*` (a `forge self rollback` helper is planned for Phase 2).
 
 ---
 
