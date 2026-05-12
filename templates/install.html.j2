@@ -35,8 +35,8 @@
     <div class="lang-{{ lang }}">
       {% if lang == 'ja' %}
       <div class="page-label">Getting Started</div>
-      <h1 class="page-title">5 分で AlphaForge を動かす</h1>
-      <p class="page-subtitle">CLI のインストールからライセンス認証まで、たった 2 コマンド。詳細手順は公式ドキュメントへ。</p>
+      <h1 class="page-title">3 ステップで AlphaForge を動かす</h1>
+      <p class="page-subtitle">Whop 登録 → インストール → ログイン認証。Free プランなら無料で始められます（所要時間 約 10 分）。詳細手順は公式ドキュメントへ。</p>
 
       <div class="callout" style="margin-bottom: 2rem;">
         <p style="margin-bottom: 0.75rem;">
@@ -48,7 +48,20 @@
         </a>
       </div>
 
-      <h2 class="section-heading">クイックインストール</h2>
+      <h2 class="section-heading">ステップ 1 — Whop でアカウント登録</h2>
+      <p>
+        AlphaForge は Whop でのアカウント登録が必要です（<strong>Free プランも含めて全プラン共通</strong>）。まずは無料プランで登録し、CLI を動かしてから必要に応じて有料プランへアップグレードできます。
+      </p>
+      <p style="margin-top: 1rem;">
+        <a href="https://whop.com/alforge-labs/alphaforge-free/" target="_blank" rel="noopener" class="btn-primary">
+          無料で Whop に登録 →
+        </a>
+      </p>
+      <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text2);">
+        最初から有料プランで始めたい場合は <a href="https://whop.com/alforge-labs/alphaforge/" target="_blank" rel="noopener">有料プラン一覧</a> から購入してください。Free / 有料の機能差は <a href="/ja/docs/guides/freemium-limits/">フリーミアム制限</a> を参照。
+      </p>
+
+      <h2 class="section-heading">ステップ 2 — CLI をインストール</h2>
       <div class="platform-tabs" role="tablist">
         <button type="button" class="platform-tab active" role="tab" aria-selected="true" aria-controls="tab-ja-mac" onclick="switchTab('ja', 'mac', event)">macOS / Linux</button>
         <button type="button" class="platform-tab" role="tab" aria-selected="false" aria-controls="tab-ja-win" onclick="switchTab('ja', 'win', event)">Windows</button>
@@ -70,8 +83,8 @@
         から各プラットフォーム向けバイナリを直接ダウンロードできます。
       </p>
 
-      <h2 class="section-heading">ライセンス認証</h2>
-      <p>Whop アカウントで OAuth 2.0 PKCE 認証を行います。ブラウザが自動で開きます。認証情報は <code>~/.forge/credentials.json</code> に保存されます。</p>
+      <h2 class="section-heading">ステップ 3 — Whop でログイン認証</h2>
+      <p>ステップ 1 で登録した Whop アカウントで OAuth 2.0 PKCE 認証を行います。ブラウザが自動で開きます。認証情報は <code>~/.forge/credentials.json</code> に保存されます。</p>
       <pre><code>forge system auth login</code></pre>
       <p>認証済みメンバーシップは以下で確認できます：</p>
       <pre><code>forge system auth status</code></pre>
@@ -190,8 +203,8 @@ pip install alpha-visualizer</code></pre>
       </div>
       {% else %}
       <div class="page-label">Getting Started</div>
-      <h1 class="page-title">Get AlphaForge Running in 5 Minutes</h1>
-      <p class="page-subtitle">Install the CLI and activate your license in two commands. Full instructions live in the official docs.</p>
+      <h1 class="page-title">Get AlphaForge Running in 3 Steps</h1>
+      <p class="page-subtitle">Register on Whop → Install → Sign in. The Free plan is free of charge (about 10 minutes total). Full instructions live in the official docs.</p>
 
       <div class="callout" style="margin-bottom: 2rem;">
         <p style="margin-bottom: 0.75rem;">
@@ -203,7 +216,20 @@ pip install alpha-visualizer</code></pre>
         </a>
       </div>
 
-      <h2 class="section-heading">Quick Install</h2>
+      <h2 class="section-heading">Step 1 — Create a Whop Account</h2>
+      <p>
+        AlphaForge requires a Whop account for <strong>every plan, including Free</strong>. Start with the Free plan and upgrade to a paid plan later if you need more.
+      </p>
+      <p style="margin-top: 1rem;">
+        <a href="https://whop.com/alforge-labs/alphaforge-free/" target="_blank" rel="noopener" class="btn-primary">
+          Register Free on Whop →
+        </a>
+      </p>
+      <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text2);">
+        Want to start on a paid plan? Pick one from the <a href="https://whop.com/alforge-labs/alphaforge/" target="_blank" rel="noopener">paid plans page</a>. See <a href="/en/docs/guides/freemium-limits/">Freemium Limits</a> for the differences.
+      </p>
+
+      <h2 class="section-heading">Step 2 — Install the CLI</h2>
       <div class="platform-tabs" role="tablist">
         <button type="button" class="platform-tab active" role="tab" aria-selected="true" aria-controls="tab-en-mac" onclick="switchTab('en', 'mac', event)">macOS / Linux</button>
         <button type="button" class="platform-tab" role="tab" aria-selected="false" aria-controls="tab-en-win" onclick="switchTab('en', 'win', event)">Windows</button>
@@ -224,8 +250,8 @@ pip install alpha-visualizer</code></pre>
         <a href="https://github.com/alforge-labs/alforge-labs.github.io/releases/latest" target="_blank" rel="noopener">GitHub Releases (latest)</a>.
       </p>
 
-      <h2 class="section-heading">License Activation</h2>
-      <p>Sign in with your Whop account via OAuth 2.0 PKCE — your browser opens automatically. Authentication data is cached at <code>~/.forge/credentials.json</code>.</p>
+      <h2 class="section-heading">Step 3 — Sign in with Whop</h2>
+      <p>Sign in with the Whop account you registered in Step 1 via OAuth 2.0 PKCE — your browser opens automatically. Authentication data is cached at <code>~/.forge/credentials.json</code>.</p>
       <pre><code>forge system auth login</code></pre>
       <p>Verify the activated membership with:</p>
       <pre><code>forge system auth status</code></pre>

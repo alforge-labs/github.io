@@ -2,12 +2,12 @@
 
 A complete onboarding guide — from installing AlphaForge CLI to reading your first backtest.
 
-- The **10-minute Free-plan walkthrough** is at the top. No license purchase required.
+- The **~13-minute Free-plan walkthrough** (Whop free registration + CLI hands-on) is at the top. No license purchase required.
 - After that you'll find **detailed install instructions, Whop login, uninstall, and troubleshooting**.
 
 ---
 
-## 10-Minute First Backtest on the Free Plan
+## ~13-Minute First Backtest on the Free Plan
 
 !!! info "What the Free plan covers"
     - Backtesting & optimization ✅ (data capped at **2023-12-31**)
@@ -16,7 +16,18 @@ A complete onboarding guide — from installing AlphaForge CLI to reading your f
 
     See [Freemium Limits](guides/freemium-limits.md) for full details.
 
-### Step 1 — Install (~2 min)
+### Step 1 — Create a Whop account (~3 min)
+
+AlphaForge requires a Whop account for **every plan, including Free**. Register on Whop before installing the CLI.
+
+1. Open [the AlphaForge Free plan on Whop](https://whop.com/alforge-labs/alphaforge-free/) in your browser.
+2. Sign up with email (or your GitHub / Google account).
+3. Subscribe to the **AlphaForge Free** plan — no payment information required.
+
+!!! tip "Starting on a paid plan"
+    Want to begin on a paid plan? Pick one from the [paid plans page](https://whop.com/alforge-labs/alphaforge/). You can also upgrade from Free later. See [Freemium Limits](guides/freemium-limits.md) for the per-plan feature matrix.
+
+### Step 2 — Install (~2 min)
 
 === "macOS / Linux"
 
@@ -51,9 +62,9 @@ If you see a version number, you're ready. For manual installation or custom ins
 !!! note "Download the latest binary directly"
     Prefer a manual setup over the installer? Grab the per-platform binaries (`forge-macos-arm64` / `forge-linux-x64` / `forge-windows-x64.exe`, etc.) from [GitHub Releases (latest)](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest). See "Detailed Installation → Manual Install" later on this page for placement and PATH details.
 
-### Step 2 — Sign in with Whop (~1 min)
+### Step 3 — Sign in with Whop (~1 min)
 
-AlphaForge uses OAuth 2.0 PKCE authentication via your Whop account. The next command opens a browser automatically.
+Use the Whop account you registered in Step 1. AlphaForge uses OAuth 2.0 PKCE authentication. The next command opens a browser automatically.
 
 ```bash
 forge system auth login
@@ -77,7 +88,7 @@ Plan            : annual
 !!! tip "Free plan works for the basics"
     Some features (e.g. Pine Script export) require a paid plan, but backtesting, optimization, and strategy management are available on Free.
 
-### Step 3 — Prepare a strategy file (~2 min)
+### Step 4 — Prepare a strategy file (~2 min)
 
 Create a `quickstart/` directory and save the sample strategy JSON.
 
@@ -121,7 +132,7 @@ Save the following as `sma_cross.json`.
 }
 ```
 
-### Step 4 — Run the backtest (~2 min)
+### Step 5 — Run the backtest (~2 min)
 
 Run a backtest within the Free plan's data range (up to 2023-12-31).
 
@@ -135,7 +146,7 @@ forge backtest run SPY \
 !!! note "Data is fetched automatically"
     On first run, `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` runs automatically. This may take a few seconds.
 
-### Step 5 — Read the results (~3 min)
+### Step 6 — Read the results (~3 min)
 
 When complete, you'll see output like this.
 
@@ -180,7 +191,7 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 
 - macOS 12 (Monterey) or later / Ubuntu 22.04 or later / Windows 11
 - Internet access (for Whop login and the first data fetch)
-- Paid plans only: a valid AlphaForge license key from the [pricing page](https://alforgelabs.com/en/index.html#pricing)
+- **A Whop account** (required for Free and paid plans alike) — register via the [AlphaForge Free plan (free)](https://whop.com/alforge-labs/alphaforge-free/) or a [paid plan](https://whop.com/alforge-labs/alphaforge/) if you don't have one yet
 
 ### Install procedure
 
@@ -228,6 +239,9 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 ## Whop Login
 
 AlphaForge uses OAuth 2.0 PKCE authentication with your Whop account. A one-time login is required for all plans.
+
+!!! warning "No Whop account yet?"
+    Make sure you've registered on Whop **before** running `forge system auth login` (required for Free and paid plans alike). Without an account the OAuth flow cannot complete. Register via the [AlphaForge Free plan (free)](https://whop.com/alforge-labs/alphaforge-free/) or a [paid plan](https://whop.com/alforge-labs/alphaforge/).
 
 ### 1. Check installation
 
