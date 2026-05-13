@@ -87,8 +87,8 @@
     <div class="lang-ja">
       
       <div class="page-label">Getting Started</div>
-      <h1 class="page-title">2 ステップで AlphaForge を動かす</h1>
-      <p class="page-subtitle">インストール → そのまま Trial プランで実行。Whop 登録は有料プラン（Lifetime / Annual / Monthly）を購入するときだけ必要です（所要時間 約 10 分）。詳細手順は公式ドキュメントへ。</p>
+      <h1 class="page-title">3 ステップで AlphaForge を動かす</h1>
+      <p class="page-subtitle">Whop 登録 → インストール → ログイン認証。Free プランなら無料で始められます（所要時間 約 10 分）。詳細手順は公式ドキュメントへ。</p>
 
       <div class="callout" style="margin-bottom: 2rem;">
         <p style="margin-bottom: 0.75rem;">
@@ -100,7 +100,20 @@
         </a>
       </div>
 
-      <h2 class="section-heading">ステップ 1 — CLI をインストール</h2>
+      <h2 class="section-heading">ステップ 1 — Whop でアカウント登録</h2>
+      <p>
+        AlphaForge は Whop でのアカウント登録が必要です（<strong>Free プランも含めて全プラン共通</strong>）。まずは無料プランで登録し、CLI を動かしてから必要に応じて有料プランへアップグレードできます。
+      </p>
+      <p style="margin-top: 1rem;">
+        <a href="https://whop.com/alforge-labs/alphaforge-free/" target="_blank" rel="noopener" class="btn-primary">
+          無料で Whop に登録 →
+        </a>
+      </p>
+      <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text2);">
+        最初から有料プランで始めたい場合は <a href="https://whop.com/alforge-labs/alphaforge/" target="_blank" rel="noopener">有料プラン一覧</a> から購入してください。Free / 有料の機能差は <a href="/ja/docs/guides/freemium-limits/">フリーミアム制限</a> を参照。
+      </p>
+
+      <h2 class="section-heading">ステップ 2 — CLI をインストール</h2>
       <div class="platform-tabs" role="tablist">
         <button type="button" class="platform-tab active" role="tab" aria-selected="true" aria-controls="tab-ja-mac" onclick="switchTab('ja', 'mac', event)">macOS / Linux</button>
         <button type="button" class="platform-tab" role="tab" aria-selected="false" aria-controls="tab-ja-win" onclick="switchTab('ja', 'win', event)">Windows</button>
@@ -122,23 +135,8 @@
         から各プラットフォーム向けバイナリを直接ダウンロードできます。
       </p>
 
-      <h2 class="section-heading">ステップ 2 — そのまま Trial プランで実行（Whop 登録不要）</h2>
-      <p>インストール直後から <code>forge</code> コマンドが Trial プランとして動作します。Whop 登録は不要です。Trial プランは期限なしで利用でき、以下の制限のみ適用されます：</p>
-      <ul>
-        <li>データ取得・評価の上限日: <strong>2023-12-31</strong> まで</li>
-        <li>最適化トライアル: <strong>50 回</strong>まで</li>
-        <li>Pine Script エクスポート: 不可（有料プランが必要）</li>
-      </ul>
-      <p>Trial プランの全制限詳細は <a href="/ja/docs/guides/trial-limits/">Trial 制限</a> を参照してください。</p>
-
-      <h2 class="section-heading">（任意）有料プランで全機能を解放</h2>
-      <p>有料プラン（Lifetime / Annual / Monthly のいずれか）を購入すると、最新データ・無制限の最適化トライアル・Pine Script エクスポートのすべてが解放されます。Lifetime（買い切り）/ Annual（年額）/ Monthly（月額）から用途に合わせて選べます。</p>
-      <p style="margin-top: 1rem;">
-        <a href="https://whop.com/alforge-labs/alphaforge/" target="_blank" rel="noopener" class="btn-primary">
-          有料プランを購入 →
-        </a>
-      </p>
-      <p>購入後はターミナルで以下を実行し、ブラウザで Whop OAuth 認証を完了します。認証情報は <code>~/.config/forge/credentials.json</code> に保存されます。</p>
+      <h2 class="section-heading">ステップ 3 — Whop でログイン認証</h2>
+      <p>ステップ 1 で登録した Whop アカウントで OAuth 2.0 PKCE 認証を行います。ブラウザが自動で開きます。認証情報は <code>~/.forge/credentials.json</code> に保存されます。</p>
       <pre><code>forge system auth login</code></pre>
       <p>認証済みメンバーシップは以下で確認できます：</p>
       <pre><code>forge system auth status</code></pre>
