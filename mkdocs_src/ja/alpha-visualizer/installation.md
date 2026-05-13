@@ -47,7 +47,7 @@ GitHub から clone してローカルで動作させる場合：
 git clone https://github.com/alforge-labs/alpha-visualizer.git
 cd alpha-visualizer
 uv sync                            # Python 依存関係
-cd frontend && npm install && npm run build && cd ..
+cd frontend && pnpm install && pnpm run build && cd ..
 uv run vis serve --forge-dir <path>
 ```
 
