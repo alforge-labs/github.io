@@ -1,6 +1,6 @@
 # Trial 制限
 
-AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **Lifetime プラン**（Whop で買い切り購入）の 2 ティアで動作します。Trial プランは無料で恒久的に利用でき、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が **2023-12-31** に制限され、最適化のトライアル数が **50 回** に制限され、Pine Script エクスポートが**ハードブロック**されます。本ページでは、その挙動と確認方法を整理します。
+AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **有料プラン**（Whop で購入する **Lifetime / Annual / Monthly** のいずれか）の 2 ティアで動作します。Trial プランは無料で恒久的に利用でき、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が **2023-12-31** に制限され、最適化のトライアル数が **50 回** に制限され、Pine Script エクスポートが**ハードブロック**されます。本ページでは、その挙動と確認方法を整理します。
 
 !!! note "対象コマンド"
     制限は以下の経路で適用されます。
@@ -17,11 +17,13 @@ AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **Lifet
 | プラン | Whop 登録 | データ取得・評価の日付制限 | 最適化 trial 数 | Pine Script | 補足 |
 |---|---|---|---|---|---|
 | **Trial** | **不要** | 2023-12-31 まで | 50 trials まで | **完全ブロック** | インストール後ただちに利用可能。期限なし。`forge` をそのまま実行 |
-| **Lifetime** | 必須（買い切り購入） | 制限なし | 制限なし | 利用可 | Whop で買い切り。`forge system auth login` で認証 |
+| **Lifetime**（買い切り） | 必須（買い切り購入） | 制限なし | 制限なし | 利用可 | Whop で買い切り。`forge system auth login` で認証 |
+| **Annual**（年額） | 必須（年額サブスク） | 制限なし | 制限なし | 利用可 | Whop で年額サブスクリプション。常に最新バージョン |
+| **Monthly**（月額） | 必須（月額サブスク） | 制限なし | 制限なし | 利用可 | Whop で月額サブスクリプション。必要な期間だけ利用可 |
 
-![Trial プランと Lifetime プランの機能比較カード](../assets/illustrations/guides/freemium-free-vs-pro-plans.png)
+![Trial プランと有料プランの機能比較カード](../assets/illustrations/guides/freemium-free-vs-pro-plans.png)
 
-プラン構成や価格はランディングページの最新情報を参照してください。
+プラン構成や価格はランディングページの最新情報を参照してください。Lifetime / Annual / Monthly のいずれを購入しても、機能制限は同一です（最新データ取得・無制限 trial・Pine Script エクスポートのすべてが解放されます）。
 
 !!! info "JSON フィールド名について"
     `--json` 出力では構造化通知が `freemium_limit_notices` という名前で含まれ、各 notice の `code` も `free_tier_*` のままです。これは v0.3.x までの後方互換性を保つための実装上の歴史的理由で、**意味的には「Trial プランの制限」**を指します。将来的にフィールド名を `trial_limit_notices` 等にリネームする可能性がありますが、その際は CHANGELOG で告知します。
@@ -36,7 +38,7 @@ AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **Lifet
 
 - `end` 引数（明示指定または `today` のフォールバック）が 2023-12-31 を超える場合、強制的に 2023-12-31 にキャップして取得します。
 - `forge data update` で保有最終日が 2023-12-31 以降のアイテムは「Trial プラン制限により」スキップされます。
-- CLI 通常出力には黄色の Panel で警告が表示され、Lifetime プランでの解除誘導が表示されます。
+- CLI 通常出力には黄色の Panel で警告が表示され、有料プランでの解除誘導が表示されます。
 - `--json` 出力には `freemium_limit_notices` 構造化フィールドが含まれます（`code = "free_tier_data_fetch_clipped"`）。
 
 #### 評価エンジン入口（`forge backtest run` / `forge optimize`）
@@ -50,7 +52,7 @@ AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **Lifet
   "freemium_limit_notices": [
     {
       "code": "free_tier_data_fetch_clipped",
-      "message": "Trialプランでは2023-12-31までのデータのみ取得できます。最新データを取得するには Lifetime プランの購入が必要です。",
+      "message": "Trialプランでは2023-12-31までのデータのみ取得できます。最新データを取得するには有料プラン（Lifetime / Annual / Monthly）が必要です。",
       "original_value": "2025-06-30",
       "applied_value": "2023-12-31"
     }
@@ -64,7 +66,7 @@ AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **Lifet
   "freemium_limit_notices": [
     {
       "code": "free_tier_evaluation_date_clipped",
-      "message": "Trialプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには Lifetime プランの購入が必要です。",
+      "message": "Trialプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには有料プラン（Lifetime / Annual / Monthly）が必要です。",
       "original_value": "2025-01-15",
       "applied_value": "2023-12-31"
     }
@@ -87,7 +89,7 @@ AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **Lifet
   "freemium_limit_notices": [
     {
       "code": "free_tier_optimization_trial_capped",
-      "message": "Trialプランでは最適化のトライアル数が50回に制限されています。無制限の最適化を行うには Lifetime プランの購入が必要です。",
+      "message": "Trialプランでは最適化のトライアル数が50回に制限されています。無制限の最適化を行うには有料プラン（Lifetime / Annual / Monthly）が必要です。",
       "original_value": 1000,
       "applied_value": 50
     }
@@ -104,9 +106,11 @@ AlphaForge は **Trial プラン**（Whop 未登録、期限なし）と **Lifet
 
 Pine Script エクスポートのハードブロック表示例（Trial プラン・CLI）：
 ```text
-╭─────────────── 🔒 Lifetime プラン限定機能 ───────────────╮
-│ Pine Script エクスポートは Lifetime プランのみ利用できます。 │
-│ TradingView でのシームレスな運用を行うには…                 │
+╭───────────────── 🔒 有料プラン限定機能 ─────────────────╮
+│ Pine Script エクスポートは有料プラン（Lifetime / Annual / │
+│ Monthly）のみ利用できます。                              │
+│ TradingView でのシームレスな運用を行うにはライセンスを    │
+│ アップグレードしてください。                              │
 │ アップグレード: https://alforgelabs.com/en/index.html#pricing │
 ╰─────────────────────────────────────────────────────────╯
 ```
@@ -117,7 +121,7 @@ Pine Script ハードブロック時の `freemium_limit_notices` 例:
   "freemium_limit_notices": [
     {
       "code": "free_tier_pine_export_blocked",
-      "message": "Pine Script エクスポートは Lifetime プランのみ利用できます。",
+      "message": "Pine Script エクスポートは有料プラン（Lifetime / Annual / Monthly）のみ利用できます。",
       "original_value": null,
       "applied_value": null
     }
@@ -125,15 +129,15 @@ Pine Script ハードブロック時の `freemium_limit_notices` 例:
 }
 ```
 
-### Lifetime プラン
+### 有料プラン（Lifetime / Annual / Monthly）
 
-制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも `freemium_limit_notices` の警告は載りません。
+制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも `freemium_limit_notices` の警告は載りません。Lifetime / Annual / Monthly のいずれを購入しても解放範囲は同一です。
 
 ## 制限の解除方法
 
-制限を解除するには **Lifetime プラン**の購入が必要です。なお、CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。
+制限を解除するには **有料プラン**（Lifetime / Annual / Monthly のいずれか）の購入が必要です。なお、CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。
 
-- Lifetime プランの購入: AlphaForge の販売ページから手続きしてください。
+- 有料プランの購入: AlphaForge の販売ページから Lifetime / Annual / Monthly のいずれかを購入してください。
 - 購入後は `forge system auth login` を実行してブラウザで Whop OAuth 認証してください。
 - 認証キャッシュに反映されないときは、再度 `forge system auth login` を実行してください。
 

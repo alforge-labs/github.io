@@ -1,6 +1,6 @@
 # Trial Limits
 
-AlphaForge operates on two tiers: the **Trial plan** (no Whop registration, indefinite duration) and the **Lifetime plan** (one-time purchase via Whop). The Trial plan is permanently free and caps the maximum data date passed to the evaluation engine (backtest / optimization) at **2023-12-31**, limits the optimization trial count to **50 trials**, and **hard-blocks** Pine Script export. This page summarizes the behavior and how to verify it locally.
+AlphaForge operates on two tiers: the **Trial plan** (no Whop registration, indefinite duration) and the **paid plans** (one of **Lifetime / Annual / Monthly** purchased on Whop). The Trial plan is permanently free and caps the maximum data date passed to the evaluation engine (backtest / optimization) at **2023-12-31**, limits the optimization trial count to **50 trials**, and **hard-blocks** Pine Script export. This page summarizes the behavior and how to verify it locally.
 
 !!! note "Targeted commands"
     Limits are applied along the following code paths:
@@ -17,11 +17,13 @@ AlphaForge operates on two tiers: the **Trial plan** (no Whop registration, inde
 | Plan | Whop registration | Data fetch / evaluation date cap | Optimization trial cap | Pine Script | Notes |
 |---|---|---|---|---|---|
 | **Trial** | **Not required** | up to 2023-12-31 | up to 50 trials | **Fully blocked** | Usable immediately after install. No time limit. Just run `forge` |
-| **Lifetime** | Required (one-time purchase) | None | None | Unlocked | One-time purchase on Whop. Authenticate via `forge system auth login` |
+| **Lifetime** (one-time) | Required (one-time purchase) | None | None | Unlocked | One-time purchase on Whop. Authenticate via `forge system auth login` |
+| **Annual** (yearly) | Required (annual subscription) | None | None | Unlocked | Annual subscription on Whop. Always on the latest version |
+| **Monthly** (monthly) | Required (monthly subscription) | None | None | Unlocked | Monthly subscription on Whop. Use it for as long as you need |
 
-![Trial vs Lifetime plan feature comparison card](../assets/illustrations/guides/freemium-free-vs-pro-plans.png)
+![Trial vs paid-plan feature comparison card](../assets/illustrations/guides/freemium-free-vs-pro-plans.png)
 
-For pricing and the latest plan details, refer to the landing page.
+For pricing and the latest plan details, refer to the landing page. Lifetime, Annual, and Monthly all unlock the same feature set (latest data, unlimited trials, Pine Script export).
 
 !!! info "About JSON field names"
     The `--json` output still embeds structured notices under the field name `freemium_limit_notices`, and each notice still uses `code` values like `free_tier_*`. This is an implementation-level holdover preserved for backwards compatibility through the v0.3.x line. **Semantically these mean "Trial plan limits".** We may rename the field to `trial_limit_notices` in a future release; if so, it will be announced in the CHANGELOG.
@@ -36,7 +38,7 @@ For pricing and the latest plan details, refer to the landing page.
 
 - When the `end` argument (explicit or the `today` fallback) is later than 2023-12-31, the fetch is forcibly capped at 2023-12-31.
 - `forge data update` skips items whose latest cached date is 2023-12-31 or later, citing the Trial plan limit.
-- Regular CLI output shows a yellow Panel warning along with an upgrade prompt to the Lifetime plan.
+- Regular CLI output shows a yellow Panel warning along with an upgrade prompt to a paid plan (Lifetime / Annual / Monthly).
 - `--json` output includes a structured `freemium_limit_notices` field (`code = "free_tier_data_fetch_clipped"`).
 
 #### Evaluation engine entry (`forge backtest run` / `forge optimize`)
@@ -50,7 +52,7 @@ Example `freemium_limit_notices` from the fetch path:
   "freemium_limit_notices": [
     {
       "code": "free_tier_data_fetch_clipped",
-      "message": "Trial plan only fetches data up to 2023-12-31. Purchase the Lifetime plan to fetch newer data.",
+      "message": "Trial plan only fetches data up to 2023-12-31. Purchase a paid plan (Lifetime / Annual / Monthly) to fetch newer data.",
       "original_value": "2025-06-30",
       "applied_value": "2023-12-31"
     }
@@ -64,7 +66,7 @@ Example `freemium_limit_notices` from the evaluation path:
   "freemium_limit_notices": [
     {
       "code": "free_tier_evaluation_date_clipped",
-      "message": "Trial plan only evaluates data up to 2023-12-31. Purchase the Lifetime plan to evaluate newer data.",
+      "message": "Trial plan only evaluates data up to 2023-12-31. Purchase a paid plan (Lifetime / Annual / Monthly) to evaluate newer data.",
       "original_value": "2025-01-15",
       "applied_value": "2023-12-31"
     }
@@ -87,7 +89,7 @@ Example `freemium_limit_notices` for the optimization trial cap:
   "freemium_limit_notices": [
     {
       "code": "free_tier_optimization_trial_capped",
-      "message": "Trial plan caps optimization trials at 50. Purchase the Lifetime plan for unlimited optimization.",
+      "message": "Trial plan caps optimization trials at 50. Purchase a paid plan (Lifetime / Annual / Monthly) for unlimited optimization.",
       "original_value": 1000,
       "applied_value": 50
     }
@@ -104,9 +106,11 @@ Example `freemium_limit_notices` for the optimization trial cap:
 
 Example Pine Script hard-block display (Trial plan / CLI):
 ```text
-╭────────── 🔒 Lifetime plan feature ──────────╮
-│ Pine Script export is available only on the  │
-│ Lifetime plan.                                │
+╭────────── 🔒 Premium-only feature ──────────╮
+│ Pine Script export is available for paid    │
+│ plans only (Lifetime / Annual / Monthly).   │
+│ Upgrade your license to seamlessly run on   │
+│ TradingView.                                 │
 │ Upgrade: https://alforgelabs.com/en/index.html#pricing │
 ╰──────────────────────────────────────────────╯
 ```
@@ -117,7 +121,7 @@ Example `freemium_limit_notices` for Pine Script hard block:
   "freemium_limit_notices": [
     {
       "code": "free_tier_pine_export_blocked",
-      "message": "Pine Script export is available only on the Lifetime plan.",
+      "message": "Pine Script export is available for paid plans only (Lifetime / Annual / Monthly).",
       "original_value": null,
       "applied_value": null
     }
@@ -125,15 +129,15 @@ Example `freemium_limit_notices` for Pine Script hard block:
 }
 ```
 
-### Lifetime plan
+### Paid plans (Lifetime / Annual / Monthly)
 
-No limits trigger. The latest data, unlimited optimization trials, and full Pine Script export are all available. The output does not carry `freemium_limit_notices` warnings.
+No limits trigger. The latest data, unlimited optimization trials, and full Pine Script export are all available. The output does not carry `freemium_limit_notices` warnings. Lifetime, Annual, and Monthly all unlock the same feature set.
 
 ## How to remove the limits
 
-To remove the Trial limits, purchase the **Lifetime plan**. Manually trimming a CSV down to 2023-12-31 does not help (the evaluation engine still applies the truncation regardless).
+To remove the Trial limits, purchase one of the **paid plans** (Lifetime, Annual, or Monthly). Manually trimming a CSV down to 2023-12-31 does not help (the evaluation engine still applies the truncation regardless).
 
-- Lifetime plan purchase: complete the checkout on the AlphaForge sales page.
+- Paid-plan purchase: complete the checkout for Lifetime / Annual / Monthly on the AlphaForge sales page.
 - After purchase, run `forge system auth login` to authenticate via Whop OAuth in your browser.
 - If the cache does not reflect your membership, run `forge system auth login` again.
 

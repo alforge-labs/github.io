@@ -49,8 +49,8 @@ window.COPY = {
     ],
     pricing: {
       label: '料金',
-      title: 'Trial で試して\nLifetime で全機能',
-      subtitle: 'Trial プラン（Whop 登録不要・期限なし）は無料で恒久利用。全機能を解放したい場合は Lifetime プラン（買い切り）を購入してください。',
+      title: '使い方に合わせて\n選べるプラン',
+      subtitle: 'Trial プラン（Whop 登録不要・期限なし）で無料お試し。フル機能解放は Lifetime（買い切り）/ Annual / Monthly のいずれかから選べます。ローンチ記念: 先着 50 名は Lifetime を $299 で販売（通常 $799）。Annual / Monthly は通常価格で提供します。',
       trialPlan: {
         title: 'Trial プランで始める',
         badge: 'Trial',
@@ -86,14 +86,50 @@ window.COPY = {
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
+        {
+          name: 'Annual',
+          badge: null,
+          featured: false,
+          price: '$159',
+          period: '/ 年',
+          desc: '年間サブスクリプション。Monthly比 約30% お得。常に最新バージョンを利用できます。',
+          features: [
+            'macOS / Linux / Windows 対応',
+            'シミュレーション（回数無制限）',
+            'ベイズ最適化（Optuna）',
+            'ウォークフォワード分析',
+            'Pine Script v6 自動生成',
+            '常に最新バージョン',
+            '個人利用の範囲で複数端末対応',
+          ],
+          url: 'https://whop.com/alforge-labs/alphaforge/'
+        },
+        {
+          name: 'Monthly',
+          badge: null,
+          featured: false,
+          price: '$19',
+          period: '/ 月',
+          desc: '月額サブスクリプション。必要な期間だけ最新バージョンを利用できます。',
+          features: [
+            'macOS / Linux / Windows 対応',
+            'シミュレーション（回数無制限）',
+            'ベイズ最適化（Optuna）',
+            'ウォークフォワード分析',
+            'Pine Script v6 自動生成',
+            '常に最新バージョン',
+            '個人利用の範囲で複数端末対応',
+          ],
+          url: 'https://whop.com/alforge-labs/alphaforge/'
+        },
       ],
       buyNow: '今すぐ購入',
       comingSummer: '今夏販売開始予定',
-      note: 'ローンチ記念の早割 Lifetime $299 は先着50名・販売開始から2週間限定。早割枠が埋まるか期間が終了すると Lifetime は通常価格 $799 になります（合計100席上限）。Lifetime は v1.x 系の全アップデート対象、v2 リリース時は50%アップグレード料金で移行可能です。購入後は forge system auth login を実行して Whop OAuth 認証で有効化します。',
+      note: 'ローンチ記念の早割 Lifetime $299 は先着50名・販売開始から2週間限定。早割枠が埋まるか期間が終了すると Lifetime は通常価格 $799 になります（合計100席上限）。Lifetime は v1.x 系の全アップデート対象、v2 リリース時は50%アップグレード料金で移行可能です。Annual / Monthly は通常価格のサブスクリプションで、常に最新バージョンを利用できます。購入後は forge system auth login を実行して Whop OAuth 認証で有効化します。',
       comparison: {
         label: 'プラン比較',
         colTrial: 'Trial（Whop 登録不要）',
-        colLifetime: 'Lifetime（買い切り）',
+        colLifetime: '有料プラン（Lifetime / Annual / Monthly）',
         rows: [
           { feature: 'macOS / Linux / Windows 対応',    trial: 'ok',    lifetime: 'ok' },
           { feature: 'バックテスト（シミュレーション）', trial: 'limit', trialNote: '2023/12/31までのデータのみ', lifetime: 'ok', lifetimeNote: '✓ 最新データ含む' },
@@ -371,8 +407,8 @@ window.COPY = {
         },
         {
           eyebrow: 'Plans',
-          title: 'Trial / Lifetime',
-          desc: 'Trial プラン（Whop 登録不要・無料）はデータ日付と最適化 trial 数の制限あり。Lifetime プラン（買い切り）は最新データ・無制限 trial・Pine Script 出力すべてを解放します。',
+          title: 'Trial / Monthly / Annual / Lifetime',
+          desc: 'Trial プラン（Whop 登録不要・無料）はデータ日付と最適化 trial 数の制限あり。Lifetime（買い切り）/ Annual / Monthly のいずれかで最新データ・無制限 trial・Pine Script 出力すべてを解放できます。',
         },
       ],
     },
@@ -438,8 +474,8 @@ window.COPY = {
     ],
     pricing: {
       label: 'Pricing',
-      title: 'Try on Trial,\nupgrade to Lifetime.',
-      subtitle: 'The Trial plan (no Whop registration, no time limit) is permanently free. To unlock everything, buy the Lifetime plan (one-time purchase).',
+      title: 'Pick the plan\nthat fits how you use it.',
+      subtitle: 'Trial (no Whop registration, no time limit) is permanently free. To unlock everything, pick one of Lifetime (one-time), Annual, or Monthly. Launch promo: the first 50 buyers get Lifetime at $299 (vs the regular $799). Annual and Monthly stay at standard pricing.',
       trialPlan: {
         title: 'Start on Trial',
         badge: 'Trial',
@@ -475,14 +511,50 @@ window.COPY = {
           ],
           url: 'https://whop.com/alforge-labs/alphaforge/'
         },
+        {
+          name: 'Annual',
+          badge: null,
+          featured: false,
+          price: '$159',
+          period: '/ year',
+          desc: 'Annual subscription. ~30% off vs monthly. Always on the latest version.',
+          features: [
+            'macOS / Linux / Windows',
+            'Unlimited simulations',
+            'Bayesian optimization (Optuna)',
+            'Walk-forward analysis',
+            'Pine Script v6 auto-generation',
+            'Always the latest version',
+            'Personal use across multiple devices',
+          ],
+          url: 'https://whop.com/alforge-labs/alphaforge/'
+        },
+        {
+          name: 'Monthly',
+          badge: null,
+          featured: false,
+          price: '$19',
+          period: '/ month',
+          desc: 'Monthly subscription. Use the latest version for as long as you need it.',
+          features: [
+            'macOS / Linux / Windows',
+            'Unlimited simulations',
+            'Bayesian optimization (Optuna)',
+            'Walk-forward analysis',
+            'Pine Script v6 auto-generation',
+            'Always the latest version',
+            'Personal use across multiple devices',
+          ],
+          url: 'https://whop.com/alforge-labs/alphaforge/'
+        },
       ],
       buyNow: 'Get Access',
       comingSummer: 'Coming This Summer',
-      note: 'Early Bird Lifetime ($299) is limited to the first 50 buyers within the 2 weeks after launch. Once seats are sold or the window closes, Lifetime returns to $799 (capped at 100 total seats). Lifetime covers all v1.x updates; v2 will be available at a 50% upgrade fee. After purchase, run `forge system auth login` and complete the Whop OAuth flow in your browser to activate.',
+      note: 'Early Bird Lifetime ($299) is limited to the first 50 buyers within the 2 weeks after launch. Once seats are sold or the window closes, Lifetime returns to $799 (capped at 100 total seats). Lifetime covers all v1.x updates; v2 will be available at a 50% upgrade fee. Annual and Monthly are standard-priced subscriptions that always run on the latest version. After purchase, run `forge system auth login` and complete the Whop OAuth flow in your browser to activate.',
       comparison: {
         label: 'Plan Comparison',
         colTrial: 'Trial (no Whop registration)',
-        colLifetime: 'Lifetime (one-time)',
+        colLifetime: 'Paid Plans (Lifetime / Annual / Monthly)',
         rows: [
           { feature: 'macOS / Linux / Windows',          trial: 'ok',    lifetime: 'ok' },
           { feature: 'Backtest (simulation)',             trial: 'limit', trialNote: 'Historical data up to Dec 31, 2023', lifetime: 'ok', lifetimeNote: '✓ Latest data included' },
@@ -724,8 +796,8 @@ window.COPY = {
         },
         {
           eyebrow: 'Plans',
-          title: 'Trial / Lifetime',
-          desc: 'The Trial plan (no Whop registration, free) has data-date and optimization trial limits. The Lifetime plan (one-time purchase) unlocks the latest data, unlimited trials, and Pine Script export.',
+          title: 'Trial / Monthly / Annual / Lifetime',
+          desc: 'The Trial plan (no Whop registration, free) has data-date and optimization trial limits. Pick any of Lifetime (one-time), Annual, or Monthly to unlock the latest data, unlimited trials, and Pine Script export.',
         },
       ],
     },

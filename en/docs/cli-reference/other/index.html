@@ -2164,10 +2164,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forge-pine-generate-lifetime-only" class="md-nav__link">
+  <a href="#forge-pine-generate-paid-plans-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine generate [Lifetime Only]
+        forge pine generate [Paid plans only]
       
     </span>
   </a>
@@ -2175,10 +2175,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-pine-preview-lifetime-only" class="md-nav__link">
+  <a href="#forge-pine-preview-paid-plans-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine preview [Lifetime Only]
+        forge pine preview [Paid plans only]
       
     </span>
   </a>
@@ -3260,10 +3260,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forge-pine-generate-lifetime-only" class="md-nav__link">
+  <a href="#forge-pine-generate-paid-plans-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine generate [Lifetime Only]
+        forge pine generate [Paid plans only]
       
     </span>
   </a>
@@ -3271,10 +3271,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forge-pine-preview-lifetime-only" class="md-nav__link">
+  <a href="#forge-pine-preview-paid-plans-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        forge pine preview [Lifetime Only]
+        forge pine preview [Paid plans only]
       
     </span>
   </a>
@@ -4536,11 +4536,11 @@ exploration agents can decide programmatically which criterion failed and by how
 <h2 id="pine">pine<a class="headerlink" href="#pine" title="Permanent link">&para;</a></h2>
 <p>Convert between strategy JSON and TradingView Pine Script v6.</p>
 <div class="admonition warning">
-<p class="admonition-title">[Lifetime Only] Pine Script export</p>
-<p><code>forge pine generate</code> and <code>forge pine preview</code> are <strong>available on the Lifetime plan only</strong>. Running them on the Trial plan displays a red Panel with a purchase URL (<a href="https://alforgelabs.com/en/index.html#pricing">https://alforgelabs.com/en/index.html#pricing</a>) and exits with code <code>1</code> — no file is written and no preview is printed. <code>forge pine import</code> (the import path) is unaffected and remains available on Trial. See the <a href="../../guides/trial-limits/">Trial limits guide</a> for details.</p>
+<p class="admonition-title">[Paid plans only] Pine Script export</p>
+<p><code>forge pine generate</code> and <code>forge pine preview</code> are <strong>available on the paid plans only (Lifetime / Annual / Monthly)</strong>. Running them on the Trial plan displays a red Panel with a purchase URL (<a href="https://alforgelabs.com/en/index.html#pricing">https://alforgelabs.com/en/index.html#pricing</a>) and exits with code <code>1</code> — no file is written and no preview is printed. <code>forge pine import</code> (the import path) is unaffected and remains available on Trial. See the <a href="../../guides/trial-limits/">Trial limits guide</a> for details.</p>
 </div>
-<h3 id="forge-pine-generate-lifetime-only">forge pine generate <code>[Lifetime Only]</code><a class="headerlink" href="#forge-pine-generate-lifetime-only" title="Permanent link">&para;</a></h3>
-<p>Generate Pine Script from a strategy definition and write it to <code>config.pinescript.output_path / &lt;strategy_id&gt;.pine</code>. <strong>Lifetime plan only.</strong></p>
+<h3 id="forge-pine-generate-paid-plans-only">forge pine generate <code>[Paid plans only]</code><a class="headerlink" href="#forge-pine-generate-paid-plans-only" title="Permanent link">&para;</a></h3>
+<p>Generate Pine Script from a strategy definition and write it to <code>config.pinescript.output_path / &lt;strategy_id&gt;.pine</code>. <strong>Paid plans only (Lifetime / Annual / Monthly).</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--with-training-data<span class="o">]</span>
 </code></pre></div>
 <table>
@@ -4567,19 +4567,19 @@ exploration agents can decide programmatically which criterion failed and by how
 </tr>
 </tbody>
 </table>
-<p>Sample output (Lifetime plan):</p>
+<p>Sample output (paid plan):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>✅ Pine Script saved: output/pinescript/spy_sma_v1.pine
 </code></pre></div>
 <p>Sample output (Trial plan — hard block):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>╭─────────── 🔒 Lifetime-only feature ────────────╮
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>│ Pine Script export is available on the Lifetime │
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>│ plan only.                                      │
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>│ Upgrade your license to seamlessly run on …     │
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>│ Upgrade: https://alforgelabs.com/en/…           │
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>╰─────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>╭──────────── 🔒 Premium-only feature ─────────────╮
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>│ Pine Script export is available for paid plans   │
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>│ only (Lifetime / Annual / Monthly).              │
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>│ Upgrade your license to seamlessly run on …      │
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>│ Upgrade: https://alforgelabs.com/en/…            │
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>╰──────────────────────────────────────────────────╯
 </code></pre></div>
-<h3 id="forge-pine-preview-lifetime-only">forge pine preview <code>[Lifetime Only]</code><a class="headerlink" href="#forge-pine-preview-lifetime-only" title="Permanent link">&para;</a></h3>
-<p>Preview generated Pine Script on stdout without writing to a file. <strong>Paid plans only.</strong></p>
+<h3 id="forge-pine-preview-paid-plans-only">forge pine preview <code>[Paid plans only]</code><a class="headerlink" href="#forge-pine-preview-paid-plans-only" title="Permanent link">&para;</a></h3>
+<p>Preview generated Pine Script on stdout without writing to a file. <strong>Paid plans only (Lifetime / Annual / Monthly).</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>preview<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;
 </code></pre></div>
 <h3 id="forge-pine-import">forge pine import<a class="headerlink" href="#forge-pine-import" title="Permanent link">&para;</a></h3>

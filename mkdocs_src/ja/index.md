@@ -13,7 +13,7 @@ AlphaForge は、時系列バックテスト・ベイズ最適化・ウォーク
 
 ## 主な話題
 
-- [はじめに](getting-started.md) — Whop 登録不要のインストール、最初のバックテスト（Trial プランで 10 分体験まで）、Lifetime プラン購入後の認証
+- [はじめに](getting-started.md) — Whop 登録不要のインストール、最初のバックテスト（Trial プランで 10 分体験まで）、有料プラン購入後の認証
 - [目的別ユースケース](usecases/index.md) — 自分の役割（TradingView ユーザー / Python 開発者 / クオンツ / 自動売買検討者 / AI エージェント利用者）から最適な次ページを選ぶ
 - [CLI リファレンス](cli-reference/index.md) — `forge` コマンドの全パラメータと出力例
 - [戦略テンプレート](templates.md) — HMM × BB × RSI などの組み合わせ戦略を実 JSON 付きで紹介
