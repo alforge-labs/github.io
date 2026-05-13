@@ -314,20 +314,17 @@ function TrialBanner({ plan, comingSummer, lang }) {
       <div className="trial-banner-cta">
         <a
           href={plan.url}
-          target="_blank"
-          rel="noopener noreferrer"
           className="btn-primary"
           style={{ justifyContent: 'center' }}
         >
           {plan.ctaLabel}
         </a>
-        <a
-          href={`/${lang}/install.html`}
+        <span
           className="trial-banner-install-link"
           style={{ display: 'block', fontSize: '0.85em', textAlign: 'center', marginTop: '0.4rem', color: 'var(--text2)' }}
         >
           {plan.ctaHint}
-        </a>
+        </span>
         <div className="trial-banner-status">{comingSummer}</div>
       </div>
     </div>
