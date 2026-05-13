@@ -65,42 +65,42 @@ function Hero({ t, lang }) {
 function TrialStart({ t, lang }) {
   const c = t.trialStart;
   return (
-    <section className="free-start reveal" id="free-start">
+    <section className="trial-start reveal" id="trial-start">
       <div className="container">
-        <div className="free-start-shell">
-          <div className="free-start-copy">
+        <div className="trial-start-shell">
+          <div className="trial-start-copy">
             <div className="sec-label">{c.label}</div>
-            <h2 className="free-start-title">{c.title}</h2>
-            <p className="free-start-subtitle">{c.subtitle}</p>
-            <div className="free-start-limits">
+            <h2 className="trial-start-title">{c.title}</h2>
+            <p className="trial-start-subtitle">{c.subtitle}</p>
+            <div className="trial-start-limits">
               {c.limits.map((limit) => (
-                <span key={limit} className="free-start-limit">{limit}</span>
+                <span key={limit} className="trial-start-limit">{limit}</span>
               ))}
             </div>
-            <div className="free-start-actions">
+            <div className="trial-start-actions">
               <a href={`/${lang}/install.html`} className="btn-primary">{c.primaryCta}</a>
               <a href="#pricing" className="btn-secondary">{c.secondaryCta} →</a>
               <a
                 href="https://x.com/alforge_bot"
                 target="_blank"
                 rel="noopener"
-                className="free-start-link"
+                className="trial-start-link"
               >
                 {c.updateCta}
               </a>
             </div>
-            <p className="free-start-note">{c.availability}</p>
+            <p className="trial-start-note">{c.availability}</p>
           </div>
-          <div className="free-start-steps">
+          <div className="trial-start-steps">
             {c.steps.map((step) => (
-              <article key={step.num} className="free-start-step">
-                <span className="free-start-step-num">{step.num}</span>
-                <h3 className="free-start-step-title">{step.title}</h3>
-                <p className="free-start-step-desc">{step.desc}</p>
+              <article key={step.num} className="trial-start-step">
+                <span className="trial-start-step-num">{step.num}</span>
+                <h3 className="trial-start-step-title">{step.title}</h3>
+                <p className="trial-start-step-desc">{step.desc}</p>
               </article>
             ))}
             {c.outExamplesCta && (
-              <a href={`/${lang}/docs/guides/output-examples/`} className="free-start-link free-start-examples-link">
+              <a href={`/${lang}/docs/guides/output-examples/`} className="trial-start-link trial-start-examples-link">
                 {c.outExamplesCta} →
               </a>
             )}
@@ -295,23 +295,23 @@ function PerformanceChart({ t, dark }) {
 
 /* ── FREE BANNER ── */
 function TrialBanner({ plan, comingSummer, lang }) {
-  const pillClass = { ok: 'free-pill-ok', limit: 'free-pill-limit', no: 'free-pill-no' };
+  const pillClass = { ok: 'trial-pill-ok', limit: 'trial-pill-limit', no: 'trial-pill-no' };
   return (
-    <div className="free-banner">
-      <div className="free-banner-icon">⚙</div>
-      <div className="free-banner-body">
-        <div className="free-banner-title">
+    <div className="trial-banner">
+      <div className="trial-banner-icon">⚙</div>
+      <div className="trial-banner-body">
+        <div className="trial-banner-title">
           {plan.title}
-          <span className="free-badge">{plan.badge}</span>
+          <span className="trial-badge">{plan.badge}</span>
         </div>
-        <p className="free-banner-desc" style={{ whiteSpace: 'pre-line' }}>{plan.desc}</p>
-        <div className="free-banner-pills">
+        <p className="trial-banner-desc" style={{ whiteSpace: 'pre-line' }}>{plan.desc}</p>
+        <div className="trial-banner-pills">
           {plan.pills.map((p, i) => (
-            <span key={i} className={`free-pill ${pillClass[p.type]}`}>{p.label}</span>
+            <span key={i} className={`trial-pill ${pillClass[p.type]}`}>{p.label}</span>
           ))}
         </div>
       </div>
-      <div className="free-banner-cta">
+      <div className="trial-banner-cta">
         <a
           href={plan.url}
           target="_blank"
@@ -323,12 +323,12 @@ function TrialBanner({ plan, comingSummer, lang }) {
         </a>
         <a
           href={`/${lang}/install.html`}
-          className="free-banner-install-link"
+          className="trial-banner-install-link"
           style={{ display: 'block', fontSize: '0.85em', textAlign: 'center', marginTop: '0.4rem', color: 'var(--text2)' }}
         >
           {plan.ctaHint}
         </a>
-        <div className="free-banner-status">{comingSummer}</div>
+        <div className="trial-banner-status">{comingSummer}</div>
       </div>
     </div>
   );
