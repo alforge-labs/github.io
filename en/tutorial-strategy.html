@@ -194,7 +194,7 @@
               <thead><tr><th>Component</th><th>Role</th></tr></thead>
               <tbody>
                 <tr><td><code>forge</code></td><td>Core simulation and optimization engine</td></tr>
-                <tr><td><code>strategies/</code></td><td>Workspace for strategy JSON, optimization results, and execution logs</td></tr>
+                <tr><td><code>data/</code></td><td>Workspace holding strategy JSON, historical data, and backtest results</td></tr>
                 <tr><td><code>strike</code></td><td>Webhook server that receives TradingView alerts and forwards to broker APIs</td></tr>
               </tbody>
             </table>
@@ -211,12 +211,12 @@
                 <div>
                   <strong>Install alpha-forge</strong>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
-                    The installer downloads the latest binary (macOS / Linux shown). See the <a href="install.html">installation guide</a> for Windows or manual placement. The Trial plan (no Whop registration) runs immediately after install. Only run <code>forge system auth login</code> if you've purchased a paid plan (Lifetime / Annual / Monthly).
+                    The installer downloads the latest binary (macOS / Linux shown). See the <a href="install.html">installation guide</a> for Windows or manual placement. Then sign in with your Whop account (OAuth 2.0 PKCE) — the browser opens automatically.
                   </p>
                   <pre><code># Install the latest binary (macOS / Linux)
 curl -sSL https://alforge-labs.github.io/install.sh | bash
 
-# (Optional) Sign in after purchasing a paid plan
+# Sign in via Whop OAuth
 forge system auth login</code></pre>
                 </div>
               </li>
@@ -224,20 +224,28 @@ forge system auth login</code></pre>
                 <div>
                   <strong>Initialize a strategy workspace</strong>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
-                    Creates <code>forge.yaml</code>, <code>strategies/</code>, and <code>data/</code> directories.
+                    Creates <code>forge.yaml</code> plus the <code>data/</code>, <code>output/</code>, <code>docs/</code>, <code>.claude/</code>, and <code>.agents/</code> directories. Setting <code>FORGE_CONFIG</code> lets subsequent commands pick up this <code>forge.yaml</code> automatically.
                   </p>
                   <pre><code>mkdir my-strategies && cd my-strategies
-forge system init</code></pre>
+forge system init
+# → forge.yaml, data/, output/, docs/, .claude/, .agents/ are created
+
+# Make the new forge.yaml the default for later commands (add to ~/.zshrc to make it permanent)
+export FORGE_CONFIG=$(pwd)/forge.yaml</code></pre>
                 </div>
               </li>
               <li>
                 <div>
                   <strong>Fetch historical data</strong>
+                  <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
+                    Downloads from Yahoo Finance and caches under <code>data/historical/</code>. To grab several symbols at once, list them in a watchlist file (one symbol per line).
+                  </p>
                   <pre><code># Download 5 years of CL=F (WTI crude oil futures)
 forge data fetch CL=F --period 5y
 
-# Multiple symbols at once
-forge data fetch SPY QQQ --period 5y</code></pre>
+# Batch download via a watchlist file (one symbol per line)
+printf "SPY\nQQQ\n" > watchlist.txt
+forge data fetch --watchlist watchlist.txt --period 5y</code></pre>
                 </div>
               </li>
             </ol>
@@ -252,7 +260,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
             <p style="color: var(--text2); line-height: 1.8; margin-bottom: 1rem;">
               Every AlphaForge strategy is defined in a JSON file.
               Below is an example HMM + Bollinger Bands + RSI strategy for CL=F.
-              Save it as <code>strategies/cl_hmm_bb_rsi_v1.json</code>.
+              Save it as <code>cl_hmm_bb_rsi_v1.json</code> in your working directory; the next step registers it via <code>forge strategy save</code>.
             </p>
             <pre><code>{
   "strategy_id": "cl_hmm_bb_rsi_v1",
@@ -260,7 +268,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
   "version": "1.0.0",
   "description": "HMM regime × Bollinger Bands × RSI composite strategy for CL=F",
   "target_symbols": ["CL=F"],
-  "asset_type": "futures",
+  "asset_type": "commodity",
   "timeframe": "1d",
   "parameters": {
     "bb_length": 20,
@@ -270,18 +278,18 @@ forge data fetch SPY QQQ --period 5y</code></pre>
     "rsi_exit": 60
   },
   "indicators": [
-    { "id": "bb_lower", "type": "BB",  "params": { "length": 20, "std": 2.0, "line": "lower" } },
-    { "id": "bb_upper", "type": "BB",  "params": { "length": 20, "std": 2.0, "line": "upper" } },
-    { "id": "rsi",      "type": "RSI", "params": { "length": 14 } },
-    { "id": "hmm_state","type": "HMM", "params": { "n_states": 2, "features": ["returns","volatility"] } }
+    { "id": "bb_lower", "type": "BBANDS", "params": { "length": 20, "std": 2.0, "line": "lower" } },
+    { "id": "bb_upper", "type": "BBANDS", "params": { "length": 20, "std": 2.0, "line": "upper" } },
+    { "id": "rsi",      "type": "RSI",    "params": { "length": 14 } },
+    { "id": "hmm_state","type": "HMM",    "params": { "n_states": 2, "features": ["returns","volatility"] } }
   ],
   "entry_conditions": {
     "long": {
       "logic": "AND",
       "conditions": [
         { "left": "close",     "op": "crosses_above", "right": "bb_lower" },
-        { "left": "rsi",       "op": "lt",            "right": "rsi_entry" },
-        { "left": "hmm_state", "op": "eq",            "right": 1 }
+        { "left": "rsi",       "op": "<",             "right": "rsi_entry" },
+        { "left": "hmm_state", "op": "==",            "right": 1 }
       ]
     }
   },
@@ -290,7 +298,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
       "logic": "OR",
       "conditions": [
         { "left": "close", "op": "crosses_above", "right": "bb_upper" },
-        { "left": "rsi",   "op": "gt",            "right": "rsi_exit" }
+        { "left": "rsi",   "op": ">",             "right": "rsi_exit" }
       ]
     }
   },
@@ -319,6 +327,12 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               Run <code>forge backtest run &lt;SYMBOL&gt; --strategy &lt;id&gt; --regime</code> to inspect
               the per-regime statistics and verify state meanings.
             </div>
+
+            <p style="color: var(--text2); line-height: 1.8; margin-top: 1rem; margin-bottom: 0.5rem;">
+              Register the JSON locally with <code>forge strategy save</code>. Once registered, you can reference it via <code>--strategy &lt;strategy_id&gt;</code> and see it in <code>forge strategy list</code>.
+            </p>
+            <pre><code>forge strategy save cl_hmm_bb_rsi_v1.json
+forge strategy list   # verify the strategy is registered</code></pre>
           </section>
 
           <hr class="section-divider" />
@@ -331,7 +345,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>Run a basic backtest</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge backtest run CL=F \
+                  <pre><code>forge backtest run CL=F \
   --strategy cl_hmm_bb_rsi_v1 \
   --start 2019-01-01 \
   --end 2024-12-31</code></pre>
@@ -340,7 +354,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>Get JSON output (for scripting)</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge backtest run CL=F \
+                  <pre><code>forge backtest run CL=F \
   --strategy cl_hmm_bb_rsi_v1 \
   --json | jq '.summary'</code></pre>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.5rem;">Example output:</p>
@@ -374,7 +388,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>Run optimization (200 trials)</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize run CL=F \
+                  <pre><code>forge optimize run CL=F \
   --strategy cl_hmm_bb_rsi_v1 \
   --trials 200 \
   --metric sharpe_ratio \
@@ -384,7 +398,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>View the optimization history</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize history \
+                  <pre><code>forge optimize history \
   --strategy cl_hmm_bb_rsi_v1</code></pre>
                 </div>
               </li>
@@ -394,7 +408,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
                   <p style="font-size:0.88rem;color:var(--text2);margin-top:0.3rem;">
                     The result file is printed by <code>optimize run --save</code> and lives under <code>data/results/</code>.
                   </p>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize apply \
+                  <pre><code>forge optimize apply \
   data/results/optimize_cl_hmm_bb_rsi_v1_&lt;timestamp&gt;.json \
   --to-strategy cl_hmm_bb_rsi_v1</code></pre>
                 </div>
@@ -421,7 +435,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>Run walk-forward test</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize walk-forward CL=F \
+                  <pre><code>forge optimize walk-forward CL=F \
   --strategy cl_hmm_bb_rsi_v1_optimized \
   --windows 5 \
   --metric sharpe_ratio</code></pre>
@@ -430,7 +444,7 @@ forge data fetch SPY QQQ --period 5y</code></pre>
               <li>
                 <div>
                   <strong>View the fold-by-fold report (JSON)</strong>
-                  <pre><code>FORGE_CONFIG=./forge.yaml uv run forge optimize walk-forward CL=F \
+                  <pre><code>forge optimize walk-forward CL=F \
   --strategy cl_hmm_bb_rsi_v1_optimized \
   --windows 5 --json | jq '.windows'</code></pre>
                 </div>
