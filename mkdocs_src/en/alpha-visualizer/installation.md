@@ -47,7 +47,7 @@ Clone the repo and run locally:
 git clone https://github.com/alforge-labs/alpha-visualizer.git
 cd alpha-visualizer
 uv sync                            # Python deps
-cd frontend && npm install && npm run build && cd ..
+cd frontend && pnpm install && pnpm run build && cd ..
 uv run vis serve --forge-dir <path>
 ```
 
