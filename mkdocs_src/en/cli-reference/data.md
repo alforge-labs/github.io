@@ -37,7 +37,7 @@ forge data fetch --watchlist <FILE> [OPTIONS]
 | `--watchlist` | option | - | Watchlist file (one symbol per line; lines starting with `#` are comments) |
 | `--force` | flag | false | Force re-fetch regardless of TTL |
 | `--provider` | choice | - | Explicit provider override (`yfinance` / `moomoo` / `tv_mcp`). Falls back to `data.providers` in `forge.yaml` when omitted |
-| `--mcp-server` | option | - | MCP server command for `--provider tv_mcp` (e.g. `node /opt/tv-mcp/server.js`). Falls back to `data.providers.tv_mcp.endpoint` in `forge.yaml` |
+| `--mcp-server` | option | - | MCP server command for `--provider tv_mcp` (e.g. `node /opt/tv-mcp/server.js`). When omitted, the value is resolved from the `FORGE_TV_MCP_ENDPOINT` environment variable, then `data.providers.tv_mcp.endpoint` in `forge.yaml` (issue #689). `~` / `$HOME` inside the command are expanded automatically |
 | `--mcp-server-flavor` | choice | - | MCP server flavor for `--provider tv_mcp` (`tradesdontlie` / `vinicius`). CLI value takes precedence over `forge.yaml` |
 
 You must provide either `SYMBOL` or `--watchlist`. With `--provider tv_mcp`, the command fails fast if no `endpoint` can be resolved.
@@ -229,18 +229,30 @@ data:
     fx_provider: tv_mcp        # also for FX
     enable_fallback: true      # fall back to yfinance on tv_mcp failure
     tv_mcp:
-      endpoint: "node /opt/tv-mcp/server.js"
+      endpoint: ""             # leave empty to read FORGE_TV_MCP_ENDPOINT (issue #689).
+                               # `~` / `$HOME` are expanded (e.g. "node ~/opt/tv-mcp/server.js")
       flavor: tradesdontlie    # tradesdontlie is fine for OHLCV
       max_bars_per_call: 500   # MCP-side cap
       max_chunks: 200          # safeguard for range sliding
       timeout_seconds: 120
 ```
 
+!!! tip "endpoint resolution order (issue #689)"
+    1. CLI `--mcp-server`
+    2. Environment variable `FORGE_TV_MCP_ENDPOINT`
+    3. `data.providers.tv_mcp.endpoint` in `forge.yaml`
+
+    When sharing `forge.yaml` across machines / CI, commit `endpoint: ""` and set `FORGE_TV_MCP_ENDPOINT` per environment.
+
 Examples:
 
 ```bash
 # pass the endpoint via CLI
 forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
+
+# inject via environment variable (~ / $HOME are expanded)
+FORGE_TV_MCP_ENDPOINT="node ~/opt/tv-mcp/server.js" \
+  forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 
 # rely on forge.yaml (no --mcp-server needed)
 forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
@@ -266,7 +278,7 @@ forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `--mcp-server <command>` | `data.providers.tv_mcp.endpoint` from `forge.yaml` | MCP server command |
+| `--mcp-server <command>` | resolved from `FORGE_TV_MCP_ENDPOINT` env var, then `data.providers.tv_mcp.endpoint` in `forge.yaml` | MCP server command. `~` / `$HOME` are expanded automatically (issue #689) |
 | `--symbol <symbol>` | `BATS:SPY` | Symbol used for the ping |
 | `--json` | false | Output as JSON |
 

@@ -37,7 +37,7 @@ forge data fetch --watchlist <FILE> [OPTIONS]
 | `--watchlist` | オプション | - | 複数銘柄リストファイル（行ごとに 1 銘柄、`#` 始まりはコメント） |
 | `--force` | フラグ | false | TTL に関わらず強制的に再取得 |
 | `--provider` | choice | - | データソースを明示指定（`yfinance` / `moomoo` / `tv_mcp`）。省略時は `forge.yaml` の `data.providers` 設定で自動解決 |
-| `--mcp-server` | オプション | - | `--provider tv_mcp` 用 MCP サーバーコマンド（例: `node /opt/tv-mcp/server.js`）。省略時は `forge.yaml` の `data.providers.tv_mcp.endpoint` |
+| `--mcp-server` | オプション | - | `--provider tv_mcp` 用 MCP サーバーコマンド（例: `node /opt/tv-mcp/server.js`）。省略時は環境変数 `FORGE_TV_MCP_ENDPOINT` → `forge.yaml` の `data.providers.tv_mcp.endpoint` の順で解決（issue #689）。endpoint 内の `~` / `$HOME` は自動展開される |
 | `--mcp-server-flavor` | choice | - | `--provider tv_mcp` 用 MCP server 系統（`tradesdontlie` / `vinicius`）。CLI 指定が `forge.yaml` より優先 |
 
 `SYMBOL` も `--watchlist` も指定しないとエラーになります。`--provider tv_mcp` を指定しても `endpoint` が解決できない場合はエラーで停止します。
@@ -229,18 +229,30 @@ data:
     fx_provider: tv_mcp        # FX も tv_mcp で取得
     enable_fallback: true      # tv_mcp 失敗時 yfinance へフォールバック
     tv_mcp:
-      endpoint: "node /opt/tv-mcp/server.js"
+      endpoint: ""             # 空文字なら環境変数 FORGE_TV_MCP_ENDPOINT を使用（issue #689）。
+                               # `~` / `$HOME` を含むパスはそのまま書ける（例: "node ~/opt/tv-mcp/server.js"）
       flavor: tradesdontlie    # OHLCV 用途なら tradesdontlie で OK
       max_bars_per_call: 500   # MCP 上限
       max_chunks: 200          # 範囲スライド時のチャンク上限
       timeout_seconds: 120
 ```
 
+!!! tip "endpoint の解決優先順位（issue #689）"
+    1. CLI `--mcp-server`
+    2. 環境変数 `FORGE_TV_MCP_ENDPOINT`
+    3. `forge.yaml` の `data.providers.tv_mcp.endpoint`
+
+    複数マシン・CI で `forge.yaml` を共有する場合は `endpoint: ""` のままコミットし、`FORGE_TV_MCP_ENDPOINT` を環境ごとに設定する運用がおすすめです。
+
 実行例：
 
 ```bash
 # CLI で endpoint を直接指定して fetch
 forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
+
+# 環境変数で endpoint を渡す（~ / $HOME も展開される）
+FORGE_TV_MCP_ENDPOINT="node ~/opt/tv-mcp/server.js" \
+  forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 
 # forge.yaml の設定を利用（CLI から endpoint を省略）
 forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
@@ -266,7 +278,7 @@ forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
 
 | オプション | 既定 | 説明 |
 |-----------|------|------|
-| `--mcp-server <command>` | `forge.yaml` の `data.providers.tv_mcp.endpoint` | MCP サーバーコマンド |
+| `--mcp-server <command>` | 環境変数 `FORGE_TV_MCP_ENDPOINT` → `forge.yaml` の `data.providers.tv_mcp.endpoint` の順で解決 | MCP サーバーコマンド。`~` / `$HOME` は自動展開（issue #689） |
 | `--symbol <symbol>` | `BATS:SPY` | 疎通確認に使うシンボル |
 | `--json` | false | JSON で結果を出力 |
 

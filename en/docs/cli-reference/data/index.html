@@ -2754,7 +2754,7 @@
 <td><code>--mcp-server</code></td>
 <td>option</td>
 <td>-</td>
-<td>MCP server command for <code>--provider tv_mcp</code> (e.g. <code>node /opt/tv-mcp/server.js</code>). Falls back to <code>data.providers.tv_mcp.endpoint</code> in <code>forge.yaml</code></td>
+<td>MCP server command for <code>--provider tv_mcp</code> (e.g. <code>node /opt/tv-mcp/server.js</code>). When omitted, the value is resolved from the <code>FORGE_TV_MCP_ENDPOINT</code> environment variable, then <code>data.providers.tv_mcp.endpoint</code> in <code>forge.yaml</code> (issue #689). <code>~</code> / <code>$HOME</code> inside the command are expanded automatically</td>
 </tr>
 <tr>
 <td><code>--mcp-server-flavor</code></td>
@@ -3015,18 +3015,32 @@
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">fx_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">        </span><span class="c1"># also for FX</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">enable_fallback</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">      </span><span class="c1"># fall back to yfinance on tv_mcp failure</span>
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">tv_mcp</span><span class="p">:</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">/opt/tv-mcp/server.js&quot;</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span><span class="w">    </span><span class="c1"># tradesdontlie is fine for OHLCV</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">      </span><span class="nt">max_bars_per_call</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">   </span><span class="c1"># MCP-side cap</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">      </span><span class="nt">max_chunks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span><span class="w">          </span><span class="c1"># safeguard for range sliding</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">             </span><span class="c1"># leave empty to read FORGE_TV_MCP_ENDPOINT (issue #689).</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">                               </span><span class="c1"># `~` / `$HOME` are expanded (e.g. &quot;node ~/opt/tv-mcp/server.js&quot;)</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span><span class="w">    </span><span class="c1"># tradesdontlie is fine for OHLCV</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">      </span><span class="nt">max_bars_per_call</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">   </span><span class="c1"># MCP-side cap</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">      </span><span class="nt">max_chunks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span><span class="w">          </span><span class="c1"># safeguard for range sliding</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
 </code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">endpoint resolution order (issue #689)</p>
+<ol>
+<li>CLI <code>--mcp-server</code></li>
+<li>Environment variable <code>FORGE_TV_MCP_ENDPOINT</code></li>
+<li><code>data.providers.tv_mcp.endpoint</code> in <code>forge.yaml</code></li>
+</ol>
+<p>When sharing <code>forge.yaml</code> across machines / CI, commit <code>endpoint: ""</code> and set <code>FORGE_TV_MCP_ENDPOINT</code> per environment.</p>
+</div>
 <p>Examples:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># pass the endpoint via CLI</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>SPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--mcp-server<span class="w"> </span><span class="s2">&quot;node /opt/tv-mcp/server.js&quot;</span><span class="w"> </span>--period<span class="w"> </span>max
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># rely on forge.yaml (no --mcp-server needed)</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># inject via environment variable (~ / $HOME are expanded)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nv">FORGE_TV_MCP_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;node ~/opt/tv-mcp/server.js&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># rely on forge.yaml (no --mcp-server needed)</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
 </code></pre></div>
 <h4 id="subcommand-forge-data-tv-mcp-check-issue-674">Subcommand: <code>forge data tv-mcp check</code> (issue #674)<a class="headerlink" href="#subcommand-forge-data-tv-mcp-check-issue-674" title="Permanent link">&para;</a></h4>
 <p>Verifies that the TV MCP data provider server is reachable. The <code>/explore-strategies</code> skill runs this automatically at the start of each run for goals where <code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> is configured.</p>
@@ -3053,8 +3067,8 @@
 <tbody>
 <tr>
 <td><code>--mcp-server &lt;command&gt;</code></td>
-<td><code>data.providers.tv_mcp.endpoint</code> from <code>forge.yaml</code></td>
-<td>MCP server command</td>
+<td>resolved from <code>FORGE_TV_MCP_ENDPOINT</code> env var, then <code>data.providers.tv_mcp.endpoint</code> in <code>forge.yaml</code></td>
+<td>MCP server command. <code>~</code> / <code>$HOME</code> are expanded automatically (issue #689)</td>
 </tr>
 <tr>
 <td><code>--symbol &lt;symbol&gt;</code></td>
