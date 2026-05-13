@@ -87,8 +87,8 @@
     <div class="lang-en">
       
       <div class="page-label">Getting Started</div>
-      <h1 class="page-title">Get AlphaForge Running in 2 Steps</h1>
-      <p class="page-subtitle">Install → Use the Trial plan immediately. Whop registration is only needed when you purchase a paid plan (Lifetime / Annual / Monthly) — about 10 minutes total. Full instructions live in the official docs.</p>
+      <h1 class="page-title">Get AlphaForge Running in 3 Steps</h1>
+      <p class="page-subtitle">Register on Whop → Install → Sign in. The Free plan is free of charge (about 10 minutes total). Full instructions live in the official docs.</p>
 
       <div class="callout" style="margin-bottom: 2rem;">
         <p style="margin-bottom: 0.75rem;">
@@ -100,7 +100,20 @@
         </a>
       </div>
 
-      <h2 class="section-heading">Step 1 — Install the CLI</h2>
+      <h2 class="section-heading">Step 1 — Create a Whop Account</h2>
+      <p>
+        AlphaForge requires a Whop account for <strong>every plan, including Free</strong>. Start with the Free plan and upgrade to a paid plan later if you need more.
+      </p>
+      <p style="margin-top: 1rem;">
+        <a href="https://whop.com/alforge-labs/alphaforge-free/" target="_blank" rel="noopener" class="btn-primary">
+          Register Free on Whop →
+        </a>
+      </p>
+      <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text2);">
+        Want to start on a paid plan? Pick one from the <a href="https://whop.com/alforge-labs/alphaforge/" target="_blank" rel="noopener">paid plans page</a>. See <a href="/en/docs/guides/freemium-limits/">Freemium Limits</a> for the differences.
+      </p>
+
+      <h2 class="section-heading">Step 2 — Install the CLI</h2>
       <div class="platform-tabs" role="tablist">
         <button type="button" class="platform-tab active" role="tab" aria-selected="true" aria-controls="tab-en-mac" onclick="switchTab('en', 'mac', event)">macOS / Linux</button>
         <button type="button" class="platform-tab" role="tab" aria-selected="false" aria-controls="tab-en-win" onclick="switchTab('en', 'win', event)">Windows</button>
@@ -121,23 +134,8 @@
         <a href="https://github.com/alforge-labs/alforge-labs.github.io/releases/latest" target="_blank" rel="noopener">GitHub Releases (latest)</a>.
       </p>
 
-      <h2 class="section-heading">Step 2 — Run as the Trial Plan (No Whop Registration Needed)</h2>
-      <p>From the moment installation finishes, <code>forge</code> runs on the Trial plan. No Whop registration required. The Trial plan is permanent and applies these limits only:</p>
-      <ul>
-        <li>Data fetch / evaluation cap: <strong>2023-12-31</strong></li>
-        <li>Optimization trials: <strong>50 per run</strong></li>
-        <li>Pine Script export: blocked (a paid plan is required)</li>
-      </ul>
-      <p>For the full Trial limit details, see <a href="/en/docs/guides/trial-limits/">Trial Limits</a>.</p>
-
-      <h2 class="section-heading">(Optional) Unlock Everything with a Paid Plan</h2>
-      <p>Purchase one of the paid plans — Lifetime (one-time), Annual, or Monthly — to unlock the latest data, unlimited optimization trials, and full Pine Script export. Any of the paid tiers unlocks the same feature set.</p>
-      <p style="margin-top: 1rem;">
-        <a href="https://whop.com/alforge-labs/alphaforge/" target="_blank" rel="noopener" class="btn-primary">
-          Buy a Paid Plan →
-        </a>
-      </p>
-      <p>After the purchase, run the following in your terminal and complete the Whop OAuth flow in your browser. Credentials are cached at <code>~/.config/forge/credentials.json</code>.</p>
+      <h2 class="section-heading">Step 3 — Sign in with Whop</h2>
+      <p>Sign in with the Whop account you registered in Step 1 via OAuth 2.0 PKCE — your browser opens automatically. Authentication data is cached at <code>~/.forge/credentials.json</code>.</p>
       <pre><code>forge system auth login</code></pre>
       <p>Verify the activated membership with:</p>
       <pre><code>forge system auth status</code></pre>
