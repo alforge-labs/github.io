@@ -2,6 +2,8 @@
 
 alforge-labs.github.io のランディングページです。
 
+> 親 `alpha-trade/CLAUDE.md` の 9-rule template・プロジェクト固有ガイド・ワークツリー / GitHub Flow / TDD / `uv` 等のルールに従うこと。本ファイルには alforge-labs 固有の事項（ビルドシステム・テンプレート編集ルール）のみ記載する。なお、親 `alpha-trade/CLAUDE.md` 指針10「ドキュメント同期」で alpha-forge / alpha-strike の変更時に本リポジトリの MkDocs ビルドを実行する旨が規定されている。
+
 ## ビルドシステムの概要
 
 ```
