@@ -2754,7 +2754,7 @@
 <td><code>--mcp-server</code></td>
 <td>オプション</td>
 <td>-</td>
-<td><code>--provider tv_mcp</code> 用 MCP サーバーコマンド（例: <code>node /opt/tv-mcp/server.js</code>）。省略時は <code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code></td>
+<td><code>--provider tv_mcp</code> 用 MCP サーバーコマンド（例: <code>node /opt/tv-mcp/server.js</code>）。省略時は環境変数 <code>FORGE_TV_MCP_ENDPOINT</code> → <code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code> の順で解決（issue #689）。endpoint 内の <code>~</code> / <code>$HOME</code> は自動展開される</td>
 </tr>
 <tr>
 <td><code>--mcp-server-flavor</code></td>
@@ -3015,18 +3015,32 @@
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">fx_provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tv_mcp</span><span class="w">        </span><span class="c1"># FX も tv_mcp で取得</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">enable_fallback</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">      </span><span class="c1"># tv_mcp 失敗時 yfinance へフォールバック</span>
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">tv_mcp</span><span class="p">:</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">/opt/tv-mcp/server.js&quot;</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span><span class="w">    </span><span class="c1"># OHLCV 用途なら tradesdontlie で OK</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">      </span><span class="nt">max_bars_per_call</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">   </span><span class="c1"># MCP 上限</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">      </span><span class="nt">max_chunks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span><span class="w">          </span><span class="c1"># 範囲スライド時のチャンク上限</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">             </span><span class="c1"># 空文字なら環境変数 FORGE_TV_MCP_ENDPOINT を使用（issue #689）。</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">                               </span><span class="c1"># `~` / `$HOME` を含むパスはそのまま書ける（例: &quot;node ~/opt/tv-mcp/server.js&quot;）</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">      </span><span class="nt">flavor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tradesdontlie</span><span class="w">    </span><span class="c1"># OHLCV 用途なら tradesdontlie で OK</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">      </span><span class="nt">max_bars_per_call</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">   </span><span class="c1"># MCP 上限</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">      </span><span class="nt">max_chunks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span><span class="w">          </span><span class="c1"># 範囲スライド時のチャンク上限</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
 </code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">endpoint の解決優先順位（issue #689）</p>
+<ol>
+<li>CLI <code>--mcp-server</code></li>
+<li>環境変数 <code>FORGE_TV_MCP_ENDPOINT</code></li>
+<li><code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code></li>
+</ol>
+<p>複数マシン・CI で <code>forge.yaml</code> を共有する場合は <code>endpoint: ""</code> のままコミットし、<code>FORGE_TV_MCP_ENDPOINT</code> を環境ごとに設定する運用がおすすめです。</p>
+</div>
 <p>実行例：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># CLI で endpoint を直接指定して fetch</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>SPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--mcp-server<span class="w"> </span><span class="s2">&quot;node /opt/tv-mcp/server.js&quot;</span><span class="w"> </span>--period<span class="w"> </span>max
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># forge.yaml の設定を利用（CLI から endpoint を省略）</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># 環境変数で endpoint を渡す（~ / $HOME も展開される）</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nv">FORGE_TV_MCP_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;node ~/opt/tv-mcp/server.js&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># forge.yaml の設定を利用（CLI から endpoint を省略）</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY<span class="w"> </span>--provider<span class="w"> </span>tv_mcp<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
 </code></pre></div>
 <h4 id="forge-data-tv-mcp-checkissue-674">サブコマンド: <code>forge data tv-mcp check</code>（issue #674）<a class="headerlink" href="#forge-data-tv-mcp-checkissue-674" title="Permanent link">&para;</a></h4>
 <p>TV MCP データ取得サーバーの起動・接続を検証します。<code>/explore-strategies</code> スキルが、<code>goals.yaml</code> の <code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> 設定された goal の冒頭で自動実行します。</p>
@@ -3053,8 +3067,8 @@
 <tbody>
 <tr>
 <td><code>--mcp-server &lt;command&gt;</code></td>
-<td><code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code></td>
-<td>MCP サーバーコマンド</td>
+<td>環境変数 <code>FORGE_TV_MCP_ENDPOINT</code> → <code>forge.yaml</code> の <code>data.providers.tv_mcp.endpoint</code> の順で解決</td>
+<td>MCP サーバーコマンド。<code>~</code> / <code>$HOME</code> は自動展開（issue #689）</td>
 </tr>
 <tr>
 <td><code>--symbol &lt;symbol&gt;</code></td>
