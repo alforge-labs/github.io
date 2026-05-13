@@ -56,6 +56,53 @@ if [[ "${1:-}" == "--dry-run" ]]; then
   echo "$(lang '[dry-run] 実際のインストールは行いません。' '[dry-run] No actual installation will be performed.')"
 fi
 
+# ── 色とアイコン定義（issue alforge-labs#264 / alpha-forge#711）─────
+# 表示モードの自動判定:
+#   - NO_COLOR=1 (https://no-color.org/) または非 TTY → 色なし
+#   - FORCE_COLOR=1 → 非 TTY でも色を有効化（CI ログ保持用）
+#   - TERM=dumb → 完全平文
+#   - LC_ALL / LANG が UTF-8 を含まない → Braille / アイコンを ASCII にフォールバック
+_COLOR_ENABLED=true
+if [ -n "${NO_COLOR:-}" ]; then
+  _COLOR_ENABLED=false
+elif [ "${FORCE_COLOR:-}" = "1" ]; then
+  _COLOR_ENABLED=true
+elif [ ! -t 1 ]; then
+  _COLOR_ENABLED=false
+fi
+if [ "${TERM:-}" = "dumb" ]; then
+  _COLOR_ENABLED=false
+fi
+case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in
+  *UTF-8*|*utf-8*|*utf8*) _UNICODE_ENABLED=true ;;
+  *)                       _UNICODE_ENABLED=false ;;
+esac
+# TERM=dumb は Unicode 描画も無効化する（古い端末互換）
+if [ "${TERM:-}" = "dumb" ]; then
+  _UNICODE_ENABLED=false
+fi
+
+if [ "${_COLOR_ENABLED}" = "true" ]; then
+  _C_RESET=$'\033[0m'
+  _C_CYAN=$'\033[36m'
+  _C_GREEN=$'\033[32m'
+  _C_RED=$'\033[31m'
+  _C_YELLOW=$'\033[33m'
+  _C_DIM=$'\033[2m'
+  _C_BOLD=$'\033[1m'
+else
+  _C_RESET=""; _C_CYAN=""; _C_GREEN=""; _C_RED=""; _C_YELLOW=""; _C_DIM=""; _C_BOLD=""
+fi
+
+if [ "${_UNICODE_ENABLED}" = "true" ]; then
+  # Braille dots 10 フレーム。ora / cargo / rich のデファクト。
+  _SPINNER_FRAMES=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
+  _ICON_INFO="→"; _ICON_OK="✓"; _ICON_FAIL="✗"; _ICON_WARN="⚠"
+else
+  _SPINNER_FRAMES=('|' '/' '-' '\')
+  _ICON_INFO=">"; _ICON_OK="*"; _ICON_FAIL="x"; _ICON_WARN="!"
+fi
+
 REPO="alforge-labs/alforge-labs.github.io"
 
 # bin: 実行ファイル symlink を置く場所 (PATH に通っているべき)
@@ -69,9 +116,10 @@ BIN_DIR=""
 # bin 配下に「forge.dist」名で展開し、forge -> forge.dist/forge の symlink を貼る
 DIST_NAME="forge.dist"
 
-ok()   { echo "  ✓ $*"; }
-info() { echo "  → $*"; }
-fail() { printf "  ✗ %b\n" "$*" >&2; exit 1; }
+ok()   { printf "  %s%s%s%s %s\n" "${_C_GREEN}" "${_C_BOLD}" "${_ICON_OK}" "${_C_RESET}" "$*"; }
+info() { printf "  %s%s%s%s %s\n" "${_C_CYAN}" "${_C_DIM}" "${_ICON_INFO}" "${_C_RESET}" "$*"; }
+warn() { printf "  %s%s%s%s %b\n" "${_C_YELLOW}" "${_C_BOLD}" "${_ICON_WARN}" "${_C_RESET}" "$*" >&2; }
+fail() { printf "  %s%s%s%s %b\n" "${_C_RED}" "${_C_BOLD}" "${_ICON_FAIL}" "${_C_RESET}" "$*" >&2; exit 1; }
 
 # curl | bash の stdin はスクリプト本文に占有されているため、対話読みは TTY 直結。
 # TTY が無い (CI 等) なら空文字を返してデフォルトにフォールバック。
@@ -93,6 +141,7 @@ prompt_tty() {
 # - macOS BSD sleep は小数秒を受け付けるので 0.1s 刻みで回す。
 spin_run() {
   local label=$1; shift
+  # 非 TTY / sleep が無い極小環境ではスピナーを描画せず単に wait する
   if [ ! -t 1 ] || ! command -v sleep >/dev/null 2>&1; then
     "$@"
     return $?
@@ -100,19 +149,18 @@ spin_run() {
 
   "$@" &
   local pid=$!
-  local chars='|/-\'
   local i=0
-  # cursor を隠して描画後に戻す（途中で SIGINT が来てもクリーンアップ）
+  local n=${#_SPINNER_FRAMES[@]}
+  # cursor を隠して描画。途中で SIGINT が来てもクリーンアップする
   printf '\033[?25l'
   trap 'printf "\033[?25h"' EXIT
   while kill -0 "${pid}" 2>/dev/null; do
-    local idx=$(( i % 4 ))
-    local ch="${chars:${idx}:1}"
-    printf "\r  %s %s" "${ch}" "${label}"
+    local ch="${_SPINNER_FRAMES[$(( i % n ))]}"
+    printf "\r  %s%s%s %s" "${_C_CYAN}" "${ch}" "${_C_RESET}" "${label}"
     i=$(( i + 1 ))
-    sleep 0.1
+    sleep 0.08
   done
-  # 行をクリア（最長 80 列を空白で上書き）してから改行なしで戻す
+  # 行をクリア（CSI 2K = カーソル位置の行を全消去）してカーソル表示を戻す
   printf "\r\033[2K"
   printf '\033[?25h'
   trap - EXIT
