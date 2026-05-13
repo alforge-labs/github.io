@@ -48,6 +48,45 @@ DRY_RUN=false
 PURGE=false
 INSTALL_DIR_FROM_ENV="${INSTALL_DIR:-}"
 
+# ── 色とアイコン定義（issue alforge-labs#264 / alpha-forge#711）─────
+# install.sh と同一の判定ロジック。詳細はそちらのコメント参照。
+_COLOR_ENABLED=true
+if [ -n "${NO_COLOR:-}" ]; then
+  _COLOR_ENABLED=false
+elif [ "${FORCE_COLOR:-}" = "1" ]; then
+  _COLOR_ENABLED=true
+elif [ ! -t 1 ]; then
+  _COLOR_ENABLED=false
+fi
+if [ "${TERM:-}" = "dumb" ]; then
+  _COLOR_ENABLED=false
+fi
+case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in
+  *UTF-8*|*utf-8*|*utf8*) _UNICODE_ENABLED=true ;;
+  *)                       _UNICODE_ENABLED=false ;;
+esac
+if [ "${TERM:-}" = "dumb" ]; then
+  _UNICODE_ENABLED=false
+fi
+
+if [ "${_COLOR_ENABLED}" = "true" ]; then
+  _C_RESET=$'\033[0m'
+  _C_CYAN=$'\033[36m'
+  _C_GREEN=$'\033[32m'
+  _C_RED=$'\033[31m'
+  _C_YELLOW=$'\033[33m'
+  _C_DIM=$'\033[2m'
+  _C_BOLD=$'\033[1m'
+else
+  _C_RESET=""; _C_CYAN=""; _C_GREEN=""; _C_RED=""; _C_YELLOW=""; _C_DIM=""; _C_BOLD=""
+fi
+
+if [ "${_UNICODE_ENABLED}" = "true" ]; then
+  _ICON_INFO="→"; _ICON_OK="✓"; _ICON_FAIL="✗"; _ICON_WARN="⚠"
+else
+  _ICON_INFO=">"; _ICON_OK="*"; _ICON_FAIL="x"; _ICON_WARN="!"
+fi
+
 usage() {
   if [ "${FORGE_LOCALE}" = "ja" ]; then
     cat <<'USAGE_JA'
@@ -105,17 +144,18 @@ for arg in "$@"; do
     --purge)   PURGE=true ;;
     -h|--help) usage; exit 0 ;;
     *)
-      printf "  ✗ %s: %s\n\n" "$(lang "未知のオプション" "Unknown option")" "$arg" >&2
+      printf "  %s%s%s%s %s: %s\n\n" "${_C_RED}" "${_C_BOLD}" "${_ICON_FAIL}" "${_C_RESET}" \
+        "$(lang "未知のオプション" "Unknown option")" "$arg" >&2
       usage
       exit 1
       ;;
   esac
 done
 
-ok()   { echo "  ✓ $*"; }
-info() { echo "  → $*"; }
-warn() { printf "  ⚠ %b\n" "$*" >&2; }
-fail() { printf "  ✗ %b\n" "$*" >&2; exit 1; }
+ok()   { printf "  %s%s%s%s %s\n" "${_C_GREEN}" "${_C_BOLD}" "${_ICON_OK}" "${_C_RESET}" "$*"; }
+info() { printf "  %s%s%s%s %s\n" "${_C_CYAN}" "${_C_DIM}" "${_ICON_INFO}" "${_C_RESET}" "$*"; }
+warn() { printf "  %s%s%s%s %b\n" "${_C_YELLOW}" "${_C_BOLD}" "${_ICON_WARN}" "${_C_RESET}" "$*" >&2; }
+fail() { printf "  %s%s%s%s %b\n" "${_C_RED}" "${_C_BOLD}" "${_ICON_FAIL}" "${_C_RESET}" "$*" >&2; exit 1; }
 
 # sudo 起動が必要かどうかを判定し、必要なら sudo を前置するヘルパ
 maybe_sudo_rm() {
