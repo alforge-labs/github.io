@@ -34,9 +34,9 @@ Do not treat validation results as live-performance expectations. Combine walk-f
 
 ## Plan limits
 
-AlphaForge operates on two tiers: the **Trial plan** (no Whop registration, free, indefinite) and the **Lifetime plan** (one-time purchase via Whop). The Trial plan limits data fetch and evaluation dates to **2023-12-31**, caps optimization at **50 trials**, and hard-blocks Pine Script export.
+AlphaForge operates on two tiers: the **Trial plan** (no Whop registration, free, indefinite) and the **paid plans** (one of **Lifetime / Annual / Monthly** purchased on Whop). The Trial plan limits data fetch and evaluation dates to **2023-12-31**, caps optimization at **50 trials**, and hard-blocks Pine Script export.
 
-The Lifetime plan is a one-time purchase and unlocks the latest data, unlimited trials, and full Pine Script export. For the affected commands, JSON output fields, and local verification workflow, see [Trial Limits](../guides/trial-limits.md).
+The paid tier comes in three flavors—Lifetime (one-time), Annual (yearly subscription), and Monthly (monthly subscription)—and any of them unlocks the same feature set: the latest data, unlimited trials, and full Pine Script export. For the affected commands, JSON output fields, and local verification workflow, see [Trial Limits](../guides/trial-limits.md).
 
 ## Related pages
 

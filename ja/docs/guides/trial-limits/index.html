@@ -662,10 +662,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lifetime" class="md-nav__link">
+  <a href="#lifetime-annual-monthly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lifetime プラン
+        有料プラン（Lifetime / Annual / Monthly）
       
     </span>
   </a>
@@ -2165,10 +2165,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lifetime" class="md-nav__link">
+  <a href="#lifetime-annual-monthly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lifetime プラン
+        有料プラン（Lifetime / Annual / Monthly）
       
     </span>
   </a>
@@ -2220,7 +2220,7 @@
 
 
 <h1 id="trial">Trial 制限<a class="headerlink" href="#trial" title="Permanent link">&para;</a></h1>
-<p>AlphaForge は <strong>Trial プラン</strong>（Whop 未登録、期限なし）と <strong>Lifetime プラン</strong>（Whop で買い切り購入）の 2 ティアで動作します。Trial プランは無料で恒久的に利用でき、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が <strong>2023-12-31</strong> に制限され、最適化のトライアル数が <strong>50 回</strong> に制限され、Pine Script エクスポートが<strong>ハードブロック</strong>されます。本ページでは、その挙動と確認方法を整理します。</p>
+<p>AlphaForge は <strong>Trial プラン</strong>（Whop 未登録、期限なし）と <strong>有料プラン</strong>（Whop で購入する <strong>Lifetime / Annual / Monthly</strong> のいずれか）の 2 ティアで動作します。Trial プランは無料で恒久的に利用でき、評価エンジン（バックテスト・最適化）に渡せるデータ日付の上限が <strong>2023-12-31</strong> に制限され、最適化のトライアル数が <strong>50 回</strong> に制限され、Pine Script エクスポートが<strong>ハードブロック</strong>されます。本ページでは、その挙動と確認方法を整理します。</p>
 <div class="admonition note">
 <p class="admonition-title">対象コマンド</p>
 <p>制限は以下の経路で適用されます。</p>
@@ -2254,17 +2254,33 @@
 <td>インストール後ただちに利用可能。期限なし。<code>forge</code> をそのまま実行</td>
 </tr>
 <tr>
-<td><strong>Lifetime</strong></td>
+<td><strong>Lifetime</strong>（買い切り）</td>
 <td>必須（買い切り購入）</td>
 <td>制限なし</td>
 <td>制限なし</td>
 <td>利用可</td>
 <td>Whop で買い切り。<code>forge system auth login</code> で認証</td>
 </tr>
+<tr>
+<td><strong>Annual</strong>（年額）</td>
+<td>必須（年額サブスク）</td>
+<td>制限なし</td>
+<td>制限なし</td>
+<td>利用可</td>
+<td>Whop で年額サブスクリプション。常に最新バージョン</td>
+</tr>
+<tr>
+<td><strong>Monthly</strong>（月額）</td>
+<td>必須（月額サブスク）</td>
+<td>制限なし</td>
+<td>制限なし</td>
+<td>利用可</td>
+<td>Whop で月額サブスクリプション。必要な期間だけ利用可</td>
+</tr>
 </tbody>
 </table>
-<p><img alt="Trial プランと Lifetime プランの機能比較カード" src="../../assets/illustrations/guides/freemium-free-vs-pro-plans.png" /></p>
-<p>プラン構成や価格はランディングページの最新情報を参照してください。</p>
+<p><img alt="Trial プランと有料プランの機能比較カード" src="../../assets/illustrations/guides/freemium-free-vs-pro-plans.png" /></p>
+<p>プラン構成や価格はランディングページの最新情報を参照してください。Lifetime / Annual / Monthly のいずれを購入しても、機能制限は同一です（最新データ取得・無制限 trial・Pine Script エクスポートのすべてが解放されます）。</p>
 <div class="admonition info">
 <p class="admonition-title">JSON フィールド名について</p>
 <p><code>--json</code> 出力では構造化通知が <code>freemium_limit_notices</code> という名前で含まれ、各 notice の <code>code</code> も <code>free_tier_*</code> のままです。これは v0.3.x までの後方互換性を保つための実装上の歴史的理由で、<strong>意味的には「Trial プランの制限」</strong>を指します。将来的にフィールド名を <code>trial_limit_notices</code> 等にリネームする可能性がありますが、その際は CHANGELOG で告知します。</p>
@@ -2276,7 +2292,7 @@
 <ul>
 <li><code>end</code> 引数（明示指定または <code>today</code> のフォールバック）が 2023-12-31 を超える場合、強制的に 2023-12-31 にキャップして取得します。</li>
 <li><code>forge data update</code> で保有最終日が 2023-12-31 以降のアイテムは「Trial プラン制限により」スキップされます。</li>
-<li>CLI 通常出力には黄色の Panel で警告が表示され、Lifetime プランでの解除誘導が表示されます。</li>
+<li>CLI 通常出力には黄色の Panel で警告が表示され、有料プランでの解除誘導が表示されます。</li>
 <li><code>--json</code> 出力には <code>freemium_limit_notices</code> 構造化フィールドが含まれます（<code>code = "free_tier_data_fetch_clipped"</code>）。</li>
 </ul>
 <h4 id="forge-backtest-run-forge-optimize">評価エンジン入口（<code>forge backtest run</code> / <code>forge optimize</code>）<a class="headerlink" href="#forge-backtest-run-forge-optimize" title="Permanent link">&para;</a></h4>
@@ -2290,7 +2306,7 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_data_fetch_clipped&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Trialプランでは2023-12-31までのデータのみ取得できます。最新データを取得するには Lifetime プランの購入が必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Trialプランでは2023-12-31までのデータのみ取得できます。最新データを取得するには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-06-30&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31&quot;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
@@ -2302,7 +2318,7 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_evaluation_date_clipped&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Trialプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには Lifetime プランの購入が必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Trialプランでは2023-12-31までのデータのみ評価できます。最新データで評価するには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-01-15&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31&quot;</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">}</span>
@@ -2324,7 +2340,7 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_optimization_trial_capped&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Trialプランでは最適化のトライアル数が50回に制限されています。無制限の最適化を行うには Lifetime プランの購入が必要です。&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Trialプランでは最適化のトライアル数が50回に制限されています。無制限の最適化を行うには有料プラン（Lifetime / Annual / Monthly）が必要です。&quot;</span><span class="p">,</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span>
@@ -2339,30 +2355,32 @@
 <li><code>forge pine import</code> はインポート機能のため対象外で、Trial プランでも継続して利用できます。</li>
 </ul>
 <p>Pine Script エクスポートのハードブロック表示例（Trial プラン・CLI）：
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>╭─────────────── 🔒 Lifetime プラン限定機能 ───────────────╮
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│ Pine Script エクスポートは Lifetime プランのみ利用できます。 │
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│ TradingView でのシームレスな運用を行うには…                 │
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│ アップグレード: https://alforgelabs.com/en/index.html#pricing │
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>╰─────────────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>╭───────────────── 🔒 有料プラン限定機能 ─────────────────╮
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│ Pine Script エクスポートは有料プラン（Lifetime / Annual / │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│ Monthly）のみ利用できます。                              │
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│ TradingView でのシームレスな運用を行うにはライセンスを    │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ アップグレードしてください。                              │
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│ アップグレード: https://alforgelabs.com/en/index.html#pricing │
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>╰─────────────────────────────────────────────────────────╯
 </code></pre></div></p>
 <p>Pine Script ハードブロック時の <code>freemium_limit_notices</code> 例:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;free_tier_pine_export_blocked&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pine Script エクスポートは Lifetime プランのみ利用できます。&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pine Script エクスポートは有料プラン（Lifetime / Annual / Monthly）のみ利用できます。&quot;</span><span class="p">,</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">&quot;original_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nt">&quot;applied_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="p">]</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
 </code></pre></div></p>
-<h3 id="lifetime">Lifetime プラン<a class="headerlink" href="#lifetime" title="Permanent link">&para;</a></h3>
-<p>制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも <code>freemium_limit_notices</code> の警告は載りません。</p>
+<h3 id="lifetime-annual-monthly">有料プラン（Lifetime / Annual / Monthly）<a class="headerlink" href="#lifetime-annual-monthly" title="Permanent link">&para;</a></h3>
+<p>制限は一切発動せず、最新データ・無制限 trial で取得・評価でき、Pine Script エクスポートも完全に解放されます。出力にも <code>freemium_limit_notices</code> の警告は載りません。Lifetime / Annual / Monthly のいずれを購入しても解放範囲は同一です。</p>
 <h2 id="_3">制限の解除方法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>制限を解除するには <strong>Lifetime プラン</strong>の購入が必要です。なお、CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。</p>
+<p>制限を解除するには <strong>有料プラン</strong>（Lifetime / Annual / Monthly のいずれか）の購入が必要です。なお、CSV を手動で 2023-12-31 までに切り詰めて再実行しても結果は変わりません（評価エンジン側で必ず切り捨てが適用されるため）。</p>
 <ul>
-<li>Lifetime プランの購入: AlphaForge の販売ページから手続きしてください。</li>
+<li>有料プランの購入: AlphaForge の販売ページから Lifetime / Annual / Monthly のいずれかを購入してください。</li>
 <li>購入後は <code>forge system auth login</code> を実行してブラウザで Whop OAuth 認証してください。</li>
 <li>認証キャッシュに反映されないときは、再度 <code>forge system auth login</code> を実行してください。</li>
 </ul>

@@ -3,7 +3,7 @@
 A complete onboarding guide — from installing AlphaForge CLI to reading your first backtest.
 
 - The **~10-minute Trial walkthrough** (no Whop registration required) is at the top. Just install and start using the CLI immediately.
-- After that you'll find **detailed install instructions, Lifetime plan login, uninstall, and troubleshooting**.
+- After that you'll find **detailed install instructions, paid-plan login (Lifetime / Annual / Monthly), uninstall, and troubleshooting**.
 
 ---
 
@@ -12,12 +12,12 @@ A complete onboarding guide — from installing AlphaForge CLI to reading your f
 !!! info "What the Trial plan covers (no Whop registration)"
     - Backtesting & optimization ✅ (data capped at **2023-12-31**)
     - Optimization trials: up to **50 per run**
-    - Pine Script export ❌ (Lifetime plan required)
+    - Pine Script export ❌ (a paid plan is required)
 
     See [Trial Limits](guides/trial-limits.md) for full details.
 
-!!! tip "Starting on the Lifetime plan"
-    Prefer to begin directly on the Lifetime plan? Buy it from the [Lifetime plan purchase page](https://whop.com/alforge-labs/alphaforge/). You can also upgrade from Trial later. See [Trial Limits](guides/trial-limits.md) for the per-plan feature matrix.
+!!! tip "Starting on a paid plan"
+    Prefer to begin directly on a paid plan (Lifetime / Annual / Monthly)? Buy it from the [purchase page](https://whop.com/alforge-labs/alphaforge/). You can also upgrade from Trial later. See [Trial Limits](guides/trial-limits.md) for the per-plan feature matrix.
 
 ### Step 1 — Install (~2 min)
 
@@ -55,7 +55,7 @@ If you see a version number, you're ready. For manual installation or custom ins
     Prefer a manual setup over the installer? Grab the per-platform binaries (`forge-macos-arm64` / `forge-linux-x64` / `forge-windows-x64.exe`, etc.) from [GitHub Releases (latest)](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest). See "Detailed Installation → Manual Install" later on this page for placement and PATH details.
 
 !!! info "The Trial plan works without Whop registration"
-    From the moment installation finishes, the CLI runs immediately as the Trial plan. Whop OAuth login is **only needed when you purchase the Lifetime plan**; Trial usage requires nothing additional. See the "Lifetime plan login" section later on this page for the upgrade flow.
+    From the moment installation finishes, the CLI runs immediately as the Trial plan. Whop OAuth login is **only needed when you purchase a paid plan (Lifetime / Annual / Monthly)**; Trial usage requires nothing additional. See the "Paid-plan login" section later on this page for the upgrade flow.
 
 ### Step 2 — Prepare a strategy file (~2 min)
 
@@ -159,8 +159,8 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 ### Requirements
 
 - macOS 12 (Monterey) or later / Ubuntu 22.04 or later / Windows 11
-- Internet access (for the first data fetch, or for Lifetime plan authentication)
-- **A Whop account is not required for the Trial plan.** Only purchase a [Lifetime plan](https://whop.com/alforge-labs/alphaforge/) if you want to lift the Trial limits.
+- Internet access (for the first data fetch, or for paid-plan authentication)
+- **A Whop account is not required for the Trial plan.** Only purchase a [paid plan](https://whop.com/alforge-labs/alphaforge/) (Lifetime / Annual / Monthly) if you want to lift the Trial limits.
 
 ### Install procedure
 
@@ -197,9 +197,9 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
         FORGE_INSTALL_LOCALE=en bash <(curl -sSL https://alforge-labs.github.io/install.sh)
         ```
 
-    !!! tip "Lifetime plan login (optional)"
+    !!! tip "Paid-plan login (optional)"
 
-        Right after install, the CLI runs in Trial mode without any Whop login. Run the following command only after you purchase the Lifetime plan:
+        Right after install, the CLI runs in Trial mode without any Whop login. Run the following command only after you purchase a paid plan (Lifetime / Annual / Monthly):
 
         ```bash
         forge system auth login
@@ -240,16 +240,16 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 
 ---
 
-## Lifetime Plan Login
+## Paid-plan Login
 
-The CLI runs **immediately as the Trial plan with no Whop registration**. You only need this section once you've **purchased the Lifetime plan**, which lifts the data date cap, the optimization trial cap, and the Pine Script export block.
+The CLI runs **immediately as the Trial plan with no Whop registration**. You only need this section once you've **purchased a paid plan (Lifetime / Annual / Monthly)**, which lifts the data date cap, the optimization trial cap, and the Pine Script export block.
 
 !!! info "Happy with the Trial plan?"
     If the Trial limits (data through 2023-12-31, 50 optimization trials, Pine output blocked) cover your use case, you can skip this section and keep running backtests/optimizations. `forge system auth login` is not required for Trial usage.
 
-### 1. Purchase the Lifetime plan
+### 1. Purchase a paid plan
 
-Open the [Lifetime plan purchase page](https://whop.com/alforge-labs/alphaforge/) in your browser, sign up to Whop (email / GitHub / Google), and complete checkout.
+Open the [purchase page](https://whop.com/alforge-labs/alphaforge/) in your browser, sign up to Whop (email / GitHub / Google), and complete checkout for Lifetime, Annual, or Monthly.
 
 ### 2. Authenticate with Whop OAuth from forge
 
@@ -276,17 +276,17 @@ Last verified   : 2026-05-13 11:45 UTC (13 min ago)
 Plan            : Paid (Lifetime)
 ```
 
-`Plan: Paid (Lifetime)` confirms a successful Lifetime activation. Without Whop registration the plan field reads `Plan: Free (Trial)` (Trial mode).
+`Plan: Paid (Lifetime)` confirms a successful paid-plan activation. Due to an implementation holdover, the CLI also shows `Paid (Lifetime)` for Annual and Monthly subscribers (Whop OAuth treats all paid tiers as a single "customer" access level). Without Whop registration the plan field reads `Plan: Free (Trial)` (Trial mode).
 
 ### 4. Confirm the unlock
 
-Verify that a Lifetime-only feature (Pine Script export) now works:
+Verify that a paid-plan-only feature (Pine Script export) now works:
 
 ```bash
 forge pine generate --strategy sma_cross_qs
 ```
 
-If the red "Lifetime plan feature" Panel does **not** appear and a `.pine` file is generated, the Lifetime plan is fully active.
+If the red "Premium-only feature" Panel does **not** appear and a `.pine` file is generated, the paid plan is fully active.
 
 ---
 
@@ -381,7 +381,7 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 |---------|-------------|
 | `command not found: forge` | Open a new terminal or run `source ~/.bashrc`. If that doesn't help, check your PATH. |
 | `No data found for SPY` | Run `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` first. |
-| `Trial plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Trial plan cap is automatically excluded. Purchase the Lifetime plan to lift the cap. |
+| `Trial plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Trial plan cap is automatically excluded. Purchase a paid plan (Lifetime / Annual / Monthly) to lift the cap. |
 | `Strategy not found: sma_cross_qs` | Check that the `strategy_id` in your JSON is exactly `sma_cross_qs`. |
 | Authentication error | Verify your network connection and rerun `forge system auth login`. Confirm your Whop membership is active. |
 | macOS security warning | System Settings → Privacy & Security → click "Open forge". |
