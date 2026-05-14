@@ -1,17 +1,21 @@
-# Strategy Templates
+# Strategy Design Patterns
 
-Three representative strategy patterns used with AlphaForge. The **strategy JSON is fully copy-pasteable** and can be registered as-is via `forge strategy save`.
+AlphaForge is a **development and validation platform built for users to grow their own strategies**. The distributed binary ships a curated set of 7 strategies (4 basic + 1 range + 2 advanced-indicator references), and this page is a **collection of design patterns for assembling your own strategy JSON** on top of them.
 
-!!! info "About sample output"
-    Backtest result numbers are illustrative. Actual values depend on data and environment (fetch period, provider, settings).
+!!! info "How to read this page"
+    - The IDs of the 7 built-in strategies are listed in the [CLI reference: forge strategy](cli-reference/strategy.md).
+    - The JSON examples on this page are written as templates for **building your own custom strategy**; the `strategy_id` values use placeholder `my_*` names. Replace them with meaningful names of your own and register via `forge strategy save`.
+    - Backtest result numbers are illustrative. Actual values depend on data and environment (fetch period, provider, settings).
 
-## Templates covered
+## Three design patterns on this page
 
-| Template | Strategy type | Key indicators |
-|----------|---------------|----------------|
-| [HMM × BB × RSI](#hmm-bb-rsi) | Regime-adaptive mean reversion | HMM / BBANDS / RSI |
-| [Regime switching](#regime-switching) | Per-regime strategy switching | HMM / SUPERTREND / BBANDS / RSI |
-| [Multi-timeframe](#multi-timeframe) | Higher-TF trend × daily entry | Weekly SMA / RSI / ATR |
+| Pattern | Strategy type | Key indicators | Learning focus |
+|---------|---------------|----------------|----------------|
+| [HMM × BB × RSI](#hmm-bb-rsi) | Regime-adaptive mean reversion | HMM / BBANDS / RSI | HMM regime detection + intermediate `variables` design |
+| [Regime switching](#regime-switching) | Per-regime strategy switching | HMM / SUPERTREND / BBANDS / RSI | Switching entry / exit / risk per regime via `regime_config` |
+| [Multi-timeframe](#multi-timeframe) | Higher-TF trend × daily entry | Weekly SMA / RSI / ATR | MTF confluence with `indicators[].timeframe` |
+
+These go one step beyond the built-in `hmm_bb_pipeline_v1` (HMM example) and `donchian_turtle_v1` (classic Turtle trend follower) shipped with the binary, and serve as design guidance when you "start from the 7 built-ins and customize."
 
 ## Strategy JSON basics
 
@@ -70,7 +74,7 @@ The strength of this template is **managing three regimes within a single strate
 
 ```json
 {
-  "strategy_id": "multi_asset_hmm_bb_rsi_v1_qqq",
+  "strategy_id": "my_hmm_bb_rsi_v1",
   "name": "Multi-Asset HMM×BB+RSI v1 (QQQ)",
   "version": "1.0.0",
   "description": "HMM 3-state regime filter × BB+RSI mean reversion. Bull(state=0): long on BB-lower + RSI oversold (leverage=3). Neutral(state=1): same condition (leverage=1.5). Bear(state=2): skip. Daily.",
@@ -178,7 +182,7 @@ The strength of this template is **managing three regimes within a single strate
 - **Change the symbol**: Replace `target_symbols` with `["SPY"]`, `["NVDA"]`, `["GC=F"]`, etc.
 - **Change state count**: `regime.n_components: 2` (Bull/Bear) simplifies the decision; `4` adds nuance (requires more data)
 - **Strengthen entry**: Add `volume > sma_volume_20` or similar conditions in `regime_config.states["0"].entry_conditions`
-- **Optimize**: `forge optimize run QQQ --strategy multi_asset_hmm_bb_rsi_v1_qqq --metric sharpe_ratio --save`
+- **Optimize**: `forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save`
 
 ---
 
@@ -201,7 +205,7 @@ The defining feature versus HMM × BB × RSI: `regime_config.states` lets you de
 
 ```json
 {
-  "strategy_id": "commodity_hmm_regime_v1",
+  "strategy_id": "my_regime_switching_v1",
   "name": "Commodity HMM Regime v1",
   "version": "1.0.0",
   "description": "Regime-adaptive for commodity CFDs: HMM 2-state Bull/Bear. Bull = SuperTrend long, Bear = BB+RSI mean reversion. leverage=10.",
@@ -299,7 +303,7 @@ The defining feature versus HMM × BB × RSI: `regime_config.states` lets you de
 - **Add more states**: `n_components: 3` for Bull/Range/Bear; add `states["2"]`
 - **Switch to equities**: Replace `target_symbols` with stocks and lower `risk_management.leverage` to `1.0-2.0`
 - **More entries**: Loosen each regime's `entry_conditions` (e.g., `adx_threshold: 15`, `rsi_threshold: 45`)
-- **Cross-symbol optimize**: `forge optimize cross-symbol GC=F SI=F CL=F --strategy commodity_hmm_regime_v1 --aggregation min --save`
+- **Cross-symbol optimize**: `forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save`
 
 ---
 
@@ -323,7 +327,7 @@ Use the `indicators[].timeframe` field to **pull higher-timeframe values** while
 
 ```json
 {
-  "strategy_id": "spy_mtf_trend_pullback_v1",
+  "strategy_id": "my_mtf_pullback_v1",
   "name": "SPY Multi-Timeframe Trend Pullback v1",
   "version": "1.0.0",
   "description": "Multi-timeframe strategy: judge trend with weekly SMA, time pullback entries on daily RSI oversold.",
@@ -484,4 +488,3 @@ See [`forge live compare`](cli-reference/live.md#forge-live-compare).
 
 ---
 
-<!-- Synced from: `alpha-strategies/data/strategies/multi_asset_hmm_bb_rsi_v1_qqq.json` and `commodity_hmm_regime_v1.json`. The multi-timeframe strategy is written as an example of the `indicators[].timeframe` field. -->

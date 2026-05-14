@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#strategy-templates" class="md-skip">
+        <a href="#strategy-design-patterns" class="md-skip">
           Skip to content
         </a>
       
@@ -1148,10 +1148,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#templates-covered" class="md-nav__link">
+  <a href="#three-design-patterns-on-this-page" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Templates covered
+        Three design patterns on this page
       
     </span>
   </a>
@@ -2302,10 +2302,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#templates-covered" class="md-nav__link">
+  <a href="#three-design-patterns-on-this-page" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Templates covered
+        Three design patterns on this page
       
     </span>
   </a>
@@ -2661,19 +2661,24 @@
 
 
 
-<h1 id="strategy-templates">Strategy Templates<a class="headerlink" href="#strategy-templates" title="Permanent link">&para;</a></h1>
-<p>Three representative strategy patterns used with AlphaForge. The <strong>strategy JSON is fully copy-pasteable</strong> and can be registered as-is via <code>forge strategy save</code>.</p>
+<h1 id="strategy-design-patterns">Strategy Design Patterns<a class="headerlink" href="#strategy-design-patterns" title="Permanent link">&para;</a></h1>
+<p>AlphaForge is a <strong>development and validation platform built for users to grow their own strategies</strong>. The distributed binary ships a curated set of 7 strategies (4 basic + 1 range + 2 advanced-indicator references), and this page is a <strong>collection of design patterns for assembling your own strategy JSON</strong> on top of them.</p>
 <div class="admonition info">
-<p class="admonition-title">About sample output</p>
-<p>Backtest result numbers are illustrative. Actual values depend on data and environment (fetch period, provider, settings).</p>
+<p class="admonition-title">How to read this page</p>
+<ul>
+<li>The IDs of the 7 built-in strategies are listed in the <a href="../cli-reference/strategy/">CLI reference: forge strategy</a>.</li>
+<li>The JSON examples on this page are written as templates for <strong>building your own custom strategy</strong>; the <code>strategy_id</code> values use placeholder <code>my_*</code> names. Replace them with meaningful names of your own and register via <code>forge strategy save</code>.</li>
+<li>Backtest result numbers are illustrative. Actual values depend on data and environment (fetch period, provider, settings).</li>
+</ul>
 </div>
-<h2 id="templates-covered">Templates covered<a class="headerlink" href="#templates-covered" title="Permanent link">&para;</a></h2>
+<h2 id="three-design-patterns-on-this-page">Three design patterns on this page<a class="headerlink" href="#three-design-patterns-on-this-page" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Template</th>
+<th>Pattern</th>
 <th>Strategy type</th>
 <th>Key indicators</th>
+<th>Learning focus</th>
 </tr>
 </thead>
 <tbody>
@@ -2681,19 +2686,23 @@
 <td><a href="#hmm-bb-rsi">HMM × BB × RSI</a></td>
 <td>Regime-adaptive mean reversion</td>
 <td>HMM / BBANDS / RSI</td>
+<td>HMM regime detection + intermediate <code>variables</code> design</td>
 </tr>
 <tr>
 <td><a href="#regime-switching">Regime switching</a></td>
 <td>Per-regime strategy switching</td>
 <td>HMM / SUPERTREND / BBANDS / RSI</td>
+<td>Switching entry / exit / risk per regime via <code>regime_config</code></td>
 </tr>
 <tr>
 <td><a href="#multi-timeframe">Multi-timeframe</a></td>
 <td>Higher-TF trend × daily entry</td>
 <td>Weekly SMA / RSI / ATR</td>
+<td>MTF confluence with <code>indicators[].timeframe</code></td>
 </tr>
 </tbody>
 </table>
+<p>These go one step beyond the built-in <code>hmm_bb_pipeline_v1</code> (HMM example) and <code>donchian_turtle_v1</code> (classic Turtle trend follower) shipped with the binary, and serve as design guidance when you "start from the 7 built-ins and customize."</p>
 <h2 id="strategy-json-basics">Strategy JSON basics<a class="headerlink" href="#strategy-json-basics" title="Permanent link">&para;</a></h2>
 <p>Every strategy follows the same Pydantic schema. Indicator details are available via <a href="../cli-reference/other/#analyze-indicator"><code>forge analyze indicator list</code></a>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>{
@@ -2737,7 +2746,7 @@
 </ul>
 <h3 id="strategy-json-full">Strategy JSON (full)<a class="headerlink" href="#strategy-json-full" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;multi_asset_hmm_bb_rsi_v1_qqq&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_hmm_bb_rsi_v1&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Multi-Asset HMM×BB+RSI v1 (QQQ)&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HMM 3-state regime filter × BB+RSI mean reversion. Bull(state=0): long on BB-lower + RSI oversold (leverage=3). Neutral(state=1): same condition (leverage=1.5). Bear(state=2): skip. Daily.&quot;</span><span class="p">,</span>
@@ -2877,7 +2886,7 @@
 <li><strong>Change the symbol</strong>: Replace <code>target_symbols</code> with <code>["SPY"]</code>, <code>["NVDA"]</code>, <code>["GC=F"]</code>, etc.</li>
 <li><strong>Change state count</strong>: <code>regime.n_components: 2</code> (Bull/Bear) simplifies the decision; <code>4</code> adds nuance (requires more data)</li>
 <li><strong>Strengthen entry</strong>: Add <code>volume &gt; sma_volume_20</code> or similar conditions in <code>regime_config.states["0"].entry_conditions</code></li>
-<li><strong>Optimize</strong>: <code>forge optimize run QQQ --strategy multi_asset_hmm_bb_rsi_v1_qqq --metric sharpe_ratio --save</code></li>
+<li><strong>Optimize</strong>: <code>forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save</code></li>
 </ul>
 <hr />
 <h2 id="regime-switching">Regime switching<a class="headerlink" href="#regime-switching" title="Permanent link">&para;</a></h2>
@@ -2893,7 +2902,7 @@
 </ul>
 <h3 id="strategy-json-full_1">Strategy JSON (full)<a class="headerlink" href="#strategy-json-full_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commodity_hmm_regime_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_regime_switching_v1&quot;</span><span class="p">,</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Commodity HMM Regime v1&quot;</span><span class="p">,</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Regime-adaptive for commodity CFDs: HMM 2-state Bull/Bear. Bull = SuperTrend long, Bear = BB+RSI mean reversion. leverage=10.&quot;</span><span class="p">,</span>
@@ -3023,7 +3032,7 @@
 <li><strong>Add more states</strong>: <code>n_components: 3</code> for Bull/Range/Bear; add <code>states["2"]</code></li>
 <li><strong>Switch to equities</strong>: Replace <code>target_symbols</code> with stocks and lower <code>risk_management.leverage</code> to <code>1.0-2.0</code></li>
 <li><strong>More entries</strong>: Loosen each regime's <code>entry_conditions</code> (e.g., <code>adx_threshold: 15</code>, <code>rsi_threshold: 45</code>)</li>
-<li><strong>Cross-symbol optimize</strong>: <code>forge optimize cross-symbol GC=F SI=F CL=F --strategy commodity_hmm_regime_v1 --aggregation min --save</code></li>
+<li><strong>Cross-symbol optimize</strong>: <code>forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save</code></li>
 </ul>
 <hr />
 <h2 id="multi-timeframe">Multi-timeframe<a class="headerlink" href="#multi-timeframe" title="Permanent link">&para;</a></h2>
@@ -3042,7 +3051,7 @@
 </ul>
 <h3 id="strategy-json-full_2">Strategy JSON (full)<a class="headerlink" href="#strategy-json-full_2" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;spy_mtf_trend_pullback_v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;strategy_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_mtf_pullback_v1&quot;</span><span class="p">,</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SPY Multi-Timeframe Trend Pullback v1&quot;</span><span class="p">,</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Multi-timeframe strategy: judge trend with weekly SMA, time pullback entries on daily RSI oversold.&quot;</span><span class="p">,</span>
@@ -3208,7 +3217,6 @@
 <li><a href="../guides/ai-exploration-workflow/">AI-Driven Strategy Exploration Workflow</a> — Generate strategies with Claude Code / Codex</li>
 </ul>
 <hr />
-<!-- Synced from: `alpha-strategies/data/strategies/multi_asset_hmm_bb_rsi_v1_qqq.json` and `commodity_hmm_regime_v1.json`. The multi-timeframe strategy is written as an example of the `indicators[].timeframe` field. -->
 
 
 
