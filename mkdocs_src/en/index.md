@@ -10,34 +10,13 @@ This documentation walks through installation, strategy development, and integra
 
 Write your strategy in JSON, then run `forge pine generate` to compile it into **TradingView Pine Script v6**. Unlike all-in-one Web UI platforms that lock you into a specific server and exchange adapters, AlphaForge lets you reuse your existing TradingView setup for alerts, automation, and chart visualization.
 
-```text
-JSON strategy (forge strategy)
-        │
-        ▼
-Backtest + optimize (forge backtest / forge optimize)
-        │
-        ▼
-Pine Script v6 (forge pine generate)
-        │
-        ▼
-Alerts, automation, and live execution on TradingView
-```
+![JSON strategy → Backtest + Optimize → Pine Script v6 → TradingView horizontal pipeline](assets/illustrations/alphaforge-json-to-tradingview-en.png){ loading=lazy }
 
 ### 2. Optuna TPE + walk-forward validation to fight overfitting
 
 `forge optimize run` triggers Optuna Bayesian optimization (TPE) out of the box, and `--split` adds walk-forward analysis (WFT) so you can compare in-sample vs out-of-sample performance in one step. This is the optimization and generalization layer that Web-UI-centric platforms typically lack.
 
-```text
-Parameter ranges (variables) ─┐
-                              ▼
-                    Optuna TPE optimization (forge optimize run)
-                              │
-                              ├─ In-sample score
-                              ├─ Out-of-sample score
-                              └─ Walk-forward delta (overfit indicator)
-                              ▼
-                    Optimized strategy + Pine Script
-```
+![Parameter ranges → Optuna TPE optimization → IS/OOS/WFT delta → Optimized strategy branching flow](assets/illustrations/alphaforge-optuna-wft-flow-en.png){ loading=lazy }
 
 ## How AlphaForge compares to other quant tools
 

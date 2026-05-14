@@ -10,34 +10,13 @@
 
 戦略は JSON で定義し、`forge pine generate` で **TradingView の Pine Script v6** に自動変換します。Web UI 統合型プラットフォームのように特定のサーバや取引所アダプタに縛られず、ユーザーはすでに使い慣れた TradingView 上でアラート・自動売買・チャート可視化までシームレスに利用できます。
 
-```text
-JSON 戦略 (forge strategy)
-        │
-        ▼
-バックテスト + 最適化 (forge backtest / forge optimize)
-        │
-        ▼
-Pine Script v6 (forge pine generate)
-        │
-        ▼
-TradingView でアラート・自動売買・実取引
-```
+![JSON 戦略 → バックテスト + 最適化 → Pine Script v6 → TradingView の横フロー](assets/illustrations/alphaforge-json-to-tradingview-ja.png){ loading=lazy }
 
 ### 2. Optuna TPE + ウォークフォワード検証で「過学習しない」最適化
 
 `forge optimize run` 一発で Optuna ベイズ最適化（TPE）を実行し、`--split` でウォークフォワード分析（WFT）を同時にかけて IS（学習期間）/ OOS（検証期間）の性能差を可視化します。Web UI 型プラットフォームに不足しがちな最適化と汎化性能検証を、CLI で素早く回せます。
 
-```text
-パラメータ範囲 (variables) ─┐
-                            ▼
-                  Optuna TPE 最適化 (forge optimize run)
-                            │
-                            ├─ IS スコア（学習期間）
-                            ├─ OOS スコア（未来期間）
-                            └─ ウォークフォワード差分（過学習指標）
-                            ▼
-                  最適化済み戦略 + Pine Script
-```
+![パラメータ範囲 → Optuna TPE 最適化 → IS/OOS/WFT 差分 → 最適化済み戦略 の枝分かれフロー](assets/illustrations/alphaforge-optuna-wft-flow-ja.png){ loading=lazy }
 
 ## 他のクオンツツールとの比較
 
