@@ -123,6 +123,10 @@
       background: var(--accent-bg); color: var(--accent); border-radius: 4px;
       padding: 0.15rem 0.5rem; margin-left: 0.4rem; vertical-align: middle;
     }
+    /* tutorial 専用: H1 文字列が長いため、page-title フォントを 1 段下げて右余白を確保 */
+    .page-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+    }
     @media (max-width: 768px) {
       .doc-layout { grid-template-columns: 1fr; }
       .cmd-nav { display: none; }
@@ -150,7 +154,7 @@
       
 
       <div class="page-label">Tutorial</div>
-      <h1 class="page-title">Strategy Development, Backtesting &amp; Optimization</h1>
+      <h1 class="page-title">Strategy Development,<br>Backtesting &amp; Optimization</h1>
       <p class="page-subtitle">
         A step-by-step guide to building quantitative investment strategies with AlphaForge —
         from writing strategy JSON to running backtests, Bayesian optimization, and walk-forward validation.
