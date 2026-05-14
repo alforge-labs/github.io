@@ -1,11 +1,59 @@
 # AlphaForge ドキュメント
 
-AlphaForge は、時系列バックテスト・ベイズ最適化・ウォークフォワード検証を一元化する **ローカル CLI** です。すべての処理がローカルマシン上で完結するため、戦略データ・取引履歴・API キーが外部サーバーに送信されることはありません。
+**AlphaForge は、JSON で書いた戦略を Pine Script v6 に自動変換して TradingView でそのまま動かせる、ローカル CLI のクオンツ研究ツールです。** Optuna TPE による自動最適化とウォークフォワード検証で過学習を抑え、戦略データ・取引履歴・API キーをすべて自分のマシンに留めたまま、研究から実取引（TradingView 経由）まで一本のパイプラインで回せます。
 
 本ドキュメントでは、インストールから戦略開発、AI コーディングエージェントとの連携までを順を追って解説します。
 
+## AlphaForge が他と違う 2 つの強み
+
+### 1. JSON 戦略 → ワンコマンドで Pine Script v6 → TradingView で実取引へ
+
+戦略は JSON で定義し、`forge pine generate` で **TradingView の Pine Script v6** に自動変換します。Web UI 統合型プラットフォームのように特定のサーバや取引所アダプタに縛られず、ユーザーはすでに使い慣れた TradingView 上でアラート・自動売買・チャート可視化までシームレスに利用できます。
+
+```text
+JSON 戦略 (forge strategy)
+        │
+        ▼
+バックテスト + 最適化 (forge backtest / forge optimize)
+        │
+        ▼
+Pine Script v6 (forge pine generate)
+        │
+        ▼
+TradingView でアラート・自動売買・実取引
+```
+
+### 2. Optuna TPE + ウォークフォワード検証で「過学習しない」最適化
+
+`forge optimize run` 一発で Optuna ベイズ最適化（TPE）を実行し、`--split` でウォークフォワード分析（WFT）を同時にかけて IS（学習期間）/ OOS（検証期間）の性能差を可視化します。Web UI 型プラットフォームに不足しがちな最適化と汎化性能検証を、CLI で素早く回せます。
+
+```text
+パラメータ範囲 (variables) ─┐
+                            ▼
+                  Optuna TPE 最適化 (forge optimize run)
+                            │
+                            ├─ IS スコア（学習期間）
+                            ├─ OOS スコア（未来期間）
+                            └─ ウォークフォワード差分（過学習指標）
+                            ▼
+                  最適化済み戦略 + Pine Script
+```
+
+## 他のクオンツツールとの比較
+
+| 観点 | **AlphaForge** | Web UI 統合プラットフォーム型 | フレームワーク型（vectorbt / Backtrader 等） |
+|---|---|---|---|
+| 戦略の書き方 | **JSON DSL**（バージョン管理しやすい） | Python クラス（UI 内エディタ） | Python クラス |
+| TradingView 連携 | **Pine Script v6 を自動出力** | 基本なし | 基本なし |
+| 自動最適化 | **Optuna TPE + WFT が標準** | 弱い／手動が中心 | ライブラリ追加で実装 |
+| データ・鍵の所在 | **完全ローカル** | サーバ常駐 | ローカル |
+| 動作形態 | バイナリ CLI（数百MB / 1ファイル） | Docker / SaaS スタック | Python スクリプト |
+| AI エージェント連携 | Claude Code / Codex 用スキル同梱 | 一部対応 | 自前実装が必要 |
+| 実取引の経路 | **TradingView 経由**（取引所中立） | 取引所・ブローカー直接 | 自前で実装 |
+
 ## こんな方に向いています
 
+- **TradingView をすでに使っていて**、信頼できるバックテスト・最適化を経た Pine Script を投入したい方
 - バックテストフレームワーク（Backtrader、vectorbt 等）の代替を探しているエンジニア・クオンツリサーチャー
 - 戦略 JSON を **コードとしてバージョン管理** したい開発者
 - Claude Code や Codex などの AI エージェントと組み合わせて、戦略を **自律的に探索・最適化** したいユーザー

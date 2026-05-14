@@ -464,10 +464,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#alphaforge-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge が他と違う 2 つの強み
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge が他と違う 2 つの強み">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-json-pine-script-v6-tradingview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JSON 戦略 → ワンコマンドで Pine Script v6 → TradingView で実取引へ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-optuna-tpe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Optuna TPE + ウォークフォワード検証で「過学習しない」最適化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        こんな方に向いています
+        他のクオンツツールとの比較
       
     </span>
   </a>
@@ -478,7 +517,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        主な話題
+        こんな方に向いています
       
     </span>
   </a>
@@ -487,6 +526,17 @@
       
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主な話題
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         関連リンク
@@ -1985,10 +2035,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#alphaforge-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AlphaForge が他と違う 2 つの強み
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AlphaForge が他と違う 2 つの強み">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-json-pine-script-v6-tradingview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JSON 戦略 → ワンコマンドで Pine Script v6 → TradingView で実取引へ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-optuna-tpe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Optuna TPE + ウォークフォワード検証で「過学習しない」最適化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        こんな方に向いています
+        他のクオンツツールとの比較
       
     </span>
   </a>
@@ -1999,7 +2088,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        主な話題
+        こんな方に向いています
       
     </span>
   </a>
@@ -2008,6 +2097,17 @@
       
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主な話題
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         関連リンク
@@ -2035,16 +2135,98 @@
 
 
 <h1 id="alphaforge">AlphaForge ドキュメント<a class="headerlink" href="#alphaforge" title="Permanent link">&para;</a></h1>
-<p>AlphaForge は、時系列バックテスト・ベイズ最適化・ウォークフォワード検証を一元化する <strong>ローカル CLI</strong> です。すべての処理がローカルマシン上で完結するため、戦略データ・取引履歴・API キーが外部サーバーに送信されることはありません。</p>
+<p><strong>AlphaForge は、JSON で書いた戦略を Pine Script v6 に自動変換して TradingView でそのまま動かせる、ローカル CLI のクオンツ研究ツールです。</strong> Optuna TPE による自動最適化とウォークフォワード検証で過学習を抑え、戦略データ・取引履歴・API キーをすべて自分のマシンに留めたまま、研究から実取引（TradingView 経由）まで一本のパイプラインで回せます。</p>
 <p>本ドキュメントでは、インストールから戦略開発、AI コーディングエージェントとの連携までを順を追って解説します。</p>
-<h2 id="_1">こんな方に向いています<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="alphaforge-2">AlphaForge が他と違う 2 つの強み<a class="headerlink" href="#alphaforge-2" title="Permanent link">&para;</a></h2>
+<h3 id="1-json-pine-script-v6-tradingview">1. JSON 戦略 → ワンコマンドで Pine Script v6 → TradingView で実取引へ<a class="headerlink" href="#1-json-pine-script-v6-tradingview" title="Permanent link">&para;</a></h3>
+<p>戦略は JSON で定義し、<code>forge pine generate</code> で <strong>TradingView の Pine Script v6</strong> に自動変換します。Web UI 統合型プラットフォームのように特定のサーバや取引所アダプタに縛られず、ユーザーはすでに使い慣れた TradingView 上でアラート・自動売買・チャート可視化までシームレスに利用できます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>JSON 戦略 (forge strategy)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        ▼
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>バックテスト + 最適化 (forge backtest / forge optimize)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        ▼
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Pine Script v6 (forge pine generate)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        │
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        ▼
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>TradingView でアラート・自動売買・実取引
+</code></pre></div>
+<h3 id="2-optuna-tpe">2. Optuna TPE + ウォークフォワード検証で「過学習しない」最適化<a class="headerlink" href="#2-optuna-tpe" title="Permanent link">&para;</a></h3>
+<p><code>forge optimize run</code> 一発で Optuna ベイズ最適化（TPE）を実行し、<code>--split</code> でウォークフォワード分析（WFT）を同時にかけて IS（学習期間）/ OOS（検証期間）の性能差を可視化します。Web UI 型プラットフォームに不足しがちな最適化と汎化性能検証を、CLI で素早く回せます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>パラメータ範囲 (variables) ─┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                            ▼
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                  Optuna TPE 最適化 (forge optimize run)
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                            │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>                            ├─ IS スコア（学習期間）
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                            ├─ OOS スコア（未来期間）
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                            └─ ウォークフォワード差分（過学習指標）
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                            ▼
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>                  最適化済み戦略 + Pine Script
+</code></pre></div>
+<h2 id="_1">他のクオンツツールとの比較<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>観点</th>
+<th><strong>AlphaForge</strong></th>
+<th>Web UI 統合プラットフォーム型</th>
+<th>フレームワーク型（vectorbt / Backtrader 等）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>戦略の書き方</td>
+<td><strong>JSON DSL</strong>（バージョン管理しやすい）</td>
+<td>Python クラス（UI 内エディタ）</td>
+<td>Python クラス</td>
+</tr>
+<tr>
+<td>TradingView 連携</td>
+<td><strong>Pine Script v6 を自動出力</strong></td>
+<td>基本なし</td>
+<td>基本なし</td>
+</tr>
+<tr>
+<td>自動最適化</td>
+<td><strong>Optuna TPE + WFT が標準</strong></td>
+<td>弱い／手動が中心</td>
+<td>ライブラリ追加で実装</td>
+</tr>
+<tr>
+<td>データ・鍵の所在</td>
+<td><strong>完全ローカル</strong></td>
+<td>サーバ常駐</td>
+<td>ローカル</td>
+</tr>
+<tr>
+<td>動作形態</td>
+<td>バイナリ CLI（数百MB / 1ファイル）</td>
+<td>Docker / SaaS スタック</td>
+<td>Python スクリプト</td>
+</tr>
+<tr>
+<td>AI エージェント連携</td>
+<td>Claude Code / Codex 用スキル同梱</td>
+<td>一部対応</td>
+<td>自前実装が必要</td>
+</tr>
+<tr>
+<td>実取引の経路</td>
+<td><strong>TradingView 経由</strong>（取引所中立）</td>
+<td>取引所・ブローカー直接</td>
+<td>自前で実装</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">こんな方に向いています<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
+<li><strong>TradingView をすでに使っていて</strong>、信頼できるバックテスト・最適化を経た Pine Script を投入したい方</li>
 <li>バックテストフレームワーク（Backtrader、vectorbt 等）の代替を探しているエンジニア・クオンツリサーチャー</li>
 <li>戦略 JSON を <strong>コードとしてバージョン管理</strong> したい開発者</li>
 <li>Claude Code や Codex などの AI エージェントと組み合わせて、戦略を <strong>自律的に探索・最適化</strong> したいユーザー</li>
 <li>ベイズ最適化・ウォークフォワード検証を <strong>ワンコマンド</strong> で済ませたい方</li>
 </ul>
-<h2 id="_2">主な話題<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">主な話題<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="getting-started/">はじめに</a> — Whop 登録不要のインストール、最初のバックテスト（Trial プランで 10 分体験まで）、有料プラン購入後の認証</li>
 <li><a href="usecases/">目的別ユースケース</a> — 自分の役割（TradingView ユーザー / Python 開発者 / クオンツ / 自動売買検討者 / AI エージェント利用者）から最適な次ページを選ぶ</li>
@@ -2053,7 +2235,7 @@
 <li><a href="guides/ai-exploration-workflow/">AI 駆動の戦略探索ワークフロー</a> — Claude Code / Codex × AlphaForge による自律戦略開発の HOWTO</li>
 <li><a href="legal/disclaimers/">利用規約と免責事項</a> — 免責事項・EULA・プライバシーポリシー</li>
 </ul>
-<h2 id="_3">関連リンク<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_4">関連リンク<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://alforgelabs.com/ja/index.html">Alforge Labs 公式サイト</a> — 製品紹介とインストールガイド</li>
 <li><a href="https://alforgelabs.com/ja/tutorial-strategy.html">チュートリアル</a> — 戦略 JSON を作って動かす入門</li>
