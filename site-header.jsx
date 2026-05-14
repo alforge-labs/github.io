@@ -33,10 +33,9 @@ const HEADER_LINKS = [
   { key: 'products', href: _anchorBase + '#products' },
   { key: 'pricing',  href: _anchorBase + '#pricing' },
   { key: 'install',  href: 'install.html' },
-  { key: 'mkdocs',   href: 'docs/' },
   { key: 'tutorial', href: 'tutorial-strategy.html' },
-  { key: 'roadmap',  href: _anchorBase + '#roadmap' },
   { key: 'faq',      href: _anchorBase + '#faq' },
+  { key: 'mkdocs',   href: 'docs/' },
 ];
 
 function XIcon({ size = 16 }) {
