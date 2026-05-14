@@ -50,9 +50,10 @@
     .step-list { list-style: none; padding: 0; counter-reset: steps; }
     .step-list li {
       counter-increment: steps;
-      display: grid; grid-template-columns: 2rem 1fr; gap: 1rem;
+      display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem;
       margin-bottom: 1.5rem; align-items: start;
     }
+    .step-list li > div { min-width: 0; }
     .step-list li::before {
       content: counter(steps);
       display: flex; align-items: center; justify-content: center;
