@@ -14,7 +14,7 @@ window.EQUITY_CURVE = {
 // Bilingual copy — window.COPY
 window.COPY = {
   ja: {
-    nav: { products: 'プロダクト', pricing: '料金', install: 'インストール', docs: 'ドキュメント', roadmap: 'ロードマップ', faq: 'FAQ', follow: 'フォロー' },
+    nav: { products: 'プロダクト', pricing: '料金', install: 'インストール', tutorial: 'チュートリアル', faq: 'FAQ', docs: 'ドキュメント', follow: 'フォロー' },
     hero: {
       tag: '開発進行中',
       h1a: 'ノイズから、',
@@ -430,8 +430,6 @@ window.COPY = {
       copy: '© 2026 Alforge Labs.',
       note: 'このサイトは開発者向けソフトウェアツールを提供します。特定の投資・運用を推奨するものではありません。',
       links: [
-        { label: 'インストール', url: '/install.html' },
-        { label: 'ドキュメント', url: '/ja/docs/' },
         { label: '利用規約', url: '/terms.html' },
         { label: 'プライバシー', url: '/privacy.html' },
       ],
@@ -439,7 +437,7 @@ window.COPY = {
   },
 
   en: {
-    nav: { products: 'Products', pricing: 'Pricing', install: 'Install', docs: 'Docs', roadmap: 'Roadmap', faq: 'FAQ', follow: 'Follow' },
+    nav: { products: 'Products', pricing: 'Pricing', install: 'Install', tutorial: 'Tutorial', faq: 'FAQ', docs: 'Docs', follow: 'Follow' },
     hero: {
       tag: 'In Development',
       h1a: 'From Noise',
@@ -819,8 +817,6 @@ window.COPY = {
       copy: '© 2026 Alforge Labs.',
       note: 'This site provides developer software tools. Nothing here constitutes professional advice or specific product recommendations.',
       links: [
-        { label: 'Install', url: '/install.html' },
-        { label: 'Docs', url: '/en/docs/' },
         { label: 'Terms', url: '/terms.html' },
         { label: 'Privacy', url: '/privacy.html' },
       ],
