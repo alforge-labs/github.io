@@ -74,40 +74,18 @@ forge strategy create --template <NAME> --out <FILE>
 
 `alpha-forge` に同梱されている組み込みテンプレート（`alpha-forge/src/alpha_forge/strategy/templates.py` の `_TEMPLATE_REGISTRY` 由来）:
 
-| 名前 | 概要 |
-|------|------|
-| `sma_crossover_v1` | 短期 SMA × 長期 SMA のゴールデン／デッドクロス |
-| `rsi_reversion_v1` | RSI の売られ過ぎ／買われ過ぎを利用した逆張り |
-| `macd_crossover_v1` | MACD ライン × シグナルラインのクロスオーバー |
-| `bbands_breakout_v1` | ボリンジャーバンドの上限ブレイクアウト |
-| `range_reversion_v1` | レンジ相場での平均回帰 |
-| `supertrend_adx_v1` | SuperTrend + ADX のトレンドフォロー |
-| `ema_adx_macd_v1` | EMA + ADX + MACD の複合トレンド戦略 |
-| `hmm_range_pure_v1` | HMM レジーム検出を併用したレンジ純粋系 |
-| `hmm_anomaly_v1` | HMM レジームによる異常検知系 |
-| `macd_reversal_v1` | MACD ベースの転換点リバーサル |
-| `grid_bot_template` | グリッドボット用テンプレート |
-| `connors_rsi2_v1` | **Connors RSI-2 平均回帰戦略**（issue #475 / Phase 2）。Larry Connors の "Short-Term Trading Strategies That Work" から移植、SMA(200) 上で RSI(2) < 10 ロング・SMA(5) クロスで利確。SPY/QQQ で 70-85% 勝率実証だが**株式 1d 用のため FX 1h 適用には period 再スケール推奨** |
-| `donchian_turtle_v1` | **Donchian Channel Breakout（Turtle 系）**（issue #475 / Phase 2）。Richard Dennis "Turtle Trading Rules" から移植、20 期間高値ブレイクで long・10 期間安値クロスで exit、ATR 併記。先物・株式 1d で勝率 45% 実証だが**長期足用のため FX 1h 適用には length 再スケール推奨** |
-| `kama_rsi_v1` | **KAMA + RSI レジーム適応戦略**（issue #475 / Phase 2）。Perry Kaufman "New Trading Systems and Methods" (2013) から移植。KAMA がトレンド/レンジを自動判定 + RSI 過熱反転。**FX 1h 検証: MDD 46-76%（前 2 候補より改善）も CAGR マイナス** |
-| `tsi_reversion_v1` | **TSI 平均回帰戦略**（issue #475 / Phase 2）。Daniel Requejo (2024) SSRN paper "Efficacy of a Mean Reversion Trading Strategy Using TSI" から移植。TSI ±25 極値 + シグナル線クロスで反転狙い。SPY/QQQ で実証。**FX 1h 検証: MDD 82-97%・CAGR マイナス** |
-| `connors_rsi2_fx1h_v1` | **Connors RSI-2 FX 1h バリアント**（issue #480）。元 SMA(200)/SMA(5) → SMA(480)/SMA(24) に再スケール。FX 1h 検証: trades 350+ も MDD 99-100% で破綻 |
-| `donchian_turtle_fx1h_v1` | **Donchian Turtle FX 1h バリアント**（issue #480）。length 20/10 → 120/60 に再スケール。FX 1h 検証: 通貨により MDD 13-96% と分散大 |
-| `kama_rsi_fx1h_v1` | **KAMA + RSI FX 1h バリアント**（issue #480）。length 10/slow 30 → 48/120 に再スケール。🎯 **EURUSD で CAGR +0.54%・MDD 7.95% を達成**（4 通貨中唯一プラス転換）|
-| `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h バリアント**（issue #480）。fast/slow/signal を 13/25/13 → 48/120/48 に再スケール。FX 1h 検証: trades 0-4（過剰絞り込み）|
-| `kama_rsi_fx1h_v2` | **KAMA+RSI FX 1h・RSI 緩和版**（issue #482）。v1 の RSI 35/65 → 45/55 に。FX 1h 検証: trades 215+（v1 の 35 倍）も MDD 93-99% で破綻 |
-| `kama_rsi_fx1h_v3` | **KAMA+RSI FX 1h・KAMA 短縮版**（issue #482）。length 48/slow 120 → 24/60。FX 1h 検証: trades 2-9（v1 同等）/ MDD 8-36%・CAGR マイナス |
-| `kama_rsi_mtf_v1` | **KAMA+RSI+4h トレンドフィルタ MTF 版**（issue #484）。`kama_rsi_fx1h_v1` に 4h EMA(50) を AND で追加し、上位タイムフレームのトレンドと一致する 1h エントリーのみ許可。4h 系列はエンジンが 1h データから自動 resample するため追加データ取得は不要 |
-| `donchian_turtle_mtf_v1` | **Donchian Turtle+4h トレンドフィルタ MTF 版**（issue #484）。`donchian_turtle_fx1h_v1` に 4h EMA(50) を AND で追加。上昇トレンド中は long のみ・下降中は short のみ許可で trend-following のドローダウン抑制を狙う |
-| `kama_rsi_mtf_atr_v1` | **KAMA+RSI+4h トレンド+ATR SL MTF 版**（issue #486）。`kama_rsi_mtf_v1` に ATR(14) × 2 倍のエントリー時固定 SL（`lock_on_entry=true`）を追加。少 trades のまま勝率改善と CAGR + を狙う |
-| `kama_rsi_mtf_atr_v2` | **KAMA exit 除外版**（issue #489）。v1 の `close < kama` exit が ATR SL より先に発動して死活していた問題を修正し、exit を RSI（利確）+ ATR SL（ハードストップ）の 2 軸へ単純化。KAMA は entry トレンドフィルタ専念 |
-| `kama_rsi_mtf_trail_v1` | **真のトレーリング SL 版**（issue #488）。v2 の固定 ATR SL を `risk_management.trailing_stop_pct=1.0` で置換し、vectorbt の `sl_trail=True` 経由で「一度上げたら下げない」動的トレーリングを実現 |
-| `kama_rsi_mtf_trail_v2` | **トレーリング SL タイト版**（issue #492）。trail_v1 の `trailing_stop_pct` を 1.0 → 0.5 に縮め、FX 1h ATR ≈ 0.3-0.5% を意識した距離設定で MDD 抑制を狙う |
-| `kama_rsi_mtf_trail_loose_v1` | **RSI 緩和高頻度版**（issue #495）。trail_v1 の RSI 閾値を 35/65 → 40/60 に緩め trades を 4-7 → 8-12 に底上げ。`min_trades` / vol 軸 pass + MDD 1-3pt 悪化トレードオフ |
-| `kama_rsi_mtf_trail_loose_v2` | **RSI 緩和 + tight 0.5% トレーリング**（issue #497）。trail_loose_v1 (RSI 40/60) と trail_v2 (trailing 0.5%) の組み合わせ。trades / vol を維持しつつ MDD 30-40% 域へ戻す trade-off 解消版 |
-| `kama_rsi_mtf_trail_loose_kama_short_v1` | **KAMA 24/60 短縮版**（issue #502）。trail_loose_v2 の KAMA 48/120 → 24/60 に短縮し、過熱検出強化で勝率と profit_factor の改善を狙う |
-| `kama_rsi_mtf_trail_loose_tp_v1` | **TP 追加版**（issue #504）。trail_loose_v2 に `take_profit_pct=2.0` を追加し、+2% TP : -0.5% trail SL の 4:1 構造で profit_factor 1.0+ を狙う |
-| `kama_rsi_mtf_trail_v15_tp_v1` | **trail 2.0% + TP 1.5% 設計**（issue #506）。trail_loose_tp_v1 の TP が trailing 0.5% に阻まれ不発動だった失敗を修正し、TP を trailing trigger range の内側に配置。TP 確実発動で profit_factor 改善を狙う |
+AlphaForge は「ユーザー自身が戦略を作って育てる」プロダクトコンセプトのため、配布バイナリには **基本テンプレート 4 個 + レンジ代表 1 個 + 高度指標リファレンス 2 個 = 計 7 個のみ** を同梱しています。v0.3.5 までに同梱されていた 27 個の特化系（KAMA + RSI トレーリング・FX 1h 派生・Connors / TSI / OU stat-arb 等）は v0.4.0 で削除し、`alpha-strategies/legacy_templates/` に社内アーカイブとして保存しています。
+
+| 名前 | カテゴリ | 概要 |
+|------|---------|------|
+| `sma_crossover_v1` | 基本 | 短期 SMA × 長期 SMA のゴールデン／デッドクロス（最も基本的なトレンドフォロー） |
+| `rsi_reversion_v1` | 基本 | RSI の売られ過ぎ／買われ過ぎを利用した逆張り |
+| `macd_crossover_v1` | 基本 | MACD ライン × シグナルラインのクロスオーバー |
+| `bbands_breakout_v1` | 基本 | ボリンジャーバンドの上限ブレイクアウト |
+| `grid_bot_template` | レンジ | グリッドボット戦略（チョッピー相場の代表型） |
+| `hmm_bb_pipeline_v1` | リファレンス | HMM 3 状態（Bull / Range / Bear）でレジーム判定し、状態ごとに BB ベースのシグナルを切り替える 2 段階パイプライン（HMM 利用例） |
+| `donchian_turtle_v1` | リファレンス | Donchian Channel Breakout + ATR ストップ。Richard Dennis "Turtle Trading Rules" 系統の古典トレンドフォロー |
+
 
 ### サンプル出力
 
