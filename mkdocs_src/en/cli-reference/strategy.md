@@ -74,40 +74,18 @@ forge strategy create --template <NAME> --out <FILE>
 
 Built-in templates from `alpha-forge/src/alpha_forge/strategy/templates.py` (`_TEMPLATE_REGISTRY`):
 
-| Name | Description |
-|------|-------------|
-| `sma_crossover_v1` | Short SMA × long SMA golden / death cross |
-| `rsi_reversion_v1` | Mean reversion using RSI overbought / oversold |
-| `macd_crossover_v1` | MACD line × signal line crossover |
-| `bbands_breakout_v1` | Bollinger Bands upper-band breakout |
-| `range_reversion_v1` | Range-bound mean reversion |
-| `supertrend_adx_v1` | Trend-following with SuperTrend + ADX |
-| `ema_adx_macd_v1` | Composite trend strategy with EMA + ADX + MACD |
-| `hmm_range_pure_v1` | Range-pure with HMM regime detection |
-| `hmm_anomaly_v1` | Anomaly detection via HMM regime |
-| `macd_reversal_v1` | MACD-based turning-point reversal |
-| `grid_bot_template` | Grid bot template |
-| `connors_rsi2_v1` | **Connors RSI-2 mean reversion** (issue #475 Phase 2). Ported from Larry Connors "Short-Term Trading Strategies That Work". Long when SMA(200) up + RSI(2) < 10, exit on SMA(5) cross-up. 70-85% win rate verified on SPY/QQQ (**Note: designed for daily equities; FX 1h adoption requires SMA period re-scaling**) |
-| `donchian_turtle_v1` | **Donchian Channel Breakout (Turtle)** (issue #475 Phase 2). Ported from Richard Dennis "Turtle Trading Rules". Long on 20-period high break, exit on 10-period low cross-down. 45% win rate verified on daily futures/equities (**Note: designed for daily timeframes; FX 1h adoption requires length re-scaling**) |
-| `kama_rsi_v1` | **KAMA + RSI regime-adaptive** (issue #475 Phase 2). Ported from Perry Kaufman "New Trading Systems and Methods" (2013). KAMA auto-detects trend/range; RSI captures overbought/oversold. **FX 1h validation: MDD 46-76% (better than prior two) but CAGR still negative** |
-| `tsi_reversion_v1` | **TSI Mean Reversion** (issue #475 Phase 2). Ported from Daniel Requejo (2024) SSRN paper "Efficacy of a Mean Reversion Trading Strategy Using TSI". Long when TSI < -25 + signal cross-up, short when TSI > +25 + cross-down. Verified on SPY/QQQ. **FX 1h validation: MDD 82-97% with negative CAGR** |
-| `connors_rsi2_fx1h_v1` | **Connors RSI-2 FX 1h variant** (issue #480). SMA(200)/SMA(5) re-scaled to SMA(480)/SMA(24). FX 1h validation: trades 350+ but MDD 99-100% (still broken) |
-| `donchian_turtle_fx1h_v1` | **Donchian Turtle FX 1h variant** (issue #480). length 20/10 re-scaled to 120/60. FX 1h validation: MDD 13-96% (large variance) |
-| `kama_rsi_fx1h_v1` | **KAMA + RSI FX 1h variant** (issue #480). length 10/slow 30 → 48/120 re-scaled. 🎯 **EURUSD reached CAGR +0.54% / MDD 7.95%** (only positive CAGR across 4 pairs) |
-| `tsi_reversion_fx1h_v1` | **TSI Reversion FX 1h variant** (issue #480). fast/slow/signal re-scaled from 13/25/13 to 48/120/48. FX 1h validation: trades 0-4 (over-filtered) |
-| `kama_rsi_fx1h_v2` | **KAMA+RSI FX 1h, RSI loose** (issue #482). v1 RSI 35/65 → 45/55. FX 1h validation: trades 215+ (~35× of v1) but MDD 93-99% (over-relaxed) |
-| `kama_rsi_fx1h_v3` | **KAMA+RSI FX 1h, fast KAMA** (issue #482). length 48/slow 120 → 24/60. FX 1h validation: trades 2-9 / MDD 8-36% / CAGR negative |
-| `kama_rsi_mtf_v1` | **KAMA+RSI + 4h trend filter MTF variant** (issue #484). Adds a 4h EMA(50) AND filter to `kama_rsi_fx1h_v1`, allowing 1h entries only when the higher timeframe trend agrees. The engine resamples 4h series from 1h data automatically — no extra fetch required |
-| `donchian_turtle_mtf_v1` | **Donchian Turtle + 4h trend filter MTF variant** (issue #484). Adds a 4h EMA(50) AND filter to `donchian_turtle_fx1h_v1`. Long-only in uptrends and short-only in downtrends to suppress trend-following drawdowns |
-| `kama_rsi_mtf_atr_v1` | **KAMA + RSI + 4h trend + ATR SL MTF variant** (issue #486). Adds an ATR(14) × 2 entry-locked stop loss (`lock_on_entry=true`) to `kama_rsi_mtf_v1`. Aims to improve win rate and CAGR while keeping low trade count |
-| `kama_rsi_mtf_atr_v2` | **KAMA-exit-removed variant** (issue #489). Fixes v1's dead ATR SL by removing `close < kama` from exits, simplifying to RSI (take profit) + ATR SL (hard stop). KAMA is used purely as an entry trend filter |
-| `kama_rsi_mtf_trail_v1` | **True trailing-SL variant** (issue #488). Replaces v2's fixed ATR SL with `risk_management.trailing_stop_pct=1.0`, enabling vectorbt's `sl_trail=True` for a true "ratchet up only" trailing stop |
-| `kama_rsi_mtf_trail_v2` | **Tight trailing-SL variant** (issue #492). Tightens trail_v1's `trailing_stop_pct` from 1.0 to 0.5 (FX 1h ATR ≈ 0.3-0.5%) to suppress MDD |
-| `kama_rsi_mtf_trail_loose_v1` | **High-frequency variant** (issue #495). Loosens trail_v1's RSI thresholds from 35/65 to 40/60 to lift trades from 4-7 to 8-12, targeting `min_trades` and vol filter pass at the cost of 1-3pt MDD |
-| `kama_rsi_mtf_trail_loose_v2` | **High-frequency + tight 0.5% trailing** (issue #497). Combines trail_loose_v1 (RSI 40/60) with trail_v2 (trailing 0.5%) to preserve trades / vol gains while reducing MDD back into the 30-40% range |
-| `kama_rsi_mtf_trail_loose_kama_short_v1` | **Short KAMA (24/60) variant** (issue #502). Shortens trail_loose_v2's KAMA from 48/120 to 24/60 for sharper overheating detection, targeting win rate / profit_factor improvement |
-| `kama_rsi_mtf_trail_loose_tp_v1` | **Take-profit variant** (issue #504). Adds `take_profit_pct=2.0` on top of trail_loose_v2 for a 4:1 (TP +2% : SL -0.5%) ratio structure targeting `profit_factor` above 1.0 |
-| `kama_rsi_mtf_trail_v15_tp_v1` | **Trail 2.0% + TP 1.5% design** (issue #506). Fixes trail_loose_tp_v1's TP preemption issue by placing TP (1.5) inside the trailing range (2.0). Ensures TP firing for profit_factor improvement |
+AlphaForge ships a curated set of templates so users can focus on building their own strategies. The distributed binary includes **4 basic templates + 1 range strategy + 2 advanced-indicator references = 7 templates total**. The 27 specialized templates that shipped through v0.3.5 (KAMA + RSI trailing variants, FX 1h ports, Connors / TSI / OU stat-arb, etc.) were removed in v0.4.0 and archived under `alpha-strategies/legacy_templates/` for internal reference.
+
+| Name | Category | Description |
+|------|----------|-------------|
+| `sma_crossover_v1` | Basic | Short/long SMA crossover (the most basic trend follower) |
+| `rsi_reversion_v1` | Basic | Mean reversion using RSI overbought / oversold |
+| `macd_crossover_v1` | Basic | MACD line / signal line crossover |
+| `bbands_breakout_v1` | Basic | Bollinger Bands upper-band breakout |
+| `grid_bot_template` | Range | Grid bot strategy (representative choppy-market template) |
+| `hmm_bb_pipeline_v1` | Reference | Two-stage pipeline that classifies regimes via HMM (Bull/Range/Bear, 3 states) and switches BB-based signals per regime |
+| `donchian_turtle_v1` | Reference | Donchian Channel Breakout + ATR stop. Richard Dennis "Turtle Trading Rules" style classic trend follower |
+
 
 ### Sample output
 
