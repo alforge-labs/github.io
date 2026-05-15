@@ -29,7 +29,8 @@ $ErrorActionPreference = "Stop"
 
 $INSTALL_ROOT      = Join-Path $env:LOCALAPPDATA "Programs\alpha-forge"
 $DIST_DIR          = Join-Path $INSTALL_ROOT "forge.dist"
-$LAUNCHER          = Join-Path $INSTALL_ROOT "forge.cmd"
+$LAUNCHER          = Join-Path $INSTALL_ROOT "alpha-forge.cmd"
+$OLD_LAUNCHER      = Join-Path $INSTALL_ROOT "forge.cmd"  # v0.4.x 以下からの移行残骸
 $OLD_USER_BIN      = Join-Path $HOME "bin\forge.exe"
 $OLD_USER_BIN_DIR  = Join-Path $HOME "bin"
 $OLD_PROGRAM_FILES = "C:\Program Files\forge\forge.exe"
