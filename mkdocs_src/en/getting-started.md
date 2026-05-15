@@ -136,21 +136,33 @@ forge backtest run SPY \
 
 When complete, you'll see output like this.
 
-!!! warning "Sample output"
-    Actual numbers vary depending on the data fetched. The table below maps CLI labels (Japanese in the CLI output) to the conventional English metric names.
+!!! warning "**Your numbers will not match this** (sample output)"
+    The figures below were measured with **alpha-forge v0.4.0** against **SPY 1d
+    data fetched via yfinance on 2026-05-15**. The backtest engine and internal
+    metrics evolve continuously, and yfinance also adjusts splits/dividends/CA
+    backfills over time, so **the literal numbers printed in this doc drift across
+    versions** (finding F-103b). Don't expect to reproduce `4.74%` on your machine —
+    use this only as a reference for **label structure and order-of-magnitude
+    intuition**. For deterministic regression tests, capture
+    `forge backtest run --json` snapshots and diff them against your own baseline.
+    The CLI label table below maps Japanese CLI labels to conventional English metric names.
 
 ```
-Running backtest: SPY x sma_cross_qs
-⚠️  Backtest done   signal-quality score: 0.48/1.0
+Running backtest: SPY x sma_cross_qs  (2019-01-01 → 2023-12-29, 1258 bars)
+⚠️  Backtest done   signal-quality score: 0.48/1.0  (0.4–0.7: caution, more validation suggested)
 ⚠️  Warning: too few trades (trades=15, ≥ 30 recommended)
+    → Fewer than 30 trades is statistically noisy and may be filtered out by
+      optimization / WFT pre_filter. Consider widening the data period
+      (`--start` to go further back).
 Total Return: 4.74%   CAGR: 0.93%
 SR: 0.85   Sortino: -2.86   Calmar: 0.52
 MDD: 1.79%   Length: 71d   Recovery: 154d
 PF: 4.01   Win%: 35.7%   avgWin: 10.39%   avgLoss: -1.72%
 Trades: 15   AvgHold: 56.8d(57bar)   Max: 218.0d(218bar)
 Win-rate CI(90%): 17.8% - 54.8%
-📊 View charts via `vis serve` (result ID: sma_cross_qs_report)
+📊 View charts via `alpha-vis serve` (result ID: sma_cross_qs_report)
 DB save: run_id=<uuid>
+💾 Result file: data/results/optimize_sma_cross_qs_<timestamp>.json  ← only with --save
 ```
 
 A quick read of the key metrics is below. For the full metric list, see [Reading the Results in detail](#reading-the-results-detailed) or the [CLI Reference](cli-reference/index.md).
