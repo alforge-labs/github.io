@@ -62,7 +62,7 @@ AlphaForge CLI v1.x.x
 バージョンが表示されれば完了です。手動インストールやインストール先のカスタマイズは、本ページ後半の「詳細インストール」セクションを参照してください。
 
 !!! note "最新版バイナリの直接ダウンロード"
-    インストーラを使わずバイナリを直接配置したい場合は、[GitHub Releases（最新版）](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest) から各プラットフォーム向け（`forge-macos-arm64` / `forge-linux-x64` / `forge-windows-x64.exe` 等）をダウンロードできます。詳細は本ページ「詳細インストール → 手動インストール」を参照してください。
+    インストーラを使わずバイナリを直接配置したい場合は、[GitHub Releases（最新版）](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest) から各プラットフォーム向け（`alpha-forge-macos-arm64` / `alpha-forge-linux-x64` / `alpha-forge-windows-x64.exe` 等）をダウンロードできます。詳細は本ページ「詳細インストール → 手動インストール」を参照してください。
 
 !!! info "Trial プランは Whop 登録なしでそのまま使えます"
     インストール完了直後から、`forge --version` も含めて Trial プランとして CLI を実行できます。Whop OAuth 認証は **有料プラン（Lifetime / Annual / Monthly）を購入したときだけ**必要で、Trial 体験には不要です。認証の手順は本ページ後半の「有料プラン購入後の認証」セクションを参照してください。
@@ -301,8 +301,8 @@ DB 保存: run_id=<uuid>
     2. **macOS / Linux**: 実行権限を付与して PATH の通ったディレクトリに配置します。
 
         ```bash
-        chmod +x forge-macos-arm64
-        sudo mv forge-macos-arm64 /usr/local/bin/forge
+        chmod +x alpha-forge-macos-arm64
+        sudo mv alpha-forge-macos-arm64 /usr/local/bin/alpha-forge
         ```
 
     3. **Windows**: バイナリを任意のフォルダに配置し、そのフォルダを PATH に追加します。

@@ -174,8 +174,8 @@ OS="$(uname -s)"
 ARCH="$(uname -m)"
 
 case "${OS}-${ARCH}" in
-  Darwin-arm64)  ARTIFACT="forge-macos-arm64"; EXT="tar.gz" ;;
-  Darwin-x86_64) ARTIFACT="forge-macos-x64";   EXT="tar.gz" ;;
+  Darwin-arm64)  ARTIFACT="alpha-forge-macos-arm64"; EXT="tar.gz" ;;
+  Darwin-x86_64) ARTIFACT="alpha-forge-macos-x64";   EXT="tar.gz" ;;
   *) fail "$(lang "未対応プラットフォーム: ${OS}-${ARCH}。対応: macOS arm64, macOS x86_64" \
                   "Unsupported platform: ${OS}-${ARCH}. Supported: macOS arm64, macOS x86_64")" ;;
 esac

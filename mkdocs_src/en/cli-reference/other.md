@@ -71,7 +71,7 @@ Works against the **forge.dist directory + symlink layout** created by `install.
 #### How it works
 
 1. Fetches the latest tag from `alforge-labs/alforge-labs.github.io` via the Releases API.
-2. Downloads the platform asset (e.g. `forge-macos-arm64.tar.gz`) and `SHA256SUMS`.
+2. Downloads the platform asset (e.g. `alpha-forge-macos-arm64.tar.gz`) and `SHA256SUMS`.
 3. Verifies the hash and extracts to a temp directory.
 4. Renames `forge.dist` to `forge.dist.bak-<unix_ts>` (atomic).
 5. Atomically promotes the new `forge.dist` into place.

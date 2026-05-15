@@ -62,7 +62,7 @@ AlphaForge CLI v1.x.x
 If you see a version number, you're ready. For manual installation or custom install paths, see [Detailed Installation](#detailed-installation).
 
 !!! note "Download the latest binary directly"
-    Prefer a manual setup over the installer? Grab the per-platform binaries (`forge-macos-arm64` / `forge-linux-x64` / `forge-windows-x64.exe`, etc.) from [GitHub Releases (latest)](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest). See "Detailed Installation → Manual Install" later on this page for placement and PATH details.
+    Prefer a manual setup over the installer? Grab the per-platform binaries (`alpha-forge-macos-arm64` / `alpha-forge-linux-x64` / `alpha-forge-windows-x64.exe`, etc.) from [GitHub Releases (latest)](https://github.com/alforge-labs/alforge-labs.github.io/releases/latest). See "Detailed Installation → Manual Install" later on this page for placement and PATH details.
 
 !!! info "The Trial plan works without Whop registration"
     From the moment installation finishes, the CLI runs immediately as the Trial plan. Whop OAuth login is **only needed when you purchase a paid plan (Lifetime / Annual / Monthly)**; Trial usage requires nothing additional. See the "Paid-plan login" section later on this page for the upgrade flow.
@@ -303,8 +303,8 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
     2. **macOS / Linux**: make it executable and move it to a directory on your PATH.
 
         ```bash
-        chmod +x forge-macos-arm64
-        sudo mv forge-macos-arm64 /usr/local/bin/forge
+        chmod +x alpha-forge-macos-arm64
+        sudo mv alpha-forge-macos-arm64 /usr/local/bin/alpha-forge
         ```
 
     3. **Windows**: place the binary in any folder and add that folder to PATH.

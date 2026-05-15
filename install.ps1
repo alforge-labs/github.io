@@ -1,12 +1,12 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    AlphaForge forge の Windows インストーラー / AlphaForge forge installer for Windows
+    AlphaForge alpha-forge の Windows インストーラー / AlphaForge alpha-forge installer for Windows
 
 .DESCRIPTION
-    GitHub Releases から最新の forge-windows-x64.zip を取得し、
+    GitHub Releases から最新の alpha-forge-windows-x64.zip を取得し、
     %LOCALAPPDATA%\Programs\alpha-forge\forge.dist\ に同梱ファイル一式を
-    展開して %LOCALAPPDATA%\Programs\alpha-forge\forge.cmd ラッパーを生成する。
+    展開して %LOCALAPPDATA%\Programs\alpha-forge\alpha-forge.cmd ラッパーを生成する。
     User PATH に %LOCALAPPDATA%\Programs\alpha-forge を追加する。
 
     -DryRun スイッチで実際の変更なしに動作を確認できる。
@@ -48,7 +48,7 @@ function L([string]$ja, [string]$en) {
 }
 
 $REPO         = "alforge-labs/alforge-labs.github.io"
-$ARTIFACT     = "forge-windows-x64"
+$ARTIFACT     = "alpha-forge-windows-x64"
 $EXT          = "zip"
 $INSTALL_ROOT = Join-Path $env:LOCALAPPDATA "Programs\alpha-forge"
 $DIST_DIR     = Join-Path $INSTALL_ROOT "forge.dist"
