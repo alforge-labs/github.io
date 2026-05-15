@@ -208,46 +208,54 @@ DIST_SUFFIX="share/alpha-forge"
 removed_count=0
 
 for bin_dir in "${BIN_CANDIDATES[@]}"; do
-  symlink="${bin_dir}/forge"
-  if [ ! -L "${symlink}" ] && [ ! -f "${symlink}" ]; then
-    continue
-  fi
-
-  parent="$(dirname "${bin_dir}")"
-  dist_dir="${parent}/${DIST_SUFFIX}"
-
-  echo "$(lang "見つけたインストール" "Found installation"):"
-  echo "  symlink:    ${symlink}"
-  if [ -L "${symlink}" ]; then
-    echo "  → $(lang "実体" "target"):     $(readlink "${symlink}")"
-  fi
-  echo "  forge.dist: ${dist_dir}"
-
-  maybe_sudo_rm "${symlink}" "file"
-
-  if [ -d "${dist_dir}" ]; then
-    # dist_dir = ${parent}/share/alpha-forge は alpha-forge install が
-    # 排他的に所有する subdirectory のため、forge.dist もろともまるごと削除する。
-    # その親 (${parent}/share) は XDG 標準ディレクトリで他アプリも使うので
-    # 触らない（過去に空なら削除する誤ロジックがあり修正済み）。
-    maybe_sudo_rm "${dist_dir}" "dir"
-  fi
-
-  # 古い .bak.* バックアップが残っていれば一緒に掃除
-  for bak in "${dist_dir}".bak.*; do
-    if [ -d "${bak}" ]; then
-      info "$(lang "古いバックアップを削除" "Removing old backup"): ${bak}"
-      maybe_sudo_rm "${bak}" "dir"
+  # v0.5.0 で symlink 名を `forge` → `alpha-forge` にリネーム済み。
+  # 旧 `forge` symlink が残っているケース（v0.4.x 以下からの移行直後）も拾うため
+  # 両方を順に確認する。
+  for symlink_name in alpha-forge forge; do
+    symlink="${bin_dir}/${symlink_name}"
+    if [ ! -L "${symlink}" ] && [ ! -f "${symlink}" ]; then
+      continue
     fi
-  done
 
-  removed_count=$((removed_count + 1))
-  echo ""
+    parent="$(dirname "${bin_dir}")"
+    dist_dir="${parent}/${DIST_SUFFIX}"
+
+    echo "$(lang "見つけたインストール" "Found installation"):"
+    echo "  symlink:    ${symlink}"
+    if [ -L "${symlink}" ]; then
+      echo "  → $(lang "実体" "target"):     $(readlink "${symlink}")"
+    fi
+    echo "  forge.dist: ${dist_dir}"
+
+    maybe_sudo_rm "${symlink}" "file"
+
+    if [ -d "${dist_dir}" ]; then
+      # dist_dir = ${parent}/share/alpha-forge は alpha-forge install が
+      # 排他的に所有する subdirectory のため、forge.dist もろともまるごと削除する。
+      # その親 (${parent}/share) は XDG 標準ディレクトリで他アプリも使うので
+      # 触らない（過去に空なら削除する誤ロジックがあり修正済み）。
+      maybe_sudo_rm "${dist_dir}" "dir"
+    fi
+
+    # 古い .bak.* バックアップが残っていれば一緒に掃除
+    for bak in "${dist_dir}".bak.*; do
+      if [ -d "${bak}" ]; then
+        info "$(lang "古いバックアップを削除" "Removing old backup"): ${bak}"
+        maybe_sudo_rm "${bak}" "dir"
+      fi
+    done
+
+    removed_count=$((removed_count + 1))
+    echo ""
+    # forge.dist は両 symlink が共有する実体なので、最初の symlink で削除済み。
+    # 二度目（旧 `forge` 残存）は symlink だけ拾えればよい。
+    break
+  done
 done
 
 if [ "${removed_count}" -eq 0 ]; then
-  warn "$(lang "forge シンボリックリンクが見つかりませんでした (${BIN_CANDIDATES[*]} を確認)" \
-                "No forge symlink found (checked: ${BIN_CANDIDATES[*]})")"
+  warn "$(lang "alpha-forge / forge シンボリックリンクが見つかりませんでした (${BIN_CANDIDATES[*]} を確認)" \
+                "No alpha-forge / forge symlink found (checked: ${BIN_CANDIDATES[*]})")"
 fi
 
 # ── 2. shell rc から PATH 行を削除 ────────────────────────────────
