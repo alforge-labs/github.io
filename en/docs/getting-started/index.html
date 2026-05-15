@@ -2413,6 +2413,43 @@
 <li>The <strong>~10-minute Trial walkthrough</strong> (no Whop registration required) is at the top. Just install and start using the CLI immediately.</li>
 <li>After that you'll find <strong>detailed install instructions, paid-plan login (Lifetime / Annual / Monthly), uninstall, and troubleshooting</strong>.</li>
 </ul>
+<div class="admonition info">
+<p class="admonition-title">Glossary (terms used on this page)</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AlphaForge</strong></td>
+<td>The CLI product that runs backtests, parameter optimization, and Pine Script export from a strategy JSON (this tool itself).</td>
+</tr>
+<tr>
+<td><strong><code>alpha-forge</code> command</strong></td>
+<td>The CLI executable name for AlphaForge. Renamed from <code>forge</code> to <code>alpha-forge</code> in v0.5.0.</td>
+</tr>
+<tr>
+<td><strong>Trial plan</strong></td>
+<td>The default mode immediately after install. <strong>No email, no account, no signup required.</strong> Data is capped at 2023-12-31 in exchange for access to nearly every feature except Pine Script export.</td>
+</tr>
+<tr>
+<td><strong>Paid plan</strong></td>
+<td>Lifetime / Annual / Monthly. Removes the data date cap and the optimization-trial limit, and enables Pine Script export.</td>
+</tr>
+<tr>
+<td><strong>Whop</strong></td>
+<td>The external billing &amp; license-management platform AlphaForge uses (whop.com). You only create a Whop account when purchasing a paid plan (Google / GitHub SSO also work).</td>
+</tr>
+<tr>
+<td><strong>OAuth 2.0 PKCE login</strong></td>
+<td>After buying a paid plan, <code>alpha-forge system auth login</code> opens your browser, you log in to Whop, and an access token is saved to <code>~/.config/forge/credentials.json</code>.</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr />
 <h2 id="10-minute-first-backtest-on-the-trial-plan">~10-Minute First Backtest on the Trial Plan<a class="headerlink" href="#10-minute-first-backtest-on-the-trial-plan" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
@@ -2592,6 +2629,61 @@ The CLI label table below maps Japanese CLI labels to conventional English metri
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Additional metrics printed by the CLI</p>
+<p>Beyond the six core metrics above, the CLI also prints supporting metrics.</p>
+<table>
+<thead>
+<tr>
+<th>CLI label</th>
+<th>Conventional name</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Signal quality score</strong></td>
+<td>—</td>
+<td>A 0.0–1.0 score from alpha-forge's internal statistical validity check on the trade signal. <strong>≥0.7 = reliable, 0.4–0.7 = caution, &lt;0.4 = reference only</strong>.</td>
+</tr>
+<tr>
+<td><strong>Sortino</strong></td>
+<td>Sortino Ratio</td>
+<td>Sharpe variant that only penalizes downside volatility. For the same Sharpe, a higher Sortino means smaller risk on the way down. Negative values indicate negative returns relative to downside risk.</td>
+</tr>
+<tr>
+<td><strong>Calmar</strong></td>
+<td>Calmar Ratio</td>
+<td><code>CAGR ÷ |MDD|</code>. Annualized return normalized by max drawdown. <strong>≥0.5 acceptable, &gt;1.0 strong</strong>.</td>
+</tr>
+<tr>
+<td><strong>Length / Recovery</strong></td>
+<td>Drawdown duration / Recovery</td>
+<td>Days from MDD peak to trough / from trough back to a new peak. Longer recovery means longer capital lock-up.</td>
+</tr>
+<tr>
+<td><strong>avgWin / avgLoss</strong></td>
+<td>Avg Win / Avg Loss</td>
+<td>Average winning trade % and average losing trade %. <code>avgWin ÷ |avgLoss|</code> is the payoff ratio; <strong>≥2.0</strong> is healthy for trend-following.</td>
+</tr>
+<tr>
+<td><strong>AvgHold / Max</strong></td>
+<td>Avg Hold / Max Hold</td>
+<td>Average and maximum position-holding length in days. Compare with the timeframe (1d, 1h, etc.) — large divergences from the strategy's intended horizon are a red flag.</td>
+</tr>
+<tr>
+<td><strong>Win streak / Loss streak</strong></td>
+<td>Max consecutive wins / losses</td>
+<td>Longest winning / losing run. Long losing streaks raise the psychological cost of running the strategy live.</td>
+</tr>
+<tr>
+<td><strong>Win-rate CI(90%)</strong></td>
+<td>Win Rate 90% CI</td>
+<td>90% confidence interval for the win rate. A wide CI (e.g. <code>17.8% – 54.8%</code>) means too few trades to pin down the true win rate; <strong>30+ trades</strong> narrows it considerably.</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Visualize the results in your browser</p>
 <p>The <code>📊 View charts via vis serve</code> line at the end of the output points at the separate <a href="../alpha-visualizer/installation/">alpha-visualizer</a> dashboard. Install with:</p>

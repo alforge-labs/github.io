@@ -5,6 +5,16 @@ A complete onboarding guide — from installing AlphaForge CLI to reading your f
 - The **~10-minute Trial walkthrough** (no Whop registration required) is at the top. Just install and start using the CLI immediately.
 - After that you'll find **detailed install instructions, paid-plan login (Lifetime / Annual / Monthly), uninstall, and troubleshooting**.
 
+!!! info "Glossary (terms used on this page)"
+    | Term | Meaning |
+    |---|---|
+    | **AlphaForge** | The CLI product that runs backtests, parameter optimization, and Pine Script export from a strategy JSON (this tool itself). |
+    | **`alpha-forge` command** | The CLI executable name for AlphaForge. Renamed from `forge` to `alpha-forge` in v0.5.0. |
+    | **Trial plan** | The default mode immediately after install. **No email, no account, no signup required.** Data is capped at 2023-12-31 in exchange for access to nearly every feature except Pine Script export. |
+    | **Paid plan** | Lifetime / Annual / Monthly. Removes the data date cap and the optimization-trial limit, and enables Pine Script export. |
+    | **Whop** | The external billing & license-management platform AlphaForge uses (whop.com). You only create a Whop account when purchasing a paid plan (Google / GitHub SSO also work). |
+    | **OAuth 2.0 PKCE login** | After buying a paid plan, `alpha-forge system auth login` opens your browser, you log in to Whop, and an access token is saved to `~/.config/forge/credentials.json`. |
+
 ---
 
 ## ~10-Minute First Backtest on the Trial Plan
@@ -175,6 +185,20 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 | **Win%** | Win Rate | Percentage of winning trades. 40–60% is normal for trend-following. |
 | **PF** | Profit Factor | Total profit ÷ total loss. **1.5+** is solid. |
 | **Trades** | Total trades | Aim for **30+** for statistical reliability; 15 triggers the warning in the sample output. |
+
+!!! note "Additional metrics printed by the CLI"
+    Beyond the six core metrics above, the CLI also prints supporting metrics.
+
+    | CLI label | Conventional name | What it means |
+    |---|---|---|
+    | **Signal quality score** | — | A 0.0–1.0 score from alpha-forge's internal statistical validity check on the trade signal. **≥0.7 = reliable, 0.4–0.7 = caution, <0.4 = reference only**. |
+    | **Sortino** | Sortino Ratio | Sharpe variant that only penalizes downside volatility. For the same Sharpe, a higher Sortino means smaller risk on the way down. Negative values indicate negative returns relative to downside risk. |
+    | **Calmar** | Calmar Ratio | `CAGR ÷ |MDD|`. Annualized return normalized by max drawdown. **≥0.5 acceptable, >1.0 strong**. |
+    | **Length / Recovery** | Drawdown duration / Recovery | Days from MDD peak to trough / from trough back to a new peak. Longer recovery means longer capital lock-up. |
+    | **avgWin / avgLoss** | Avg Win / Avg Loss | Average winning trade % and average losing trade %. `avgWin ÷ |avgLoss|` is the payoff ratio; **≥2.0** is healthy for trend-following. |
+    | **AvgHold / Max** | Avg Hold / Max Hold | Average and maximum position-holding length in days. Compare with the timeframe (1d, 1h, etc.) — large divergences from the strategy's intended horizon are a red flag. |
+    | **Win streak / Loss streak** | Max consecutive wins / losses | Longest winning / losing run. Long losing streaks raise the psychological cost of running the strategy live. |
+    | **Win-rate CI(90%)** | Win Rate 90% CI | 90% confidence interval for the win rate. A wide CI (e.g. `17.8% – 54.8%`) means too few trades to pin down the true win rate; **30+ trades** narrows it considerably. |
 
 !!! tip "Visualize the results in your browser"
     The `📊 View charts via vis serve` line at the end of the output points at the separate [alpha-visualizer](alpha-visualizer/installation.md) dashboard. Install with:
