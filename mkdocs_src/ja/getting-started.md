@@ -57,13 +57,17 @@ AlphaForge CLI v1.x.x
 !!! info "Trial プランは Whop 登録なしでそのまま使えます"
     インストール完了直後から、`forge --version` も含めて Trial プランとして CLI を実行できます。Whop OAuth 認証は **有料プラン（Lifetime / Annual / Monthly）を購入したときだけ**必要で、Trial 体験には不要です。認証の手順は本ページ後半の「有料プラン購入後の認証」セクションを参照してください。
 
-### ステップ 2 — 戦略ファイルを用意する（約 2 分）
+### ステップ 2 — 作業ディレクトリを初期化して戦略ファイルを用意する（約 2 分）
 
-`quickstart/` ディレクトリを作成し、サンプル戦略 JSON を保存します。
+`quickstart/` ディレクトリを作成して `forge system init` で初期化します。`forge.yaml`（戦略・データ・結果の保存先設定）と `data/` 等のサブディレクトリが配置されます。
 
 ```bash
 mkdir quickstart && cd quickstart
+forge system init
 ```
+
+!!! info "`forge system init` を必ず実行してください"
+    `forge.yaml` が無いと戦略の DB 登録先・データ保存先・結果ファイル出力先が確定せず、後段の `forge backtest run` が `FileNotFoundError` で失敗します。クイックスタートでは `--force` 不要。
 
 `sma_cross.json` という名前で以下を保存します。
 
@@ -101,7 +105,20 @@ mkdir quickstart && cd quickstart
 }
 ```
 
-### ステップ 3 — バックテストを実行する（約 2 分）
+### ステップ 3 — 戦略を登録してバックテストを実行する（約 2 分）
+
+ステップ 2 で書いた `sma_cross.json` を AlphaForge に登録します（戦略 DB に保存）。
+
+```bash
+forge strategy save sma_cross.json
+```
+
+```
+✅ カスタム戦略 'sma_cross_qs' を登録しました
+```
+
+!!! tip "JSON ファイルから直接バックテスト（`--strategy-file`）"
+    DB 登録を省いて JSON を直接指定したい場合は `--strategy-file sma_cross.json` を使えます。クイックスタートでは登録版を採用しますが、編集→即実行を繰り返したい場合に便利です。
 
 Trial プランの範囲（〜2023-12-31）でバックテストを実行します。
 
@@ -112,34 +129,52 @@ forge backtest run SPY \
   --end 2023-12-31
 ```
 
-!!! note "データを自動取得"
-    初回実行時は `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` が自動的に走ります。数秒かかる場合があります。
+!!! note "データの自動取得"
+    `forge.yaml` がある（= ステップ 2 で `forge system init` を実行した）状態であれば、初回実行時に対象シンボルのデータが自動的に取得されます。失敗した場合は `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を手動で先に実行してから再試行してください。
 
 ### ステップ 4 — 結果を読む（約 3 分）
 
 実行が完了すると以下のような出力が表示されます。
 
 !!! warning "サンプル出力です"
-    実際の数値はデータ取得タイミングにより異なります。
+    実際の数値はデータ取得タイミングにより異なります。CLI ラベル（日本語）と一般的な指標名（英語）の対応も併記しています。
 
 ```
-==> SPY 2019-01-01 → 2023-12-31 (1d)
-   trades: 9   win_rate: 55.6%   profit_factor: 1.82
-   total_return: +38.4%   cagr: +6.7%   sharpe: 0.88
-   max_drawdown: -14.2%   exposure: 41.5%
-   final_equity: $13,840  (initial: $10,000)
+バックテストを実行中: SPY x sma_cross_qs
+⚠️  バックテスト完了  信号品質スコア: 0.48/1.0
+⚠️  警告: 取引数が不足しています (trades=15, 最低30推奨)
+総リターン: 4.74%  CAGR: 0.93%
+SR: 0.85  Sortino: -2.86  Calmar: 0.52
+MDD: 1.79%  期間: 71日  回復: 154日
+PF: 4.01  Win%: 35.7%  avg勝: 10.39%  avg負: -1.72%
+取引数: 15  平均保有: 56.8日(57bar)  最大: 218.0日(218bar)
+勝率CI(90%): 17.8% - 54.8%
+📊 チャートは `vis serve` で確認できます（結果ID: sma_cross_qs_report）
+DB 保存: run_id=<uuid>
 ```
 
 主要指標の見方は次のとおりです。指標の詳細な目安は本ページ後半の「結果の見方（詳細）」セクション、全指標一覧は [CLI リファレンス](cli-reference/index.md) を参照してください。
 
-| 指標 | 今回の値 | 読み方 |
-|------|----------|--------|
-| **CAGR** | +6.7% | 年率リターン。S&P 500 の年平均（約 10%）と比較しましょう。 |
-| **Sharpe** | 0.88 | リスク調整後リターン。**1.0 以上**が目安。もう一息です。 |
-| **Max Drawdown** | -14.2% | 過去最大の資産の落ち込み。20% 以内なら運用継続しやすい水準。 |
-| **Win Rate** | 55.6% | 勝ちトレードの割合。トレンドフォローでは 40〜60% が標準。 |
-| **Profit Factor** | 1.82 | 総利益 ÷ 総損失。**1.5 以上**で良好。 |
-| **Trades** | 9 | 期間中のトレード数。信頼性のために **30 件以上**が望ましい。 |
+| CLI ラベル | 一般名 | 読み方 |
+|---|---|---|
+| **CAGR** | CAGR (年率リターン) | プラスでも S&P 500 平均（約 10%）に届かなければ戦略の付加価値は限定的。 |
+| **SR** | Sharpe Ratio | リスク調整後リターン。**1.0 以上**が目安。 |
+| **MDD** | Max Drawdown | 過去最大の資産の落ち込み。20% 以内なら運用継続しやすい水準。 |
+| **Win%** | Win Rate | 勝ちトレードの割合。トレンドフォローでは 40〜60% が標準。 |
+| **PF** | Profit Factor | 総利益 ÷ 総損失。**1.5 以上**で良好。 |
+| **取引数** | Trades | 期間中のトレード数。統計的有意性のため **30 件以上**が望ましい。15 件のように不足しているとサンプル出力のように警告が出る。 |
+
+!!! tip "結果をブラウザで可視化する"
+    出力末尾の `📊 チャートは vis serve で確認できます` は、別パッケージ [alpha-visualizer](alpha-visualizer/installation.md) によるダッシュボードへの誘導です。インストール手順:
+
+    ```bash
+    uv tool install alpha-visualizer   # uv 利用時
+    pip install alpha-visualizer       # pip 利用時
+    ```
+
+    インストール後、`quickstart/` ディレクトリで `vis serve` を実行するとブラウザ（既定: <http://127.0.0.1:8000>）が開きます。
+
+    macOS には標準コマンド `/usr/bin/vis` があるため、`vis` 単体が認識されない場合は `~/.local/bin/vis serve`（uv tool）または `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve` のように絶対パスで起動してください。
 
 ### ここまでできたら次のステップへ
 
@@ -380,9 +415,11 @@ forge pine generate --strategy sma_cross_qs
 | エラーメッセージ / 症状 | 原因と対処 |
 |------------------------|-----------|
 | `command not found: forge` | 新しいターミナルを開くか、`source ~/.bashrc` を実行してください。それでも出る場合は PATH を確認してください。 |
-| `No data found for SPY` | `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を先に実行してください。 |
+| `戦略 'sma_cross_qs' が見つかりません` / `Strategy not found` | `forge strategy save sma_cross.json` を先に実行して戦略 DB に登録してください。または `forge backtest run SPY --strategy-file sma_cross.json --start ...` のように `--strategy-file` で JSON を直接指定できます。 |
+| `FileNotFoundError: データが見つかりません: SPY (1d)` / `No data found for SPY` | `forge system init` を実行していない / `forge.yaml` が無いと自動取得が動きません。ステップ 2 の `forge system init` を先に実行するか、`forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を手動で先に実行してください。 |
+| `データが取得できませんでした: symbol=USDJPY` 等 FX で 404 | yfinance では FX シンボルに `=X` サフィックスが必須です（例: `USDJPY=X`, `EURUSD=X`, `GBPJPY=X`）。先物は `CL=F` のような `=F`、暗号資産は `BTC-USD` のような形式です。 |
+| `vis: serve: No such file or directory` / `vis: illegal option` | macOS には標準コマンド `/usr/bin/vis` があり、`$PATH` の並びによってはこちらが優先されます。`~/.local/bin/vis serve`（uv tool）または `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve` のように絶対パスで起動してください。 |
 | `Trial plan: date clipped to 2023-12-31` | 仕様どおりの動作です。Trial プランの上限日以降のデータは自動的に除外されます。 有料プラン（Lifetime / Annual / Monthly）購入後は制限解除されます。 |
-| `Strategy not found: sma_cross_qs` | JSON の `strategy_id` が `sma_cross_qs` になっているか確認してください。 |
 | 認証エラー | ネットワーク接続を確認のうえ `forge system auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
 | macOS セキュリティ警告 | システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。 |
 

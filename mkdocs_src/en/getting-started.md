@@ -57,13 +57,17 @@ If you see a version number, you're ready. For manual installation or custom ins
 !!! info "The Trial plan works without Whop registration"
     From the moment installation finishes, the CLI runs immediately as the Trial plan. Whop OAuth login is **only needed when you purchase a paid plan (Lifetime / Annual / Monthly)**; Trial usage requires nothing additional. See the "Paid-plan login" section later on this page for the upgrade flow.
 
-### Step 2 — Prepare a strategy file (~2 min)
+### Step 2 — Initialize the working directory and prepare a strategy file (~2 min)
 
-Create a `quickstart/` directory and save the sample strategy JSON.
+Create a `quickstart/` directory and run `forge system init` to bootstrap it. This drops in `forge.yaml` (configuring strategy/data/result paths) plus subdirectories like `data/`.
 
 ```bash
 mkdir quickstart && cd quickstart
+forge system init
 ```
+
+!!! info "`forge system init` is required"
+    Without `forge.yaml`, the strategy DB location, data store, and result output paths are unresolved, so the next `forge backtest run` will fail with `FileNotFoundError`. The default invocation (no `--force`) is sufficient for quickstart.
 
 Save the following as `sma_cross.json`.
 
@@ -101,7 +105,20 @@ Save the following as `sma_cross.json`.
 }
 ```
 
-### Step 3 — Run the backtest (~2 min)
+### Step 3 — Register the strategy and run the backtest (~2 min)
+
+Register `sma_cross.json` (from Step 2) with AlphaForge (the strategy DB).
+
+```bash
+forge strategy save sma_cross.json
+```
+
+```
+✅ Registered custom strategy 'sma_cross_qs'
+```
+
+!!! tip "Run a backtest directly from a JSON file (`--strategy-file`)"
+    To skip DB registration, you can pass `--strategy-file sma_cross.json` instead of `--strategy`. The quickstart uses the registered form, but `--strategy-file` is handy for fast edit-and-run cycles.
 
 Run a backtest within the Trial plan's data range (up to 2023-12-31).
 
@@ -112,34 +129,52 @@ forge backtest run SPY \
   --end 2023-12-31
 ```
 
-!!! note "Data is fetched automatically"
-    On first run, `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` runs automatically. This may take a few seconds.
+!!! note "Automatic data fetching"
+    With `forge.yaml` in place (because you ran `forge system init` in Step 2), the symbol's historical data is fetched automatically on first run. If it fails, run `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` manually and retry.
 
 ### Step 4 — Read the results (~3 min)
 
 When complete, you'll see output like this.
 
 !!! warning "Sample output"
-    Actual numbers vary depending on the data fetched.
+    Actual numbers vary depending on the data fetched. The table below maps CLI labels (Japanese in the CLI output) to the conventional English metric names.
 
 ```
-==> SPY 2019-01-01 → 2023-12-31 (1d)
-   trades: 9   win_rate: 55.6%   profit_factor: 1.82
-   total_return: +38.4%   cagr: +6.7%   sharpe: 0.88
-   max_drawdown: -14.2%   exposure: 41.5%
-   final_equity: $13,840  (initial: $10,000)
+Running backtest: SPY x sma_cross_qs
+⚠️  Backtest done   signal-quality score: 0.48/1.0
+⚠️  Warning: too few trades (trades=15, ≥ 30 recommended)
+Total Return: 4.74%   CAGR: 0.93%
+SR: 0.85   Sortino: -2.86   Calmar: 0.52
+MDD: 1.79%   Length: 71d   Recovery: 154d
+PF: 4.01   Win%: 35.7%   avgWin: 10.39%   avgLoss: -1.72%
+Trades: 15   AvgHold: 56.8d(57bar)   Max: 218.0d(218bar)
+Win-rate CI(90%): 17.8% - 54.8%
+📊 View charts via `vis serve` (result ID: sma_cross_qs_report)
+DB save: run_id=<uuid>
 ```
 
 A quick read of the key metrics is below. For the full metric list, see [Reading the Results in detail](#reading-the-results-detailed) or the [CLI Reference](cli-reference/index.md).
 
-| Metric | This run | What it means |
-|--------|----------|---------------|
-| **CAGR** | +6.7% | Annualized return (compound). Compare against S&P 500 (~10% avg). |
-| **Sharpe** | 0.88 | Risk-adjusted return. **1.0+** is the target. Getting close! |
-| **Max Drawdown** | -14.2% | Worst peak-to-trough drop. Staying under 20% makes it easier to stick with a strategy. |
-| **Win Rate** | 55.6% | Percentage of winning trades. 40–60% is normal for trend-following. |
-| **Profit Factor** | 1.82 | Total profit ÷ total loss. **1.5+** is solid. |
-| **Trades** | 9 | Total trades in the period. Aim for **30+** for statistical reliability. |
+| CLI label | Conventional name | What it means |
+|---|---|---|
+| **CAGR** | CAGR (annualized return) | Compare against S&P 500 (~10% avg). A positive CAGR that still trails the market means limited added value. |
+| **SR** | Sharpe Ratio | Risk-adjusted return. **1.0+** is the target. |
+| **MDD** | Max Drawdown | Worst peak-to-trough drop. Staying under 20% makes it easier to stick with a strategy. |
+| **Win%** | Win Rate | Percentage of winning trades. 40–60% is normal for trend-following. |
+| **PF** | Profit Factor | Total profit ÷ total loss. **1.5+** is solid. |
+| **Trades** | Total trades | Aim for **30+** for statistical reliability; 15 triggers the warning in the sample output. |
+
+!!! tip "Visualize the results in your browser"
+    The `📊 View charts via vis serve` line at the end of the output points at the separate [alpha-visualizer](alpha-visualizer/installation.md) dashboard. Install with:
+
+    ```bash
+    uv tool install alpha-visualizer   # using uv
+    pip install alpha-visualizer       # using pip
+    ```
+
+    Run `vis serve` inside the `quickstart/` directory and your browser opens the dashboard (default: <http://127.0.0.1:8000>).
+
+    macOS ships a standard `/usr/bin/vis` command, so when plain `vis` is hijacked, use the absolute path `~/.local/bin/vis serve` (uv tool layout) or `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve`.
 
 ### What to do next
 
@@ -380,9 +415,11 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 | Symptom | Cause & Fix |
 |---------|-------------|
 | `command not found: forge` | Open a new terminal or run `source ~/.bashrc`. If that doesn't help, check your PATH. |
-| `No data found for SPY` | Run `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` first. |
+| `Strategy 'sma_cross_qs' not found` / `戦略 'sma_cross_qs' が見つかりません` | Run `forge strategy save sma_cross.json` first to register the strategy in the DB. Or pass the JSON directly via `forge backtest run SPY --strategy-file sma_cross.json --start ...`. |
+| `FileNotFoundError: data not found: SPY (1d)` / `No data found for SPY` | Auto-fetch only works when `forge.yaml` exists. Run `forge system init` (Step 2) first, or fetch manually with `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` and retry. |
+| `Failed to fetch data: symbol=USDJPY` (404) | yfinance requires fixed suffixes per asset class: FX `USDJPY=X` / `EURUSD=X` / `GBPJPY=X`, futures `CL=F`, crypto `BTC-USD`. Quote symbols containing `=` (e.g., `'USDJPY=X'`). |
+| `vis: serve: No such file or directory` / `vis: illegal option` | macOS ships a built-in `/usr/bin/vis` that wins on `$PATH`. Run with the absolute path `~/.local/bin/vis serve` (uv tool) or `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve`. |
 | `Trial plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Trial plan cap is automatically excluded. Purchase a paid plan (Lifetime / Annual / Monthly) to lift the cap. |
-| `Strategy not found: sma_cross_qs` | Check that the `strategy_id` in your JSON is exactly `sma_cross_qs`. |
 | Authentication error | Verify your network connection and rerun `forge system auth login`. Confirm your Whop membership is active. |
 | macOS security warning | System Settings → Privacy & Security → click "Open forge". |
 

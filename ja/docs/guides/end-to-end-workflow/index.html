@@ -2115,47 +2115,101 @@
 <p><img alt="AlphaForge 6ステップ ワークフロー全体図" src="../../assets/illustrations/alphaforge-technical-workflow-ja.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">前提</p>
-<p>以下のコマンドはすべて <code>alpha-strategies/</code> ディレクトリから <code>FORGE_CONFIG=forge.yaml uv run</code> 付きで実行することを想定しています。</p>
+<p>本ページは <a href="../../getting-started/">はじめに</a> で <code>forge</code> をインストール済み（バイナリ版）かつ、作業ディレクトリで <code>forge system init</code> を実行済み（<code>forge.yaml</code> ・<code>data/</code> 等が存在）であることを前提とします。コマンドはすべて作業ディレクトリのカレントで <code>forge</code> を直接呼ぶ形で記載しています。</p>
+<p>開発者向けの alpha-trade モノレポで作業している場合は、各 <code>forge ...</code> を <code>FORGE_CONFIG=forge.yaml uv --directory alpha-forge run forge ...</code> に読み替えてください。</p>
 </div>
 <h2 id="1">1. データ取得<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
 <p>対象シンボルのヒストリカルデータをローカルに保存します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span>USDJPY
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span>
 </code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">FX / 先物 / 暗号資産のシンボル命名</p>
+<p>yfinance（既定プロバイダー）では資産クラスごとに固定のサフィックスが必要です。</p>
+<table>
+<thead>
+<tr>
+<th>資産クラス</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>米国株 / ETF</td>
+<td><code>SPY</code>, <code>AAPL</code>, <code>QQQ</code></td>
+</tr>
+<tr>
+<td>FX</td>
+<td><code>USDJPY=X</code>, <code>EURUSD=X</code>, <code>GBPJPY=X</code>（必ず <code>=X</code>）</td>
+</tr>
+<tr>
+<td>先物</td>
+<td><code>CL=F</code>（WTI 原油）, <code>GC=F</code>（金）, <code>ES=F</code>（S&amp;P 先物）</td>
+</tr>
+<tr>
+<td>暗号資産</td>
+<td><code>BTC-USD</code>, <code>ETH-USD</code>（ハイフン）</td>
+</tr>
+</tbody>
+</table>
+<p>シェルでシングルクォートが必要なシンボル（<code>USDJPY=X</code> 等）はクォートで囲んでください。</p>
+</div>
 <h2 id="2">2. 戦略テンプレート作成<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
 <p>テンプレートから戦略 JSON の雛形を生成し、パラメータを編集してから登録します。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>sma_crossover_v1<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--out<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># 生成された JSON の strategy_id とパラメータをエディタで編集してから登録</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
 </code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">JSON で必ず編集すべき 3 項目</p>
+<p>生成された JSON はテンプレート名そのままのため、最低限以下を編集してから登録してください。</p>
+<ol>
+<li><code>strategy_id</code>: テンプレート名 (<code>sma_crossover_v1</code>) のままだと既存テンプレートと衝突するので、<code>usdjpy_sma_v1</code> のようにユニークなものに変更</li>
+<li><code>name</code>: 人が読んで分かる名前</li>
+<li><code>target_symbols</code>: 既定は <code>[]</code>。対象シンボル（例: <code>["USDJPY=X"]</code>）を入れるか、<code>forge backtest run &lt;SYMBOL&gt;</code> で都度指定</li>
+</ol>
+<p>最適化を予定している場合は <code>optimizer_config.param_ranges</code> も埋めてください（未指定でもデフォルト範囲で動きますが、明示する方が再現性が高くなります）。</p>
+</div>
+<p>編集後、戦略 DB に登録します。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">DB 登録を省きたい場合 (<code>--strategy-file</code>)</p>
+<p><code>forge backtest run</code> / <code>forge optimize run</code> には <code>--strategy-file &lt;path&gt;</code> オプションがあり、JSON を直接指定できます（DB 登録不要）。試行錯誤段階では便利です。</p>
+</div>
 <h2 id="3">3. バックテスト実行<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
 <p>定義した戦略のパフォーマンスを過去データで検証します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>USDJPY<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># 結果のチャート URL を表示してブラウザで開く</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span>--open
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># 結果のチャート URL を表示してブラウザで開く</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span>--open
 </code></pre></div>
 <h2 id="4">4. パラメータ最適化<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
 <p>Optuna のベイズ最適化（TPE）で最適なパラメータを探索します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>USDJPY<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># 保存された結果ファイル（optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json）を新しい戦略として適用</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span>--to-strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 保存された結果ファイル（optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json）を新しい戦略として適用</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>--to-strategy<span class="w"> </span>usdjpy_sma_v1_optimized
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">ベストスコアが <code>-inf</code> になったとき</p>
+<p>全 trial が NaN を返した状態です。多くは「最適化対象パラメータの探索範囲が狭すぎる」「対象期間で取引数が極端に少ない」が原因。<code>optimizer_config.param_ranges</code> を見直すか、データ期間を広げて再実行してください。</p>
+</div>
 <h2 id="5">5. ウォークフォワード検証<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
 <p>過学習を検出するため、訓練期間とテスト期間を分けた検証を行います。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>USDJPY<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 感度分析（最適化結果 JSON ファイルを指定）</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 感度分析（最適化結果 JSON ファイルを指定）</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json
 </code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">WFT が全ウィンドウ「OOS 0 件」になるとき</p>
+<p>データ期間が短いと各ウィンドウで取引が発生せずスキップされます。FX / 1d データなら 5 年（約 1,250 行）以上を推奨。<code>forge data fetch '&lt;SYM&gt;' --period 5y</code> のように長期データを先に揃えるか、<code>--windows 2</code> で粗くしてください。</p>
+</div>
 <h2 id="6-pine-script">6. Pine Script 生成<a class="headerlink" href="#6-pine-script" title="Permanent link">&para;</a></h2>
 <p>TradingView 用のアラートスクリプトを自動生成します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized
 </code></pre></div>
 <p>出力先: <code>output/pinescript/usdjpy_sma_v1_optimized.pine</code></p>
 <div class="admonition tip">
