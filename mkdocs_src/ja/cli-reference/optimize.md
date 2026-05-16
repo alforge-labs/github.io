@@ -62,13 +62,29 @@ forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 
 ### サンプル出力（テキスト）
 
+`optimizer_config` を持たない戦略では、起動時に内蔵デフォルトの探索範囲が stderr に表示されます（F-404）：
+
+```text
+探索パラメータ（内蔵デフォルト範囲）:
+  - sma_fast.length: [5, 25] step=5
+  - sma_slow.length: [20, 60] step=5
+  trials=200, metric=sharpe_ratio
+```
+
+戦略 JSON に `optimizer_config.param_ranges` が定義されている場合は `（戦略 JSON 由来）` と表示されます。
+
+最適化完了後の人間向けサマリ：
+
 ```text
 ✅ 最適化完了
 ベストスコア (sharpe_ratio): 1.32
 ベストパラメータ: {'fast_period': 12, 'slow_period': 50}
+💾 結果ファイル: data/results/optimize_my_v1_20260415_103021.json
+   次のステップ: forge optimize apply data/results/optimize_my_v1_20260415_103021.json --to-strategy my_v1_optimized
 DB 保存: run_id=opt_20260415_103021
-✅ 最適化結果を保存しました: data/results/optimize_my_v1_20260415_103021.json
 ```
+
+`--save` を付けた場合、結果 JSON の絶対パスと次のステップ（`forge optimize apply ...`）が表示されます（F-401）。
 
 `--apply` 指定時（`my_v1_optimized` が未存在の場合は確認なしで作成）：
 
@@ -88,9 +104,22 @@ DB 保存: run_id=opt_20260415_103021
 ```json
 {
   "best_metric": 1.32,
-  "best_params": { "fast_period": 12, "slow_period": 50 }
+  "best_params": { "fast_period": 12, "slow_period": 50 },
+  "freemium_limit_notices": [],
+  "param_ranges_effective": {
+    "sma_fast.length": { "min": 5, "max": 25, "step": 5 },
+    "sma_slow.length": { "min": 20, "max": 60, "step": 5 }
+  },
+  "param_ranges_source": "default",
+  "saved_path": "/abs/path/data/results/optimize_my_v1_20260415_103021.json"
 }
 ```
+
+| フィールド | 内容 |
+|----------|------|
+| `param_ranges_effective` | 実際に探索された range 辞書（戦略 JSON 由来または内蔵デフォルト） |
+| `param_ranges_source` | `"strategy"`（戦略 JSON 由来）または `"default"`（内蔵デフォルト） |
+| `saved_path` | `--save` 指定時の結果ファイル絶対パス。`forge optimize apply` の引数にそのまま渡せる |
 
 ### 主なエラー
 
@@ -414,23 +443,28 @@ slow_period                          50      75.3%  1.05 1.21 1.38 1.45 1.39 1.1
 
 ## forge optimize history
 
-ある戦略について、過去に保存された `optimize_<strategy>_*.json` および `optimize_cross_<strategy>_*.json` を読み込んで一覧表示する。
+過去に保存された `optimize_*.json` を読み込んでスコアボード形式で一覧表示する。`--strategy` を省略すると **全戦略の最近 `--limit` 件** をまとめて表示できる（F-402）。
 
 ### 構文
 
 ```bash
-forge optimize history --strategy <ID> [OPTIONS]
+# 全戦略の最近 20 件（既定）
+forge optimize history
+
+# 戦略名で絞り込み
+forge optimize history --strategy <ID>
 ```
 
 ### オプション
 
 | 名前 | 種別 | デフォルト | 説明 |
 |------|------|----------|------|
-| `--strategy` | 必須 | - | 戦略名 |
+| `--strategy` | オプション | - | 戦略名（省略時は全戦略を mtime 降順で表示） |
+| `--limit` | int | `20` | `--strategy` 省略時の最大表示件数 |
 | `--json` | フラグ | false | 結果を JSON 形式で標準出力 |
 | `--sort` | choice | `score` | ソート順（`score` / `date`） |
 
-### サンプル出力
+### サンプル出力（`--strategy` 指定）
 
 ```text
 === 最適化履歴: my_v1 (3 件) ===
@@ -445,11 +479,25 @@ Best: sharpe_ratio=1.4523  (20260415_103021)
       パラメータ: {'fast_period': 12, 'slow_period': 50}
 ```
 
+### サンプル出力（全戦略）
+
+`--strategy` を省略すると **戦略列が追加** され、最新の `--limit` 件が表示されます：
+
+```text
+=== 最適化履歴: 全戦略 (12 件) ===
+
+日時              戦略                       シンボル     指標            スコア  主要パラメータ
+─────────────────────────────────────────────────────────────────────────────────────────────────
+20260515_120030   usdjpy_sma_v1            USDJPY=X    sharpe_ratio    1.8721  fast=10, slow=40
+20260514_181522   spy_rsi_v2               SPY         sharpe_ratio    1.5210  rsi_period=14
+...
+```
+
 履歴ファイルが見つからない場合：
 
 ```text
-最適化履歴がありません: my_v1
-  検索パス: data/results/optimize_my_v1_*.json
+最適化履歴がありません: （全戦略）
+  検索パス: data/results/optimize_*.json
 ```
 
 ---
