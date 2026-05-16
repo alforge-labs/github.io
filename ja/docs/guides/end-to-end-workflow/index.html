@@ -2155,8 +2155,29 @@
 </div>
 <h2 id="2">2. 戦略テンプレート作成<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
 <p>テンプレートから戦略 JSON の雛形を生成し、パラメータを編集してから登録します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>sma_crossover_v1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--out<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
+<div class="admonition info">
+<p class="admonition-title">利用可能なテンプレート一覧を確認する方法（F-005）</p>
+<p><code>forge strategy template list</code> のような専用コマンドは現時点では存在しません。
+代わりに次のいずれかでテンプレート ID を確認してください。</p>
+<ol>
+<li>
+<p><strong>エラーメッセージを利用する</strong>（最も手早い）— 適当な存在しない名前を指定すると、
+   エラーで利用可能テンプレート一覧が表示されます。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>_unknown_<span class="w"> </span>--out<span class="w"> </span>/tmp/dummy.json
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>❌<span class="w"> </span>未知のテンプレート名です:<span class="w"> </span>_unknown_。利用可能:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>sma_crossover_v1,<span class="w"> </span>rsi_reversion_v1,<span class="w"> </span>macd_crossover_v1,
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>bbands_breakout_v1,<span class="w"> </span>grid_bot_template,<span class="w"> </span>hmm_bb_pipeline_v1,
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>donchian_turtle_v1
+</code></pre></div>
+</li>
+<li>
+<p><strong>ドキュメントを参照する</strong> — 各テンプレートの詳細（指標構成・対象市場・推奨用途）
+   は <a href="../../templates/">戦略テンプレート集</a> に一覧があります。</p>
+</li>
+</ol>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>sma_crossover_v1<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--out<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">JSON で必ず編集すべき 3 項目</p>
@@ -2169,7 +2190,7 @@
 <p>最適化を予定している場合は <code>optimizer_config.param_ranges</code> も埋めてください（未指定でもデフォルト範囲で動きますが、明示する方が再現性が高くなります）。</p>
 </div>
 <p>編集後、戦略 DB に登録します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">DB 登録を省きたい場合 (<code>--strategy-file</code>)</p>
@@ -2177,19 +2198,19 @@
 </div>
 <h2 id="3">3. バックテスト実行<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
 <p>定義した戦略のパフォーマンスを過去データで検証します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># 結果のチャート URL を表示してブラウザで開く</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span>--open
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 結果のチャート URL を表示してブラウザで開く</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span>--open
 </code></pre></div>
 <h2 id="4">4. パラメータ最適化<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
 <p>Optuna のベイズ最適化（TPE）で最適なパラメータを探索します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 保存された結果ファイル（optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json）を新しい戦略として適用</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>--to-strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 保存された結果ファイル（optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json）を新しい戦略として適用</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span>--to-strategy<span class="w"> </span>usdjpy_sma_v1_optimized
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">ベストスコアが <code>-inf</code> になったとき</p>
@@ -2197,11 +2218,50 @@
 </div>
 <h2 id="5">5. ウォークフォワード検証<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
 <p>過学習を検出するため、訓練期間とテスト期間を分けた検証を行います。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 感度分析（最適化結果 JSON ファイルを指定）</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json
+<div class="admonition abstract">
+<p class="admonition-title">WFT（Walk-Forward Test）とは何か（F-006）</p>
+<p><code>forge optimize run</code> だけだと <strong>全期間でパラメータを最適化</strong> してしまい、最適化に
+使ったデータに過剰適合（オーバーフィット）した「カーブフィッティング戦略」を
+本物の好成績と誤認しがちです。</p>
+<p>WFT は「期間を等間隔のウィンドウに区切り、<strong>学習期間（In-Sample / IS）で
+最適化したパラメータを、未学習のテスト期間（Out-of-Sample / OOS）で評価する</strong>」
+という検証手法です。OOS の成績が IS と乖離していなければ、その戦略は
+時系列を跨いで頑健（ロバスト）と判断できます。</p>
+<table>
+<thead>
+<tr>
+<th>用語</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IS (In-Sample)</td>
+<td>学習期間。Optuna が最適化に使うウィンドウ前半</td>
+</tr>
+<tr>
+<td>OOS (Out-of-Sample)</td>
+<td>テスト期間。最適化結果をぶつける未来データ（ウィンドウ後半）</td>
+</tr>
+<tr>
+<td>ウィンドウ</td>
+<td>期間を等分割した 1 区間。<code>--windows 5</code> なら全期間を 5 分割</td>
+</tr>
+<tr>
+<td>IS/OOS ペア</td>
+<td>各ウィンドウの IS スコアと OOS スコアの組</td>
+</tr>
+</tbody>
+</table>
+<p>判定の目安: OOS の Sharpe が IS の <strong>半分以上</strong> あればロバスト寄り、
+IS だけ突出して OOS が大幅劣化するならカーブフィット疑い。詳細なオプションは
+<a href="../../cli-reference/optimize/"><code>forge optimize walk-forward</code> CLI リファレンス</a> を参照。</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 感度分析（最適化結果 JSON ファイルを指定）</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">WFT が全ウィンドウ「OOS 0 件」になるとき</p>
@@ -2209,7 +2269,7 @@
 </div>
 <h2 id="6-pine-script">6. Pine Script 生成<a class="headerlink" href="#6-pine-script" title="Permanent link">&para;</a></h2>
 <p>TradingView 用のアラートスクリプトを自動生成します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized
 </code></pre></div>
 <p>出力先: <code>output/pinescript/usdjpy_sma_v1_optimized.pine</code></p>
 <div class="admonition tip">

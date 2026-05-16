@@ -33,6 +33,24 @@ forge data fetch 'USDJPY=X'
 
 テンプレートから戦略 JSON の雛形を生成し、パラメータを編集してから登録します。
 
+!!! info "利用可能なテンプレート一覧を確認する方法（F-005）"
+    `forge strategy template list` のような専用コマンドは現時点では存在しません。
+    代わりに次のいずれかでテンプレート ID を確認してください。
+
+    1. **エラーメッセージを利用する**（最も手早い）— 適当な存在しない名前を指定すると、
+       エラーで利用可能テンプレート一覧が表示されます。
+
+        ```bash
+        $ forge strategy create --template _unknown_ --out /tmp/dummy.json
+        ❌ 未知のテンプレート名です: _unknown_。利用可能:
+          sma_crossover_v1, rsi_reversion_v1, macd_crossover_v1,
+          bbands_breakout_v1, grid_bot_template, hmm_bb_pipeline_v1,
+          donchian_turtle_v1
+        ```
+
+    2. **ドキュメントを参照する** — 各テンプレートの詳細（指標構成・対象市場・推奨用途）
+       は [戦略テンプレート集](../templates.md) に一覧があります。
+
 ```bash
 forge strategy create --template sma_crossover_v1 \
   --out data/strategies/usdjpy_sma_v1.json
@@ -86,6 +104,28 @@ forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
 ## 5. ウォークフォワード検証
 
 過学習を検出するため、訓練期間とテスト期間を分けた検証を行います。
+
+!!! abstract "WFT（Walk-Forward Test）とは何か（F-006）"
+    `forge optimize run` だけだと **全期間でパラメータを最適化** してしまい、最適化に
+    使ったデータに過剰適合（オーバーフィット）した「カーブフィッティング戦略」を
+    本物の好成績と誤認しがちです。
+
+    WFT は「期間を等間隔のウィンドウに区切り、**学習期間（In-Sample / IS）で
+    最適化したパラメータを、未学習のテスト期間（Out-of-Sample / OOS）で評価する**」
+    という検証手法です。OOS の成績が IS と乖離していなければ、その戦略は
+    時系列を跨いで頑健（ロバスト）と判断できます。
+
+    | 用語 | 意味 |
+    |------|------|
+    | IS (In-Sample) | 学習期間。Optuna が最適化に使うウィンドウ前半 |
+    | OOS (Out-of-Sample) | テスト期間。最適化結果をぶつける未来データ（ウィンドウ後半） |
+    | ウィンドウ | 期間を等分割した 1 区間。`--windows 5` なら全期間を 5 分割 |
+    | IS/OOS ペア | 各ウィンドウの IS スコアと OOS スコアの組 |
+
+    判定の目安: OOS の Sharpe が IS の **半分以上** あればロバスト寄り、
+    IS だけ突出して OOS が大幅劣化するならカーブフィット疑い。詳細なオプションは
+    [`forge optimize walk-forward` CLI リファレンス](../cli-reference/optimize.md) を参照。
+
 
 ```bash
 forge optimize walk-forward 'USDJPY=X' \

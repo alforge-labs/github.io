@@ -210,6 +210,25 @@ DB 保存: run_id=<uuid>
 
     macOS には標準コマンド `/usr/bin/vis` があるため、`vis` 単体が認識されない場合は `~/.local/bin/vis serve`（uv tool）または `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve` のように絶対パスで起動してください。
 
+!!! tip "最適化を試したい場合は `optimizer_config` を追加する（F-003）"
+    上の `sma_cross.json` は **バックテストだけ動く最小構成** で `optimizer_config` を
+    省いています。`alpha-forge optimize run` をすぐ試したい場合は次のセクションを
+    JSON 末尾の `}` 直前に追加してください（`risk_management` の後にカンマ + 追記）:
+
+    ```json
+    "optimizer_config": {
+      "param_ranges": {
+        "sma_fast.length": { "min": 5,  "max": 25, "step": 5 },
+        "sma_slow.length": { "min": 20, "max": 60, "step": 5 }
+      }
+    }
+    ```
+
+    省略した場合は alpha-forge が内蔵デフォルト範囲 (`sma_fast.length=[5,25]` /
+    `sma_slow.length=[20,60]`) を使って探索します（起動時に `探索パラメータ ...
+    （既定範囲を使用）` と表示されます）。明示すれば再現性が高まり、`min`/`max`/`step`
+    を編集すれば探索範囲を自分で制御できます。
+
 ### ここまでできたら次のステップへ
 
 | やりたいこと | 参照先 |
@@ -448,14 +467,19 @@ forge pine generate --strategy sma_cross_qs
 
 | エラーメッセージ / 症状 | 原因と対処 |
 |------------------------|-----------|
-| `command not found: forge` | 新しいターミナルを開くか、`source ~/.bashrc` を実行してください。それでも出る場合は PATH を確認してください。 |
+| `command not found: forge` / `command not found: alpha-forge` | 新しいターミナルを開くか、`source ~/.bashrc` / `source ~/.zshrc` を実行してください。それでも出る場合は `ls ~/.local/bin/alpha-forge` でバイナリの存在を確認し、`echo $PATH` に `~/.local/bin` が含まれているか確認してください。 |
 | `戦略 'sma_cross_qs' が見つかりません` / `Strategy not found` | `forge strategy save sma_cross.json` を先に実行して戦略 DB に登録してください。または `forge backtest run SPY --strategy-file sma_cross.json --start ...` のように `--strategy-file` で JSON を直接指定できます。 |
 | `FileNotFoundError: データが見つかりません: SPY (1d)` / `No data found for SPY` | `forge system init` を実行していない / `forge.yaml` が無いと自動取得が動きません。ステップ 2 の `forge system init` を先に実行するか、`forge data fetch SPY --period 5y` を手動で先に実行してください。 |
 | `データが取得できませんでした: symbol=USDJPY` 等 FX で 404 | yfinance では FX シンボルに `=X` サフィックスが必須です（例: `USDJPY=X`, `EURUSD=X`, `GBPJPY=X`）。先物は `CL=F` のような `=F`、暗号資産は `BTC-USD` のような形式です。 |
-| `vis: serve: No such file or directory` / `vis: illegal option` | macOS には標準コマンド `/usr/bin/vis` があり、`$PATH` の並びによってはこちらが優先されます。`~/.local/bin/vis serve`（uv tool）または `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve` のように絶対パスで起動してください。 |
+| `forge.yaml が見つかりません` / `Config file not found` | カレントディレクトリに `forge.yaml` がありません。プロジェクト作業ディレクトリで `forge system init` を実行するか、`FORGE_CONFIG=/path/to/forge.yaml forge ...` の形で環境変数を指定してください。 |
+| バックテスト結果が「取引数 0 件」 | 戦略パラメータが厳しすぎてエントリー条件を満たさない / データ期間が短すぎる、のどちらかが原因です。`forge strategy show <id> --json` でパラメータ確認、`forge data fetch '<SYM>' --period 10y` でデータ拡張、または `bbands_breakout_v1` など別テンプレートを試してください。 |
+| `Best score: -inf` / 最適化結果がすべて `-inf` | 全 trial が NaN を返した状態です。`optimizer_config.param_ranges` の範囲が狭い・取引数が極端に少ない等が原因。範囲を広げるか `--trials` を増やす、`--metric` を `total_return` 等に変えて試してください。 |
+| WFT が全ウィンドウ「OOS 0 件」「skipped」 | データ期間が短いと各ウィンドウで取引が発生せずスキップされます。FX / 1d データなら 5 年（約 1,250 行）以上を推奨。`forge data fetch '<SYM>' --period 5y` で長期データを揃えるか `--windows 2` で粗くしてください。 |
+| `vis: serve: No such file or directory` / `vis: illegal option` | macOS には標準コマンド `/usr/bin/vis` があり、`$PATH` の並びによってはこちらが優先されます。`~/.local/bin/alpha-vis serve`（uv tool）または `~/.local/share/uv/tools/alpha-visualizer/bin/alpha-vis serve` のように絶対パスで起動してください（v0.3.0 以降は `alpha-vis` コマンドに改名済み）。 |
 | `Trial plan: date clipped to 2023-12-31` | 仕様どおりの動作です。Trial プランの上限日以降のデータは自動的に除外されます。 有料プラン（Lifetime / Annual / Monthly）購入後は制限解除されます。 |
-| 認証エラー | ネットワーク接続を確認のうえ `forge system auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
-| macOS セキュリティ警告 | システム設定 → プライバシーとセキュリティ → 「forge を開く」を許可してください。 |
+| `認証情報の有効期限が切れています` / `Token expired` | `forge system auth login` で再認証してください。Whop 側でメンバーシップが失効していないか [マイページ](https://whop.com/) で確認してください。 |
+| 認証エラー（その他） | ネットワーク接続を確認のうえ `forge system auth login` を再実行してください。Whop マイページでメンバーシップが有効か確認してください。 |
+| macOS セキュリティ警告 | システム設定 → プライバシーとセキュリティ → 「alpha-forge を開く」を許可してください。 |
 
 その他のトラブルや詳細な FAQ は [`/ja/install.html`](https://alforgelabs.com/ja/install.html) も参照してください。
 

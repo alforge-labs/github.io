@@ -2155,8 +2155,30 @@
 </div>
 <h2 id="2-create-a-strategy-from-a-template">2. Create a strategy from a template<a class="headerlink" href="#2-create-a-strategy-from-a-template" title="Permanent link">&para;</a></h2>
 <p>Generate a JSON scaffold, edit parameters, and register it.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>sma_crossover_v1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--out<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
+<div class="admonition info">
+<p class="admonition-title">How to list available templates (F-005)</p>
+<p>There is currently <strong>no dedicated <code>forge strategy template list</code> command</strong>.
+Use one of the following to discover template IDs.</p>
+<ol>
+<li>
+<p><strong>Trigger the error message</strong> (fastest) — pass an unknown template name and
+   the error prints the full list of available templates:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>_unknown_<span class="w"> </span>--out<span class="w"> </span>/tmp/dummy.json
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>❌<span class="w"> </span>Unknown<span class="w"> </span>template<span class="w"> </span>name:<span class="w"> </span>_unknown_.<span class="w"> </span>Available<span class="w"> </span>templates:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>sma_crossover_v1,<span class="w"> </span>rsi_reversion_v1,<span class="w"> </span>macd_crossover_v1,
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>bbands_breakout_v1,<span class="w"> </span>grid_bot_template,<span class="w"> </span>hmm_bb_pipeline_v1,
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>donchian_turtle_v1
+</code></pre></div>
+</li>
+<li>
+<p><strong>Check the documentation</strong> — each template's details (indicator stack,
+   target markets, recommended use cases) are catalogued in
+   <a href="../../templates/">Strategy Templates</a>.</p>
+</li>
+</ol>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>sma_crossover_v1<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--out<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Three fields you should always edit in the JSON</p>
@@ -2169,7 +2191,7 @@
 <p>If you plan to optimize, also fill in <code>optimizer_config.param_ranges</code>. (It works even when null, but explicit ranges are easier to reproduce.)</p>
 </div>
 <p>Then save it to the strategy DB.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/usdjpy_sma_v1.json
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Skip DB registration with <code>--strategy-file</code></p>
@@ -2177,19 +2199,19 @@
 </div>
 <h2 id="3-run-a-backtest">3. Run a backtest<a class="headerlink" href="#3-run-a-backtest" title="Permanent link">&para;</a></h2>
 <p>Validate the strategy against historical data.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Show the chart URL and open it in your browser</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span>--open
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Show the chart URL and open it in your browser</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span>--open
 </code></pre></div>
 <h2 id="4-optimize-parameters">4. Optimize parameters<a class="headerlink" href="#4-optimize-parameters" title="Permanent link">&para;</a></h2>
 <p>Bayesian search with Optuna (TPE), then apply the best result.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Apply the saved result file (optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json) as a new strategy</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>--to-strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Apply the saved result file (optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json) as a new strategy</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span>--to-strategy<span class="w"> </span>usdjpy_sma_v1_optimized
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">When the best score is <code>-inf</code></p>
@@ -2197,11 +2219,51 @@
 </div>
 <h2 id="5-walk-forward-validation">5. Walk-forward validation<a class="headerlink" href="#5-walk-forward-validation" title="Permanent link">&para;</a></h2>
 <p>Detect overfitting with out-of-sample testing.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Sensitivity analysis (point at the optimization result JSON file)</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json
+<div class="admonition abstract">
+<p class="admonition-title">What is a Walk-Forward Test (WFT)? (F-006)</p>
+<p>Running <code>forge optimize run</code> alone optimizes parameters across the <strong>entire
+period</strong>, which often produces a "curve-fitted" strategy that overfits the
+very data it was tuned on. WFT cures this by splitting the period into
+equal-sized windows and, <strong>for each window, optimizing on the In-Sample (IS)
+portion and then scoring on the unseen Out-of-Sample (OOS) portion</strong>.
+If OOS performance stays close to IS performance, the strategy is more
+likely to be robust across time.</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IS (In-Sample)</td>
+<td>Training period — the first half of each window, used by Optuna for optimization</td>
+</tr>
+<tr>
+<td>OOS (Out-of-Sample)</td>
+<td>Test period — the second half of each window, scored with the optimized params</td>
+</tr>
+<tr>
+<td>Window</td>
+<td>One equal-sized partition. <code>--windows 5</code> splits the full period into 5</td>
+</tr>
+<tr>
+<td>IS/OOS pair</td>
+<td>The IS score and OOS score for each window</td>
+</tr>
+</tbody>
+</table>
+<p>Rule of thumb: if OOS Sharpe is <strong>at least half of IS Sharpe</strong>, the strategy
+leans robust. A high IS that collapses on OOS suggests curve fitting. See
+<a href="../../cli-reference/optimize/"><code>forge optimize walk-forward</code> CLI reference</a>
+for the full option list.</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="s1">&#39;USDJPY=X&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Sensitivity analysis (point at the optimization result JSON file)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>data/results/optimize_usdjpy_sma_v1_&lt;timestamp&gt;.json
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">When all WFT windows show <code>OOS 0 trades</code></p>
@@ -2209,7 +2271,7 @@
 </div>
 <h2 id="6-generate-pine-script">6. Generate Pine Script<a class="headerlink" href="#6-generate-pine-script" title="Permanent link">&para;</a></h2>
 <p>Export a TradingView alert script from the optimized strategy.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>usdjpy_sma_v1_optimized
 </code></pre></div>
 <p>Output: <code>output/pinescript/usdjpy_sma_v1_optimized.pine</code></p>
 <div class="admonition tip">
