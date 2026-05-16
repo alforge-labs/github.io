@@ -44,7 +44,8 @@ alpha-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OP
 | `--start` | option | - | Start date `YYYY-MM-DD` |
 | `--end` | option | - | End date `YYYY-MM-DD` |
 | `--split` | flag | false | Split into in-sample / out-of-sample periods ([details](#is-oos-split)) |
-| `--benchmark` | option | config | Benchmark symbol |
+| `--benchmark` | option | config | Benchmark symbol (per-`asset_type` defaults apply, see below) |
+| `--no-benchmark` | flag | false | Disable benchmark comparison entirely (F-304). Useful for FX / commodities where a SPY comparison is meaningless |
 | `--check-criteria` | flag | false | Run acceptance criteria check |
 | `--cagr-min` | float | `20.0` | Minimum CAGR (%), used with `--check-criteria` |
 | `--sharpe-min` | float | `1.0` | Minimum Sharpe ratio |
@@ -53,6 +54,24 @@ alpha-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OP
 | `--pf-min` | float | `1.3` | Minimum profit factor |
 | `--min-trades` | int | - | Minimum trade count; exits with code 1 if below |
 | `--regime` | flag | false | Display per-regime statistics on the console |
+
+### Benchmark selection logic (F-304) {#benchmark-selection}
+
+Resolution order when `--benchmark` is omitted:
+
+1. Explicit `--benchmark <SYM>` (highest priority)
+2. `forge.yaml` `report.benchmark_symbol`, if set to anything other than the default `SPY`
+3. Per-`asset_type` map on the strategy JSON (used when (2) is still default `SPY`)
+
+| `asset_type` | Default benchmark |
+|--------------|------------------|
+| `stock` / `etf` | `SPY` |
+| `fx` | `DX-Y.NYB` (Dollar Index) |
+| `crypto` | `BTC-USD` |
+| `commodity` / `future` | `DBC` (commodity ETF) |
+| Other / unset | `SPY` (fallback) |
+
+To disable benchmark comparison entirely, pass `--no-benchmark`. This is the right choice when alpha / beta / correlation against SPY is meaningless (e.g. FX or commodities strategies).
 
 ### IS / OOS Split (`--split`)  {#is-oos-split}
 

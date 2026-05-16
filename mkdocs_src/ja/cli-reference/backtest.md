@@ -44,7 +44,8 @@ alpha-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OP
 | `--start` | オプション | - | 開始日 `YYYY-MM-DD` |
 | `--end` | オプション | - | 終了日 `YYYY-MM-DD` |
 | `--split` | フラグ | false | イン/アウトサンプル分割（[詳細](#is-oos-split)） |
-| `--benchmark` | オプション | config 値 | ベンチマークシンボル |
+| `--benchmark` | オプション | config 値 | ベンチマークシンボル（asset_type に応じた既定値あり、下記参照） |
+| `--no-benchmark` | フラグ | false | ベンチマーク比較を完全に無効化（F-304）。FX / コモディティ等で SPY 比較が無意味な場合に使う |
 | `--check-criteria` | フラグ | false | 受け入れ基準チェックを行う |
 | `--cagr-min` | float | `20.0` | CAGR 最低基準（%、`--check-criteria` と併用） |
 | `--sharpe-min` | float | `1.0` | Sharpe 最低基準 |
@@ -53,6 +54,24 @@ alpha-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OP
 | `--pf-min` | float | `1.3` | PF 最低基準 |
 | `--min-trades` | int | - | 最低取引数。閾値未満で終了コード 1 |
 | `--regime` | フラグ | false | レジーム別統計をコンソールに表示 |
+
+### ベンチマーク選択ロジック（F-304） {#benchmark-selection}
+
+`--benchmark` を省略したときの解決順序：
+
+1. `--benchmark <SYM>` の明示指定（最優先）
+2. `forge.yaml` の `report.benchmark_symbol` がデフォルト `SPY` 以外なら採用
+3. 戦略 JSON の `asset_type` 別マップで切替（既定 `SPY` のとき）
+
+| `asset_type` | 既定ベンチマーク |
+|--------------|----------------|
+| `stock` / `etf` | `SPY` |
+| `fx` | `DX-Y.NYB`（ドルインデックス） |
+| `crypto` | `BTC-USD` |
+| `commodity` / `future` | `DBC`（コモディティ ETF） |
+| その他 / 未設定 | `SPY`（フォールバック） |
+
+完全にベンチマーク比較を無効化したい場合は `--no-benchmark` を指定。FX / コモディティ戦略で SPY との Alpha / Beta / 相関が無意味なケースなどに有効。
 
 ### IS / OOS 分割（`--split`）  {#is-oos-split}
 
