@@ -45,11 +45,23 @@
          <lastmod>2026-05-16</lastmod>
     </url>
     <url>
+         <loc>https://alforgelabs.com/en/docs/cli-reference/analyze/</loc>
+         <lastmod>2026-05-16</lastmod>
+    </url>
+    <url>
          <loc>https://alforgelabs.com/en/docs/cli-reference/backtest/</loc>
          <lastmod>2026-05-16</lastmod>
     </url>
     <url>
          <loc>https://alforgelabs.com/en/docs/cli-reference/data/</loc>
+         <lastmod>2026-05-16</lastmod>
+    </url>
+    <url>
+         <loc>https://alforgelabs.com/en/docs/cli-reference/explore/</loc>
+         <lastmod>2026-05-16</lastmod>
+    </url>
+    <url>
+         <loc>https://alforgelabs.com/en/docs/cli-reference/idea/</loc>
          <lastmod>2026-05-16</lastmod>
     </url>
     <url>
@@ -65,11 +77,19 @@
          <lastmod>2026-05-16</lastmod>
     </url>
     <url>
-         <loc>https://alforgelabs.com/en/docs/cli-reference/other/</loc>
+         <loc>https://alforgelabs.com/en/docs/cli-reference/pine/</loc>
+         <lastmod>2026-05-16</lastmod>
+    </url>
+    <url>
+         <loc>https://alforgelabs.com/en/docs/cli-reference/self/</loc>
          <lastmod>2026-05-16</lastmod>
     </url>
     <url>
          <loc>https://alforgelabs.com/en/docs/cli-reference/strategy/</loc>
+         <lastmod>2026-05-16</lastmod>
+    </url>
+    <url>
+         <loc>https://alforgelabs.com/en/docs/cli-reference/system/</loc>
          <lastmod>2026-05-16</lastmod>
     </url>
     <url>

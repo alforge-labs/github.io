@@ -640,7 +640,7 @@ CLI 出力例:
   - 中間域（変換率 10〜50%）→ 保守的に `escalation: true` / `"scaffold_degradation"` として扱う
 - DB 件数が 5 件未満（履歴が浅い）→ 観測のみ（ブロックしない）
 
-`escalation: true` を検出するとコマンドは exit code `1` を返し、スキル側はループを停止して `recommended_actions` を人間に提示します。`warning: true`（agent_selection_bias）の場合は exit code `0` のまま `recommended_actions` を表示するに留め、エージェントは次のラン以降で **支配的になっている組み合わせ以外の指標** を選んで続行します（`recent_selections` 多様性ガードで自動解消）。`escalation_type` で原因を区別することで、scaffold 修正（alpha-forge 側の調査）とエージェント側プロンプト調整のどちらが必要かを判断できます（alpha-forge issue #436 / #467）。詳細は [`alpha-forge explore health` リファレンス](../cli-reference/other.md#alpha-forge-explore-health) を参照してください。
+`escalation: true` を検出するとコマンドは exit code `1` を返し、スキル側はループを停止して `recommended_actions` を人間に提示します。`warning: true`（agent_selection_bias）の場合は exit code `0` のまま `recommended_actions` を表示するに留め、エージェントは次のラン以降で **支配的になっている組み合わせ以外の指標** を選んで続行します（`recent_selections` 多様性ガードで自動解消）。`escalation_type` で原因を区別することで、scaffold 修正（alpha-forge 側の調査）とエージェント側プロンプト調整のどちらが必要かを判断できます（alpha-forge issue #436 / #467）。詳細は [`alpha-forge explore health` リファレンス](../cli-reference/explore.md#alpha-forge-explore-health) を参照してください。
 
 ---
 

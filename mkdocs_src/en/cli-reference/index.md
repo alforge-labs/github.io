@@ -15,15 +15,15 @@ Implementation-derived catalog extracted from the Click decorators in `alpha-for
 | **strategy** | Core | `list` `create` `save` `show` `migrate` `delete` `purge` `validate` `signals` `scaffold` | Create, register, and manage strategy JSON | [strategy →](strategy.md) |
 | **backtest** | Core | `run` `batch` `diagnose` `list` `report` `migrate` `compare` `portfolio` `chart` `monte-carlo` `signal-count` | Run backtests and analyze results | [backtest →](backtest.md) |
 | **optimize** | Core | `run` `cross-symbol` `portfolio` `multi-portfolio` `walk-forward` `apply` `sensitivity` `history` `grid` | Parameter optimization (Bayesian, grid, walk-forward) | [optimize →](optimize.md) |
-| **explore** | Core | `run` `import` `log` `status` `health` `diagnose` `recommend show` `coverage {update,build,show}` `result show` | Autonomous exploration loop (backtest → optimize → WFT) | — |
+| **explore** | Core | `run` `import` `log` `status` `health` `diagnose` `recommend show` `coverage {update,build,show}` `result show` | Autonomous exploration loop (backtest → optimize → WFT) | [explore →](explore.md) |
 | **live** | Core | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` | Live trading analysis and operational records | [live →](live.md) |
-| **pine** | Core | `generate` `preview` `verify` `import` | Convert between strategy JSON and TradingView Pine Script (`verify` validates syntax via TradingView MCP) | — |
+| **pine** | Core | `generate` `preview` `verify` `import` | Convert between strategy JSON and TradingView Pine Script (`verify` validates syntax via TradingView MCP) | [pine →](pine.md) |
 | **journal** | Core | `list` `show` `runs` `compare` `tag` `note` `report` `verdict` | Track run history, tags, verdicts, and Markdown reports | [journal →](journal.md) |
-| **idea** | Core | `add` `list` `show` `status` `link` `tag` `note` `search` | Manage and search investment ideas | — |
+| **idea** | Core | `add` `list` `show` `status` `link` `tag` `note` `search` | Manage and search investment ideas | [idea →](idea.md) |
 | **data** | Core | `fetch` `list` `trend` `update` `alt {fetch,list,info}` `tv-mcp {chart,inspect,check}` | Historical / alternative / TradingView MCP data | [data →](data.md) |
-| **analyze** | Auxiliary | `indicator {list,show}` `ml {train,models,walk-forward}` `ml dataset {build,feature-sets}` `pairs {scan,scan-all,build}` | Strategy-analysis utilities (indicators, ML, pairs trading) | — |
-| **system** | Auxiliary | `init` `auth {login,logout,status}` `auth check op` `docs {list,show}` | Operational utilities (workspace init, Whop OAuth, bundled docs) | — |
-| **self** | Meta | `version` `update` | `alpha-forge` binary self-operations (version check, self-update) | — |
+| **analyze** | Auxiliary | `indicator {list,show}` `ml {train,models,walk-forward}` `ml dataset {build,feature-sets}` `pairs {scan,scan-all,build}` | Strategy-analysis utilities (indicators, ML, pairs trading) | [analyze →](analyze.md) |
+| **system** | Auxiliary | `init` `auth {login,logout,status}` `auth check op` `docs {list,show}` | Operational utilities (workspace init, Whop OAuth, bundled docs) | [system →](system.md) |
+| **self** | Meta | `version` `update` | `alpha-forge` binary self-operations (version check, self-update) | [self →](self.md) |
 
 The `{a,b,c}` notation expands into siblings under the same parent group. For example, `data alt {fetch,list,info}` represents the three subcommands `alpha-forge data alt fetch` / `alpha-forge data alt list` / `alpha-forge data alt info`.
 
