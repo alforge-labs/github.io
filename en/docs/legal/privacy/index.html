@@ -2212,7 +2212,7 @@
 <h3 id="11-purchase-information">1.1 Purchase Information<a class="headerlink" href="#11-purchase-information" title="Permanent link">&para;</a></h3>
 <p>When you purchase a membership through Whop, information such as your name or company name, email address, payment details, and country or region may be collected. Payment details are processed by Whop and its payment providers (e.g. Stripe); Alforge Labs does not store card-level information.</p>
 <h3 id="12-information-exchanged-during-authentication">1.2 Information Exchanged During Authentication<a class="headerlink" href="#12-information-exchanged-during-authentication" title="Permanent link">&para;</a></h3>
-<p>When you run <code>forge system auth login</code>, the OAuth 2.0 PKCE flow sends and receives the following with the Whop API (<code>api.whop.com</code>):</p>
+<p>When you run <code>alpha-forge system auth login</code>, the OAuth 2.0 PKCE flow sends and receives the following with the Whop API (<code>api.whop.com</code>):</p>
 <ul>
 <li>Sent to Whop: OAuth authorization code, PKCE code_verifier, refresh token (during token refresh)</li>
 <li>Received from Whop: access token, refresh token, user ID, membership validity</li>
@@ -2238,7 +2238,7 @@
 <ul>
 <li>Purchase and membership information: retained according to Whop's data retention policy</li>
 <li>Support email: retained for two years after the support request is resolved</li>
-<li>Local authentication cache (<code>~/.forge/credentials.json</code>): retained until the user removes it or runs <code>forge system auth logout</code></li>
+<li>Local authentication cache (<code>~/.forge/credentials.json</code>): retained until the user removes it or runs <code>alpha-forge system auth logout</code></li>
 </ul>
 <h2 id="5-cookies-and-tracking">5. Cookies and Tracking<a class="headerlink" href="#5-cookies-and-tracking" title="Permanent link">&para;</a></h2>
 <p>This website uses Google Analytics to analyze site traffic. You can opt out of measurement by disabling cookies in your browser settings.</p>

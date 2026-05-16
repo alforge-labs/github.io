@@ -1,4 +1,4 @@
-# forge strategy
+# alpha-forge strategy
 
 戦略 JSON の作成・登録・検証・管理を行うコマンドグループ。組み込みテンプレートからの雛形作成、ローカル登録、表示、JSON → DB 移行、削除、論理整合性チェック（静的・動的）まで一通り扱います。
 
@@ -9,26 +9,26 @@
 
 | コマンド | 説明 |
 |---------|------|
-| [`forge strategy list`](#forge-strategy-list) | 登録済み戦略の一覧を表示する |
-| [`forge strategy create`](#forge-strategy-create) | 組み込みテンプレートから JSON ファイルを作成する |
-| [`forge strategy save`](#forge-strategy-save) | JSON ファイルからカスタム戦略を登録する |
-| [`forge strategy show`](#forge-strategy-show) | 登録済みの戦略定義（JSON）を表示する |
-| [`forge strategy migrate`](#forge-strategy-migrate) | 既存 JSON ファイルを DB にインポートする |
-| [`forge strategy delete`](#forge-strategy-delete) | 登録済み戦略を DB から削除する |
-| [`forge strategy purge`](#forge-strategy-purge) | 戦略 JSON・関連結果・DB エントリを 1 コマンドで完全削除する |
-| [`forge strategy validate`](#forge-strategy-validate) | 戦略の論理整合性チェックを実行する |
-| [`forge strategy signals`](#forge-strategy-signals) | エントリーシグナル数を軽量集計する |
+| [`alpha-forge strategy list`](#alpha-forge-strategy-list) | 登録済み戦略の一覧を表示する |
+| [`alpha-forge strategy create`](#alpha-forge-strategy-create) | 組み込みテンプレートから JSON ファイルを作成する |
+| [`alpha-forge strategy save`](#alpha-forge-strategy-save) | JSON ファイルからカスタム戦略を登録する |
+| [`alpha-forge strategy show`](#alpha-forge-strategy-show) | 登録済みの戦略定義（JSON）を表示する |
+| [`alpha-forge strategy migrate`](#alpha-forge-strategy-migrate) | 既存 JSON ファイルを DB にインポートする |
+| [`alpha-forge strategy delete`](#alpha-forge-strategy-delete) | 登録済み戦略を DB から削除する |
+| [`alpha-forge strategy purge`](#alpha-forge-strategy-purge) | 戦略 JSON・関連結果・DB エントリを 1 コマンドで完全削除する |
+| [`alpha-forge strategy validate`](#alpha-forge-strategy-validate) | 戦略の論理整合性チェックを実行する |
+| [`alpha-forge strategy signals`](#alpha-forge-strategy-signals) | エントリーシグナル数を軽量集計する |
 
 ---
 
-## forge strategy list
+## alpha-forge strategy list
 
 登録済み戦略の一覧を表示する。`config.strategies.use_db` が true なら DB から、false ならファイルベースのストアから取得します。
 
 ### 構文
 
 ```bash
-forge strategy list
+alpha-forge strategy list
 ```
 
 ### 引数とオプション
@@ -53,14 +53,14 @@ gc_hmm_macd_ema_v1                       GC HMM × MACD × EMA v1         1.0.0 
 
 ---
 
-## forge strategy create
+## alpha-forge strategy create
 
-組み込みテンプレートから戦略 JSON ファイルを作成します。**戦略レジストリには登録されません**。編集してから [`forge strategy save`](#forge-strategy-save) で登録する流れです。
+組み込みテンプレートから戦略 JSON ファイルを作成します。**戦略レジストリには登録されません**。編集してから [`alpha-forge strategy save`](#alpha-forge-strategy-save) で登録する流れです。
 
 ### 構文
 
 ```bash
-forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
+alpha-forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
 ```
 
 ### 引数とオプション
@@ -75,7 +75,7 @@ forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
     `--out my_usdjpy_v1.json` のように指定すると、生成 JSON の `strategy_id` は
     自動的に `my_usdjpy_v1` になります。これは v0.5.3 以前のように
     `strategy_id` がテンプレート名（例: `sma_crossover_v1`）のまま生成され、
-    `forge strategy save` で**ビルトインテンプレートと衝突するエラー**を起こす
+    `alpha-forge strategy save` で**ビルトインテンプレートと衝突するエラー**を起こす
     問題（F-301）への対応です。
 
     - **明示指定したい場合**: `--strategy-id usdjpy_sma_v1` を渡す
@@ -105,7 +105,29 @@ AlphaForge は「ユーザー自身が戦略を作って育てる」プロダク
 
 ```text
 ✅ 戦略テンプレート 'sma_crossover_v1' から JSON ファイルを作成しました: my_strategy.json
+
+📝 alpha-forge strategy save の前に、最低限以下を編集してください:
+   - name              人が読める戦略名（例: "USDJPY SMA クロス v1"）
+   - target_symbols    対象シンボル（例: ["USDJPY=X"]）
+   - （最適化したい場合）optimizer_config.param_ranges を定義
+
+   次のステップ: alpha-forge strategy save my_strategy.json
+             →   alpha-forge backtest run <SYMBOL> --strategy my_strategy
 ```
+
+### 生成 JSON で必ず編集すべき項目（F-300）
+
+組み込みテンプレートが書き出す JSON は **そのまま `alpha-forge strategy save` できる形にはなっていません**。最低限以下の編集が必要です：
+
+| 項目 | テンプレ初期値 | 編集する理由 |
+|------|--------------|-------------|
+| `name` | テンプレート名そのまま | 戦略一覧 (`alpha-forge strategy list`) で人が見分けるため |
+| `target_symbols` | `[]`（空） | 空のまま `backtest run` するとシンボル指定エラーで停止する |
+| `optimizer_config.param_ranges` | `null` または最小範囲 | 最適化を回したい場合に必須。`null` のままだと内蔵デフォルト範囲が使われる（[`alpha-forge optimize run`](optimize.md#alpha-forge-optimize-run) 参照） |
+
+`strategy_id` は `--out` のファイル名から自動派生されるため、原則編集不要です。
+
+詳しい編集フローは [end-to-end-workflow](../guides/end-to-end-workflow.md) の「戦略 JSON 編集」セクションを参照してください。
 
 ### 主なエラー
 
@@ -115,14 +137,14 @@ AlphaForge は「ユーザー自身が戦略を作って育てる」プロダク
 
 ---
 
-## forge strategy save
+## alpha-forge strategy save
 
 JSON ファイルからカスタム戦略を **戦略レジストリに登録** します。`config.journal.auto_record` が true の場合、Journal にスナップショットも記録されます。
 
 ### 構文
 
 ```bash
-forge strategy save <FILE_PATH> [--force]
+alpha-forge strategy save <FILE_PATH> [--force]
 ```
 
 ### 引数とオプション
@@ -153,14 +175,14 @@ forge strategy save <FILE_PATH> [--force]
 
 ---
 
-## forge strategy show
+## alpha-forge strategy show
 
 登録済みの戦略 JSON を整形して標準出力に表示します。
 
 ### 構文
 
 ```bash
-forge strategy show <STRATEGY_ID>
+alpha-forge strategy show <STRATEGY_ID>
 ```
 
 ### 引数とオプション
@@ -185,18 +207,18 @@ forge strategy show <STRATEGY_ID>
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `エラー: 戦略 '<id>' が見つかりません` | ID 不正 | `forge strategy list` で確認 |
+| `エラー: 戦略 '<id>' が見つかりません` | ID 不正 | `alpha-forge strategy list` で確認 |
 
 ---
 
-## forge strategy migrate
+## alpha-forge strategy migrate
 
 `config.strategies.path` 配下の既存 JSON ファイルを **DB（SQLite）にインポート** します。`use_db: true` の運用に切り替える際に使用します。
 
 ### 構文
 
 ```bash
-forge strategy migrate [--dry-run] [--force]
+alpha-forge strategy migrate [--dry-run] [--force]
 ```
 
 ### 引数とオプション
@@ -250,14 +272,14 @@ strategies:
 
 ---
 
-## forge strategy delete
+## alpha-forge strategy delete
 
 登録済み戦略を DB / レジストリから削除します。`--with-results` を付けると関連ファイル（最適化済み戦略・バックテスト結果・最適化結果 JSON）も一括削除します。Journal は保持されます。
 
 ### 構文
 
 ```bash
-forge strategy delete <STRATEGY_ID> [--force] [--with-results]
+alpha-forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 ```
 
 ### 引数とオプション
@@ -278,9 +300,9 @@ forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 
 ### recommendations.yaml の自動クリーンアップ（issue #454）
 
-戦略削除時に `data/explorer/recommendations.yaml` 上の該当エントリも自動的に削除されます（rank は詰め直されます）。auto-relax で生成された推薦戦略を削除しても、stale な推薦が残って `forge explore run` が `StrategyNotFoundError` で停止することはありません。
+戦略削除時に `data/explorer/recommendations.yaml` 上の該当エントリも自動的に削除されます（rank は詰め直されます）。auto-relax で生成された推薦戦略を削除しても、stale な推薦が残って `alpha-forge explore run` が `StrategyNotFoundError` で停止することはありません。
 
-なお、`forge explore recommend show` 実行時には DB 存在チェックが走り、過去に取り残された stale エントリも自動的に prune されます。
+なお、`alpha-forge explore recommend show` 実行時には DB 存在チェックが走り、過去に取り残された stale エントリも自動的に prune されます。
 
 ### サンプル出力
 
@@ -301,19 +323,19 @@ forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `エラー: 戦略 '<id>' が見つかりません` | ID 不正 | `forge strategy list` で確認 |
+| `エラー: 戦略 '<id>' が見つかりません` | ID 不正 | `alpha-forge strategy list` で確認 |
 | `キャンセルしました` | 確認プロンプトで No | `--force` を付けるか、改めて承認 |
 
 ---
 
-## forge strategy purge
+## alpha-forge strategy purge
 
-戦略 JSON・関連ファイル（`_optimized.json`、`_report.json`、`optimize_<id>_*.json`）・DB エントリを **1 コマンドで完全削除** します。従来の `rm <strategy>.json && rm <strategy>_report.json && forge strategy delete <id> --force` の 3 ステップが 1 コマンドになります。Journal ファイル（`<id>.journal.json`）は保持されます。
+戦略 JSON・関連ファイル（`_optimized.json`、`_report.json`、`optimize_<id>_*.json`）・DB エントリを **1 コマンドで完全削除** します。従来の `rm <strategy>.json && rm <strategy>_report.json && alpha-forge strategy delete <id> --force` の 3 ステップが 1 コマンドになります。Journal ファイル（`<id>.journal.json`）は保持されます。
 
 ### 構文
 
 ```bash
-forge strategy purge <STRATEGY_ID> [--dry-run]
+alpha-forge strategy purge <STRATEGY_ID> [--dry-run]
 ```
 
 ### 引数とオプション
@@ -369,14 +391,14 @@ forge strategy purge <STRATEGY_ID> [--dry-run]
 
 ---
 
-## forge strategy validate
+## alpha-forge strategy validate
 
 戦略の **論理整合性チェック** を実行します。`--symbol` を指定すると **動的チェック**（実データ上のシグナル件数・条件相関）も実施します。`STRATEGY_ID` に `.json` 拡張子のパスを渡すと、レジストリ未登録の JSON を直接検証できます。
 
 ### 構文
 
 ```bash
-forge strategy validate <STRATEGY_ID|FILE.json> [OPTIONS]
+alpha-forge strategy validate <STRATEGY_ID|FILE.json> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -478,12 +500,12 @@ forge strategy validate <STRATEGY_ID|FILE.json> [OPTIONS]
 
 ---
 
-## forge strategy signals
+## alpha-forge strategy signals
 
 最適化・WFT を実行せず、デフォルトパラメータでエントリーシグナル数・推定取引数・WFT 窓カバレッジを素早く集計します（#321）。
 
 ```bash
-forge strategy signals <SYMBOL> --strategy <NAME> [--period <PERIOD>] [--json]
+alpha-forge strategy signals <SYMBOL> --strategy <NAME> [--period <PERIOD>] [--json]
 ```
 
 | オプション | 説明 | デフォルト |

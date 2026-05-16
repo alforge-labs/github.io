@@ -1,6 +1,6 @@
-# forge journal
+# alpha-forge journal
 
-Manage strategy execution history, snapshots, tags, notes, and verdicts (pass / fail / review). When `config.journal.auto_record` is true, runs of `forge strategy save`, `forge optimize run`, and similar are recorded automatically.
+Manage strategy execution history, snapshots, tags, notes, and verdicts (pass / fail / review). When `config.journal.auto_record` is true, runs of `alpha-forge strategy save`, `alpha-forge optimize run`, and similar are recorded automatically.
 
 !!! info "About sample output"
     Sample outputs in this page are based on the formats read from the `alpha-forge` source. Actual values and formatting depend on the `format_*` functions in `journal/formatter.py`.
@@ -9,25 +9,25 @@ Manage strategy execution history, snapshots, tags, notes, and verdicts (pass / 
 
 | Command | Description |
 |---------|-------------|
-| [`forge journal list`](#forge-journal-list) | Show list of strategies that have a journal |
-| [`forge journal show`](#forge-journal-show) | Show full history (snapshots and runs) for a strategy |
-| [`forge journal runs`](#forge-journal-runs) | Show run results in table format |
-| [`forge journal compare`](#forge-journal-compare) | Compare two run results side by side |
-| [`forge journal tag`](#forge-journal-tag) | Add or remove tags |
-| [`forge journal note`](#forge-journal-note) | Append a note |
-| [`forge journal verdict`](#forge-journal-verdict) | Record a verdict (pass / fail / review) for a run result |
-| [`forge journal report`](#forge-journal-report) | Render the strategy history as a Markdown report (with optional TV chart embedding) |
+| [`alpha-forge journal list`](#alpha-forge-journal-list) | Show list of strategies that have a journal |
+| [`alpha-forge journal show`](#alpha-forge-journal-show) | Show full history (snapshots and runs) for a strategy |
+| [`alpha-forge journal runs`](#alpha-forge-journal-runs) | Show run results in table format |
+| [`alpha-forge journal compare`](#alpha-forge-journal-compare) | Compare two run results side by side |
+| [`alpha-forge journal tag`](#alpha-forge-journal-tag) | Add or remove tags |
+| [`alpha-forge journal note`](#alpha-forge-journal-note) | Append a note |
+| [`alpha-forge journal verdict`](#alpha-forge-journal-verdict) | Record a verdict (pass / fail / review) for a run result |
+| [`alpha-forge journal report`](#alpha-forge-journal-report) | Render the strategy history as a Markdown report (with optional TV chart embedding) |
 
 ---
 
-## forge journal list
+## alpha-forge journal list
 
 List all strategies that have a journal. Walks `<strategy_id>.journal.json` files under `config.journal.journal_path`.
 
 ### Synopsis
 
 ```bash
-forge journal list
+alpha-forge journal list
 ```
 
 ### Arguments and options
@@ -46,14 +46,14 @@ Formatting is delegated to `format_journal_list` in `journal/formatter.py`. When
 
 ---
 
-## forge journal show
+## alpha-forge journal show
 
 Show a strategy's full history: definition snapshots, run history (backtests / optimizations / ...), tags, notes, and a live summary (when live trading records exist).
 
 ### Synopsis
 
 ```bash
-forge journal show <STRATEGY_ID>
+alpha-forge journal show <STRATEGY_ID>
 ```
 
 ### Arguments and options
@@ -90,18 +90,18 @@ Formatting is delegated to `format_journal_show`. Field details may vary by vers
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `No journal found: <id>` | Journal file missing or empty | Verify with `forge journal list`; run the strategy to create a journal |
+| `No journal found: <id>` | Journal file missing or empty | Verify with `alpha-forge journal list`; run the strategy to create a journal |
 
 ---
 
-## forge journal runs
+## alpha-forge journal runs
 
 Show run results in a table.
 
 ### Synopsis
 
 ```bash
-forge journal runs <STRATEGY_ID> [--best <KEY>]
+alpha-forge journal runs <STRATEGY_ID> [--best <KEY>]
 ```
 
 ### Arguments and options
@@ -124,14 +124,14 @@ Formatting is delegated to `format_runs_table(j, sort_by)`.
 
 ---
 
-## forge journal compare
+## alpha-forge journal compare
 
 Compare **two run results** of the same strategy side by side.
 
 ### Synopsis
 
 ```bash
-forge journal compare <STRATEGY_ID> --run <RUN_ID1> --run <RUN_ID2>
+alpha-forge journal compare <STRATEGY_ID> --run <RUN_ID1> --run <RUN_ID2>
 ```
 
 ### Arguments and options
@@ -162,18 +162,18 @@ Formatting is delegated to `format_compare(j, run1, run2)`.
 | Message | Cause | Fix |
 |---------|-------|-----|
 | `Error: specify exactly 2 --run values.` | Number of `--run` not 2 | Pass exactly 2 |
-| `Error: run_id not found - <id>` | Specified `run_id` does not exist | Verify with `forge journal runs <strategy_id>` |
+| `Error: run_id not found - <id>` | Specified `run_id` does not exist | Verify with `alpha-forge journal runs <strategy_id>` |
 
 ---
 
-## forge journal tag
+## alpha-forge journal tag
 
 Add or remove **tags** on a strategy. `--add` and `--remove` can be **combined** in one call (one of them must be present).
 
 ### Synopsis
 
 ```bash
-forge journal tag <STRATEGY_ID> [--add <TAG>] [--remove <TAG>]
+alpha-forge journal tag <STRATEGY_ID> [--add <TAG>] [--remove <TAG>]
 ```
 
 ### Arguments and options
@@ -205,14 +205,14 @@ When both flags are given:
 
 ---
 
-## forge journal note
+## alpha-forge journal note
 
 Append a note to a strategy (additive — does not overwrite existing notes).
 
 ### Synopsis
 
 ```bash
-forge journal note <STRATEGY_ID> <TEXT>
+alpha-forge journal note <STRATEGY_ID> <TEXT>
 ```
 
 ### Arguments and options
@@ -231,19 +231,19 @@ forge journal note <STRATEGY_ID> <TEXT>
 Example:
 
 ```bash
-forge journal note spy_sma_v1 "OOS check passed at sharpe=0.95; promoted to production candidate"
+alpha-forge journal note spy_sma_v1 "OOS check passed at sharpe=0.95; promoted to production candidate"
 ```
 
 ---
 
-## forge journal verdict
+## alpha-forge journal verdict
 
 Record a **verdict** on a specific run (`run_id`).
 
 ### Synopsis
 
 ```bash
-forge journal verdict <STRATEGY_ID> <RUN_ID> <pass|fail|review>
+alpha-forge journal verdict <STRATEGY_ID> <RUN_ID> <pass|fail|review>
 ```
 
 ### Arguments and options
@@ -262,7 +262,7 @@ forge journal verdict <STRATEGY_ID> <RUN_ID> <pass|fail|review>
 | `fail` | **Rejected / not accepted** | Suspected overfitting, below benchmark, unacceptable risk |
 | `review` | **Pending review** | Decision deferred, awaiting more validation, under discussion |
 
-The verdict is reflected in `forge journal show` and `forge journal runs` output.
+The verdict is reflected in `alpha-forge journal show` and `alpha-forge journal runs` output.
 
 ### Sample output
 
@@ -274,19 +274,19 @@ The verdict is reflected in `forge journal show` and `forge journal runs` output
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Error: run_id not found - <id>` | Specified `run_id` does not exist in the journal | Verify with `forge journal runs <strategy_id>` |
+| `Error: run_id not found - <id>` | Specified `run_id` does not exist in the journal | Verify with `alpha-forge journal runs <strategy_id>` |
 | Click: `Invalid value for 'VERDICT'` | Value other than `pass` / `fail` / `review` | Use one of the choices |
 
 ---
 
-## forge journal report
+## alpha-forge journal report
 
 Render the strategy's full history (snapshots, runs, tags, notes, verdicts) as a **Markdown report** (issue #523 Phase 1.5d-γ). With `--with-chart`, append a TradingView chart PNG fetched from a TV MCP server at the bottom.
 
 ### Synopsis
 
 ```bash
-forge journal report <STRATEGY_ID> [--output <FILE>] [--with-chart --symbol <SYM> --interval <TF>]
+alpha-forge journal report <STRATEGY_ID> [--output <FILE>] [--with-chart --symbol <SYM> --interval <TF>]
 ```
 
 ### Arguments and options
@@ -305,10 +305,10 @@ forge journal report <STRATEGY_ID> [--output <FILE>] [--with-chart --symbol <SYM
 
 ```bash
 # Print to stdout
-forge journal report spy_sma_v1
+alpha-forge journal report spy_sma_v1
 
 # Write to file with embedded TV chart
-forge journal report spy_sma_v1 --output reports/spy.md \
+alpha-forge journal report spy_sma_v1 --output reports/spy.md \
   --with-chart --symbol SPY --interval D
 ```
 
@@ -316,7 +316,7 @@ forge journal report spy_sma_v1 --output reports/spy.md \
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `No journal found: <id>` | Journal missing | Verify with `forge journal list` |
+| `No journal found: <id>` | Journal missing | Verify with `alpha-forge journal list` |
 | `--with-chart requires --symbol / --interval.` | Missing chart args | Add `--symbol` and `--interval` |
 
 ---
@@ -324,7 +324,7 @@ forge journal report spy_sma_v1 --output reports/spy.md \
 ## Common behavior
 
 - **Storage location**: `config.journal.journal_path / <strategy_id>.journal.json`
-- **Auto-recording**: With `config.journal.auto_record` true, `forge strategy save` snapshots and `forge optimize run` records are added automatically
+- **Auto-recording**: With `config.journal.auto_record` true, `alpha-forge strategy save` snapshots and `alpha-forge optimize run` records are added automatically
 - **Live integration**: `LiveStore` reads from `<journal_path>/../live/` and feeds into `show`
 - **`FORGE_CONFIG`**: All paths above are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable
 - **Exit codes**: `0` on success; argument errors return Click's `2`; `run_id` not found typically returns `1` (writes to stderr and returns)

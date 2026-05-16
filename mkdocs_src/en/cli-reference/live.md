@@ -1,6 +1,6 @@
-# forge live
+# alpha-forge live
 
-Live trading event ingestion (VPS → local), raw event → trade record conversion, performance analysis, and backtest comparison. Integrates with `forge journal` to surface live results.
+Live trading event ingestion (VPS → local), raw event → trade record conversion, performance analysis, and backtest comparison. Integrates with `alpha-forge journal` to surface live results.
 
 !!! info "About sample output"
     Sample outputs in this page are based on the formats read from the `alpha-forge` source. Actual values and formatting depend on the `format_*` functions in `live/formatter.py`.
@@ -8,37 +8,37 @@ Live trading event ingestion (VPS → local), raw event → trade record convers
 ## Typical operation flow
 
 ```text
-1. forge live sync-events       Pull raw events from VPS
-2. forge live convert-check     Verify conversion readiness
-3. forge live import-events     Generate trades from fill / close events
-4. forge live summary           Show live performance summary
-5. forge live compare           Compare with the latest backtest run
+1. alpha-forge live sync-events       Pull raw events from VPS
+2. alpha-forge live convert-check     Verify conversion readiness
+3. alpha-forge live import-events     Generate trades from fill / close events
+4. alpha-forge live summary           Show live performance summary
+5. alpha-forge live compare           Compare with the latest backtest run
 ```
 
 ## Subcommands
 
 | Command | Description |
 |---------|-------------|
-| [`forge live list`](#forge-live-list) | List strategies that have live trading records |
-| [`forge live events`](#forge-live-events) | List raw trading events |
-| [`forge live convert-check`](#forge-live-convert-check) | Check readiness to convert raw events to trade records |
-| [`forge live import-events`](#forge-live-import-events) | Generate and save trade records from fill / close events |
-| [`forge live trades`](#forge-live-trades) | List individual trade records for a strategy |
-| [`forge live summary`](#forge-live-summary) | Show live performance summary for a strategy |
-| [`forge live compare`](#forge-live-compare) | Compare the latest backtest run with live summary |
-| [`forge live doctor`](#forge-live-doctor) | Check the setup status of live trading analysis |
-| [`forge live sync-events`](#forge-live-sync-events) | Sync event logs from VPS to local via rsync |
+| [`alpha-forge live list`](#alpha-forge-live-list) | List strategies that have live trading records |
+| [`alpha-forge live events`](#alpha-forge-live-events) | List raw trading events |
+| [`alpha-forge live convert-check`](#alpha-forge-live-convert-check) | Check readiness to convert raw events to trade records |
+| [`alpha-forge live import-events`](#alpha-forge-live-import-events) | Generate and save trade records from fill / close events |
+| [`alpha-forge live trades`](#alpha-forge-live-trades) | List individual trade records for a strategy |
+| [`alpha-forge live summary`](#alpha-forge-live-summary) | Show live performance summary for a strategy |
+| [`alpha-forge live compare`](#alpha-forge-live-compare) | Compare the latest backtest run with live summary |
+| [`alpha-forge live doctor`](#alpha-forge-live-doctor) | Check the setup status of live trading analysis |
+| [`alpha-forge live sync-events`](#alpha-forge-live-sync-events) | Sync event logs from VPS to local via rsync |
 
 ---
 
-## forge live list
+## alpha-forge live list
 
 Walk `<journal_path>/../live/` to find strategies that have live records (trade records or event logs).
 
 ### Synopsis
 
 ```bash
-forge live list
+alpha-forge live list
 ```
 
 ### Arguments and options
@@ -57,14 +57,14 @@ Formatting is delegated to `format_live_list`.
 
 ---
 
-## forge live events
+## alpha-forge live events
 
 List raw events emitted by brokers (e.g., `fill`, `close`). Without filters, the latest `--limit` records are shown.
 
 ### Synopsis
 
 ```bash
-forge live events [OPTIONS]
+alpha-forge live events [OPTIONS]
 ```
 
 ### Arguments and options
@@ -89,14 +89,14 @@ Formatting is delegated to `format_live_events`.
 
 ---
 
-## forge live convert-check
+## alpha-forge live convert-check
 
 Check whether raw events can be converted to trade records (whether `fill` and `close` pairs are matched, etc.). Recommended as a pre-step to `import-events`.
 
 ### Synopsis
 
 ```bash
-forge live convert-check [--strategy-id <ID>]
+alpha-forge live convert-check [--strategy-id <ID>]
 ```
 
 ### Arguments and options
@@ -119,14 +119,14 @@ Formatting is delegated to `format_event_conversion_report`.
 
 ---
 
-## forge live import-events
+## alpha-forge live import-events
 
 Generate trade records from `fill` / `close` events and save them as `<live_path>/trades/<strategy_id>.json` and `<live_path>/summaries/<strategy_id>.json`.
 
 ### Synopsis
 
 ```bash
-forge live import-events <STRATEGY_ID>
+alpha-forge live import-events <STRATEGY_ID>
 ```
 
 ### Arguments and options
@@ -137,9 +137,9 @@ forge live import-events <STRATEGY_ID>
 
 ### Prerequisites for raw event → trade records conversion
 
-- Event logs for the `strategy_id` must exist under `<live_path>/events/` (fetched via `forge live sync-events`, or placed manually)
+- Event logs for the `strategy_id` must exist under `<live_path>/events/` (fetched via `alpha-forge live sync-events`, or placed manually)
 - Each entry must have a **paired `fill` event and `close` event**
-- Verify with [`forge live convert-check`](#forge-live-convert-check) first that the status is `ready` (or `partial` within tolerance)
+- Verify with [`alpha-forge live convert-check`](#alpha-forge-live-convert-check) first that the status is `ready` (or `partial` within tolerance)
 - Running once per `strategy_id` produces `<strategy_id>.json` (re-runs overwrite)
 
 ### Sample output
@@ -155,18 +155,18 @@ summary_file      : data/live/summaries/spy_sma_v1.json
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Failed to generate trade records: <id>` | Unmatched `fill` / `close` pairs or missing events | Diagnose with `forge live convert-check --strategy-id <id>` |
+| `Failed to generate trade records: <id>` | Unmatched `fill` / `close` pairs or missing events | Diagnose with `alpha-forge live convert-check --strategy-id <id>` |
 
 ---
 
-## forge live trades
+## alpha-forge live trades
 
 List individual trade records for a strategy.
 
 ### Synopsis
 
 ```bash
-forge live trades <STRATEGY_ID> [OPTIONS]
+alpha-forge live trades <STRATEGY_ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -195,18 +195,18 @@ Formatting is delegated to `format_live_trades`.
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `No live trade records found: <id>` | `<live_path>/trades/<id>.json` does not exist | Generate via `forge live import-events <id>` |
+| `No live trade records found: <id>` | `<live_path>/trades/<id>.json` does not exist | Generate via `alpha-forge live import-events <id>` |
 
 ---
 
-## forge live summary
+## alpha-forge live summary
 
 Show the live performance summary. If the summary has not yet been built, it is constructed from trade records on the fly.
 
 ### Synopsis
 
 ```bash
-forge live summary <STRATEGY_ID>
+alpha-forge live summary <STRATEGY_ID>
 ```
 
 ### Arguments and options
@@ -235,18 +235,18 @@ Formatting is delegated to `format_live_summary`.
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `No live summary found: <id>` | Cannot build (no trade records) | Run `forge live import-events <id>` first |
+| `No live summary found: <id>` | Cannot build (no trade records) | Run `alpha-forge live import-events <id>` first |
 
 ---
 
-## forge live compare
+## alpha-forge live compare
 
 Compare the latest backtest run with the live summary side by side to evaluate whether live behavior matches expectations.
 
 ### Synopsis
 
 ```bash
-forge live compare <STRATEGY_ID>
+alpha-forge live compare <STRATEGY_ID>
 ```
 
 ### Arguments and options
@@ -274,19 +274,19 @@ Formatting is delegated to `format_live_compare`.
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `No live summary found: <id>` | Live summary missing | Run `forge live import-events <id>` |
-| `No backtest run found: <id>` | No backtest run in journal | Run `forge backtest run` and let it record |
+| `No live summary found: <id>` | Live summary missing | Run `alpha-forge live import-events <id>` |
+| `No backtest run found: <id>` | No backtest run in journal | Run `alpha-forge backtest run` and let it record |
 
 ---
 
-## forge live doctor
+## alpha-forge live doctor
 
 Diagnose the setup status of live trading analysis. With `STRATEGY_ID`, also checks trade and summary readiness for that strategy.
 
 ### Synopsis
 
 ```bash
-forge live doctor [STRATEGY_ID]
+alpha-forge live doctor [STRATEGY_ID]
 ```
 
 ### Arguments and options
@@ -325,14 +325,14 @@ rollout_status  : ready
 
 ---
 
-## forge live sync-events
+## alpha-forge live sync-events
 
 Sync event logs from VPS to local via rsync.
 
 ### Synopsis
 
 ```bash
-forge live sync-events [--dry-run]
+alpha-forge live sync-events [--dry-run]
 ```
 
 ### Arguments and options

@@ -12,7 +12,7 @@ When you purchase a membership through Whop, information such as your name or co
 
 ### 1.2 Information Exchanged During Authentication
 
-When you run `forge system auth login`, the OAuth 2.0 PKCE flow sends and receives the following with the Whop API (`api.whop.com`):
+When you run `alpha-forge system auth login`, the OAuth 2.0 PKCE flow sends and receives the following with the Whop API (`api.whop.com`):
 
 - Sent to Whop: OAuth authorization code, PKCE code_verifier, refresh token (during token refresh)
 - Received from Whop: access token, refresh token, user ID, membership validity
@@ -41,7 +41,7 @@ We do not share personal information with third parties except when necessary fo
 
 - Purchase and membership information: retained according to Whop's data retention policy
 - Support email: retained for two years after the support request is resolved
-- Local authentication cache (`~/.forge/credentials.json`): retained until the user removes it or runs `forge system auth logout`
+- Local authentication cache (`~/.forge/credentials.json`): retained until the user removes it or runs `alpha-forge system auth logout`
 
 ## 5. Cookies and Tracking
 

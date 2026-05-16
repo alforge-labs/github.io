@@ -5,16 +5,16 @@
 ![AlphaForge 6ステップ ワークフロー全体図](../assets/illustrations/alphaforge-technical-workflow-ja.png)
 
 !!! note "前提"
-    本ページは [はじめに](../getting-started.md) で `forge` をインストール済み（バイナリ版）かつ、作業ディレクトリで `forge system init` を実行済み（`forge.yaml` ・`data/` 等が存在）であることを前提とします。コマンドはすべて作業ディレクトリのカレントで `forge` を直接呼ぶ形で記載しています。
+    本ページは [はじめに](../getting-started.md) で `alpha-forge` をインストール済み（バイナリ版）かつ、作業ディレクトリで `alpha-forge system init` を実行済み（`forge.yaml` ・`data/` 等が存在）であることを前提とします。コマンドはすべて作業ディレクトリのカレントで `alpha-forge` を直接呼ぶ形で記載しています。
 
-    開発者向けの alpha-trade モノレポで作業している場合は、各 `forge ...` を `FORGE_CONFIG=forge.yaml uv --directory alpha-forge run forge ...` に読み替えてください。
+    開発者向けの alpha-trade モノレポで作業している場合は、各 `forge ...` を `FORGE_CONFIG=forge.yaml uv --directory alpha-forge run alpha-forge ...` に読み替えてください。
 
 ## 1. データ取得
 
 対象シンボルのヒストリカルデータをローカルに保存します。
 
 ```bash
-forge data fetch 'USDJPY=X'
+alpha-forge data fetch 'USDJPY=X'
 ```
 
 !!! warning "FX / 先物 / 暗号資産のシンボル命名"
@@ -34,14 +34,14 @@ forge data fetch 'USDJPY=X'
 テンプレートから戦略 JSON の雛形を生成し、パラメータを編集してから登録します。
 
 !!! info "利用可能なテンプレート一覧を確認する方法（F-005）"
-    `forge strategy template list` のような専用コマンドは現時点では存在しません。
+    `alpha-forge strategy template list` のような専用コマンドは現時点では存在しません。
     代わりに次のいずれかでテンプレート ID を確認してください。
 
     1. **エラーメッセージを利用する**（最も手早い）— 適当な存在しない名前を指定すると、
        エラーで利用可能テンプレート一覧が表示されます。
 
         ```bash
-        $ forge strategy create --template _unknown_ --out /tmp/dummy.json
+        $ alpha-forge strategy create --template _unknown_ --out /tmp/dummy.json
         ❌ 未知のテンプレート名です: _unknown_。利用可能:
           sma_crossover_v1, rsi_reversion_v1, macd_crossover_v1,
           bbands_breakout_v1, grid_bot_template, hmm_bb_pipeline_v1,
@@ -52,7 +52,7 @@ forge data fetch 'USDJPY=X'
        は [戦略テンプレート集](../templates.md) に一覧があります。
 
 ```bash
-forge strategy create --template sma_crossover_v1 \
+alpha-forge strategy create --template sma_crossover_v1 \
   --out data/strategies/usdjpy_sma_v1.json
 ```
 
@@ -61,52 +61,58 @@ forge strategy create --template sma_crossover_v1 \
 
     1. `strategy_id`: テンプレート名 (`sma_crossover_v1`) のままだと既存テンプレートと衝突するので、`usdjpy_sma_v1` のようにユニークなものに変更
     2. `name`: 人が読んで分かる名前
-    3. `target_symbols`: 既定は `[]`。対象シンボル（例: `["USDJPY=X"]`）を入れるか、`forge backtest run <SYMBOL>` で都度指定
+    3. `target_symbols`: 既定は `[]`。対象シンボル（例: `["USDJPY=X"]`）を入れるか、`alpha-forge backtest run <SYMBOL>` で都度指定
 
     最適化を予定している場合は `optimizer_config.param_ranges` も埋めてください（未指定でもデフォルト範囲で動きますが、明示する方が再現性が高くなります）。
 
 編集後、戦略 DB に登録します。
 
 ```bash
-forge strategy save data/strategies/usdjpy_sma_v1.json
+alpha-forge strategy save data/strategies/usdjpy_sma_v1.json
 ```
 
 !!! tip "DB 登録を省きたい場合 (`--strategy-file`)"
-    `forge backtest run` / `forge optimize run` には `--strategy-file <path>` オプションがあり、JSON を直接指定できます（DB 登録不要）。試行錯誤段階では便利です。
+    `alpha-forge backtest run` / `alpha-forge optimize run` には `--strategy-file <path>` オプションがあり、JSON を直接指定できます（DB 登録不要）。試行錯誤段階では便利です。
 
 ## 3. バックテスト実行
 
 定義した戦略のパフォーマンスを過去データで検証します。
 
 ```bash
-forge backtest run 'USDJPY=X' --strategy usdjpy_sma_v1
+alpha-forge backtest run 'USDJPY=X' --strategy usdjpy_sma_v1
 
 # 結果のチャート URL を表示してブラウザで開く
-forge backtest chart usdjpy_sma_v1 --open
+alpha-forge backtest chart usdjpy_sma_v1 --open
 ```
+
+!!! tip "ブラウザで結果を可視化（alpha-visualizer）"
+    `alpha-forge backtest run` の末尾に出る `📊 チャートは alpha-vis serve で確認できます` は、独立 OSS パッケージ [alpha-visualizer](../alpha-visualizer/index.md) への誘導です。`alpha-vis serve` を起動するとブラウザで Equity / Drawdown / 取引履歴・指標を確認できます（[インストール](../alpha-visualizer/installation.md)）。
 
 ## 4. パラメータ最適化
 
 Optuna のベイズ最適化（TPE）で最適なパラメータを探索します。
 
 ```bash
-forge optimize run 'USDJPY=X' --strategy usdjpy_sma_v1 \
+alpha-forge optimize run 'USDJPY=X' --strategy usdjpy_sma_v1 \
   --metric sharpe_ratio --trials 300 --save
 
 # 保存された結果ファイル（optimize_usdjpy_sma_v1_<timestamp>.json）を新しい戦略として適用
-forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
+alpha-forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
   --to-strategy usdjpy_sma_v1_optimized
 ```
 
 !!! note "ベストスコアが `-inf` になったとき"
     全 trial が NaN を返した状態です。多くは「最適化対象パラメータの探索範囲が狭すぎる」「対象期間で取引数が極端に少ない」が原因。`optimizer_config.param_ranges` を見直すか、データ期間を広げて再実行してください。
 
+!!! tip "最適化結果をブラウザで可視化（alpha-visualizer）"
+    `--save` で保存した最適化結果は [alpha-visualizer](../alpha-visualizer/index.md) の Optimize 画面で **Grid ヒートマップ / 感度プロット / Top trial の Equity** として確認できます。`alpha-vis serve` を `quickstart/` などの作業ディレクトリで起動してください。
+
 ## 5. ウォークフォワード検証
 
 過学習を検出するため、訓練期間とテスト期間を分けた検証を行います。
 
 !!! abstract "WFT（Walk-Forward Test）とは何か（F-006）"
-    `forge optimize run` だけだと **全期間でパラメータを最適化** してしまい、最適化に
+    `alpha-forge optimize run` だけだと **全期間でパラメータを最適化** してしまい、最適化に
     使ったデータに過剰適合（オーバーフィット）した「カーブフィッティング戦略」を
     本物の好成績と誤認しがちです。
 
@@ -124,26 +130,29 @@ forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
 
     判定の目安: OOS の Sharpe が IS の **半分以上** あればロバスト寄り、
     IS だけ突出して OOS が大幅劣化するならカーブフィット疑い。詳細なオプションは
-    [`forge optimize walk-forward` CLI リファレンス](../cli-reference/optimize.md) を参照。
+    [`alpha-forge optimize walk-forward` CLI リファレンス](../cli-reference/optimize.md) を参照。
 
 
 ```bash
-forge optimize walk-forward 'USDJPY=X' \
+alpha-forge optimize walk-forward 'USDJPY=X' \
   --strategy usdjpy_sma_v1_optimized --windows 5
 
 # 感度分析（最適化結果 JSON ファイルを指定）
-forge optimize sensitivity data/results/optimize_usdjpy_sma_v1_<timestamp>.json
+alpha-forge optimize sensitivity data/results/optimize_usdjpy_sma_v1_<timestamp>.json
 ```
 
 !!! warning "WFT が全ウィンドウ「OOS 0 件」になるとき"
-    データ期間が短いと各ウィンドウで取引が発生せずスキップされます。FX / 1d データなら 5 年（約 1,250 行）以上を推奨。`forge data fetch '<SYM>' --period 5y` のように長期データを先に揃えるか、`--windows 2` で粗くしてください。
+    データ期間が短いと各ウィンドウで取引が発生せずスキップされます。FX / 1d データなら 5 年（約 1,250 行）以上を推奨。`alpha-forge data fetch '<SYM>' --period 5y` のように長期データを先に揃えるか、`--windows 2` で粗くしてください。
+
+!!! tip "WFT 結果をブラウザで可視化（alpha-visualizer）"
+    [alpha-visualizer](../alpha-visualizer/index.md) の Optimize 画面では **WFO 合成エクイティカーブ（IS / OOS を連結したライン）** と **IS/OOS の安定性ヒートマップ** を確認できます。`alpha-vis serve` で起動してください。
 
 ## 6. Pine Script 生成
 
 TradingView 用のアラートスクリプトを自動生成します。
 
 ```bash
-forge pine generate --strategy usdjpy_sma_v1_optimized
+alpha-forge pine generate --strategy usdjpy_sma_v1_optimized
 ```
 
 出力先: `output/pinescript/usdjpy_sma_v1_optimized.pine`

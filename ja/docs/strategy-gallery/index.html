@@ -2855,7 +2855,7 @@
 <p>このページは、市場・目的別に戦略候補を選ぶための短い実例カタログです。既存の <a href="../templates/">戦略テンプレート</a> は代表テンプレートの深い解説と全文JSONを扱い、このギャラリーは「どの戦略を、どの市場で、どう試すか」を素早く比較するために使います。</p>
 <div class="admonition info">
 <p class="admonition-title">JSON例について</p>
-<p>各JSONは要点スニペットです。実際に保存する場合は、必要な <code>risk_management</code> や <code>optimizer_config</code> を補ってから <code>forge strategy validate</code> で確認してください。過去データの検証結果は将来の成果を保証しません。</p>
+<p>各JSONは要点スニペットです。実際に保存する場合は、必要な <code>risk_management</code> や <code>optimizer_config</code> を補ってから <code>alpha-forge strategy validate</code> で確認してください。過去データの検証結果は将来の成果を保証しません。</p>
 </div>
 <h2 id="_2">一覧<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <table>
@@ -2963,11 +2963,11 @@
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_3">実行コマンド<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_hmm_bb_rsi_v1.json
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_hmm_bb_rsi_v1
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--json
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--with-training-data
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_hmm_bb_rsi_v1.json
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_hmm_bb_rsi_v1
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--json
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_hmm_bb_rsi_v1<span class="w"> </span>--with-training-data
 </code></pre></div>
 <h3 id="_4">結果の読み方<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>Sharpeだけでなく、レジーム別の取引数とMax Drawdownを確認します。Bear相当の局面で取引が残りすぎる場合は、HMM状態ごとの条件分岐を強めます。</p>
@@ -3024,11 +3024,11 @@
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_6">実行コマンド<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_macd_rsi_v1.json
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_macd_rsi_v1
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1<span class="w"> </span>--json
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_macd_rsi_v1.json
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_macd_rsi_v1
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1<span class="w"> </span>--json
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_macd_rsi_v1
 </code></pre></div>
 <h3 id="_7">結果の読み方<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>取引数が少なすぎる場合、MACDクロス条件が厳しすぎます。勝率よりもPF、平均損益、連敗時のドローダウンを合わせて確認します。</p>
@@ -3085,11 +3085,11 @@
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_10">実行コマンド<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_trend_follow_v1.json
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_trend_follow_v1
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1<span class="w"> </span>--json
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_trend_follow_v1.json
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_trend_follow_v1
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1<span class="w"> </span>--json
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>AAPL<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_trend_follow_v1
 </code></pre></div>
 <h3 id="_11">結果の読み方<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p>トレンドフォローは勝率が低くてもPFや平均勝ち幅が高ければ成立します。Max Drawdownが大きい場合はATRベースの損切りを見直します。</p>
@@ -3146,11 +3146,11 @@
 <a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_14">実行コマンド<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_mean_reversion_v1.json
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_mean_reversion_v1
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>MSFT<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1<span class="w"> </span>--json
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>MSFT<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_mean_reversion_v1.json
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_mean_reversion_v1
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>MSFT<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1<span class="w"> </span>--json
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>MSFT<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_mean_reversion_v1
 </code></pre></div>
 <h3 id="_15">結果の読み方<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
 <p>平均回帰は急落相場で損失が連続しやすいため、連敗数と最大保有期間を確認します。反発までの保有が長すぎる場合は時間切れ決済を検討します。</p>
@@ -3208,16 +3208,16 @@
 <a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_17">実行コマンド<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_fx_pair_v1.json
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_fx_pair_v1
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>EURUSD<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1<span class="w"> </span>--json
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>EURUSD<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_fx_pair_v1.json
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_fx_pair_v1
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>EURUSD<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1<span class="w"> </span>--json
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>EURUSD<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_fx_pair_v1
 </code></pre></div>
 <h3 id="_18">結果の読み方<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
 <p>FXはトレンドが短く反転しやすいため、平均保有期間とPFを重視します。通貨ペアごとのボラティリティ差でATR設定が効きすぎていないか確認します。</p>
 <h3 id="_19">改良ポイント<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
-<p>USDJPYやGBPUSDでも同じ戦略を検証し、<code>forge optimize cross-symbol</code> でペア横断の頑健性を確認します。</p>
+<p>USDJPYやGBPUSDでも同じ戦略を検証し、<code>alpha-forge optimize cross-symbol</code> でペア横断の頑健性を確認します。</p>
 <h2 id="etf">インデックスETF向け<a class="headerlink" href="#etf" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3269,16 +3269,16 @@
 <a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_20">実行コマンド<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_index_etf_v1.json
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_index_etf_v1
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1<span class="w"> </span>--json
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_index_etf_v1.json
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_index_etf_v1
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1<span class="w"> </span>--json
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_index_etf_v1
 </code></pre></div>
 <h3 id="_21">結果の読み方<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
 <p>単一ETFだけで良い結果が出ても、QQQやIWMで崩れる場合は過剰最適化の可能性があります。銘柄横断でSharpeとMax Drawdownを比較します。</p>
 <h3 id="_22">改良ポイント<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
-<p><code>forge optimize cross-symbol SPY QQQ IWM --strategy gallery_index_etf_v1 --aggregation min --save</code> で最悪ケースを底上げします。</p>
+<p><code>alpha-forge optimize cross-symbol SPY QQQ IWM --strategy gallery_index_etf_v1 --aggregation min --save</code> で最悪ケースを底上げします。</p>
 <h2 id="_23">商品先物向け<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3330,11 +3330,11 @@
 <a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_24">実行コマンド<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_commodity_futures_v1.json
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_commodity_futures_v1
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--json
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--with-training-data
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/gallery_commodity_futures_v1.json
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>gallery_commodity_futures_v1
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--json
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>gallery_commodity_futures_v1<span class="w"> </span>--with-training-data
 </code></pre></div>
 <h3 id="_25">結果の読み方<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h3>
 <p>商品先物はギャップや急変が大きいため、Max Drawdown、平均負け幅、連敗時の資金曲線を重視します。取引数が少ない場合は期間を広げて確認します。</p>

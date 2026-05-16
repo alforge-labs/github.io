@@ -18,11 +18,11 @@ For Pine Script writers who want to take their backtesting to the next level wit
       ↓
 2. Port to an AlphaForge JSON strategy
       ↓
-3. Run full backtest with forge backtest run
+3. Run full backtest with alpha-forge backtest run
       ↓
-4. Optimize parameters with forge optimize run
+4. Optimize parameters with alpha-forge optimize run
       ↓
-5. Re-export to Pine Script with forge pine generate
+5. Re-export to Pine Script with alpha-forge pine generate
       ↓
 6. TradingView alert → Alpha Strike auto-execution (optional)
 ```
@@ -31,13 +31,13 @@ For Pine Script writers who want to take their backtesting to the next level wit
 
 ```bash
 # Create a strategy from template
-forge strategy create my_strategy --template hmm_bb_rsi
+alpha-forge strategy create my_strategy --template hmm_bb_rsi
 
 # Fetch daily data (e.g. QQQ)
-forge data fetch QQQ --period 5y
+alpha-forge data fetch QQQ --period 5y
 
 # Run backtest
-forge backtest run QQQ --strategy my_strategy
+alpha-forge backtest run QQQ --strategy my_strategy
 ```
 
 ## Related Docs

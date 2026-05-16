@@ -5,10 +5,10 @@ AlphaForge operates on two tiers: the **Trial plan** (no Whop registration, inde
 !!! note "Targeted commands"
     Limits are applied along the following code paths:
 
-    - **Data acquisition**: `forge data fetch` / `forge data update` / `forge pine generate --with-training-data` / automatic external symbol fetching by strategies (`merge_external_symbols`)
-    - **Evaluation engine entry**: `forge backtest run` / `forge optimize` (`run` / `grid` / `walk-forward` / `cross-symbol`)
-    - **Optimization trial count**: `forge optimize run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`
-    - **Pine Script export (hard block)**: `forge pine generate` / `forge pine preview` (`forge pine import` is unaffected)
+    - **Data acquisition**: `alpha-forge data fetch` / `alpha-forge data update` / `alpha-forge pine generate --with-training-data` / automatic external symbol fetching by strategies (`merge_external_symbols`)
+    - **Evaluation engine entry**: `alpha-forge backtest run` / `alpha-forge optimize` (`run` / `grid` / `walk-forward` / `cross-symbol`)
+    - **Optimization trial count**: `alpha-forge optimize run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`
+    - **Pine Script export (hard block)**: `alpha-forge pine generate` / `alpha-forge pine preview` (`alpha-forge pine import` is unaffected)
 
     Both fetch and evaluation share **2023-12-31** as the cap, and the optimization commands share **50 trials** as the cap. Pine Script export is **fully blocked** on the Trial plan.
 
@@ -16,8 +16,8 @@ AlphaForge operates on two tiers: the **Trial plan** (no Whop registration, inde
 
 | Plan | Whop registration | Data fetch / evaluation date cap | Optimization trial cap | Pine Script | Notes |
 |---|---|---|---|---|---|
-| **Trial** | **Not required** | up to 2023-12-31 | up to 50 trials | **Fully blocked** | Usable immediately after install. No time limit. Just run `forge` |
-| **Lifetime** (one-time) | Required (one-time purchase) | None | None | Unlocked | One-time purchase on Whop. Authenticate via `forge system auth login` |
+| **Trial** | **Not required** | up to 2023-12-31 | up to 50 trials | **Fully blocked** | Usable immediately after install. No time limit. Just run `alpha-forge` |
+| **Lifetime** (one-time) | Required (one-time purchase) | None | None | Unlocked | One-time purchase on Whop. Authenticate via `alpha-forge system auth login` |
 | **Annual** (yearly) | Required (annual subscription) | None | None | Unlocked | Annual subscription on Whop. Always on the latest version |
 | **Monthly** (monthly) | Required (monthly subscription) | None | None | Unlocked | Monthly subscription on Whop. Use it for as long as you need |
 
@@ -32,16 +32,16 @@ For pricing and the latest plan details, refer to the landing page. Lifetime, An
 
 ### Trial plan
 
-#### Data acquisition (`forge data fetch` / `forge data update` / `forge pine generate --with-training-data` / external symbol auto-fetch)
+#### Data acquisition (`alpha-forge data fetch` / `alpha-forge data update` / `alpha-forge pine generate --with-training-data` / external symbol auto-fetch)
 
 ![Trial plan data date clip diagram](../assets/illustrations/guides/freemium-data-date-clip.png)
 
 - When the `end` argument (explicit or the `today` fallback) is later than 2023-12-31, the fetch is forcibly capped at 2023-12-31.
-- `forge data update` skips items whose latest cached date is 2023-12-31 or later, citing the Trial plan limit.
+- `alpha-forge data update` skips items whose latest cached date is 2023-12-31 or later, citing the Trial plan limit.
 - Regular CLI output shows a yellow Panel warning along with an upgrade prompt to a paid plan (Lifetime / Annual / Monthly).
 - `--json` output includes a structured `freemium_limit_notices` field (`code = "free_tier_data_fetch_clipped"`).
 
-#### Evaluation engine entry (`forge backtest run` / `forge optimize`)
+#### Evaluation engine entry (`alpha-forge backtest run` / `alpha-forge optimize`)
 - If the input data contains rows newer than 2023-12-31, they are automatically truncated immediately before evaluation. This acts as a safety net when an external CSV is loaded directly (typically a no-op because the fetch path already cuts these off).
 - Regular CLI output shows a yellow Panel warning.
 - `--json` output uses `code = "free_tier_evaluation_date_clipped"`.
@@ -74,12 +74,12 @@ Example `freemium_limit_notices` from the evaluation path:
 }
 ```
 
-#### Optimization trial count (`forge optimize` family)
-- Every variant of `forge optimize` (`run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`) caps the trial count at **50** on the Trial plan. The run does not abort; it proceeds with the capped value.
-- `forge optimize grid` randomly samples 50 entries (with a fixed seed for reproducibility) when the combinatorial space exceeds 50. The sample is not a head slice, preserving search-space coverage.
-- `forge optimize walk-forward` runs optimization per window internally but consolidates notices into a single CLI message.
-- `forge optimize multi-portfolio` aligns the displayed trial count to the effective value (50).
-- `forge optimize apply` / `history` / `sensitivity` use a different notion of trials and are exempt.
+#### Optimization trial count (`alpha-forge optimize` family)
+- Every variant of `alpha-forge optimize` (`run` / `cross-symbol` / `portfolio` / `multi-portfolio` / `walk-forward` / `grid`) caps the trial count at **50** on the Trial plan. The run does not abort; it proceeds with the capped value.
+- `alpha-forge optimize grid` randomly samples 50 entries (with a fixed seed for reproducibility) when the combinatorial space exceeds 50. The sample is not a head slice, preserving search-space coverage.
+- `alpha-forge optimize walk-forward` runs optimization per window internally but consolidates notices into a single CLI message.
+- `alpha-forge optimize multi-portfolio` aligns the displayed trial count to the effective value (50).
+- `alpha-forge optimize apply` / `history` / `sensitivity` use a different notion of trials and are exempt.
 - Regular CLI output shows a yellow Panel warning.
 - `--json` output uses `code = "free_tier_optimization_trial_capped"`. For `grid`, the JSON additionally carries `total_trials` (combinatorial total) and `executed_trials` (executed = 50).
 
@@ -97,12 +97,12 @@ Example `freemium_limit_notices` for the optimization trial cap:
 }
 ```
 
-#### Pine Script export (`forge pine generate` / `forge pine preview`)
+#### Pine Script export (`alpha-forge pine generate` / `alpha-forge pine preview`)
 
 - The Trial plan **hard-blocks** Pine Script export. Both commands stop immediately—no file output, no stdout payload.
 - The exit code is `1`, accompanied by a red Panel and the purchase URL ([https://alforgelabs.com/en/index.html#pricing](https://alforgelabs.com/en/index.html#pricing)).
 - The structured notice `freemium_limit_notices` uses `code = "free_tier_pine_export_blocked"` (`original_value` / `applied_value` are `null`).
-- `forge pine import` is an import-only feature and remains available on the Trial plan.
+- `alpha-forge pine import` is an import-only feature and remains available on the Trial plan.
 
 Example Pine Script hard-block display (Trial plan / CLI):
 ```text
@@ -138,8 +138,8 @@ No limits trigger. The latest data, unlimited optimization trials, and full Pine
 To remove the Trial limits, purchase one of the **paid plans** (Lifetime, Annual, or Monthly). Manually trimming a CSV down to 2023-12-31 does not help (the evaluation engine still applies the truncation regardless).
 
 - Paid-plan purchase: complete the checkout for Lifetime / Annual / Monthly on the AlphaForge sales page.
-- After purchase, run `forge system auth login` to authenticate via Whop OAuth in your browser.
-- If the cache does not reflect your membership, run `forge system auth login` again.
+- After purchase, run `alpha-forge system auth login` to authenticate via Whop OAuth in your browser.
+- If the cache does not reflect your membership, run `alpha-forge system auth login` again.
 
 ## Related pages
 

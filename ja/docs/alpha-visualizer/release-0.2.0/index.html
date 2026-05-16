@@ -2172,10 +2172,10 @@
 <blockquote>
 <p><strong>公開日</strong>: 2026 年 5 月 11 日 / <strong>バージョン</strong>: v0.2.0 / <strong>配布</strong>: <a href="https://pypi.org/project/alpha-visualizer/0.2.0/">PyPI</a>・<a href="https://github.com/alforge-labs/alpha-visualizer/releases/tag/v0.2.0">GitHub Release</a></p>
 </blockquote>
-<p><a href="../">alpha-visualizer</a> は、<code>forge</code> が出力するバックテスト結果を Web ブラウザで可視化するスタンドアロンの OSS パッケージです。v0.2.0 では、<strong>インストール直後に「どんなことができるツールなのか」を 1 コマンドで体験できる</strong> ようにすることを軸に据え、機能・運用・セキュリティの 3 面で大型のアップデートを行いました。</p>
+<p><a href="../">alpha-visualizer</a> は、<code>alpha-forge</code> が出力するバックテスト結果を Web ブラウザで可視化するスタンドアロンの OSS パッケージです。v0.2.0 では、<strong>インストール直後に「どんなことができるツールなのか」を 1 コマンドで体験できる</strong> ようにすることを軸に据え、機能・運用・セキュリティの 3 面で大型のアップデートを行いました。</p>
 <h2 id="_1">ハイライト<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h3 id="1-use-bundled-samples">1. 完全合成サンプルデータを同梱（<code>--use-bundled-samples</code>）<a class="headerlink" href="#1-use-bundled-samples" title="Permanent link">&para;</a></h3>
-<p>これまで alpha-visualizer は「<code>forge</code> でバックテストを回した結果」を見るためのツールだったため、まず <code>forge</code> で何か実行しないと画面が空っぽでした。v0.2.0 からは <strong>法的に再配布フリーな合成データセット</strong> が wheel に同梱されており、追加準備なしで全機能を体験できます。</p>
+<p>これまで alpha-visualizer は「<code>alpha-forge</code> でバックテストを回した結果」を見るためのツールだったため、まず <code>alpha-forge</code> で何か実行しないと画面が空っぽでした。v0.2.0 からは <strong>法的に再配布フリーな合成データセット</strong> が wheel に同梱されており、追加準備なしで全機能を体験できます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>alpha-visualizer<span class="o">==</span><span class="m">0</span>.2.0
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>vis<span class="w"> </span>serve<span class="w"> </span>--use-bundled-samples<span class="w"> </span>--no-open
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># http://127.0.0.1:8000 を開く</span>
@@ -2220,24 +2220,24 @@
 <p>戦略 × 銘柄の相性マトリクスで意図的に分散させてあり、Browse 画面のソート・フィルタや、Compare 画面のヒートマップ、WFO の IS/OOS 安定性チャートが見栄えするよう調整しています。</p>
 <p>データは Geometric Brownian Motion + Poisson ジャンプ + AR(1) で合成され、銘柄シンボルは必ず <code>_SYNTH</code> サフィックスを持つため、実銘柄との取り違えは発生しません。再生成スクリプト <code>samples/build_samples.py</code> は決定論的に動き、CI で <code>git diff --exit-code</code> をかけてバイト等価性を継続検証しています。</p>
 <blockquote>
-<p>同梱戦略は SMA / RSI / MACD / Bollinger / ADX / Donchian といった <strong>教科書的な指標の組み合わせのみ</strong> です。HMM レジーム識別や MTF 最適化済みパラメータといった <code>forge</code> 本体の差別化要素は含まれません。</p>
+<p>同梱戦略は SMA / RSI / MACD / Bollinger / ADX / Donchian といった <strong>教科書的な指標の組み合わせのみ</strong> です。HMM レジーム識別や MTF 最適化済みパラメータといった <code>alpha-forge</code> 本体の差別化要素は含まれません。</p>
 </blockquote>
 <h3 id="2-detail">2. ライブ実績ビュー（Detail 画面）<a class="headerlink" href="#2-detail" title="Permanent link">&para;</a></h3>
 <p><code>data/live/</code> 配下の <strong>summaries / trades を読み込み、同期間のバックテストと並べて diff を表示</strong> する Live タブを Detail 画面に追加しました（#57）。バックテストでは想定通りでも、実弾で運用したら勝率が大きく違う——という乖離を即座に確認できます。期間整合がずれている場合は自動で揃えて並べます。</p>
 <h3 id="3-hmm">3. HMM / レジーム背景帯<a class="headerlink" href="#3-hmm" title="Permanent link">&para;</a></h3>
-<p>Equity Chart の背景に <strong>HMM ステート（高ボラ / 中ボラ / 低ボラ等）を色帯で重ねる</strong> ようになりました（#56）。さらに Risk タブに「レジーム別サマリーカード」を追加し、各レジームでの取引数・勝率・平均リターンを 1 画面で確認できます。<code>forge</code> 側で HMM レジームを推論した戦略を可視化する際にとくに有効です。</p>
+<p>Equity Chart の背景に <strong>HMM ステート（高ボラ / 中ボラ / 低ボラ等）を色帯で重ねる</strong> ようになりました（#56）。さらに Risk タブに「レジーム別サマリーカード」を追加し、各レジームでの取引数・勝率・平均リターンを 1 画面で確認できます。<code>alpha-forge</code> 側で HMM レジームを推論した戦略を可視化する際にとくに有効です。</p>
 <h3 id="4">4. セキュリティと品質の底上げ<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>CodeQL のセキュリティアラート 14 件を解消</strong>（#175）。<code>path-injection</code> / <code>log-injection</code> / SSRF 等の検出を全てクリア。</li>
 <li><code>optimization_runs</code> テーブル欠落や SQLAlchemy <code>OperationalError</code> 発生時のレスポンスを 404 から 500 に変更。「リソース未存在 (404)」と「DB 障害 (500)」の意味論を分離（#106）。</li>
 <li>Browse 画面で <code>latest_*</code> フィールドが <code>undefined</code> の戦略でクラッシュする問題を修正（#23）。</li>
-<li><code>forge</code> 側の DB ファイル名デフォルト変更（<code>backtest_results.db</code>）に追従（#177）。</li>
+<li><code>alpha-forge</code> 側の DB ファイル名デフォルト変更（<code>backtest_results.db</code>）に追従（#177）。</li>
 <li>非有限値の <code>best_metric</code> を null として返し、フロントは <code>—</code> で表示（#172）。</li>
 </ul>
 <h3 id="5-ci">5. CI と開発体験<a class="headerlink" href="#5-ci" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Lighthouse CI</strong> で各 PR の Performance / Accessibility / Best-Practices を継続計測（#136、#162）。</li>
-<li><strong>E2E fixture drift check</strong> と <strong>OSS sample-forge drift check</strong> で、テスト用フィクスチャと同梱サンプルの「再生成 → diff=0」を強制（#161、#178）。</li>
+<li><strong>E2E fixture drift check</strong> と <strong>OSS sample-alpha-forge drift check</strong> で、テスト用フィクスチャと同梱サンプルの「再生成 → diff=0」を強制（#161、#178）。</li>
 <li>React 19 / react-router-dom 7 / Storybook 10 / Vite 8 など、フロントエンド主要依存を最新メジャーへ更新。</li>
 </ul>
 <h2 id="_2">アップグレード方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
@@ -2249,10 +2249,10 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>uv<span class="w"> </span>add<span class="w"> </span>alpha-visualizer@latest<span class="w">        </span><span class="c1"># プロジェクトに追加</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>alpha-visualizer<span class="w">       </span><span class="c1"># CLI として使う</span>
 </code></pre></div>
-<p><code>--use-bundled-samples</code> を使うのが最も簡単な動作確認方法です。<code>forge</code> プロジェクト側のデータを見る場合は従来通り：</p>
+<p><code>--use-bundled-samples</code> を使うのが最も簡単な動作確認方法です。<code>alpha-forge</code> プロジェクト側のデータを見る場合は従来通り：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>vis<span class="w"> </span>serve<span class="w"> </span>--forge-dir<span class="w"> </span>/path/to/your/alpha-strategies
 </code></pre></div>
-<p>設定ファイル（<code>forge.yaml</code>）に変更はありません。既存の forge プロジェクトはそのまま動作します。</p>
+<p>設定ファイル（<code>forge.yaml</code>）に変更はありません。既存の alpha-forge プロジェクトはそのまま動作します。</p>
 <h2 id="_3">関連リンク<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>PyPI</strong>: <a href="https://pypi.org/project/alpha-visualizer/0.2.0/">https://pypi.org/project/alpha-visualizer/0.2.0/</a></li>

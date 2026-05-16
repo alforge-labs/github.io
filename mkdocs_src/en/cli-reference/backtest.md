@@ -1,4 +1,4 @@
-# forge backtest
+# alpha-forge backtest
 
 Run backtests and analyze results. Provides single-strategy runs, parallel batch runs, automated diagnostics, listing/reporting/migrating saved results, multi-strategy comparison, portfolio backtests, dashboard chart navigation, Monte Carlo simulation, and signal count checks.
 
@@ -9,28 +9,28 @@ Run backtests and analyze results. Provides single-strategy runs, parallel batch
 
 | Command | Description |
 |---------|-------------|
-| [`forge backtest run`](#forge-backtest-run) | Run a backtest for the given symbol and strategy |
-| [`forge backtest batch`](#forge-backtest-batch) | Run parallel backtests for multiple strategy JSON files |
-| [`forge backtest diagnose`](#forge-backtest-diagnose) | Automatically diagnose performance issues in a strategy |
-| [`forge backtest list`](#forge-backtest-list) | Show saved backtest results |
-| [`forge backtest report`](#forge-backtest-report) | Display a saved backtest result |
-| [`forge backtest migrate`](#forge-backtest-migrate) | Import existing JSON report files into the database |
-| [`forge backtest compare`](#forge-backtest-compare) | Compare multiple strategies side by side on the same symbol and period |
-| [`forge backtest portfolio`](#forge-backtest-portfolio) | Run a portfolio backtest across multiple symbols |
-| [`forge backtest chart`](#forge-backtest-chart) | Display dashboard URL to navigate to charts |
-| [`forge backtest signal-count`](#forge-backtest-signal-count) | Fast signal count check without running the full backtest |
-| [`forge backtest monte-carlo`](#forge-backtest-monte-carlo) | Run a Monte Carlo simulation from an existing backtest result |
+| [`alpha-forge backtest run`](#alpha-forge-backtest-run) | Run a backtest for the given symbol and strategy |
+| [`alpha-forge backtest batch`](#alpha-forge-backtest-batch) | Run parallel backtests for multiple strategy JSON files |
+| [`alpha-forge backtest diagnose`](#alpha-forge-backtest-diagnose) | Automatically diagnose performance issues in a strategy |
+| [`alpha-forge backtest list`](#alpha-forge-backtest-list) | Show saved backtest results |
+| [`alpha-forge backtest report`](#alpha-forge-backtest-report) | Display a saved backtest result |
+| [`alpha-forge backtest migrate`](#alpha-forge-backtest-migrate) | Import existing JSON report files into the database |
+| [`alpha-forge backtest compare`](#alpha-forge-backtest-compare) | Compare multiple strategies side by side on the same symbol and period |
+| [`alpha-forge backtest portfolio`](#alpha-forge-backtest-portfolio) | Run a portfolio backtest across multiple symbols |
+| [`alpha-forge backtest chart`](#alpha-forge-backtest-chart) | Display dashboard URL to navigate to charts |
+| [`alpha-forge backtest signal-count`](#alpha-forge-backtest-signal-count) | Fast signal count check without running the full backtest |
+| [`alpha-forge backtest monte-carlo`](#alpha-forge-backtest-monte-carlo) | Run a Monte Carlo simulation from an existing backtest result |
 
 ---
 
-## forge backtest run
+## alpha-forge backtest run
 
 Run a backtest. Specify either `--strategy` or `--strategy-file`.
 
 ### Synopsis
 
 ```bash
-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
+alpha-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 ```
 
 ### Arguments and options
@@ -44,7 +44,8 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `--start` | option | - | Start date `YYYY-MM-DD` |
 | `--end` | option | - | End date `YYYY-MM-DD` |
 | `--split` | flag | false | Split into in-sample / out-of-sample periods ([details](#is-oos-split)) |
-| `--benchmark` | option | config | Benchmark symbol |
+| `--benchmark` | option | config | Benchmark symbol (per-`asset_type` defaults apply, see below) |
+| `--no-benchmark` | flag | false | Disable benchmark comparison entirely (F-304). Useful for FX / commodities where a SPY comparison is meaningless |
 | `--check-criteria` | flag | false | Run acceptance criteria check |
 | `--cagr-min` | float | `20.0` | Minimum CAGR (%), used with `--check-criteria` |
 | `--sharpe-min` | float | `1.0` | Minimum Sharpe ratio |
@@ -53,6 +54,24 @@ forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 | `--pf-min` | float | `1.3` | Minimum profit factor |
 | `--min-trades` | int | - | Minimum trade count; exits with code 1 if below |
 | `--regime` | flag | false | Display per-regime statistics on the console |
+
+### Benchmark selection logic (F-304) {#benchmark-selection}
+
+Resolution order when `--benchmark` is omitted:
+
+1. Explicit `--benchmark <SYM>` (highest priority)
+2. `forge.yaml` `report.benchmark_symbol`, if set to anything other than the default `SPY`
+3. Per-`asset_type` map on the strategy JSON (used when (2) is still default `SPY`)
+
+| `asset_type` | Default benchmark |
+|--------------|------------------|
+| `stock` / `etf` | `SPY` |
+| `fx` | `DX-Y.NYB` (Dollar Index) |
+| `crypto` | `BTC-USD` |
+| `commodity` / `future` | `DBC` (commodity ETF) |
+| Other / unset | `SPY` (fallback) |
+
+To disable benchmark comparison entirely, pass `--no-benchmark`. This is the right choice when alpha / beta / correlation against SPY is meaningless (e.g. FX or commodities strategies).
 
 ### IS / OOS Split (`--split`)  {#is-oos-split}
 
@@ -90,6 +109,46 @@ Trades: 14  Avg hold: 28.5d(28bar)  Max: 65.0d(65bar)  Win streak: 4  Loss strea
 Win rate CI(90%): 35.2% - 64.8%
 ```
 
+When the score or trade count fails the recommended thresholds, a warning and a one-line docs link are added (F-302):
+
+```text
+⚠️  Backtest complete  Signal quality score: 0.43/1.0 (0.4–0.7: caution, more validation suggested)
+    → Docs: https://alforgelabs.com/en/cli-reference/backtest.html#signal-quality-score
+⚠️  Warning: trade count is insufficient (trades=27, minimum 30 recommended)
+    → Fewer than 30 trades is statistically noisy and may be filtered out by
+      optimization / WFT pre_filter. Consider widening the data period (`--start`
+      to go further back).
+    → Docs: https://alforgelabs.com/en/cli-reference/backtest.html#signal-quality-score
+```
+
+### Signal Quality Score and Minimum Trades (F-302) {#signal-quality-score}
+
+#### Signal Quality Score (`signal_quality_score`, 0.0–1.0)
+
+```python
+sample_size_score   = min(total_trades / 30, 1.0) * 0.4   # 40%
+win_rate_score      = min(win_rate_pct / 100, 1.0) * 0.3  # 30%
+profit_factor_score = min(profit_factor / 2.0, 1.0) * 0.3 # 30%
+signal_quality_score = sample_size_score + win_rate_score + profit_factor_score
+```
+
+| Score range | Interpretation | CLI hint |
+|-------------|----------------|----------|
+| `≥ 0.70` | Reliable | "≥0.7 is reliable" |
+| `0.40 – 0.69` | Caution. Further validation (WFT / cross-symbol) recommended | "0.4–0.7: caution, more validation suggested" |
+| `< 0.40` | Low reliability, treat as reference only | "<0.4: low reliability, treat as reference only" |
+
+#### Why a minimum of 30 trades
+
+- Rough threshold for statistical significance: **n ≥ 30** (where the Central Limit Theorem starts to apply)
+- Below that, the `total_trades < 30` flag is raised and the `sample_size_score` term is linearly penalized
+- If `total_trades < 10`, the result is also marked as "statistically meaningless" with `is_valid=false`
+
+#### What happens if not met
+
+- `alpha-forge optimize run --goal <name>` / `alpha-forge optimize walk-forward --goal <name>` will fail the `pre_filter.min_trades` check (default 30), set `pre_filter_pass=false`, and exclude the strategy from the `/explore-strategies` shortlist
+- A single backtest run is not aborted, but the result is low-confidence — extend the data window (`--start` further into the past) or rework the indicator mix toward higher signal frequency
+
 ### Sample output (`--json`)
 
 ```json
@@ -114,18 +173,18 @@ Win rate CI(90%): 35.2% - 64.8%
 | `Specify either --strategy or --strategy-file` | Neither given | Provide one of them |
 | `--strategy and --strategy-file are mutually exclusive` | Both given | Use only one |
 | `Error: Invalid start date format (YYYY-MM-DD)` | Date format invalid | Use `2024-01-15` style |
-| `⚠️  {interval} data not found. Falling back to 1d data.` | Strategy `timeframe` data missing | Run `forge data fetch` for the interval |
+| `⚠️  {interval} data not found. Falling back to 1d data.` | Strategy `timeframe` data missing | Run `alpha-forge data fetch` for the interval |
 
 ---
 
-## forge backtest batch
+## alpha-forge backtest batch
 
 Run parallel backtests for many strategy JSON files. Strategies passing the filter (Sharpe / MaxDD) are marked as "passed".
 
 ### Synopsis
 
 ```bash
-forge backtest batch <SYMBOL> (--strategy-file <FILE> ... | --strategy-dir <DIR>) [OPTIONS]
+alpha-forge backtest batch <SYMBOL> (--strategy-file <FILE> ... | --strategy-dir <DIR>) [OPTIONS]
 ```
 
 ### Arguments and options
@@ -164,14 +223,14 @@ Passed strategies: 2/4
 
 ---
 
-## forge backtest diagnose
+## alpha-forge backtest diagnose
 
 Automatically diagnose performance issues in a strategy (overfitting, low trade count, extreme win/loss balance, etc.).
 
 ### Synopsis
 
 ```bash
-forge backtest diagnose <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge backtest diagnose <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -187,18 +246,18 @@ forge backtest diagnose <SYMBOL> --strategy <ID> [OPTIONS]
 
 ### Output
 
-The diagnostic result lists the inferred problems and recommended actions. See `forge backtest diagnose --help` and the internal `StrategyDiagnostics` logic for details.
+The diagnostic result lists the inferred problems and recommended actions. See `alpha-forge backtest diagnose --help` and the internal `StrategyDiagnostics` logic for details.
 
 ---
 
-## forge backtest list
+## alpha-forge backtest list
 
 Show saved backtest results from the DB.
 
 ### Synopsis
 
 ```bash
-forge backtest list [OPTIONS]
+alpha-forge backtest list [OPTIONS]
 ```
 
 ### Options
@@ -231,14 +290,14 @@ spy_macd_v1_20260414_181522          spy_macd_v1                   SPY          
 
 ---
 
-## forge backtest report
+## alpha-forge backtest report
 
 Display a saved backtest result in detail.
 
 ### Synopsis
 
 ```bash
-forge backtest report <RESULT_ID> [OPTIONS]
+alpha-forge backtest report <RESULT_ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -266,18 +325,18 @@ Trade log: 14 records (use --json to view all)
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Error: Result not found - <id>` | Neither `run_id` nor `strategy_id` matches | Verify with `forge backtest list` |
+| `Error: Result not found - <id>` | Neither `run_id` nor `strategy_id` matches | Verify with `alpha-forge backtest list` |
 
 ---
 
-## forge backtest migrate
+## alpha-forge backtest migrate
 
 Import existing `*_report.json` files into the DB.
 
 ### Synopsis
 
 ```bash
-forge backtest migrate [--dry-run] [--force]
+alpha-forge backtest migrate [--dry-run] [--force]
 ```
 
 ### Options
@@ -308,14 +367,14 @@ Done: 2 imported, 1 skipped
 
 ---
 
-## forge backtest compare
+## alpha-forge backtest compare
 
 Compare multiple strategies on the same symbol and period.
 
 ### Synopsis
 
 ```bash
-forge backtest compare <STRATEGY1> [STRATEGY2 ...] --symbol <SYM> [--symbol <SYM> ...] [OPTIONS]
+alpha-forge backtest compare <STRATEGY1> [STRATEGY2 ...] --symbol <SYM> [--symbol <SYM> ...] [OPTIONS]
 ```
 
 ### Arguments and options
@@ -344,19 +403,19 @@ spy_rsi_v1     +12.4%   1.50    0.45  -22.1%   42%   1.08      24
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Error: Data for <SYM> not found.` | Data missing | `forge data fetch <SYM>` |
-| `Warning: Failed to load strategy '<id>'` | Invalid strategy ID / JSON | `forge strategy list`, `forge strategy validate` |
+| `Error: Data for <SYM> not found.` | Data missing | `alpha-forge data fetch <SYM>` |
+| `Warning: Failed to load strategy '<id>'` | Invalid strategy ID / JSON | `alpha-forge strategy list`, `alpha-forge strategy validate` |
 
 ---
 
-## forge backtest portfolio
+## alpha-forge backtest portfolio
 
 Run a portfolio backtest across multiple symbols.
 
 ### Synopsis
 
 ```bash
-forge backtest portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
+alpha-forge backtest portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -395,19 +454,19 @@ GOOGL         33.3%   +78.0%   1.38  -19.5%
 | Message | Cause | Fix |
 |---------|-------|-----|
 | `Error: Invalid --weights format.` | Format violation | Use `AAPL=0.4,MSFT=0.6` style |
-| `Error: Data for <SYM> not found.` | Data missing | `forge data fetch` |
+| `Error: Data for <SYM> not found.` | Data missing | `alpha-forge data fetch` |
 | `Error: Backtest failed - <reason>` | Engine exception | Address the message |
 
 ---
 
-## forge backtest chart
+## alpha-forge backtest chart
 
 Show the dashboard chart URL and optionally open it.
 
 ### Synopsis
 
 ```bash
-forge backtest chart [RESULT_ID] [--open] [--compare <ID> ...]
+alpha-forge backtest chart [RESULT_ID] [--open] [--compare <ID> ...]
 ```
 
 ### Arguments and options
@@ -436,14 +495,14 @@ The command itself only prints a URL. To view charts, start `vis serve` ([alpha-
 
 ---
 
-## forge backtest signal-count
+## alpha-forge backtest signal-count
 
 Skip vectorbt and just count entry-condition signal occurrences. Useful for sanity-checking condition expressions.
 
 ### Synopsis
 
 ```bash
-forge backtest signal-count <SYMBOL> --strategy <ID> [--period 5y] [--json]
+alpha-forge backtest signal-count <SYMBOL> --strategy <ID> [--period 5y] [--json]
 ```
 
 ### Arguments and options
@@ -474,25 +533,25 @@ Signal days per regime:
 If 0 signals, `⚠️  No signals generated` is printed.
 
 !!! note "Strategies that reference external symbols"
-    For strategies that reference external symbols (e.g. `^VIX`, `USDJPY=X`), `signal-count` now applies the same `merge_external_symbols()` step used by `forge backtest run` / `forge optimize run` before counting signals. The bug (#266) where `entry_signal_days` would always be `0` for external-symbol strategies has been fixed.
+    For strategies that reference external symbols (e.g. `^VIX`, `USDJPY=X`), `signal-count` now applies the same `merge_external_symbols()` step used by `alpha-forge backtest run` / `alpha-forge optimize run` before counting signals. The bug (#266) where `entry_signal_days` would always be `0` for external-symbol strategies has been fixed.
 
 ### Common errors
 
 | Message | Cause | Fix |
 |---------|-------|-----|
 | `Invalid period format: <value>` | Bad `--period` | Use `5y`, `6m`, `30d` style |
-| `Error: No data for <SYM> (period: <p>).` | Data missing | `forge data fetch <SYM>` |
+| `Error: No data for <SYM> (period: <p>).` | Data missing | `alpha-forge data fetch <SYM>` |
 
 ---
 
-## forge backtest monte-carlo
+## alpha-forge backtest monte-carlo
 
 Resample trade history from a saved backtest result and run a Monte Carlo simulation to evaluate ruin probability and worst-case scenarios.
 
 ### Synopsis
 
 ```bash
-forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
+alpha-forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
 ```
 
 ### Arguments and options
@@ -522,7 +581,7 @@ Ruin probability: 0.40%
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Error: Result not found - <id>` | Not in DB | Check `forge backtest list` |
+| `Error: Result not found - <id>` | Not in DB | Check `alpha-forge backtest list` |
 | `Error: No valid trade history found (minimum 10 trades required).` | Trade count < 10 | Use a longer period or a different strategy |
 | `Error: Simulation failed - <reason>` | Exception during simulation | Address the message |
 

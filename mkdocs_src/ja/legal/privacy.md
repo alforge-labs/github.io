@@ -12,7 +12,7 @@ Whop を通じたメンバーシップ購入時に、氏名または会社名、
 
 ### 1.2 認証時に収集・送受信する情報
 
-`forge system auth login` 実行時に、OAuth 2.0 PKCE フローに従い以下の情報が Whop API（`api.whop.com`）と送受信されます。
+`alpha-forge system auth login` 実行時に、OAuth 2.0 PKCE フローに従い以下の情報が Whop API（`api.whop.com`）と送受信されます。
 
 - 当社からの送信: OAuth 認可コード、PKCE code_verifier、リフレッシュトークン（更新時）
 - Whop からの受信: アクセストークン（access_token）、リフレッシュトークン（refresh_token）、ユーザー ID、メンバーシップ有効性
@@ -41,7 +41,7 @@ Whop を通じたメンバーシップ購入時に、氏名または会社名、
 
 - 購入情報・メンバーシップ情報: Whop のデータ保持ポリシーに準拠
 - サポートメール: 対応完了後 2 年間
-- ローカル認証キャッシュ（`~/.forge/credentials.json`）: ユーザーが削除するまで、または `forge system auth logout` 実行まで保持
+- ローカル認証キャッシュ（`~/.forge/credentials.json`）: ユーザーが削除するまで、または `alpha-forge system auth logout` 実行まで保持
 
 ## 5. Cookie・トラッキング
 

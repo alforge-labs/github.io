@@ -3056,7 +3056,13 @@
 <p>Claude Code・Codex などの AI コーディングエージェントを「頭脳」として AlphaForge と組み合わせると、戦略の <strong>着想 → 実装 → バックテスト → 最適化 → 検証 → 運用調整</strong> を自律的に進められます。</p>
 <div class="admonition info">
 <p class="admonition-title">前提</p>
-<p>本ページのコマンド例とフローは <code>alpha-trade</code> モノレポ（<code>alpha-forge</code> + <code>alpha-strategies</code> の組み合わせ）における運用パターンです。<strong>バイナリ版</strong> ユーザーは下の「バイナリ版ユーザー向け最短セットアップ」を先に実施してください。</p>
+<ul>
+<li><strong>対象読者</strong>: Claude Code / Codex などの AI コーディングエージェントを <strong>既に使いこなしている</strong> 中〜上級者。エージェントへのプロンプト記述・スラッシュコマンドの仕組みを理解していることが前提です。</li>
+<li><strong>前提</strong>: AlphaForge <strong>バイナリ版 v0.5.4 以降</strong>、または <code>alpha-trade</code> モノレポ開発環境（<code>alpha-forge</code> + <code>alpha-strategies</code>）。</li>
+<li><strong>想定所要時間</strong>: 初回セットアップは 10 分程度。探索ループ自体は長時間（数時間〜一晩）かかるため、夜間運転や無人実行を推奨します。</li>
+<li><strong>手動で CLI を 1 ステップずつ理解したい場合</strong>: 先に <a href="../end-to-end-workflow/">エンドツーエンド戦略開発ワークフロー</a> を読むことを推奨します。本ページは「自動化された AI 探索」を前提に書かれています。</li>
+<li><strong>バイナリ版ユーザー</strong>: 下の「バイナリ版ユーザー向け最短セットアップ」を先に実施してください。モノレポ前提で書かれたコマンド例は、<strong>バイナリ版では <code>alpha-forge</code>（PATH 通し済み）に読み替えて実行できます</strong>。</li>
+</ul>
 </div>
 <h2 id="binary-user-setup">バイナリ版ユーザー向け最短セットアップ<a class="headerlink" href="#binary-user-setup" title="Permanent link">&para;</a></h2>
 <p><a href="../../getting-started/">インストールガイド</a> でバイナリ版を入れたユーザーが、本ページの <code>/explore-strategies</code> を <strong>追加コマンド 3 つ</strong> で動かせる手順です。</p>
@@ -3112,7 +3118,7 @@
 </tbody>
 </table>
 <p><code>goals/default/goals.yaml</code> を編集して、対象銘柄（<code>exploration.assets</code>）や合格基準（<code>target_metrics</code>）を自分の戦略開発方針に合わせて調整してください。複数のゴール（例: <code>goals/crypto/goals.yaml</code>、<code>goals/fx/goals.yaml</code>）を追加すれば、<code>/explore-strategies --goal &lt;name&gt;</code> で切り替えながら並列に探索できます。</p>
-<p>その後は本ページの「全体フロー」セクション以降と Step 1〜4 をそのまま実行できます。モノレポ前提で書かれている <code>uv --directory alpha-forge run forge</code> や <code>op run --env-file=...</code> は、バイナリ版では単に <code>alpha-forge</code>（または PATH を通した <code>forge</code>）に読み替えて構いません。</p>
+<p>その後は本ページの「全体フロー」セクション以降と Step 1〜4 をそのまま実行できます。モノレポ前提で書かれている <code>uv --directory alpha-forge run alpha-forge</code> や <code>op run --env-file=...</code> は、バイナリ版では単に <code>alpha-forge</code>（または PATH を通した <code>alpha-forge</code>）に読み替えて構いません。</p>
 <h2 id="ai-alphaforge">なぜ AI エージェント × AlphaForge か<a class="headerlink" href="#ai-alphaforge" title="Permanent link">&para;</a></h2>
 <p>AlphaForge は <strong>すべての設定・戦略・実行が JSON / YAML / CLI で完結する</strong> ように設計されています。これにより：</p>
 <ul>
@@ -3196,8 +3202,8 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;allow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="s2">&quot;Write(alpha-strategies/data/strategies/*.json)&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="s2">&quot;Bash(uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="s2">&quot;Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="s2">&quot;Bash(uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="s2">&quot;Bash(FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="s2">&quot;Bash(git -C */alpha-strategies add data/)&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="s2">&quot;Bash(git -C */alpha-strategies commit *)&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">      </span><span class="s2">&quot;Bash(git -C */alpha-strategies push)&quot;</span><span class="p">,</span>
@@ -3221,12 +3227,12 @@
 <td>戦略 JSON の一時ファイル生成（1 戦略ごと）</td>
 </tr>
 <tr>
-<td><code>Bash(uv --directory alpha-forge run forge *)</code></td>
-<td>forge コマンド直接実行</td>
+<td><code>Bash(uv --directory alpha-forge run alpha-forge *)</code></td>
+<td>alpha-forge コマンド直接実行</td>
 </tr>
 <tr>
-<td><code>Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)</code></td>
-<td>相対パスなど任意の FORGE_CONFIG での forge コマンド</td>
+<td><code>Bash(FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)</code></td>
+<td>相対パスなど任意の FORGE_CONFIG での alpha-forge コマンド</td>
 </tr>
 <tr>
 <td><code>Bash(git -C */alpha-strategies add data/)</code></td>
@@ -3260,26 +3266,26 @@
 </div>
 <div class="admonition info">
 <p class="admonition-title">1Password を使用している場合</p>
-<p><code>op run</code> 経由で forge を実行している場合は、以下のパターンも追加してください。
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="s2">&quot;Bash(op run --env-file=alpha-forge/.env.op -- uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=* FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore run *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge strategy *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge data fetch *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore *)&quot;</span>
+<p><code>op run</code> 経由で alpha-forge を実行している場合は、以下のパターンも追加してください。
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="s2">&quot;Bash(op run --env-file=alpha-forge/.env.op -- uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=* FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge explore run *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge strategy *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge data fetch *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge explore *)&quot;</span>
 </code></pre></div></p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">FORCE_COLOR=1 プレフィックスが必須</p>
-<p><code>/explore-strategies</code> スキルでは進捗バー表示のため <code>forge backtest run</code> / <code>forge optimize run</code> / <code>forge optimize walk-forward</code> / <code>forge explore run</code> の先頭に <code>FORCE_COLOR=1</code> を付ける運用が必須要件として定められています（<a href="https://github.com/ysakae/alpha-forge/issues/410">alpha-forge issue #410</a>）。コマンド先頭が <code>FORCE_COLOR=1</code> で始まるため、<code>FORGE_CONFIG=...</code> から始まる既存パターンにマッチせずパーミッションプロンプトでブロックされる場合があります。以下のパターンを追加してください。
+<p><code>/explore-strategies</code> スキルでは進捗バー表示のため <code>alpha-forge backtest run</code> / <code>alpha-forge optimize run</code> / <code>alpha-forge optimize walk-forward</code> / <code>alpha-forge explore run</code> の先頭に <code>FORCE_COLOR=1</code> を付ける運用が必須要件として定められています（<a href="https://github.com/ysakae/alpha-forge/issues/410">alpha-forge issue #410</a>）。コマンド先頭が <code>FORCE_COLOR=1</code> で始まるため、<code>FORGE_CONFIG=...</code> から始まる既存パターンにマッチせずパーミッションプロンプトでブロックされる場合があります。以下のパターンを追加してください。
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 FORGE_CONFIG=* op run *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 FORGE_CONFIG=* uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 uv --directory alpha-forge run forge *)&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 uv --directory alpha-forge run alpha-forge *)&quot;</span>
 </code></pre></div></p>
 </div>
 <h3 id="op-session-precheck">1Password セッション切れの早期検出（無人運転）<a class="headerlink" href="#op-session-precheck" title="Permanent link">&para;</a></h3>
-<p>無人運転（夜間バッチ等）で <code>op</code> セッションが切れると、以降のすべての <code>op run</code> 配下コマンドが認証エラーで失敗します。<code>/explore-strategies</code> スキルは各ループ反復の冒頭で <code>forge system auth check op</code> を実行し、セッションが無効な場合は exit code 2 を返してループを停止します（<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>）。</p>
+<p>無人運転（夜間バッチ等）で <code>op</code> セッションが切れると、以降のすべての <code>op run</code> 配下コマンドが認証エラーで失敗します。<code>/explore-strategies</code> スキルは各ループ反復の冒頭で <code>alpha-forge system auth check op</code> を実行し、セッションが無効な場合は exit code 2 を返してループを停止します（<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>）。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># セッション有効性の検証</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>alpha-forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;exit: </span><span class="nv">$?</span><span class="s2">&quot;</span><span class="w">   </span><span class="c1"># 0 = 有効、2 = セッション切れ・op 不在・タイムアウト等</span>
 </code></pre></div>
 <table>
@@ -3351,7 +3357,7 @@
 </div>
 <div class="admonition tip">
 <p class="admonition-title">データ取得は先に済ませる</p>
-<p>Codex の <code>workspace-write</code> サンドボックスでは、環境によってネットワークアクセスが制限されます。<code>forge data fetch</code> / <code>forge data update</code> が必要な銘柄は、無人ランの前に <code>/update-market-data</code> または手動の <code>forge data fetch &lt;SYMBOL&gt;</code> で取得しておくと安定します。</p>
+<p>Codex の <code>workspace-write</code> サンドボックスでは、環境によってネットワークアクセスが制限されます。<code>alpha-forge data fetch</code> / <code>alpha-forge data update</code> が必要な銘柄は、無人ランの前に <code>/update-market-data</code> または手動の <code>alpha-forge data fetch &lt;SYMBOL&gt;</code> で取得しておくと安定します。</p>
 </div>
 <hr />
 <h2 id="overall-flow">全体フロー<a class="headerlink" href="#overall-flow" title="Permanent link">&para;</a></h2>
@@ -3375,22 +3381,22 @@
 <hr />
 <h2 id="_3">準備: ヒストリカルデータ取得<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>探索を始める前に、対象銘柄のデータが最新化されているか確認します。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 保存済みデータの一括差分更新（バイナリ版では forge data update &lt;SYMBOL&gt;）</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 保存済みデータの一括差分更新（バイナリ版では alpha-forge data update &lt;SYMBOL&gt;）</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>&gt;<span class="w"> </span>/update-market-data
 </code></pre></div>
-<p><code>/update-market-data</code> は <code>forge data list</code> で登録済みシンボルを確認し、各シンボルに対して <code>forge data update</code> を実行します。新しい銘柄を追加する場合は先に <code>forge data fetch &lt;SYMBOL&gt;</code> を手動実行してください。</p>
+<p><code>/update-market-data</code> は <code>alpha-forge data list</code> で登録済みシンボルを確認し、各シンボルに対して <code>alpha-forge data update</code> を実行します。新しい銘柄を追加する場合は先に <code>alpha-forge data fetch &lt;SYMBOL&gt;</code> を手動実行してください。</p>
 <hr />
 <h2 id="3">3 つの探索シナリオ<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
 <p>AI エージェント × AlphaForge の使い方は、<strong>起点となる材料</strong> で大きく 3 つに分類できます。</p>
 <p><img alt="AI 駆動の戦略探索ワークフロー" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-ja.png" /></p>
 <h3 id="1">シナリオ 1: 既存戦略・指標の組み合わせ<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
-<p><strong>起点</strong>: 手元の戦略 JSON、<code>forge analyze indicator list</code> の指標カタログ</p>
+<p><strong>起点</strong>: 手元の戦略 JSON、<code>alpha-forge analyze indicator list</code> の指標カタログ</p>
 <p><strong>典型フロー</strong>:</p>
 <ol>
-<li>Claude Code に「<code>forge strategy show multi_asset_hmm_bb_rsi_v1_qqq</code> の戦略をベースに、MACD を追加した派生版を作って」と指示</li>
+<li>Claude Code に「<code>alpha-forge strategy show multi_asset_hmm_bb_rsi_v1_qqq</code> の戦略をベースに、MACD を追加した派生版を作って」と指示</li>
 <li>AI が JSON を編集して <code>multi_asset_hmm_bb_rsi_macd_v1_qqq.json</code> を生成</li>
-<li><code>forge strategy validate</code> → <code>forge strategy save</code> → <code>forge backtest run</code></li>
-<li>結果を見て、Sharpe が改善していれば <code>forge optimize run</code> で詰める</li>
+<li><code>alpha-forge strategy validate</code> → <code>alpha-forge strategy save</code> → <code>alpha-forge backtest run</code></li>
+<li>結果を見て、Sharpe が改善していれば <code>alpha-forge optimize run</code> で詰める</li>
 </ol>
 <p><strong>ポイント</strong>: <code>/explore-strategies</code> を使えば、AI に組み合わせ選定からレポートまで完全に任せられます。</p>
 <h3 id="2-tradingview-pine-script">シナリオ 2: TradingView Pine Script を起点とした応用<a class="headerlink" href="#2-tradingview-pine-script" title="Permanent link">&para;</a></h3>
@@ -3398,11 +3404,11 @@
 <p><strong>典型フロー</strong>:</p>
 <ol>
 <li>TradingView で気になる戦略を見つけたら、Pine Script をローカルに保存（<code>tv_&lt;name&gt;.pine</code>）</li>
-<li><strong>インポート</strong>: <code>forge pine import tv_&lt;name&gt;.pine --id imported_v1</code></li>
+<li><strong>インポート</strong>: <code>alpha-forge pine import tv_&lt;name&gt;.pine --id imported_v1</code></li>
 <li>AI に「この戦略の <code>parameters</code> と <code>indicators</code> を分かりやすく整理して、<code>optimizer_config</code> を追加して」と指示</li>
 <li>AI が JSON を整形・補強し、最適化対象を明示</li>
-<li><code>forge backtest run</code> → <code>forge optimize run</code> で AlphaForge 流に検証</li>
-<li>良ければ <code>forge pine generate</code> で逆方向に書き戻し、TradingView でも動作確認</li>
+<li><code>alpha-forge backtest run</code> → <code>alpha-forge optimize run</code> で AlphaForge 流に検証</li>
+<li>良ければ <code>alpha-forge pine generate</code> で逆方向に書き戻し、TradingView でも動作確認</li>
 </ol>
 <p><strong>ポイント</strong>: Pine Script のロジックを <strong>JSON ベース</strong> に持ち込むことで、最適化・WFT・Monte Carlo など AlphaForge の解析機能をすべて使えるようになります。</p>
 <h3 id="3_1">シナリオ 3: 投資掲示板・論文を起点としたインターネット探索<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
@@ -3411,9 +3417,9 @@
 <ol>
 <li>Claude Code に <strong>URL や論文 PDF を渡して</strong> 「この戦略の核心ロジックを抽出して、<code>indicators</code> と <code>entry_conditions</code> のリストにして」と指示</li>
 <li>AI が記事を要約し、戦略 JSON のドラフトを生成</li>
-<li><code>forge strategy validate</code> で論理エラーをチェック → 修正</li>
-<li><code>forge backtest signal-count</code> でシグナル件数を確認（条件が厳しすぎないか）</li>
-<li><code>forge backtest run</code> → 結果に応じて <code>forge optimize run</code></li>
+<li><code>alpha-forge strategy validate</code> で論理エラーをチェック → 修正</li>
+<li><code>alpha-forge backtest signal-count</code> でシグナル件数を確認（条件が厳しすぎないか）</li>
+<li><code>alpha-forge backtest run</code> → 結果に応じて <code>alpha-forge optimize run</code></li>
 <li>元記事の主張する結果と実バックテスト結果を比較（<strong>多くの場合、再現できない</strong>）</li>
 </ol>
 <p><strong>ポイント</strong>: 論文の戦略は「データ期間」「銘柄」「取引コスト」が異なると再現性がないことが多い。AI が「論文の主張」と「実バックテスト結果」のギャップを <strong>冷静に評価</strong> することで、フィルタリング機能を果たします。</p>
@@ -3423,10 +3429,10 @@
 <h3 id="_4">実行ステップ（要約）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>事前確認</strong>: <code>goals/&lt;goal_name&gt;/goals.yaml</code>、<code>goals/&lt;goal_name&gt;/explored_log.md</code>、既存戦略 JSON を読み、未試行の組み合わせを把握</li>
-<li><strong>戦略生成</strong>: 未試行の指標×銘柄を 1 つ選び、<code>forge strategy scaffold --save</code> で戦略を直接 DB 登録（JSON ファイル不要）</li>
-<li><strong>パイプライン一括実行</strong>: <code>forge explore run &lt;SYMBOL&gt; --strategy &lt;name&gt; --goal &lt;goal_name&gt;</code>
+<li><strong>戦略生成</strong>: 未試行の指標×銘柄を 1 つ選び、<code>alpha-forge strategy scaffold --save</code> で戦略を直接 DB 登録（JSON ファイル不要）</li>
+<li><strong>パイプライン一括実行</strong>: <code>alpha-forge explore run &lt;SYMBOL&gt; --strategy &lt;name&gt; --goal &lt;goal_name&gt;</code>
    バリデーション → データ自動取得 → シグナルチェック → バックテスト → 最適化 → WFT → coverage 更新 → DB 登録を 1 コマンドで完結</li>
-<li><strong>合否確認</strong>: exit code で判断。exit code 1 の場合は <code>forge explore result show &lt;name&gt; --goal &lt;goal_name&gt; --json</code> で DB から詳細を取得し、<code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code> に追記。<code>cleanup_done: true</code> の場合、戦略 JSON / 結果 JSON は自動削除済み</li>
+<li><strong>合否確認</strong>: exit code で判断。exit code 1 の場合は <code>alpha-forge explore result show &lt;name&gt; --goal &lt;goal_name&gt; --json</code> で DB から詳細を取得し、<code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code> に追記。<code>cleanup_done: true</code> の場合、戦略 JSON / 結果 JSON は自動削除済み</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&gt; /explore-strategies                          # 1 ラン実行（デフォルトゴール）
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>&gt; /explore-strategies --goal stocks            # ゴールを指定
@@ -3455,8 +3461,8 @@
 <h3 id="tradingview-mcp-issue-582">任意: 合格戦略への TradingView MCP 添付（issue #582）<a class="headerlink" href="#tradingview-mcp-issue-582" title="Permanent link">&para;</a></h3>
 <p><code>forge.yaml</code> の <code>tv_mcp.pine_verify.enabled: true</code> で MCP server が起動済みのとき、<code>/explore-strategies</code> スキルは合格戦略 1 件あたり以下を自動実行して <code>goals/&lt;goal_name&gt;/reports/&lt;strategy_id&gt;/</code> に <strong>TV 整合性チェック</strong> と <strong>チャート PNG</strong> を残します（fail-soft：MCP 接続失敗・metrics 取得失敗は warning ログを出すだけで、戦略の合格判定や coverage 登録は変更しません）：</p>
 <ul>
-<li><code>forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/&lt;id&gt;/verify.md</code></li>
-<li><code>forge journal report --with-chart --symbol &lt;SYM&gt; --interval D --output reports/&lt;id&gt;/journal.md</code></li>
+<li><code>alpha-forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/&lt;id&gt;/verify.md</code></li>
+<li><code>alpha-forge journal report --with-chart --symbol &lt;SYM&gt; --interval D --output reports/&lt;id&gt;/journal.md</code></li>
 </ul>
 <p>MCP server が起動していない・<code>tv_mcp.pine_verify.enabled: false</code> の goal ではこのステップはスキップされ、既存ループの挙動は変わりません。詳細は <a href="../tradingview-pine-integration/">TradingView Pine 連携ガイド</a> を参照してください。</p>
 <h3 id="_6">冪等性のポイント<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
@@ -3495,7 +3501,7 @@
 <p>ゴールはそれぞれ独立しており、<code>goals/&lt;name&gt;/</code> 配下に専用の <code>explored_log.md</code> を持ちます。異なるゴールを別々の Claude Code セッションで同時実行しても競合しません。バックテスト結果は <code>exploration.db</code> を通じて全ゴールで共有されるため、同一の銘柄×指標の組み合わせが重複してバックテストされることもありません。</p>
 </div>
 <h3 id="scaffold-issue-427">scaffold の対応指標と動作（issue #427 対応後）<a class="headerlink" href="#scaffold-issue-427" title="Permanent link">&para;</a></h3>
-<p><code>forge strategy scaffold</code> は以下の指標をサポートしています：</p>
+<p><code>alpha-forge strategy scaffold</code> は以下の指標をサポートしています：</p>
 <ul>
 <li><strong>mean-reversion</strong>: BB（必須）、RSI、MACD、ADX、SUPERTREND、STOCH、HMM、SMA（長期トレンドフィルター）、EMA（中期トレンドフィルター）</li>
 <li><strong>trend-following</strong>: EMA（必須）、ADX、MACD、RSI、SUPERTREND、STOCH、HMM、BB（ボラティリティ／トレンド確認フィルター）、SMA（長期 bull/bear フィルター）</li>
@@ -3553,12 +3559,12 @@
 </table>
 <p>short も対称（前バー BB 上抜け + 現バー陰線）。<code>goals.yaml.exploration.scaffold_defaults.confirm_bars: 1</code> で goal ごとの既定値も指定可能。</p>
 <p><strong>confirm_bars=2/3（issue #473）</strong>: 2 / 3 バー連続反転確認に拡張。<strong>wick_ratio</strong> オプションでピンバー的反転（下髭/上髭が body の N 倍以上）も要求可能：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">GBPUSD</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,EMA,ADX<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">GBPUSD</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,EMA,ADX<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--type<span class="w"> </span>mean-reversion<span class="w"> </span>--confirm-bars<span class="w"> </span><span class="m">2</span><span class="w"> </span>--wick-ratio<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--save
 </code></pre></div>
 <p><code>goals.yaml.scaffold_defaults.wick_ratio: 1.0</code> で goal 別既定値。<strong>実測効果（GBPUSD BB+EMA+ADX 1h）</strong>: confirm_bars=2 + wick_ratio=1.0 で <strong>trades 140→7 / MDD 87% → 8.84% / CAGR -55% → +3.40%</strong>（MDD 1/10、CAGR プラス転換）。trades 確保には wick_ratio=0.5 等で調整可能。</p>
 <h3 id="scaffold-issue-461">ゴール別 scaffold デフォルト（issue #461）<a class="headerlink" href="#scaffold-issue-461" title="Permanent link">&para;</a></h3>
-<p><code>goals.yaml</code> の <code>exploration.scaffold_defaults</code> セクションでゴール別のレバレッジ・ポジションサイズ・ストップを指定し、<code>forge strategy scaffold --goal &lt;name&gt;</code> で自動適用できます。さらに <code>exploration.initial_capital</code> で <code>forge.yaml</code> の想定資金を override できます。</p>
+<p><code>goals.yaml</code> の <code>exploration.scaffold_defaults</code> セクションでゴール別のレバレッジ・ポジションサイズ・ストップを指定し、<code>alpha-forge strategy scaffold --goal &lt;name&gt;</code> で自動適用できます。さらに <code>exploration.initial_capital</code> で <code>forge.yaml</code> の想定資金を override できます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 例: oanda_gold/goals.yaml</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">exploration</span><span class="p">:</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">initial_capital</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6800</span><span class="w">              </span><span class="c1"># USD 換算想定資金（forge.yaml override）</span>
@@ -3574,17 +3580,17 @@
 </code></pre></div>
 <p>CLI:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># ゴール参照</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>--type<span class="w"> </span>mean-reversion<span class="w"> </span>--strategy-id<span class="w"> </span>usdjpy_bb_rsi_v1<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>--goal<span class="w"> </span>oanda_gold<span class="w"> </span>--save
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># 個別フラグ（オーバーライド）</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>...<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>...<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span>--position-size-pct<span class="w"> </span><span class="m">100</span><span class="w"> </span>--leverage<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span>--stop-loss-pct<span class="w"> </span><span class="m">1</span>.5<span class="w"> </span>--take-profit-pct<span class="w"> </span><span class="m">3</span>.0<span class="w"> </span>--save
 </code></pre></div>
 <p><strong>優先順位</strong>: 明示 CLI フラグ &gt; <code>goals.yaml.scaffold_defaults</code> (+ <code>type_overrides</code>) &gt; 既存デフォルト</p>
-<p><code>forge backtest run --goal &lt;name&gt;</code> および <code>forge explore run --goal &lt;name&gt;</code> 実行時にも <code>goals.yaml.exploration.initial_capital</code> が読まれ、その値で BacktestConfig が override されます（forge.yaml を直接編集する必要はありません）。</p>
+<p><code>alpha-forge backtest run --goal &lt;name&gt;</code> および <code>alpha-forge explore run --goal &lt;name&gt;</code> 実行時にも <code>goals.yaml.exploration.initial_capital</code> が読まれ、その値で BacktestConfig が override されます（forge.yaml を直接編集する必要はありません）。</p>
 <p><strong>典型的な用途</strong>:</p>
 <ul>
 <li><code>oanda_gold</code>（OANDA Gold 維持）: 100万円口座（6,800 USD）× レバ 5 倍</li>
@@ -3598,8 +3604,8 @@
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">timeframe</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1h&quot;</span><span class="w">           </span><span class="c1"># scaffold が生成する戦略の timeframe（既定: &quot;1d&quot;）</span>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">backtest_period</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2y&quot;</span><span class="w">     </span><span class="c1"># explore run のデータ取得 period（既定: &quot;5y&quot;）</span>
 </code></pre></div>
-<p><code>forge strategy scaffold --goal &lt;name&gt;</code> で生成される戦略の <code>timeframe</code> と、<code>forge explore run --goal &lt;name&gt;</code> のデータ取得 period に反映されます。CLI で個別指定したい場合は <code>--timeframe</code> を使えます：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
+<p><code>alpha-forge strategy scaffold --goal &lt;name&gt;</code> で生成される戦略の <code>timeframe</code> と、<code>alpha-forge explore run --goal &lt;name&gt;</code> のデータ取得 period に反映されます。CLI で個別指定したい場合は <code>--timeframe</code> を使えます：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>--type<span class="w"> </span>mean-reversion<span class="w"> </span>--strategy-id<span class="w"> </span>usdjpy_bb_rsi_1h_v1<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>--timeframe<span class="w"> </span>1h<span class="w"> </span>--save
 </code></pre></div>
@@ -3620,7 +3626,7 @@
 </code></pre></div>
 <p><code>/explore-strategies</code> ループ開始前に手動で長期キャッシュを作成しておくのが安全です（無人ラン中の rate limit を避けるため）：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">for</span><span class="w"> </span>sym<span class="w"> </span><span class="k">in</span><span class="w"> </span>SPY<span class="w"> </span>QQQ<span class="w"> </span>NVDA<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span>GOOGL<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span><span class="nv">$sym</span><span class="w"> </span>--provider<span class="w"> </span>yfinance<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>alpha-forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span><span class="nv">$sym</span><span class="w"> </span>--provider<span class="w"> </span>yfinance<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">done</span>
 </code></pre></div>
 <p><strong>実証結果（NVDA EMA+MACD+SuperTrend, 20y）</strong>:</p>
@@ -3676,11 +3682,11 @@
 </code></pre></div>
 <blockquote>
 <p>⚠️ <strong>TV MCP は長期 fetch には使用不可</strong>（issue #683）<br />
-tradesdontlie / vinicius 系の MCP server の <code>chart_scroll_to_date</code> が <code>"evaluate is not defined"</code> エラーで動作せず、TV Desktop に過去データをロードできません。<code>data_get_ohlcv</code> は現在チャートに表示されている bars のみ返すため、<code>forge data fetch &lt;SYM&gt; --provider tv_mcp --period 20y</code> を呼んでも最新 ~14 ヶ月分しか取れません。長期データは <strong>yfinance を推奨</strong>します。<br />
-TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics</code>) や チャート PNG 取得 (<code>forge tv chart</code>) には有用です。</p>
+tradesdontlie / vinicius 系の MCP server の <code>chart_scroll_to_date</code> が <code>"evaluate is not defined"</code> エラーで動作せず、TV Desktop に過去データをロードできません。<code>data_get_ohlcv</code> は現在チャートに表示されている bars のみ返すため、<code>alpha-forge data fetch &lt;SYM&gt; --provider tv_mcp --period 20y</code> を呼んでも最新 ~14 ヶ月分しか取れません。長期データは <strong>yfinance を推奨</strong>します。<br />
+TV MCP は引き続き Pine 検証 (<code>alpha-forge pine verify --check-mode metrics</code>) や チャート PNG 取得 (<code>alpha-forge tv chart</code>) には有用です。</p>
 </blockquote>
 <h4 id="explore-strategies-tv-mcp"><code>/explore-strategies</code> の TV MCP 事前確認<a class="headerlink" href="#explore-strategies-tv-mcp" title="Permanent link">&para;</a></h4>
-<p><code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> が設定された goal でループを開始すると、スキル冒頭で <code>forge data tv-mcp check --json</code> が自動実行されます：</p>
+<p><code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> が設定された goal でループを開始すると、スキル冒頭で <code>alpha-forge data tv-mcp check --json</code> が自動実行されます：</p>
 <ul>
 <li>終了コード <code>0</code>: 続行</li>
 <li>終了コード <code>2</code>: endpoint 未設定 / TV Desktop 未起動 / MCP server 接続失敗 → ループ停止 + <code>&lt;goal_dir&gt;/explored_log.md</code> に記録（自動起動・再試行なし）</li>
@@ -3736,7 +3742,7 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 </code></pre></div>
 <p>未指定または <code>&gt;= 0</code> のときは従来通り評価 skip（後方互換）。</p>
 <h3 id="target_metrics-metric-issue-458">target_metrics 任意 metric 評価（issue #458）<a class="headerlink" href="#target_metrics-metric-issue-458" title="Permanent link">&para;</a></h3>
-<p><code>goals.yaml</code> の <code>target_metrics</code> セクションには次の任意 metric を記述できます。<code>forge explore run</code> の Step 5 で全 metric が照合され、結果は DB の <code>target_metrics_diagnostics</code> に構造化保存されます。</p>
+<p><code>goals.yaml</code> の <code>target_metrics</code> セクションには次の任意 metric を記述できます。<code>alpha-forge explore run</code> の Step 5 で全 metric が照合され、結果は DB の <code>target_metrics_diagnostics</code> に構造化保存されます。</p>
 <table>
 <thead>
 <tr>
@@ -3813,7 +3819,7 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 </code></pre></div>
 <p>未対応の metric 名や未サポート operator は warning + skip（戦略は失格扱いにしない）。</p>
 <h3 id="issue-428">自動緩和バリアント生成（issue #428）<a class="headerlink" href="#issue-428" title="Permanent link">&para;</a></h3>
-<p><code>forge explore run</code> は、pre_filter は通過したが WFT で不合格となった戦略（<code>status="wft_failed"</code>）に対して、<strong>緩和バリアント JSON v(N+1) を自動生成</strong>し <code>recommendations.yaml</code> の rank: 1 に登録します。エージェントが手動で v(N+1) を作る必要はありません。</p>
+<p><code>alpha-forge explore run</code> は、pre_filter は通過したが WFT で不合格となった戦略（<code>status="wft_failed"</code>）に対して、<strong>緩和バリアント JSON v(N+1) を自動生成</strong>し <code>recommendations.yaml</code> の rank: 1 に登録します。エージェントが手動で v(N+1) を作る必要はありません。</p>
 <p><strong>緩和トリガー</strong>: <code>status="wft_failed"</code> （<code>skip_reason</code> が <code>wft_insufficient_oos_data</code> / <code>wft_no_valid_oos_windows</code> / <code>wft_failed</code> のいずれか）かつ pre_filter を通過していること。</p>
 <p><strong>適用ルール</strong>（最大 2 個まで、優先度順）:</p>
 <table>
@@ -3843,9 +3849,9 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>  ✓ Sharpe=1.17 で品質は良好。緩和バリアント spy_atr_ema_macd_v2 を自動生成しました（rsi_th.max=80→90）
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>  ✓ recommendations.yaml に rank: 1 として登録
 </code></pre></div>
-<p><code>forge explore result show &lt;name&gt; --json</code> の <code>auto_relax</code> フィールドで結果を確認できます。<code>skipped_reason="duplicate_id"</code> は既に同名のバリアントが存在することを、<code>"no_relaxable_params"</code> は緩和対象パラメータが見つからなかったことを示します。<code>forge explore run --no-auto-relax</code> で機能を無効化できます。</p>
+<p><code>alpha-forge explore result show &lt;name&gt; --json</code> の <code>auto_relax</code> フィールドで結果を確認できます。<code>skipped_reason="duplicate_id"</code> は既に同名のバリアントが存在することを、<code>"no_relaxable_params"</code> は緩和対象パラメータが見つからなかったことを示します。<code>alpha-forge explore run --no-auto-relax</code> で機能を無効化できます。</p>
 <h3 id="_8">ヘルスチェックゲート（連続失敗の自動エスカレーション）<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p><code>--runs 0</code> の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、<code>/explore-strategies</code> は各ラン冒頭で <code>forge explore health --strict</code> を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。</p>
+<p><code>--runs 0</code> の無人運転では、scaffold バグや goals.yaml の不整合により全試行が失敗するループに入る可能性があります。これを早期検知するために、<code>/explore-strategies</code> は各ラン冒頭で <code>alpha-forge explore health --strict</code> を呼び出し、直近 5 件の試行から品質低下を判定します（alpha-forge issue #408）。</p>
 <p>判定条件と挙動:</p>
 <ul>
 <li>直近 5 件すべて不合格 <strong>かつ</strong> scaffold 変換率が 50% 以上 → <code>escalation: true</code>（<code>escalation_type: "scaffold_degradation"</code>）→ 即停止</li>
@@ -3854,7 +3860,7 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 <li>中間域（変換率 10〜50%）→ 保守的に <code>escalation: true</code> / <code>"scaffold_degradation"</code> として扱う</li>
 <li>DB 件数が 5 件未満（履歴が浅い）→ 観測のみ（ブロックしない）</li>
 </ul>
-<p><code>escalation: true</code> を検出するとコマンドは exit code <code>1</code> を返し、スキル側はループを停止して <code>recommended_actions</code> を人間に提示します。<code>warning: true</code>（agent_selection_bias）の場合は exit code <code>0</code> のまま <code>recommended_actions</code> を表示するに留め、エージェントは次のラン以降で <strong>支配的になっている組み合わせ以外の指標</strong> を選んで続行します（<code>recent_selections</code> 多様性ガードで自動解消）。<code>escalation_type</code> で原因を区別することで、scaffold 修正（alpha-forge 側の調査）とエージェント側プロンプト調整のどちらが必要かを判断できます（alpha-forge issue #436 / #467）。詳細は <a href="../../cli-reference/other/#forge-explore-health"><code>forge explore health</code> リファレンス</a> を参照してください。</p>
+<p><code>escalation: true</code> を検出するとコマンドは exit code <code>1</code> を返し、スキル側はループを停止して <code>recommended_actions</code> を人間に提示します。<code>warning: true</code>（agent_selection_bias）の場合は exit code <code>0</code> のまま <code>recommended_actions</code> を表示するに留め、エージェントは次のラン以降で <strong>支配的になっている組み合わせ以外の指標</strong> を選んで続行します（<code>recent_selections</code> 多様性ガードで自動解消）。<code>escalation_type</code> で原因を区別することで、scaffold 修正（alpha-forge 側の調査）とエージェント側プロンプト調整のどちらが必要かを判断できます（alpha-forge issue #436 / #467）。詳細は <a href="../../cli-reference/other/#alpha-forge-explore-health"><code>alpha-forge explore health</code> リファレンス</a> を参照してください。</p>
 <hr />
 <h2 id="step-2-analyze">Step 2: 分析・絞り込み（<code>/analyze-exploration</code>）<a class="headerlink" href="#step-2-analyze" title="Permanent link">&para;</a></h2>
 <p><strong>目的</strong>: 過去のすべての探索ログを集計・分析し、次に試すべき組み合わせを <strong>科学的に推薦</strong> する。</p>
@@ -3893,16 +3899,16 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 </code></pre></div>
 <h3 id="_10">実行ステップ<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <ol>
-<li>戦略確認: <code>forge strategy show &lt;strategy_name&gt;</code> で <code>param_ranges</code> の存在と Grid 総数を確認</li>
-<li>シグナル件数チェック（必須）: <code>forge backtest signal-count</code></li>
-<li>ベースライン取得: <code>forge backtest run</code> で元戦略の Sharpe を控える</li>
-<li><strong>Grid 網羅探索</strong>: <code>forge optimize grid &lt;symbol&gt; --strategy &lt;name&gt; --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes</code></li>
+<li>戦略確認: <code>alpha-forge strategy show &lt;strategy_name&gt;</code> で <code>param_ranges</code> の存在と Grid 総数を確認</li>
+<li>シグナル件数チェック（必須）: <code>alpha-forge backtest signal-count</code></li>
+<li>ベースライン取得: <code>alpha-forge backtest run</code> で元戦略の Sharpe を控える</li>
+<li><strong>Grid 網羅探索</strong>: <code>alpha-forge optimize grid &lt;symbol&gt; --strategy &lt;name&gt; --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes</code></li>
 <li>Top-20 レビュー（過学習の疑い、上位 trial の近傍集中を確認）</li>
-<li>ベスト適用: <code>forge optimize grid ... --top-k 1 --apply --yes</code></li>
-<li><strong>WFT 検証</strong>: <code>forge optimize walk-forward &lt;symbol&gt; --strategy &lt;name&gt;_optimized --windows 5</code></li>
+<li>ベスト適用: <code>alpha-forge optimize grid ... --top-k 1 --apply --yes</code></li>
+<li><strong>WFT 検証</strong>: <code>alpha-forge optimize walk-forward &lt;symbol&gt; --strategy &lt;name&gt;_optimized --windows 5</code></li>
 <li><strong>合否判定</strong>: WFT 全ウィンドウ平均 Sharpe が <strong>元戦略の Sharpe を超えていれば合格</strong><ul>
-<li>合格 → <code>forge journal verdict &lt;name&gt;_optimized &lt;run_id&gt; pass</code></li>
-<li>不合格 → <code>forge strategy delete &lt;name&gt;_optimized --force</code> + 元戦略の Journal に <code>note</code> 追加</li>
+<li>合格 → <code>alpha-forge journal verdict &lt;name&gt;_optimized &lt;run_id&gt; pass</code></li>
+<li>不合格 → <code>alpha-forge strategy delete &lt;name&gt;_optimized --force</code> + 元戦略の Journal に <code>note</code> 追加</li>
 </ul>
 </li>
 </ol>
@@ -3919,10 +3925,10 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 </code></pre></div>
 <h3 id="_11">実行ステップ<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>乖離検出</strong>: <code>forge live list</code> → 各戦略 ID で <code>forge live compare &lt;strategy_id&gt;</code> を実行し、<code>goals/&lt;goal_name&gt;/goals.yaml</code> の <code>live_tuning.sharpe_drift_threshold</code> を超えたものを抽出</li>
+<li><strong>乖離検出</strong>: <code>alpha-forge live list</code> → 各戦略 ID で <code>alpha-forge live compare &lt;strategy_id&gt;</code> を実行し、<code>goals/&lt;goal_name&gt;/goals.yaml</code> の <code>live_tuning.sharpe_drift_threshold</code> を超えたものを抽出</li>
 <li><strong>再最適化</strong>: 乖離が大きい戦略ごとに：<ul>
-<li><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;name&gt; --metric sharpe_ratio --save</code></li>
-<li><code>forge optimize walk-forward &lt;SYMBOL&gt; --strategy &lt;name&gt; --windows 5</code></li>
+<li><code>alpha-forge optimize run &lt;SYMBOL&gt; --strategy &lt;name&gt; --metric sharpe_ratio --save</code></li>
+<li><code>alpha-forge optimize walk-forward &lt;SYMBOL&gt; --strategy &lt;name&gt; --windows 5</code></li>
 </ul>
 </li>
 <li><strong>採用判定</strong>: WFT の全ウィンドウ平均 Sharpe が <strong>改善している場合のみ</strong> <code>&lt;name&gt;_optimized.json</code> を更新。改悪なら現状維持</li>
@@ -3970,7 +3976,7 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 <h2 id="_13">ワンサイクル実例（探索 → 最適化 → 検証 → 運用）<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
 <p>「QQQ で HMM × BB × RSI に MACD を加えるアイデア」を検証 → 採用するまでの実例です。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># 1. アイデアを記録（任意、後でリンク可能）</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>forge<span class="w"> </span>idea<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;QQQ HMM×BB×RSI に MACD を追加&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>alpha-forge<span class="w"> </span>idea<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;QQQ HMM×BB×RSI に MACD を追加&quot;</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">  </span>--type<span class="w"> </span>improvement<span class="w"> </span>--tag<span class="w"> </span>hmm<span class="w"> </span>--tag<span class="w"> </span>qqq
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># 2. /explore-strategies で 1 サイクル試す（Claude Code 内）</span>
@@ -3987,25 +3993,25 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 <a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a><span class="c1"># 4. /grid-tune で網羅最適化</span>
 <a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a>&gt;<span class="w"> </span>/grid-tune<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq<span class="w"> </span>QQQ
 <a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a><span class="c1"># → Grid Top-1 → apply → WFT 検証で 1.45 達成</span>
-<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="c1"># → forge journal verdict pass で記録</span>
+<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="c1"># → alpha-forge journal verdict pass で記録</span>
 <a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>
 <a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a><span class="c1"># 5. 過学習ロバスト性チェック</span>
-<a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-28-23" name="__codelineno-28-23" href="#__codelineno-28-23"></a><span class="w">  </span>/path/to/data/results/optimize_multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized_20260415_103021.json
 <a id="__codelineno-28-24" name="__codelineno-28-24" href="#__codelineno-28-24"></a><span class="c1"># → overall_robustness_score=0.82（合格）</span>
 <a id="__codelineno-28-25" name="__codelineno-28-25" href="#__codelineno-28-25"></a>
 <a id="__codelineno-28-26" name="__codelineno-28-26" href="#__codelineno-28-26"></a><span class="c1"># 6. ジャーナルに最終承認を記録</span>
-<a id="__codelineno-28-27" name="__codelineno-28-27" href="#__codelineno-28-27"></a>forge<span class="w"> </span>journal<span class="w"> </span>verdict<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>&lt;run_id&gt;<span class="w"> </span>pass
-<a id="__codelineno-28-28" name="__codelineno-28-28" href="#__codelineno-28-28"></a>forge<span class="w"> </span>journal<span class="w"> </span>note<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span><span class="s2">&quot;OOS pass + sensitivity 0.82。本番投入候補。&quot;</span>
+<a id="__codelineno-28-27" name="__codelineno-28-27" href="#__codelineno-28-27"></a>alpha-forge<span class="w"> </span>journal<span class="w"> </span>verdict<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>&lt;run_id&gt;<span class="w"> </span>pass
+<a id="__codelineno-28-28" name="__codelineno-28-28" href="#__codelineno-28-28"></a>alpha-forge<span class="w"> </span>journal<span class="w"> </span>note<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span><span class="s2">&quot;OOS pass + sensitivity 0.82。本番投入候補。&quot;</span>
 <a id="__codelineno-28-29" name="__codelineno-28-29" href="#__codelineno-28-29"></a>
 <a id="__codelineno-28-30" name="__codelineno-28-30" href="#__codelineno-28-30"></a><span class="c1"># 7. TradingView 用 Pine Script を生成</span>
-<a id="__codelineno-28-31" name="__codelineno-28-31" href="#__codelineno-28-31"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>--with-training-data
+<a id="__codelineno-28-31" name="__codelineno-28-31" href="#__codelineno-28-31"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>--with-training-data
 <a id="__codelineno-28-32" name="__codelineno-28-32" href="#__codelineno-28-32"></a>
 <a id="__codelineno-28-33" name="__codelineno-28-33" href="#__codelineno-28-33"></a><span class="c1"># 8. ライブ運用開始（VPS に発注エンジンを配置、本ドキュメント範囲外）</span>
 <a id="__codelineno-28-34" name="__codelineno-28-34" href="#__codelineno-28-34"></a>
 <a id="__codelineno-28-35" name="__codelineno-28-35" href="#__codelineno-28-35"></a><span class="c1"># 9. 1 週間後、ライブ成績を比較</span>
-<a id="__codelineno-28-36" name="__codelineno-28-36" href="#__codelineno-28-36"></a>forge<span class="w"> </span>live<span class="w"> </span>import-events<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
-<a id="__codelineno-28-37" name="__codelineno-28-37" href="#__codelineno-28-37"></a>forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
+<a id="__codelineno-28-36" name="__codelineno-28-36" href="#__codelineno-28-36"></a>alpha-forge<span class="w"> </span>live<span class="w"> </span>import-events<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
+<a id="__codelineno-28-37" name="__codelineno-28-37" href="#__codelineno-28-37"></a>alpha-forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
 <a id="__codelineno-28-38" name="__codelineno-28-38" href="#__codelineno-28-38"></a>
 <a id="__codelineno-28-39" name="__codelineno-28-39" href="#__codelineno-28-39"></a><span class="c1"># 10. 乖離が大きければ /tune-live-strategies で自動再チューニング</span>
 <a id="__codelineno-28-40" name="__codelineno-28-40" href="#__codelineno-28-40"></a>&gt;<span class="w"> </span>/tune-live-strategies
@@ -4022,7 +4028,7 @@ TV MCP は引き続き Pine 検証 (<code>forge pine verify --check-mode metrics
 <ul>
 <li><a href="../end-to-end-workflow/">エンドツーエンド戦略開発ワークフロー</a> — 手動 CLI による全ステップの詳細</li>
 <li><a href="../../getting-started/">はじめに</a> — 初回バックテストまでのチュートリアル</li>
-<li><a href="../../cli-reference/">CLI リファレンス</a> — <code>forge</code> コマンドの全パラメータ</li>
+<li><a href="../../cli-reference/">CLI リファレンス</a> — <code>alpha-forge</code> コマンドの全パラメータ</li>
 <li><a href="../../templates/">戦略テンプレート</a> — HMM × BB × RSI 等の同梱戦略</li>
 </ul>
 <hr />

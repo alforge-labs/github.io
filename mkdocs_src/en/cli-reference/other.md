@@ -1,6 +1,6 @@
 # Other Commands
 
-Utility and management commands not covered by the [core groups](index.md), bundled on a single page. Covers 10 groups and ~29 subcommands. Full parameter lists are also available via `forge <group> <subcommand> --help`.
+Utility and management commands not covered by the [core groups](index.md), bundled on a single page. Covers 10 groups and ~29 subcommands. Full parameter lists are also available via `alpha-forge <group> <subcommand> --help`.
 
 !!! info "About sample output"
     Sample outputs in this page are based on the formats read from the `alpha-forge` source. Actual values depend on data and environment.
@@ -9,7 +9,7 @@ Utility and management commands not covered by the [core groups](index.md), bund
 
 | Group | Subcommands | Purpose |
 |-------|-------------|---------|
-| [self](#self) | `update` `version` | Self-update the forge binary / show the latest release |
+| [self](#self) | `update` `version` | Self-update the alpha-forge binary / show the latest release |
 | [system auth](#system-auth) | `login` `logout` `status` `check op` | Whop OAuth authentication and status |
 | [system init](#system-init) | (single command) | Initialize working directory |
 | [system docs](#system-docs) | `list` `show` | Browse bundled documentation |
@@ -25,14 +25,14 @@ Utility and management commands not covered by the [core groups](index.md), bund
 
 ## self
 
-Commands for updating and inspecting the forge binary itself (macOS arm64 / x64, Phase 1). Introduced in [issue #693](https://github.com/ysakae/alpha-forge/issues/693).
+Commands for updating and inspecting the alpha-forge binary itself (macOS arm64 / x64, Phase 1). Introduced in [issue #693](https://github.com/ysakae/alpha-forge/issues/693).
 
-### forge self version
+### alpha-forge self version
 
 Show the current version alongside the latest release from the distribution repo (`alforge-labs/alforge-labs.github.io`). The `self` group skips Whop authentication, so it works regardless of login state.
 
 ```bash
-forge self version
+alpha-forge self version
 ```
 
 Sample output:
@@ -41,20 +41,20 @@ Sample output:
 Current version: 0.3.1
 Latest release  : 0.4.0  (https://github.com/alforge-labs/alforge-labs.github.io/releases/tag/v0.4.0)
 A new version is available: 0.4.0
-To upgrade: forge self update
+To upgrade: alpha-forge self update
 ```
 
-### forge self update
+### alpha-forge self update
 
-Update the forge binary to the latest release. Downloads with SHA256 verification, then atomically swaps `forge.dist` and keeps the previous binary as `forge.dist.bak-<unix_ts>` (latest 2 generations).
+Update the alpha-forge binary to the latest release. Downloads with SHA256 verification, then atomically swaps `forge.dist` and keeps the previous binary as `forge.dist.bak-<unix_ts>` (latest 2 generations).
 
 ```bash
-forge self update                 # interactive prompt [y/N]
-forge self update --yes           # skip the prompt (for CI)
-forge self update --check         # check only (no download)
-forge self update --version 0.4.0 # pin a specific version
-forge self update --dry-run       # download + verify + extract, no swap
-forge self update --print-target  # print the detected install layout (for bug reports)
+alpha-forge self update                 # interactive prompt [y/N]
+alpha-forge self update --yes           # skip the prompt (for CI)
+alpha-forge self update --check         # check only (no download)
+alpha-forge self update --version 0.4.0 # pin a specific version
+alpha-forge self update --dry-run       # download + verify + extract, no swap
+alpha-forge self update --print-target  # print the detected install layout (for bug reports)
 ```
 
 #### Requirements
@@ -66,7 +66,7 @@ Works against the **forge.dist directory + symlink layout** created by `install.
 | macOS arm64 / x64 (via install.sh) | ✅ Supported |
 | Windows x64 | ⚠️ Not supported in Phase 1 — re-run `install.ps1` instead |
 | Linux x64 | ⚠️ Planned for Phase 3 |
-| Dev mode (`uv run forge`) | ⚠️ Stops with `DevModeError` — use `git pull && uv sync` |
+| Dev mode (`uv run alpha-forge`) | ⚠️ Stops with `DevModeError` — use `git pull && uv sync` |
 
 #### How it works
 
@@ -77,40 +77,40 @@ Works against the **forge.dist directory + symlink layout** created by `install.
 5. Atomically promotes the new `forge.dist` into place.
 6. Restores the `$BIN_DIR/forge` symlink if it was broken.
 
-If anything fails, the previous binary stays intact and can be recovered from `forge.dist.bak-*` (a `forge self rollback` helper is planned for Phase 2).
+If anything fails, the previous binary stays intact and can be recovered from `forge.dist.bak-*` (a `alpha-forge self rollback` helper is planned for Phase 2).
 
 ---
 
 ## system auth
 
-Whop OAuth 2.0 PKCE authentication commands. All subcommands run as `forge system auth <subcommand>`. For first-time setup, see [Getting Started](../getting-started.md).
+Whop OAuth 2.0 PKCE authentication commands. All subcommands run as `alpha-forge system auth <subcommand>`. For first-time setup, see [Getting Started](../getting-started.md).
 
-### forge system auth login
+### alpha-forge system auth login
 
 Open a browser and authenticate with Whop.
 
 ```bash
-forge system auth login
+alpha-forge system auth login
 ```
 
 Opens a browser automatically and runs the Whop OAuth flow. No arguments or options. On success, credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`).
 
-### forge system auth logout
+### alpha-forge system auth logout
 
 Log out and remove cached credentials.
 
 ```bash
-forge system auth logout
+alpha-forge system auth logout
 ```
 
 Removes `credentials.json`. No arguments or options. Your Whop membership itself is unaffected.
 
-### forge system auth status
+### alpha-forge system auth status
 
 Show current authentication status.
 
 ```bash
-forge system auth status
+alpha-forge system auth status
 ```
 
 Sample output:
@@ -126,17 +126,17 @@ When not logged in:
 
 ```text
 [AlphaForge] Not logged in.
-  Run: forge system auth login
+  Run: alpha-forge system auth login
 ```
 
 If the development skip env var (`ALPHA_FORGE_DEV_SKIP_LICENSE=1`) is enabled, the message is `[AlphaForge] Development skip active (EULA/authentication is not verified)`.
 
-### forge system auth check op
+### alpha-forge system auth check op
 
 Verify the 1Password CLI (`op`) session validity. Used as a CI hook for teams sharing `.env.op` (issue #411).
 
 ```bash
-forge system auth check op [--json]
+alpha-forge system auth check op [--json]
 ```
 
 Exits with code `0` when the session is valid, `2` otherwise.
@@ -150,7 +150,7 @@ Initialize the working directory: creates `forge.yaml`, data directories, docume
 ### Synopsis
 
 ```bash
-forge system init [OPTIONS]
+alpha-forge system init [OPTIONS]
 ```
 
 ### Options
@@ -225,13 +225,13 @@ Manage exploration pipeline state and run the full pipeline in one command. Thes
 | `recommend` | Write next-exploration candidates to `recommendations.yaml` |
 | `coverage` | Update or view parameter coverage YAML |
 
-### forge explore run
+### alpha-forge explore run
 
 Runs validation → auto data fetch → backtest → optimize → walk-forward test (WFT) → coverage update → DB registration in a single command. Returns exit code 1 on failure (except `--dry-run` / `--pre-check`).  
 Called internally by the `/explore-strategies` agent skill.
 
 ```bash
-forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--pre-check] [--json] [--db <PATH>]
+alpha-forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry-run] [--pre-check] [--json] [--db <PATH>]
 ```
 
 | Option | Description | Default |
@@ -241,7 +241,7 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
 | `--no-cleanup` | Skip file / DB cleanup on failure (for debugging) | off |
 | `--dry-run` | Print planned steps and exit without running | off |
 | `--pre-check` | Run backtest only (default params), skip optimization and WFT (#321) | off |
-| `--json` | Output result as JSON to stdout (**deprecated**: use `forge explore result show <id> --json` instead) | off |
+| `--json` | Output result as JSON to stdout (**deprecated**: use `alpha-forge explore result show <id> --json` instead) | off |
 | `--db` | Path to exploration DB (defaults to path from `forge.yaml`) | — |
 
 #### Using `--pre-check`
@@ -249,8 +249,8 @@ forge explore run <SYMBOL> --strategy <NAME> --goal <GOAL> [--no-cleanup] [--dry
 Use for rapid screening during strategy design. Optimization and WFT are not executed.
 
 ```bash
-forge explore run SPY --strategy my_rsi_v1 --pre-check
-forge explore run SPY --strategy my_rsi_v1 --pre-check --json
+alpha-forge explore run SPY --strategy my_rsi_v1 --pre-check
+alpha-forge explore run SPY --strategy my_rsi_v1 --pre-check --json
 ```
 
 Sample text output with `--pre-check`:
@@ -294,12 +294,12 @@ Sample text output with `--pre-check`:
 | `cleanup_done` | `true` when strategy JSON and result JSON were automatically removed on failure |
 | `entry_signals` | Number of days with long entry signal (set during `--pre-check`; may be `null` for backward compatibility) |
 
-### forge explore result show
+### alpha-forge explore result show
 
-Display the latest exploration result for a strategy from the DB. Use this to inspect failure details after `forge explore run` exits with code 1.
+Display the latest exploration result for a strategy from the DB. Use this to inspect failure details after `alpha-forge explore run` exits with code 1.
 
 ```bash
-forge explore result show <STRATEGY_ID> [--goal <GOAL>] [--json] [--db <PATH>]
+alpha-forge explore result show <STRATEGY_ID> [--goal <GOAL>] [--json] [--db <PATH>]
 ```
 
 | Option | Description | Default |
@@ -312,18 +312,18 @@ forge explore result show <STRATEGY_ID> [--goal <GOAL>] [--json] [--db <PATH>]
 
 ```bash
 # Display latest result in human-readable format
-forge explore result show gc_bb_hmm_rsi_v1
+alpha-forge explore result show gc_bb_hmm_rsi_v1
 
 # Filter by goal and output as JSON (includes wft_diagnostics and more)
-forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
+alpha-forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
 ```
 
-Typical failure investigation flow after `forge explore run` returns exit code 1:
+Typical failure investigation flow after `alpha-forge explore run` returns exit code 1:
 
 ```bash
-FORGE_CONFIG=forge.yaml forge explore run GC=F --strategy gc_bb_hmm_rsi_v1 --goal commodities
+FORGE_CONFIG=forge.yaml alpha-forge explore run GC=F --strategy gc_bb_hmm_rsi_v1 --goal commodities
 # exit code 1 → retrieve details from DB
-FORGE_CONFIG=forge.yaml forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
+FORGE_CONFIG=forge.yaml alpha-forge explore result show gc_bb_hmm_rsi_v1 --goal commodities --json
 ```
 
 The `--json` output includes `wft_diagnostics`, `pre_filter_diagnostics`, and `opt_metrics` fields.
@@ -423,12 +423,12 @@ When `skip_reason` is `"wft_insufficient_oos_data"` or `"wft_no_valid_oos_window
 
 The legacy fields (`total_oos_trades`, `oos_trades_by_window`, `valid_windows`, `required_valid_windows`, `min_oos_trades_per_window`) are kept alongside the new fields for backward compatibility.
 
-### forge explore diagnose
+### alpha-forge explore diagnose
 
-Estimate whether a longer backtest period would let a WFT-failed strategy pass, using linear extrapolation of the trade rate (issue #685). Designed as a follow-up to `forge explore result show` when you see `wft_failed`.
+Estimate whether a longer backtest period would let a WFT-failed strategy pass, using linear extrapolation of the trade rate (issue #685). Designed as a follow-up to `alpha-forge explore result show` when you see `wft_failed`.
 
 ```bash
-forge explore diagnose <STRATEGY_ID> [--goal <GOAL>] [--periods 10y,20y,30y] \
+alpha-forge explore diagnose <STRATEGY_ID> [--goal <GOAL>] [--periods 10y,20y,30y] \
                                     [--windows 5] [--min-oos-trades 3] \
                                     [--db <PATH>] [--json]
 ```
@@ -465,16 +465,16 @@ Extrapolation by period:
 
 Recommendation:
   goals.yaml: exploration.backtest_period: "10y"
-  forge data fetch NVDA --provider yfinance --period 10y --interval 1d
+  alpha-forge data fetch NVDA --provider yfinance --period 10y --interval 1d
   Estimated pass probability: ~90% (tier: high)
 ```
 
-### forge explore health
+### alpha-forge explore health
 
 Aggregate the most recent N trials and detect consecutive failures or scaffold fixation (issue #408). Designed to be invoked at the start of every iteration of the unattended `/explore-strategies --runs 0` loop, so structural failures (scaffold bugs, goals.yaml drift) can be caught early instead of burning runs forever.
 
 ```bash
-forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
+alpha-forge explore health --goal <GOAL> [--last N] [--strict] [--json] [--db <PATH>]
 ```
 
 | Option | Description | Default |
@@ -531,7 +531,7 @@ If the DB contains fewer than `--last` rows for the goal, the report stays obser
 
 ```bash
 # Run at the start of every iteration of /explore-strategies
-FORGE_CONFIG=forge.yaml forge explore health \
+FORGE_CONFIG=forge.yaml alpha-forge explore health \
   --goal default --last 5 --strict --json
 # exit code 1 → surface recommended_actions to a human and break the loop
 ```
@@ -543,14 +543,14 @@ FORGE_CONFIG=forge.yaml forge explore health \
 Convert between strategy JSON and TradingView Pine Script v6.
 
 !!! warning "[Paid plans only] Pine Script export"
-    `forge pine generate` and `forge pine preview` are **available on the paid plans only (Lifetime / Annual / Monthly)**. Running them on the Trial plan displays a red Panel with a purchase URL ([https://alforgelabs.com/en/index.html#pricing](https://alforgelabs.com/en/index.html#pricing)) and exits with code `1` — no file is written and no preview is printed. `forge pine import` (the import path) is unaffected and remains available on Trial. See the [Trial limits guide](../guides/trial-limits.md) for details.
+    `alpha-forge pine generate` and `alpha-forge pine preview` are **available on the paid plans only (Lifetime / Annual / Monthly)**. Running them on the Trial plan displays a red Panel with a purchase URL ([https://alforgelabs.com/en/index.html#pricing](https://alforgelabs.com/en/index.html#pricing)) and exits with code `1` — no file is written and no preview is printed. `alpha-forge pine import` (the import path) is unaffected and remains available on Trial. See the [Trial limits guide](../guides/trial-limits.md) for details.
 
-### forge pine generate `[Paid plans only]`
+### alpha-forge pine generate `[Paid plans only]`
 
 Generate Pine Script from a strategy definition and write it to `config.pinescript.output_path / <strategy_id>.pine`. **Paid plans only (Lifetime / Annual / Monthly).**
 
 ```bash
-forge pine generate --strategy <ID> [--with-training-data]
+alpha-forge pine generate --strategy <ID> [--with-training-data]
 ```
 
 | Name | Kind | Default | Description |
@@ -575,20 +575,20 @@ Sample output (Trial plan — hard block):
 ╰──────────────────────────────────────────────────╯
 ```
 
-### forge pine preview `[Paid plans only]`
+### alpha-forge pine preview `[Paid plans only]`
 
 Preview generated Pine Script on stdout without writing to a file. **Paid plans only (Lifetime / Annual / Monthly).**
 
 ```bash
-forge pine preview --strategy <ID>
+alpha-forge pine preview --strategy <ID>
 ```
 
-### forge pine import
+### alpha-forge pine import
 
 Parse a Pine Script (`.pine`) and import it as a strategy definition.
 
 ```bash
-forge pine import <PINE_FILE> --id <STRATEGY_ID>
+alpha-forge pine import <PINE_FILE> --id <STRATEGY_ID>
 ```
 
 | Name | Kind | Description |
@@ -598,12 +598,12 @@ forge pine import <PINE_FILE> --id <STRATEGY_ID>
 
 On parse failure: `Error: failed to parse Pine Script - <details>` (writes to stderr).
 
-### forge pine verify
+### alpha-forge pine verify
 
 Verify the Pine Script generated from a strategy via a **TradingView MCP server** (issue #523). Beyond compile checks, it can compare the Strategy Tester aggregate metrics or the per-trade list against the matching alpha-forge backtest result.
 
 ```bash
-forge pine verify --strategy <ID> [--check-mode <MODE>] [--mcp-server <CMD>] [--mcp-server-flavor <tradesdontlie|vinicius>] [OPTIONS]
+alpha-forge pine verify --strategy <ID> [--check-mode <MODE>] [--mcp-server <CMD>] [--mcp-server-flavor <tradesdontlie|vinicius>] [OPTIONS]
 ```
 
 | Name | Kind | Default | Description |
@@ -634,10 +634,10 @@ forge pine verify --strategy <ID> [--check-mode <MODE>] [--mcp-server <CMD>] [--
 
 ```bash
 # Compile-only verification (fastest)
-forge pine verify --strategy spy_sma_v1 --mcp-server "node /opt/tv-mcp/server.js"
+alpha-forge pine verify --strategy spy_sma_v1 --mcp-server "node /opt/tv-mcp/server.js"
 
 # Strategy Tester metrics comparison (vinicius recommended)
-forge pine verify --strategy spy_sma_v1 \
+alpha-forge pine verify --strategy spy_sma_v1 \
   --check-mode metrics \
   --symbol SPY --interval D \
   --mcp-server-flavor vinicius \
@@ -653,12 +653,12 @@ For the verification workflow walkthrough, see [Bringing Pine Scripts into Tradi
 
 Drive a TradingView MCP server for chart snapshots and ad-hoc tool calls (issue #523).
 
-### forge data tv-mcp chart
+### alpha-forge data tv-mcp chart
 
 Capture a TradingView chart snapshot as a PNG (Phase 1.5d).
 
 ```bash
-forge data tv-mcp chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
+alpha-forge data tv-mcp chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
 ```
 
 | Name | Kind | Default | Description |
@@ -677,16 +677,16 @@ forge data tv-mcp chart <SYMBOL> [--interval D] [--width W] [--height H] [--them
 Example:
 
 ```bash
-forge data tv-mcp chart SPY --interval D --output charts/spy_d.png \
+alpha-forge data tv-mcp chart SPY --interval D --output charts/spy_d.png \
   --mcp-server "python /opt/tv-mcp-chart/server.py"
 ```
 
-### forge data tv-mcp inspect
+### alpha-forge data tv-mcp inspect
 
 Invoke any MCP tool and print the JSON response (Phase 1.5c-α). Handy for poking at a new MCP server or discovering the available tools.
 
 ```bash
-forge data tv-mcp inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
+alpha-forge data tv-mcp inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
 ```
 
 | Name | Kind | Default | Description |
@@ -704,11 +704,11 @@ Examples:
 
 ```bash
 # Tool listing (depends on the server implementation)
-forge data tv-mcp inspect list_tools --server-type pine \
+alpha-forge data tv-mcp inspect list_tools --server-type pine \
   --mcp-server "node /opt/tv-mcp/server.js"
 
 # Try data_get_ohlcv
-forge data tv-mcp inspect data_get_ohlcv \
+alpha-forge data tv-mcp inspect data_get_ohlcv \
   --arg symbol=SPY --arg interval=D --arg bars=10
 ```
 
@@ -718,12 +718,12 @@ forge data tv-mcp inspect data_get_ohlcv \
 
 Browse the catalog of 30+ technical indicators supported by `alpha-forge`.
 
-### forge analyze indicator list
+### alpha-forge analyze indicator list
 
 List supported indicators. With `FILTER_NAME`, filter by case-insensitive substring.
 
 ```bash
-forge analyze indicator list [FILTER_NAME] [--detail]
+alpha-forge analyze indicator list [FILTER_NAME] [--detail]
 ```
 
 | Name | Kind | Default | Description |
@@ -743,15 +743,15 @@ Supported indicators (35):
   [Regime]        HMM
   [Other]         EXPR  ALTDATA
 
-Details: forge analyze indicator show <TYPE>
+Details: alpha-forge analyze indicator show <TYPE>
 ```
 
-### forge analyze indicator show
+### alpha-forge analyze indicator show
 
 Show detailed information for a specific indicator (description, parameters, output, example).
 
 ```bash
-forge analyze indicator show <INDICATOR_TYPE>
+alpha-forge analyze indicator show <INDICATOR_TYPE>
 ```
 
 | Name | Kind | Description |
@@ -784,12 +784,12 @@ Unknown indicator names print `Error: '<TYPE>' is not a recognized indicator.` a
 
 Record, tag, and search investment ideas. Stored as `ideas.json` under `config.ideas.ideas_path`.
 
-### forge idea add
+### alpha-forge idea add
 
 Add a new idea.
 
 ```bash
-forge idea add <TITLE> --type <new_strategy|improvement> [OPTIONS]
+alpha-forge idea add <TITLE> --type <new_strategy|improvement> [OPTIONS]
 ```
 
 | Name | Kind | Default | Description |
@@ -801,12 +801,12 @@ forge idea add <TITLE> --type <new_strategy|improvement> [OPTIONS]
 
 Output: `Added: [<idea_id>] <title>`.
 
-### forge idea list
+### alpha-forge idea list
 
 List ideas.
 
 ```bash
-forge idea list [--status <STATUS>] [--tag <TAG>] [--strategy <ID>]
+alpha-forge idea list [--status <STATUS>] [--tag <TAG>] [--strategy <ID>]
 ```
 
 | Name | Kind | Description |
@@ -815,32 +815,32 @@ forge idea list [--status <STATUS>] [--tag <TAG>] [--strategy <ID>]
 | `--tag` | repeatable | Tag AND filter |
 | `--strategy` | option | Strategy ID filter |
 
-### forge idea show
+### alpha-forge idea show
 
 Show idea details.
 
 ```bash
-forge idea show <IDEA_ID>
+alpha-forge idea show <IDEA_ID>
 ```
 
 If not found: `Not found: <id>` and exit code `1`.
 
-### forge idea status
+### alpha-forge idea status
 
 Update an idea's status.
 
 ```bash
-forge idea status <IDEA_ID> <backlog|in_progress|tested|archived>
+alpha-forge idea status <IDEA_ID> <backlog|in_progress|tested|archived>
 ```
 
 Output: `Status updated: <title> → <status>`.
 
-### forge idea link
+### alpha-forge idea link
 
 Link a strategy or run to an idea.
 
 ```bash
-forge idea link <IDEA_ID> --strategy <ID> [--run <RUN_ID>] [--note <TEXT>]
+alpha-forge idea link <IDEA_ID> --strategy <ID> [--run <RUN_ID>] [--note <TEXT>]
 ```
 
 | Name | Kind | Description |
@@ -849,28 +849,28 @@ forge idea link <IDEA_ID> --strategy <ID> [--run <RUN_ID>] [--note <TEXT>]
 | `--run` | option | Target `run_id` (when given, links to a specific run) |
 | `--note` | option | Note for the link |
 
-### forge idea tag
+### alpha-forge idea tag
 
 Add or remove tags. `--add` and `--remove` can be combined; one of them is required.
 
 ```bash
-forge idea tag <IDEA_ID> [--add <TAG>] [--remove <TAG>]
+alpha-forge idea tag <IDEA_ID> [--add <TAG>] [--remove <TAG>]
 ```
 
-### forge idea note
+### alpha-forge idea note
 
 Append a note to an idea.
 
 ```bash
-forge idea note <IDEA_ID> <TEXT>
+alpha-forge idea note <IDEA_ID> <TEXT>
 ```
 
-### forge idea search
+### alpha-forge idea search
 
 Full-text search ideas.
 
 ```bash
-forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
+alpha-forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 ```
 
 | Name | Kind | Description |
@@ -885,10 +885,10 @@ forge idea search [QUERY] [--status <STATUS>] [--tag <TAG>]
 
 Fetch and manage alternative data (sentiment, macro indicators, etc.). Stored under `config.data.alt_storage_path` and referenceable from strategy JSON via the `ALTDATA` indicator type.
 
-### forge data alt fetch
+### alpha-forge data alt fetch
 
 ```bash
-forge data alt fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
+alpha-forge data alt fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
 ```
 
 | Name | Kind | Description |
@@ -899,10 +899,10 @@ forge data alt fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
 
 Output: `✅ <SOURCE_KEY>: saved <N> rows`. Unregistered providers raise `ClickException`.
 
-### forge data alt list
+### alpha-forge data alt list
 
 ```bash
-forge data alt list
+alpha-forge data alt list
 ```
 
 Sample output:
@@ -914,10 +914,10 @@ fear_greed_index          1d          1525   2020-01-01   2025-12-31
 vix_termstructure         1d          1530   2020-01-01   2025-12-31
 ```
 
-### forge data alt info
+### alpha-forge data alt info
 
 ```bash
-forge data alt info <SOURCE_KEY>
+alpha-forge data alt info <SOURCE_KEY>
 ```
 
 Shows source key, interval, row count, start / end dates, columns, file path, and file size. If data is missing, raises `ClickException`.
@@ -928,12 +928,12 @@ Shows source key, interval, row count, start / end dates, columns, file path, an
 
 Cointegration tests and spread series for pair trading. Uses the Engle–Granger test from `statsmodels`.
 
-### forge analyze pairs scan
+### alpha-forge analyze pairs scan
 
 Run a cointegration test on two symbols.
 
 ```bash
-forge analyze pairs scan <SYM_A> <SYM_B> [OPTIONS]
+alpha-forge analyze pairs scan <SYM_A> <SYM_B> [OPTIONS]
 ```
 
 | Name | Kind | Default | Description |
@@ -954,12 +954,12 @@ Sample output:
   Critical 5%: -2.8623
 ```
 
-### forge analyze pairs scan-all
+### alpha-forge analyze pairs scan-all
 
 Scan all pairs in a watchlist (top 20 displayed).
 
 ```bash
-forge analyze pairs scan-all --symbols-file <FILE> [--pvalue 0.05] [--interval 1d]
+alpha-forge analyze pairs scan-all --symbols-file <FILE> [--pvalue 0.05] [--interval 1d]
 ```
 
 | Name | Kind | Description |
@@ -967,12 +967,12 @@ forge analyze pairs scan-all --symbols-file <FILE> [--pvalue 0.05] [--interval 1
 | `--symbols-file` | required (file) | Symbol list (one per line; `#` comments allowed) |
 | `--pvalue` | float | p-value threshold (default 0.05) |
 
-### forge analyze pairs build
+### alpha-forge analyze pairs build
 
 Compute spread series and save to the `alt_data` store (referenceable from strategy JSON via `ALTDATA`).
 
 ```bash
-forge analyze pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
+alpha-forge analyze pairs build --sym-a <SYM> --sym-b <SYM> [OPTIONS]
 ```
 
 | Name | Kind | Default | Description |
@@ -1004,22 +1004,22 @@ When there is no mean reversion, the half-life is shown as `N/A (no mean reversi
 
 Machine-learning dataset, model training, and walk-forward validation commands (issue #512 Phase 1-2, 4). Trained joblib models can be referenced from the existing `ML_SIGNAL` indicator via `model_path` for inference.
 
-### forge analyze ml dataset build
+### alpha-forge analyze ml dataset build
 
 Build a feature+forward-return-label parquet dataset from stored OHLCV.
 
 ```bash
-forge analyze ml dataset build EURUSD=X --feature-set default_v1 --label binary:24:0.005 --interval 1h
-forge analyze ml dataset build EURUSD=X --label ternary:24:0.005
-forge analyze ml dataset build EURUSD=X --label regression:5
-forge analyze ml dataset build EURUSD=X --label binary:24:0.005 --json
+alpha-forge analyze ml dataset build EURUSD=X --feature-set default_v1 --label binary:24:0.005 --interval 1h
+alpha-forge analyze ml dataset build EURUSD=X --label ternary:24:0.005
+alpha-forge analyze ml dataset build EURUSD=X --label regression:5
+alpha-forge analyze ml dataset build EURUSD=X --label binary:24:0.005 --json
 ```
 
 **Key options**
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--feature-set` | Built-in feature set name (see `forge analyze ml dataset feature-sets`) | `default_v1` |
+| `--feature-set` | Built-in feature set name (see `alpha-forge analyze ml dataset feature-sets`) | `default_v1` |
 | `--label` | Label spec string (required) | — |
 | `--interval` | Bar interval used to load OHLCV | `1d` |
 | `--out` | Output parquet path | `<storage_path>/../ml_datasets/<symbol>_<feature_set>_<label_type>_<interval>.parquet` |
@@ -1040,12 +1040,12 @@ forge analyze ml dataset build EURUSD=X --label binary:24:0.005 --json
 
 The parquet file embeds symbol / interval / feature columns / label config as metadata so Phase 2 training can reproduce the exact pipeline from the file alone.
 
-### forge analyze ml dataset feature-sets
+### alpha-forge analyze ml dataset feature-sets
 
 List available built-in feature sets.
 
 ```bash
-forge analyze ml dataset feature-sets
+alpha-forge analyze ml dataset feature-sets
 ```
 
 **Built-in feature sets**
@@ -1056,19 +1056,19 @@ forge analyze ml dataset feature-sets
 | `default_v1_fx` | **FX symbols** (issue #518) | `default_v1` minus `PCT_CHANGE(volume)`. yfinance FX has Volume always 0 — using `default_v1` would cause `dropna` to wipe out every row. |
 | `mtf_v1` | **Multi-timeframe representation** (issue #520) | Multi-scale lags (1, 6, 24, 48, 120) + multi-window rolling stats (5, 20, 120, 480) + volatility regime + high/low ranges. Volume-free so it works on FX. Recommended pairing with `triple_barrier` labels. |
 
-### forge analyze ml train
+### alpha-forge analyze ml train
 
 Train a model from a Phase 1 dataset parquet and save joblib + metrics.json (issue #512 Phase 2).
 
 ```bash
-forge analyze ml train <DATASET.parquet> [OPTIONS]
+alpha-forge analyze ml train <DATASET.parquet> [OPTIONS]
 ```
 
 **Key options**
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--model` | Model type (see `forge analyze ml models`) | `logistic_regression` |
+| `--model` | Model type (see `alpha-forge analyze ml models`) | `logistic_regression` |
 | `--test-ratio` | Tail fraction used as the test split (time-series order preserved) | `0.2` |
 | `--random-state` | Random seed | `42` |
 | `--params` | Extra model parameters as a JSON string | — |
@@ -1104,7 +1104,7 @@ Raw probabilities from models like `gradient_boosting_classifier` can cluster in
 | `isotonic` | Isotonic regression (more flexible, larger samples) |
 
 ```bash
-forge analyze ml train ds.parquet --model random_forest_classifier --calibration isotonic
+alpha-forge analyze ml train ds.parquet --model random_forest_classifier --calibration isotonic
 ```
 
 Specifying `--calibration` on a regression model emits a warning and is ignored (base model is used). Calibrated joblib models work as is from the `ML_SIGNAL` / `ML_SIGNAL_WFT` indicators (sklearn-compatible API).
@@ -1114,27 +1114,27 @@ Specifying `--calibration` on a regression model emits a warning and is ignored 
 - Model: joblib (sklearn-compatible API; `predict` / `predict_proba` callable from `ML_SIGNAL` indicator as is)
 - Metrics: `<model>.joblib.metrics.json` (model_type / task / feature_columns / n_train / n_test / train_metrics / test_metrics / config (including `calibration`) / trained_at)
 
-### forge analyze ml models
+### alpha-forge analyze ml models
 
 List available model types (classification + regression).
 
 ```bash
-forge analyze ml models
+alpha-forge analyze ml models
 ```
 
-### forge analyze ml walk-forward
+### alpha-forge analyze ml walk-forward
 
-Split a dataset into N windows and train + evaluate a fresh model in each window for time-series stability checks (issue #512 Phase 4). The model is **not** persisted — use `forge analyze ml train` to produce the final model.
+Split a dataset into N windows and train + evaluate a fresh model in each window for time-series stability checks (issue #512 Phase 4). The model is **not** persisted — use `alpha-forge analyze ml train` to produce the final model.
 
 ```bash
-forge analyze ml walk-forward <DATASET.parquet> [OPTIONS]
+alpha-forge analyze ml walk-forward <DATASET.parquet> [OPTIONS]
 ```
 
 **Key options**
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--model` | Model type (see `forge analyze ml models`) | `logistic_regression` |
+| `--model` | Model type (see `alpha-forge analyze ml models`) | `logistic_regression` |
 | `--n-splits` | Number of windows | `5` |
 | `--train-ratio` | Train fraction within each window | `0.7` |
 | `--random-state` | Random seed | `42` |
@@ -1170,7 +1170,7 @@ proba_dispersion: max=0.568 p90=0.412 p95=0.456 share>=0.55=0.54% share>=0.60=0.
 
 **Screening verdict and recommendations (issue #565)**
 
-For classification tasks, `forge analyze ml walk-forward` automatically prints a **three-axis verdict** and **recommendations** (the SCREENING RESULT / RECOMMENDATION block at the end of the output).
+For classification tasks, `alpha-forge analyze ml walk-forward` automatically prints a **three-axis verdict** and **recommendations** (the SCREENING RESULT / RECOMMENDATION block at the end of the output).
 
 | Axis | Default threshold | CLI override |
 |---|---|---|
@@ -1191,13 +1191,13 @@ The JSON output carries the same data as a top-level `screening` field with `cri
 
 **Relation to strategy WFT**
 
-- `forge analyze ml walk-forward`: stability of the **ML model itself** over time
-- `forge optimize walk-forward`: WFT of the **whole strategy JSON** (which may include `ML_SIGNAL`)
-- The end-to-end measure of an ML-augmented strategy is `forge optimize walk-forward`. This command is a screening step: is the signal even learnable?
+- `alpha-forge analyze ml walk-forward`: stability of the **ML model itself** over time
+- `alpha-forge optimize walk-forward`: WFT of the **whole strategy JSON** (which may include `ML_SIGNAL`)
+- The end-to-end measure of an ML-augmented strategy is `alpha-forge optimize walk-forward`. This command is a screening step: is the signal even learnable?
 
 ### `ML_SIGNAL_WFT` indicator — leak-safe ML augmentation (issue #517)
 
-Referencing a `forge analyze ml train` joblib via the `ML_SIGNAL` indicator causes **look-ahead leak** in `forge optimize walk-forward` whenever the OOS overlaps the model's training period (confirmed in issue #512 Phase 4 verification). The new `ML_SIGNAL_WFT` indicator resolves this structurally.
+Referencing a `alpha-forge analyze ml train` joblib via the `ML_SIGNAL` indicator causes **look-ahead leak** in `alpha-forge optimize walk-forward` whenever the OOS overlaps the model's training period (confirmed in issue #512 Phase 4 verification). The new `ML_SIGNAL_WFT` indicator resolves this structurally.
 
 `ML_SIGNAL_WFT` is **a self-contained indicator that trains on the first `train_ratio` of the input df and predicts over the whole df**. The WFT engine itself is unchanged. Predictions over the training segment are forced to NaN, so only the test segment ever drives trade decisions.
 
@@ -1230,7 +1230,7 @@ Referencing a `forge analyze ml train` joblib via the `ML_SIGNAL` indicator caus
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `model_type` | str | — | Model type from `forge analyze ml models` |
+| `model_type` | str | — | Model type from `alpha-forge analyze ml models` |
 | `model_params` | dict | `{}` | Extra model parameters |
 | `features` | list | — | `build_feature_matrix`-compatible spec |
 | `label` | str | — | `binary:N:thr` / `ternary:N:thr` / `regression:N` |
@@ -1254,7 +1254,7 @@ WFT runs Optuna N trials per window, calling `_calc_ml_signal_wft` N times on id
 
 **Pine Script integration**
 
-Like `ML_SIGNAL`, `ML_SIGNAL_WFT` is not Pine Script-translatable. `forge pine generate` emits a warning comment and treats the signal as `<id> = true`.
+Like `ML_SIGNAL`, `ML_SIGNAL_WFT` is not Pine Script-translatable. `alpha-forge pine generate` emits a warning comment and treats the signal as `<id> = true`.
 
 ---
 
@@ -1262,23 +1262,23 @@ Like `ML_SIGNAL`, `ML_SIGNAL_WFT` is not Pine Script-translatable. `forge pine g
 
 Browse the documentation, skills, and command references bundled with `alpha-forge`.
 
-### forge system docs list
+### alpha-forge system docs list
 
 ```bash
-forge system docs list
+alpha-forge system docs list
 ```
 
 List available bundled documents. `✓` / `✗` indicates whether each file exists.
 
-### forge system docs show
+### alpha-forge system docs show
 
 ```bash
-forge system docs show <NAME>
+alpha-forge system docs show <NAME>
 ```
 
 | Name | Kind | Description |
 |------|------|-------------|
-| `NAME` | argument (required) | Document name (find with `forge system docs list`) |
+| `NAME` | argument (required) | Document name (find with `alpha-forge system docs list`) |
 
 Print the document content to stdout. Unknown names display the available list and exit with code `1`.
 

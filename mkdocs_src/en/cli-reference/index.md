@@ -1,13 +1,13 @@
 # CLI Reference
 
-A complete catalog of every command group and subcommand provided by the `forge` CLI. Per-group details and parameter documentation are linked from the table below.
+A complete catalog of every command group and subcommand provided by the `alpha-forge` CLI. Per-group details and parameter documentation are linked from the table below.
 
 ## All Commands
 
-Implementation-derived catalog extracted from the Click decorators in `alpha-forge/src/alpha_forge/cli.py` and `commands/*.py`. The **Kind** column reflects each group's place in the CLI hierarchy. Every group is invoked as `forge <group> <subcommand>`.
+Implementation-derived catalog extracted from the Click decorators in `alpha-forge/src/alpha_forge/cli.py` and `commands/*.py`. The **Kind** column reflects each group's place in the CLI hierarchy. Every group is invoked as `alpha-forge <group> <subcommand>`.
 
 - **Core**: the nine groups you use most often in real strategy development; placed directly at the top level
-- **Auxiliary**: `analyze` / `system` are nested groups (`forge <auxiliary> <tool> <action>` — three levels deep)
+- **Auxiliary**: `analyze` / `system` are nested groups (`alpha-forge <auxiliary> <tool> <action>` — three levels deep)
 - **Meta**: binary self-operations (`self`)
 
 | Group | Kind | Subcommands | Description | Details |
@@ -23,19 +23,19 @@ Implementation-derived catalog extracted from the Click decorators in `alpha-for
 | **data** | Core | `fetch` `list` `trend` `update` `alt {fetch,list,info}` `tv-mcp {chart,inspect,check}` | Historical / alternative / TradingView MCP data | [data →](data.md) |
 | **analyze** | Auxiliary | `indicator {list,show}` `ml {train,models,walk-forward}` `ml dataset {build,feature-sets}` `pairs {scan,scan-all,build}` | Strategy-analysis utilities (indicators, ML, pairs trading) | — |
 | **system** | Auxiliary | `init` `auth {login,logout,status}` `auth check op` `docs {list,show}` | Operational utilities (workspace init, Whop OAuth, bundled docs) | — |
-| **self** | Meta | `version` `update` | `forge` binary self-operations (version check, self-update) | — |
+| **self** | Meta | `version` `update` | `alpha-forge` binary self-operations (version check, self-update) | — |
 
-The `{a,b,c}` notation expands into siblings under the same parent group. For example, `data alt {fetch,list,info}` represents the three subcommands `forge data alt fetch` / `forge data alt list` / `forge data alt info`.
+The `{a,b,c}` notation expands into siblings under the same parent group. For example, `data alt {fetch,list,info}` represents the three subcommands `alpha-forge data alt fetch` / `alpha-forge data alt list` / `alpha-forge data alt info`.
 
 ## Built-in Help
 
 Every command supports `--help`.
 
 ```bash
-forge --help                         # Top-level command list
-forge backtest --help                # Subcommands of the backtest group
-forge backtest run --help            # Detailed parameters for a specific subcommand
-forge data alt --help                # Subcommands of a nested auxiliary group
+alpha-forge --help                         # Top-level command list
+alpha-forge backtest --help                # Subcommands of the backtest group
+alpha-forge backtest run --help            # Detailed parameters for a specific subcommand
+alpha-forge data alt --help                # Subcommands of a nested auxiliary group
 ```
 
 ## Related Documentation
