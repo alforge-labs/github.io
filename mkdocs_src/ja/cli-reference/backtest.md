@@ -109,6 +109,46 @@ PF: 1.74  Win%: 50.0%  avg勝: 4.20%  avg負: -2.40%
 勝率CI(90%): 35.2% - 64.8%
 ```
 
+スコアや取引数が条件を満たさない場合は警告と docs URL 1 行誘導が付きます（F-302）：
+
+```text
+⚠️  バックテスト完了  信号品質スコア: 0.43/1.0 （0.4–0.7 は要注意・追加検証推奨）
+    → 詳細: https://alforgelabs.com/ja/cli-reference/backtest.html#signal-quality-score
+⚠️  警告: 取引数が不足しています (trades=27, 最低30推奨)
+    → 取引数 30 件未満は統計的に偶然の影響を受けやすく、最適化や WFT で
+      pre_filter 落ちする可能性があります。データ期間を広げる
+      (`--start` で過去にさかのぼる) ことを推奨します。
+    → 詳細: https://alforgelabs.com/ja/cli-reference/backtest.html#signal-quality-score
+```
+
+### 信号品質スコアと最低取引数（F-302） {#signal-quality-score}
+
+#### 信号品質スコア（`signal_quality_score`, 0.0–1.0）
+
+```python
+sample_size_score   = min(total_trades / 30, 1.0) * 0.4   # 40%
+win_rate_score      = min(win_rate_pct / 100, 1.0) * 0.3  # 30%
+profit_factor_score = min(profit_factor / 2.0, 1.0) * 0.3 # 30%
+signal_quality_score = sample_size_score + win_rate_score + profit_factor_score
+```
+
+| スコア帯 | 判断 | CLI 表示 |
+|---------|------|---------|
+| `≥ 0.70` | 信頼できる水準 | 「≥0.7 は信頼できる水準」 |
+| `0.40 – 0.69` | 要注意。追加検証（WFT / クロスシンボル）推奨 | 「0.4–0.7 は要注意・追加検証推奨」 |
+| `< 0.40` | 信頼度が低く参考値扱い | 「<0.4 は信頼度が低く参考値扱い」 |
+
+#### 最低取引数 30 件の根拠
+
+- 統計的有意性の目安は **n ≥ 30**（中心極限定理が成立し始める閾値）
+- 下回ると `total_trades < 30` フラグが立ち、信号品質スコアの `sample_size_score` 寄与が線形にペナルティ
+- さらに `total_trades < 10` の場合は「統計的に無意味」として `is_valid=false` 判定
+
+#### 達成しないとどうなるか
+
+- `alpha-forge optimize run --goal <name>` / `alpha-forge optimize walk-forward --goal <name>` で `pre_filter.min_trades`（既定 30）に落ちて `pre_filter_pass=false` になり、`/explore-strategies` ループから「採用候補」として除外される
+- バックテスト単体の実行は止まらないが、結果の信頼性は低いので **データ期間を広げる**（`--start` を過去側に伸ばす）か、シグナル発生頻度の高い指標構成に見直すのが基本対応
+
 ### 出力例（`--json`）
 
 ```json

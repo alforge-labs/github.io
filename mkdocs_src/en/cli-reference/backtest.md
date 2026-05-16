@@ -109,6 +109,46 @@ Trades: 14  Avg hold: 28.5d(28bar)  Max: 65.0d(65bar)  Win streak: 4  Loss strea
 Win rate CI(90%): 35.2% - 64.8%
 ```
 
+When the score or trade count fails the recommended thresholds, a warning and a one-line docs link are added (F-302):
+
+```text
+⚠️  Backtest complete  Signal quality score: 0.43/1.0 (0.4–0.7: caution, more validation suggested)
+    → Docs: https://alforgelabs.com/en/cli-reference/backtest.html#signal-quality-score
+⚠️  Warning: trade count is insufficient (trades=27, minimum 30 recommended)
+    → Fewer than 30 trades is statistically noisy and may be filtered out by
+      optimization / WFT pre_filter. Consider widening the data period (`--start`
+      to go further back).
+    → Docs: https://alforgelabs.com/en/cli-reference/backtest.html#signal-quality-score
+```
+
+### Signal Quality Score and Minimum Trades (F-302) {#signal-quality-score}
+
+#### Signal Quality Score (`signal_quality_score`, 0.0–1.0)
+
+```python
+sample_size_score   = min(total_trades / 30, 1.0) * 0.4   # 40%
+win_rate_score      = min(win_rate_pct / 100, 1.0) * 0.3  # 30%
+profit_factor_score = min(profit_factor / 2.0, 1.0) * 0.3 # 30%
+signal_quality_score = sample_size_score + win_rate_score + profit_factor_score
+```
+
+| Score range | Interpretation | CLI hint |
+|-------------|----------------|----------|
+| `≥ 0.70` | Reliable | "≥0.7 is reliable" |
+| `0.40 – 0.69` | Caution. Further validation (WFT / cross-symbol) recommended | "0.4–0.7: caution, more validation suggested" |
+| `< 0.40` | Low reliability, treat as reference only | "<0.4: low reliability, treat as reference only" |
+
+#### Why a minimum of 30 trades
+
+- Rough threshold for statistical significance: **n ≥ 30** (where the Central Limit Theorem starts to apply)
+- Below that, the `total_trades < 30` flag is raised and the `sample_size_score` term is linearly penalized
+- If `total_trades < 10`, the result is also marked as "statistically meaningless" with `is_valid=false`
+
+#### What happens if not met
+
+- `alpha-forge optimize run --goal <name>` / `alpha-forge optimize walk-forward --goal <name>` will fail the `pre_filter.min_trades` check (default 30), set `pre_filter_pass=false`, and exclude the strategy from the `/explore-strategies` shortlist
+- A single backtest run is not aborted, but the result is low-confidence — extend the data window (`--start` further into the past) or rework the indicator mix toward higher signal frequency
+
 ### Sample output (`--json`)
 
 ```json

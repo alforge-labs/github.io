@@ -1751,6 +1751,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#fields-you-must-edit-in-the-generated-json-f-300" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields you must edit in the generated JSON (F-300)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#common-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2702,6 +2713,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#fields-you-must-edit-in-the-generated-json-f-300" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields you must edit in the generated JSON (F-300)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#common-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3400,7 +3422,45 @@ which collided with the built-in template on <code>alpha-forge strategy save</co
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>✅ Created JSON file from template &#39;sma_crossover_v1&#39;: my_strategy.json
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>📝 Before `alpha-forge strategy save`, edit at least:
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>   - name              human-readable name (e.g. &quot;USDJPY SMA cross v1&quot;)
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>   - target_symbols    target symbols (e.g. [&quot;USDJPY=X&quot;])
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>   - (if optimizing)   define optimizer_config.param_ranges
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>   Next: alpha-forge strategy save my_strategy.json
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>      →  alpha-forge backtest run &lt;SYMBOL&gt; --strategy my_strategy
 </code></pre></div>
+<h3 id="fields-you-must-edit-in-the-generated-json-f-300">Fields you must edit in the generated JSON (F-300)<a class="headerlink" href="#fields-you-must-edit-in-the-generated-json-f-300" title="Permanent link">&para;</a></h3>
+<p>The JSON produced by built-in templates is <strong>not directly ready to <code>alpha-forge strategy save</code></strong>. At minimum, edit:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Template default</th>
+<th>Why edit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>The template name</td>
+<td>Used by <code>alpha-forge strategy list</code> for human identification</td>
+</tr>
+<tr>
+<td><code>target_symbols</code></td>
+<td><code>[]</code> (empty)</td>
+<td>Leaving it empty causes a symbol-missing error in <code>backtest run</code></td>
+</tr>
+<tr>
+<td><code>optimizer_config.param_ranges</code></td>
+<td><code>null</code> or minimal</td>
+<td>Required if you want to optimize. With <code>null</code> the built-in default ranges are used (see <a href="../optimize/#alpha-forge-optimize-run"><code>alpha-forge optimize run</code></a>)</td>
+</tr>
+</tbody>
+</table>
+<p><code>strategy_id</code> is auto-derived from the <code>--out</code> filename and normally needs no editing.</p>
+<p>For a complete walkthrough see the <em>Strategy JSON Editing</em> section in <a href="../../guides/end-to-end-workflow/">end-to-end-workflow</a>.</p>
 <h3 id="common-errors">Common errors<a class="headerlink" href="#common-errors" title="Permanent link">&para;</a></h3>
 <table>
 <thead>

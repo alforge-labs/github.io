@@ -105,7 +105,29 @@ AlphaForge は「ユーザー自身が戦略を作って育てる」プロダク
 
 ```text
 ✅ 戦略テンプレート 'sma_crossover_v1' から JSON ファイルを作成しました: my_strategy.json
+
+📝 alpha-forge strategy save の前に、最低限以下を編集してください:
+   - name              人が読める戦略名（例: "USDJPY SMA クロス v1"）
+   - target_symbols    対象シンボル（例: ["USDJPY=X"]）
+   - （最適化したい場合）optimizer_config.param_ranges を定義
+
+   次のステップ: alpha-forge strategy save my_strategy.json
+             →   alpha-forge backtest run <SYMBOL> --strategy my_strategy
 ```
+
+### 生成 JSON で必ず編集すべき項目（F-300）
+
+組み込みテンプレートが書き出す JSON は **そのまま `alpha-forge strategy save` できる形にはなっていません**。最低限以下の編集が必要です：
+
+| 項目 | テンプレ初期値 | 編集する理由 |
+|------|--------------|-------------|
+| `name` | テンプレート名そのまま | 戦略一覧 (`alpha-forge strategy list`) で人が見分けるため |
+| `target_symbols` | `[]`（空） | 空のまま `backtest run` するとシンボル指定エラーで停止する |
+| `optimizer_config.param_ranges` | `null` または最小範囲 | 最適化を回したい場合に必須。`null` のままだと内蔵デフォルト範囲が使われる（[`alpha-forge optimize run`](optimize.md#alpha-forge-optimize-run) 参照） |
+
+`strategy_id` は `--out` のファイル名から自動派生されるため、原則編集不要です。
+
+詳しい編集フローは [end-to-end-workflow](../guides/end-to-end-workflow.md) の「戦略 JSON 編集」セクションを参照してください。
 
 ### 主なエラー
 
