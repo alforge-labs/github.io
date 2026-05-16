@@ -1,47 +1,31 @@
 # CLI Reference
 
-A complete catalog of every command group provided by the `forge` CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.
+A complete catalog of every command group and subcommand provided by the `forge` CLI. Per-group details and parameter documentation are linked from the table below.
 
-## Core Command Groups
+## All Commands
 
-The commands you'll use most often in real strategy development. Each has a dedicated page.
+Implementation-derived catalog extracted from the Click decorators in `alpha-forge/src/alpha_forge/cli.py` and `commands/*.py`. The **Kind** column reflects each group's place in the CLI hierarchy. Every group is invoked as `forge <group> <subcommand>`.
 
-| Group | Description | Details |
-|-------|-------------|---------|
-| **strategy** | Create, register, and manage strategy JSON | [strategy →](strategy.md) |
-| **backtest** | Run backtests and analyze results | [backtest →](backtest.md) |
-| **optimize** | Parameter optimization (Bayesian, grid, walk-forward) | [optimize →](optimize.md) |
-| **explore** | Autonomous exploration loop (backtest → optimize → WFT) | — |
-| **live** | Live trading analysis and records | [live →](live.md) |
-| **pine** | Convert between strategy JSON and TradingView Pine Script | — |
-| **journal** | Track run history, tags, and verdicts | [journal →](journal.md) |
-| **idea** | Manage and search investment ideas | — |
-| **data** | Historical / alternative / TradingView MCP data | [data →](data.md) |
+- **Core**: the nine groups you use most often in real strategy development; placed directly at the top level
+- **Auxiliary**: `analyze` / `system` are nested groups (`forge <auxiliary> <tool> <action>` — three levels deep)
+- **Meta**: binary self-operations (`self`)
 
-## Auxiliary Groups
+| Group | Kind | Subcommands | Description | Details |
+|---|---|---|---|---|
+| **strategy** | Core | `list` `create` `save` `show` `migrate` `delete` `purge` `validate` `signals` `scaffold` | Create, register, and manage strategy JSON | [strategy →](strategy.md) |
+| **backtest** | Core | `run` `batch` `diagnose` `list` `report` `migrate` `compare` `portfolio` `chart` `monte-carlo` `signal-count` | Run backtests and analyze results | [backtest →](backtest.md) |
+| **optimize** | Core | `run` `cross-symbol` `portfolio` `multi-portfolio` `walk-forward` `apply` `sensitivity` `history` `grid` | Parameter optimization (Bayesian, grid, walk-forward) | [optimize →](optimize.md) |
+| **explore** | Core | `run` `import` `log` `status` `health` `diagnose` `recommend show` `coverage {update,build,show}` `result show` | Autonomous exploration loop (backtest → optimize → WFT) | — |
+| **live** | Core | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` | Live trading analysis and operational records | [live →](live.md) |
+| **pine** | Core | `generate` `preview` `verify` `import` | Convert between strategy JSON and TradingView Pine Script (`verify` validates syntax via TradingView MCP) | — |
+| **journal** | Core | `list` `show` `runs` `compare` `tag` `note` `report` `verdict` | Track run history, tags, verdicts, and Markdown reports | [journal →](journal.md) |
+| **idea** | Core | `add` `list` `show` `status` `link` `tag` `note` `search` | Manage and search investment ideas | — |
+| **data** | Core | `fetch` `list` `trend` `update` `alt {fetch,list,info}` `tv-mcp {chart,inspect,check}` | Historical / alternative / TradingView MCP data | [data →](data.md) |
+| **analyze** | Auxiliary | `indicator {list,show}` `ml {train,models,walk-forward}` `ml dataset {build,feature-sets}` `pairs {scan,scan-all,build}` | Strategy-analysis utilities (indicators, ML, pairs trading) | — |
+| **system** | Auxiliary | `init` `auth {login,logout,status}` `auth check op` `docs {list,show}` | Operational utilities (workspace init, Whop OAuth, bundled docs) | — |
+| **self** | Meta | `version` `update` | `forge` binary self-operations (version check, self-update) | — |
 
-| Group | Subcommands | Description |
-|---|---|---|
-| **analyze** | `indicator` / `ml` / `pairs` | Strategy-analysis utilities |
-| **system** | `init` / `auth` / `docs` | Operational utilities |
-
-## All Commands at a Glance
-
-Implementation-derived catalog covering every group and subcommand.
-
-| Group | Subcommands |
-|-------|-------------|
-| backtest | `run` `batch` `diagnose` `list` `report` `migrate` `compare` `portfolio` `chart` `signal-count` `monte-carlo` |
-| optimize | `run` `cross-symbol` `portfolio` `multi-portfolio` `walk-forward` `apply` `sensitivity` `history` `grid` |
-| strategy | `list` `create` `save` `show` `migrate` `delete` `purge` `validate` |
-| data | `fetch` `list` `trend` `update` `alt fetch` `alt list` `alt info` `tv-mcp <sub>` |
-| journal | `list` `show` `runs` `compare` `tag` `note` `verdict` |
-| live | `list` `events` `convert-check` `import-events` `trades` `summary` `compare` `doctor` `sync-events` |
-| **explore** | **`run` `index` `import` `log` `status` `recommend` `coverage`** |
-| pine | `generate` `preview` `import` |
-| idea | `add` `list` `show` `status` `link` `tag` `note` `search` |
-| **analyze** | `indicator list` `indicator show` `pairs scan` `pairs scan-all` `pairs build` `ml dataset build` `ml dataset feature-sets` `ml train` `ml models` `ml walk-forward` |
-| **system** | `init` `auth login` `auth logout` `auth status` `auth check op` `docs list` `docs show` |
+The `{a,b,c}` notation expands into siblings under the same parent group. For example, `data alt {fetch,list,info}` represents the three subcommands `forge data alt fetch` / `forge data alt list` / `forge data alt info`.
 
 ## Built-in Help
 
@@ -51,6 +35,7 @@ Every command supports `--help`.
 forge --help                         # Top-level command list
 forge backtest --help                # Subcommands of the backtest group
 forge backtest run --help            # Detailed parameters for a specific subcommand
+forge data alt --help                # Subcommands of a nested auxiliary group
 ```
 
 ## Related Documentation
@@ -61,4 +46,4 @@ forge backtest run --help            # Detailed parameters for a specific subcom
 
 ---
 
-<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/*.py`. This catalog must be kept in sync when CLI commands change. -->
+<!-- Synced from: `alpha-forge/src/alpha_forge/cli.py` (_TOP_LEVEL_LAZY / _ANALYZE_LAZY / _SYSTEM_LAZY) and `commands/*.py` Click decorators. Keep this table in sync when CLI commands change. -->
