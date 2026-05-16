@@ -1550,32 +1550,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#core-command-groups" class="md-nav__link">
+  <a href="#all-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Core Command Groups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#auxiliary-groups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auxiliary Groups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#all-commands-at-a-glance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        All Commands at a Glance
+        All Commands
       
     </span>
   </a>
@@ -2014,32 +1992,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#core-command-groups" class="md-nav__link">
+  <a href="#all-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Core Command Groups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#auxiliary-groups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auxiliary Groups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#all-commands-at-a-glance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        All Commands at a Glance
+        All Commands
       
     </span>
   </a>
@@ -2086,13 +2042,20 @@
 
 
 <h1 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
-<p>A complete catalog of every command group provided by the <code>forge</code> CLI. Detailed parameters and output examples for each group are documented on the per-group pages linked below.</p>
-<h2 id="core-command-groups">Core Command Groups<a class="headerlink" href="#core-command-groups" title="Permanent link">&para;</a></h2>
-<p>The commands you'll use most often in real strategy development. Each has a dedicated page.</p>
+<p>A complete catalog of every command group and subcommand provided by the <code>forge</code> CLI. Per-group details and parameter documentation are linked from the table below.</p>
+<h2 id="all-commands">All Commands<a class="headerlink" href="#all-commands" title="Permanent link">&para;</a></h2>
+<p>Implementation-derived catalog extracted from the Click decorators in <code>alpha-forge/src/alpha_forge/cli.py</code> and <code>commands/*.py</code>. The <strong>Kind</strong> column reflects each group's place in the CLI hierarchy. Every group is invoked as <code>forge &lt;group&gt; &lt;subcommand&gt;</code>.</p>
+<ul>
+<li><strong>Core</strong>: the nine groups you use most often in real strategy development; placed directly at the top level</li>
+<li><strong>Auxiliary</strong>: <code>analyze</code> / <code>system</code> are nested groups (<code>forge &lt;auxiliary&gt; &lt;tool&gt; &lt;action&gt;</code> — three levels deep)</li>
+<li><strong>Meta</strong>: binary self-operations (<code>self</code>)</li>
+</ul>
 <table>
 <thead>
 <tr>
 <th>Group</th>
+<th>Kind</th>
+<th>Subcommands</th>
 <th>Description</th>
 <th>Details</th>
 </tr>
@@ -2100,134 +2063,97 @@
 <tbody>
 <tr>
 <td><strong>strategy</strong></td>
+<td>Core</td>
+<td><code>list</code> <code>create</code> <code>save</code> <code>show</code> <code>migrate</code> <code>delete</code> <code>purge</code> <code>validate</code> <code>signals</code> <code>scaffold</code></td>
 <td>Create, register, and manage strategy JSON</td>
 <td><a href="strategy/">strategy →</a></td>
 </tr>
 <tr>
 <td><strong>backtest</strong></td>
+<td>Core</td>
+<td><code>run</code> <code>batch</code> <code>diagnose</code> <code>list</code> <code>report</code> <code>migrate</code> <code>compare</code> <code>portfolio</code> <code>chart</code> <code>monte-carlo</code> <code>signal-count</code></td>
 <td>Run backtests and analyze results</td>
 <td><a href="backtest/">backtest →</a></td>
 </tr>
 <tr>
 <td><strong>optimize</strong></td>
+<td>Core</td>
+<td><code>run</code> <code>cross-symbol</code> <code>portfolio</code> <code>multi-portfolio</code> <code>walk-forward</code> <code>apply</code> <code>sensitivity</code> <code>history</code> <code>grid</code></td>
 <td>Parameter optimization (Bayesian, grid, walk-forward)</td>
 <td><a href="optimize/">optimize →</a></td>
 </tr>
 <tr>
 <td><strong>explore</strong></td>
+<td>Core</td>
+<td><code>run</code> <code>import</code> <code>log</code> <code>status</code> <code>health</code> <code>diagnose</code> <code>recommend show</code> <code>coverage {update,build,show}</code> <code>result show</code></td>
 <td>Autonomous exploration loop (backtest → optimize → WFT)</td>
 <td>—</td>
 </tr>
 <tr>
 <td><strong>live</strong></td>
-<td>Live trading analysis and records</td>
+<td>Core</td>
+<td><code>list</code> <code>events</code> <code>convert-check</code> <code>import-events</code> <code>trades</code> <code>summary</code> <code>compare</code> <code>doctor</code> <code>sync-events</code></td>
+<td>Live trading analysis and operational records</td>
 <td><a href="live/">live →</a></td>
 </tr>
 <tr>
 <td><strong>pine</strong></td>
-<td>Convert between strategy JSON and TradingView Pine Script</td>
+<td>Core</td>
+<td><code>generate</code> <code>preview</code> <code>verify</code> <code>import</code></td>
+<td>Convert between strategy JSON and TradingView Pine Script (<code>verify</code> validates syntax via TradingView MCP)</td>
 <td>—</td>
 </tr>
 <tr>
 <td><strong>journal</strong></td>
-<td>Track run history, tags, and verdicts</td>
+<td>Core</td>
+<td><code>list</code> <code>show</code> <code>runs</code> <code>compare</code> <code>tag</code> <code>note</code> <code>report</code> <code>verdict</code></td>
+<td>Track run history, tags, verdicts, and Markdown reports</td>
 <td><a href="journal/">journal →</a></td>
 </tr>
 <tr>
 <td><strong>idea</strong></td>
+<td>Core</td>
+<td><code>add</code> <code>list</code> <code>show</code> <code>status</code> <code>link</code> <code>tag</code> <code>note</code> <code>search</code></td>
 <td>Manage and search investment ideas</td>
 <td>—</td>
 </tr>
 <tr>
 <td><strong>data</strong></td>
+<td>Core</td>
+<td><code>fetch</code> <code>list</code> <code>trend</code> <code>update</code> <code>alt {fetch,list,info}</code> <code>tv-mcp {chart,inspect,check}</code></td>
 <td>Historical / alternative / TradingView MCP data</td>
 <td><a href="data/">data →</a></td>
 </tr>
-</tbody>
-</table>
-<h2 id="auxiliary-groups">Auxiliary Groups<a class="headerlink" href="#auxiliary-groups" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Group</th>
-<th>Subcommands</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td><strong>analyze</strong></td>
-<td><code>indicator</code> / <code>ml</code> / <code>pairs</code></td>
-<td>Strategy-analysis utilities</td>
+<td>Auxiliary</td>
+<td><code>indicator {list,show}</code> <code>ml {train,models,walk-forward}</code> <code>ml dataset {build,feature-sets}</code> <code>pairs {scan,scan-all,build}</code></td>
+<td>Strategy-analysis utilities (indicators, ML, pairs trading)</td>
+<td>—</td>
 </tr>
 <tr>
 <td><strong>system</strong></td>
-<td><code>init</code> / <code>auth</code> / <code>docs</code></td>
-<td>Operational utilities</td>
+<td>Auxiliary</td>
+<td><code>init</code> <code>auth {login,logout,status}</code> <code>auth check op</code> <code>docs {list,show}</code></td>
+<td>Operational utilities (workspace init, Whop OAuth, bundled docs)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>self</strong></td>
+<td>Meta</td>
+<td><code>version</code> <code>update</code></td>
+<td><code>forge</code> binary self-operations (version check, self-update)</td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
-<h2 id="all-commands-at-a-glance">All Commands at a Glance<a class="headerlink" href="#all-commands-at-a-glance" title="Permanent link">&para;</a></h2>
-<p>Implementation-derived catalog covering every group and subcommand.</p>
-<table>
-<thead>
-<tr>
-<th>Group</th>
-<th>Subcommands</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>backtest</td>
-<td><code>run</code> <code>batch</code> <code>diagnose</code> <code>list</code> <code>report</code> <code>migrate</code> <code>compare</code> <code>portfolio</code> <code>chart</code> <code>signal-count</code> <code>monte-carlo</code></td>
-</tr>
-<tr>
-<td>optimize</td>
-<td><code>run</code> <code>cross-symbol</code> <code>portfolio</code> <code>multi-portfolio</code> <code>walk-forward</code> <code>apply</code> <code>sensitivity</code> <code>history</code> <code>grid</code></td>
-</tr>
-<tr>
-<td>strategy</td>
-<td><code>list</code> <code>create</code> <code>save</code> <code>show</code> <code>migrate</code> <code>delete</code> <code>purge</code> <code>validate</code></td>
-</tr>
-<tr>
-<td>data</td>
-<td><code>fetch</code> <code>list</code> <code>trend</code> <code>update</code> <code>alt fetch</code> <code>alt list</code> <code>alt info</code> <code>tv-mcp &lt;sub&gt;</code></td>
-</tr>
-<tr>
-<td>journal</td>
-<td><code>list</code> <code>show</code> <code>runs</code> <code>compare</code> <code>tag</code> <code>note</code> <code>verdict</code></td>
-</tr>
-<tr>
-<td>live</td>
-<td><code>list</code> <code>events</code> <code>convert-check</code> <code>import-events</code> <code>trades</code> <code>summary</code> <code>compare</code> <code>doctor</code> <code>sync-events</code></td>
-</tr>
-<tr>
-<td><strong>explore</strong></td>
-<td><strong><code>run</code> <code>index</code> <code>import</code> <code>log</code> <code>status</code> <code>recommend</code> <code>coverage</code></strong></td>
-</tr>
-<tr>
-<td>pine</td>
-<td><code>generate</code> <code>preview</code> <code>import</code></td>
-</tr>
-<tr>
-<td>idea</td>
-<td><code>add</code> <code>list</code> <code>show</code> <code>status</code> <code>link</code> <code>tag</code> <code>note</code> <code>search</code></td>
-</tr>
-<tr>
-<td><strong>analyze</strong></td>
-<td><code>indicator list</code> <code>indicator show</code> <code>pairs scan</code> <code>pairs scan-all</code> <code>pairs build</code> <code>ml dataset build</code> <code>ml dataset feature-sets</code> <code>ml train</code> <code>ml models</code> <code>ml walk-forward</code></td>
-</tr>
-<tr>
-<td><strong>system</strong></td>
-<td><code>init</code> <code>auth login</code> <code>auth logout</code> <code>auth status</code> <code>auth check op</code> <code>docs list</code> <code>docs show</code></td>
-</tr>
-</tbody>
-</table>
+<p>The <code>{a,b,c}</code> notation expands into siblings under the same parent group. For example, <code>data alt {fetch,list,info}</code> represents the three subcommands <code>forge data alt fetch</code> / <code>forge data alt list</code> / <code>forge data alt info</code>.</p>
 <h2 id="built-in-help">Built-in Help<a class="headerlink" href="#built-in-help" title="Permanent link">&para;</a></h2>
 <p>Every command supports <code>--help</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>--help<span class="w">                         </span><span class="c1"># Top-level command list</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help<span class="w">                </span><span class="c1"># Subcommands of the backtest group</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>--help<span class="w">            </span><span class="c1"># Detailed parameters for a specific subcommand</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>forge<span class="w"> </span>data<span class="w"> </span>alt<span class="w"> </span>--help<span class="w">                </span><span class="c1"># Subcommands of a nested auxiliary group</span>
 </code></pre></div>
 <h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
 <ul>
@@ -2236,7 +2162,7 @@
 <li><a href="../guides/ai-exploration-workflow/">AI-Driven Strategy Exploration Workflow</a> — Claude Code / Codex × AlphaForge</li>
 </ul>
 <hr />
-<!-- Synced from: Click decorators in `alpha-forge/src/alpha_forge/commands/*.py`. This catalog must be kept in sync when CLI commands change. -->
+<!-- Synced from: `alpha-forge/src/alpha_forge/cli.py` (_TOP_LEVEL_LAZY / _ANALYZE_LAZY / _SYSTEM_LAZY) and `commands/*.py` Click decorators. Keep this table in sync when CLI commands change. -->
 
 
 
