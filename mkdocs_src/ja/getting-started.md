@@ -140,7 +140,7 @@ forge backtest run SPY \
 ```
 
 !!! note "データの自動取得"
-    `forge.yaml` がある（= ステップ 2 で `forge system init` を実行した）状態であれば、初回実行時に対象シンボルのデータが自動的に取得されます。失敗した場合は `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を手動で先に実行してから再試行してください。
+    `forge.yaml` がある（= ステップ 2 で `forge system init` を実行した）状態であれば、初回実行時に対象シンボルのデータが自動的に取得されます。失敗した場合は `forge data fetch SPY --period 5y` を手動で先に実行してから再試行してください。
 
 ### ステップ 4 — 結果を読む（約 3 分）
 
@@ -450,7 +450,7 @@ forge pine generate --strategy sma_cross_qs
 |------------------------|-----------|
 | `command not found: forge` | 新しいターミナルを開くか、`source ~/.bashrc` を実行してください。それでも出る場合は PATH を確認してください。 |
 | `戦略 'sma_cross_qs' が見つかりません` / `Strategy not found` | `forge strategy save sma_cross.json` を先に実行して戦略 DB に登録してください。または `forge backtest run SPY --strategy-file sma_cross.json --start ...` のように `--strategy-file` で JSON を直接指定できます。 |
-| `FileNotFoundError: データが見つかりません: SPY (1d)` / `No data found for SPY` | `forge system init` を実行していない / `forge.yaml` が無いと自動取得が動きません。ステップ 2 の `forge system init` を先に実行するか、`forge data fetch SPY --start 2019-01-01 --end 2023-12-31` を手動で先に実行してください。 |
+| `FileNotFoundError: データが見つかりません: SPY (1d)` / `No data found for SPY` | `forge system init` を実行していない / `forge.yaml` が無いと自動取得が動きません。ステップ 2 の `forge system init` を先に実行するか、`forge data fetch SPY --period 5y` を手動で先に実行してください。 |
 | `データが取得できませんでした: symbol=USDJPY` 等 FX で 404 | yfinance では FX シンボルに `=X` サフィックスが必須です（例: `USDJPY=X`, `EURUSD=X`, `GBPJPY=X`）。先物は `CL=F` のような `=F`、暗号資産は `BTC-USD` のような形式です。 |
 | `vis: serve: No such file or directory` / `vis: illegal option` | macOS には標準コマンド `/usr/bin/vis` があり、`$PATH` の並びによってはこちらが優先されます。`~/.local/bin/vis serve`（uv tool）または `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve` のように絶対パスで起動してください。 |
 | `Trial plan: date clipped to 2023-12-31` | 仕様どおりの動作です。Trial プランの上限日以降のデータは自動的に除外されます。 有料プラン（Lifetime / Annual / Monthly）購入後は制限解除されます。 |

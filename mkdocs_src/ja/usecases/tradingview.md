@@ -34,7 +34,7 @@ TradingViewでPine Scriptを書いている方が、AlphaForgeを使ってバッ
 forge strategy create my_strategy --template hmm_bb_rsi
 
 # 日足データを取得（例：QQQ）
-forge data fetch QQQ --start 2020-01-01
+forge data fetch QQQ --period 5y
 
 # バックテスト実行
 forge backtest run QQQ --strategy my_strategy

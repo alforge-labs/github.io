@@ -140,7 +140,7 @@ forge backtest run SPY \
 ```
 
 !!! note "Automatic data fetching"
-    With `forge.yaml` in place (because you ran `forge system init` in Step 2), the symbol's historical data is fetched automatically on first run. If it fails, run `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` manually and retry.
+    With `forge.yaml` in place (because you ran `forge system init` in Step 2), the symbol's historical data is fetched automatically on first run. If it fails, run `forge data fetch SPY --period 5y` manually and retry.
 
 ### Step 4 — Read the results (~3 min)
 
@@ -452,7 +452,7 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 |---------|-------------|
 | `command not found: forge` | Open a new terminal or run `source ~/.bashrc`. If that doesn't help, check your PATH. |
 | `Strategy 'sma_cross_qs' not found` / `戦略 'sma_cross_qs' が見つかりません` | Run `forge strategy save sma_cross.json` first to register the strategy in the DB. Or pass the JSON directly via `forge backtest run SPY --strategy-file sma_cross.json --start ...`. |
-| `FileNotFoundError: data not found: SPY (1d)` / `No data found for SPY` | Auto-fetch only works when `forge.yaml` exists. Run `forge system init` (Step 2) first, or fetch manually with `forge data fetch SPY --start 2019-01-01 --end 2023-12-31` and retry. |
+| `FileNotFoundError: data not found: SPY (1d)` / `No data found for SPY` | Auto-fetch only works when `forge.yaml` exists. Run `forge system init` (Step 2) first, or fetch manually with `forge data fetch SPY --period 5y` and retry. |
 | `Failed to fetch data: symbol=USDJPY` (404) | yfinance requires fixed suffixes per asset class: FX `USDJPY=X` / `EURUSD=X` / `GBPJPY=X`, futures `CL=F`, crypto `BTC-USD`. Quote symbols containing `=` (e.g., `'USDJPY=X'`). |
 | `vis: serve: No such file or directory` / `vis: illegal option` | macOS ships a built-in `/usr/bin/vis` that wins on `$PATH`. Run with the absolute path `~/.local/bin/vis serve` (uv tool) or `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve`. |
 | `Trial plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Trial plan cap is automatically excluded. Purchase a paid plan (Lifetime / Annual / Monthly) to lift the cap. |
