@@ -33,6 +33,25 @@ forge data fetch 'USDJPY=X'
 
 Generate a JSON scaffold, edit parameters, and register it.
 
+!!! info "How to list available templates (F-005)"
+    There is currently **no dedicated `forge strategy template list` command**.
+    Use one of the following to discover template IDs.
+
+    1. **Trigger the error message** (fastest) — pass an unknown template name and
+       the error prints the full list of available templates:
+
+        ```bash
+        $ forge strategy create --template _unknown_ --out /tmp/dummy.json
+        ❌ Unknown template name: _unknown_. Available templates:
+          sma_crossover_v1, rsi_reversion_v1, macd_crossover_v1,
+          bbands_breakout_v1, grid_bot_template, hmm_bb_pipeline_v1,
+          donchian_turtle_v1
+        ```
+
+    2. **Check the documentation** — each template's details (indicator stack,
+       target markets, recommended use cases) are catalogued in
+       [Strategy Templates](../templates.md).
+
 ```bash
 forge strategy create --template sma_crossover_v1 \
   --out data/strategies/usdjpy_sma_v1.json
@@ -86,6 +105,28 @@ forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
 ## 5. Walk-forward validation
 
 Detect overfitting with out-of-sample testing.
+
+!!! abstract "What is a Walk-Forward Test (WFT)? (F-006)"
+    Running `forge optimize run` alone optimizes parameters across the **entire
+    period**, which often produces a "curve-fitted" strategy that overfits the
+    very data it was tuned on. WFT cures this by splitting the period into
+    equal-sized windows and, **for each window, optimizing on the In-Sample (IS)
+    portion and then scoring on the unseen Out-of-Sample (OOS) portion**.
+    If OOS performance stays close to IS performance, the strategy is more
+    likely to be robust across time.
+
+    | Term | Meaning |
+    |------|---------|
+    | IS (In-Sample) | Training period — the first half of each window, used by Optuna for optimization |
+    | OOS (Out-of-Sample) | Test period — the second half of each window, scored with the optimized params |
+    | Window | One equal-sized partition. `--windows 5` splits the full period into 5 |
+    | IS/OOS pair | The IS score and OOS score for each window |
+
+    Rule of thumb: if OOS Sharpe is **at least half of IS Sharpe**, the strategy
+    leans robust. A high IS that collapses on OOS suggests curve fitting. See
+    [`forge optimize walk-forward` CLI reference](../cli-reference/optimize.md)
+    for the full option list.
+
 
 ```bash
 forge optimize walk-forward 'USDJPY=X' \

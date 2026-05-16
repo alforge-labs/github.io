@@ -212,6 +212,27 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 
     macOS ships a standard `/usr/bin/vis` command, so when plain `vis` is hijacked, use the absolute path `~/.local/bin/vis serve` (uv tool layout) or `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve`.
 
+!!! tip "Add `optimizer_config` when you want to try optimization (F-003)"
+    The `sma_cross.json` above is a **minimal backtest-only configuration** that
+    omits `optimizer_config`. If you want to try `alpha-forge optimize run`,
+    append the block below just before the trailing `}` of the JSON
+    (a comma after `risk_management`):
+
+    ```json
+    "optimizer_config": {
+      "param_ranges": {
+        "sma_fast.length": { "min": 5,  "max": 25, "step": 5 },
+        "sma_slow.length": { "min": 20, "max": 60, "step": 5 }
+      }
+    }
+    ```
+
+    If you skip it, alpha-forge falls back to its built-in default ranges
+    (`sma_fast.length=[5,25]` / `sma_slow.length=[20,60]`) and prints
+    `optimization params ... (using default ranges)` at startup. Declaring the
+    block explicitly makes runs reproducible and lets you tune `min`/`max`/`step`
+    by hand.
+
 ### What to do next
 
 | Goal | Where to go |
@@ -450,14 +471,19 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 
 | Symptom | Cause & Fix |
 |---------|-------------|
-| `command not found: forge` | Open a new terminal or run `source ~/.bashrc`. If that doesn't help, check your PATH. |
+| `command not found: forge` / `command not found: alpha-forge` | Open a new terminal or run `source ~/.bashrc` / `source ~/.zshrc`. If that doesn't help, confirm the binary exists with `ls ~/.local/bin/alpha-forge` and that `echo $PATH` includes `~/.local/bin`. |
 | `Strategy 'sma_cross_qs' not found` / `戦略 'sma_cross_qs' が見つかりません` | Run `forge strategy save sma_cross.json` first to register the strategy in the DB. Or pass the JSON directly via `forge backtest run SPY --strategy-file sma_cross.json --start ...`. |
 | `FileNotFoundError: data not found: SPY (1d)` / `No data found for SPY` | Auto-fetch only works when `forge.yaml` exists. Run `forge system init` (Step 2) first, or fetch manually with `forge data fetch SPY --period 5y` and retry. |
 | `Failed to fetch data: symbol=USDJPY` (404) | yfinance requires fixed suffixes per asset class: FX `USDJPY=X` / `EURUSD=X` / `GBPJPY=X`, futures `CL=F`, crypto `BTC-USD`. Quote symbols containing `=` (e.g., `'USDJPY=X'`). |
-| `vis: serve: No such file or directory` / `vis: illegal option` | macOS ships a built-in `/usr/bin/vis` that wins on `$PATH`. Run with the absolute path `~/.local/bin/vis serve` (uv tool) or `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve`. |
+| `forge.yaml not found` / `Config file not found` | No `forge.yaml` in the current directory. Run `forge system init` inside a project working directory, or pass `FORGE_CONFIG=/path/to/forge.yaml forge ...` as an environment variable. |
+| Backtest reports `0 trades` | Either the strategy parameters are too strict for the entry conditions, or the data window is too short. Inspect parameters with `forge strategy show <id> --json`, extend data via `forge data fetch '<SYM>' --period 10y`, or try a different template such as `bbands_breakout_v1`. |
+| `Best score: -inf` / all optimization trials return `-inf` | Every trial returned NaN. Often the `optimizer_config.param_ranges` are too narrow or the data has too few trades. Widen the ranges, raise `--trials`, or switch `--metric` to e.g. `total_return`. |
+| WFT reports every window as `OOS 0 trades` / `skipped` | The data window is too short to produce trades inside each window. For FX / `1d` data, aim for 5+ years (~1,250 rows). Extend data with `forge data fetch '<SYM>' --period 5y`, or lower the partition count with `--windows 2`. |
+| `vis: serve: No such file or directory` / `vis: illegal option` | macOS ships a built-in `/usr/bin/vis` that wins on `$PATH`. Run with the absolute path `~/.local/bin/alpha-vis serve` (uv tool) or `~/.local/share/uv/tools/alpha-visualizer/bin/alpha-vis serve` (renamed to `alpha-vis` in v0.3.0+). |
 | `Trial plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Trial plan cap is automatically excluded. Purchase a paid plan (Lifetime / Annual / Monthly) to lift the cap. |
-| Authentication error | Verify your network connection and rerun `forge system auth login`. Confirm your Whop membership is active. |
-| macOS security warning | System Settings → Privacy & Security → click "Open forge". |
+| `Credentials expired` / `Token expired` | Re-run `forge system auth login`. Verify your Whop membership is still active on [the Whop dashboard](https://whop.com/). |
+| Other authentication errors | Verify your network connection and rerun `forge system auth login`. Confirm your Whop membership is active. |
+| macOS security warning | System Settings → Privacy & Security → click "Open alpha-forge". |
 
 For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.com/en/install.html).
 
