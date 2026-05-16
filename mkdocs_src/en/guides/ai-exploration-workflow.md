@@ -3,7 +3,41 @@
 Combining Claude Code, Codex, and similar AI coding agents with AlphaForge as the "brain" lets you autonomously drive **idea → implementation → backtest → optimization → validation → live tuning**.
 
 !!! info "Prerequisite"
-    The commands and flows shown here assume the `alpha-trade` monorepo (a combination of `alpha-forge` and `alpha-strategies`). **Binary** users should substitute internal commands like `op run --env-file=...` with `forge` directly.
+    The commands and flows shown here assume the `alpha-trade` monorepo (a combination of `alpha-forge` and `alpha-strategies`). **Binary users should follow the "Minimum setup for binary users" section below first.**
+
+## Minimum setup for binary users {#binary-user-setup}
+
+If you installed the binary via the [installation guide](../getting-started.md), you can drive the `/explore-strategies` flow on this page with just **three commands**:
+
+```bash
+# 1. Create any working directory and initialize AlphaForge
+mkdir my-strategies && cd my-strategies
+alpha-forge system init
+
+# 2. Make subsequent commands pick up this working directory's forge.yaml
+#    (add to ~/.zshrc / ~/.bashrc to make it permanent across shell restarts)
+export FORGE_CONFIG=$(pwd)/forge.yaml
+
+# 3. Open this directory in Claude Code (or Codex)
+claude .       # Claude Code
+codex .        # Codex CLI
+```
+
+`alpha-forge system init` generates the following (v0.5.4+):
+
+| Path | Role |
+|------|------|
+| `forge.yaml` | Config (data provider, output paths, etc.) |
+| `data/strategies/`, `data/results/`, `data/historical/`, etc. | Strategy / result / data storage |
+| `data/explorer/goals/default/goals.yaml` | **Default goal definition for AI exploration (required)** |
+| `data/explorer/goals/default/reports/` | Output directory for `/explore-strategies` daily reports |
+| `.claude/commands/{explore-strategies,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md` | Slash commands for Claude Code |
+| `.agents/skills/.../SKILL.md` | Skills for Codex |
+| `docs/{quick-start,user-guide}.{ja,en}.md` | Bundled documentation |
+
+Edit `goals/default/goals.yaml` to align the target symbols (`exploration.assets`) and pass criteria (`target_metrics`) with your own strategy development direction. Add more goals (e.g., `goals/crypto/goals.yaml`, `goals/fx/goals.yaml`) and you can run them in parallel with `/explore-strategies --goal <name>`.
+
+After that, follow the rest of this page — the Overall Flow section below and Steps 1 through 4 — verbatim. The monorepo-style commands like `uv --directory alpha-forge run forge` or `op run --env-file=...` can simply be read as `alpha-forge` (or `forge` if you have it on your PATH) when using the binary.
 
 ## Why AI agents × AlphaForge
 
