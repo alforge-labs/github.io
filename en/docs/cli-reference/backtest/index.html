@@ -1623,6 +1623,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#benchmark-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark selection logic (F-304)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#is-oos-split" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2758,6 +2769,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#benchmark-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark selection logic (F-304)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#is-oos-split" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3607,7 +3629,13 @@
 <td><code>--benchmark</code></td>
 <td>option</td>
 <td>config</td>
-<td>Benchmark symbol</td>
+<td>Benchmark symbol (per-<code>asset_type</code> defaults apply, see below)</td>
+</tr>
+<tr>
+<td><code>--no-benchmark</code></td>
+<td>flag</td>
+<td>false</td>
+<td>Disable benchmark comparison entirely (F-304). Useful for FX / commodities where a SPY comparison is meaningless</td>
 </tr>
 <tr>
 <td><code>--check-criteria</code></td>
@@ -3659,6 +3687,44 @@
 </tr>
 </tbody>
 </table>
+<h3 id="benchmark-selection">Benchmark selection logic (F-304)<a class="headerlink" href="#benchmark-selection" title="Permanent link">&para;</a></h3>
+<p>Resolution order when <code>--benchmark</code> is omitted:</p>
+<ol>
+<li>Explicit <code>--benchmark &lt;SYM&gt;</code> (highest priority)</li>
+<li><code>forge.yaml</code> <code>report.benchmark_symbol</code>, if set to anything other than the default <code>SPY</code></li>
+<li>Per-<code>asset_type</code> map on the strategy JSON (used when (2) is still default <code>SPY</code>)</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><code>asset_type</code></th>
+<th>Default benchmark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stock</code> / <code>etf</code></td>
+<td><code>SPY</code></td>
+</tr>
+<tr>
+<td><code>fx</code></td>
+<td><code>DX-Y.NYB</code> (Dollar Index)</td>
+</tr>
+<tr>
+<td><code>crypto</code></td>
+<td><code>BTC-USD</code></td>
+</tr>
+<tr>
+<td><code>commodity</code> / <code>future</code></td>
+<td><code>DBC</code> (commodity ETF)</td>
+</tr>
+<tr>
+<td>Other / unset</td>
+<td><code>SPY</code> (fallback)</td>
+</tr>
+</tbody>
+</table>
+<p>To disable benchmark comparison entirely, pass <code>--no-benchmark</code>. This is the right choice when alpha / beta / correlation against SPY is meaningless (e.g. FX or commodities strategies).</p>
 <h3 id="is-oos-split">IS / OOS Split (<code>--split</code>)<a class="headerlink" href="#is-oos-split" title="Permanent link">&para;</a></h3>
 <p>When <code>--split</code> is specified, the full data range is divided into an In-Sample (IS / training) period and an Out-of-Sample (OOS / validation) period. The IS performance is then independently validated on the OOS period, making it the recommended approach for evaluating strategy generalization.</p>
 <p><img alt="IS / OOS Split Flow" src="../../assets/illustrations/backtest/backtest-is-oos-split.png" /></p>

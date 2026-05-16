@@ -1623,6 +1623,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#benchmark-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ベンチマーク選択ロジック（F-304）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#is-oos-split" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2758,6 +2769,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#benchmark-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ベンチマーク選択ロジック（F-304）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#is-oos-split" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3607,7 +3629,13 @@
 <td><code>--benchmark</code></td>
 <td>オプション</td>
 <td>config 値</td>
-<td>ベンチマークシンボル</td>
+<td>ベンチマークシンボル（asset_type に応じた既定値あり、下記参照）</td>
+</tr>
+<tr>
+<td><code>--no-benchmark</code></td>
+<td>フラグ</td>
+<td>false</td>
+<td>ベンチマーク比較を完全に無効化（F-304）。FX / コモディティ等で SPY 比較が無意味な場合に使う</td>
 </tr>
 <tr>
 <td><code>--check-criteria</code></td>
@@ -3659,6 +3687,44 @@
 </tr>
 </tbody>
 </table>
+<h3 id="benchmark-selection">ベンチマーク選択ロジック（F-304）<a class="headerlink" href="#benchmark-selection" title="Permanent link">&para;</a></h3>
+<p><code>--benchmark</code> を省略したときの解決順序：</p>
+<ol>
+<li><code>--benchmark &lt;SYM&gt;</code> の明示指定（最優先）</li>
+<li><code>forge.yaml</code> の <code>report.benchmark_symbol</code> がデフォルト <code>SPY</code> 以外なら採用</li>
+<li>戦略 JSON の <code>asset_type</code> 別マップで切替（既定 <code>SPY</code> のとき）</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><code>asset_type</code></th>
+<th>既定ベンチマーク</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stock</code> / <code>etf</code></td>
+<td><code>SPY</code></td>
+</tr>
+<tr>
+<td><code>fx</code></td>
+<td><code>DX-Y.NYB</code>（ドルインデックス）</td>
+</tr>
+<tr>
+<td><code>crypto</code></td>
+<td><code>BTC-USD</code></td>
+</tr>
+<tr>
+<td><code>commodity</code> / <code>future</code></td>
+<td><code>DBC</code>（コモディティ ETF）</td>
+</tr>
+<tr>
+<td>その他 / 未設定</td>
+<td><code>SPY</code>（フォールバック）</td>
+</tr>
+</tbody>
+</table>
+<p>完全にベンチマーク比較を無効化したい場合は <code>--no-benchmark</code> を指定。FX / コモディティ戦略で SPY との Alpha / Beta / 相関が無意味なケースなどに有効。</p>
 <h3 id="is-oos-split">IS / OOS 分割（<code>--split</code>）<a class="headerlink" href="#is-oos-split" title="Permanent link">&para;</a></h3>
 <p><code>--split</code> を指定すると、全データ期間をインサンプル（IS / 訓練）とアウトオブサンプル（OOS / 検証）に分割してバックテストを実行します。IS での過学習を OOS 期間で独立検証できるため、戦略の汎化性能を評価する際に推奨されます。</p>
 <p><img alt="IS / OOS 分割フロー" src="../../assets/illustrations/backtest/backtest-is-oos-split.png" /></p>
