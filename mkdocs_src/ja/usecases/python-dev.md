@@ -13,13 +13,13 @@ Pythonでデータ分析や戦略ロジックを書いており、AlphaForgeのC
 
 ```bash
 # バックテスト結果をJSONで取得してパイプ処理
-forge backtest run QQQ --strategy my_strategy --json | python analyze.py
+alpha-forge backtest run QQQ --strategy my_strategy --json | python analyze.py
 
 # Optuna最適化（Sharpe比を最大化）
-forge optimize run QQQ --strategy my_strategy --trials 200 --objective sharpe
+alpha-forge optimize run QQQ --strategy my_strategy --trials 200 --objective sharpe
 
 # ウォークフォワード検証
-forge optimize walk-forward QQQ --strategy my_strategy --folds 5
+alpha-forge optimize walk-forward QQQ --strategy my_strategy --folds 5
 ```
 
 ## JSONとして戦略を管理する

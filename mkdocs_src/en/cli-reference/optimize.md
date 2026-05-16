@@ -1,4 +1,4 @@
-# forge optimize
+# alpha-forge optimize
 
 Parameter search and sensitivity analysis: Bayesian optimization (Optuna), grid search, walk-forward optimization, and more.
 
@@ -9,26 +9,26 @@ Parameter search and sensitivity analysis: Bayesian optimization (Optuna), grid 
 
 | Command | Description |
 |---------|-------------|
-| [`forge optimize run`](#forge-optimize-run) | Run parameter optimization using Optuna |
-| [`forge optimize cross-symbol`](#forge-optimize-cross-symbol) | Run cross-symbol optimization across multiple symbols |
-| [`forge optimize portfolio`](#forge-optimize-portfolio) | Search for optimal portfolio allocation weights using Optuna |
-| [`forge optimize multi-portfolio`](#forge-optimize-multi-portfolio) | Optimize allocation weights with Optuna using per-asset strategies |
-| [`forge optimize walk-forward`](#forge-optimize-walk-forward) | Run walk-forward optimization |
-| [`forge optimize apply`](#forge-optimize-apply) | Apply optimization results to a strategy and save |
-| [`forge optimize sensitivity`](#forge-optimize-sensitivity) | Run sensitivity analysis on optimized parameters |
-| [`forge optimize history`](#forge-optimize-history) | List past optimization results in scoreboard format |
-| [`forge optimize grid`](#forge-optimize-grid) | Cartesian Grid Search over `optimizer_config.param_ranges` |
+| [`alpha-forge optimize run`](#alpha-forge-optimize-run) | Run parameter optimization using Optuna |
+| [`alpha-forge optimize cross-symbol`](#alpha-forge-optimize-cross-symbol) | Run cross-symbol optimization across multiple symbols |
+| [`alpha-forge optimize portfolio`](#alpha-forge-optimize-portfolio) | Search for optimal portfolio allocation weights using Optuna |
+| [`alpha-forge optimize multi-portfolio`](#alpha-forge-optimize-multi-portfolio) | Optimize allocation weights with Optuna using per-asset strategies |
+| [`alpha-forge optimize walk-forward`](#alpha-forge-optimize-walk-forward) | Run walk-forward optimization |
+| [`alpha-forge optimize apply`](#alpha-forge-optimize-apply) | Apply optimization results to a strategy and save |
+| [`alpha-forge optimize sensitivity`](#alpha-forge-optimize-sensitivity) | Run sensitivity analysis on optimized parameters |
+| [`alpha-forge optimize history`](#alpha-forge-optimize-history) | List past optimization results in scoreboard format |
+| [`alpha-forge optimize grid`](#alpha-forge-optimize-grid) | Cartesian Grid Search over `optimizer_config.param_ranges` |
 
 ---
 
-## forge optimize run
+## alpha-forge optimize run
 
 Single-symbol Bayesian optimization with Optuna (TPE). Specifying two or more `--objective` flags enables multi-objective optimization (NSGAII).
 
 ### Synopsis
 
 ```bash
-forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -97,20 +97,20 @@ If `my_v1_optimized` already exists, an overwrite confirmation appears:
 | Message | Cause | Fix |
 |---------|-------|-----|
 | `Invalid --start format (YYYY-MM-DD)` | Date format invalid | Use `2024-01-15` style |
-| `No data available after --start <date>` | Insufficient data | Run `forge data fetch <SYM>` |
+| `No data available after --start <date>` | Insufficient data | Run `alpha-forge data fetch <SYM>` |
 | `--max-drawdown and --objective cannot be used together.` | Both given | Choose one |
 | `Cancelled.` | Declined overwrite confirmation for existing `<strategy_id>_optimized` | Add `--yes` or re-confirm |
 
 ---
 
-## forge optimize cross-symbol
+## alpha-forge optimize cross-symbol
 
 Optimize the same strategy across multiple symbols and find robust parameters via aggregation (mean / median / min).
 
 ### Synopsis
 
 ```bash
-forge optimize cross-symbol <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
+alpha-forge optimize cross-symbol <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -141,19 +141,19 @@ Per-symbol scores:
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Warning: Failed to load data for <SYM>` | Data missing | `forge data fetch <SYM>` |
+| `Warning: Failed to load data for <SYM>` | Data missing | `alpha-forge data fetch <SYM>` |
 | `Error: No symbols with valid data` | Data missing for all | Fetch data, then retry |
 
 ---
 
-## forge optimize portfolio
+## alpha-forge optimize portfolio
 
 Optimize the **allocation weights** for a single strategy applied to multiple symbols, using Optuna.
 
 ### Synopsis
 
 ```bash
-forge optimize portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
+alpha-forge optimize portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -190,14 +190,14 @@ Optimal weights:
 
 ---
 
-## forge optimize multi-portfolio
+## alpha-forge optimize multi-portfolio
 
 Assign a **distinct strategy** to each symbol and optimize the allocation weights with Optuna.
 
 ### Synopsis
 
 ```bash
-forge optimize multi-portfolio <SYMBOL:STRATEGY> [<SYMBOL:STRATEGY> ...] [OPTIONS]
+alpha-forge optimize multi-portfolio <SYMBOL:STRATEGY> [<SYMBOL:STRATEGY> ...] [OPTIONS]
 ```
 
 ### Arguments and options
@@ -234,7 +234,7 @@ Portfolio metrics:
 
 ---
 
-## forge optimize walk-forward
+## alpha-forge optimize walk-forward
 
 Split the time series into `--windows` consecutive windows and repeat in-sample optimization → out-of-sample evaluation in each window to measure overfitting resistance.
 
@@ -243,7 +243,7 @@ Split the time series into `--windows` consecutive windows and repeat in-sample 
 ### Synopsis
 
 ```bash
-forge optimize walk-forward <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge optimize walk-forward <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -265,7 +265,7 @@ Pass `--min-window-trades N` to skip windows whose IS trade count is below N and
 
 ### Live progress dashboard (Rich)
 
-While `forge optimize walk-forward` runs, AlphaForge displays a dedicated two-tier progress dashboard.
+While `alpha-forge optimize walk-forward` runs, AlphaForge displays a dedicated two-tier progress dashboard.
 
 - **Outer bar**: overall window progress (`<completed_windows>/<n_windows>`).
 - **Inner bar**: the current window's in-sample Optuna trial progress.
@@ -333,14 +333,14 @@ In addition to per-window fields, the `--json` output includes summary fields de
 
 ---
 
-## forge optimize apply
+## alpha-forge optimize apply
 
-Read a result JSON saved by `forge optimize run` and apply `best_params` to the strategy, saving as **`<id>_optimized`**.
+Read a result JSON saved by `alpha-forge optimize run` and apply `best_params` to the strategy, saving as **`<id>_optimized`**.
 
 ### Synopsis
 
 ```bash
-forge optimize apply <RESULT_FILE> --to-strategy <ID> [--yes]
+alpha-forge optimize apply <RESULT_FILE> --to-strategy <ID> [--yes]
 ```
 
 ### Arguments and options
@@ -365,14 +365,14 @@ The strategy ID gets an `_optimized` suffix and is saved as a new strategy. The 
 
 ---
 
-## forge optimize sensitivity
+## alpha-forge optimize sensitivity
 
 Sweep around an optimized parameter set and measure how much the metric changes with small perturbations. Useful for quantifying overfitting risk.
 
 ### Synopsis
 
 ```bash
-forge optimize sensitivity <RESULT_FILE> [OPTIONS]
+alpha-forge optimize sensitivity <RESULT_FILE> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -412,14 +412,14 @@ slow_period                      50       75.3%  1.05 1.21 1.38 1.45 1.39 1.18 0
 
 ---
 
-## forge optimize history
+## alpha-forge optimize history
 
 List previously saved `optimize_<strategy>_*.json` and `optimize_cross_<strategy>_*.json` files for a given strategy.
 
 ### Synopsis
 
 ```bash
-forge optimize history --strategy <ID> [OPTIONS]
+alpha-forge optimize history --strategy <ID> [OPTIONS]
 ```
 
 ### Options
@@ -454,14 +454,14 @@ No optimization history found: my_v1
 
 ---
 
-## forge optimize grid
+## alpha-forge optimize grid
 
 Run an exhaustive Cartesian Grid Search over all parameter combinations defined in `optimizer_config.param_ranges`. Skips Optuna sampling and evaluates the full grid, then displays / saves the Top-K rows.
 
 ### Synopsis
 
 ```bash
-forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -490,7 +490,7 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 
 ### Live progress display (Rich dashboard)
 
-While Grid Search is running, a real-time Rich dashboard is rendered to the console (the same UI pattern used by `forge backtest run` and `forge optimize run`):
+While Grid Search is running, a real-time Rich dashboard is rendered to the console (the same UI pattern used by `alpha-forge backtest run` and `alpha-forge optimize run`):
 
 - **Header**: strategy ID, symbol, metric, total trials, chunk size
 - **Progress bar**: completed / total trials, elapsed time, estimated time remaining
@@ -541,7 +541,7 @@ fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
 ## Common behavior
 
 - **Save location**: When `--save` is set, results are saved under `config.report.output_path` as `optimize_<strategy>_<timestamp>.json`. Cross-symbol results use `optimize_cross_*` and portfolio results use `optimize_portfolio_*` prefixes.
-- **DB persistence**: `forge optimize run` always records to `SQLiteOptimizationResultRepository` regardless of `--save`, returning a `run_id`.
+- **DB persistence**: `alpha-forge optimize run` always records to `SQLiteOptimizationResultRepository` regardless of `--save`, returning a `run_id`.
 - **Journal integration**: When `config.journal.auto_record` is true, optimization runs are also recorded in the Journal.
 - **`FORGE_CONFIG`**: The strategy / data / results locations are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable.
 - **Exit codes**: `0` on success, `1` for `click.ClickException`, `2` for `click.UsageError`, `1` for `click.Abort`.

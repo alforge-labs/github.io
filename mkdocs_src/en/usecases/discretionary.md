@@ -16,7 +16,7 @@ If your discretionary rule is "buy when the 20-day MA crosses up and RSI(14) < 3
 
 ```bash
 # Start from a template
-forge strategy create my_playbook --template ma_rsi_atr
+alpha-forge strategy create my_playbook --template ma_rsi_atr
 
 # Edit the strategy JSON to match your discretionary rules:
 #   - Entry conditions (MA period, RSI threshold)
@@ -32,10 +32,10 @@ Apply the *same* rule mechanically across `2018–2025` and the gap between this
 
 ```bash
 # 1. Backtest the codified rule
-forge backtest run QQQ --strategy my_playbook
+alpha-forge backtest run QQQ --strategy my_playbook
 
 # 2. Walk-forward to evaluate only with information available beforehand
-forge optimize walk-forward QQQ --strategy my_playbook --folds 5
+alpha-forge optimize walk-forward QQQ --strategy my_playbook --folds 5
 
 # 3. Compare against your actual discretionary record
 #    - Systematic backtest Sharpe: 1.10
@@ -63,16 +63,16 @@ You can let AlphaForge raise alerts for the patterns you "always miss," while ke
 
 ```bash
 # 1. Start from a simple MA + RSI template
-forge strategy create my_playbook --template ma_rsi_atr
+alpha-forge strategy create my_playbook --template ma_rsi_atr
 
 # 2. Fetch 5 years of historical data
-forge data fetch QQQ --period 5y
+alpha-forge data fetch QQQ --period 5y
 
 # 3. Backtest the codified ruleset
-forge backtest run QQQ --strategy my_playbook --json
+alpha-forge backtest run QQQ --strategy my_playbook --json
 
 # 4. Capture the baseline for emotional-bias comparison
-forge journal record my_playbook --note "Baseline vs. discretionary record"
+alpha-forge journal record my_playbook --note "Baseline vs. discretionary record"
 ```
 
 ## Related Docs

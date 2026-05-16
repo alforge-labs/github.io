@@ -100,7 +100,7 @@ AlphaForge と TradingView は **競合ではなく連携するツール**です
 ```
 AlphaForge でバックテスト・最適化
   ↓
-forge コマンドで Pine Script v6 を自動生成
+alpha-forge コマンドで Pine Script v6 を自動生成
   ↓
 TradingView に貼り付けてリアルタイムモニタリング
   ↓
@@ -212,7 +212,7 @@ IS: 2022-2024  → 最適化 → OOS: 2025  で評価
 
 ```bash
 # 5 分割のウォークフォワード検証を 1 コマンドで実行
-forge optimize walk-forward CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5
+alpha-forge optimize walk-forward CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5
 ```
 
 IS と OOS の Sharpe 比の乖離が大きい場合は過学習を疑います：

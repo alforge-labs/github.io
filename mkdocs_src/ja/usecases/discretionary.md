@@ -16,7 +16,7 @@
 
 ```bash
 # テンプレートから出発
-forge strategy create my_playbook --template ma_rsi_atr
+alpha-forge strategy create my_playbook --template ma_rsi_atr
 
 # 戦略 JSON を編集して、自分の裁量ルールに調整
 #   - エントリー条件（移動平均期間・RSI 閾値）
@@ -32,10 +32,10 @@ JSON で書ききれない高度なロジック（複合条件・レジーム判
 
 ```bash
 # 1. 自分のルールでバックテスト
-forge backtest run QQQ --strategy my_playbook
+alpha-forge backtest run QQQ --strategy my_playbook
 
 # 2. ウォークフォワードで「事前に判断可能だった」期間のみで評価
-forge optimize walk-forward QQQ --strategy my_playbook --folds 5
+alpha-forge optimize walk-forward QQQ --strategy my_playbook --folds 5
 
 # 3. 実際の裁量結果と比較
 #    - システム化バックテスト Sharpe: 1.10
@@ -63,16 +63,16 @@ forge optimize walk-forward QQQ --strategy my_playbook --folds 5
 
 ```bash
 # 1. シンプルな MA + RSI テンプレートからスタート
-forge strategy create my_playbook --template ma_rsi_atr
+alpha-forge strategy create my_playbook --template ma_rsi_atr
 
 # 2. 過去 5 年分のデータを取得
-forge data fetch QQQ --period 5y
+alpha-forge data fetch QQQ --period 5y
 
 # 3. 自分のルールでバックテスト
-forge backtest run QQQ --strategy my_playbook --json
+alpha-forge backtest run QQQ --strategy my_playbook --json
 
 # 4. 感情バイアスを可視化（裁量実績との差分）
-forge journal record my_playbook --note "裁量実績との比較ベースライン"
+alpha-forge journal record my_playbook --note "裁量実績との比較ベースライン"
 ```
 
 ## 関連ドキュメント

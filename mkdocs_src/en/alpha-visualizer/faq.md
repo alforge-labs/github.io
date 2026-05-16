@@ -29,7 +29,7 @@ ls <path>/data/results/backtest_results.db
 ls <path>/data/strategies/
 ```
 
-If you have never executed `forge backtest run`, `backtest_results.db` does not exist yet. Run at least one backtest before launching `vis serve`.
+If you have never executed `alpha-forge backtest run`, `backtest_results.db` does not exist yet. Run at least one backtest before launching `vis serve`.
 
 ### Port already in use
 
@@ -54,7 +54,7 @@ If you did not pass `--no-open` and the browser still does not open, your enviro
 
 ### Stale results after a new run
 
-Reload the dashboard with `Cmd+R` / `F5` after `forge backtest run`. Auto-reload is not implemented.
+Reload the dashboard with `Cmd+R` / `F5` after `alpha-forge backtest run`. Auto-reload is not implemented.
 
 ### Strategy name shows `undefined`
 
@@ -101,7 +101,7 @@ See [CONTRIBUTING.en.md](https://github.com/alforge-labs/alpha-visualizer/blob/m
 
 ## Versions & compatibility
 
-### Compatible `forge` versions
+### Compatible `alpha-forge` versions
 
 `alpha-visualizer` reads `backtest_results.db` (SQLite) and strategy JSON. See the CHANGELOG or [Releases](https://github.com/alforge-labs/alpha-visualizer/releases) for compatibility windows.
 

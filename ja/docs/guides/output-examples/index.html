@@ -2331,7 +2331,7 @@
 <hr />
 <h2 id="_2">バックテスト実行結果<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <h3 id="_3">コマンド<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--start<span class="w"> </span><span class="m">2019</span>-01-01<span class="w"> </span>--end<span class="w"> </span><span class="m">2023</span>-12-31
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--start<span class="w"> </span><span class="m">2019</span>-01-01<span class="w"> </span>--end<span class="w"> </span><span class="m">2023</span>-12-31
 </code></pre></div>
 <h3 id="_4">テキスト出力<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>バックテストを実行中: SPY x sma_crossover_v1
@@ -2381,7 +2381,7 @@
 </tbody>
 </table>
 <h3 id="json-json">JSON 出力（<code>--json</code> フラグ付き）<a class="headerlink" href="#json-json" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--start<span class="w"> </span><span class="m">2019</span>-01-01<span class="w"> </span>--end<span class="w"> </span><span class="m">2023</span>-12-31<span class="w"> </span>--json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--start<span class="w"> </span><span class="m">2019</span>-01-01<span class="w"> </span>--end<span class="w"> </span><span class="m">2023</span>-12-31<span class="w"> </span>--json
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;total_return_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">52.30</span><span class="p">,</span>
@@ -2403,7 +2403,7 @@
 </code></pre></div>
 <hr />
 <h2 id="_6">詳細レポート（保存済み結果の確認）<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>report<span class="w"> </span>sma_crossover_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>report<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>=== sma_crossover_v1 / SPY (2026-04-15T10:30:21) ===
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>総リターン: 52.30%  CAGR: 5.40%
@@ -2413,16 +2413,16 @@
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>トレードログ: 14件 (--json で全体を確認可能)
 </code></pre></div>
 <p>完全なトレードログは <code>--json</code> で出力できます:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>report<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>report<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--json
 </code></pre></div>
 <hr />
 <h2 id="equity-curve">Equity Curve とダッシュボード<a class="headerlink" href="#equity-curve" title="Permanent link">&para;</a></h2>
 <p>バックテスト実行後、ローカルダッシュボードで損益曲線・ドローダウン・個別トレードを視覚的に確認できます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># チャート URL を表示</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>sma_crossover_v1
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># ブラウザで直接開く（vis serve が起動中の場合）</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--open
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>chart<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--open
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>📊 チャートを表示するには `vis serve`（alpha-visualizer）を起動してください:
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>   http://localhost:8000/?run_id=sma_crossover_v1_20260415_103021
@@ -2458,7 +2458,7 @@
 <p><img alt="個別トレード散布図のサンプル" src="../../assets/illustrations/guides/output-trade-scatter-plot.png" /></p>
 <hr />
 <h2 id="_7">バッチバックテスト（複数戦略を一括比較）<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>forge<span class="w"> </span>backtest<span class="w"> </span>batch<span class="w"> </span>SPY<span class="w"> </span>--strategy-dir<span class="w"> </span>data/strategies/<span class="w"> </span>--workers<span class="w"> </span><span class="m">3</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>batch<span class="w"> </span>SPY<span class="w"> </span>--strategy-dir<span class="w"> </span>data/strategies/<span class="w"> </span>--workers<span class="w"> </span><span class="m">3</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>バッチバックテスト開始: SPY × 3戦略 (workers=3)
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  ✅ sma_crossover_v1: Sharpe=1.32  MaxDD=-12.4%  CAGR=8.2%  trades=18
@@ -2471,7 +2471,7 @@
 </code></pre></div>
 <hr />
 <h2 id="_8">パラメータ最適化結果<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--save
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>✅ 最適化完了
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>ベストスコア (sharpe_ratio): 1.32
@@ -2480,7 +2480,7 @@
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>✅ 最適化結果を保存しました: data/results/optimize_sma_crossover_v1_20260415_103021.json
 </code></pre></div>
 <p><code>--json</code> フラグで機械可読な形式での出力:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>SPY<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--trials<span class="w"> </span><span class="m">300</span><span class="w"> </span>--json
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.32</span><span class="p">,</span>
@@ -2488,14 +2488,14 @@
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_9">最適化済みパラメータを戦略に適用<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_sma_crossover_v1_20260415_103021.json<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>data/results/optimize_sma_crossover_v1_20260415_103021.json<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>--to-strategy<span class="w"> </span>sma_crossover_v1_optimized
 </code></pre></div>
 <hr />
 <h2 id="json">戦略 JSON の検証<a class="headerlink" href="#json" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># 戦略を登録して検証</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/sma_crossover_v1.json
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>sma_crossover_v1
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>save<span class="w"> </span>data/strategies/sma_crossover_v1.json
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>validate<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>✅ 戦略 JSON のフォーマットが正常です: sma_crossover_v1
 </code></pre></div>
@@ -2503,9 +2503,9 @@
 <h2 id="pine-script">Pine Script 生成（有料プラン）<a class="headerlink" href="#pine-script" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">有料プラン限定</p>
-<p><code>forge pine generate</code> は <strong>有料プラン（Lifetime / Annual / Monthly のいずれか）</strong> でのみ利用できます。Trial プランでは利用できません。詳しくは <a href="../trial-limits/">Trial 制限</a> を参照してください。</p>
+<p><code>alpha-forge pine generate</code> は <strong>有料プラン（Lifetime / Annual / Monthly のいずれか）</strong> でのみ利用できます。Trial プランでは利用できません。詳しくは <a href="../trial-limits/">Trial 制限</a> を参照してください。</p>
 </div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>sma_crossover_v1
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>✅ Pine Script が保存されました: output/pinescript/sma_crossover_v1.pine
 </code></pre></div>

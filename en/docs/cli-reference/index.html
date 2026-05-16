@@ -2042,12 +2042,12 @@
 
 
 <h1 id="cli-reference">CLI Reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
-<p>A complete catalog of every command group and subcommand provided by the <code>forge</code> CLI. Per-group details and parameter documentation are linked from the table below.</p>
+<p>A complete catalog of every command group and subcommand provided by the <code>alpha-forge</code> CLI. Per-group details and parameter documentation are linked from the table below.</p>
 <h2 id="all-commands">All Commands<a class="headerlink" href="#all-commands" title="Permanent link">&para;</a></h2>
-<p>Implementation-derived catalog extracted from the Click decorators in <code>alpha-forge/src/alpha_forge/cli.py</code> and <code>commands/*.py</code>. The <strong>Kind</strong> column reflects each group's place in the CLI hierarchy. Every group is invoked as <code>forge &lt;group&gt; &lt;subcommand&gt;</code>.</p>
+<p>Implementation-derived catalog extracted from the Click decorators in <code>alpha-forge/src/alpha_forge/cli.py</code> and <code>commands/*.py</code>. The <strong>Kind</strong> column reflects each group's place in the CLI hierarchy. Every group is invoked as <code>alpha-forge &lt;group&gt; &lt;subcommand&gt;</code>.</p>
 <ul>
 <li><strong>Core</strong>: the nine groups you use most often in real strategy development; placed directly at the top level</li>
-<li><strong>Auxiliary</strong>: <code>analyze</code> / <code>system</code> are nested groups (<code>forge &lt;auxiliary&gt; &lt;tool&gt; &lt;action&gt;</code> — three levels deep)</li>
+<li><strong>Auxiliary</strong>: <code>analyze</code> / <code>system</code> are nested groups (<code>alpha-forge &lt;auxiliary&gt; &lt;tool&gt; &lt;action&gt;</code> — three levels deep)</li>
 <li><strong>Meta</strong>: binary self-operations (<code>self</code>)</li>
 </ul>
 <table>
@@ -2142,18 +2142,18 @@
 <td><strong>self</strong></td>
 <td>Meta</td>
 <td><code>version</code> <code>update</code></td>
-<td><code>forge</code> binary self-operations (version check, self-update)</td>
+<td><code>alpha-forge</code> binary self-operations (version check, self-update)</td>
 <td>—</td>
 </tr>
 </tbody>
 </table>
-<p>The <code>{a,b,c}</code> notation expands into siblings under the same parent group. For example, <code>data alt {fetch,list,info}</code> represents the three subcommands <code>forge data alt fetch</code> / <code>forge data alt list</code> / <code>forge data alt info</code>.</p>
+<p>The <code>{a,b,c}</code> notation expands into siblings under the same parent group. For example, <code>data alt {fetch,list,info}</code> represents the three subcommands <code>alpha-forge data alt fetch</code> / <code>alpha-forge data alt list</code> / <code>alpha-forge data alt info</code>.</p>
 <h2 id="built-in-help">Built-in Help<a class="headerlink" href="#built-in-help" title="Permanent link">&para;</a></h2>
 <p>Every command supports <code>--help</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>--help<span class="w">                         </span><span class="c1"># Top-level command list</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help<span class="w">                </span><span class="c1"># Subcommands of the backtest group</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>--help<span class="w">            </span><span class="c1"># Detailed parameters for a specific subcommand</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>forge<span class="w"> </span>data<span class="w"> </span>alt<span class="w"> </span>--help<span class="w">                </span><span class="c1"># Subcommands of a nested auxiliary group</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>alpha-forge<span class="w"> </span>--help<span class="w">                         </span><span class="c1"># Top-level command list</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>--help<span class="w">                </span><span class="c1"># Subcommands of the backtest group</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>--help<span class="w">            </span><span class="c1"># Detailed parameters for a specific subcommand</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>alpha-forge<span class="w"> </span>data<span class="w"> </span>alt<span class="w"> </span>--help<span class="w">                </span><span class="c1"># Subcommands of a nested auxiliary group</span>
 </code></pre></div>
 <h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
 <ul>

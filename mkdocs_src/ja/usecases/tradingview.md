@@ -18,11 +18,11 @@ TradingViewでPine Scriptを書いている方が、AlphaForgeを使ってバッ
       ↓
 2. AlphaForge JSON戦略として移植
       ↓
-3. forge backtest run で本格バックテスト
+3. alpha-forge backtest run で本格バックテスト
       ↓
-4. forge optimize run でパラメータ最適化
+4. alpha-forge optimize run でパラメータ最適化
       ↓
-5. forge pine generate でPine Script再エクスポート
+5. alpha-forge pine generate でPine Script再エクスポート
       ↓
 6. TradingViewアラート → Alpha Strikeで自動発注（オプション）
 ```
@@ -31,13 +31,13 @@ TradingViewでPine Scriptを書いている方が、AlphaForgeを使ってバッ
 
 ```bash
 # 戦略テンプレートを作成
-forge strategy create my_strategy --template hmm_bb_rsi
+alpha-forge strategy create my_strategy --template hmm_bb_rsi
 
 # 日足データを取得（例：QQQ）
-forge data fetch QQQ --period 5y
+alpha-forge data fetch QQQ --period 5y
 
 # バックテスト実行
-forge backtest run QQQ --strategy my_strategy
+alpha-forge backtest run QQQ --strategy my_strategy
 ```
 
 ## 関連ドキュメント

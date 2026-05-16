@@ -1,6 +1,9 @@
 # alpha-visualizer
 
-**alpha-visualizer** は、AlphaForge（`forge`）が出力するバックテスト結果を Web ブラウザで可視化するスタンドアロンの OSS パッケージです。`forge` 本体に依存せず `backtest_results.db`（SQLite）と戦略 JSON を直接読み取るため、`forge` を未インストールの環境でも動作します。
+**alpha-visualizer** は、`alpha-forge backtest run` などが出力する **AlphaForge のバックテスト結果を Web ブラウザで可視化する OSS パッケージ** です。`alpha-forge` 本体に依存せず `backtest_results.db`（SQLite）と戦略 JSON を直接読み取るため、`alpha-forge` を未インストールの環境でも動作します。
+
+!!! tip "AlphaForge とのつながり"
+    `alpha-forge backtest run <SYMBOL> --strategy <id>` を実行すると、CLI 出力末尾に「📊 チャートは `alpha-vis serve` で確認できます」というメッセージが出ます。これは alpha-visualizer 経由で同じ結果を **ブラウザで Equity / Drawdown / 取引履歴・指標比較** として確認できることを意味します。AlphaForge 本体は商用クローズドソースですが、結果可視化レイヤーは OSS として切り出されています。最初の連携手順は [はじめに](../getting-started.md#next-steps-visualize) と [エンドツーエンド戦略開発ワークフロー](../guides/end-to-end-workflow.md) を参照してください。
 
 ![Browse 画面](assets/browse.png){ loading=lazy }
 
@@ -31,4 +34,4 @@
 - **PyPI**: <https://pypi.org/project/alpha-visualizer/>
 - **行動規範**: [Contributor Covenant v2.1](https://github.com/alforge-labs/alpha-visualizer/blob/main/CODE_OF_CONDUCT.md)
 
-`forge` 本体は商用ライセンスですが、`alpha-visualizer` は OSS として独立して開発されています。
+`alpha-forge` 本体は商用ライセンスですが、`alpha-visualizer` は OSS として独立して開発されています。

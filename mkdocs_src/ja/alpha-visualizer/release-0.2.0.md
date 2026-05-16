@@ -7,13 +7,13 @@ description: alpha-visualizer v0.2.0 をリリースしました。OSS 同梱の
 
 > **公開日**: 2026 年 5 月 11 日 / **バージョン**: v0.2.0 / **配布**: [PyPI](https://pypi.org/project/alpha-visualizer/0.2.0/)・[GitHub Release](https://github.com/alforge-labs/alpha-visualizer/releases/tag/v0.2.0)
 
-[alpha-visualizer](index.md) は、`forge` が出力するバックテスト結果を Web ブラウザで可視化するスタンドアロンの OSS パッケージです。v0.2.0 では、**インストール直後に「どんなことができるツールなのか」を 1 コマンドで体験できる** ようにすることを軸に据え、機能・運用・セキュリティの 3 面で大型のアップデートを行いました。
+[alpha-visualizer](index.md) は、`alpha-forge` が出力するバックテスト結果を Web ブラウザで可視化するスタンドアロンの OSS パッケージです。v0.2.0 では、**インストール直後に「どんなことができるツールなのか」を 1 コマンドで体験できる** ようにすることを軸に据え、機能・運用・セキュリティの 3 面で大型のアップデートを行いました。
 
 ## ハイライト
 
 ### 1. 完全合成サンプルデータを同梱（`--use-bundled-samples`）
 
-これまで alpha-visualizer は「`forge` でバックテストを回した結果」を見るためのツールだったため、まず `forge` で何か実行しないと画面が空っぽでした。v0.2.0 からは **法的に再配布フリーな合成データセット** が wheel に同梱されており、追加準備なしで全機能を体験できます。
+これまで alpha-visualizer は「`alpha-forge` でバックテストを回した結果」を見るためのツールだったため、まず `alpha-forge` で何か実行しないと画面が空っぽでした。v0.2.0 からは **法的に再配布フリーな合成データセット** が wheel に同梱されており、追加準備なしで全機能を体験できます。
 
 ```bash
 pip install alpha-visualizer==0.2.0
@@ -35,7 +35,7 @@ vis serve --use-bundled-samples --no-open
 
 データは Geometric Brownian Motion + Poisson ジャンプ + AR(1) で合成され、銘柄シンボルは必ず `_SYNTH` サフィックスを持つため、実銘柄との取り違えは発生しません。再生成スクリプト `samples/build_samples.py` は決定論的に動き、CI で `git diff --exit-code` をかけてバイト等価性を継続検証しています。
 
-> 同梱戦略は SMA / RSI / MACD / Bollinger / ADX / Donchian といった **教科書的な指標の組み合わせのみ** です。HMM レジーム識別や MTF 最適化済みパラメータといった `forge` 本体の差別化要素は含まれません。
+> 同梱戦略は SMA / RSI / MACD / Bollinger / ADX / Donchian といった **教科書的な指標の組み合わせのみ** です。HMM レジーム識別や MTF 最適化済みパラメータといった `alpha-forge` 本体の差別化要素は含まれません。
 
 ### 2. ライブ実績ビュー（Detail 画面）
 
@@ -43,20 +43,20 @@ vis serve --use-bundled-samples --no-open
 
 ### 3. HMM / レジーム背景帯
 
-Equity Chart の背景に **HMM ステート（高ボラ / 中ボラ / 低ボラ等）を色帯で重ねる** ようになりました（#56）。さらに Risk タブに「レジーム別サマリーカード」を追加し、各レジームでの取引数・勝率・平均リターンを 1 画面で確認できます。`forge` 側で HMM レジームを推論した戦略を可視化する際にとくに有効です。
+Equity Chart の背景に **HMM ステート（高ボラ / 中ボラ / 低ボラ等）を色帯で重ねる** ようになりました（#56）。さらに Risk タブに「レジーム別サマリーカード」を追加し、各レジームでの取引数・勝率・平均リターンを 1 画面で確認できます。`alpha-forge` 側で HMM レジームを推論した戦略を可視化する際にとくに有効です。
 
 ### 4. セキュリティと品質の底上げ
 
 - **CodeQL のセキュリティアラート 14 件を解消**（#175）。`path-injection` / `log-injection` / SSRF 等の検出を全てクリア。
 - `optimization_runs` テーブル欠落や SQLAlchemy `OperationalError` 発生時のレスポンスを 404 から 500 に変更。「リソース未存在 (404)」と「DB 障害 (500)」の意味論を分離（#106）。
 - Browse 画面で `latest_*` フィールドが `undefined` の戦略でクラッシュする問題を修正（#23）。
-- `forge` 側の DB ファイル名デフォルト変更（`backtest_results.db`）に追従（#177）。
+- `alpha-forge` 側の DB ファイル名デフォルト変更（`backtest_results.db`）に追従（#177）。
 - 非有限値の `best_metric` を null として返し、フロントは `—` で表示（#172）。
 
 ### 5. CI と開発体験
 
 - **Lighthouse CI** で各 PR の Performance / Accessibility / Best-Practices を継続計測（#136、#162）。
-- **E2E fixture drift check** と **OSS sample-forge drift check** で、テスト用フィクスチャと同梱サンプルの「再生成 → diff=0」を強制（#161、#178）。
+- **E2E fixture drift check** と **OSS sample-alpha-forge drift check** で、テスト用フィクスチャと同梱サンプルの「再生成 → diff=0」を強制（#161、#178）。
 - React 19 / react-router-dom 7 / Storybook 10 / Vite 8 など、フロントエンド主要依存を最新メジャーへ更新。
 
 ## アップグレード方法
@@ -72,13 +72,13 @@ uv add alpha-visualizer@latest        # プロジェクトに追加
 uv tool install alpha-visualizer       # CLI として使う
 ```
 
-`--use-bundled-samples` を使うのが最も簡単な動作確認方法です。`forge` プロジェクト側のデータを見る場合は従来通り：
+`--use-bundled-samples` を使うのが最も簡単な動作確認方法です。`alpha-forge` プロジェクト側のデータを見る場合は従来通り：
 
 ```bash
 vis serve --forge-dir /path/to/your/alpha-strategies
 ```
 
-設定ファイル（`forge.yaml`）に変更はありません。既存の forge プロジェクトはそのまま動作します。
+設定ファイル（`forge.yaml`）に変更はありません。既存の alpha-forge プロジェクトはそのまま動作します。
 
 ## 関連リンク
 

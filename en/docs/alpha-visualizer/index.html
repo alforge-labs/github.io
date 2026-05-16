@@ -2045,7 +2045,11 @@
 
 
 <h1 id="alpha-visualizer">alpha-visualizer<a class="headerlink" href="#alpha-visualizer" title="Permanent link">&para;</a></h1>
-<p><strong>alpha-visualizer</strong> is a standalone OSS package that visualizes AlphaForge (<code>forge</code>) backtest results in your web browser. It reads <code>backtest_results.db</code> (SQLite) and strategy JSON files directly, so it works on hosts without <code>forge</code> installed.</p>
+<p><strong>alpha-visualizer</strong> is the <strong>OSS package that visualizes AlphaForge backtest results in your web browser</strong> — outputs from <code>alpha-forge backtest run</code> and friends. It reads <code>backtest_results.db</code> (SQLite) and strategy JSON files directly, so it works on hosts without <code>alpha-forge</code> installed.</p>
+<div class="admonition tip">
+<p class="admonition-title">How it connects to AlphaForge</p>
+<p>Run <code>alpha-forge backtest run &lt;SYMBOL&gt; --strategy &lt;id&gt;</code> and the CLI ends with "📊 You can review the chart with <code>alpha-vis serve</code>". That message is the entry point to alpha-visualizer, which renders the same result as <strong>Equity / Drawdown / trades / metric comparisons in a browser</strong>. AlphaForge itself is commercial, but the result-visualization layer is open source. See <a href="../getting-started/#next-steps-visualize">Getting Started → Next steps: Visualize</a> and the <a href="../guides/end-to-end-workflow/">End-to-End Strategy Workflow</a> for the first integration steps.</p>
+</div>
 <p><img alt="Browse view" loading="lazy" src="assets/browse.png" /></p>
 <h2 id="what-you-can-do">What you can do<a class="headerlink" href="#what-you-can-do" title="Permanent link">&para;</a></h2>
 <ul>
@@ -2092,7 +2096,7 @@
 <li><strong>PyPI</strong>: <a href="https://pypi.org/project/alpha-visualizer/">https://pypi.org/project/alpha-visualizer/</a></li>
 <li><strong>Code of Conduct</strong>: <a href="https://github.com/alforge-labs/alpha-visualizer/blob/main/CODE_OF_CONDUCT.en.md">Contributor Covenant v2.1</a></li>
 </ul>
-<p><code>forge</code> itself is commercial, but <code>alpha-visualizer</code> is developed independently as open source.</p>
+<p><code>alpha-forge</code> itself is commercial, but <code>alpha-visualizer</code> is developed independently as open source.</p>
 
 
 

@@ -1,6 +1,6 @@
 # TradingView への Pine Script 反映
 
-`forge pine generate` で生成した `.pine` ファイルを TradingView に貼り付けてアラートを設定します。
+`alpha-forge pine generate` で生成した `.pine` ファイルを TradingView に貼り付けてアラートを設定します。
 
 ## 1. Pine エディタを開く
 
@@ -36,7 +36,7 @@ alertcondition(longSignal, title="Long Entry", message="long")
 
 ## 5. Pine Script を MCP server で検証する（issue #523）
 
-`forge pine verify` を使うと、生成した Pine Script を **TradingView Desktop + サードパーティ MCP server** に投げて検証できます。コンパイル可否だけでなく、Strategy Tester のメトリクスや個別トレードを alpha-forge のバックテストと比較し、Pine 変換の正確性を機械的に確認できます。
+`alpha-forge pine verify` を使うと、生成した Pine Script を **TradingView Desktop + サードパーティ MCP server** に投げて検証できます。コンパイル可否だけでなく、Strategy Tester のメトリクスや個別トレードを alpha-forge のバックテストと比較し、Pine 変換の正確性を機械的に確認できます。
 
 ### 5.1 前提セットアップ
 
@@ -69,11 +69,11 @@ tv_mcp:
 
 ```bash
 # 1. コンパイル可否のみ確認（最速）
-forge pine verify --strategy spy_sma_v1 \
+alpha-forge pine verify --strategy spy_sma_v1 \
   --mcp-server "node /opt/tv-mcp/server.js"
 
 # 2. Strategy Tester メトリクス比較（vinicius 推奨）
-forge pine verify --strategy spy_sma_v1 \
+alpha-forge pine verify --strategy spy_sma_v1 \
   --check-mode metrics \
   --symbol SPY --interval D \
   --mcp-server-flavor vinicius \
@@ -81,7 +81,7 @@ forge pine verify --strategy spy_sma_v1 \
   --output reports/verify_spy.md
 
 # 3. トレード単位で時刻一致を見る（誤差±60 秒、95% 一致を要求）
-forge pine verify --strategy spy_sma_v1 \
+alpha-forge pine verify --strategy spy_sma_v1 \
   --check-mode signal \
   --symbol SPY --interval D \
   --mcp-server-flavor vinicius \
@@ -95,11 +95,11 @@ forge pine verify --strategy spy_sma_v1 \
 `metrics` モードで `total_trades` の差が大きいときは、データ期間のミスマッチ（yfinance ~5 年 vs TradingView 数十年）が原因のことが多いです。長期バックテストを TV 側に揃えたい場合は、データ取得を TradingView MCP に切り替えてください：
 
 ```bash
-forge data fetch SPY --provider tv_mcp \
+alpha-forge data fetch SPY --provider tv_mcp \
   --mcp-server "node /opt/tv-mcp/server.js" --period max
 ```
 
-詳細は [`forge data` コマンドリファレンス](../cli-reference/data.md#tradingview-mcp-tv_mcpissue-576) を参照してください。
+詳細は [`alpha-forge data` コマンドリファレンス](../cli-reference/data.md#tradingview-mcp-tv_mcpissue-576) を参照してください。
 
 ### 5.5 出力レポート
 
@@ -110,4 +110,4 @@ forge data fetch SPY --provider tv_mcp \
 - 不一致の検出（許容誤差を超えた項目）
 - 判定（PASS / FAIL）と推奨アクション
 
-`forge journal report --with-chart --symbol SPY --interval D` と組み合わせると、戦略履歴 + 検証結果 + TV チャート画像を 1 ページで確認できます。
+`alpha-forge journal report --with-chart --symbol SPY --interval D` と組み合わせると、戦略履歴 + 検証結果 + TV チャート画像を 1 ページで確認できます。

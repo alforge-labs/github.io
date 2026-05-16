@@ -1,6 +1,6 @@
-# forge live
+# alpha-forge live
 
-ライブトレードのイベントログ取得（VPS→ローカル）、raw event → trade records 変換、パフォーマンス分析、バックテストとの比較を行うコマンドグループ。`forge journal` と連携してライブ実績を可視化します。
+ライブトレードのイベントログ取得（VPS→ローカル）、raw event → trade records 変換、パフォーマンス分析、バックテストとの比較を行うコマンドグループ。`alpha-forge journal` と連携してライブ実績を可視化します。
 
 !!! info "サンプル出力について"
     本ページの出力例は `alpha-forge` のソースから読み取ったフォーマットを元にしたサンプルです。実際の数値や整形は `live/formatter.py` の `format_*` 関数の挙動に依存します。
@@ -8,37 +8,37 @@
 ## ライブ運用までの典型フロー
 
 ```text
-1. forge live sync-events       VPS から raw event を取得
-2. forge live convert-check     変換 readiness を確認
-3. forge live import-events     fill/close event から trades を生成
-4. forge live summary           ライブパフォーマンスを表示
-5. forge live compare           最新 backtest run と比較
+1. alpha-forge live sync-events       VPS から raw event を取得
+2. alpha-forge live convert-check     変換 readiness を確認
+3. alpha-forge live import-events     fill/close event から trades を生成
+4. alpha-forge live summary           ライブパフォーマンスを表示
+5. alpha-forge live compare           最新 backtest run と比較
 ```
 
 ## サブコマンド一覧
 
 | コマンド | 説明 |
 |---------|------|
-| [`forge live list`](#forge-live-list) | live trading records が存在する戦略一覧 |
-| [`forge live events`](#forge-live-events) | raw event を一覧表示 |
-| [`forge live convert-check`](#forge-live-convert-check) | raw event から trades 変換 readiness を確認 |
-| [`forge live import-events`](#forge-live-import-events) | fill / close event から trade records を生成して保存 |
-| [`forge live trades`](#forge-live-trades) | 戦略の個別取引レコードを一覧 |
-| [`forge live summary`](#forge-live-summary) | 戦略の live performance summary を表示 |
-| [`forge live compare`](#forge-live-compare) | 最新 backtest run と live summary を比較 |
-| [`forge live doctor`](#forge-live-doctor) | live trading analysis の導入状態を確認 |
-| [`forge live sync-events`](#forge-live-sync-events) | VPS 上のイベントログをローカルに rsync で同期 |
+| [`alpha-forge live list`](#alpha-forge-live-list) | live trading records が存在する戦略一覧 |
+| [`alpha-forge live events`](#alpha-forge-live-events) | raw event を一覧表示 |
+| [`alpha-forge live convert-check`](#alpha-forge-live-convert-check) | raw event から trades 変換 readiness を確認 |
+| [`alpha-forge live import-events`](#alpha-forge-live-import-events) | fill / close event から trade records を生成して保存 |
+| [`alpha-forge live trades`](#alpha-forge-live-trades) | 戦略の個別取引レコードを一覧 |
+| [`alpha-forge live summary`](#alpha-forge-live-summary) | 戦略の live performance summary を表示 |
+| [`alpha-forge live compare`](#alpha-forge-live-compare) | 最新 backtest run と live summary を比較 |
+| [`alpha-forge live doctor`](#alpha-forge-live-doctor) | live trading analysis の導入状態を確認 |
+| [`alpha-forge live sync-events`](#alpha-forge-live-sync-events) | VPS 上のイベントログをローカルに rsync で同期 |
 
 ---
 
-## forge live list
+## alpha-forge live list
 
 `<journal_path>/../live/` 配下の trade records と event ログを走査し、ライブ記録が存在する戦略 ID を表示します。
 
 ### 構文
 
 ```bash
-forge live list
+alpha-forge live list
 ```
 
 ### 引数とオプション
@@ -57,14 +57,14 @@ gc_hmm_macd_ema_v1
 
 ---
 
-## forge live events
+## alpha-forge live events
 
 raw event（broker から出力される `fill`、`close` 等）を一覧表示します。フィルタなしの場合は最新から `--limit` 件を表示。
 
 ### 構文
 
 ```bash
-forge live events [OPTIONS]
+alpha-forge live events [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -89,14 +89,14 @@ timestamp           strategy_id     broker      event_type   symbol   side   qty
 
 ---
 
-## forge live convert-check
+## alpha-forge live convert-check
 
 raw event を trade records に変換できる状態か（`fill` と `close` のペアが揃っているか等）を確認します。`import-events` の前段で実行することを推奨。
 
 ### 構文
 
 ```bash
-forge live convert-check [--strategy-id <ID>]
+alpha-forge live convert-check [--strategy-id <ID>]
 ```
 
 ### 引数とオプション
@@ -119,14 +119,14 @@ broken_v1                          5              0         0         5   missin
 
 ---
 
-## forge live import-events
+## alpha-forge live import-events
 
 `fill` / `close` event から trade records を生成し、`<live_path>/trades/<strategy_id>.json` および `<live_path>/summaries/<strategy_id>.json` に保存します。
 
 ### 構文
 
 ```bash
-forge live import-events <STRATEGY_ID>
+alpha-forge live import-events <STRATEGY_ID>
 ```
 
 ### 引数とオプション
@@ -137,9 +137,9 @@ forge live import-events <STRATEGY_ID>
 
 ### raw event → trade records 変換の前提条件
 
-- `<live_path>/events/` に該当 `strategy_id` の event ログが存在すること（`forge live sync-events` で取得済み、または手動配置）
+- `<live_path>/events/` に該当 `strategy_id` の event ログが存在すること（`alpha-forge live sync-events` で取得済み、または手動配置）
 - 各エントリーに対して **`fill` event と `close` event のペア** が揃っていること
-- 事前に [`forge live convert-check`](#forge-live-convert-check) で `status: ready`（または `partial` で許容範囲）を確認しておくこと
+- 事前に [`alpha-forge live convert-check`](#alpha-forge-live-convert-check) で `status: ready`（または `partial` で許容範囲）を確認しておくこと
 - 1 戦略 ID に対して 1 回実行すれば `<strategy_id>.json` が生成される（再実行で上書き）
 
 ### サンプル出力
@@ -155,18 +155,18 @@ summary_file      : data/live/summaries/spy_sma_v1.json
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `trade records を生成できませんでした: <id>` | `fill` / `close` ペアが揃わない、event 不存在 | `forge live convert-check --strategy-id <id>` で原因確認 |
+| `trade records を生成できませんでした: <id>` | `fill` / `close` ペアが揃わない、event 不存在 | `alpha-forge live convert-check --strategy-id <id>` で原因確認 |
 
 ---
 
-## forge live trades
+## alpha-forge live trades
 
 戦略の個別取引レコードを一覧します。
 
 ### 構文
 
 ```bash
-forge live trades <STRATEGY_ID> [OPTIONS]
+alpha-forge live trades <STRATEGY_ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -195,18 +195,18 @@ t_0041    long    2026-04-12 10:05      2026-04-12 15:48      100   -0.42%    st
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `live trade records がありません: <id>` | `<live_path>/trades/<id>.json` 不存在 | `forge live import-events <id>` で生成 |
+| `live trade records がありません: <id>` | `<live_path>/trades/<id>.json` 不存在 | `alpha-forge live import-events <id>` で生成 |
 
 ---
 
-## forge live summary
+## alpha-forge live summary
 
 戦略の live performance summary を表示します。サマリーが未生成の場合は trade records から自動構築します。
 
 ### 構文
 
 ```bash
-forge live summary <STRATEGY_ID>
+alpha-forge live summary <STRATEGY_ID>
 ```
 
 ### 引数とオプション
@@ -235,18 +235,18 @@ period            : 2026-03-01 → 2026-04-15
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `live summary がありません: <id>` | trade records 不存在で構築不能 | `forge live import-events <id>` を先に実行 |
+| `live summary がありません: <id>` | trade records 不存在で構築不能 | `alpha-forge live import-events <id>` を先に実行 |
 
 ---
 
-## forge live compare
+## alpha-forge live compare
 
 最新 backtest run と live summary を比較表示し、ライブが想定通りに機能しているかを評価します。
 
 ### 構文
 
 ```bash
-forge live compare <STRATEGY_ID>
+alpha-forge live compare <STRATEGY_ID>
 ```
 
 ### 引数とオプション
@@ -274,19 +274,19 @@ max_drawdown_pct   -3.80                       -4.20                            
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `live summary がありません: <id>` | live summary 不存在 | `forge live import-events <id>` で生成 |
-| `backtest run がありません: <id>` | ジャーナルに backtest run 不存在 | `forge backtest run` で実行・記録 |
+| `live summary がありません: <id>` | live summary 不存在 | `alpha-forge live import-events <id>` で生成 |
+| `backtest run がありません: <id>` | ジャーナルに backtest run 不存在 | `alpha-forge backtest run` で実行・記録 |
 
 ---
 
-## forge live doctor
+## alpha-forge live doctor
 
 live trading analysis の導入状態を診断します。`STRATEGY_ID` を渡すと、その戦略について trades / summary の有無まで確認します。
 
 ### 構文
 
 ```bash
-forge live doctor [STRATEGY_ID]
+alpha-forge live doctor [STRATEGY_ID]
 ```
 
 ### 引数とオプション
@@ -325,14 +325,14 @@ rollout_status  : ready
 
 ---
 
-## forge live sync-events
+## alpha-forge live sync-events
 
 VPS 上のイベントログを rsync でローカルに同期します。
 
 ### 構文
 
 ```bash
-forge live sync-events [--dry-run]
+alpha-forge live sync-events [--dry-run]
 ```
 
 ### 引数とオプション

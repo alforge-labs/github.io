@@ -3055,8 +3055,14 @@
 <h1 id="ai-driven-strategy-exploration-workflow">AI-Driven Strategy Exploration Workflow<a class="headerlink" href="#ai-driven-strategy-exploration-workflow" title="Permanent link">&para;</a></h1>
 <p>Combining Claude Code, Codex, and similar AI coding agents with AlphaForge as the "brain" lets you autonomously drive <strong>idea → implementation → backtest → optimization → validation → live tuning</strong>.</p>
 <div class="admonition info">
-<p class="admonition-title">Prerequisite</p>
-<p>The commands and flows shown here assume the <code>alpha-trade</code> monorepo (a combination of <code>alpha-forge</code> and <code>alpha-strategies</code>). <strong>Binary users should follow the "Minimum setup for binary users" section below first.</strong></p>
+<p class="admonition-title">Prerequisites</p>
+<ul>
+<li><strong>Audience</strong>: intermediate-to-advanced users who <strong>already use</strong> AI coding agents (Claude Code / Codex). You should be comfortable writing prompts for an agent and understand how slash commands work.</li>
+<li><strong>Requirements</strong>: AlphaForge <strong>binary v0.5.4+</strong>, or the <code>alpha-trade</code> monorepo dev setup (<code>alpha-forge</code> + <code>alpha-strategies</code>).</li>
+<li><strong>Time budget</strong>: ~10 min for the initial setup. The exploration loop itself is long-running (hours to overnight) — plan to run it unattended (e.g., overnight) for best results.</li>
+<li><strong>If you want to learn the manual CLI step by step first</strong>: read the <a href="../end-to-end-workflow/">End-to-End Strategy Workflow</a> before coming back here. This page assumes you want the <strong>automated AI exploration</strong> path.</li>
+<li><strong>Binary users</strong>: complete the "Minimum setup for binary users" section first. Where this page shows monorepo-style commands, you can <strong>substitute <code>alpha-forge</code> (the binary on your PATH)</strong> instead.</li>
+</ul>
 </div>
 <h2 id="binary-user-setup">Minimum setup for binary users<a class="headerlink" href="#binary-user-setup" title="Permanent link">&para;</a></h2>
 <p>If you installed the binary via the <a href="../../getting-started/">installation guide</a>, you can drive the <code>/explore-strategies</code> flow on this page with just <strong>three commands</strong>:</p>
@@ -3112,7 +3118,7 @@
 </tbody>
 </table>
 <p>Edit <code>goals/default/goals.yaml</code> to align the target symbols (<code>exploration.assets</code>) and pass criteria (<code>target_metrics</code>) with your own strategy development direction. Add more goals (e.g., <code>goals/crypto/goals.yaml</code>, <code>goals/fx/goals.yaml</code>) and you can run them in parallel with <code>/explore-strategies --goal &lt;name&gt;</code>.</p>
-<p>After that, follow the rest of this page — the Overall Flow section below and Steps 1 through 4 — verbatim. The monorepo-style commands like <code>uv --directory alpha-forge run forge</code> or <code>op run --env-file=...</code> can simply be read as <code>alpha-forge</code> (or <code>forge</code> if you have it on your PATH) when using the binary.</p>
+<p>After that, follow the rest of this page — the Overall Flow section below and Steps 1 through 4 — verbatim. The monorepo-style commands like <code>uv --directory alpha-forge run alpha-forge</code> or <code>op run --env-file=...</code> can simply be read as <code>alpha-forge</code> (or <code>alpha-forge</code> if you have it on your PATH) when using the binary.</p>
 <h2 id="why-ai-agents-alphaforge">Why AI agents × AlphaForge<a class="headerlink" href="#why-ai-agents-alphaforge" title="Permanent link">&para;</a></h2>
 <p>AlphaForge is designed so that <strong>all configuration, strategies, and execution flow through JSON / YAML / CLI</strong>. This means:</p>
 <ul>
@@ -3196,8 +3202,8 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;allow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="s2">&quot;Write(alpha-strategies/data/strategies/*.json)&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="s2">&quot;Bash(uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="s2">&quot;Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="s2">&quot;Bash(uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="s2">&quot;Bash(FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="s2">&quot;Bash(git -C */alpha-strategies add data/)&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="s2">&quot;Bash(git -C */alpha-strategies commit *)&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">      </span><span class="s2">&quot;Bash(git -C */alpha-strategies push)&quot;</span><span class="p">,</span>
@@ -3221,11 +3227,11 @@
 <td>Writing strategy JSON files (one per strategy)</td>
 </tr>
 <tr>
-<td><code>Bash(uv --directory alpha-forge run forge *)</code></td>
-<td>Direct forge execution</td>
+<td><code>Bash(uv --directory alpha-forge run alpha-forge *)</code></td>
+<td>Direct alpha-forge execution</td>
 </tr>
 <tr>
-<td><code>Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)</code></td>
+<td><code>Bash(FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)</code></td>
 <td>Forge commands with any FORGE_CONFIG (relative or absolute)</td>
 </tr>
 <tr>
@@ -3260,26 +3266,26 @@
 </div>
 <div class="admonition info">
 <p class="admonition-title">Using 1Password</p>
-<p>If you run forge via <code>op run</code>, add these patterns as well:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="s2">&quot;Bash(op run --env-file=alpha-forge/.env.op -- uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=* FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore run *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge strategy *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge data fetch *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore *)&quot;</span>
+<p>If you run alpha-forge via <code>op run</code>, add these patterns as well:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="s2">&quot;Bash(op run --env-file=alpha-forge/.env.op -- uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=* FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge explore run *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge strategy *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge data fetch *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s2">&quot;Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge explore *)&quot;</span>
 </code></pre></div></p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">FORCE_COLOR=1 prefix is required</p>
-<p>The <code>/explore-strategies</code> skill mandates that <code>forge backtest run</code> / <code>forge optimize run</code> / <code>forge optimize walk-forward</code> / <code>forge explore run</code> be prefixed with <code>FORCE_COLOR=1</code> so that progress bars render correctly (<a href="https://github.com/ysakae/alpha-forge/issues/410">alpha-forge issue #410</a>). Because the command line begins with <code>FORCE_COLOR=1</code>, it does not match existing patterns that start with <code>FORGE_CONFIG=...</code> and may trigger a permission prompt that blocks unattended runs. Add the following patterns:
+<p>The <code>/explore-strategies</code> skill mandates that <code>alpha-forge backtest run</code> / <code>alpha-forge optimize run</code> / <code>alpha-forge optimize walk-forward</code> / <code>alpha-forge explore run</code> be prefixed with <code>FORCE_COLOR=1</code> so that progress bars render correctly (<a href="https://github.com/ysakae/alpha-forge/issues/410">alpha-forge issue #410</a>). Because the command line begins with <code>FORCE_COLOR=1</code>, it does not match existing patterns that start with <code>FORGE_CONFIG=...</code> and may trigger a permission prompt that blocks unattended runs. Add the following patterns:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 FORGE_CONFIG=* op run *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 FORGE_CONFIG=* uv --directory alpha-forge run forge *)&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 uv --directory alpha-forge run forge *)&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s2">&quot;Bash(FORCE_COLOR=1 uv --directory alpha-forge run alpha-forge *)&quot;</span>
 </code></pre></div></p>
 </div>
 <h3 id="op-session-precheck">Detecting 1Password session expiry early (unattended runs)<a class="headerlink" href="#op-session-precheck" title="Permanent link">&para;</a></h3>
-<p>For unattended runs (overnight batches, etc.), an expired <code>op</code> session causes every subsequent <code>op run</code> invocation to fail with an authentication error. The <code>/explore-strategies</code> skill runs <code>forge system auth check op</code> at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid (<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>).</p>
+<p>For unattended runs (overnight batches, etc.), an expired <code>op</code> session causes every subsequent <code>op run</code> invocation to fail with an authentication error. The <code>/explore-strategies</code> skill runs <code>alpha-forge system auth check op</code> at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid (<a href="https://github.com/ysakae/alpha-forge/issues/411">alpha-forge issue #411</a>).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Verify session validity</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>uv<span class="w"> </span>--directory<span class="w"> </span>alpha-forge<span class="w"> </span>run<span class="w"> </span>alpha-forge<span class="w"> </span>system<span class="w"> </span>auth<span class="w"> </span>check<span class="w"> </span>op
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;exit: </span><span class="nv">$?</span><span class="s2">&quot;</span><span class="w">   </span><span class="c1"># 0 = valid, 2 = session expired / op missing / timeout</span>
 </code></pre></div>
 <table>
@@ -3351,7 +3357,7 @@
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Prefetch data first</p>
-<p>Codex's <code>workspace-write</code> sandbox may restrict network access depending on your environment. For symbols that need <code>forge data fetch</code> / <code>forge data update</code>, run <code>/update-market-data</code> or <code>forge data fetch &lt;SYMBOL&gt;</code> manually before starting the unattended run.</p>
+<p>Codex's <code>workspace-write</code> sandbox may restrict network access depending on your environment. For symbols that need <code>alpha-forge data fetch</code> / <code>alpha-forge data update</code>, run <code>/update-market-data</code> or <code>alpha-forge data fetch &lt;SYMBOL&gt;</code> manually before starting the unattended run.</p>
 </div>
 <hr />
 <h2 id="overall-flow">Overall flow<a class="headerlink" href="#overall-flow" title="Permanent link">&para;</a></h2>
@@ -3375,22 +3381,22 @@
 <hr />
 <h2 id="preparation-fetch-historical-data">Preparation: Fetch historical data<a class="headerlink" href="#preparation-fetch-historical-data" title="Permanent link">&para;</a></h2>
 <p>Before starting exploration, make sure the target symbol data is up to date.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Bulk incremental update of stored data (binary: forge data update &lt;SYMBOL&gt;)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Bulk incremental update of stored data (binary: alpha-forge data update &lt;SYMBOL&gt;)</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>&gt;<span class="w"> </span>/update-market-data
 </code></pre></div>
-<p><code>/update-market-data</code> runs <code>forge data list</code> to find registered symbols and calls <code>forge data update</code> on each. For brand-new symbols, run <code>forge data fetch &lt;SYMBOL&gt;</code> manually first.</p>
+<p><code>/update-market-data</code> runs <code>alpha-forge data list</code> to find registered symbols and calls <code>alpha-forge data update</code> on each. For brand-new symbols, run <code>alpha-forge data fetch &lt;SYMBOL&gt;</code> manually first.</p>
 <hr />
 <h2 id="three-exploration-scenarios">Three exploration scenarios<a class="headerlink" href="#three-exploration-scenarios" title="Permanent link">&para;</a></h2>
 <p>AI agent × AlphaForge usage falls into three categories based on <strong>what you're starting from</strong>.</p>
 <p><img alt="AI-driven strategy exploration workflow" src="../../assets/illustrations/ai-exploration-workflow/ai-exploration-workflow-en.png" /></p>
 <h3 id="scenario-1-combinations-from-existing-strategies-indicators">Scenario 1: Combinations from existing strategies / indicators<a class="headerlink" href="#scenario-1-combinations-from-existing-strategies-indicators" title="Permanent link">&para;</a></h3>
-<p><strong>Starting point</strong>: Your existing strategy JSON files and the <code>forge analyze indicator list</code> catalog.</p>
+<p><strong>Starting point</strong>: Your existing strategy JSON files and the <code>alpha-forge analyze indicator list</code> catalog.</p>
 <p><strong>Typical flow</strong>:</p>
 <ol>
-<li>Tell Claude Code: "Take <code>forge strategy show multi_asset_hmm_bb_rsi_v1_qqq</code> as the base and add MACD to create a derivative."</li>
+<li>Tell Claude Code: "Take <code>alpha-forge strategy show multi_asset_hmm_bb_rsi_v1_qqq</code> as the base and add MACD to create a derivative."</li>
 <li>The agent edits the JSON and creates <code>multi_asset_hmm_bb_rsi_macd_v1_qqq.json</code></li>
-<li><code>forge strategy validate</code> → <code>forge strategy save</code> → <code>forge backtest run</code></li>
-<li>If Sharpe improves, run <code>forge optimize run</code> to fine-tune</li>
+<li><code>alpha-forge strategy validate</code> → <code>alpha-forge strategy save</code> → <code>alpha-forge backtest run</code></li>
+<li>If Sharpe improves, run <code>alpha-forge optimize run</code> to fine-tune</li>
 </ol>
 <p><strong>Tip</strong>: With <code>/explore-strategies</code>, you can fully delegate combination selection through reporting to the agent.</p>
 <h3 id="scenario-2-apply-a-tradingview-pine-script">Scenario 2: Apply a TradingView Pine Script<a class="headerlink" href="#scenario-2-apply-a-tradingview-pine-script" title="Permanent link">&para;</a></h3>
@@ -3398,11 +3404,11 @@
 <p><strong>Typical flow</strong>:</p>
 <ol>
 <li>Save an interesting Pine Script locally (<code>tv_&lt;name&gt;.pine</code>)</li>
-<li><strong>Import</strong>: <code>forge pine import tv_&lt;name&gt;.pine --id imported_v1</code></li>
+<li><strong>Import</strong>: <code>alpha-forge pine import tv_&lt;name&gt;.pine --id imported_v1</code></li>
 <li>Tell the agent: "Reorganize this strategy's <code>parameters</code> and <code>indicators</code>, and add an <code>optimizer_config</code>."</li>
 <li>The agent reshapes the JSON and surfaces optimization targets</li>
-<li><code>forge backtest run</code> → <code>forge optimize run</code> to validate AlphaForge-style</li>
-<li>If good, regenerate via <code>forge pine generate</code> and verify on TradingView</li>
+<li><code>alpha-forge backtest run</code> → <code>alpha-forge optimize run</code> to validate AlphaForge-style</li>
+<li>If good, regenerate via <code>alpha-forge pine generate</code> and verify on TradingView</li>
 </ol>
 <p><strong>Tip</strong>: Bringing Pine Script logic into <strong>JSON form</strong> unlocks all of AlphaForge's analysis (optimize, WFT, Monte Carlo).</p>
 <h3 id="scenario-3-mine-forums-papers-from-the-web">Scenario 3: Mine forums / papers from the web<a class="headerlink" href="#scenario-3-mine-forums-papers-from-the-web" title="Permanent link">&para;</a></h3>
@@ -3411,9 +3417,9 @@
 <ol>
 <li>Hand Claude Code a <strong>URL or PDF</strong> and ask: "Extract the core logic of this strategy into <code>indicators</code> and <code>entry_conditions</code>."</li>
 <li>The agent summarizes the article and drafts a strategy JSON</li>
-<li><code>forge strategy validate</code> to catch logical errors → fix</li>
-<li><code>forge backtest signal-count</code> to verify signal count (conditions not too restrictive)</li>
-<li><code>forge backtest run</code> → optimize as needed</li>
+<li><code>alpha-forge strategy validate</code> to catch logical errors → fix</li>
+<li><code>alpha-forge backtest signal-count</code> to verify signal count (conditions not too restrictive)</li>
+<li><code>alpha-forge backtest run</code> → optimize as needed</li>
 <li>Compare the article's claimed results vs the actual backtest (<strong>often unreproducible</strong>)</li>
 </ol>
 <p><strong>Tip</strong>: Paper strategies often fail to reproduce when "data period", "symbol", or "transaction costs" differ. Letting the agent <strong>soberly compare</strong> "claimed" vs "real" results acts as a reality filter.</p>
@@ -3424,9 +3430,9 @@
 <ol>
 <li><strong>Pre-flight</strong>: Read <code>goals/&lt;goal_name&gt;/goals.yaml</code>, <code>goals/&lt;goal_name&gt;/explored_log.md</code>, and existing strategy JSON files; identify untried combinations</li>
 <li><strong>Strategy generation</strong>: Pick one indicator × symbol combo, generate the strategy JSON, and save under <code>data/strategies/&lt;name&gt;.json</code></li>
-<li><strong>Register → validate</strong>: <code>forge strategy save</code> → <code>forge strategy validate</code> for logical consistency (rollback on failure)</li>
-<li><strong>Data fetch</strong>: <code>forge data fetch &lt;SYMBOL&gt; --period 5y</code> (only if not already cached)</li>
-<li><strong>Run the full pipeline in one command</strong>: <code>forge explore run &lt;SYMBOL&gt; --strategy &lt;name&gt; --goal &lt;goal_name&gt; --json</code>
+<li><strong>Register → validate</strong>: <code>alpha-forge strategy save</code> → <code>alpha-forge strategy validate</code> for logical consistency (rollback on failure)</li>
+<li><strong>Data fetch</strong>: <code>alpha-forge data fetch &lt;SYMBOL&gt; --period 5y</code> (only if not already cached)</li>
+<li><strong>Run the full pipeline in one command</strong>: <code>alpha-forge explore run &lt;SYMBOL&gt; --strategy &lt;name&gt; --goal &lt;goal_name&gt; --json</code>
    Signal check → backtest → optimize → walk-forward → coverage update → DB registration — all in one step</li>
 <li><strong>Record outcome</strong>: Read <code>passed</code> / <code>skip_reason</code> from the output JSON, then append to <code>goals/&lt;goal_name&gt;/explored_log.md</code> and <code>goals/&lt;goal_name&gt;/reports/YYYY-MM-DD.md</code>. When <code>passed: false</code> and <code>cleanup_done: true</code>, strategy JSON and result JSON have already been removed automatically</li>
 </ol>
@@ -3457,8 +3463,8 @@
 <h3 id="optional-tradingview-mcp-attach-for-passing-strategies-issue-582">Optional: TradingView MCP attach for passing strategies (issue #582)<a class="headerlink" href="#optional-tradingview-mcp-attach-for-passing-strategies-issue-582" title="Permanent link">&para;</a></h3>
 <p>When <code>tv_mcp.pine_verify.enabled: true</code> is set in <code>forge.yaml</code> and a TradingView MCP server is running, the <code>/explore-strategies</code> skill automatically runs the following for each passing strategy and writes the <strong>TV consistency check</strong> plus a <strong>chart PNG</strong> to <code>goals/&lt;goal_name&gt;/reports/&lt;strategy_id&gt;/</code> (fail-soft: MCP connection or metrics-fetch failures only emit a warning log and do not change the strategy verdict or coverage registration):</p>
 <ul>
-<li><code>forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/&lt;id&gt;/verify.md</code></li>
-<li><code>forge journal report --with-chart --symbol &lt;SYM&gt; --interval D --output reports/&lt;id&gt;/journal.md</code></li>
+<li><code>alpha-forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/&lt;id&gt;/verify.md</code></li>
+<li><code>alpha-forge journal report --with-chart --symbol &lt;SYM&gt; --interval D --output reports/&lt;id&gt;/journal.md</code></li>
 </ul>
 <p>For goals without an MCP server running (or with <code>tv_mcp.pine_verify.enabled: false</code>), the step is skipped and the existing loop behavior is preserved. See the <a href="../tradingview-pine-integration/">TradingView Pine integration guide</a> for details.</p>
 <h3 id="idempotency">Idempotency<a class="headerlink" href="#idempotency" title="Permanent link">&para;</a></h3>
@@ -3497,7 +3503,7 @@
 <p>Goals are independent — each has its own <code>explored_log.md</code> under <code>goals/&lt;name&gt;/</code>. You can run different goals simultaneously in separate Claude Code sessions without conflicts. Backtest results are shared via <code>exploration.db</code>, so the same symbol × indicator combination is never backtested twice across goals.</p>
 </div>
 <h3 id="scaffold-supported-indicators-and-behavior-post-issue-427">Scaffold supported indicators and behavior (post issue #427)<a class="headerlink" href="#scaffold-supported-indicators-and-behavior-post-issue-427" title="Permanent link">&para;</a></h3>
-<p><code>forge strategy scaffold</code> supports the following indicators:</p>
+<p><code>alpha-forge strategy scaffold</code> supports the following indicators:</p>
 <ul>
 <li><strong>mean-reversion</strong>: BB (required), RSI, MACD, ADX, SUPERTREND, STOCH, HMM, SMA (long-term trend filter), EMA (mid-term trend filter)</li>
 <li><strong>trend-following</strong>: EMA (required), ADX, MACD, RSI, SUPERTREND, STOCH, HMM, BB (volatility / trend confirmation filter), SMA (long-term bull/bear filter)</li>
@@ -3555,12 +3561,12 @@
 </table>
 <p>Short is mirrored (prev-bar BB upper break + current-bar bearish candle). Set the default per goal with <code>goals.yaml.exploration.scaffold_defaults.confirm_bars: 1</code>.</p>
 <p><strong>confirm_bars=2/3 (issue #473)</strong>: 2 / 3 consecutive reversal bars. <strong>wick_ratio</strong> option additionally requires pin-bar reversals (wick ≥ body × N):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">GBPUSD</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,EMA,ADX<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">GBPUSD</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,EMA,ADX<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--type<span class="w"> </span>mean-reversion<span class="w"> </span>--confirm-bars<span class="w"> </span><span class="m">2</span><span class="w"> </span>--wick-ratio<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--save
 </code></pre></div>
 <p>Set <code>goals.yaml.scaffold_defaults.wick_ratio: 1.0</code> for a goal default. <strong>Measured impact (GBPUSD BB+EMA+ADX 1h)</strong>: confirm_bars=2 + wick_ratio=1.0 yields <strong>trades 140→7 / MDD 87% → 8.84% / CAGR -55% → +3.40%</strong> (MDD shrinks to 1/10, CAGR flips positive). For more trades, lower <code>wick_ratio</code> to ~0.5.</p>
 <h3 id="per-goal-scaffold-defaults-issue-461">Per-goal scaffold defaults (issue #461)<a class="headerlink" href="#per-goal-scaffold-defaults-issue-461" title="Permanent link">&para;</a></h3>
-<p>Goal-specific leverage / position size / stop can be set in the <code>exploration.scaffold_defaults</code> section of <code>goals.yaml</code>, and <code>forge strategy scaffold --goal &lt;name&gt;</code> applies them automatically. <code>exploration.initial_capital</code> overrides the <code>forge.yaml</code> capital assumption.</p>
+<p>Goal-specific leverage / position size / stop can be set in the <code>exploration.scaffold_defaults</code> section of <code>goals.yaml</code>, and <code>alpha-forge strategy scaffold --goal &lt;name&gt;</code> applies them automatically. <code>exploration.initial_capital</code> overrides the <code>forge.yaml</code> capital assumption.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Example: oanda_gold/goals.yaml</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">exploration</span><span class="p">:</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">initial_capital</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6800</span><span class="w">              </span><span class="c1"># USD-denominated capital assumption (forge.yaml override)</span>
@@ -3576,17 +3582,17 @@
 </code></pre></div>
 <p>CLI:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Goal reference</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>--type<span class="w"> </span>mean-reversion<span class="w"> </span>--strategy-id<span class="w"> </span>usdjpy_bb_rsi_v1<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>--goal<span class="w"> </span>oanda_gold<span class="w"> </span>--save
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># Explicit flags (override)</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>...<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>...<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span>--position-size-pct<span class="w"> </span><span class="m">100</span><span class="w"> </span>--leverage<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span>--stop-loss-pct<span class="w"> </span><span class="m">1</span>.5<span class="w"> </span>--take-profit-pct<span class="w"> </span><span class="m">3</span>.0<span class="w"> </span>--save
 </code></pre></div>
 <p><strong>Priority</strong>: explicit CLI flag &gt; <code>goals.yaml.scaffold_defaults</code> (+ <code>type_overrides</code>) &gt; existing defaults</p>
-<p><code>forge backtest run --goal &lt;name&gt;</code> and <code>forge explore run --goal &lt;name&gt;</code> also read <code>goals.yaml.exploration.initial_capital</code> and override the <code>BacktestConfig</code> (no need to edit <code>forge.yaml</code>).</p>
+<p><code>alpha-forge backtest run --goal &lt;name&gt;</code> and <code>alpha-forge explore run --goal &lt;name&gt;</code> also read <code>goals.yaml.exploration.initial_capital</code> and override the <code>BacktestConfig</code> (no need to edit <code>forge.yaml</code>).</p>
 <p><strong>Typical use cases</strong>:</p>
 <ul>
 <li><code>oanda_gold</code> (maintain OANDA Gold): 1M JPY (~6,800 USD) × 5x leverage</li>
@@ -3600,8 +3606,8 @@
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">timeframe</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1h&quot;</span><span class="w">           </span><span class="c1"># strategy timeframe produced by scaffold (default: &quot;1d&quot;)</span>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">backtest_period</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2y&quot;</span><span class="w">     </span><span class="c1"># data fetch period for explore run (default: &quot;5y&quot;)</span>
 </code></pre></div>
-<p>These values flow into the <code>timeframe</code> of strategies generated by <code>forge strategy scaffold --goal &lt;name&gt;</code> and the data fetch period used by <code>forge explore run --goal &lt;name&gt;</code>. Use <code>--timeframe</code> to override per invocation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
+<p>These values flow into the <code>timeframe</code> of strategies generated by <code>alpha-forge strategy scaffold --goal &lt;name&gt;</code> and the data fetch period used by <code>alpha-forge explore run --goal &lt;name&gt;</code>. Use <code>--timeframe</code> to override per invocation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>alpha-forge<span class="w"> </span>strategy<span class="w"> </span>scaffold<span class="w"> </span>--symbol<span class="w"> </span><span class="nv">USDJPY</span><span class="o">=</span>X<span class="w"> </span>--indicators<span class="w"> </span>BB,RSI<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>--type<span class="w"> </span>mean-reversion<span class="w"> </span>--strategy-id<span class="w"> </span>usdjpy_bb_rsi_1h_v1<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>--timeframe<span class="w"> </span>1h<span class="w"> </span>--save
 </code></pre></div>
@@ -3622,7 +3628,7 @@
 </code></pre></div>
 <p>Manually pre-cache the long-term data before starting <code>/explore-strategies</code> (avoids rate limits during unattended runs):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">for</span><span class="w"> </span>sym<span class="w"> </span><span class="k">in</span><span class="w"> </span>SPY<span class="w"> </span>QQQ<span class="w"> </span>NVDA<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span>GOOGL<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span><span class="nv">$sym</span><span class="w"> </span>--provider<span class="w"> </span>yfinance<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>alpha-forge<span class="w"> </span>data<span class="w"> </span>fetch<span class="w"> </span><span class="nv">$sym</span><span class="w"> </span>--provider<span class="w"> </span>yfinance<span class="w"> </span>--period<span class="w"> </span>20y<span class="w"> </span>--interval<span class="w"> </span>1d
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">done</span>
 </code></pre></div>
 <p><strong>Empirical result (NVDA EMA+MACD+SuperTrend, 20y)</strong>:</p>
@@ -3678,17 +3684,17 @@
 </code></pre></div>
 <blockquote>
 <p>⚠️ <strong>TV MCP cannot be used for long-term fetches</strong> (issue #683)<br />
-The <code>chart_scroll_to_date</code> tool in tradesdontlie / vinicius MCP servers fails with <code>"evaluate is not defined"</code>, so TV Desktop never loads historical data beyond what is currently shown. Since <code>data_get_ohlcv</code> only returns bars currently visible on the chart, <code>forge data fetch &lt;SYM&gt; --provider tv_mcp --period 20y</code> returns only the latest ~14 months. <strong>Use yfinance for long-term data</strong>.<br />
-TV MCP is still useful for Pine verification (<code>forge pine verify --check-mode metrics</code>) and chart PNG capture (<code>forge tv chart</code>).</p>
+The <code>chart_scroll_to_date</code> tool in tradesdontlie / vinicius MCP servers fails with <code>"evaluate is not defined"</code>, so TV Desktop never loads historical data beyond what is currently shown. Since <code>data_get_ohlcv</code> only returns bars currently visible on the chart, <code>alpha-forge data fetch &lt;SYM&gt; --provider tv_mcp --period 20y</code> returns only the latest ~14 months. <strong>Use yfinance for long-term data</strong>.<br />
+TV MCP is still useful for Pine verification (<code>alpha-forge pine verify --check-mode metrics</code>) and chart PNG capture (<code>alpha-forge tv chart</code>).</p>
 </blockquote>
 <h4 id="explore-strategies-tv-mcp-preflight"><code>/explore-strategies</code> TV MCP preflight<a class="headerlink" href="#explore-strategies-tv-mcp-preflight" title="Permanent link">&para;</a></h4>
-<p>When a goal has <code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> set, the skill executes <code>forge data tv-mcp check --json</code> at the start of each run:</p>
+<p>When a goal has <code>exploration.data_provider_override.{stock|fx}: tv_mcp</code> set, the skill executes <code>alpha-forge data tv-mcp check --json</code> at the start of each run:</p>
 <ul>
 <li>Exit <code>0</code>: continue</li>
 <li>Exit <code>2</code>: endpoint missing / TV Desktop not running / MCP server connection failed → loop is stopped and recorded to <code>&lt;goal_dir&gt;/explored_log.md</code> (no auto-launch / no retry)</li>
 </ul>
 <h3 id="early-cutoff-via-pre_filter-min_trades-issue-429">Early cutoff via pre_filter min_trades (issue #429)<a class="headerlink" href="#early-cutoff-via-pre_filter-min_trades-issue-429" title="Permanent link">&para;</a></h3>
-<p>Adding <code>min_trades</code> to the <code>pre_filter</code> section of <code>goals.yaml</code> makes <code>forge explore run</code> abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.</p>
+<p>Adding <code>min_trades</code> to the <code>pre_filter</code> section of <code>goals.yaml</code> makes <code>alpha-forge explore run</code> abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">pre_filter</span><span class="p">:</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">sharpe_ratio</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;&gt;=</span><span class="nv"> </span><span class="s">1.0&quot;</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">max_drawdown</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;&lt;=</span><span class="nv"> </span><span class="s">25%&quot;</span>
@@ -3738,7 +3744,7 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 </code></pre></div>
 <p>When unset or <code>&gt;= 0</code>, evaluation is skipped (backwards compatible).</p>
 <h3 id="target_metrics-arbitrary-metric-evaluation-issue-458">target_metrics arbitrary-metric evaluation (issue #458)<a class="headerlink" href="#target_metrics-arbitrary-metric-evaluation-issue-458" title="Permanent link">&para;</a></h3>
-<p>The <code>target_metrics</code> section of <code>goals.yaml</code> accepts the following arbitrary metrics. <code>forge explore run</code> Step 5 evaluates every entry, and the structured outcome is stored in DB under <code>target_metrics_diagnostics</code>.</p>
+<p>The <code>target_metrics</code> section of <code>goals.yaml</code> accepts the following arbitrary metrics. <code>alpha-forge explore run</code> Step 5 evaluates every entry, and the structured outcome is stored in DB under <code>target_metrics_diagnostics</code>.</p>
 <table>
 <thead>
 <tr>
@@ -3815,7 +3821,7 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 </code></pre></div>
 <p>Unsupported metric names or operators are skipped with a warning (the strategy is not marked failed because of them).</p>
 <h3 id="auto-relaxation-of-failed-variants-issue-428">Auto-relaxation of failed variants (issue #428)<a class="headerlink" href="#auto-relaxation-of-failed-variants-issue-428" title="Permanent link">&para;</a></h3>
-<p><code>forge explore run</code> automatically generates a relaxed v(N+1) variant JSON for any strategy that <strong>passed pre_filter but failed WFT</strong> (<code>status="wft_failed"</code>), and registers it as rank: 1 in <code>recommendations.yaml</code>. The agent no longer needs to craft v(N+1) variants by hand.</p>
+<p><code>alpha-forge explore run</code> automatically generates a relaxed v(N+1) variant JSON for any strategy that <strong>passed pre_filter but failed WFT</strong> (<code>status="wft_failed"</code>), and registers it as rank: 1 in <code>recommendations.yaml</code>. The agent no longer needs to craft v(N+1) variants by hand.</p>
 <p><strong>Trigger</strong>: <code>status="wft_failed"</code> (covers <code>skip_reason</code> of <code>wft_insufficient_oos_data</code> / <code>wft_no_valid_oos_windows</code> / <code>wft_failed</code>) <strong>and</strong> pre_filter passed.</p>
 <p><strong>Relaxation rules</strong> (up to 2 per variant, in priority order):</p>
 <table>
@@ -3845,9 +3851,9 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>  ✓ Sharpe=1.17; quality is acceptable. Auto-generated relaxed variant spy_atr_ema_macd_v2 (rsi_th.max=80→90)
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>  ✓ Registered in recommendations.yaml as rank: 1
 </code></pre></div>
-<p><code>forge explore result show &lt;name&gt; --json</code> exposes an <code>auto_relax</code> field. <code>skipped_reason="duplicate_id"</code> means the variant already exists; <code>"no_relaxable_params"</code> means no parameter in <code>param_ranges</code> matched the relaxation rules. Disable the feature with <code>forge explore run --no-auto-relax</code>.</p>
+<p><code>alpha-forge explore result show &lt;name&gt; --json</code> exposes an <code>auto_relax</code> field. <code>skipped_reason="duplicate_id"</code> means the variant already exists; <code>"no_relaxable_params"</code> means no parameter in <code>param_ranges</code> matched the relaxation rules. Disable the feature with <code>alpha-forge explore run --no-auto-relax</code>.</p>
 <h3 id="health-check-gate-auto-escalation-on-consecutive-failures">Health-check gate (auto-escalation on consecutive failures)<a class="headerlink" href="#health-check-gate-auto-escalation-on-consecutive-failures" title="Permanent link">&para;</a></h3>
-<p>When running unattended with <code>--runs 0</code>, a scaffold bug or <code>goals.yaml</code> drift can quietly produce a loop where every trial fails. To catch this early, <code>/explore-strategies</code> invokes <code>forge explore health --strict</code> at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).</p>
+<p>When running unattended with <code>--runs 0</code>, a scaffold bug or <code>goals.yaml</code> drift can quietly produce a loop where every trial fails. To catch this early, <code>/explore-strategies</code> invokes <code>alpha-forge explore health --strict</code> at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).</p>
 <p>Trigger conditions and behavior:</p>
 <ul>
 <li>All last 5 trials failed <strong>and</strong> scaffold transformation rate is <code>&gt;= 50%</code> → <code>escalation: true</code> (<code>escalation_type: "scaffold_degradation"</code>) — hard stop</li>
@@ -3856,7 +3862,7 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 <li>mid-range (10% &lt; rate &lt; 50%) → conservatively treated as <code>escalation: true</code> / <code>"scaffold_degradation"</code></li>
 <li>Fewer than 5 trials in the DB (shallow history) → observe-only, never blocks</li>
 </ul>
-<p>When <code>escalation: true</code> fires the command exits with code <code>1</code>, and the skill stops the loop and surfaces <code>recommended_actions</code> to the human operator. With <code>warning: true</code> (agent_selection_bias) the command still exits <code>0</code>; the skill prints <code>recommended_actions</code> and the agent is expected to <strong>pick a different indicator combo</strong> in the next iteration (the <code>recent_selections</code> diversity guard then auto-resolves the warning). <code>escalation_type</code> tells you whether to investigate scaffold (alpha-forge) or adjust agent behavior (alpha-forge issues #436 / #467). See the <a href="../../cli-reference/other/#forge-explore-health"><code>forge explore health</code> reference</a> for full details.</p>
+<p>When <code>escalation: true</code> fires the command exits with code <code>1</code>, and the skill stops the loop and surfaces <code>recommended_actions</code> to the human operator. With <code>warning: true</code> (agent_selection_bias) the command still exits <code>0</code>; the skill prints <code>recommended_actions</code> and the agent is expected to <strong>pick a different indicator combo</strong> in the next iteration (the <code>recent_selections</code> diversity guard then auto-resolves the warning). <code>escalation_type</code> tells you whether to investigate scaffold (alpha-forge) or adjust agent behavior (alpha-forge issues #436 / #467). See the <a href="../../cli-reference/other/#alpha-forge-explore-health"><code>alpha-forge explore health</code> reference</a> for full details.</p>
 <hr />
 <h2 id="step-2-analyze">Step 2: Analysis &amp; narrowing down (<code>/analyze-exploration</code>)<a class="headerlink" href="#step-2-analyze" title="Permanent link">&para;</a></h2>
 <p><strong>Purpose</strong>: Aggregate all past exploration logs and <strong>scientifically recommend</strong> the next set of combinations to try.</p>
@@ -3895,16 +3901,16 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 </code></pre></div>
 <h3 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h3>
 <ol>
-<li>Inspect the strategy: <code>forge strategy show &lt;strategy_name&gt;</code> to confirm <code>param_ranges</code> and grid size</li>
-<li>Signal count check (mandatory): <code>forge backtest signal-count</code></li>
-<li>Capture baseline: <code>forge backtest run</code> to record the original strategy's Sharpe</li>
-<li><strong>Exhaustive grid search</strong>: <code>forge optimize grid &lt;symbol&gt; --strategy &lt;name&gt; --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes</code></li>
+<li>Inspect the strategy: <code>alpha-forge strategy show &lt;strategy_name&gt;</code> to confirm <code>param_ranges</code> and grid size</li>
+<li>Signal count check (mandatory): <code>alpha-forge backtest signal-count</code></li>
+<li>Capture baseline: <code>alpha-forge backtest run</code> to record the original strategy's Sharpe</li>
+<li><strong>Exhaustive grid search</strong>: <code>alpha-forge optimize grid &lt;symbol&gt; --strategy &lt;name&gt; --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes</code></li>
 <li>Review Top-20 (overfitting smell, clustering of top trials)</li>
-<li>Apply best: <code>forge optimize grid ... --top-k 1 --apply --yes</code></li>
-<li><strong>WFT validation</strong>: <code>forge optimize walk-forward &lt;symbol&gt; --strategy &lt;name&gt;_optimized --windows 5</code></li>
+<li>Apply best: <code>alpha-forge optimize grid ... --top-k 1 --apply --yes</code></li>
+<li><strong>WFT validation</strong>: <code>alpha-forge optimize walk-forward &lt;symbol&gt; --strategy &lt;name&gt;_optimized --windows 5</code></li>
 <li><strong>Decision</strong>: If WFT mean Sharpe <strong>exceeds the original strategy's Sharpe</strong>, pass<ul>
-<li>Pass → <code>forge journal verdict &lt;name&gt;_optimized &lt;run_id&gt; pass</code></li>
-<li>Fail → <code>forge strategy delete &lt;name&gt;_optimized --force</code> + add a <code>note</code> to the original strategy's journal</li>
+<li>Pass → <code>alpha-forge journal verdict &lt;name&gt;_optimized &lt;run_id&gt; pass</code></li>
+<li>Fail → <code>alpha-forge strategy delete &lt;name&gt;_optimized --force</code> + add a <code>note</code> to the original strategy's journal</li>
 </ul>
 </li>
 </ol>
@@ -3921,10 +3927,10 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 </code></pre></div>
 <h3 id="steps_1">Steps<a class="headerlink" href="#steps_1" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Detect drift</strong>: <code>forge live list</code> → for each strategy ID, run <code>forge live compare &lt;strategy_id&gt;</code> and pick those exceeding <code>live_tuning.sharpe_drift_threshold</code> in <code>goals/&lt;goal_name&gt;/goals.yaml</code></li>
+<li><strong>Detect drift</strong>: <code>alpha-forge live list</code> → for each strategy ID, run <code>alpha-forge live compare &lt;strategy_id&gt;</code> and pick those exceeding <code>live_tuning.sharpe_drift_threshold</code> in <code>goals/&lt;goal_name&gt;/goals.yaml</code></li>
 <li><strong>Re-optimize</strong>: For each drifting strategy:<ul>
-<li><code>forge optimize run &lt;SYMBOL&gt; --strategy &lt;name&gt; --metric sharpe_ratio --save</code></li>
-<li><code>forge optimize walk-forward &lt;SYMBOL&gt; --strategy &lt;name&gt; --windows 5</code></li>
+<li><code>alpha-forge optimize run &lt;SYMBOL&gt; --strategy &lt;name&gt; --metric sharpe_ratio --save</code></li>
+<li><code>alpha-forge optimize walk-forward &lt;SYMBOL&gt; --strategy &lt;name&gt; --windows 5</code></li>
 </ul>
 </li>
 <li><strong>Adoption decision</strong>: Update <code>&lt;name&gt;_optimized.json</code> only if WFT mean Sharpe <strong>improves</strong>; keep current otherwise</li>
@@ -3972,7 +3978,7 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 <h2 id="end-to-end-example-explore-optimize-validate-live">End-to-end example (explore → optimize → validate → live)<a class="headerlink" href="#end-to-end-example-explore-optimize-validate-live" title="Permanent link">&para;</a></h2>
 <p>A worked example: validating and adopting "Add MACD to QQQ HMM × BB × RSI".</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># 1. Record the idea (optional; can be linked later)</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>forge<span class="w"> </span>idea<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;Add MACD to QQQ HMM×BB×RSI&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>alpha-forge<span class="w"> </span>idea<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;Add MACD to QQQ HMM×BB×RSI&quot;</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">  </span>--type<span class="w"> </span>improvement<span class="w"> </span>--tag<span class="w"> </span>hmm<span class="w"> </span>--tag<span class="w"> </span>qqq
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># 2. Try one cycle with /explore-strategies (inside Claude Code)</span>
@@ -3989,25 +3995,25 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 <a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a><span class="c1"># 4. Run /grid-tune for exhaustive optimization</span>
 <a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a>&gt;<span class="w"> </span>/grid-tune<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq<span class="w"> </span>QQQ
 <a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a><span class="c1"># → Grid Top-1 → apply → WFT validation reaches 1.45</span>
-<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="c1"># → Records pass via forge journal verdict</span>
+<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="c1"># → Records pass via alpha-forge journal verdict</span>
 <a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>
 <a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a><span class="c1"># 5. Sensitivity / overfitting check</span>
-<a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-28-23" name="__codelineno-28-23" href="#__codelineno-28-23"></a><span class="w">  </span>/path/to/data/results/optimize_multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized_20260415_103021.json
 <a id="__codelineno-28-24" name="__codelineno-28-24" href="#__codelineno-28-24"></a><span class="c1"># → overall_robustness_score=0.82 (passes)</span>
 <a id="__codelineno-28-25" name="__codelineno-28-25" href="#__codelineno-28-25"></a>
 <a id="__codelineno-28-26" name="__codelineno-28-26" href="#__codelineno-28-26"></a><span class="c1"># 6. Final approval in journal</span>
-<a id="__codelineno-28-27" name="__codelineno-28-27" href="#__codelineno-28-27"></a>forge<span class="w"> </span>journal<span class="w"> </span>verdict<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>&lt;run_id&gt;<span class="w"> </span>pass
-<a id="__codelineno-28-28" name="__codelineno-28-28" href="#__codelineno-28-28"></a>forge<span class="w"> </span>journal<span class="w"> </span>note<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span><span class="s2">&quot;OOS pass + sensitivity 0.82. Live candidate.&quot;</span>
+<a id="__codelineno-28-27" name="__codelineno-28-27" href="#__codelineno-28-27"></a>alpha-forge<span class="w"> </span>journal<span class="w"> </span>verdict<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>&lt;run_id&gt;<span class="w"> </span>pass
+<a id="__codelineno-28-28" name="__codelineno-28-28" href="#__codelineno-28-28"></a>alpha-forge<span class="w"> </span>journal<span class="w"> </span>note<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span><span class="s2">&quot;OOS pass + sensitivity 0.82. Live candidate.&quot;</span>
 <a id="__codelineno-28-29" name="__codelineno-28-29" href="#__codelineno-28-29"></a>
 <a id="__codelineno-28-30" name="__codelineno-28-30" href="#__codelineno-28-30"></a><span class="c1"># 7. Generate Pine Script for TradingView</span>
-<a id="__codelineno-28-31" name="__codelineno-28-31" href="#__codelineno-28-31"></a>forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>--with-training-data
+<a id="__codelineno-28-31" name="__codelineno-28-31" href="#__codelineno-28-31"></a>alpha-forge<span class="w"> </span>pine<span class="w"> </span>generate<span class="w"> </span>--strategy<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized<span class="w"> </span>--with-training-data
 <a id="__codelineno-28-32" name="__codelineno-28-32" href="#__codelineno-28-32"></a>
 <a id="__codelineno-28-33" name="__codelineno-28-33" href="#__codelineno-28-33"></a><span class="c1"># 8. Begin live operation (deploy execution engine to VPS — out of scope here)</span>
 <a id="__codelineno-28-34" name="__codelineno-28-34" href="#__codelineno-28-34"></a>
 <a id="__codelineno-28-35" name="__codelineno-28-35" href="#__codelineno-28-35"></a><span class="c1"># 9. After a week, compare live vs backtest</span>
-<a id="__codelineno-28-36" name="__codelineno-28-36" href="#__codelineno-28-36"></a>forge<span class="w"> </span>live<span class="w"> </span>import-events<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
-<a id="__codelineno-28-37" name="__codelineno-28-37" href="#__codelineno-28-37"></a>forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
+<a id="__codelineno-28-36" name="__codelineno-28-36" href="#__codelineno-28-36"></a>alpha-forge<span class="w"> </span>live<span class="w"> </span>import-events<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
+<a id="__codelineno-28-37" name="__codelineno-28-37" href="#__codelineno-28-37"></a>alpha-forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
 <a id="__codelineno-28-38" name="__codelineno-28-38" href="#__codelineno-28-38"></a>
 <a id="__codelineno-28-39" name="__codelineno-28-39" href="#__codelineno-28-39"></a><span class="c1"># 10. If drift is large, run /tune-live-strategies for auto re-tuning</span>
 <a id="__codelineno-28-40" name="__codelineno-28-40" href="#__codelineno-28-40"></a>&gt;<span class="w"> </span>/tune-live-strategies
@@ -4024,7 +4030,7 @@ TV MCP is still useful for Pine verification (<code>forge pine verify --check-mo
 <ul>
 <li><a href="../end-to-end-workflow/">End-to-End Strategy Development Workflow</a> — Manual CLI walkthrough for every step</li>
 <li><a href="../../getting-started/">Getting Started</a> — Tutorial through the first backtest</li>
-<li><a href="../../cli-reference/">CLI Reference</a> — Every <code>forge</code> command parameter</li>
+<li><a href="../../cli-reference/">CLI Reference</a> — Every <code>alpha-forge</code> command parameter</li>
 <li><a href="../../templates/">Strategy Templates</a> — Bundled strategies like HMM × BB × RSI</li>
 </ul>
 <hr />

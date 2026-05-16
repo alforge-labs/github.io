@@ -8,13 +8,13 @@ This documentation walks through installation, strategy development, and integra
 
 ### 1. JSON strategy → one command → Pine Script v6 → live on TradingView
 
-Write your strategy in JSON, then run `forge pine generate` to compile it into **TradingView Pine Script v6**. Unlike all-in-one Web UI platforms that lock you into a specific server and exchange adapters, AlphaForge lets you reuse your existing TradingView setup for alerts, automation, and chart visualization.
+Write your strategy in JSON, then run `alpha-forge pine generate` to compile it into **TradingView Pine Script v6**. Unlike all-in-one Web UI platforms that lock you into a specific server and exchange adapters, AlphaForge lets you reuse your existing TradingView setup for alerts, automation, and chart visualization.
 
 ![JSON strategy → Backtest + Optimize → Pine Script v6 → TradingView horizontal pipeline](assets/illustrations/alphaforge-json-to-tradingview-en.png){ loading=lazy }
 
 ### 2. Optuna TPE + walk-forward validation to fight overfitting
 
-`forge optimize run` triggers Optuna Bayesian optimization (TPE) out of the box, and `--split` adds walk-forward analysis (WFT) so you can compare in-sample vs out-of-sample performance in one step. This is the optimization and generalization layer that Web-UI-centric platforms typically lack.
+`alpha-forge optimize run` triggers Optuna Bayesian optimization (TPE) out of the box, and `--split` adds walk-forward analysis (WFT) so you can compare in-sample vs out-of-sample performance in one step. This is the optimization and generalization layer that Web-UI-centric platforms typically lack.
 
 ![Parameter ranges → Optuna TPE optimization → IS/OOS/WFT delta → Optimized strategy branching flow](assets/illustrations/alphaforge-optuna-wft-flow-en.png){ loading=lazy }
 
@@ -42,7 +42,7 @@ Write your strategy in JSON, then run `forge pine generate` to compile it into *
 
 - [Getting Started](getting-started.md) — Installation, license activation, and your first backtest (10-minute Free-plan walkthrough included)
 - [Use Cases by Goal](usecases/index.md) — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)
-- [CLI Reference](cli-reference/index.md) — Every `forge` command with parameters and output examples
+- [CLI Reference](cli-reference/index.md) — Every `alpha-forge` command with parameters and output examples
 - [Strategy Templates](templates.md) — Combination strategies like HMM × BB × RSI with concrete JSON
 - [AI-Driven Strategy Exploration Workflow](guides/ai-exploration-workflow.md) — A how-to for autonomous strategy development with Claude Code / Codex × AlphaForge
 - [Legal & Disclaimers](legal/disclaimers.md) — Disclaimers, EULA, and Privacy Policy

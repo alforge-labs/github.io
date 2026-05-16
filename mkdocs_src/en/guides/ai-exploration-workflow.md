@@ -2,8 +2,12 @@
 
 Combining Claude Code, Codex, and similar AI coding agents with AlphaForge as the "brain" lets you autonomously drive **idea → implementation → backtest → optimization → validation → live tuning**.
 
-!!! info "Prerequisite"
-    The commands and flows shown here assume the `alpha-trade` monorepo (a combination of `alpha-forge` and `alpha-strategies`). **Binary users should follow the "Minimum setup for binary users" section below first.**
+!!! info "Prerequisites"
+    - **Audience**: intermediate-to-advanced users who **already use** AI coding agents (Claude Code / Codex). You should be comfortable writing prompts for an agent and understand how slash commands work.
+    - **Requirements**: AlphaForge **binary v0.5.4+**, or the `alpha-trade` monorepo dev setup (`alpha-forge` + `alpha-strategies`).
+    - **Time budget**: ~10 min for the initial setup. The exploration loop itself is long-running (hours to overnight) — plan to run it unattended (e.g., overnight) for best results.
+    - **If you want to learn the manual CLI step by step first**: read the [End-to-End Strategy Workflow](end-to-end-workflow.md) before coming back here. This page assumes you want the **automated AI exploration** path.
+    - **Binary users**: complete the "Minimum setup for binary users" section first. Where this page shows monorepo-style commands, you can **substitute `alpha-forge` (the binary on your PATH)** instead.
 
 ## Minimum setup for binary users {#binary-user-setup}
 
@@ -37,7 +41,7 @@ codex .        # Codex CLI
 
 Edit `goals/default/goals.yaml` to align the target symbols (`exploration.assets`) and pass criteria (`target_metrics`) with your own strategy development direction. Add more goals (e.g., `goals/crypto/goals.yaml`, `goals/fx/goals.yaml`) and you can run them in parallel with `/explore-strategies --goal <name>`.
 
-After that, follow the rest of this page — the Overall Flow section below and Steps 1 through 4 — verbatim. The monorepo-style commands like `uv --directory alpha-forge run forge` or `op run --env-file=...` can simply be read as `alpha-forge` (or `forge` if you have it on your PATH) when using the binary.
+After that, follow the rest of this page — the Overall Flow section below and Steps 1 through 4 — verbatim. The monorepo-style commands like `uv --directory alpha-forge run alpha-forge` or `op run --env-file=...` can simply be read as `alpha-forge` (or `alpha-forge` if you have it on your PATH) when using the binary.
 
 ## Why AI agents × AlphaForge
 
@@ -85,8 +89,8 @@ Add the following patterns to `permissions.allow` in `.claude/settings.local.jso
   "permissions": {
     "allow": [
       "Write(alpha-strategies/data/strategies/*.json)",
-      "Bash(uv --directory alpha-forge run forge *)",
-      "Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)",
+      "Bash(uv --directory alpha-forge run alpha-forge *)",
+      "Bash(FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)",
       "Bash(git -C */alpha-strategies add data/)",
       "Bash(git -C */alpha-strategies commit *)",
       "Bash(git -C */alpha-strategies push)",
@@ -102,8 +106,8 @@ All paths are relative to `alpha-trade/` as the working root.
 | Pattern | What it authorizes |
 |---------|-------------------|
 | `Write(alpha-strategies/data/strategies/*.json)` | Writing strategy JSON files (one per strategy) |
-| `Bash(uv --directory alpha-forge run forge *)` | Direct forge execution |
-| `Bash(FORGE_CONFIG=* uv --directory alpha-forge run forge *)` | Forge commands with any FORGE_CONFIG (relative or absolute) |
+| `Bash(uv --directory alpha-forge run alpha-forge *)` | Direct alpha-forge execution |
+| `Bash(FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)` | Forge commands with any FORGE_CONFIG (relative or absolute) |
 | `Bash(git -C */alpha-strategies add data/)` | Staging exploration results |
 | `Bash(git -C */alpha-strategies commit *)` | Committing exploration results |
 | `Bash(git -C */alpha-strategies push)` | Pushing to alpha-strategies |
@@ -117,30 +121,30 @@ All paths are relative to `alpha-trade/` as the working root.
     Merge the new entries into your existing array — do not overwrite the entire file, or you will lose your existing permissions.
 
 !!! info "Using 1Password"
-    If you run forge via `op run`, add these patterns as well:
+    If you run alpha-forge via `op run`, add these patterns as well:
     ```json
-    "Bash(op run --env-file=alpha-forge/.env.op -- uv --directory alpha-forge run forge *)",
-    "Bash(FORCE_COLOR=* FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore run *)",
-    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge strategy *)",
-    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge data fetch *)",
-    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run forge explore *)"
+    "Bash(op run --env-file=alpha-forge/.env.op -- uv --directory alpha-forge run alpha-forge *)",
+    "Bash(FORCE_COLOR=* FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge explore run *)",
+    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge strategy *)",
+    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge data fetch *)",
+    "Bash(FORGE_CONFIG=* op run * uv --directory alpha-forge run alpha-forge explore *)"
     ```
 
 !!! warning "FORCE_COLOR=1 prefix is required"
-    The `/explore-strategies` skill mandates that `forge backtest run` / `forge optimize run` / `forge optimize walk-forward` / `forge explore run` be prefixed with `FORCE_COLOR=1` so that progress bars render correctly ([alpha-forge issue #410](https://github.com/ysakae/alpha-forge/issues/410)). Because the command line begins with `FORCE_COLOR=1 `, it does not match existing patterns that start with `FORGE_CONFIG=...` and may trigger a permission prompt that blocks unattended runs. Add the following patterns:
+    The `/explore-strategies` skill mandates that `alpha-forge backtest run` / `alpha-forge optimize run` / `alpha-forge optimize walk-forward` / `alpha-forge explore run` be prefixed with `FORCE_COLOR=1` so that progress bars render correctly ([alpha-forge issue #410](https://github.com/ysakae/alpha-forge/issues/410)). Because the command line begins with `FORCE_COLOR=1 `, it does not match existing patterns that start with `FORGE_CONFIG=...` and may trigger a permission prompt that blocks unattended runs. Add the following patterns:
     ```json
     "Bash(FORCE_COLOR=1 FORGE_CONFIG=* op run *)",
-    "Bash(FORCE_COLOR=1 FORGE_CONFIG=* uv --directory alpha-forge run forge *)",
-    "Bash(FORCE_COLOR=1 uv --directory alpha-forge run forge *)"
+    "Bash(FORCE_COLOR=1 FORGE_CONFIG=* uv --directory alpha-forge run alpha-forge *)",
+    "Bash(FORCE_COLOR=1 uv --directory alpha-forge run alpha-forge *)"
     ```
 
 ### Detecting 1Password session expiry early (unattended runs) {#op-session-precheck}
 
-For unattended runs (overnight batches, etc.), an expired `op` session causes every subsequent `op run` invocation to fail with an authentication error. The `/explore-strategies` skill runs `forge system auth check op` at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid ([alpha-forge issue #411](https://github.com/ysakae/alpha-forge/issues/411)).
+For unattended runs (overnight batches, etc.), an expired `op` session causes every subsequent `op run` invocation to fail with an authentication error. The `/explore-strategies` skill runs `alpha-forge system auth check op` at the start of each loop iteration and stops the loop with exit code 2 when the session is invalid ([alpha-forge issue #411](https://github.com/ysakae/alpha-forge/issues/411)).
 
 ```bash
 # Verify session validity
-uv --directory alpha-forge run forge system auth check op
+uv --directory alpha-forge run alpha-forge system auth check op
 echo "exit: $?"   # 0 = valid, 2 = session expired / op missing / timeout
 ```
 
@@ -186,7 +190,7 @@ Replace `/absolute/path/` with your actual path (e.g., `/Users/yourname/dev/alph
     `--dangerously-bypass-approvals-and-sandbox` disables both approvals and sandboxing. Do not use it for normal local exploration unless you are running inside an externally isolated throwaway environment.
 
 !!! tip "Prefetch data first"
-    Codex's `workspace-write` sandbox may restrict network access depending on your environment. For symbols that need `forge data fetch` / `forge data update`, run `/update-market-data` or `forge data fetch <SYMBOL>` manually before starting the unattended run.
+    Codex's `workspace-write` sandbox may restrict network access depending on your environment. For symbols that need `alpha-forge data fetch` / `alpha-forge data update`, run `/update-market-data` or `alpha-forge data fetch <SYMBOL>` manually before starting the unattended run.
 
 ---
 
@@ -218,11 +222,11 @@ Step 4: /tune-live-strategies
 Before starting exploration, make sure the target symbol data is up to date.
 
 ```bash
-# Bulk incremental update of stored data (binary: forge data update <SYMBOL>)
+# Bulk incremental update of stored data (binary: alpha-forge data update <SYMBOL>)
 > /update-market-data
 ```
 
-`/update-market-data` runs `forge data list` to find registered symbols and calls `forge data update` on each. For brand-new symbols, run `forge data fetch <SYMBOL>` manually first.
+`/update-market-data` runs `alpha-forge data list` to find registered symbols and calls `alpha-forge data update` on each. For brand-new symbols, run `alpha-forge data fetch <SYMBOL>` manually first.
 
 ---
 
@@ -234,14 +238,14 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 ### Scenario 1: Combinations from existing strategies / indicators
 
-**Starting point**: Your existing strategy JSON files and the `forge analyze indicator list` catalog.
+**Starting point**: Your existing strategy JSON files and the `alpha-forge analyze indicator list` catalog.
 
 **Typical flow**:
 
-1. Tell Claude Code: "Take `forge strategy show multi_asset_hmm_bb_rsi_v1_qqq` as the base and add MACD to create a derivative."
+1. Tell Claude Code: "Take `alpha-forge strategy show multi_asset_hmm_bb_rsi_v1_qqq` as the base and add MACD to create a derivative."
 2. The agent edits the JSON and creates `multi_asset_hmm_bb_rsi_macd_v1_qqq.json`
-3. `forge strategy validate` → `forge strategy save` → `forge backtest run`
-4. If Sharpe improves, run `forge optimize run` to fine-tune
+3. `alpha-forge strategy validate` → `alpha-forge strategy save` → `alpha-forge backtest run`
+4. If Sharpe improves, run `alpha-forge optimize run` to fine-tune
 
 **Tip**: With `/explore-strategies`, you can fully delegate combination selection through reporting to the agent.
 
@@ -252,11 +256,11 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 **Typical flow**:
 
 1. Save an interesting Pine Script locally (`tv_<name>.pine`)
-2. **Import**: `forge pine import tv_<name>.pine --id imported_v1`
+2. **Import**: `alpha-forge pine import tv_<name>.pine --id imported_v1`
 3. Tell the agent: "Reorganize this strategy's `parameters` and `indicators`, and add an `optimizer_config`."
 4. The agent reshapes the JSON and surfaces optimization targets
-5. `forge backtest run` → `forge optimize run` to validate AlphaForge-style
-6. If good, regenerate via `forge pine generate` and verify on TradingView
+5. `alpha-forge backtest run` → `alpha-forge optimize run` to validate AlphaForge-style
+6. If good, regenerate via `alpha-forge pine generate` and verify on TradingView
 
 **Tip**: Bringing Pine Script logic into **JSON form** unlocks all of AlphaForge's analysis (optimize, WFT, Monte Carlo).
 
@@ -268,9 +272,9 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 1. Hand Claude Code a **URL or PDF** and ask: "Extract the core logic of this strategy into `indicators` and `entry_conditions`."
 2. The agent summarizes the article and drafts a strategy JSON
-3. `forge strategy validate` to catch logical errors → fix
-4. `forge backtest signal-count` to verify signal count (conditions not too restrictive)
-5. `forge backtest run` → optimize as needed
+3. `alpha-forge strategy validate` to catch logical errors → fix
+4. `alpha-forge backtest signal-count` to verify signal count (conditions not too restrictive)
+5. `alpha-forge backtest run` → optimize as needed
 6. Compare the article's claimed results vs the actual backtest (**often unreproducible**)
 
 **Tip**: Paper strategies often fail to reproduce when "data period", "symbol", or "transaction costs" differ. Letting the agent **soberly compare** "claimed" vs "real" results acts as a reality filter.
@@ -285,9 +289,9 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 1. **Pre-flight**: Read `goals/<goal_name>/goals.yaml`, `goals/<goal_name>/explored_log.md`, and existing strategy JSON files; identify untried combinations
 2. **Strategy generation**: Pick one indicator × symbol combo, generate the strategy JSON, and save under `data/strategies/<name>.json`
-3. **Register → validate**: `forge strategy save` → `forge strategy validate` for logical consistency (rollback on failure)
-4. **Data fetch**: `forge data fetch <SYMBOL> --period 5y` (only if not already cached)
-5. **Run the full pipeline in one command**: `forge explore run <SYMBOL> --strategy <name> --goal <goal_name> --json`
+3. **Register → validate**: `alpha-forge strategy save` → `alpha-forge strategy validate` for logical consistency (rollback on failure)
+4. **Data fetch**: `alpha-forge data fetch <SYMBOL> --period 5y` (only if not already cached)
+5. **Run the full pipeline in one command**: `alpha-forge explore run <SYMBOL> --strategy <name> --goal <goal_name> --json`
    Signal check → backtest → optimize → walk-forward → coverage update → DB registration — all in one step
 6. **Record outcome**: Read `passed` / `skip_reason` from the output JSON, then append to `goals/<goal_name>/explored_log.md` and `goals/<goal_name>/reports/YYYY-MM-DD.md`. When `passed: false` and `cleanup_done: true`, strategy JSON and result JSON have already been removed automatically
 
@@ -309,8 +313,8 @@ AI agent × AlphaForge usage falls into three categories based on **what you're 
 
 When `tv_mcp.pine_verify.enabled: true` is set in `forge.yaml` and a TradingView MCP server is running, the `/explore-strategies` skill automatically runs the following for each passing strategy and writes the **TV consistency check** plus a **chart PNG** to `goals/<goal_name>/reports/<strategy_id>/` (fail-soft: MCP connection or metrics-fetch failures only emit a warning log and do not change the strategy verdict or coverage registration):
 
-- `forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/<id>/verify.md`
-- `forge journal report --with-chart --symbol <SYM> --interval D --output reports/<id>/journal.md`
+- `alpha-forge pine verify --check-mode metrics --auto-backtest --mcp-server-flavor vinicius --output reports/<id>/verify.md`
+- `alpha-forge journal report --with-chart --symbol <SYM> --interval D --output reports/<id>/journal.md`
 
 For goals without an MCP server running (or with `tv_mcp.pine_verify.enabled: false`), the step is skipped and the existing loop behavior is preserved. See the [TradingView Pine integration guide](tradingview-pine-integration.md) for details.
 
@@ -335,7 +339,7 @@ Use `--runs 0` to loop until a rate limit is hit or all combinations are exhaust
 
 ### Scaffold supported indicators and behavior (post issue #427)
 
-`forge strategy scaffold` supports the following indicators:
+`alpha-forge strategy scaffold` supports the following indicators:
 
 - **mean-reversion**: BB (required), RSI, MACD, ADX, SUPERTREND, STOCH, HMM, SMA (long-term trend filter), EMA (mid-term trend filter)
 - **trend-following**: EMA (required), ADX, MACD, RSI, SUPERTREND, STOCH, HMM, BB (volatility / trend confirmation filter), SMA (long-term bull/bear filter)
@@ -374,7 +378,7 @@ Short is mirrored (prev-bar BB upper break + current-bar bearish candle). Set th
 **confirm_bars=2/3 (issue #473)**: 2 / 3 consecutive reversal bars. **wick_ratio** option additionally requires pin-bar reversals (wick ≥ body × N):
 
 ```bash
-forge strategy scaffold --symbol GBPUSD=X --indicators BB,EMA,ADX \
+alpha-forge strategy scaffold --symbol GBPUSD=X --indicators BB,EMA,ADX \
   --type mean-reversion --confirm-bars 2 --wick-ratio 1.0 --save
 ```
 
@@ -382,7 +386,7 @@ Set `goals.yaml.scaffold_defaults.wick_ratio: 1.0` for a goal default. **Measure
 
 ### Per-goal scaffold defaults (issue #461)
 
-Goal-specific leverage / position size / stop can be set in the `exploration.scaffold_defaults` section of `goals.yaml`, and `forge strategy scaffold --goal <name>` applies them automatically. `exploration.initial_capital` overrides the `forge.yaml` capital assumption.
+Goal-specific leverage / position size / stop can be set in the `exploration.scaffold_defaults` section of `goals.yaml`, and `alpha-forge strategy scaffold --goal <name>` applies them automatically. `exploration.initial_capital` overrides the `forge.yaml` capital assumption.
 
 ```yaml
 # Example: oanda_gold/goals.yaml
@@ -403,19 +407,19 @@ CLI:
 
 ```bash
 # Goal reference
-forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
+alpha-forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
   --type mean-reversion --strategy-id usdjpy_bb_rsi_v1 \
   --goal oanda_gold --save
 
 # Explicit flags (override)
-forge strategy scaffold ... \
+alpha-forge strategy scaffold ... \
   --position-size-pct 100 --leverage 5 \
   --stop-loss-pct 1.5 --take-profit-pct 3.0 --save
 ```
 
 **Priority**: explicit CLI flag > `goals.yaml.scaffold_defaults` (+ `type_overrides`) > existing defaults
 
-`forge backtest run --goal <name>` and `forge explore run --goal <name>` also read `goals.yaml.exploration.initial_capital` and override the `BacktestConfig` (no need to edit `forge.yaml`).
+`alpha-forge backtest run --goal <name>` and `alpha-forge explore run --goal <name>` also read `goals.yaml.exploration.initial_capital` and override the `BacktestConfig` (no need to edit `forge.yaml`).
 
 **Typical use cases**:
 
@@ -434,10 +438,10 @@ exploration:
   backtest_period: "2y"     # data fetch period for explore run (default: "5y")
 ```
 
-These values flow into the `timeframe` of strategies generated by `forge strategy scaffold --goal <name>` and the data fetch period used by `forge explore run --goal <name>`. Use `--timeframe` to override per invocation:
+These values flow into the `timeframe` of strategies generated by `alpha-forge strategy scaffold --goal <name>` and the data fetch period used by `alpha-forge explore run --goal <name>`. Use `--timeframe` to override per invocation:
 
 ```bash
-forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
+alpha-forge strategy scaffold --symbol USDJPY=X --indicators BB,RSI \
   --type mean-reversion --strategy-id usdjpy_bb_rsi_1h_v1 \
   --timeframe 1h --save
 ```
@@ -467,7 +471,7 @@ Manually pre-cache the long-term data before starting `/explore-strategies` (avo
 
 ```bash
 for sym in SPY QQQ NVDA AAPL MSFT GOOGL; do
-  forge data fetch $sym --provider yfinance --period 20y --interval 1d
+  alpha-forge data fetch $sym --provider yfinance --period 20y --interval 1d
 done
 ```
 
@@ -495,19 +499,19 @@ exploration:
 ```
 
 > ⚠️ **TV MCP cannot be used for long-term fetches** (issue #683)  
-> The `chart_scroll_to_date` tool in tradesdontlie / vinicius MCP servers fails with `"evaluate is not defined"`, so TV Desktop never loads historical data beyond what is currently shown. Since `data_get_ohlcv` only returns bars currently visible on the chart, `forge data fetch <SYM> --provider tv_mcp --period 20y` returns only the latest ~14 months. **Use yfinance for long-term data**.  
-> TV MCP is still useful for Pine verification (`forge pine verify --check-mode metrics`) and chart PNG capture (`forge tv chart`).
+> The `chart_scroll_to_date` tool in tradesdontlie / vinicius MCP servers fails with `"evaluate is not defined"`, so TV Desktop never loads historical data beyond what is currently shown. Since `data_get_ohlcv` only returns bars currently visible on the chart, `alpha-forge data fetch <SYM> --provider tv_mcp --period 20y` returns only the latest ~14 months. **Use yfinance for long-term data**.  
+> TV MCP is still useful for Pine verification (`alpha-forge pine verify --check-mode metrics`) and chart PNG capture (`alpha-forge tv chart`).
 
 #### `/explore-strategies` TV MCP preflight
 
-When a goal has `exploration.data_provider_override.{stock|fx}: tv_mcp` set, the skill executes `forge data tv-mcp check --json` at the start of each run:
+When a goal has `exploration.data_provider_override.{stock|fx}: tv_mcp` set, the skill executes `alpha-forge data tv-mcp check --json` at the start of each run:
 
 - Exit `0`: continue
 - Exit `2`: endpoint missing / TV Desktop not running / MCP server connection failed → loop is stopped and recorded to `<goal_dir>/explored_log.md` (no auto-launch / no retry)
 
 ### Early cutoff via pre_filter min_trades (issue #429)
 
-Adding `min_trades` to the `pre_filter` section of `goals.yaml` makes `forge explore run` abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.
+Adding `min_trades` to the `pre_filter` section of `goals.yaml` makes `alpha-forge explore run` abort strategies whose backtest trade count is below the threshold immediately after the backtest, skipping the Optuna optimization (tens of seconds to minutes) and WFT to save compute resources.
 
 ```yaml
 pre_filter:
@@ -573,7 +577,7 @@ When unset or `>= 0`, evaluation is skipped (backwards compatible).
 
 ### target_metrics arbitrary-metric evaluation (issue #458)
 
-The `target_metrics` section of `goals.yaml` accepts the following arbitrary metrics. `forge explore run` Step 5 evaluates every entry, and the structured outcome is stored in DB under `target_metrics_diagnostics`.
+The `target_metrics` section of `goals.yaml` accepts the following arbitrary metrics. `alpha-forge explore run` Step 5 evaluates every entry, and the structured outcome is stored in DB under `target_metrics_diagnostics`.
 
 | Metric | Meaning | Source |
 |--------|---------|--------|
@@ -604,7 +608,7 @@ Unsupported metric names or operators are skipped with a warning (the strategy i
 
 ### Auto-relaxation of failed variants (issue #428)
 
-`forge explore run` automatically generates a relaxed v(N+1) variant JSON for any strategy that **passed pre_filter but failed WFT** (`status="wft_failed"`), and registers it as rank: 1 in `recommendations.yaml`. The agent no longer needs to craft v(N+1) variants by hand.
+`alpha-forge explore run` automatically generates a relaxed v(N+1) variant JSON for any strategy that **passed pre_filter but failed WFT** (`status="wft_failed"`), and registers it as rank: 1 in `recommendations.yaml`. The agent no longer needs to craft v(N+1) variants by hand.
 
 **Trigger**: `status="wft_failed"` (covers `skip_reason` of `wft_insufficient_oos_data` / `wft_no_valid_oos_windows` / `wft_failed`) **and** pre_filter passed.
 
@@ -624,11 +628,11 @@ Example CLI output:
   ✓ Registered in recommendations.yaml as rank: 1
 ```
 
-`forge explore result show <name> --json` exposes an `auto_relax` field. `skipped_reason="duplicate_id"` means the variant already exists; `"no_relaxable_params"` means no parameter in `param_ranges` matched the relaxation rules. Disable the feature with `forge explore run --no-auto-relax`.
+`alpha-forge explore result show <name> --json` exposes an `auto_relax` field. `skipped_reason="duplicate_id"` means the variant already exists; `"no_relaxable_params"` means no parameter in `param_ranges` matched the relaxation rules. Disable the feature with `alpha-forge explore run --no-auto-relax`.
 
 ### Health-check gate (auto-escalation on consecutive failures)
 
-When running unattended with `--runs 0`, a scaffold bug or `goals.yaml` drift can quietly produce a loop where every trial fails. To catch this early, `/explore-strategies` invokes `forge explore health --strict` at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).
+When running unattended with `--runs 0`, a scaffold bug or `goals.yaml` drift can quietly produce a loop where every trial fails. To catch this early, `/explore-strategies` invokes `alpha-forge explore health --strict` at the start of every iteration and inspects the most recent five trials (alpha-forge issue #408).
 
 Trigger conditions and behavior:
 
@@ -638,7 +642,7 @@ Trigger conditions and behavior:
   - mid-range (10% < rate < 50%) → conservatively treated as `escalation: true` / `"scaffold_degradation"`
 - Fewer than 5 trials in the DB (shallow history) → observe-only, never blocks
 
-When `escalation: true` fires the command exits with code `1`, and the skill stops the loop and surfaces `recommended_actions` to the human operator. With `warning: true` (agent_selection_bias) the command still exits `0`; the skill prints `recommended_actions` and the agent is expected to **pick a different indicator combo** in the next iteration (the `recent_selections` diversity guard then auto-resolves the warning). `escalation_type` tells you whether to investigate scaffold (alpha-forge) or adjust agent behavior (alpha-forge issues #436 / #467). See the [`forge explore health` reference](../cli-reference/other.md#forge-explore-health) for full details.
+When `escalation: true` fires the command exits with code `1`, and the skill stops the loop and surfaces `recommended_actions` to the human operator. With `warning: true` (agent_selection_bias) the command still exits `0`; the skill prints `recommended_actions` and the agent is expected to **pick a different indicator combo** in the next iteration (the `recent_selections` diversity guard then auto-resolves the warning). `escalation_type` tells you whether to investigate scaffold (alpha-forge) or adjust agent behavior (alpha-forge issues #436 / #467). See the [`alpha-forge explore health` reference](../cli-reference/other.md#alpha-forge-explore-health) for full details.
 
 ---
 
@@ -689,16 +693,16 @@ candidates:
 
 ### Steps
 
-1. Inspect the strategy: `forge strategy show <strategy_name>` to confirm `param_ranges` and grid size
-2. Signal count check (mandatory): `forge backtest signal-count`
-3. Capture baseline: `forge backtest run` to record the original strategy's Sharpe
-4. **Exhaustive grid search**: `forge optimize grid <symbol> --strategy <name> --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes`
+1. Inspect the strategy: `alpha-forge strategy show <strategy_name>` to confirm `param_ranges` and grid size
+2. Signal count check (mandatory): `alpha-forge backtest signal-count`
+3. Capture baseline: `alpha-forge backtest run` to record the original strategy's Sharpe
+4. **Exhaustive grid search**: `alpha-forge optimize grid <symbol> --strategy <name> --metric sharpe_ratio --top-k 20 --chunk-size 100 --max-memory-mb 4096 --min-trades 30 --save --save-format csv --yes`
 5. Review Top-20 (overfitting smell, clustering of top trials)
-6. Apply best: `forge optimize grid ... --top-k 1 --apply --yes`
-7. **WFT validation**: `forge optimize walk-forward <symbol> --strategy <name>_optimized --windows 5`
+6. Apply best: `alpha-forge optimize grid ... --top-k 1 --apply --yes`
+7. **WFT validation**: `alpha-forge optimize walk-forward <symbol> --strategy <name>_optimized --windows 5`
 8. **Decision**: If WFT mean Sharpe **exceeds the original strategy's Sharpe**, pass
-    - Pass → `forge journal verdict <name>_optimized <run_id> pass`
-    - Fail → `forge strategy delete <name>_optimized --force` + add a `note` to the original strategy's journal
+    - Pass → `alpha-forge journal verdict <name>_optimized <run_id> pass`
+    - Fail → `alpha-forge strategy delete <name>_optimized --force` + add a `note` to the original strategy's journal
 
 ### Memory / OOM guidance
 
@@ -718,10 +722,10 @@ candidates:
 
 ### Steps
 
-1. **Detect drift**: `forge live list` → for each strategy ID, run `forge live compare <strategy_id>` and pick those exceeding `live_tuning.sharpe_drift_threshold` in `goals/<goal_name>/goals.yaml`
+1. **Detect drift**: `alpha-forge live list` → for each strategy ID, run `alpha-forge live compare <strategy_id>` and pick those exceeding `live_tuning.sharpe_drift_threshold` in `goals/<goal_name>/goals.yaml`
 2. **Re-optimize**: For each drifting strategy:
-    - `forge optimize run <SYMBOL> --strategy <name> --metric sharpe_ratio --save`
-    - `forge optimize walk-forward <SYMBOL> --strategy <name> --windows 5`
+    - `alpha-forge optimize run <SYMBOL> --strategy <name> --metric sharpe_ratio --save`
+    - `alpha-forge optimize walk-forward <SYMBOL> --strategy <name> --windows 5`
 3. **Adoption decision**: Update `<name>_optimized.json` only if WFT mean Sharpe **improves**; keep current otherwise
 4. Append the report to `data/explorer/reports/tuning-YYYY-MM-DD.md`
 
@@ -784,7 +788,7 @@ A worked example: validating and adopting "Add MACD to QQQ HMM × BB × RSI".
 
 ```bash
 # 1. Record the idea (optional; can be linked later)
-forge idea add "Add MACD to QQQ HMM×BB×RSI" \
+alpha-forge idea add "Add MACD to QQQ HMM×BB×RSI" \
   --type improvement --tag hmm --tag qqq
 
 # 2. Try one cycle with /explore-strategies (inside Claude Code)
@@ -801,25 +805,25 @@ forge idea add "Add MACD to QQQ HMM×BB×RSI" \
 # 4. Run /grid-tune for exhaustive optimization
 > /grid-tune multi_asset_hmm_bb_rsi_macd_v1_qqq QQQ
 # → Grid Top-1 → apply → WFT validation reaches 1.45
-# → Records pass via forge journal verdict
+# → Records pass via alpha-forge journal verdict
 
 # 5. Sensitivity / overfitting check
-forge optimize sensitivity \
+alpha-forge optimize sensitivity \
   /path/to/data/results/optimize_multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized_20260415_103021.json
 # → overall_robustness_score=0.82 (passes)
 
 # 6. Final approval in journal
-forge journal verdict multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized <run_id> pass
-forge journal note multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized "OOS pass + sensitivity 0.82. Live candidate."
+alpha-forge journal verdict multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized <run_id> pass
+alpha-forge journal note multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized "OOS pass + sensitivity 0.82. Live candidate."
 
 # 7. Generate Pine Script for TradingView
-forge pine generate --strategy multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized --with-training-data
+alpha-forge pine generate --strategy multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized --with-training-data
 
 # 8. Begin live operation (deploy execution engine to VPS — out of scope here)
 
 # 9. After a week, compare live vs backtest
-forge live import-events multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
-forge live compare multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
+alpha-forge live import-events multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
+alpha-forge live compare multi_asset_hmm_bb_rsi_macd_v1_qqq_optimized
 
 # 10. If drift is large, run /tune-live-strategies for auto re-tuning
 > /tune-live-strategies
@@ -839,7 +843,7 @@ Everything else runs autonomously through the agent.
 
 - [End-to-End Strategy Development Workflow](end-to-end-workflow.md) — Manual CLI walkthrough for every step
 - [Getting Started](../getting-started.md) — Tutorial through the first backtest
-- [CLI Reference](../cli-reference/index.md) — Every `forge` command parameter
+- [CLI Reference](../cli-reference/index.md) — Every `alpha-forge` command parameter
 - [Strategy Templates](../templates.md) — Bundled strategies like HMM × BB × RSI
 
 ---

@@ -2666,8 +2666,8 @@
 <div class="admonition info">
 <p class="admonition-title">本ページの位置づけ</p>
 <ul>
-<li>配布バイナリ同梱の <strong>7 戦略の ID 一覧</strong> は <a href="../cli-reference/strategy/">CLI リファレンス: forge strategy</a> を参照してください。</li>
-<li>本ページの JSON は「自分でカスタム戦略を作るときの組み立て例」として書かれており、<code>strategy_id</code> は <code>my_*</code> の仮名にしています。実際に使う場合は意味のある自分の命名に置き換えて、<code>forge strategy save</code> で登録してください。</li>
+<li>配布バイナリ同梱の <strong>7 戦略の ID 一覧</strong> は <a href="../cli-reference/strategy/">CLI リファレンス: alpha-forge strategy</a> を参照してください。</li>
+<li>本ページの JSON は「自分でカスタム戦略を作るときの組み立て例」として書かれており、<code>strategy_id</code> は <code>my_*</code> の仮名にしています。実際に使う場合は意味のある自分の命名に置き換えて、<code>alpha-forge strategy save</code> で登録してください。</li>
 <li>バックテスト結果の数値はサンプルです。実際の数値はデータと環境（取得期間、プロバイダー、設定）によって変わります。</li>
 </ul>
 </div>
@@ -2704,7 +2704,7 @@
 </table>
 <p>これらは配布バイナリ同梱の <code>hmm_bb_pipeline_v1</code>（HMM 利用例）や <code>donchian_turtle_v1</code>（古典トレンドフォロー）よりも一歩踏み込んだ構成で、いずれも「同梱 7 戦略をベースに自分でカスタマイズする」ときの設計指針として活用できます。</p>
 <h2 id="json">戦略 JSON の基本構造<a class="headerlink" href="#json" title="Permanent link">&para;</a></h2>
-<p>すべての戦略は同じ Pydantic スキーマに従います。詳細は <a href="../cli-reference/other/#analyze-indicator"><code>forge analyze indicator list</code></a> で確認できます。</p>
+<p>すべての戦略は同じ Pydantic スキーマに従います。詳細は <a href="../cli-reference/other/#analyze-indicator"><code>alpha-forge analyze indicator list</code></a> で確認できます。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>{
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  &quot;strategy_id&quot;: &quot;...&quot;,
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  &quot;name&quot;: &quot;...&quot;,
@@ -2886,7 +2886,7 @@
 <li><strong>対象銘柄を変える</strong>: <code>target_symbols</code> を <code>["SPY"]</code>、<code>["NVDA"]</code>、<code>["GC=F"]</code> 等に差し替え</li>
 <li><strong>状態数を変える</strong>: <code>regime.n_components: 2</code>（Bull/Bear）に減らすと判定が単純化、<code>4</code> で精緻化（要データ量）</li>
 <li><strong>エントリー条件を強化</strong>: <code>regime_config.states["0"].entry_conditions</code> に <code>volume &gt; sma_volume_20</code> などを追加</li>
-<li><strong>最適化対象</strong>: <code>forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save</code></li>
+<li><strong>最適化対象</strong>: <code>alpha-forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save</code></li>
 </ul>
 <hr />
 <h2 id="regime-switching">レジーム切り替え（regime-switching）<a class="headerlink" href="#regime-switching" title="Permanent link">&para;</a></h2>
@@ -3032,7 +3032,7 @@
 <li><strong>状態数を増やす</strong>: <code>n_components: 3</code> にすると Bull/Range/Bear の 3 区分に。<code>states["2"]</code> を追加</li>
 <li><strong>対象を株式に</strong>: <code>target_symbols</code> を株式銘柄に変えて <code>risk_management.leverage</code> を <code>1.0-2.0</code> へ下げる</li>
 <li><strong>取引機会を増やす</strong>: 各レジームの <code>entry_conditions</code> を緩める（例: <code>adx_threshold: 15</code>、<code>rsi_threshold: 45</code>）</li>
-<li><strong>クロスシンボル最適化</strong>: <code>forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save</code></li>
+<li><strong>クロスシンボル最適化</strong>: <code>alpha-forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save</code></li>
 </ul>
 <hr />
 <h2 id="multi-timeframe">マルチタイムフレーム（multi-timeframe）<a class="headerlink" href="#multi-timeframe" title="Permanent link">&para;</a></h2>
@@ -3040,7 +3040,7 @@
 <p><code>indicators[].timeframe</code> フィールドを使って <strong>上位足の指標を取り込み</strong>、下位足でエントリーする戦略。週足の SMA で長期トレンドを判定し、日足の RSI で押し目買いタイミングを取る、というパターンです。</p>
 <div class="admonition info">
 <p class="admonition-title">教材としての例</p>
-<p>本セクションの戦略 JSON は <code>indicators[].timeframe</code> 機能の使用例として書き起こしたものです。実運用前に <a href="../cli-reference/strategy/#forge-strategy-validate"><code>forge strategy validate</code></a> と <a href="../cli-reference/backtest/#forge-backtest-run"><code>forge backtest run</code></a> で動作を確認してください。</p>
+<p>本セクションの戦略 JSON は <code>indicators[].timeframe</code> 機能の使用例として書き起こしたものです。実運用前に <a href="../cli-reference/strategy/#alpha-forge-strategy-validate"><code>alpha-forge strategy validate</code></a> と <a href="../cli-reference/backtest/#alpha-forge-backtest-run"><code>alpha-forge backtest run</code></a> で動作を確認してください。</p>
 </div>
 <h3 id="_13">適用シナリオ<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3186,34 +3186,34 @@
 <ul>
 <li><strong>上位足を変える</strong>: <code>weekly_sma.timeframe</code> を <code>"4h"</code> にすると当日内マルチタイムフレーム、<code>"1mo"</code> で月足主導</li>
 <li><strong>複数の上位足を組み合わせる</strong>: 月足 SMA と週足 SMA の両方をクリアした場合のみエントリー</li>
-<li><strong>対象銘柄を増やす</strong>: <code>target_symbols: ["SPY", "QQQ", "DIA"]</code> に拡張し、<code>forge optimize cross-symbol</code> で頑健なパラメータを探索</li>
+<li><strong>対象銘柄を増やす</strong>: <code>target_symbols: ["SPY", "QQQ", "DIA"]</code> に拡張し、<code>alpha-forge optimize cross-symbol</code> で頑健なパラメータを探索</li>
 <li><strong>空売りを追加</strong>: <code>entry_conditions.short</code> に「週足下落トレンド + 日足 RSI 過買」を定義</li>
 </ul>
 <hr />
 <h2 id="_17">カスタマイズと派生（共通の応用パターン）<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
 <h3 id="_18">パラメータ最適化<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
 <p>すべてのテンプレートに <code>optimizer_config.param_ranges</code> が含まれているため、以下のコマンドで Optuna ベイズ最適化が走ります：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
 </code></pre></div>
-<p>詳細は <a href="../cli-reference/optimize/#forge-optimize-run"><code>forge optimize run</code></a> を参照。</p>
+<p>詳細は <a href="../cli-reference/optimize/#alpha-forge-optimize-run"><code>alpha-forge optimize run</code></a> を参照。</p>
 <h3 id="_19">ウォークフォワード検証で過学習を防ぐ<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
 </code></pre></div>
 <p>各ウィンドウで IS（イン・サンプル）最適化 → OOS（アウト・オブ・サンプル）評価を繰り返し、<code>overfitting_score</code> を確認します。</p>
 <h3 id="_20">感度分析でロバスト性を計測<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;
 </code></pre></div>
 <p>最適化済みパラメータの周辺をスイープし、わずかな変動でメトリクスがどれだけ変わるかを評価します。<code>overall_robustness_score</code> が <code>0.7</code> 以下なら過学習を疑いましょう。</p>
 <h3 id="_21">ライブとの比較<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
 <p>実運用記録（trade records）が蓄積したら、バックテストとの乖離を確認できます：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>&lt;STRATEGY_ID&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>alpha-forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>&lt;STRATEGY_ID&gt;
 </code></pre></div>
-<p>詳細は <a href="../cli-reference/live/#forge-live-compare"><code>forge live compare</code></a> を参照。</p>
+<p>詳細は <a href="../cli-reference/live/#alpha-forge-live-compare"><code>alpha-forge live compare</code></a> を参照。</p>
 <hr />
 <h2 id="_22">関連ドキュメント<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../getting-started/">はじめに</a> — シンプルな SMA クロス戦略から始める</li>
-<li><a href="../cli-reference/">CLI リファレンス</a> — <code>forge</code> コマンドの全パラメータ</li>
+<li><a href="../cli-reference/">CLI リファレンス</a> — <code>alpha-forge</code> コマンドの全パラメータ</li>
 <li><a href="../guides/ai-exploration-workflow/">AI 駆動の戦略探索ワークフロー</a> — Claude Code / Codex で戦略を自動生成</li>
 </ul>
 <hr />

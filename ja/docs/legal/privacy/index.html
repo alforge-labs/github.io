@@ -2212,7 +2212,7 @@
 <h3 id="11">1.1 購入時に収集する情報<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
 <p>Whop を通じたメンバーシップ購入時に、氏名または会社名、メールアドレス、決済情報、国・地域情報が収集されます。決済情報は Whop およびその決済プロバイダ（Stripe 等）が処理し、当社はカード番号等の機微情報を保持しません。</p>
 <h3 id="12">1.2 認証時に収集・送受信する情報<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
-<p><code>forge system auth login</code> 実行時に、OAuth 2.0 PKCE フローに従い以下の情報が Whop API（<code>api.whop.com</code>）と送受信されます。</p>
+<p><code>alpha-forge system auth login</code> 実行時に、OAuth 2.0 PKCE フローに従い以下の情報が Whop API（<code>api.whop.com</code>）と送受信されます。</p>
 <ul>
 <li>当社からの送信: OAuth 認可コード、PKCE code_verifier、リフレッシュトークン（更新時）</li>
 <li>Whop からの受信: アクセストークン（access_token）、リフレッシュトークン（refresh_token）、ユーザー ID、メンバーシップ有効性</li>
@@ -2238,7 +2238,7 @@
 <ul>
 <li>購入情報・メンバーシップ情報: Whop のデータ保持ポリシーに準拠</li>
 <li>サポートメール: 対応完了後 2 年間</li>
-<li>ローカル認証キャッシュ（<code>~/.forge/credentials.json</code>）: ユーザーが削除するまで、または <code>forge system auth logout</code> 実行まで保持</li>
+<li>ローカル認証キャッシュ（<code>~/.forge/credentials.json</code>）: ユーザーが削除するまで、または <code>alpha-forge system auth logout</code> 実行まで保持</li>
 </ul>
 <h2 id="5-cookie">5. Cookie・トラッキング<a class="headerlink" href="#5-cookie" title="Permanent link">&para;</a></h2>
 <p>本ウェブサイトでは Google Analytics を使用してアクセス状況を分析しています。ブラウザの設定から Cookie を無効化することで計測を拒否できます。</p>

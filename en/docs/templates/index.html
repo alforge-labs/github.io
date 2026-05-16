@@ -2666,8 +2666,8 @@
 <div class="admonition info">
 <p class="admonition-title">How to read this page</p>
 <ul>
-<li>The IDs of the 7 built-in strategies are listed in the <a href="../cli-reference/strategy/">CLI reference: forge strategy</a>.</li>
-<li>The JSON examples on this page are written as templates for <strong>building your own custom strategy</strong>; the <code>strategy_id</code> values use placeholder <code>my_*</code> names. Replace them with meaningful names of your own and register via <code>forge strategy save</code>.</li>
+<li>The IDs of the 7 built-in strategies are listed in the <a href="../cli-reference/strategy/">CLI reference: alpha-forge strategy</a>.</li>
+<li>The JSON examples on this page are written as templates for <strong>building your own custom strategy</strong>; the <code>strategy_id</code> values use placeholder <code>my_*</code> names. Replace them with meaningful names of your own and register via <code>alpha-forge strategy save</code>.</li>
 <li>Backtest result numbers are illustrative. Actual values depend on data and environment (fetch period, provider, settings).</li>
 </ul>
 </div>
@@ -2704,7 +2704,7 @@
 </table>
 <p>These go one step beyond the built-in <code>hmm_bb_pipeline_v1</code> (HMM example) and <code>donchian_turtle_v1</code> (classic Turtle trend follower) shipped with the binary, and serve as design guidance when you "start from the 7 built-ins and customize."</p>
 <h2 id="strategy-json-basics">Strategy JSON basics<a class="headerlink" href="#strategy-json-basics" title="Permanent link">&para;</a></h2>
-<p>Every strategy follows the same Pydantic schema. Indicator details are available via <a href="../cli-reference/other/#analyze-indicator"><code>forge analyze indicator list</code></a>.</p>
+<p>Every strategy follows the same Pydantic schema. Indicator details are available via <a href="../cli-reference/other/#analyze-indicator"><code>alpha-forge analyze indicator list</code></a>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>{
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  &quot;strategy_id&quot;: &quot;...&quot;,
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  &quot;name&quot;: &quot;...&quot;,
@@ -2886,7 +2886,7 @@
 <li><strong>Change the symbol</strong>: Replace <code>target_symbols</code> with <code>["SPY"]</code>, <code>["NVDA"]</code>, <code>["GC=F"]</code>, etc.</li>
 <li><strong>Change state count</strong>: <code>regime.n_components: 2</code> (Bull/Bear) simplifies the decision; <code>4</code> adds nuance (requires more data)</li>
 <li><strong>Strengthen entry</strong>: Add <code>volume &gt; sma_volume_20</code> or similar conditions in <code>regime_config.states["0"].entry_conditions</code></li>
-<li><strong>Optimize</strong>: <code>forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save</code></li>
+<li><strong>Optimize</strong>: <code>alpha-forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save</code></li>
 </ul>
 <hr />
 <h2 id="regime-switching">Regime switching<a class="headerlink" href="#regime-switching" title="Permanent link">&para;</a></h2>
@@ -3032,7 +3032,7 @@
 <li><strong>Add more states</strong>: <code>n_components: 3</code> for Bull/Range/Bear; add <code>states["2"]</code></li>
 <li><strong>Switch to equities</strong>: Replace <code>target_symbols</code> with stocks and lower <code>risk_management.leverage</code> to <code>1.0-2.0</code></li>
 <li><strong>More entries</strong>: Loosen each regime's <code>entry_conditions</code> (e.g., <code>adx_threshold: 15</code>, <code>rsi_threshold: 45</code>)</li>
-<li><strong>Cross-symbol optimize</strong>: <code>forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save</code></li>
+<li><strong>Cross-symbol optimize</strong>: <code>alpha-forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save</code></li>
 </ul>
 <hr />
 <h2 id="multi-timeframe">Multi-timeframe<a class="headerlink" href="#multi-timeframe" title="Permanent link">&para;</a></h2>
@@ -3040,7 +3040,7 @@
 <p>Use the <code>indicators[].timeframe</code> field to <strong>pull higher-timeframe values</strong> while entering on the lower timeframe. Judge a long-term trend on the weekly SMA and time pullback entries on the daily RSI.</p>
 <div class="admonition info">
 <p class="admonition-title">Educational example</p>
-<p>The strategy JSON in this section is written as an example of the <code>indicators[].timeframe</code> feature. Validate behavior with <a href="../cli-reference/strategy/#forge-strategy-validate"><code>forge strategy validate</code></a> and <a href="../cli-reference/backtest/#forge-backtest-run"><code>forge backtest run</code></a> before live use.</p>
+<p>The strategy JSON in this section is written as an example of the <code>indicators[].timeframe</code> feature. Validate behavior with <a href="../cli-reference/strategy/#alpha-forge-strategy-validate"><code>alpha-forge strategy validate</code></a> and <a href="../cli-reference/backtest/#alpha-forge-backtest-run"><code>alpha-forge backtest run</code></a> before live use.</p>
 </div>
 <h3 id="suitable-scenarios_2">Suitable scenarios<a class="headerlink" href="#suitable-scenarios_2" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3186,34 +3186,34 @@
 <ul>
 <li><strong>Change the higher timeframe</strong>: <code>weekly_sma.timeframe: "4h"</code> for intraday MTF; <code>"1mo"</code> for monthly-led strategies</li>
 <li><strong>Combine multiple higher timeframes</strong>: Require both weekly and monthly SMAs to be cleared before entering</li>
-<li><strong>Expand symbols</strong>: <code>target_symbols: ["SPY", "QQQ", "DIA"]</code> and use <code>forge optimize cross-symbol</code> for robust parameters</li>
+<li><strong>Expand symbols</strong>: <code>target_symbols: ["SPY", "QQQ", "DIA"]</code> and use <code>alpha-forge optimize cross-symbol</code> for robust parameters</li>
 <li><strong>Add shorts</strong>: Define <code>entry_conditions.short</code> for "weekly downtrend + daily RSI overbought"</li>
 </ul>
 <hr />
 <h2 id="customization-and-derivations">Customization and derivations<a class="headerlink" href="#customization-and-derivations" title="Permanent link">&para;</a></h2>
 <h3 id="parameter-optimization">Parameter optimization<a class="headerlink" href="#parameter-optimization" title="Permanent link">&para;</a></h3>
 <p>Each template includes <code>optimizer_config.param_ranges</code>, so Optuna Bayesian optimization runs with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--metric<span class="w"> </span>sharpe_ratio<span class="w"> </span>--save
 </code></pre></div>
-<p>See <a href="../cli-reference/optimize/#forge-optimize-run"><code>forge optimize run</code></a> for details.</p>
+<p>See <a href="../cli-reference/optimize/#alpha-forge-optimize-run"><code>alpha-forge optimize run</code></a> for details.</p>
 <h3 id="walk-forward-to-guard-against-overfitting">Walk-forward to guard against overfitting<a class="headerlink" href="#walk-forward-to-guard-against-overfitting" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;STRATEGY_ID&gt;<span class="w"> </span>--windows<span class="w"> </span><span class="m">5</span>
 </code></pre></div>
 <p>Each window runs IS optimization → OOS evaluation; check <code>overfitting_score</code> afterwards.</p>
 <h3 id="sensitivity-analysis-to-measure-robustness">Sensitivity analysis to measure robustness<a class="headerlink" href="#sensitivity-analysis-to-measure-robustness" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;
 </code></pre></div>
 <p>Sweep around optimized parameters and measure how much the metric moves. If <code>overall_robustness_score</code> ≤ 0.7, suspect overfitting.</p>
 <h3 id="compare-with-live-results">Compare with live results<a class="headerlink" href="#compare-with-live-results" title="Permanent link">&para;</a></h3>
 <p>Once trade records accumulate, compare against backtest:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>&lt;STRATEGY_ID&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>alpha-forge<span class="w"> </span>live<span class="w"> </span>compare<span class="w"> </span>&lt;STRATEGY_ID&gt;
 </code></pre></div>
-<p>See <a href="../cli-reference/live/#forge-live-compare"><code>forge live compare</code></a>.</p>
+<p>See <a href="../cli-reference/live/#alpha-forge-live-compare"><code>alpha-forge live compare</code></a>.</p>
 <hr />
 <h2 id="related-documentation">Related documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../getting-started/">Getting Started</a> — Start with a simple SMA crossover</li>
-<li><a href="../cli-reference/">CLI Reference</a> — All <code>forge</code> command parameters</li>
+<li><a href="../cli-reference/">CLI Reference</a> — All <code>alpha-forge</code> command parameters</li>
 <li><a href="../guides/ai-exploration-workflow/">AI-Driven Strategy Exploration Workflow</a> — Generate strategies with Claude Code / Codex</li>
 </ul>
 <hr />

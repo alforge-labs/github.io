@@ -12,7 +12,7 @@ vis serve [OPTIONS]
 
 | オプション | デフォルト | 説明 |
 |---|---|---|
-| `--forge-dir DIRECTORY` | `.`（カレントディレクトリ） | `forge` の出力 DB が置かれているディレクトリ |
+| `--forge-dir DIRECTORY` | `.`（カレントディレクトリ） | `alpha-forge` の出力 DB が置かれているディレクトリ |
 | `--forge-config FILE` | `<forge-dir>/forge.yaml` | 明示的に指定したい場合の `forge.yaml` パス |
 | `--host TEXT` | `127.0.0.1` | バインドするホスト名 |
 | `--port INTEGER` | `8000` | ポート番号 |
@@ -71,7 +71,7 @@ CI などで明示的にクリアしたい場合は `env FORGE_CONFIG= vis serve
 
 ## ファイル変更の反映
 
-`forge backtest run` や `forge optimize run` を実行すると `backtest_results.db` が更新されます。ダッシュボードはリロード（`Cmd+R` / `F5`）で最新結果を取得します（自動再読み込みは未対応）。
+`alpha-forge backtest run` や `alpha-forge optimize run` を実行すると `backtest_results.db` が更新されます。ダッシュボードはリロード（`Cmd+R` / `F5`）で最新結果を取得します（自動再読み込みは未対応）。
 
 ## 関連リンク
 

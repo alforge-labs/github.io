@@ -16,18 +16,18 @@
 
 ```bash
 # 1. 仮説をJSONで宣言
-forge strategy create regime_test --template hmm_bb_rsi
+alpha-forge strategy create regime_test --template hmm_bb_rsi
 
 # 2. 複数パラメータをグリッドサーチ
-forge optimize grid QQQ --strategy regime_test \
+alpha-forge optimize grid QQQ --strategy regime_test \
   --param rsi_period 10 14 20 \
   --param bb_period 15 20 25
 
 # 3. ウォークフォワード検証（5分割）
-forge optimize walk-forward QQQ --strategy regime_test --folds 5
+alpha-forge optimize walk-forward QQQ --strategy regime_test --folds 5
 
 # 4. 実験結果をJournalに保存
-forge journal record regime_test --note "HMM期間別の感度分析"
+alpha-forge journal record regime_test --note "HMM期間別の感度分析"
 ```
 
 ## 過学習リスクの評価

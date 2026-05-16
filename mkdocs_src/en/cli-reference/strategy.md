@@ -1,4 +1,4 @@
-# forge strategy
+# alpha-forge strategy
 
 Create, register, validate, and manage strategy JSON definitions. Covers scaffolding from built-in templates, local registration, viewing, JSON → DB migration, deletion, and logical consistency checks (static + dynamic).
 
@@ -9,26 +9,26 @@ Create, register, validate, and manage strategy JSON definitions. Covers scaffol
 
 | Command | Description |
 |---------|-------------|
-| [`forge strategy list`](#forge-strategy-list) | List all registered strategies |
-| [`forge strategy create`](#forge-strategy-create) | Create a JSON file from a built-in template |
-| [`forge strategy save`](#forge-strategy-save) | Register a custom strategy from a JSON file |
-| [`forge strategy show`](#forge-strategy-show) | Display the definition (JSON) of a registered strategy |
-| [`forge strategy migrate`](#forge-strategy-migrate) | Import existing JSON files into the DB |
-| [`forge strategy delete`](#forge-strategy-delete) | Delete a registered strategy from the DB |
-| [`forge strategy purge`](#forge-strategy-purge) | Purge the strategy JSON, related results, and DB entry in a single command |
-| [`forge strategy validate`](#forge-strategy-validate) | Validate strategy logical consistency |
-| [`forge strategy signals`](#forge-strategy-signals) | Count entry signals for a strategy |
+| [`alpha-forge strategy list`](#alpha-forge-strategy-list) | List all registered strategies |
+| [`alpha-forge strategy create`](#alpha-forge-strategy-create) | Create a JSON file from a built-in template |
+| [`alpha-forge strategy save`](#alpha-forge-strategy-save) | Register a custom strategy from a JSON file |
+| [`alpha-forge strategy show`](#alpha-forge-strategy-show) | Display the definition (JSON) of a registered strategy |
+| [`alpha-forge strategy migrate`](#alpha-forge-strategy-migrate) | Import existing JSON files into the DB |
+| [`alpha-forge strategy delete`](#alpha-forge-strategy-delete) | Delete a registered strategy from the DB |
+| [`alpha-forge strategy purge`](#alpha-forge-strategy-purge) | Purge the strategy JSON, related results, and DB entry in a single command |
+| [`alpha-forge strategy validate`](#alpha-forge-strategy-validate) | Validate strategy logical consistency |
+| [`alpha-forge strategy signals`](#alpha-forge-strategy-signals) | Count entry signals for a strategy |
 
 ---
 
-## forge strategy list
+## alpha-forge strategy list
 
 List all registered strategies. When `config.strategies.use_db` is true, reads from the DB; otherwise from the file-based store.
 
 ### Synopsis
 
 ```bash
-forge strategy list
+alpha-forge strategy list
 ```
 
 ### Arguments and options
@@ -53,14 +53,14 @@ No registered strategies found.
 
 ---
 
-## forge strategy create
+## alpha-forge strategy create
 
-Create a strategy JSON file from a built-in template. **Does not register the strategy** — edit the file and then call [`forge strategy save`](#forge-strategy-save).
+Create a strategy JSON file from a built-in template. **Does not register the strategy** — edit the file and then call [`alpha-forge strategy save`](#alpha-forge-strategy-save).
 
 ### Synopsis
 
 ```bash
-forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
+alpha-forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
 ```
 
 ### Arguments and options
@@ -75,7 +75,7 @@ forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
     With `--out my_usdjpy_v1.json`, the generated JSON's `strategy_id` is
     automatically set to `my_usdjpy_v1`. This addresses F-301: before v0.5.4,
     `strategy_id` was left as the template name (e.g., `sma_crossover_v1`),
-    which collided with the built-in template on `forge strategy save`.
+    which collided with the built-in template on `alpha-forge strategy save`.
 
     - **Explicit override**: pass `--strategy-id usdjpy_sma_v1`
     - **Filename equals template name** (e.g., `--out sma_crossover_v1.json`):
@@ -114,14 +114,14 @@ AlphaForge ships a curated set of templates so users can focus on building their
 
 ---
 
-## forge strategy save
+## alpha-forge strategy save
 
 Register a custom strategy in the **strategy registry** from a JSON file. When `config.journal.auto_record` is true, a Journal snapshot is also recorded.
 
 ### Synopsis
 
 ```bash
-forge strategy save <FILE_PATH> [--force]
+alpha-forge strategy save <FILE_PATH> [--force]
 ```
 
 ### Arguments and options
@@ -152,14 +152,14 @@ When overwritten with `--force`:
 
 ---
 
-## forge strategy show
+## alpha-forge strategy show
 
 Pretty-print a registered strategy JSON to stdout.
 
 ### Synopsis
 
 ```bash
-forge strategy show <STRATEGY_ID>
+alpha-forge strategy show <STRATEGY_ID>
 ```
 
 ### Arguments and options
@@ -184,18 +184,18 @@ forge strategy show <STRATEGY_ID>
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Error: strategy '<id>' not found` | Invalid ID | Verify with `forge strategy list` |
+| `Error: strategy '<id>' not found` | Invalid ID | Verify with `alpha-forge strategy list` |
 
 ---
 
-## forge strategy migrate
+## alpha-forge strategy migrate
 
 Import existing JSON files under `config.strategies.path` into the **DB (SQLite)**. Use this when switching to the `use_db: true` operation mode.
 
 ### Synopsis
 
 ```bash
-forge strategy migrate [--dry-run] [--force]
+alpha-forge strategy migrate [--dry-run] [--force]
 ```
 
 ### Arguments and options
@@ -249,14 +249,14 @@ Normal run:
 
 ---
 
-## forge strategy delete
+## alpha-forge strategy delete
 
 Delete a registered strategy from the DB / registry. With `--with-results`, also deletes related files (optimized strategy, backtest results, optimization results). Journal files are always kept.
 
 ### Synopsis
 
 ```bash
-forge strategy delete <STRATEGY_ID> [--force] [--with-results]
+alpha-forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 ```
 
 ### Arguments and options
@@ -277,9 +277,9 @@ forge strategy delete <STRATEGY_ID> [--force] [--with-results]
 
 ### Automatic cleanup of recommendations.yaml (issue #454)
 
-When a strategy is deleted, any matching entry in `data/explorer/recommendations.yaml` is automatically removed (ranks are renumbered). Deleting an auto-relax recommendation will not leave a stale entry that causes `forge explore run` to fail with `StrategyNotFoundError`.
+When a strategy is deleted, any matching entry in `data/explorer/recommendations.yaml` is automatically removed (ranks are renumbered). Deleting an auto-relax recommendation will not leave a stale entry that causes `alpha-forge explore run` to fail with `StrategyNotFoundError`.
 
-In addition, `forge explore recommend show` performs a DB existence check at display time and auto-prunes any stale entries left over from previous runs.
+In addition, `alpha-forge explore recommend show` performs a DB existence check at display time and auto-prunes any stale entries left over from previous runs.
 
 ### Sample output
 
@@ -300,19 +300,19 @@ Files deleted: 3
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `Error: strategy '<id>' not found` | Invalid ID | Verify with `forge strategy list` |
+| `Error: strategy '<id>' not found` | Invalid ID | Verify with `alpha-forge strategy list` |
 | `Cancelled` | Declined the prompt | Use `--force` or re-confirm |
 
 ---
 
-## forge strategy purge
+## alpha-forge strategy purge
 
-Purge the strategy JSON, related files (`_optimized.json`, `_report.json`, `optimize_<id>_*.json`), and DB entry **in a single command**. Replaces the previous three-step `rm <strategy>.json && rm <strategy>_report.json && forge strategy delete <id> --force` workflow. Journal files (`<id>.journal.json`) are preserved.
+Purge the strategy JSON, related files (`_optimized.json`, `_report.json`, `optimize_<id>_*.json`), and DB entry **in a single command**. Replaces the previous three-step `rm <strategy>.json && rm <strategy>_report.json && alpha-forge strategy delete <id> --force` workflow. Journal files (`<id>.journal.json`) are preserved.
 
 ### Synopsis
 
 ```bash
-forge strategy purge <STRATEGY_ID> [--dry-run]
+alpha-forge strategy purge <STRATEGY_ID> [--dry-run]
 ```
 
 ### Arguments and options
@@ -368,14 +368,14 @@ Use `purge` to wipe a strategy completely; use `delete --with-results` when you 
 
 ---
 
-## forge strategy validate
+## alpha-forge strategy validate
 
 Run **logical consistency checks** on a strategy. With `--symbol`, also runs **dynamic checks** (signal counts and condition correlation on real data). Pass a `.json` path as `STRATEGY_ID` to validate an unregistered file directly.
 
 ### Synopsis
 
 ```bash
-forge strategy validate <STRATEGY_ID|FILE.json> [OPTIONS]
+alpha-forge strategy validate <STRATEGY_ID|FILE.json> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -477,12 +477,12 @@ Strategy: my_v1  [NG]
 
 ---
 
-## forge strategy signals
+## alpha-forge strategy signals
 
 Count entry signals, estimated trades, and WFT window coverage without running optimization or WFT (#321).
 
 ```bash
-forge strategy signals <SYMBOL> --strategy <NAME> [--period <PERIOD>] [--json]
+alpha-forge strategy signals <SYMBOL> --strategy <NAME> [--period <PERIOD>] [--json]
 ```
 
 | Option | Description | Default |

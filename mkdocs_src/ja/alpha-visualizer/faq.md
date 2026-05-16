@@ -29,7 +29,7 @@ ls <path>/data/results/backtest_results.db
 ls <path>/data/strategies/
 ```
 
-`forge backtest run` を一度も実行していない場合、`backtest_results.db` は作成されません。最低 1 件のバックテストを実行してから `vis serve` を試してください。
+`alpha-forge backtest run` を一度も実行していない場合、`backtest_results.db` は作成されません。最低 1 件のバックテストを実行してから `vis serve` を試してください。
 
 ### ポートが既に使用されている
 
@@ -101,9 +101,9 @@ vis serve --host 0.0.0.0 --port 8000
 
 ## バージョン・互換性
 
-### 動作確認済みの forge バージョン
+### 動作確認済みの alpha-forge バージョン
 
-`alpha-visualizer` は `backtest_results.db`（SQLite）のスキーマと戦略 JSON 構造に依存します。`forge` の互換性のある範囲は CHANGELOG または [Releases](https://github.com/alforge-labs/alpha-visualizer/releases) を参照してください。
+`alpha-visualizer` は `backtest_results.db`（SQLite）のスキーマと戦略 JSON 構造に依存します。`alpha-forge` の互換性のある範囲は CHANGELOG または [Releases](https://github.com/alforge-labs/alpha-visualizer/releases) を参照してください。
 
 ### Python 3.11 以下で動かしたい
 

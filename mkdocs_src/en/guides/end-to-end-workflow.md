@@ -5,16 +5,16 @@ A typical flow from raw data to live execution. This pairs naturally with a codi
 ![AlphaForge 6-Step Technical Workflow](../assets/illustrations/alphaforge-technical-workflow-en.png)
 
 !!! note "Prerequisite"
-    This page assumes you have installed `forge` (binary) per [Getting Started](../getting-started.md) and have run `forge system init` in your working directory (so `forge.yaml` and `data/` exist). All commands invoke `forge` directly from the working directory.
+    This page assumes you have installed `alpha-forge` (binary) per [Getting Started](../getting-started.md) and have run `alpha-forge system init` in your working directory (so `forge.yaml` and `data/` exist). All commands invoke `alpha-forge` directly from the working directory.
 
-    If you're working inside the alpha-trade developer monorepo, prepend `FORGE_CONFIG=forge.yaml uv --directory alpha-forge run forge ...` to each command.
+    If you're working inside the alpha-trade developer monorepo, prepend `FORGE_CONFIG=forge.yaml uv --directory alpha-forge run alpha-forge ...` to each command.
 
 ## 1. Fetch historical data
 
 Save historical OHLCV data for a target symbol locally.
 
 ```bash
-forge data fetch 'USDJPY=X'
+alpha-forge data fetch 'USDJPY=X'
 ```
 
 !!! warning "Symbol naming for FX / Futures / Crypto"
@@ -34,14 +34,14 @@ forge data fetch 'USDJPY=X'
 Generate a JSON scaffold, edit parameters, and register it.
 
 !!! info "How to list available templates (F-005)"
-    There is currently **no dedicated `forge strategy template list` command**.
+    There is currently **no dedicated `alpha-forge strategy template list` command**.
     Use one of the following to discover template IDs.
 
     1. **Trigger the error message** (fastest) — pass an unknown template name and
        the error prints the full list of available templates:
 
         ```bash
-        $ forge strategy create --template _unknown_ --out /tmp/dummy.json
+        $ alpha-forge strategy create --template _unknown_ --out /tmp/dummy.json
         ❌ Unknown template name: _unknown_. Available templates:
           sma_crossover_v1, rsi_reversion_v1, macd_crossover_v1,
           bbands_breakout_v1, grid_bot_template, hmm_bb_pipeline_v1,
@@ -53,7 +53,7 @@ Generate a JSON scaffold, edit parameters, and register it.
        [Strategy Templates](../templates.md).
 
 ```bash
-forge strategy create --template sma_crossover_v1 \
+alpha-forge strategy create --template sma_crossover_v1 \
   --out data/strategies/usdjpy_sma_v1.json
 ```
 
@@ -62,52 +62,58 @@ forge strategy create --template sma_crossover_v1 \
 
     1. `strategy_id`: leaving it as `sma_crossover_v1` collides with the built-in template. Change it to a unique value (e.g. `usdjpy_sma_v1`).
     2. `name`: a human-readable label.
-    3. `target_symbols`: defaults to `[]`. Either set the symbol list (e.g. `["USDJPY=X"]`) or pass it on each `forge backtest run <SYMBOL>`.
+    3. `target_symbols`: defaults to `[]`. Either set the symbol list (e.g. `["USDJPY=X"]`) or pass it on each `alpha-forge backtest run <SYMBOL>`.
 
     If you plan to optimize, also fill in `optimizer_config.param_ranges`. (It works even when null, but explicit ranges are easier to reproduce.)
 
 Then save it to the strategy DB.
 
 ```bash
-forge strategy save data/strategies/usdjpy_sma_v1.json
+alpha-forge strategy save data/strategies/usdjpy_sma_v1.json
 ```
 
 !!! tip "Skip DB registration with `--strategy-file`"
-    Both `forge backtest run` and `forge optimize run` accept `--strategy-file <path>`, which loads JSON directly without DB registration — handy during rapid iteration.
+    Both `alpha-forge backtest run` and `alpha-forge optimize run` accept `--strategy-file <path>`, which loads JSON directly without DB registration — handy during rapid iteration.
 
 ## 3. Run a backtest
 
 Validate the strategy against historical data.
 
 ```bash
-forge backtest run 'USDJPY=X' --strategy usdjpy_sma_v1
+alpha-forge backtest run 'USDJPY=X' --strategy usdjpy_sma_v1
 
 # Show the chart URL and open it in your browser
-forge backtest chart usdjpy_sma_v1 --open
+alpha-forge backtest chart usdjpy_sma_v1 --open
 ```
+
+!!! tip "Visualize results in your browser (alpha-visualizer)"
+    The `📊 View charts via alpha-vis serve` line printed at the end of `alpha-forge backtest run` points at the separate OSS package [alpha-visualizer](../alpha-visualizer/index.md). Run `alpha-vis serve` and your browser opens the Equity / Drawdown / trades / metrics view ([install instructions](../alpha-visualizer/installation.md)).
 
 ## 4. Optimize parameters
 
 Bayesian search with Optuna (TPE), then apply the best result.
 
 ```bash
-forge optimize run 'USDJPY=X' --strategy usdjpy_sma_v1 \
+alpha-forge optimize run 'USDJPY=X' --strategy usdjpy_sma_v1 \
   --metric sharpe_ratio --trials 300 --save
 
 # Apply the saved result file (optimize_usdjpy_sma_v1_<timestamp>.json) as a new strategy
-forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
+alpha-forge optimize apply data/results/optimize_usdjpy_sma_v1_<timestamp>.json \
   --to-strategy usdjpy_sma_v1_optimized
 ```
 
 !!! note "When the best score is `-inf`"
     Every trial returned NaN. Common causes: the optimization range is too narrow, or the period has too few trades. Re-check `optimizer_config.param_ranges` and widen the data range.
 
+!!! tip "Visualize optimization results in your browser (alpha-visualizer)"
+    Optimization runs saved with `--save` are rendered as **Grid heatmaps / sensitivity plots / Top-trial equity curves** under [alpha-visualizer](../alpha-visualizer/index.md)'s Optimize view. Start `alpha-vis serve` in your working directory (e.g., `quickstart/`).
+
 ## 5. Walk-forward validation
 
 Detect overfitting with out-of-sample testing.
 
 !!! abstract "What is a Walk-Forward Test (WFT)? (F-006)"
-    Running `forge optimize run` alone optimizes parameters across the **entire
+    Running `alpha-forge optimize run` alone optimizes parameters across the **entire
     period**, which often produces a "curve-fitted" strategy that overfits the
     very data it was tuned on. WFT cures this by splitting the period into
     equal-sized windows and, **for each window, optimizing on the In-Sample (IS)
@@ -124,27 +130,30 @@ Detect overfitting with out-of-sample testing.
 
     Rule of thumb: if OOS Sharpe is **at least half of IS Sharpe**, the strategy
     leans robust. A high IS that collapses on OOS suggests curve fitting. See
-    [`forge optimize walk-forward` CLI reference](../cli-reference/optimize.md)
+    [`alpha-forge optimize walk-forward` CLI reference](../cli-reference/optimize.md)
     for the full option list.
 
 
 ```bash
-forge optimize walk-forward 'USDJPY=X' \
+alpha-forge optimize walk-forward 'USDJPY=X' \
   --strategy usdjpy_sma_v1_optimized --windows 5
 
 # Sensitivity analysis (point at the optimization result JSON file)
-forge optimize sensitivity data/results/optimize_usdjpy_sma_v1_<timestamp>.json
+alpha-forge optimize sensitivity data/results/optimize_usdjpy_sma_v1_<timestamp>.json
 ```
 
 !!! warning "When all WFT windows show `OOS 0 trades`"
-    Short data periods leave each window without any trades. For FX / 1d, aim for ~5 years (~1,250 rows). Either fetch a longer history (`forge data fetch '<SYM>' --period 5y`) or coarsen with `--windows 2`.
+    Short data periods leave each window without any trades. For FX / 1d, aim for ~5 years (~1,250 rows). Either fetch a longer history (`alpha-forge data fetch '<SYM>' --period 5y`) or coarsen with `--windows 2`.
+
+!!! tip "Visualize WFT results in your browser (alpha-visualizer)"
+    [alpha-visualizer](../alpha-visualizer/index.md)'s Optimize view renders the **WFO composite equity curve (IS / OOS spliced)** plus an **IS-vs-OOS stability heatmap**. Launch with `alpha-vis serve`.
 
 ## 6. Generate Pine Script
 
 Export a TradingView alert script from the optimized strategy.
 
 ```bash
-forge pine generate --strategy usdjpy_sma_v1_optimized
+alpha-forge pine generate --strategy usdjpy_sma_v1_optimized
 ```
 
 Output: `output/pinescript/usdjpy_sma_v1_optimized.pine`

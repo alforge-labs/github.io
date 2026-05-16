@@ -1,4 +1,4 @@
-# forge data
+# alpha-forge data
 
 Fetch, update, and inspect historical market data. Pulls OHLCV from configured providers (yfinance / moomoo / OANDA / Dukascopy / TradingView MCP) and caches it locally as Parquet.
 
@@ -9,22 +9,22 @@ Fetch, update, and inspect historical market data. Pulls OHLCV from configured p
 
 | Command | Description |
 |---------|-------------|
-| [`forge data fetch`](#forge-data-fetch) | Fetch and save historical data |
-| [`forge data list`](#forge-data-list) | List all stored historical datasets |
-| [`forge data trend`](#forge-data-trend) | Evaluate market trend from stored data |
-| [`forge data update`](#forge-data-update) | Incrementally update all stored historical data to the latest |
+| [`alpha-forge data fetch`](#alpha-forge-data-fetch) | Fetch and save historical data |
+| [`alpha-forge data list`](#alpha-forge-data-list) | List all stored historical datasets |
+| [`alpha-forge data trend`](#alpha-forge-data-trend) | Evaluate market trend from stored data |
+| [`alpha-forge data update`](#alpha-forge-data-update) | Incrementally update all stored historical data to the latest |
 
 ---
 
-## forge data fetch
+## alpha-forge data fetch
 
 Fetch OHLCV for a symbol or watchlist and save it as Parquet under `config.data.storage_path`. By default, cache within `config.data.cache_ttl_hours` is reused; use `--force` to bypass.
 
 ### Synopsis
 
 ```bash
-forge data fetch [SYMBOL] [OPTIONS]
-forge data fetch --watchlist <FILE> [OPTIONS]
+alpha-forge data fetch [SYMBOL] [OPTIONS]
+alpha-forge data fetch --watchlist <FILE> [OPTIONS]
 ```
 
 ### Arguments and options
@@ -76,14 +76,14 @@ Fetching data for 3 symbols...
 
 ---
 
-## forge data list
+## alpha-forge data list
 
 List all stored datasets.
 
 ### Synopsis
 
 ```bash
-forge data list
+alpha-forge data list
 ```
 
 ### Arguments and options
@@ -107,14 +107,14 @@ Stored data count: 0
 
 ---
 
-## forge data trend
+## alpha-forge data trend
 
 Generate market trend signals (bullish / bearish / neutral and similar) from stored data. When `--symbols` is not provided, `DEFAULT_TREND_SYMBOLS` (a major JP/US set) is used.
 
 ### Synopsis
 
 ```bash
-forge data trend [OPTIONS]
+alpha-forge data trend [OPTIONS]
 ```
 
 ### Arguments and options
@@ -160,14 +160,14 @@ USDJPY=X: BEARISH - 50EMA < 200EMA
 
 ---
 
-## forge data update
+## alpha-forge data update
 
-For every dataset visible via `forge data list`, fetch the **incremental delta** from the last cached date up to today. Already up-to-date datasets are skipped.
+For every dataset visible via `alpha-forge data list`, fetch the **incremental delta** from the last cached date up to today. Already up-to-date datasets are skipped.
 
 ### Synopsis
 
 ```bash
-forge data update
+alpha-forge data update
 ```
 
 ### Arguments and options
@@ -196,7 +196,7 @@ No stored data found.
 
 | Message | Cause | Fix |
 |---------|-------|-----|
-| `[Skip] <SYM> (<interval>): no valid last fetch date.` | Corrupted metadata or empty file | Re-fetch with `forge data fetch <SYM> --force` |
+| `[Skip] <SYM> (<interval>): no valid last fetch date.` | Corrupted metadata or empty file | Re-fetch with `alpha-forge data fetch <SYM> --force` |
 | `- Error: <details>` | Provider error | Address per the message |
 
 ---
@@ -248,32 +248,32 @@ Examples:
 
 ```bash
 # pass the endpoint via CLI
-forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
+alpha-forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
 
 # inject via environment variable (~ / $HOME are expanded)
 FORGE_TV_MCP_ENDPOINT="node ~/opt/tv-mcp/server.js" \
-  forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
+  alpha-forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 
 # rely on forge.yaml (no --mcp-server needed)
-forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
+alpha-forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 ```
 
-#### Subcommand: `forge data tv-mcp check` (issue #674)
+#### Subcommand: `alpha-forge data tv-mcp check` (issue #674)
 
 Verifies that the TV MCP data provider server is reachable. The `/explore-strategies` skill runs this automatically at the start of each run for goals where `exploration.data_provider_override.{stock|fx}: tv_mcp` is configured.
 
 ```bash
 # Default (ping with symbol=BATS:SPY)
-forge data tv-mcp check
+alpha-forge data tv-mcp check
 
 # JSON output (for automation)
-forge data tv-mcp check --json
+alpha-forge data tv-mcp check --json
 
 # Different symbol (FX)
-forge data tv-mcp check --symbol OANDA:USDJPY
+alpha-forge data tv-mcp check --symbol OANDA:USDJPY
 
 # Pass the endpoint via CLI
-forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
+alpha-forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
 ```
 
 | Option | Default | Description |
@@ -286,7 +286,7 @@ forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
 
 ### `auto` routing (issue #583, Phase 1.5e-δ)
 
-Setting `stock_provider` / `fx_provider` to `auto` makes alpha-forge classify each symbol into an asset type and pick the provider through the new `auto_routing` table. Useful when a single `forge data fetch <SYM>` should choose different providers depending on the symbol.
+Setting `stock_provider` / `fx_provider` to `auto` makes alpha-forge classify each symbol into an asset type and pick the provider through the new `auto_routing` table. Useful when a single `alpha-forge data fetch <SYM>` should choose different providers depending on the symbol.
 
 ```yaml
 data:
@@ -342,7 +342,7 @@ Provider-specific symbol notation is documented in `alpha-forge/src/alpha_forge/
 - **Provider resolution**: `get_data_fetcher(symbol=..., config=config)` selects a provider per the `data.providers` setting in `forge.yaml`
 - **`FORGE_CONFIG`**: Storage path and provider settings are determined by the `forge.yaml` referenced by the `FORGE_CONFIG` environment variable
 - **Exit codes**: `0` on success; `click.ClickException` returns `1`; argument errors return Click's `2`
-- **Trial plan limit**: On the Trial plan, the fetch `end` is also capped at `2023-12-31`, and `forge data update` skips items whose stored end is on or after 2023-12-31. See [Trial Limits](../guides/trial-limits.md) for details.
+- **Trial plan limit**: On the Trial plan, the fetch `end` is also capped at `2023-12-31`, and `alpha-forge data update` skips items whose stored end is on or after 2023-12-31. See [Trial Limits](../guides/trial-limits.md) for details.
 
 ---
 

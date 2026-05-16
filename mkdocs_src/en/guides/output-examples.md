@@ -12,7 +12,7 @@ What you get when you run AlphaForge CLI — representative commands and their o
 ### Command
 
 ```bash
-forge backtest run SPY --strategy sma_crossover_v1 --start 2019-01-01 --end 2023-12-31
+alpha-forge backtest run SPY --strategy sma_crossover_v1 --start 2019-01-01 --end 2023-12-31
 ```
 
 ### Text Output
@@ -41,7 +41,7 @@ Win rate CI(90%): 35.2% - 64.8%
 ### JSON Output (with `--json` flag)
 
 ```bash
-forge backtest run SPY --strategy sma_crossover_v1 --start 2019-01-01 --end 2023-12-31 --json
+alpha-forge backtest run SPY --strategy sma_crossover_v1 --start 2019-01-01 --end 2023-12-31 --json
 ```
 
 ```json
@@ -69,7 +69,7 @@ forge backtest run SPY --strategy sma_crossover_v1 --start 2019-01-01 --end 2023
 ## Detailed Report (reviewing saved results)
 
 ```bash
-forge backtest report sma_crossover_v1
+alpha-forge backtest report sma_crossover_v1
 ```
 
 ```text
@@ -84,7 +84,7 @@ Trade log: 14 entries (use --json to view all)
 Use `--json` for the full trade log:
 
 ```bash
-forge backtest report sma_crossover_v1 --json
+alpha-forge backtest report sma_crossover_v1 --json
 ```
 
 ---
@@ -95,10 +95,10 @@ After a backtest, use the local dashboard to visually inspect the equity curve, 
 
 ```bash
 # Show chart URL
-forge backtest chart sma_crossover_v1
+alpha-forge backtest chart sma_crossover_v1
 
 # Open directly in browser (requires vis serve running)
-forge backtest chart sma_crossover_v1 --open
+alpha-forge backtest chart sma_crossover_v1 --open
 ```
 
 ```text
@@ -124,7 +124,7 @@ The dashboard (`vis serve`) provides these tabs:
 ## Batch Backtest (compare multiple strategies)
 
 ```bash
-forge backtest batch SPY --strategy-dir data/strategies/ --workers 3
+alpha-forge backtest batch SPY --strategy-dir data/strategies/ --workers 3
 ```
 
 ```text
@@ -143,7 +143,7 @@ Passed: 2/3 strategies
 ## Parameter Optimization Results
 
 ```bash
-forge optimize run SPY --strategy sma_crossover_v1 --metric sharpe_ratio --trials 300 --save
+alpha-forge optimize run SPY --strategy sma_crossover_v1 --metric sharpe_ratio --trials 300 --save
 ```
 
 ```text
@@ -157,7 +157,7 @@ DB saved: run_id=opt_20260415_103021
 Machine-readable output with `--json`:
 
 ```bash
-forge optimize run SPY --strategy sma_crossover_v1 --metric sharpe_ratio --trials 300 --json
+alpha-forge optimize run SPY --strategy sma_crossover_v1 --metric sharpe_ratio --trials 300 --json
 ```
 
 ```json
@@ -170,7 +170,7 @@ forge optimize run SPY --strategy sma_crossover_v1 --metric sharpe_ratio --trial
 ### Apply optimized parameters to a strategy
 
 ```bash
-forge optimize apply data/results/optimize_sma_crossover_v1_20260415_103021.json \
+alpha-forge optimize apply data/results/optimize_sma_crossover_v1_20260415_103021.json \
   --to-strategy sma_crossover_v1_optimized
 ```
 
@@ -180,8 +180,8 @@ forge optimize apply data/results/optimize_sma_crossover_v1_20260415_103021.json
 
 ```bash
 # Register and validate a strategy
-forge strategy save data/strategies/sma_crossover_v1.json
-forge strategy validate sma_crossover_v1
+alpha-forge strategy save data/strategies/sma_crossover_v1.json
+alpha-forge strategy validate sma_crossover_v1
 ```
 
 ```text
@@ -193,10 +193,10 @@ forge strategy validate sma_crossover_v1
 ## Pine Script Generation (Paid Plans)
 
 !!! warning "Paid plans only"
-    `forge pine generate` is available on **paid plans only (Lifetime / Annual / Monthly)**. Not available on the Trial plan. See [Trial Limits](trial-limits.md) for details.
+    `alpha-forge pine generate` is available on **paid plans only (Lifetime / Annual / Monthly)**. Not available on the Trial plan. See [Trial Limits](trial-limits.md) for details.
 
 ```bash
-forge pine generate --strategy sma_crossover_v1
+alpha-forge pine generate --strategy sma_crossover_v1
 ```
 
 ```text

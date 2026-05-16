@@ -13,13 +13,13 @@ For Python developers who want to manage strategy experiments with a CLI/JSON-fi
 
 ```bash
 # Get backtest results as JSON and pipe to custom script
-forge backtest run QQQ --strategy my_strategy --json | python analyze.py
+alpha-forge backtest run QQQ --strategy my_strategy --json | python analyze.py
 
 # Optuna optimization (maximize Sharpe ratio)
-forge optimize run QQQ --strategy my_strategy --trials 200 --objective sharpe
+alpha-forge optimize run QQQ --strategy my_strategy --trials 200 --objective sharpe
 
 # Walk-forward validation
-forge optimize walk-forward QQQ --strategy my_strategy --folds 5
+alpha-forge optimize walk-forward QQQ --strategy my_strategy --folds 5
 ```
 
 ## Managing Strategies as JSON
