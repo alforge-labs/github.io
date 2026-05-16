@@ -2555,7 +2555,7 @@
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Automatic data fetching</p>
-<p>With <code>forge.yaml</code> in place (because you ran <code>forge system init</code> in Step 2), the symbol's historical data is fetched automatically on first run. If it fails, run <code>forge data fetch SPY --start 2019-01-01 --end 2023-12-31</code> manually and retry.</p>
+<p>With <code>forge.yaml</code> in place (because you ran <code>forge system init</code> in Step 2), the symbol's historical data is fetched automatically on first run. If it fails, run <code>forge data fetch SPY --period 5y</code> manually and retry.</p>
 </div>
 <h3 id="step-4-read-the-results-3-min">Step 4 — Read the results (~3 min)<a class="headerlink" href="#step-4-read-the-results-3-min" title="Permanent link">&para;</a></h3>
 <p>When complete, you'll see output like this.</p>
@@ -2951,7 +2951,7 @@ The CLI label table below maps Japanese CLI labels to conventional English metri
 </tr>
 <tr>
 <td><code>FileNotFoundError: data not found: SPY (1d)</code> / <code>No data found for SPY</code></td>
-<td>Auto-fetch only works when <code>forge.yaml</code> exists. Run <code>forge system init</code> (Step 2) first, or fetch manually with <code>forge data fetch SPY --start 2019-01-01 --end 2023-12-31</code> and retry.</td>
+<td>Auto-fetch only works when <code>forge.yaml</code> exists. Run <code>forge system init</code> (Step 2) first, or fetch manually with <code>forge data fetch SPY --period 5y</code> and retry.</td>
 </tr>
 <tr>
 <td><code>Failed to fetch data: symbol=USDJPY</code> (404)</td>

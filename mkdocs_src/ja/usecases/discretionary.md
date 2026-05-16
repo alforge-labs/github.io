@@ -66,7 +66,7 @@ forge optimize walk-forward QQQ --strategy my_playbook --folds 5
 forge strategy create my_playbook --template ma_rsi_atr
 
 # 2. 過去 5 年分のデータを取得
-forge data fetch QQQ --start 2020-01-01
+forge data fetch QQQ --period 5y
 
 # 3. 自分のルールでバックテスト
 forge backtest run QQQ --strategy my_playbook --json

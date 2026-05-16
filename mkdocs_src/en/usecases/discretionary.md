@@ -66,7 +66,7 @@ You can let AlphaForge raise alerts for the patterns you "always miss," while ke
 forge strategy create my_playbook --template ma_rsi_atr
 
 # 2. Fetch 5 years of historical data
-forge data fetch QQQ --start 2020-01-01
+forge data fetch QQQ --period 5y
 
 # 3. Backtest the codified ruleset
 forge backtest run QQQ --strategy my_playbook --json

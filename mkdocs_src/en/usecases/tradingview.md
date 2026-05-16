@@ -34,7 +34,7 @@ For Pine Script writers who want to take their backtesting to the next level wit
 forge strategy create my_strategy --template hmm_bb_rsi
 
 # Fetch daily data (e.g. QQQ)
-forge data fetch QQQ --start 2020-01-01
+forge data fetch QQQ --period 5y
 
 # Run backtest
 forge backtest run QQQ --strategy my_strategy
