@@ -2079,13 +2079,13 @@
 </ul>
 <h2 id="_1">基本的な使い方<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># バックテスト結果をJSONで取得してパイプ処理</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>my_strategy<span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span>python<span class="w"> </span>analyze.py
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>my_strategy<span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span>python<span class="w"> </span>analyze.py
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Optuna最適化（Sharpe比を最大化）</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>my_strategy<span class="w"> </span>--trials<span class="w"> </span><span class="m">200</span><span class="w"> </span>--objective<span class="w"> </span>sharpe
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>run<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>my_strategy<span class="w"> </span>--trials<span class="w"> </span><span class="m">200</span><span class="w"> </span>--objective<span class="w"> </span>sharpe
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># ウォークフォワード検証</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>my_strategy<span class="w"> </span>--folds<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>QQQ<span class="w"> </span>--strategy<span class="w"> </span>my_strategy<span class="w"> </span>--folds<span class="w"> </span><span class="m">5</span>
 </code></pre></div>
 <h2 id="json">JSONとして戦略を管理する<a class="headerlink" href="#json" title="Permanent link">&para;</a></h2>
 <p>AlphaForgeの戦略はJSONファイルで定義します。Gitで管理し、差分を追いやすい構造です。</p>

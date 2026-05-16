@@ -12,7 +12,7 @@ vis serve [OPTIONS]
 
 | Option | Default | Description |
 |---|---|---|
-| `--forge-dir DIRECTORY` | `.` (current directory) | Directory containing forge's output DBs |
+| `--forge-dir DIRECTORY` | `.` (current directory) | Directory containing alpha-forge's output DBs |
 | `--forge-config FILE` | `<forge-dir>/forge.yaml` | Explicit `forge.yaml` path |
 | `--host TEXT` | `127.0.0.1` | Host to bind |
 | `--port INTEGER` | `8000` | Port number |
@@ -71,7 +71,7 @@ When running with `--host 0.0.0.0`:
 
 ## Reflecting changes
 
-Each `forge backtest run` or `forge optimize run` updates `backtest_results.db`. Reload the dashboard (`Cmd+R` / `F5`) to see new results — automatic reload is not implemented yet.
+Each `alpha-forge backtest run` or `alpha-forge optimize run` updates `backtest_results.db`. Reload the dashboard (`Cmd+R` / `F5`) to see new results — automatic reload is not implemented yet.
 
 ## Related
 

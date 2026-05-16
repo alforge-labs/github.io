@@ -52,7 +52,7 @@ A complete onboarding guide — from installing AlphaForge CLI to reading your f
 Verify the installation.
 
 ```bash
-forge --version
+alpha-forge --version
 ```
 
 ```
@@ -69,15 +69,15 @@ If you see a version number, you're ready. For manual installation or custom ins
 
 ### Step 2 — Initialize the working directory and prepare a strategy file (~2 min)
 
-Create a `quickstart/` directory and run `forge system init` to bootstrap it. This drops in `forge.yaml` (configuring strategy/data/result paths) plus subdirectories like `data/`.
+Create a `quickstart/` directory and run `alpha-forge system init` to bootstrap it. This drops in `forge.yaml` (configuring strategy/data/result paths) plus subdirectories like `data/`.
 
 ```bash
 mkdir quickstart && cd quickstart
-forge system init
+alpha-forge system init
 ```
 
-!!! info "`forge system init` is required"
-    Without `forge.yaml`, the strategy DB location, data store, and result output paths are unresolved, so the next `forge backtest run` will fail with `FileNotFoundError`. The default invocation (no `--force`) is sufficient for quickstart.
+!!! info "`alpha-forge system init` is required"
+    Without `forge.yaml`, the strategy DB location, data store, and result output paths are unresolved, so the next `alpha-forge backtest run` will fail with `FileNotFoundError`. The default invocation (no `--force`) is sufficient for quickstart.
 
 Save the following as `sma_cross.json`.
 
@@ -115,12 +115,27 @@ Save the following as `sma_cross.json`.
 }
 ```
 
+### Step 2.5 — Fetch historical data (~1 min, optional)
+
+Explicitly fetching the historical data up front makes subsequent backtests and re-runs work offline more reliably (optional but recommended).
+
+```bash
+alpha-forge data fetch SPY --period 5y
+```
+
+```
+✅ Fetched historical data for SPY (1d): data/historical/SPY_1d.parquet
+```
+
+!!! note "The next `backtest run` will also auto-fetch if needed"
+    With `forge.yaml` in place, the next `alpha-forge backtest run` auto-fetches data **only when it is missing**. If you fetch up front here, the subsequent `backtest run` skips the download and starts faster. If you want to isolate online-fetch failures (network issues, rate limits) from backtest issues, run this step on its own first.
+
 ### Step 3 — Register the strategy and run the backtest (~2 min)
 
 Register `sma_cross.json` (from Step 2) with AlphaForge (the strategy DB).
 
 ```bash
-forge strategy save sma_cross.json
+alpha-forge strategy save sma_cross.json
 ```
 
 ```
@@ -133,14 +148,14 @@ forge strategy save sma_cross.json
 Run a backtest within the Trial plan's data range (up to 2023-12-31).
 
 ```bash
-forge backtest run SPY \
+alpha-forge backtest run SPY \
   --strategy sma_cross_qs \
   --start 2019-01-01 \
   --end 2023-12-31
 ```
 
 !!! note "Automatic data fetching"
-    With `forge.yaml` in place (because you ran `forge system init` in Step 2), the symbol's historical data is fetched automatically on first run. If it fails, run `forge data fetch SPY --period 5y` manually and retry.
+    With `forge.yaml` in place (because you ran `alpha-forge system init` in Step 2), the symbol's historical data is fetched automatically on first run. If you already fetched it in Step 2.5, the auto-fetch is skipped and this step runs faster. If the auto-fetch fails, run Step 2.5 manually and retry.
 
 ### Step 4 — Read the results (~3 min)
 
@@ -154,7 +169,7 @@ When complete, you'll see output like this.
     versions** (finding F-103b). Don't expect to reproduce `4.74%` on your machine —
     use this only as a reference for **label structure and order-of-magnitude
     intuition**. For deterministic regression tests, capture
-    `forge backtest run --json` snapshots and diff them against your own baseline.
+    `alpha-forge backtest run --json` snapshots and diff them against your own baseline.
     The CLI label table below maps Japanese CLI labels to conventional English metric names.
 
 ```
@@ -200,17 +215,27 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
     | **Win streak / Loss streak** | Max consecutive wins / losses | Longest winning / losing run. Long losing streaks raise the psychological cost of running the strategy live. |
     | **Win-rate CI(90%)** | Win Rate 90% CI | 90% confidence interval for the win rate. A wide CI (e.g. `17.8% – 54.8%`) means too few trades to pin down the true win rate; **30+ trades** narrows it considerably. |
 
-!!! tip "Visualize the results in your browser"
-    The `📊 View charts via vis serve` line at the end of the output points at the separate [alpha-visualizer](alpha-visualizer/installation.md) dashboard. Install with:
+### Next steps: visualize the results (optional) {#next-steps-visualize}
 
-    ```bash
-    uv tool install alpha-visualizer   # using uv
-    pip install alpha-visualizer       # using pip
-    ```
+The `📊 View charts via alpha-vis serve` line at the end of the output points at the separate OSS package [alpha-visualizer](alpha-visualizer/installation.md). It renders the same result as **Equity / Drawdown / trades / metric comparisons in your browser**.
 
-    Run `vis serve` inside the `quickstart/` directory and your browser opens the dashboard (default: <http://127.0.0.1:8000>).
+Three install paths are available ([details](alpha-visualizer/installation.md)):
 
-    macOS ships a standard `/usr/bin/vis` command, so when plain `vis` is hijacked, use the absolute path `~/.local/bin/vis serve` (uv tool layout) or `~/.local/share/uv/tools/alpha-visualizer/bin/vis serve`.
+```bash
+uv tool install alpha-visualizer   # uv tool (installs as a standalone CLI — recommended)
+pip install alpha-visualizer       # pip (installs into your current Python env)
+pip install -i https://pypi.org/simple alpha-visualizer  # explicit PyPI source
+```
+
+Then run `alpha-vis serve` inside the `quickstart/` directory and your browser opens the dashboard (default: <http://127.0.0.1:8000>).
+
+```bash
+cd quickstart
+alpha-vis serve
+```
+
+!!! note "If `alpha-vis` is not recognized"
+    macOS ships a standard `/usr/bin/vis`, and pre-v0.3.0 the CLI was named `vis` (renamed to `alpha-vis` in v0.3.0+). When plain `alpha-vis` is not recognized, use the absolute path `~/.local/bin/alpha-vis serve` (uv tool layout) or `~/.local/share/uv/tools/alpha-visualizer/bin/alpha-vis serve`.
 
 !!! tip "Add `optimizer_config` when you want to try optimization (F-003)"
     The `sma_cross.json` above is a **minimal backtest-only configuration** that
@@ -294,7 +319,7 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
         Right after install, the CLI runs in Trial mode without any Whop login. Run the following command only after you purchase a paid plan (Lifetime / Annual / Monthly):
 
         ```bash
-        forge system auth login
+        alpha-forge system auth login
         ```
 
 === "Windows"
@@ -337,7 +362,7 @@ A quick read of the key metrics is below. For the full metric list, see [Reading
 The CLI runs **immediately as the Trial plan with no Whop registration**. You only need this section once you've **purchased a paid plan (Lifetime / Annual / Monthly)**, which lifts the data date cap, the optimization trial cap, and the Pine Script export block.
 
 !!! info "Happy with the Trial plan?"
-    If the Trial limits (data through 2023-12-31, 50 optimization trials, Pine output blocked) cover your use case, you can skip this section and keep running backtests/optimizations. `forge system auth login` is not required for Trial usage.
+    If the Trial limits (data through 2023-12-31, 50 optimization trials, Pine output blocked) cover your use case, you can skip this section and keep running backtests/optimizations. `alpha-forge system auth login` is not required for Trial usage.
 
 ### 1. Purchase a paid plan
 
@@ -348,7 +373,7 @@ Open the [purchase page](https://whop.com/alforge-labs/alphaforge/) in your brow
 After the purchase finishes, run the command below in your terminal. It launches a browser and walks you through Whop's OAuth 2.0 PKCE flow.
 
 ```bash
-forge system auth login
+alpha-forge system auth login
 ```
 
 Credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/.config/forge/credentials.json`). Internet access is required.
@@ -358,7 +383,7 @@ Credentials are cached at `$XDG_CONFIG_HOME/forge/credentials.json` (default `~/
 Inspect the cached user ID, token expiry, and plan tier:
 
 ```bash
-forge system auth status
+alpha-forge system auth status
 ```
 
 ```
@@ -375,7 +400,7 @@ Plan            : Paid (Lifetime)
 Verify that a paid-plan-only feature (Pine Script export) now works:
 
 ```bash
-forge pine generate --strategy sma_cross_qs
+alpha-forge pine generate --strategy sma_cross_qs
 ```
 
 If the red "Premium-only feature" Panel does **not** appear and a `.pine` file is generated, the paid plan is fully active.
@@ -402,8 +427,8 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 ![Win Rate and Profit Factor relationship](assets/illustrations/concepts/metrics-win-rate-profit-factor.png)
 
 !!! info "What to try next"
-    - Parameter optimization: [`forge optimize run`](cli-reference/optimize.md) for Optuna Bayesian search
-    - Walk-forward validation: [`forge optimize walk-forward`](cli-reference/optimize.md) to detect overfitting
+    - Parameter optimization: [`alpha-forge optimize run`](cli-reference/optimize.md) for Optuna Bayesian search
+    - Walk-forward validation: [`alpha-forge optimize walk-forward`](cli-reference/optimize.md) to detect overfitting
     - Strategy templates: try [HMM × BB × RSI and others](templates.md)
 
 ---
@@ -412,13 +437,13 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 
 === "macOS / Linux"
 
-    Run the official uninstaller. It removes the `forge` symlink, the entire `forge.dist/` directory (~1,100 bundled library files), and the PATH line that was appended to your shell rc.
+    Run the official uninstaller. It removes the `alpha-forge` symlink, the entire `forge.dist/` directory (~1,100 bundled library files), and the PATH line that was appended to your shell rc.
 
     ```bash
     bash <(curl -sSL https://alforge-labs.github.io/uninstall.sh)
     ```
 
-    Your credentials (`~/.config/forge/credentials.json`) are **kept by default**. This is intentional: if you reinstall later, you can skip `forge system auth login` and the install will pick up your existing Whop OAuth session.
+    Your credentials (`~/.config/forge/credentials.json`) are **kept by default**. This is intentional: if you reinstall later, you can skip `alpha-forge system auth login` and the install will pick up your existing Whop OAuth session.
 
     !!! tip "Full wipe (delete credentials and EULA acceptance too)"
 
@@ -448,7 +473,7 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 
     **What is NOT removed:**
 
-    - Your **project working directories** created by `forge system init` (`forge.yaml`, `data/`, etc.) — these are your data
+    - Your **project working directories** created by `alpha-forge system init` (`forge.yaml`, `data/`, etc.) — these are your data
     - Shared parent directories like `~/.local/share/` and `~/.config/` (used by other apps)
 
 === "Windows"
@@ -472,17 +497,17 @@ The six metrics you'll look at first. For the full metric list, see the [CLI Ref
 | Symptom | Cause & Fix |
 |---------|-------------|
 | `command not found: forge` / `command not found: alpha-forge` | Open a new terminal or run `source ~/.bashrc` / `source ~/.zshrc`. If that doesn't help, confirm the binary exists with `ls ~/.local/bin/alpha-forge` and that `echo $PATH` includes `~/.local/bin`. |
-| `Strategy 'sma_cross_qs' not found` / `戦略 'sma_cross_qs' が見つかりません` | Run `forge strategy save sma_cross.json` first to register the strategy in the DB. Or pass the JSON directly via `forge backtest run SPY --strategy-file sma_cross.json --start ...`. |
-| `FileNotFoundError: data not found: SPY (1d)` / `No data found for SPY` | Auto-fetch only works when `forge.yaml` exists. Run `forge system init` (Step 2) first, or fetch manually with `forge data fetch SPY --period 5y` and retry. |
+| `Strategy 'sma_cross_qs' not found` / `戦略 'sma_cross_qs' が見つかりません` | Run `alpha-forge strategy save sma_cross.json` first to register the strategy in the DB. Or pass the JSON directly via `alpha-forge backtest run SPY --strategy-file sma_cross.json --start ...`. |
+| `FileNotFoundError: data not found: SPY (1d)` / `No data found for SPY` | Auto-fetch only works when `forge.yaml` exists. Run `alpha-forge system init` (Step 2) first, or fetch manually with `alpha-forge data fetch SPY --period 5y` and retry. |
 | `Failed to fetch data: symbol=USDJPY` (404) | yfinance requires fixed suffixes per asset class: FX `USDJPY=X` / `EURUSD=X` / `GBPJPY=X`, futures `CL=F`, crypto `BTC-USD`. Quote symbols containing `=` (e.g., `'USDJPY=X'`). |
-| `forge.yaml not found` / `Config file not found` | No `forge.yaml` in the current directory. Run `forge system init` inside a project working directory, or pass `FORGE_CONFIG=/path/to/forge.yaml forge ...` as an environment variable. |
-| Backtest reports `0 trades` | Either the strategy parameters are too strict for the entry conditions, or the data window is too short. Inspect parameters with `forge strategy show <id> --json`, extend data via `forge data fetch '<SYM>' --period 10y`, or try a different template such as `bbands_breakout_v1`. |
+| `forge.yaml not found` / `Config file not found` | No `forge.yaml` in the current directory. Run `alpha-forge system init` inside a project working directory, or pass `FORGE_CONFIG=/path/to/forge.yaml forge ...` as an environment variable. |
+| Backtest reports `0 trades` | Either the strategy parameters are too strict for the entry conditions, or the data window is too short. Inspect parameters with `alpha-forge strategy show <id> --json`, extend data via `alpha-forge data fetch '<SYM>' --period 10y`, or try a different template such as `bbands_breakout_v1`. |
 | `Best score: -inf` / all optimization trials return `-inf` | Every trial returned NaN. Often the `optimizer_config.param_ranges` are too narrow or the data has too few trades. Widen the ranges, raise `--trials`, or switch `--metric` to e.g. `total_return`. |
-| WFT reports every window as `OOS 0 trades` / `skipped` | The data window is too short to produce trades inside each window. For FX / `1d` data, aim for 5+ years (~1,250 rows). Extend data with `forge data fetch '<SYM>' --period 5y`, or lower the partition count with `--windows 2`. |
+| WFT reports every window as `OOS 0 trades` / `skipped` | The data window is too short to produce trades inside each window. For FX / `1d` data, aim for 5+ years (~1,250 rows). Extend data with `alpha-forge data fetch '<SYM>' --period 5y`, or lower the partition count with `--windows 2`. |
 | `vis: serve: No such file or directory` / `vis: illegal option` | macOS ships a built-in `/usr/bin/vis` that wins on `$PATH`. Run with the absolute path `~/.local/bin/alpha-vis serve` (uv tool) or `~/.local/share/uv/tools/alpha-visualizer/bin/alpha-vis serve` (renamed to `alpha-vis` in v0.3.0+). |
 | `Trial plan: date clipped to 2023-12-31` | Expected behavior. Data beyond the Trial plan cap is automatically excluded. Purchase a paid plan (Lifetime / Annual / Monthly) to lift the cap. |
-| `Credentials expired` / `Token expired` | Re-run `forge system auth login`. Verify your Whop membership is still active on [the Whop dashboard](https://whop.com/). |
-| Other authentication errors | Verify your network connection and rerun `forge system auth login`. Confirm your Whop membership is active. |
+| `Credentials expired` / `Token expired` | Re-run `alpha-forge system auth login`. Verify your Whop membership is still active on [the Whop dashboard](https://whop.com/). |
+| Other authentication errors | Verify your network connection and rerun `alpha-forge system auth login`. Confirm your Whop membership is active. |
 | macOS security warning | System Settings → Privacy & Security → click "Open alpha-forge". |
 
 For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.com/en/install.html).
@@ -494,9 +519,9 @@ For other issues and detailed FAQ, see [`/en/install.html`](https://alforgelabs.
 
 ## Next Steps
 
-- [Visualize results — alpha-visualizer](alpha-visualizer/installation.md) — OSS package that renders forge's backtest results in your browser (`uv tool install alpha-visualizer` / `pip install alpha-visualizer`)
+- [Visualize results — alpha-visualizer](alpha-visualizer/installation.md) — OSS package that renders alpha-forge's backtest results in your browser (`uv tool install alpha-visualizer` / `pip install alpha-visualizer`)
 - [Use Cases by Goal](usecases/index.md) — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)
-- [CLI Reference](cli-reference/index.md) — Every `forge` command, parameters, and output format
+- [CLI Reference](cli-reference/index.md) — Every `alpha-forge` command, parameters, and output format
 - [Strategy Templates](templates.md) — Compound strategies like HMM × BB × RSI
 - [AI-Driven Strategy Exploration Workflow](guides/ai-exploration-workflow.md) — Autonomous exploration with Claude Code / Codex × AlphaForge
 

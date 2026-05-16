@@ -1,9 +1,9 @@
 # Strategy Gallery
 
-This page is a short example catalog for choosing strategy ideas by market and purpose. [Strategy Templates](templates.md) provides deep explanations and full JSON for representative templates; this gallery helps you quickly compare what to test, where to test it, and which `forge` commands to run next.
+This page is a short example catalog for choosing strategy ideas by market and purpose. [Strategy Templates](templates.md) provides deep explanations and full JSON for representative templates; this gallery helps you quickly compare what to test, where to test it, and which `alpha-forge` commands to run next.
 
 !!! info "About JSON examples"
-    Each JSON block is a focused snippet, not a complete production strategy. Add the required `risk_management` and `optimizer_config` fields for your workflow, then validate with `forge strategy validate`. Backtest results never guarantee future performance.
+    Each JSON block is a focused snippet, not a complete production strategy. Add the required `risk_management` and `optimizer_config` fields for your workflow, then validate with `alpha-forge strategy validate`. Backtest results never guarantee future performance.
 
 ## Gallery overview
 
@@ -49,11 +49,11 @@ This page is a short example catalog for choosing strategy ideas by market and p
 ### Run commands
 
 ```bash
-forge strategy save data/strategies/gallery_hmm_bb_rsi_v1.json
-forge strategy validate gallery_hmm_bb_rsi_v1
-forge backtest run QQQ --strategy gallery_hmm_bb_rsi_v1 --json
-forge optimize run QQQ --strategy gallery_hmm_bb_rsi_v1 --metric sharpe_ratio --save
-forge pine generate --strategy gallery_hmm_bb_rsi_v1 --with-training-data
+alpha-forge strategy save data/strategies/gallery_hmm_bb_rsi_v1.json
+alpha-forge strategy validate gallery_hmm_bb_rsi_v1
+alpha-forge backtest run QQQ --strategy gallery_hmm_bb_rsi_v1 --json
+alpha-forge optimize run QQQ --strategy gallery_hmm_bb_rsi_v1 --metric sharpe_ratio --save
+alpha-forge pine generate --strategy gallery_hmm_bb_rsi_v1 --with-training-data
 ```
 
 ### How to read results
@@ -96,11 +96,11 @@ Optimize RSI length, BB standard deviation, and HMM state count. For a fuller JS
 ### Run commands
 
 ```bash
-forge strategy save data/strategies/gallery_macd_rsi_v1.json
-forge strategy validate gallery_macd_rsi_v1
-forge backtest run SPY --strategy gallery_macd_rsi_v1 --json
-forge optimize run SPY --strategy gallery_macd_rsi_v1 --metric sharpe_ratio --save
-forge pine generate --strategy gallery_macd_rsi_v1
+alpha-forge strategy save data/strategies/gallery_macd_rsi_v1.json
+alpha-forge strategy validate gallery_macd_rsi_v1
+alpha-forge backtest run SPY --strategy gallery_macd_rsi_v1 --json
+alpha-forge optimize run SPY --strategy gallery_macd_rsi_v1 --metric sharpe_ratio --save
+alpha-forge pine generate --strategy gallery_macd_rsi_v1
 ```
 
 ### How to read results
@@ -143,11 +143,11 @@ Try RSI caps from 60 to 80 and optimize MACD fast/slow periods. Add an EMA filte
 ### Run commands
 
 ```bash
-forge strategy save data/strategies/gallery_trend_follow_v1.json
-forge strategy validate gallery_trend_follow_v1
-forge backtest run AAPL --strategy gallery_trend_follow_v1 --json
-forge optimize run AAPL --strategy gallery_trend_follow_v1 --metric sharpe_ratio --save
-forge pine generate --strategy gallery_trend_follow_v1
+alpha-forge strategy save data/strategies/gallery_trend_follow_v1.json
+alpha-forge strategy validate gallery_trend_follow_v1
+alpha-forge backtest run AAPL --strategy gallery_trend_follow_v1 --json
+alpha-forge optimize run AAPL --strategy gallery_trend_follow_v1 --metric sharpe_ratio --save
+alpha-forge pine generate --strategy gallery_trend_follow_v1
 ```
 
 ### How to read results
@@ -190,11 +190,11 @@ Optimize ADX threshold and EMA lengths. Add a weekly SMA filter for higher-timef
 ### Run commands
 
 ```bash
-forge strategy save data/strategies/gallery_mean_reversion_v1.json
-forge strategy validate gallery_mean_reversion_v1
-forge backtest run MSFT --strategy gallery_mean_reversion_v1 --json
-forge optimize run MSFT --strategy gallery_mean_reversion_v1 --metric sharpe_ratio --save
-forge pine generate --strategy gallery_mean_reversion_v1
+alpha-forge strategy save data/strategies/gallery_mean_reversion_v1.json
+alpha-forge strategy validate gallery_mean_reversion_v1
+alpha-forge backtest run MSFT --strategy gallery_mean_reversion_v1 --json
+alpha-forge optimize run MSFT --strategy gallery_mean_reversion_v1 --metric sharpe_ratio --save
+alpha-forge pine generate --strategy gallery_mean_reversion_v1
 ```
 
 ### How to read results
@@ -238,11 +238,11 @@ Add higher-timeframe trend and volatility filters so the strategy stands aside d
 ### Run commands
 
 ```bash
-forge strategy save data/strategies/gallery_fx_pair_v1.json
-forge strategy validate gallery_fx_pair_v1
-forge backtest run EURUSD --strategy gallery_fx_pair_v1 --json
-forge optimize run EURUSD --strategy gallery_fx_pair_v1 --metric sharpe_ratio --save
-forge pine generate --strategy gallery_fx_pair_v1
+alpha-forge strategy save data/strategies/gallery_fx_pair_v1.json
+alpha-forge strategy validate gallery_fx_pair_v1
+alpha-forge backtest run EURUSD --strategy gallery_fx_pair_v1 --json
+alpha-forge optimize run EURUSD --strategy gallery_fx_pair_v1 --metric sharpe_ratio --save
+alpha-forge pine generate --strategy gallery_fx_pair_v1
 ```
 
 ### How to read results
@@ -251,7 +251,7 @@ FX trends can reverse quickly, so average holding period and PF are important. C
 
 ### Improvement ideas
 
-Run the same idea on USDJPY and GBPUSD, then use `forge optimize cross-symbol` to inspect cross-pair robustness.
+Run the same idea on USDJPY and GBPUSD, then use `alpha-forge optimize cross-symbol` to inspect cross-pair robustness.
 
 ## Index ETFs
 
@@ -285,11 +285,11 @@ Run the same idea on USDJPY and GBPUSD, then use `forge optimize cross-symbol` t
 ### Run commands
 
 ```bash
-forge strategy save data/strategies/gallery_index_etf_v1.json
-forge strategy validate gallery_index_etf_v1
-forge backtest run SPY --strategy gallery_index_etf_v1 --json
-forge optimize run SPY --strategy gallery_index_etf_v1 --metric sharpe_ratio --save
-forge pine generate --strategy gallery_index_etf_v1
+alpha-forge strategy save data/strategies/gallery_index_etf_v1.json
+alpha-forge strategy validate gallery_index_etf_v1
+alpha-forge backtest run SPY --strategy gallery_index_etf_v1 --json
+alpha-forge optimize run SPY --strategy gallery_index_etf_v1 --metric sharpe_ratio --save
+alpha-forge pine generate --strategy gallery_index_etf_v1
 ```
 
 ### How to read results
@@ -298,7 +298,7 @@ A strong SPY-only result may still be overfit if QQQ or IWM collapses. Compare S
 
 ### Improvement ideas
 
-Use `forge optimize cross-symbol SPY QQQ IWM --strategy gallery_index_etf_v1 --aggregation min --save` to improve the worst-case score.
+Use `alpha-forge optimize cross-symbol SPY QQQ IWM --strategy gallery_index_etf_v1 --aggregation min --save` to improve the worst-case score.
 
 ## Commodity futures
 
@@ -332,11 +332,11 @@ Use `forge optimize cross-symbol SPY QQQ IWM --strategy gallery_index_etf_v1 --a
 ### Run commands
 
 ```bash
-forge strategy save data/strategies/gallery_commodity_futures_v1.json
-forge strategy validate gallery_commodity_futures_v1
-forge backtest run CL=F --strategy gallery_commodity_futures_v1 --json
-forge optimize run CL=F --strategy gallery_commodity_futures_v1 --metric sharpe_ratio --save
-forge pine generate --strategy gallery_commodity_futures_v1 --with-training-data
+alpha-forge strategy save data/strategies/gallery_commodity_futures_v1.json
+alpha-forge strategy validate gallery_commodity_futures_v1
+alpha-forge backtest run CL=F --strategy gallery_commodity_futures_v1 --json
+alpha-forge optimize run CL=F --strategy gallery_commodity_futures_v1 --metric sharpe_ratio --save
+alpha-forge pine generate --strategy gallery_commodity_futures_v1 --with-training-data
 ```
 
 ### How to read results

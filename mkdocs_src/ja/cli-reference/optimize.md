@@ -1,4 +1,4 @@
-# forge optimize
+# alpha-forge optimize
 
 ベイズ最適化（Optuna）・グリッドサーチ・ウォークフォワード最適化など、戦略パラメータの探索と感度分析を行うコマンドグループ。
 
@@ -9,26 +9,26 @@
 
 | コマンド | 説明 |
 |---------|------|
-| [`forge optimize run`](#forge-optimize-run) | Optuna によるパラメータ最適化を実行する |
-| [`forge optimize cross-symbol`](#forge-optimize-cross-symbol) | 複数銘柄に対するクロスシンボル最適化を実行する |
-| [`forge optimize portfolio`](#forge-optimize-portfolio) | ポートフォリオの最適配分ウェイトを Optuna で探索する |
-| [`forge optimize multi-portfolio`](#forge-optimize-multi-portfolio) | 銘柄別戦略のウェイトを Optuna で最適化する |
-| [`forge optimize walk-forward`](#forge-optimize-walk-forward) | ウォークフォワード最適化を実行する |
-| [`forge optimize apply`](#forge-optimize-apply) | 最適化結果を戦略に適用して保存する |
-| [`forge optimize sensitivity`](#forge-optimize-sensitivity) | 最適化済みパラメータの感度分析を行う |
-| [`forge optimize history`](#forge-optimize-history) | 過去の最適化結果をスコアボード形式で一覧表示 |
-| [`forge optimize grid`](#forge-optimize-grid) | `optimizer_config.param_ranges` の網羅 Grid Search |
+| [`alpha-forge optimize run`](#alpha-forge-optimize-run) | Optuna によるパラメータ最適化を実行する |
+| [`alpha-forge optimize cross-symbol`](#alpha-forge-optimize-cross-symbol) | 複数銘柄に対するクロスシンボル最適化を実行する |
+| [`alpha-forge optimize portfolio`](#alpha-forge-optimize-portfolio) | ポートフォリオの最適配分ウェイトを Optuna で探索する |
+| [`alpha-forge optimize multi-portfolio`](#alpha-forge-optimize-multi-portfolio) | 銘柄別戦略のウェイトを Optuna で最適化する |
+| [`alpha-forge optimize walk-forward`](#alpha-forge-optimize-walk-forward) | ウォークフォワード最適化を実行する |
+| [`alpha-forge optimize apply`](#alpha-forge-optimize-apply) | 最適化結果を戦略に適用して保存する |
+| [`alpha-forge optimize sensitivity`](#alpha-forge-optimize-sensitivity) | 最適化済みパラメータの感度分析を行う |
+| [`alpha-forge optimize history`](#alpha-forge-optimize-history) | 過去の最適化結果をスコアボード形式で一覧表示 |
+| [`alpha-forge optimize grid`](#alpha-forge-optimize-grid) | `optimizer_config.param_ranges` の網羅 Grid Search |
 
 ---
 
-## forge optimize run
+## alpha-forge optimize run
 
 Optuna による単一銘柄のパラメータ最適化（TPE）。`--objective` を 2 つ以上指定すると NSGAII による多目的最適化に切り替わります。
 
 ### 構文
 
 ```bash
-forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge optimize run <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -97,20 +97,20 @@ DB 保存: run_id=opt_20260415_103021
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
 | `--start の形式が不正です (YYYY-MM-DD)` | 日付形式不正 | `2024-01-15` 形式で指定 |
-| `--start <date> 以降のデータが存在しません` | データ不足 | `forge data fetch <SYM>` でデータ拡張 |
+| `--start <date> 以降のデータが存在しません` | データ不足 | `alpha-forge data fetch <SYM>` でデータ拡張 |
 | `--max-drawdown と --objective は同時に指定できません。` | 両方指定 | どちらか一方を選択 |
 | `キャンセルしました。` | `<strategy_id>_optimized` 既存上書き確認で No | `--yes` を付けるか、改めて承認 |
 
 ---
 
-## forge optimize cross-symbol
+## alpha-forge optimize cross-symbol
 
 複数銘柄で同じ戦略を最適化し、銘柄横断で頑健なパラメータを探索する（集計方式: 平均 / 中央値 / 最小）。
 
 ### 構文
 
 ```bash
-forge optimize cross-symbol <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
+alpha-forge optimize cross-symbol <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -141,19 +141,19 @@ forge optimize cross-symbol <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `警告: <SYM> のデータ読み込みに失敗しました` | データ未取得 | `forge data fetch <SYM>` |
+| `警告: <SYM> のデータ読み込みに失敗しました` | データ未取得 | `alpha-forge data fetch <SYM>` |
 | `エラー: 有効なデータを持つ銘柄がありません` | 全銘柄データ未取得 | データ取得後に再実行 |
 
 ---
 
-## forge optimize portfolio
+## alpha-forge optimize portfolio
 
 単一戦略を複数銘柄に適用したときの **配分ウェイト** を Optuna で最適化する。
 
 ### 構文
 
 ```bash
-forge optimize portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
+alpha-forge optimize portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -190,14 +190,14 @@ forge optimize portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 
 ---
 
-## forge optimize multi-portfolio
+## alpha-forge optimize multi-portfolio
 
 各銘柄に **個別の戦略** を割り当て、配分ウェイトを Optuna で最適化する。
 
 ### 構文
 
 ```bash
-forge optimize multi-portfolio <SYMBOL:STRATEGY> [<SYMBOL:STRATEGY> ...] [OPTIONS]
+alpha-forge optimize multi-portfolio <SYMBOL:STRATEGY> [<SYMBOL:STRATEGY> ...] [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -234,7 +234,7 @@ forge optimize multi-portfolio <SYMBOL:STRATEGY> [<SYMBOL:STRATEGY> ...] [OPTION
 
 ---
 
-## forge optimize walk-forward
+## alpha-forge optimize walk-forward
 
 時系列を `--windows` 個の連続ウィンドウに分割し、各ウィンドウで IS（イン・サンプル）最適化 → OOS（アウト・オブ・サンプル）評価を繰り返して、過学習耐性を計測する。
 
@@ -243,7 +243,7 @@ forge optimize multi-portfolio <SYMBOL:STRATEGY> [<SYMBOL:STRATEGY> ...] [OPTION
 ### 構文
 
 ```bash
-forge optimize walk-forward <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge optimize walk-forward <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -265,7 +265,7 @@ forge optimize walk-forward <SYMBOL> --strategy <ID> [OPTIONS]
 
 ### 進捗表示（Rich プログレスバー）
 
-`forge optimize walk-forward` の実行中は、ウォークフォワード専用の 2 段プログレスバーが表示されます。
+`alpha-forge optimize walk-forward` の実行中は、ウォークフォワード専用の 2 段プログレスバーが表示されます。
 
 - **外側バー**: ウィンドウ全体の進捗（`<完了ウィンドウ>/<n_windows>`）
 - **内側バー**: 現ウィンドウのインサンプル Optuna 最適化の trial 進捗
@@ -333,14 +333,14 @@ WFT の `--json` 出力には、ウィンドウ単位のフィールドに加え
 
 ---
 
-## forge optimize apply
+## alpha-forge optimize apply
 
-`forge optimize run` などで保存された結果 JSON を読み込み、`best_params` を戦略に適用して **`<id>_optimized`** として保存する。
+`alpha-forge optimize run` などで保存された結果 JSON を読み込み、`best_params` を戦略に適用して **`<id>_optimized`** として保存する。
 
 ### 構文
 
 ```bash
-forge optimize apply <RESULT_FILE> --to-strategy <ID> [--yes]
+alpha-forge optimize apply <RESULT_FILE> --to-strategy <ID> [--yes]
 ```
 
 ### 引数とオプション
@@ -365,14 +365,14 @@ forge optimize apply <RESULT_FILE> --to-strategy <ID> [--yes]
 
 ---
 
-## forge optimize sensitivity
+## alpha-forge optimize sensitivity
 
 最適化済みパラメータの周辺をスイープし、わずかなパラメータ変動でメトリクスがどれだけ変わるかを評価する。過学習リスクの定量化に使用。
 
 ### 構文
 
 ```bash
-forge optimize sensitivity <RESULT_FILE> [OPTIONS]
+alpha-forge optimize sensitivity <RESULT_FILE> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -412,14 +412,14 @@ slow_period                          50      75.3%  1.05 1.21 1.38 1.45 1.39 1.1
 
 ---
 
-## forge optimize history
+## alpha-forge optimize history
 
 ある戦略について、過去に保存された `optimize_<strategy>_*.json` および `optimize_cross_<strategy>_*.json` を読み込んで一覧表示する。
 
 ### 構文
 
 ```bash
-forge optimize history --strategy <ID> [OPTIONS]
+alpha-forge optimize history --strategy <ID> [OPTIONS]
 ```
 
 ### オプション
@@ -454,14 +454,14 @@ Best: sharpe_ratio=1.4523  (20260415_103021)
 
 ---
 
-## forge optimize grid
+## alpha-forge optimize grid
 
 `optimizer_config.param_ranges` の全パラメータ組み合わせ（直積）を網羅的にバックテストする Grid Search。Optuna のサンプリングを使わず、全探索した上で Top-K を表示・保存する。
 
 ### 構文
 
 ```bash
-forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -490,7 +490,7 @@ forge optimize grid <SYMBOL> --strategy <ID> [OPTIONS]
 
 ### 進捗表示（Rich プログレスバー）
 
-Grid Search 実行中は Rich のリアルタイムダッシュボードがコンソールに描画されます（`forge backtest run` / `forge optimize run` と同じ UI パターン）。
+Grid Search 実行中は Rich のリアルタイムダッシュボードがコンソールに描画されます（`alpha-forge backtest run` / `alpha-forge optimize run` と同じ UI パターン）。
 
 - **ヘッダー**: 戦略 ID・シンボル・指標・総 trial 数・チャンクサイズ
 - **プログレスバー**: 完了 trial 数 / 総 trial 数、経過時間、推定残り時間
@@ -541,7 +541,7 @@ fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
 ## 共通の挙動
 
 - **保存先**: `--save` 指定時、`config.report.output_path` 配下に `optimize_<strategy>_<timestamp>.json` 形式で保存。クロスシンボルは `optimize_cross_*`、ポートフォリオは `optimize_portfolio_*` などプレフィックスが変わります。
-- **DB 保存**: `forge optimize run` は `--save` の有無にかかわらず常時 `SQLiteOptimizationResultRepository` に記録します（`run_id` を返却）。
+- **DB 保存**: `alpha-forge optimize run` は `--save` の有無にかかわらず常時 `SQLiteOptimizationResultRepository` に記録します（`run_id` を返却）。
 - **Journal 連携**: `config.journal.auto_record` が true の場合、最適化実行は Journal にも自動記録されます。
 - **`FORGE_CONFIG`**: 戦略・データ・結果の保管場所は環境変数 `FORGE_CONFIG` が指す `forge.yaml` で決まります。
 - **終了コード**: 通常 `0`、`click.ClickException` で `1`、`click.UsageError` で `2`、`click.Abort` で `1`。

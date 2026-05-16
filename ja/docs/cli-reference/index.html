@@ -2042,12 +2042,12 @@
 
 
 <h1 id="cli">CLI リファレンス<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h1>
-<p><code>forge</code> コマンドが提供するすべてのコマンドグループとサブコマンドの一覧です。種別ごとの詳細はリンク先の専用ページを参照してください。</p>
+<p><code>alpha-forge</code> コマンドが提供するすべてのコマンドグループとサブコマンドの一覧です。種別ごとの詳細はリンク先の専用ページを参照してください。</p>
 <h2 id="_1">全コマンド一覧<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p><code>alpha-forge/src/alpha_forge/cli.py</code> および <code>commands/*.py</code> の Click デコレータから抽出した実装網羅の一覧です。種別は CLI 階層上の位置づけで、すべてのグループは <code>forge &lt;group&gt; &lt;subcommand&gt;</code> の形で呼び出します。</p>
+<p><code>alpha-forge/src/alpha_forge/cli.py</code> および <code>commands/*.py</code> の Click デコレータから抽出した実装網羅の一覧です。種別は CLI 階層上の位置づけで、すべてのグループは <code>alpha-forge &lt;group&gt; &lt;subcommand&gt;</code> の形で呼び出します。</p>
 <ul>
 <li><strong>コア</strong>: 戦略開発・運用で頻繁に使う 9 グループ。トップレベルに直接配置されます</li>
-<li><strong>補助</strong>: <code>analyze</code> / <code>system</code> のネストグループ。サブコマンドは <code>forge &lt;補助&gt; &lt;ツール&gt; &lt;action&gt;</code> で 3 階層になります</li>
+<li><strong>補助</strong>: <code>analyze</code> / <code>system</code> のネストグループ。サブコマンドは <code>alpha-forge &lt;補助&gt; &lt;ツール&gt; &lt;action&gt;</code> で 3 階層になります</li>
 <li><strong>メタ</strong>: バイナリ自身の操作 (<code>self</code>)</li>
 </ul>
 <table>
@@ -2142,18 +2142,18 @@
 <td><strong>self</strong></td>
 <td>メタ</td>
 <td><code>version</code> <code>update</code></td>
-<td><code>forge</code> バイナリ自身の操作（バージョン確認・自己更新）</td>
+<td><code>alpha-forge</code> バイナリ自身の操作（バージョン確認・自己更新）</td>
 <td>—</td>
 </tr>
 </tbody>
 </table>
-<p><code>{a,b,c}</code> 表記は同じ親グループ配下の選択肢を示します。たとえば <code>data alt {fetch,list,info}</code> は <code>forge data alt fetch</code> / <code>forge data alt list</code> / <code>forge data alt info</code> の 3 サブコマンドを表します。</p>
+<p><code>{a,b,c}</code> 表記は同じ親グループ配下の選択肢を示します。たとえば <code>data alt {fetch,list,info}</code> は <code>alpha-forge data alt fetch</code> / <code>alpha-forge data alt list</code> / <code>alpha-forge data alt info</code> の 3 サブコマンドを表します。</p>
 <h2 id="_2">共通ヘルプ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>すべてのコマンドで <code>--help</code> が利用可能です。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>forge<span class="w"> </span>--help<span class="w">                         </span><span class="c1"># トップレベルのコマンド一覧</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>forge<span class="w"> </span>backtest<span class="w"> </span>--help<span class="w">                </span><span class="c1"># backtest グループのサブコマンド一覧</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>--help<span class="w">            </span><span class="c1"># 個別サブコマンドのパラメータ詳細</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>forge<span class="w"> </span>data<span class="w"> </span>alt<span class="w"> </span>--help<span class="w">                </span><span class="c1"># ネストされた補助グループのサブコマンド一覧</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>alpha-forge<span class="w"> </span>--help<span class="w">                         </span><span class="c1"># トップレベルのコマンド一覧</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>--help<span class="w">                </span><span class="c1"># backtest グループのサブコマンド一覧</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>alpha-forge<span class="w"> </span>backtest<span class="w"> </span>run<span class="w"> </span>--help<span class="w">            </span><span class="c1"># 個別サブコマンドのパラメータ詳細</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>alpha-forge<span class="w"> </span>data<span class="w"> </span>alt<span class="w"> </span>--help<span class="w">                </span><span class="c1"># ネストされた補助グループのサブコマンド一覧</span>
 </code></pre></div>
 <h2 id="_3">関連ドキュメント<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <ul>

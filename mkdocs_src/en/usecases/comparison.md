@@ -100,7 +100,7 @@ AlphaForge and TradingView are **not competitors — they work together**.
 ```
 AlphaForge: backtest and optimize strategy
   ↓
-forge command: automatically generate Pine Script v6
+alpha-forge command: automatically generate Pine Script v6
   ↓
 Paste into TradingView for real-time monitoring
   ↓
@@ -212,7 +212,7 @@ IS: 2022-2024  → Optimize → Validate on OOS: 2025
 
 ```bash
 # Run 5-fold walk-forward validation with a single command
-forge optimize walk-forward CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5
+alpha-forge optimize walk-forward CL=F --strategy cl_hmm_bb_rsi_v1 --folds 5
 ```
 
 A large gap between IS and OOS Sharpe ratios suggests overfitting:

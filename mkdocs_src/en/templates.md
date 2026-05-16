@@ -3,8 +3,8 @@
 AlphaForge is a **development and validation platform built for users to grow their own strategies**. The distributed binary ships a curated set of 7 strategies (4 basic + 1 range + 2 advanced-indicator references), and this page is a **collection of design patterns for assembling your own strategy JSON** on top of them.
 
 !!! info "How to read this page"
-    - The IDs of the 7 built-in strategies are listed in the [CLI reference: forge strategy](cli-reference/strategy.md).
-    - The JSON examples on this page are written as templates for **building your own custom strategy**; the `strategy_id` values use placeholder `my_*` names. Replace them with meaningful names of your own and register via `forge strategy save`.
+    - The IDs of the 7 built-in strategies are listed in the [CLI reference: alpha-forge strategy](cli-reference/strategy.md).
+    - The JSON examples on this page are written as templates for **building your own custom strategy**; the `strategy_id` values use placeholder `my_*` names. Replace them with meaningful names of your own and register via `alpha-forge strategy save`.
     - Backtest result numbers are illustrative. Actual values depend on data and environment (fetch period, provider, settings).
 
 ## Three design patterns on this page
@@ -19,7 +19,7 @@ These go one step beyond the built-in `hmm_bb_pipeline_v1` (HMM example) and `do
 
 ## Strategy JSON basics
 
-Every strategy follows the same Pydantic schema. Indicator details are available via [`forge analyze indicator list`](cli-reference/other.md#analyze-indicator).
+Every strategy follows the same Pydantic schema. Indicator details are available via [`alpha-forge analyze indicator list`](cli-reference/other.md#analyze-indicator).
 
 ```text
 {
@@ -182,7 +182,7 @@ The strength of this template is **managing three regimes within a single strate
 - **Change the symbol**: Replace `target_symbols` with `["SPY"]`, `["NVDA"]`, `["GC=F"]`, etc.
 - **Change state count**: `regime.n_components: 2` (Bull/Bear) simplifies the decision; `4` adds nuance (requires more data)
 - **Strengthen entry**: Add `volume > sma_volume_20` or similar conditions in `regime_config.states["0"].entry_conditions`
-- **Optimize**: `forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save`
+- **Optimize**: `alpha-forge optimize run QQQ --strategy my_hmm_bb_rsi_v1 --metric sharpe_ratio --save`
 
 ---
 
@@ -303,7 +303,7 @@ The defining feature versus HMM × BB × RSI: `regime_config.states` lets you de
 - **Add more states**: `n_components: 3` for Bull/Range/Bear; add `states["2"]`
 - **Switch to equities**: Replace `target_symbols` with stocks and lower `risk_management.leverage` to `1.0-2.0`
 - **More entries**: Loosen each regime's `entry_conditions` (e.g., `adx_threshold: 15`, `rsi_threshold: 45`)
-- **Cross-symbol optimize**: `forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save`
+- **Cross-symbol optimize**: `alpha-forge optimize cross-symbol GC=F SI=F CL=F --strategy my_regime_switching_v1 --aggregation min --save`
 
 ---
 
@@ -314,7 +314,7 @@ The defining feature versus HMM × BB × RSI: `regime_config.states` lets you de
 Use the `indicators[].timeframe` field to **pull higher-timeframe values** while entering on the lower timeframe. Judge a long-term trend on the weekly SMA and time pullback entries on the daily RSI.
 
 !!! info "Educational example"
-    The strategy JSON in this section is written as an example of the `indicators[].timeframe` feature. Validate behavior with [`forge strategy validate`](cli-reference/strategy.md#forge-strategy-validate) and [`forge backtest run`](cli-reference/backtest.md#forge-backtest-run) before live use.
+    The strategy JSON in this section is written as an example of the `indicators[].timeframe` feature. Validate behavior with [`alpha-forge strategy validate`](cli-reference/strategy.md#alpha-forge-strategy-validate) and [`alpha-forge backtest run`](cli-reference/backtest.md#alpha-forge-backtest-run) before live use.
 
 ### Suitable scenarios
 
@@ -435,7 +435,7 @@ The `indicators[].timeframe` field computes only that indicator on a different t
 
 - **Change the higher timeframe**: `weekly_sma.timeframe: "4h"` for intraday MTF; `"1mo"` for monthly-led strategies
 - **Combine multiple higher timeframes**: Require both weekly and monthly SMAs to be cleared before entering
-- **Expand symbols**: `target_symbols: ["SPY", "QQQ", "DIA"]` and use `forge optimize cross-symbol` for robust parameters
+- **Expand symbols**: `target_symbols: ["SPY", "QQQ", "DIA"]` and use `alpha-forge optimize cross-symbol` for robust parameters
 - **Add shorts**: Define `entry_conditions.short` for "weekly downtrend + daily RSI overbought"
 
 ---
@@ -447,15 +447,15 @@ The `indicators[].timeframe` field computes only that indicator on a different t
 Each template includes `optimizer_config.param_ranges`, so Optuna Bayesian optimization runs with:
 
 ```bash
-forge optimize run <SYMBOL> --strategy <STRATEGY_ID> --metric sharpe_ratio --save
+alpha-forge optimize run <SYMBOL> --strategy <STRATEGY_ID> --metric sharpe_ratio --save
 ```
 
-See [`forge optimize run`](cli-reference/optimize.md#forge-optimize-run) for details.
+See [`alpha-forge optimize run`](cli-reference/optimize.md#alpha-forge-optimize-run) for details.
 
 ### Walk-forward to guard against overfitting
 
 ```bash
-forge optimize walk-forward <SYMBOL> --strategy <STRATEGY_ID> --windows 5
+alpha-forge optimize walk-forward <SYMBOL> --strategy <STRATEGY_ID> --windows 5
 ```
 
 Each window runs IS optimization → OOS evaluation; check `overfitting_score` afterwards.
@@ -463,7 +463,7 @@ Each window runs IS optimization → OOS evaluation; check `overfitting_score` a
 ### Sensitivity analysis to measure robustness
 
 ```bash
-forge optimize sensitivity <RESULT_FILE>
+alpha-forge optimize sensitivity <RESULT_FILE>
 ```
 
 Sweep around optimized parameters and measure how much the metric moves. If `overall_robustness_score` ≤ 0.7, suspect overfitting.
@@ -473,17 +473,17 @@ Sweep around optimized parameters and measure how much the metric moves. If `ove
 Once trade records accumulate, compare against backtest:
 
 ```bash
-forge live compare <STRATEGY_ID>
+alpha-forge live compare <STRATEGY_ID>
 ```
 
-See [`forge live compare`](cli-reference/live.md#forge-live-compare).
+See [`alpha-forge live compare`](cli-reference/live.md#alpha-forge-live-compare).
 
 ---
 
 ## Related documentation
 
 - [Getting Started](getting-started.md) — Start with a simple SMA crossover
-- [CLI Reference](cli-reference/index.md) — All `forge` command parameters
+- [CLI Reference](cli-reference/index.md) — All `alpha-forge` command parameters
 - [AI-Driven Strategy Exploration Workflow](guides/ai-exploration-workflow.md) — Generate strategies with Claude Code / Codex
 
 ---

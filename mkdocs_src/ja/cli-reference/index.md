@@ -1,13 +1,13 @@
 # CLI リファレンス
 
-`forge` コマンドが提供するすべてのコマンドグループとサブコマンドの一覧です。種別ごとの詳細はリンク先の専用ページを参照してください。
+`alpha-forge` コマンドが提供するすべてのコマンドグループとサブコマンドの一覧です。種別ごとの詳細はリンク先の専用ページを参照してください。
 
 ## 全コマンド一覧
 
-`alpha-forge/src/alpha_forge/cli.py` および `commands/*.py` の Click デコレータから抽出した実装網羅の一覧です。種別は CLI 階層上の位置づけで、すべてのグループは `forge <group> <subcommand>` の形で呼び出します。
+`alpha-forge/src/alpha_forge/cli.py` および `commands/*.py` の Click デコレータから抽出した実装網羅の一覧です。種別は CLI 階層上の位置づけで、すべてのグループは `alpha-forge <group> <subcommand>` の形で呼び出します。
 
 - **コア**: 戦略開発・運用で頻繁に使う 9 グループ。トップレベルに直接配置されます
-- **補助**: `analyze` / `system` のネストグループ。サブコマンドは `forge <補助> <ツール> <action>` で 3 階層になります
+- **補助**: `analyze` / `system` のネストグループ。サブコマンドは `alpha-forge <補助> <ツール> <action>` で 3 階層になります
 - **メタ**: バイナリ自身の操作 (`self`)
 
 | グループ | 種別 | サブコマンド | 説明 | 詳細 |
@@ -23,19 +23,19 @@
 | **data** | コア | `fetch` `list` `trend` `update` `alt {fetch,list,info}` `tv-mcp {chart,inspect,check}` | ヒストリカル・代替データ・TradingView MCP データ取得 | [data →](data.md) |
 | **analyze** | 補助 | `indicator {list,show}` `ml {train,models,walk-forward}` `ml dataset {build,feature-sets}` `pairs {scan,scan-all,build}` | 戦略分析の補助ツール群（テクニカル指標 / 機械学習 / ペアトレード） | — |
 | **system** | 補助 | `init` `auth {login,logout,status}` `auth check op` `docs {list,show}` | 運用ユーティリティ（ワークスペース初期化・Whop OAuth 認証・同梱ドキュメント） | — |
-| **self** | メタ | `version` `update` | `forge` バイナリ自身の操作（バージョン確認・自己更新） | — |
+| **self** | メタ | `version` `update` | `alpha-forge` バイナリ自身の操作（バージョン確認・自己更新） | — |
 
-`{a,b,c}` 表記は同じ親グループ配下の選択肢を示します。たとえば `data alt {fetch,list,info}` は `forge data alt fetch` / `forge data alt list` / `forge data alt info` の 3 サブコマンドを表します。
+`{a,b,c}` 表記は同じ親グループ配下の選択肢を示します。たとえば `data alt {fetch,list,info}` は `alpha-forge data alt fetch` / `alpha-forge data alt list` / `alpha-forge data alt info` の 3 サブコマンドを表します。
 
 ## 共通ヘルプ
 
 すべてのコマンドで `--help` が利用可能です。
 
 ```bash
-forge --help                         # トップレベルのコマンド一覧
-forge backtest --help                # backtest グループのサブコマンド一覧
-forge backtest run --help            # 個別サブコマンドのパラメータ詳細
-forge data alt --help                # ネストされた補助グループのサブコマンド一覧
+alpha-forge --help                         # トップレベルのコマンド一覧
+alpha-forge backtest --help                # backtest グループのサブコマンド一覧
+alpha-forge backtest run --help            # 個別サブコマンドのパラメータ詳細
+alpha-forge data alt --help                # ネストされた補助グループのサブコマンド一覧
 ```
 
 ## 関連ドキュメント

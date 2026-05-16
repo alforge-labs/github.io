@@ -1,4 +1,4 @@
-# forge backtest
+# alpha-forge backtest
 
 戦略のバックテスト実行と関連分析を行うコマンドグループ。バックテスト実行・並列バッチ実行・診断・結果一覧/表示/移行・戦略比較・ポートフォリオ・チャート誘導・モンテカルロ・シグナル件数チェックなどを提供します。
 
@@ -9,28 +9,28 @@
 
 | コマンド | 説明 |
 |---------|------|
-| [`forge backtest run`](#forge-backtest-run) | バックテストを実行する |
-| [`forge backtest batch`](#forge-backtest-batch) | 複数の戦略 JSON を並列バックテストする |
-| [`forge backtest diagnose`](#forge-backtest-diagnose) | 戦略のパフォーマンス問題を自動診断する |
-| [`forge backtest list`](#forge-backtest-list) | 保存済みのバックテスト結果一覧を表示する |
-| [`forge backtest report`](#forge-backtest-report) | 保存済みのバックテスト結果を表示する |
-| [`forge backtest migrate`](#forge-backtest-migrate) | 既存の JSON レポートファイルを DB にインポートする |
-| [`forge backtest compare`](#forge-backtest-compare) | 複数戦略を同一シンボル・期間で並べてバックテスト比較する |
-| [`forge backtest portfolio`](#forge-backtest-portfolio) | 複数銘柄のポートフォリオバックテストを実行する |
-| [`forge backtest chart`](#forge-backtest-chart) | ダッシュボードの URL を表示してチャートへ誘導する |
-| [`forge backtest signal-count`](#forge-backtest-signal-count) | エントリー条件のシグナル発生件数を高速チェック |
-| [`forge backtest monte-carlo`](#forge-backtest-monte-carlo) | 既存のバックテスト結果からモンテカルロシミュレーションを実行する |
+| [`alpha-forge backtest run`](#alpha-forge-backtest-run) | バックテストを実行する |
+| [`alpha-forge backtest batch`](#alpha-forge-backtest-batch) | 複数の戦略 JSON を並列バックテストする |
+| [`alpha-forge backtest diagnose`](#alpha-forge-backtest-diagnose) | 戦略のパフォーマンス問題を自動診断する |
+| [`alpha-forge backtest list`](#alpha-forge-backtest-list) | 保存済みのバックテスト結果一覧を表示する |
+| [`alpha-forge backtest report`](#alpha-forge-backtest-report) | 保存済みのバックテスト結果を表示する |
+| [`alpha-forge backtest migrate`](#alpha-forge-backtest-migrate) | 既存の JSON レポートファイルを DB にインポートする |
+| [`alpha-forge backtest compare`](#alpha-forge-backtest-compare) | 複数戦略を同一シンボル・期間で並べてバックテスト比較する |
+| [`alpha-forge backtest portfolio`](#alpha-forge-backtest-portfolio) | 複数銘柄のポートフォリオバックテストを実行する |
+| [`alpha-forge backtest chart`](#alpha-forge-backtest-chart) | ダッシュボードの URL を表示してチャートへ誘導する |
+| [`alpha-forge backtest signal-count`](#alpha-forge-backtest-signal-count) | エントリー条件のシグナル発生件数を高速チェック |
+| [`alpha-forge backtest monte-carlo`](#alpha-forge-backtest-monte-carlo) | 既存のバックテスト結果からモンテカルロシミュレーションを実行する |
 
 ---
 
-## forge backtest run
+## alpha-forge backtest run
 
 戦略をバックテスト実行する。`--strategy` または `--strategy-file` のいずれかを指定。
 
 ### 構文
 
 ```bash
-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
+alpha-forge backtest run <SYMBOL> (--strategy <ID> | --strategy-file <PATH>) [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -114,18 +114,18 @@ PF: 1.74  Win%: 50.0%  avg勝: 4.20%  avg負: -2.40%
 | `--strategy または --strategy-file のいずれかを指定してください` | 両方未指定 | どちらか一方を指定 |
 | `--strategy と --strategy-file は同時に指定できません` | 両方指定 | どちらか一方のみに |
 | `エラー: 開始日の形式が不正です (YYYY-MM-DD)` | 日付形式不正 | `2024-01-15` 形式で指定 |
-| `⚠️ {interval} データが見つかりません。1d データにフォールバックします。` | 戦略の `timeframe` データが未取得 | `forge data fetch` で対象 interval のデータを取得 |
+| `⚠️ {interval} データが見つかりません。1d データにフォールバックします。` | 戦略の `timeframe` データが未取得 | `alpha-forge data fetch` で対象 interval のデータを取得 |
 
 ---
 
-## forge backtest batch
+## alpha-forge backtest batch
 
 複数の戦略 JSON を並列にバックテストする。フィルタ条件（Sharpe / MaxDD）を満たした戦略を「合格」として表示。
 
 ### 構文
 
 ```bash
-forge backtest batch <SYMBOL> (--strategy-file <FILE> ... | --strategy-dir <DIR>) [OPTIONS]
+alpha-forge backtest batch <SYMBOL> (--strategy-file <FILE> ... | --strategy-dir <DIR>) [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -164,14 +164,14 @@ forge backtest batch <SYMBOL> (--strategy-file <FILE> ... | --strategy-dir <DIR>
 
 ---
 
-## forge backtest diagnose
+## alpha-forge backtest diagnose
 
 戦略のパフォーマンス問題（過学習・低取引数・極端な勝敗バランス等）を自動診断する。
 
 ### 構文
 
 ```bash
-forge backtest diagnose <SYMBOL> --strategy <ID> [OPTIONS]
+alpha-forge backtest diagnose <SYMBOL> --strategy <ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -187,18 +187,18 @@ forge backtest diagnose <SYMBOL> --strategy <ID> [OPTIONS]
 
 ### 出力例
 
-戦略診断結果（推定される問題と推奨アクション）が表示されます。詳細は `forge backtest diagnose --help` と内部の `StrategyDiagnostics` ロジックを参照。
+戦略診断結果（推定される問題と推奨アクション）が表示されます。詳細は `alpha-forge backtest diagnose --help` と内部の `StrategyDiagnostics` ロジックを参照。
 
 ---
 
-## forge backtest list
+## alpha-forge backtest list
 
 保存済みのバックテスト結果（DB）を一覧表示する。
 
 ### 構文
 
 ```bash
-forge backtest list [OPTIONS]
+alpha-forge backtest list [OPTIONS]
 ```
 
 ### オプション
@@ -231,14 +231,14 @@ spy_macd_v1_20260414_181522          spy_macd_v1                   SPY          
 
 ---
 
-## forge backtest report
+## alpha-forge backtest report
 
 保存済みのバックテスト結果を詳細表示する。
 
 ### 構文
 
 ```bash
-forge backtest report <RESULT_ID> [OPTIONS]
+alpha-forge backtest report <RESULT_ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -266,18 +266,18 @@ MDD: -16.80%  PF: 1.74  Win%: 50.0%
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `エラー: 結果が見つかりません - <id>` | `run_id` も `strategy_id` も該当なし | `forge backtest list` で確認 |
+| `エラー: 結果が見つかりません - <id>` | `run_id` も `strategy_id` も該当なし | `alpha-forge backtest list` で確認 |
 
 ---
 
-## forge backtest migrate
+## alpha-forge backtest migrate
 
 既存の `*_report.json` ファイルを DB にインポートする。
 
 ### 構文
 
 ```bash
-forge backtest migrate [--dry-run] [--force]
+alpha-forge backtest migrate [--dry-run] [--force]
 ```
 
 ### オプション
@@ -308,14 +308,14 @@ forge backtest migrate [--dry-run] [--force]
 
 ---
 
-## forge backtest compare
+## alpha-forge backtest compare
 
 複数戦略を同一シンボル・同一期間で比較する。
 
 ### 構文
 
 ```bash
-forge backtest compare <STRATEGY1> [STRATEGY2 ...] --symbol <SYM> [--symbol <SYM> ...] [OPTIONS]
+alpha-forge backtest compare <STRATEGY1> [STRATEGY2 ...] --symbol <SYM> [--symbol <SYM> ...] [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -344,19 +344,19 @@ spy_rsi_v1     +12.4%   1.50    0.45  -22.1%   42%   1.08      24
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `エラー: <SYM> のデータが見つかりません` | データ未取得 | `forge data fetch <SYM>` |
-| `警告: 戦略 '<id>' の読み込みに失敗しました` | 戦略 ID 不正 / JSON 不正 | `forge strategy list` で確認、`forge strategy validate` |
+| `エラー: <SYM> のデータが見つかりません` | データ未取得 | `alpha-forge data fetch <SYM>` |
+| `警告: 戦略 '<id>' の読み込みに失敗しました` | 戦略 ID 不正 / JSON 不正 | `alpha-forge strategy list` で確認、`alpha-forge strategy validate` |
 
 ---
 
-## forge backtest portfolio
+## alpha-forge backtest portfolio
 
 複数銘柄のポートフォリオバックテストを実行する。
 
 ### 構文
 
 ```bash
-forge backtest portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
+alpha-forge backtest portfolio <SYM1> [SYM2 ...] --strategy <ID> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -395,19 +395,19 @@ GOOGL         33.3%   +78.0%   1.38  -19.5%
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
 | `エラー: --weights の形式が不正です。例: AAPL=0.4,MSFT=0.6` | 形式違反 | カンマ・等号で区切る |
-| `エラー: <SYM> のデータが見つかりません` | データ未取得 | `forge data fetch` |
+| `エラー: <SYM> のデータが見つかりません` | データ未取得 | `alpha-forge data fetch` |
 | `エラー: バックテストに失敗しました - <理由>` | エンジン例外 | エラーメッセージに従い対処 |
 
 ---
 
-## forge backtest chart
+## alpha-forge backtest chart
 
 ダッシュボード上のチャート URL を表示し、必要なら開く。
 
 ### 構文
 
 ```bash
-forge backtest chart [RESULT_ID] [--open] [--compare <ID> ...]
+alpha-forge backtest chart [RESULT_ID] [--open] [--compare <ID> ...]
 ```
 
 ### 引数とオプション
@@ -436,14 +436,14 @@ forge backtest chart [RESULT_ID] [--open] [--compare <ID> ...]
 
 ---
 
-## forge backtest signal-count
+## alpha-forge backtest signal-count
 
 vectorbt をスキップし、エントリー条件のシグナル発生件数だけを高速で集計する。条件式の妥当性確認用。
 
 ### 構文
 
 ```bash
-forge backtest signal-count <SYMBOL> --strategy <ID> [--period 5y] [--json]
+alpha-forge backtest signal-count <SYMBOL> --strategy <ID> [--period 5y] [--json]
 ```
 
 ### 引数とオプション
@@ -474,25 +474,25 @@ forge backtest signal-count <SYMBOL> --strategy <ID> [--period 5y] [--json]
 シグナルが 0 件の場合 `⚠️  シグナルが発生していません` の警告が表示されます。
 
 !!! note "外部シンボルを参照する戦略について"
-    `^VIX` や `USDJPY=X` などの外部シンボルを参照する戦略でも、`forge backtest run` / `forge optimize run` と同等の `merge_external_symbols()` 処理を内部で適用してからシグナルを集計します。これにより、外部シンボル戦略で `entry_signal_days: 0` が誤って返るバグ（#266）は解消されています。
+    `^VIX` や `USDJPY=X` などの外部シンボルを参照する戦略でも、`alpha-forge backtest run` / `alpha-forge optimize run` と同等の `merge_external_symbols()` 処理を内部で適用してからシグナルを集計します。これにより、外部シンボル戦略で `entry_signal_days: 0` が誤って返るバグ（#266）は解消されています。
 
 ### 主なエラー
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
 | `期間の形式が不正です: <value>` | `--period` 形式不正 | `5y`, `6m`, `30d` 形式で指定 |
-| `エラー: <SYM> のデータが空です（期間: <p>）` | データ未取得 | `forge data fetch <SYM>` |
+| `エラー: <SYM> のデータが空です（期間: <p>）` | データ未取得 | `alpha-forge data fetch <SYM>` |
 
 ---
 
-## forge backtest monte-carlo
+## alpha-forge backtest monte-carlo
 
 既存のバックテスト結果のトレード履歴をリサンプリングし、モンテカルロシミュレーションで破産確率や最悪ケースを評価する。
 
 ### 構文
 
 ```bash
-forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
+alpha-forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
 ```
 
 ### 引数とオプション
@@ -522,7 +522,7 @@ forge backtest monte-carlo <RESULT_ID> [--simulations 1000] [--json]
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `エラー: 結果が見つかりません - <id>` | DB に該当なし | `forge backtest list` で確認 |
+| `エラー: 結果が見つかりません - <id>` | DB に該当なし | `alpha-forge backtest list` で確認 |
 | `エラー: 有効なトレード履歴がありません（最低10件必要です）` | トレード件数 < 10 | より長い期間または別戦略でバックテスト |
 | `エラー: シミュレーションに失敗しました - <理由>` | 計算過程で例外 | エラーメッセージに従い対処 |
 

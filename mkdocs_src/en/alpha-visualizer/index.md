@@ -1,6 +1,9 @@
 # alpha-visualizer
 
-**alpha-visualizer** is a standalone OSS package that visualizes AlphaForge (`forge`) backtest results in your web browser. It reads `backtest_results.db` (SQLite) and strategy JSON files directly, so it works on hosts without `forge` installed.
+**alpha-visualizer** is the **OSS package that visualizes AlphaForge backtest results in your web browser** — outputs from `alpha-forge backtest run` and friends. It reads `backtest_results.db` (SQLite) and strategy JSON files directly, so it works on hosts without `alpha-forge` installed.
+
+!!! tip "How it connects to AlphaForge"
+    Run `alpha-forge backtest run <SYMBOL> --strategy <id>` and the CLI ends with "📊 You can review the chart with `alpha-vis serve`". That message is the entry point to alpha-visualizer, which renders the same result as **Equity / Drawdown / trades / metric comparisons in a browser**. AlphaForge itself is commercial, but the result-visualization layer is open source. See [Getting Started → Next steps: Visualize](../getting-started.md#next-steps-visualize) and the [End-to-End Strategy Workflow](../guides/end-to-end-workflow.md) for the first integration steps.
 
 ![Browse view](assets/browse.png){ loading=lazy }
 
@@ -31,4 +34,4 @@
 - **PyPI**: <https://pypi.org/project/alpha-visualizer/>
 - **Code of Conduct**: [Contributor Covenant v2.1](https://github.com/alforge-labs/alpha-visualizer/blob/main/CODE_OF_CONDUCT.en.md)
 
-`forge` itself is commercial, but `alpha-visualizer` is developed independently as open source.
+`alpha-forge` itself is commercial, but `alpha-visualizer` is developed independently as open source.

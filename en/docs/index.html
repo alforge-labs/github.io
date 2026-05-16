@@ -2139,10 +2139,10 @@
 <p>This documentation walks through installation, strategy development, and integration with AI coding agents.</p>
 <h2 id="two-things-that-set-alphaforge-apart">Two things that set AlphaForge apart<a class="headerlink" href="#two-things-that-set-alphaforge-apart" title="Permanent link">&para;</a></h2>
 <h3 id="1-json-strategy-one-command-pine-script-v6-live-on-tradingview">1. JSON strategy → one command → Pine Script v6 → live on TradingView<a class="headerlink" href="#1-json-strategy-one-command-pine-script-v6-live-on-tradingview" title="Permanent link">&para;</a></h3>
-<p>Write your strategy in JSON, then run <code>forge pine generate</code> to compile it into <strong>TradingView Pine Script v6</strong>. Unlike all-in-one Web UI platforms that lock you into a specific server and exchange adapters, AlphaForge lets you reuse your existing TradingView setup for alerts, automation, and chart visualization.</p>
+<p>Write your strategy in JSON, then run <code>alpha-forge pine generate</code> to compile it into <strong>TradingView Pine Script v6</strong>. Unlike all-in-one Web UI platforms that lock you into a specific server and exchange adapters, AlphaForge lets you reuse your existing TradingView setup for alerts, automation, and chart visualization.</p>
 <p><img alt="JSON strategy → Backtest + Optimize → Pine Script v6 → TradingView horizontal pipeline" loading="lazy" src="assets/illustrations/alphaforge-json-to-tradingview-en.png" /></p>
 <h3 id="2-optuna-tpe-walk-forward-validation-to-fight-overfitting">2. Optuna TPE + walk-forward validation to fight overfitting<a class="headerlink" href="#2-optuna-tpe-walk-forward-validation-to-fight-overfitting" title="Permanent link">&para;</a></h3>
-<p><code>forge optimize run</code> triggers Optuna Bayesian optimization (TPE) out of the box, and <code>--split</code> adds walk-forward analysis (WFT) so you can compare in-sample vs out-of-sample performance in one step. This is the optimization and generalization layer that Web-UI-centric platforms typically lack.</p>
+<p><code>alpha-forge optimize run</code> triggers Optuna Bayesian optimization (TPE) out of the box, and <code>--split</code> adds walk-forward analysis (WFT) so you can compare in-sample vs out-of-sample performance in one step. This is the optimization and generalization layer that Web-UI-centric platforms typically lack.</p>
 <p><img alt="Parameter ranges → Optuna TPE optimization → IS/OOS/WFT delta → Optimized strategy branching flow" loading="lazy" src="assets/illustrations/alphaforge-optuna-wft-flow-en.png" /></p>
 <h2 id="how-alphaforge-compares-to-other-quant-tools">How AlphaForge compares to other quant tools<a class="headerlink" href="#how-alphaforge-compares-to-other-quant-tools" title="Permanent link">&para;</a></h2>
 <table>
@@ -2211,7 +2211,7 @@
 <ul>
 <li><a href="getting-started/">Getting Started</a> — Installation, license activation, and your first backtest (10-minute Free-plan walkthrough included)</li>
 <li><a href="usecases/">Use Cases by Goal</a> — Pick the most relevant next page based on your role (TradingView user / Python developer / Quant / Auto-trading / AI agent user)</li>
-<li><a href="cli-reference/">CLI Reference</a> — Every <code>forge</code> command with parameters and output examples</li>
+<li><a href="cli-reference/">CLI Reference</a> — Every <code>alpha-forge</code> command with parameters and output examples</li>
 <li><a href="templates/">Strategy Templates</a> — Combination strategies like HMM × BB × RSI with concrete JSON</li>
 <li><a href="guides/ai-exploration-workflow/">AI-Driven Strategy Exploration Workflow</a> — A how-to for autonomous strategy development with Claude Code / Codex × AlphaForge</li>
 <li><a href="legal/disclaimers/">Legal &amp; Disclaimers</a> — Disclaimers, EULA, and Privacy Policy</li>

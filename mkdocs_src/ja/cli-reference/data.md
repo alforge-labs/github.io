@@ -1,4 +1,4 @@
-# forge data
+# alpha-forge data
 
 ヒストリカルマーケットデータの取得・更新・参照を行うコマンドグループ。プロバイダー（yfinance / moomoo / OANDA / Dukascopy / TradingView MCP）から OHLCV を取得し、Parquet 形式でローカルキャッシュします。
 
@@ -9,22 +9,22 @@
 
 | コマンド | 説明 |
 |---------|------|
-| [`forge data fetch`](#forge-data-fetch) | ヒストリカルデータを取得して保存する |
-| [`forge data list`](#forge-data-list) | 保存済みのヒストリカルデータ一覧を表示する |
-| [`forge data trend`](#forge-data-trend) | 保存済みデータから市場トレンドを判定する |
-| [`forge data update`](#forge-data-update) | 保存済みの全ヒストリカルデータを最新状態まで一括で差分更新する |
+| [`alpha-forge data fetch`](#alpha-forge-data-fetch) | ヒストリカルデータを取得して保存する |
+| [`alpha-forge data list`](#alpha-forge-data-list) | 保存済みのヒストリカルデータ一覧を表示する |
+| [`alpha-forge data trend`](#alpha-forge-data-trend) | 保存済みデータから市場トレンドを判定する |
+| [`alpha-forge data update`](#alpha-forge-data-update) | 保存済みの全ヒストリカルデータを最新状態まで一括で差分更新する |
 
 ---
 
-## forge data fetch
+## alpha-forge data fetch
 
 指定銘柄またはウォッチリストの OHLCV をプロバイダーから取得し、Parquet 形式で `config.data.storage_path` に保存します。デフォルトでは `config.data.cache_ttl_hours` 内のキャッシュを再利用し、`--force` で強制再取得できます。
 
 ### 構文
 
 ```bash
-forge data fetch [SYMBOL] [OPTIONS]
-forge data fetch --watchlist <FILE> [OPTIONS]
+alpha-forge data fetch [SYMBOL] [OPTIONS]
+alpha-forge data fetch --watchlist <FILE> [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -76,14 +76,14 @@ SPY のデータを取得し保存しました (1258 lines)
 
 ---
 
-## forge data list
+## alpha-forge data list
 
 保存済みデータセットの一覧を表示します。
 
 ### 構文
 
 ```bash
-forge data list
+alpha-forge data list
 ```
 
 ### 引数とオプション
@@ -107,14 +107,14 @@ forge data list
 
 ---
 
-## forge data trend
+## alpha-forge data trend
 
 保存済みデータから市場トレンドシグナル（強気・弱気・中立など）を生成します。`--symbols` 未指定時は `DEFAULT_TREND_SYMBOLS`（主要日米セット）を使用。
 
 ### 構文
 
 ```bash
-forge data trend [OPTIONS]
+alpha-forge data trend [OPTIONS]
 ```
 
 ### 引数とオプション
@@ -160,14 +160,14 @@ USDJPY=X: BEARISH - 50EMA < 200EMA
 
 ---
 
-## forge data update
+## alpha-forge data update
 
-`forge data list` で見えるすべての保存済みデータについて、最終取得日から **本日まで差分取得** します。既に最新のデータはスキップ。
+`alpha-forge data list` で見えるすべての保存済みデータについて、最終取得日から **本日まで差分取得** します。既に最新のデータはスキップ。
 
 ### 構文
 
 ```bash
-forge data update
+alpha-forge data update
 ```
 
 ### 引数とオプション
@@ -196,7 +196,7 @@ forge data update
 
 | メッセージ | 原因 | 対処 |
 |----------|------|------|
-| `[Skip] <SYM> (<interval>): 有効な最終取得日がありません。` | メタデータ破損や空ファイル | `forge data fetch <SYM> --force` で再取得 |
+| `[Skip] <SYM> (<interval>): 有効な最終取得日がありません。` | メタデータ破損や空ファイル | `alpha-forge data fetch <SYM> --force` で再取得 |
 | `- エラーが発生しました: <details>` | プロバイダー側のエラー | エラー内容に応じて対処 |
 
 ---
@@ -248,32 +248,32 @@ data:
 
 ```bash
 # CLI で endpoint を直接指定して fetch
-forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
+alpha-forge data fetch SPY --provider tv_mcp --mcp-server "node /opt/tv-mcp/server.js" --period max
 
 # 環境変数で endpoint を渡す（~ / $HOME も展開される）
 FORGE_TV_MCP_ENDPOINT="node ~/opt/tv-mcp/server.js" \
-  forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
+  alpha-forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 
 # forge.yaml の設定を利用（CLI から endpoint を省略）
-forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
+alpha-forge data fetch USDJPY --provider tv_mcp --period 20y --interval 1d
 ```
 
-#### サブコマンド: `forge data tv-mcp check`（issue #674）
+#### サブコマンド: `alpha-forge data tv-mcp check`（issue #674）
 
 TV MCP データ取得サーバーの起動・接続を検証します。`/explore-strategies` スキルが、`goals.yaml` の `exploration.data_provider_override.{stock|fx}: tv_mcp` 設定された goal の冒頭で自動実行します。
 
 ```bash
 # 既定（symbol=BATS:SPY で疎通確認）
-forge data tv-mcp check
+alpha-forge data tv-mcp check
 
 # JSON 出力（自動化スクリプト向け）
-forge data tv-mcp check --json
+alpha-forge data tv-mcp check --json
 
 # シンボルを変更（FX 用）
-forge data tv-mcp check --symbol OANDA:USDJPY
+alpha-forge data tv-mcp check --symbol OANDA:USDJPY
 
 # CLI で endpoint を直接指定
-forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
+alpha-forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
 ```
 
 | オプション | 既定 | 説明 |
@@ -286,7 +286,7 @@ forge data tv-mcp check --mcp-server "node /opt/tv-mcp/server.js"
 
 ### `auto` ルーティング（issue #583 Phase 1.5e-δ）
 
-`stock_provider` / `fx_provider` に `auto` を指定すると、シンボルから判定したアセット種別ごとに `auto_routing` テーブルから provider を解決します。`forge data fetch <SYM>` を実行するたびに別 provider を選びたい運用に便利です。
+`stock_provider` / `fx_provider` に `auto` を指定すると、シンボルから判定したアセット種別ごとに `auto_routing` テーブルから provider を解決します。`alpha-forge data fetch <SYM>` を実行するたびに別 provider を選びたい運用に便利です。
 
 ```yaml
 data:
@@ -342,7 +342,7 @@ data:
 - **プロバイダー解決**: `get_data_fetcher(symbol=..., config=config)` がシンボルから `forge.yaml` の `data.providers` 設定でプロバイダーを選択
 - **`FORGE_CONFIG`**: 保存先・プロバイダー設定は環境変数 `FORGE_CONFIG` が指す `forge.yaml` で決まる
 - **終了コード**: 通常 `0`、`click.ClickException` で `1`、引数エラーは Click が `2` を返す
-- **Trial プラン制限**: Trial プランでは取得時にも `end` が `2023-12-31` に強制キャップされ、`forge data update` で保有最終日が 2023-12-31 以降のアイテムはスキップされます。詳細は [Trial 制限](../guides/trial-limits.md) を参照。
+- **Trial プラン制限**: Trial プランでは取得時にも `end` が `2023-12-31` に強制キャップされ、`alpha-forge data update` で保有最終日が 2023-12-31 以降のアイテムはスキップされます。詳細は [Trial 制限](../guides/trial-limits.md) を参照。
 
 ---
 

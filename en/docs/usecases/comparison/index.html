@@ -2838,7 +2838,7 @@
 <p>AlphaForge and TradingView are <strong>not competitors — they work together</strong>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>AlphaForge: backtest and optimize strategy
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ↓
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>forge command: automatically generate Pine Script v6
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>alpha-forge command: automatically generate Pine Script v6
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  ↓
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Paste into TradingView for real-time monitoring
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  ↓
@@ -2941,7 +2941,7 @@
 </code></pre></div>
 <h3 id="running-wft-in-alphaforge">Running WFT in AlphaForge<a class="headerlink" href="#running-wft-in-alphaforge" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Run 5-fold walk-forward validation with a single command</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>cl_hmm_bb_rsi_v1<span class="w"> </span>--folds<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span><span class="nv">CL</span><span class="o">=</span>F<span class="w"> </span>--strategy<span class="w"> </span>cl_hmm_bb_rsi_v1<span class="w"> </span>--folds<span class="w"> </span><span class="m">5</span>
 </code></pre></div>
 <p>A large gap between IS and OOS Sharpe ratios suggests overfitting:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>IS Period  OOS Period  Sharpe(IS)  Sharpe(OOS)  Assessment

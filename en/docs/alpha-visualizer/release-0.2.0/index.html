@@ -2172,10 +2172,10 @@
 <blockquote>
 <p><strong>Released</strong>: May 11, 2026 / <strong>Version</strong>: v0.2.0 / <strong>Distribution</strong>: <a href="https://pypi.org/project/alpha-visualizer/0.2.0/">PyPI</a> · <a href="https://github.com/alforge-labs/alpha-visualizer/releases/tag/v0.2.0">GitHub Release</a></p>
 </blockquote>
-<p><a href="../">alpha-visualizer</a> is a standalone OSS package that renders backtest results produced by <code>forge</code> in a web browser. v0.2.0 focuses on making <strong>the very first run feel like a finished product</strong> — you can see every screen end-to-end without producing any data of your own, alongside large security and quality improvements.</p>
+<p><a href="../">alpha-visualizer</a> is a standalone OSS package that renders backtest results produced by <code>alpha-forge</code> in a web browser. v0.2.0 focuses on making <strong>the very first run feel like a finished product</strong> — you can see every screen end-to-end without producing any data of your own, alongside large security and quality improvements.</p>
 <h2 id="highlights">Highlights<a class="headerlink" href="#highlights" title="Permanent link">&para;</a></h2>
 <h3 id="1-a-fully-synthetic-sample-dataset-is-now-bundled-use-bundled-samples">1. A fully synthetic sample dataset is now bundled (<code>--use-bundled-samples</code>)<a class="headerlink" href="#1-a-fully-synthetic-sample-dataset-is-now-bundled-use-bundled-samples" title="Permanent link">&para;</a></h3>
-<p>Until v0.1.x, alpha-visualizer needed actual <code>forge</code> output to show anything meaningful — the screens were empty on a fresh install. From v0.2.0 onward, <strong>a legally redistribution-free synthetic dataset ships inside the wheel</strong>, so you can explore every feature with a single command:</p>
+<p>Until v0.1.x, alpha-visualizer needed actual <code>alpha-forge</code> output to show anything meaningful — the screens were empty on a fresh install. From v0.2.0 onward, <strong>a legally redistribution-free synthetic dataset ships inside the wheel</strong>, so you can explore every feature with a single command:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>alpha-visualizer<span class="o">==</span><span class="m">0</span>.2.0
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>vis<span class="w"> </span>serve<span class="w"> </span>--use-bundled-samples<span class="w"> </span>--no-open
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Open http://127.0.0.1:8000</span>
@@ -2220,24 +2220,24 @@
 <p>The strategy × symbol compatibility matrix is intentionally distributed so that the Browse table sort/filter, the Compare heatmap, and the WFO IS/OOS stability chart all look meaningful out of the box.</p>
 <p>Prices are synthesized from Geometric Brownian Motion + Poisson jumps + AR(1). All symbol names carry the <code>_SYNTH</code> suffix so they cannot be confused with real tickers. The regeneration script <code>samples/build_samples.py</code> is deterministic, and CI runs <code>git diff --exit-code</code> on every PR to keep the bundle byte-identical.</p>
 <blockquote>
-<p>The bundled strategies are <strong>textbook indicator combinations only</strong> — SMA / RSI / MACD / Bollinger / ADX / Donchian. Proprietary differentiators in <code>forge</code> itself, such as HMM regime detection and MTF-optimized parameters, are intentionally excluded.</p>
+<p>The bundled strategies are <strong>textbook indicator combinations only</strong> — SMA / RSI / MACD / Bollinger / ADX / Donchian. Proprietary differentiators in <code>alpha-forge</code> itself, such as HMM regime detection and MTF-optimized parameters, are intentionally excluded.</p>
 </blockquote>
 <h3 id="2-live-performance-view-detail-screen">2. Live-performance view (Detail screen)<a class="headerlink" href="#2-live-performance-view-detail-screen" title="Permanent link">&para;</a></h3>
 <p>A new <strong>Live tab</strong> on the Detail screen reads <code>data/live/</code> summaries and trades and renders a period-aligned diff against the corresponding backtest (#57). If your backtest looked great but the live deployment is bleeding edge, the divergence shows up immediately. Period misalignment is normalized automatically.</p>
 <h3 id="3-hmm-regime-overlays-on-the-equity-chart">3. HMM / regime overlays on the equity chart<a class="headerlink" href="#3-hmm-regime-overlays-on-the-equity-chart" title="Permanent link">&para;</a></h3>
-<p>The Equity Chart can now render <strong>HMM states (high-vol / mid-vol / low-vol, etc.) as color bands behind the equity curve</strong> (#56). The Risk tab gained a per-regime summary card too, breaking down trade counts, win rate, and average return for each regime in a single view. This pairs especially well with <code>forge</code>-side strategies that infer HMM regimes.</p>
+<p>The Equity Chart can now render <strong>HMM states (high-vol / mid-vol / low-vol, etc.) as color bands behind the equity curve</strong> (#56). The Risk tab gained a per-regime summary card too, breaking down trade counts, win rate, and average return for each regime in a single view. This pairs especially well with <code>alpha-forge</code>-side strategies that infer HMM regimes.</p>
 <h3 id="4-security-and-quality-lift">4. Security and quality lift<a class="headerlink" href="#4-security-and-quality-lift" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>14 CodeQL alerts resolved</strong> (#175): path-injection, log-injection, and SSRF detectors all clear.</li>
 <li>Distinguished "resource not found (404)" from "DB failure (500)" — responses on <code>optimization_runs</code> table absence or SQLAlchemy <code>OperationalError</code> now correctly return 500 instead of masquerading as 404 (#106).</li>
 <li>Fixed Browse-screen crash on strategies with <code>latest_*</code> fields undefined (#23).</li>
-<li>Caught up with <code>forge</code>'s default DB filename change to <code>backtest_results.db</code> (#177).</li>
+<li>Caught up with <code>alpha-forge</code>'s default DB filename change to <code>backtest_results.db</code> (#177).</li>
 <li>Non-finite <code>best_metric</code> values are now returned as <code>null</code> and rendered as <code>—</code> in the UI (#172).</li>
 </ul>
 <h3 id="5-ci-and-developer-experience">5. CI and developer experience<a class="headerlink" href="#5-ci-and-developer-experience" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Lighthouse CI</strong> continuously measures Performance / Accessibility / Best-Practices on every PR (#136, #162).</li>
-<li><strong>E2E fixture drift check</strong> and <strong>OSS sample-forge drift check</strong> enforce that test fixtures and the bundled sample regenerate byte-identically — drift fails the PR (#161, #178).</li>
+<li><strong>E2E fixture drift check</strong> and <strong>OSS sample-alpha-forge drift check</strong> enforce that test fixtures and the bundled sample regenerate byte-identically — drift fails the PR (#161, #178).</li>
 <li>Major frontend dependencies bumped to React 19, react-router-dom 7, Storybook 10, Vite 8, etc.</li>
 </ul>
 <h2 id="upgrading">Upgrading<a class="headerlink" href="#upgrading" title="Permanent link">&para;</a></h2>
@@ -2249,10 +2249,10 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>uv<span class="w"> </span>add<span class="w"> </span>alpha-visualizer@latest<span class="w">         </span><span class="c1"># add to a project</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>alpha-visualizer<span class="w">        </span><span class="c1"># install as a CLI tool</span>
 </code></pre></div>
-<p>The easiest sanity check is <code>--use-bundled-samples</code>. To point at your own forge project, use the existing flag:</p>
+<p>The easiest sanity check is <code>--use-bundled-samples</code>. To point at your own alpha-forge project, use the existing flag:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>vis<span class="w"> </span>serve<span class="w"> </span>--forge-dir<span class="w"> </span>/path/to/your/alpha-strategies
 </code></pre></div>
-<p>No <code>forge.yaml</code> schema changes — existing forge projects continue to work unchanged.</p>
+<p>No <code>forge.yaml</code> schema changes — existing alpha-forge projects continue to work unchanged.</p>
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>PyPI</strong>: <a href="https://pypi.org/project/alpha-visualizer/0.2.0/">https://pypi.org/project/alpha-visualizer/0.2.0/</a></li>

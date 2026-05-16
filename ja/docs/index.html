@@ -2139,10 +2139,10 @@
 <p>本ドキュメントでは、インストールから戦略開発、AI コーディングエージェントとの連携までを順を追って解説します。</p>
 <h2 id="alphaforge-2">AlphaForge が他と違う 2 つの強み<a class="headerlink" href="#alphaforge-2" title="Permanent link">&para;</a></h2>
 <h3 id="1-json-pine-script-v6-tradingview">1. JSON 戦略 → ワンコマンドで Pine Script v6 → TradingView で実取引へ<a class="headerlink" href="#1-json-pine-script-v6-tradingview" title="Permanent link">&para;</a></h3>
-<p>戦略は JSON で定義し、<code>forge pine generate</code> で <strong>TradingView の Pine Script v6</strong> に自動変換します。Web UI 統合型プラットフォームのように特定のサーバや取引所アダプタに縛られず、ユーザーはすでに使い慣れた TradingView 上でアラート・自動売買・チャート可視化までシームレスに利用できます。</p>
+<p>戦略は JSON で定義し、<code>alpha-forge pine generate</code> で <strong>TradingView の Pine Script v6</strong> に自動変換します。Web UI 統合型プラットフォームのように特定のサーバや取引所アダプタに縛られず、ユーザーはすでに使い慣れた TradingView 上でアラート・自動売買・チャート可視化までシームレスに利用できます。</p>
 <p><img alt="JSON 戦略 → バックテスト + 最適化 → Pine Script v6 → TradingView の横フロー" loading="lazy" src="assets/illustrations/alphaforge-json-to-tradingview-ja.png" /></p>
 <h3 id="2-optuna-tpe">2. Optuna TPE + ウォークフォワード検証で「過学習しない」最適化<a class="headerlink" href="#2-optuna-tpe" title="Permanent link">&para;</a></h3>
-<p><code>forge optimize run</code> 一発で Optuna ベイズ最適化（TPE）を実行し、<code>--split</code> でウォークフォワード分析（WFT）を同時にかけて IS（学習期間）/ OOS（検証期間）の性能差を可視化します。Web UI 型プラットフォームに不足しがちな最適化と汎化性能検証を、CLI で素早く回せます。</p>
+<p><code>alpha-forge optimize run</code> 一発で Optuna ベイズ最適化（TPE）を実行し、<code>--split</code> でウォークフォワード分析（WFT）を同時にかけて IS（学習期間）/ OOS（検証期間）の性能差を可視化します。Web UI 型プラットフォームに不足しがちな最適化と汎化性能検証を、CLI で素早く回せます。</p>
 <p><img alt="パラメータ範囲 → Optuna TPE 最適化 → IS/OOS/WFT 差分 → 最適化済み戦略 の枝分かれフロー" loading="lazy" src="assets/illustrations/alphaforge-optuna-wft-flow-ja.png" /></p>
 <h2 id="_1">他のクオンツツールとの比較<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <table>
@@ -2211,7 +2211,7 @@
 <ul>
 <li><a href="getting-started/">はじめに</a> — Whop 登録不要のインストール、最初のバックテスト（Trial プランで 10 分体験まで）、有料プラン購入後の認証</li>
 <li><a href="usecases/">目的別ユースケース</a> — 自分の役割（TradingView ユーザー / Python 開発者 / クオンツ / 自動売買検討者 / AI エージェント利用者）から最適な次ページを選ぶ</li>
-<li><a href="cli-reference/">CLI リファレンス</a> — <code>forge</code> コマンドの全パラメータと出力例</li>
+<li><a href="cli-reference/">CLI リファレンス</a> — <code>alpha-forge</code> コマンドの全パラメータと出力例</li>
 <li><a href="templates/">戦略テンプレート</a> — HMM × BB × RSI などの組み合わせ戦略を実 JSON 付きで紹介</li>
 <li><a href="guides/ai-exploration-workflow/">AI 駆動の戦略探索ワークフロー</a> — Claude Code / Codex × AlphaForge による自律戦略開発の HOWTO</li>
 <li><a href="legal/disclaimers/">利用規約と免責事項</a> — 免責事項・EULA・プライバシーポリシー</li>
