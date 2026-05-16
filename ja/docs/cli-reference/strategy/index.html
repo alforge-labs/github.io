@@ -3302,7 +3302,7 @@
 <h2 id="forge-strategy-create">forge strategy create<a class="headerlink" href="#forge-strategy-create" title="Permanent link">&para;</a></h2>
 <p>組み込みテンプレートから戦略 JSON ファイルを作成します。<strong>戦略レジストリには登録されません</strong>。編集してから <a href="#forge-strategy-save"><code>forge strategy save</code></a> で登録する流れです。</p>
 <h3 id="_5">構文<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span>--out<span class="w"> </span>&lt;FILE&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span>--out<span class="w"> </span>&lt;FILE&gt;<span class="w"> </span><span class="o">[</span>--strategy-id<span class="w"> </span>&lt;ID&gt;<span class="o">]</span>
 </code></pre></div>
 <h3 id="_6">引数とオプション<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <table>
@@ -3327,8 +3327,29 @@
 <td>-</td>
 <td>出力先の JSON ファイルパス</td>
 </tr>
+<tr>
+<td><code>--strategy-id</code></td>
+<td>オプション</td>
+<td><code>--out</code> のファイル名（拡張子除く）から自動派生</td>
+<td>生成 JSON の <code>strategy_id</code> を明示指定する</td>
+</tr>
 </tbody>
 </table>
+<div class="admonition info">
+<p class="admonition-title">strategy_id の自動派生（v0.5.4+）</p>
+<p><code>--out my_usdjpy_v1.json</code> のように指定すると、生成 JSON の <code>strategy_id</code> は
+自動的に <code>my_usdjpy_v1</code> になります。これは v0.5.3 以前のように
+<code>strategy_id</code> がテンプレート名（例: <code>sma_crossover_v1</code>）のまま生成され、
+<code>forge strategy save</code> で<strong>ビルトインテンプレートと衝突するエラー</strong>を起こす
+問題（F-301）への対応です。</p>
+<ul>
+<li><strong>明示指定したい場合</strong>: <code>--strategy-id usdjpy_sma_v1</code> を渡す</li>
+<li><strong>ファイル名がテンプレート名と同じ場合</strong>（例: <code>--out sma_crossover_v1.json</code>）:
+  警告を出してテンプレート ID をそのまま残します（後方互換）。<code>save</code> 前に
+  手動編集が必要です。</li>
+<li><strong><code>--strategy-id ""</code>（空文字）</strong>: 終了コード 2 のエラーで停止します。</li>
+</ul>
+</div>
 <h3 id="_7">利用可能なテンプレート<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p><code>alpha-forge</code> に同梱されている組み込みテンプレート（<code>alpha-forge/src/alpha_forge/strategy/templates.py</code> の <code>_TEMPLATE_REGISTRY</code> 由来）:</p>
 <p>AlphaForge は「ユーザー自身が戦略を作って育てる」プロダクトコンセプトのため、配布バイナリには <strong>基本テンプレート 4 個 + レンジ代表 1 個 + 高度指標リファレンス 2 個 = 計 7 個のみ</strong> を同梱しています。v0.3.5 までに同梱されていた 27 個の特化系（KAMA + RSI トレーリング・FX 1h 派生・Connors / TSI / OU stat-arb 等）は v0.4.0 で削除し、<code>alpha-strategies/legacy_templates/</code> に社内アーカイブとして保存しています。</p>
