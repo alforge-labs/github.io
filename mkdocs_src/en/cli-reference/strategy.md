@@ -104,7 +104,29 @@ AlphaForge ships a curated set of templates so users can focus on building their
 
 ```text
 ✅ Created JSON file from template 'sma_crossover_v1': my_strategy.json
+
+📝 Before `alpha-forge strategy save`, edit at least:
+   - name              human-readable name (e.g. "USDJPY SMA cross v1")
+   - target_symbols    target symbols (e.g. ["USDJPY=X"])
+   - (if optimizing)   define optimizer_config.param_ranges
+
+   Next: alpha-forge strategy save my_strategy.json
+      →  alpha-forge backtest run <SYMBOL> --strategy my_strategy
 ```
+
+### Fields you must edit in the generated JSON (F-300)
+
+The JSON produced by built-in templates is **not directly ready to `alpha-forge strategy save`**. At minimum, edit:
+
+| Field | Template default | Why edit |
+|-------|-----------------|----------|
+| `name` | The template name | Used by `alpha-forge strategy list` for human identification |
+| `target_symbols` | `[]` (empty) | Leaving it empty causes a symbol-missing error in `backtest run` |
+| `optimizer_config.param_ranges` | `null` or minimal | Required if you want to optimize. With `null` the built-in default ranges are used (see [`alpha-forge optimize run`](optimize.md#alpha-forge-optimize-run)) |
+
+`strategy_id` is auto-derived from the `--out` filename and normally needs no editing.
+
+For a complete walkthrough see the *Strategy JSON Editing* section in [end-to-end-workflow](../guides/end-to-end-workflow.md).
 
 ### Common errors
 
