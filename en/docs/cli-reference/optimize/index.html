@@ -2111,10 +2111,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sample-output_6" class="md-nav__link">
+  <a href="#sample-output-with-strategy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sample output
+        Sample output (with --strategy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output-all-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample output (all strategies)
       
     </span>
   </a>
@@ -3068,10 +3079,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sample-output_6" class="md-nav__link">
+  <a href="#sample-output-with-strategy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sample output
+        Sample output (with --strategy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output-all-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample output (all strategies)
       
     </span>
   </a>
@@ -3342,25 +3364,64 @@
 </ul>
 <p><img alt="Pareto Front Multi-Objective Optimization Scatter Plot" src="../../assets/illustrations/optimize/optimize-pareto-front.png" /></p>
 <h3 id="sample-output-text">Sample output (text)<a class="headerlink" href="#sample-output-text" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>✅ Optimization complete
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Best score (sharpe_ratio): 1.32
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Best parameters: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>DB saved: run_id=opt_20260415_103021
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>✅ Optimization results saved: data/results/optimize_my_v1_20260415_103021.json
+<p>For strategies without an <code>optimizer_config</code>, the built-in default search ranges are displayed on stderr at startup (F-404):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Search params (built-in default ranges):
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  - sma_fast.length: [5, 25] step=5
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  - sma_slow.length: [20, 60] step=5
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  trials=200, metric=sharpe_ratio
 </code></pre></div>
+<p>When a strategy JSON defines <code>optimizer_config.param_ranges</code>, the header changes to <code>(from strategy JSON)</code>.</p>
+<p>Human-readable summary after optimization completes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>✅ Optimization complete
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Best score (sharpe_ratio): 1.32
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Best parameters: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>💾 Result file: data/results/optimize_my_v1_20260415_103021.json
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>   Next: forge optimize apply data/results/optimize_my_v1_20260415_103021.json --to-strategy my_v1_optimized
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>DB saved: run_id=opt_20260415_103021
+</code></pre></div>
+<p>With <code>--save</code>, the absolute path to the result JSON and the next step (<code>forge optimize apply ...</code>) are printed (F-401).</p>
 <p>With <code>--apply</code> (no prompt when <code>my_v1_optimized</code> does not yet exist):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>✅ Best parameters saved as &#39;my_v1_optimized&#39; (original &#39;my_v1&#39; unchanged)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>✅ Best parameters saved as &#39;my_v1_optimized&#39; (original &#39;my_v1&#39; unchanged)
 </code></pre></div>
 <p>If <code>my_v1_optimized</code> already exists, an overwrite confirmation appears:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>⚠️  &#39;my_v1_optimized&#39; already exists. Overwrite? [y/N]: y
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>✅ Best parameters saved as &#39;my_v1_optimized&#39; (original &#39;my_v1&#39; unchanged)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>⚠️  &#39;my_v1_optimized&#39; already exists. Overwrite? [y/N]: y
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>✅ Best parameters saved as &#39;my_v1_optimized&#39; (original &#39;my_v1&#39; unchanged)
 </code></pre></div>
 <h3 id="sample-output-json">Sample output (<code>--json</code>)<a class="headerlink" href="#sample-output-json" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.32</span><span class="p">,</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;best_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fast_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;slow_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.32</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;best_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fast_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;slow_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;freemium_limit_notices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">&quot;param_ranges_effective&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">&quot;sma_fast.length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">&quot;sma_slow.length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;step&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="nt">&quot;param_ranges_source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span><span class="nt">&quot;saved_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/abs/path/data/results/optimize_my_v1_20260415_103021.json&quot;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">}</span>
 </code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>param_ranges_effective</code></td>
+<td>Effective range dict actually searched (from strategy JSON or built-in default)</td>
+</tr>
+<tr>
+<td><code>param_ranges_source</code></td>
+<td><code>"strategy"</code> (from JSON) or <code>"default"</code> (built-in)</td>
+</tr>
+<tr>
+<td><code>saved_path</code></td>
+<td>Absolute path of the saved JSON when <code>--save</code> is used. Can be passed straight to <code>forge optimize apply</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="common-errors">Common errors<a class="headerlink" href="#common-errors" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -3397,7 +3458,7 @@
 <h2 id="alpha-forge-optimize-cross-symbol">alpha-forge optimize cross-symbol<a class="headerlink" href="#alpha-forge-optimize-cross-symbol" title="Permanent link">&para;</a></h2>
 <p>Optimize the same strategy across multiple symbols and find robust parameters via aggregation (mean / median / min).</p>
 <h3 id="synopsis_1">Synopsis<a class="headerlink" href="#synopsis_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>cross-symbol<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>cross-symbol<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_1">Arguments and options<a class="headerlink" href="#arguments-and-options_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -3449,14 +3510,14 @@
 </tbody>
 </table>
 <h3 id="sample-output">Sample output<a class="headerlink" href="#sample-output" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Running cross-symbol optimization: SPY, QQQ, IWM x sma_v1 (target=sharpe_ratio, agg=mean)
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>✅ Cross-symbol optimization complete
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Aggregate score (mean of sharpe_ratio): 1.20
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Best parameters: {&#39;fast_period&#39;: 15, &#39;slow_period&#39;: 60}
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Per-symbol scores:
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  - SPY: 1.32
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  - QQQ: 1.18
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  - IWM: 1.10
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Running cross-symbol optimization: SPY, QQQ, IWM x sma_v1 (target=sharpe_ratio, agg=mean)
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>✅ Cross-symbol optimization complete
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Aggregate score (mean of sharpe_ratio): 1.20
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Best parameters: {&#39;fast_period&#39;: 15, &#39;slow_period&#39;: 60}
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Per-symbol scores:
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  - SPY: 1.32
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  - QQQ: 1.18
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>  - IWM: 1.10
 </code></pre></div>
 <h3 id="common-errors_1">Common errors<a class="headerlink" href="#common-errors_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -3484,7 +3545,7 @@
 <h2 id="alpha-forge-optimize-portfolio">alpha-forge optimize portfolio<a class="headerlink" href="#alpha-forge-optimize-portfolio" title="Permanent link">&para;</a></h2>
 <p>Optimize the <strong>allocation weights</strong> for a single strategy applied to multiple symbols, using Optuna.</p>
 <h3 id="synopsis_2">Synopsis<a class="headerlink" href="#synopsis_2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>portfolio<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>portfolio<span class="w"> </span>&lt;SYM1&gt;<span class="w"> </span><span class="o">[</span>SYM2<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_2">Arguments and options<a class="headerlink" href="#arguments-and-options_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -3530,26 +3591,26 @@
 </tbody>
 </table>
 <h3 id="sample-output_1">Sample output<a class="headerlink" href="#sample-output_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Running portfolio weight optimization: AAPL, MSFT, GOOGL x tech_basket_v1 (target=sharpe_ratio)
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>✅ Weight optimization complete
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Best score (sharpe_ratio): 1.45
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Optimal weights:
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  - AAPL: 38.0%
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  - MSFT: 42.0%
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>  - GOOGL: 20.0%
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Running portfolio weight optimization: AAPL, MSFT, GOOGL x tech_basket_v1 (target=sharpe_ratio)
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>✅ Weight optimization complete
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Best score (sharpe_ratio): 1.45
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>Optimal weights:
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  - AAPL: 38.0%
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  - MSFT: 42.0%
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  - GOOGL: 20.0%
 </code></pre></div>
 <h3 id="sample-output-json_1">Sample output (<code>--json</code>)<a class="headerlink" href="#sample-output-json_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;best_weights&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;AAPL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.38</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;MSFT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.42</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;GOOGL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.20</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;portfolio_metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;cagr_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;sharpe_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_drawdown_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-18.0</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;best_weights&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;AAPL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.38</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;MSFT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.42</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;GOOGL&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.20</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">&quot;best_metric&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">&quot;portfolio_metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;cagr_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;sharpe_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.45</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max_drawdown_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-18.0</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">}</span>
 </code></pre></div>
 <hr />
 <h2 id="alpha-forge-optimize-multi-portfolio">alpha-forge optimize multi-portfolio<a class="headerlink" href="#alpha-forge-optimize-multi-portfolio" title="Permanent link">&para;</a></h2>
 <p>Assign a <strong>distinct strategy</strong> to each symbol and optimize the allocation weights with Optuna.</p>
 <h3 id="synopsis_3">Synopsis<a class="headerlink" href="#synopsis_3" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>multi-portfolio<span class="w"> </span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span><span class="o">[</span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span>...<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>multi-portfolio<span class="w"> </span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span><span class="o">[</span>&lt;SYMBOL:STRATEGY&gt;<span class="w"> </span>...<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_3">Arguments and options<a class="headerlink" href="#arguments-and-options_3" title="Permanent link">&para;</a></h3>
 <table>
@@ -3595,16 +3656,16 @@
 </tbody>
 </table>
 <h3 id="sample-output_2">Sample output<a class="headerlink" href="#sample-output_2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Running multi-portfolio weight optimization: GC=F, NVDA (target=cagr_pct, trials=200)
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>✅ Multi-portfolio optimization complete
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Best score (cagr_pct): 18.5234
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Optimal weights:
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>  - GC=F: 55.0%
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  - NVDA: 45.0%
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>Portfolio metrics:
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  CAGR:         18.52%
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>  Sharpe:       1.38
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  Max Drawdown: -22.10%
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Running multi-portfolio weight optimization: GC=F, NVDA (target=cagr_pct, trials=200)
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>✅ Multi-portfolio optimization complete
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>Best score (cagr_pct): 18.5234
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>Optimal weights:
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>  - GC=F: 55.0%
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>  - NVDA: 45.0%
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>Portfolio metrics:
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>  CAGR:         18.52%
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>  Sharpe:       1.38
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>  Max Drawdown: -22.10%
 </code></pre></div>
 <h3 id="common-errors_2">Common errors<a class="headerlink" href="#common-errors_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -3633,7 +3694,7 @@
 <p>Split the time series into <code>--windows</code> consecutive windows and repeat in-sample optimization → out-of-sample evaluation in each window to measure overfitting resistance.</p>
 <p><img alt="Walk-Forward Test Window Sliding Diagram" src="../../assets/illustrations/optimize/optimize-walk-forward-windows.png" /></p>
 <h3 id="synopsis_4">Synopsis<a class="headerlink" href="#synopsis_4" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>walk-forward<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_4">Arguments and options<a class="headerlink" href="#arguments-and-options_4" title="Permanent link">&para;</a></h3>
 <table>
@@ -3694,35 +3755,35 @@
 <li><strong>Inner bar</strong>: the current window's in-sample Optuna trial progress.</li>
 </ul>
 <p>As each window completes, its IS / OOS scores and OOS trade count are appended to the Scoreboard table, and the best window (highest OOS) is highlighted in green. Windows with zero OOS trades or NaN/±inf OOS scores are rendered as red <code>FAILED</code> rows and added to the <code>Failures</code> counter.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>╭─ AlphaForge Walk-Forward ─────────────────────────────────────────╮
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>│ Strategy: sma_v1  Symbol: SPY  Metric: sharpe_ratio (↑)            │
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>│ Windows: 5  In-sample: 70%                                         │
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>╰────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>Windows       ████████████████░░░░░░░░░░  3/5  60%  0:01:24 &lt; 0:00:55
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>  └ #4 IS trial ████████████░░░░░░░░░░░░ 12/30  40%  0:00:18 &lt; 0:00:32
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>╭─ Windows ─────────────────────────────────────────────────────────╮
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>│ Win  OOS start   IS         OOS         Trades                     │
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>│   1  2024-04-01  1.4231     0.8912      41                         │
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>│   2  2024-07-01  1.2104     1.0307✓     37                         │
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>│   3  2024-10-01  0.9834     -0.1521     28                         │
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>╰────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>Mean OOS: 0.5899   Best window: #2 (1.0307)   Failures: 0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>╭─ AlphaForge Walk-Forward ─────────────────────────────────────────╮
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>│ Strategy: sma_v1  Symbol: SPY  Metric: sharpe_ratio (↑)            │
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>│ Windows: 5  In-sample: 70%                                         │
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>╰────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>Windows       ████████████████░░░░░░░░░░  3/5  60%  0:01:24 &lt; 0:00:55
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>  └ #4 IS trial ████████████░░░░░░░░░░░░ 12/30  40%  0:00:18 &lt; 0:00:32
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>╭─ Windows ─────────────────────────────────────────────────────────╮
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>│ Win  OOS start   IS         OOS         Trades                     │
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>│   1  2024-04-01  1.4231     0.8912      41                         │
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>│   2  2024-07-01  1.2104     1.0307✓     37                         │
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>│   3  2024-10-01  0.9834     -0.1521     28                         │
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>╰────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>Mean OOS: 0.5899   Best window: #2 (1.0307)   Failures: 0
 </code></pre></div>
 <p>All progress bars and dashboards are rendered on <strong>stderr</strong>. Even with <code>--json</code>, the dashboard is shown when stderr is a TTY, while stdout stays as pure JSON. When stderr is not a TTY (CI, pipes, redirected files), the dashboard is automatically suppressed — useful when you want CI logs to stay quiet.</p>
 <h3 id="sample-output_3">Sample output<a class="headerlink" href="#sample-output_3" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Running walk-forward optimization: SPY x sma_v1 (5 windows)
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>✅ Walk-forward complete
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Window     IS Score  OOS Score  Best Params
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>-----------------------------------------------------------------
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>1            1.4523     1.1024  {&#39;fast&#39;: 10, &#39;slow&#39;: 50}
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>2            1.6210     0.8932  {&#39;fast&#39;: 12, &#39;slow&#39;: 55}
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>⚠️  Window 3 skipped: OOS trade count is 0 (statistically invalid)
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>4            1.3120     1.0521  {&#39;fast&#39;: 14, &#39;slow&#39;: 60}
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>5            1.5240     0.9810  {&#39;fast&#39;: 11, &#39;slow&#39;: 50}
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>Average OOS sharpe_ratio: 0.987 (4/5 valid windows)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Running walk-forward optimization: SPY x sma_v1 (5 windows)
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>✅ Walk-forward complete
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Window     IS Score  OOS Score  Best Params
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>-----------------------------------------------------------------
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>1            1.4523     1.1024  {&#39;fast&#39;: 10, &#39;slow&#39;: 50}
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>2            1.6210     0.8932  {&#39;fast&#39;: 12, &#39;slow&#39;: 55}
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>⚠️  Window 3 skipped: OOS trade count is 0 (statistically invalid)
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>4            1.3120     1.0521  {&#39;fast&#39;: 14, &#39;slow&#39;: 60}
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>5            1.5240     0.9810  {&#39;fast&#39;: 11, &#39;slow&#39;: 50}
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>Average OOS sharpe_ratio: 0.987 (4/5 valid windows)
 </code></pre></div>
 <p>When all windows are invalid:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>⚠️  No valid windows found (5 total). Adjust the data range or number of windows.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>⚠️  No valid windows found (5 total). Adjust the data range or number of windows.
 </code></pre></div>
 <h3 id="additional-fields-in-json-output">Additional fields in <code>--json</code> output<a class="headerlink" href="#additional-fields-in-json-output" title="Permanent link">&para;</a></h3>
 <p>In addition to per-window fields, the <code>--json</code> output includes summary fields describing IS validity.</p>
@@ -3788,7 +3849,7 @@
 <h2 id="alpha-forge-optimize-apply">alpha-forge optimize apply<a class="headerlink" href="#alpha-forge-optimize-apply" title="Permanent link">&para;</a></h2>
 <p>Read a result JSON saved by <code>alpha-forge optimize run</code> and apply <code>best_params</code> to the strategy, saving as <strong><code>&lt;id&gt;_optimized</code></strong>.</p>
 <h3 id="synopsis_5">Synopsis<a class="headerlink" href="#synopsis_5" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span>--to-strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--yes<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>apply<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span>--to-strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>--yes<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_5">Arguments and options<a class="headerlink" href="#arguments-and-options_5" title="Permanent link">&para;</a></h3>
 <table>
@@ -3822,18 +3883,18 @@
 </tbody>
 </table>
 <h3 id="sample-output_4">Sample output<a class="headerlink" href="#sample-output_4" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Strategy: my_v1
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Parameters to apply: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Apply these parameters to the strategy? [y/N]: y
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>✅ Optimization parameters applied: strategy_id=my_v1_optimized
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>Applied parameters: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Strategy: my_v1
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>Parameters to apply: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>Apply these parameters to the strategy? [y/N]: y
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>✅ Optimization parameters applied: strategy_id=my_v1_optimized
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>Applied parameters: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
 </code></pre></div>
 <p>The strategy ID gets an <code>_optimized</code> suffix and is saved as a new strategy. The original strategy is left untouched.</p>
 <hr />
 <h2 id="alpha-forge-optimize-sensitivity">alpha-forge optimize sensitivity<a class="headerlink" href="#alpha-forge-optimize-sensitivity" title="Permanent link">&para;</a></h2>
 <p>Sweep around an optimized parameter set and measure how much the metric changes with small perturbations. Useful for quantifying overfitting risk.</p>
 <h3 id="synopsis_6">Synopsis<a class="headerlink" href="#synopsis_6" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>sensitivity<span class="w"> </span>&lt;RESULT_FILE&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_6">Arguments and options<a class="headerlink" href="#arguments-and-options_6" title="Permanent link">&para;</a></h3>
 <table>
@@ -3897,16 +3958,16 @@
 </tbody>
 </table>
 <h3 id="sample-output_5">Sample output<a class="headerlink" href="#sample-output_5" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Running sensitivity analysis: my_v1 x SPY (metric=sharpe_ratio, steps=±3)
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>=== Sensitivity Analysis: my_v1 ===
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>Best score (sharpe_ratio): 1.4523
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>Overall robustness score: 78.45%
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>Parameter                  Best Val  Robustness  Score range
-<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>----------------------------------------------------------------------
-<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>fast_period                      12       82.1%  1.20 1.32 1.42 1.45 1.40 1.31 1.18
-<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>slow_period                      50       75.3%  1.05 1.21 1.38 1.45 1.39 1.18 0.97
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Running sensitivity analysis: my_v1 x SPY (metric=sharpe_ratio, steps=±3)
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>=== Sensitivity Analysis: my_v1 ===
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>Best score (sharpe_ratio): 1.4523
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>Overall robustness score: 78.45%
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>Parameter                  Best Val  Robustness  Score range
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>----------------------------------------------------------------------
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>fast_period                      12       82.1%  1.20 1.32 1.42 1.45 1.40 1.31 1.18
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>slow_period                      50       75.3%  1.05 1.21 1.38 1.45 1.39 1.18 0.97
 </code></pre></div>
 <h3 id="common-errors_3">Common errors<a class="headerlink" href="#common-errors_3" title="Permanent link">&para;</a></h3>
 <table>
@@ -3932,9 +3993,13 @@
 </table>
 <hr />
 <h2 id="alpha-forge-optimize-history">alpha-forge optimize history<a class="headerlink" href="#alpha-forge-optimize-history" title="Permanent link">&para;</a></h2>
-<p>List previously saved <code>optimize_&lt;strategy&gt;_*.json</code> and <code>optimize_cross_&lt;strategy&gt;_*.json</code> files for a given strategy.</p>
+<p>List previously saved <code>optimize_*.json</code> files in a scoreboard. When <code>--strategy</code> is omitted, the most recent <code>--limit</code> entries <strong>across all strategies</strong> are shown (F-402).</p>
 <h3 id="synopsis_7">Synopsis<a class="headerlink" href="#synopsis_7" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span><span class="nb">history</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># All strategies, most recent 20 (default)</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span><span class="nb">history</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Filter by strategy</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span><span class="nb">history</span><span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
 <table>
@@ -3949,9 +4014,15 @@
 <tbody>
 <tr>
 <td><code>--strategy</code></td>
-<td>required</td>
+<td>optional</td>
 <td>-</td>
-<td>Strategy name</td>
+<td>Strategy name (omit to show all strategies in mtime-desc order)</td>
+</tr>
+<tr>
+<td><code>--limit</code></td>
+<td>int</td>
+<td><code>20</code></td>
+<td>Max rows to display when <code>--strategy</code> is omitted</td>
 </tr>
 <tr>
 <td><code>--json</code></td>
@@ -3967,27 +4038,37 @@
 </tr>
 </tbody>
 </table>
-<h3 id="sample-output_6">Sample output<a class="headerlink" href="#sample-output_6" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>=== Optimization History: my_v1 (3 records) ===
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>Timestamp         Symbol       Metric          Score   Key Parameters
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>────────────────────────────────────────────────────────────────────────────────
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>20260415_103021   SPY          sharpe_ratio    1.4523  fast_period=12, slow_period=50
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>20260410_181522   SPY          sharpe_ratio    1.3210  fast_period=14, slow_period=55
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>20260401_092030   SPY          sharpe_ratio    1.1850  fast_period=10, slow_period=45
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>Best: sharpe_ratio=1.4523  (20260415_103021)
-<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>      Parameters: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+<h3 id="sample-output-with-strategy">Sample output (with <code>--strategy</code>)<a class="headerlink" href="#sample-output-with-strategy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>=== Optimization History: my_v1 (3 records) ===
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>Timestamp         Symbol       Metric          Score   Key Parameters
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>────────────────────────────────────────────────────────────────────────────────
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>20260415_103021   SPY          sharpe_ratio    1.4523  fast_period=12, slow_period=50
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>20260410_181522   SPY          sharpe_ratio    1.3210  fast_period=14, slow_period=55
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>20260401_092030   SPY          sharpe_ratio    1.1850  fast_period=10, slow_period=45
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>Best: sharpe_ratio=1.4523  (20260415_103021)
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>      Parameters: {&#39;fast_period&#39;: 12, &#39;slow_period&#39;: 50}
+</code></pre></div>
+<h3 id="sample-output-all-strategies">Sample output (all strategies)<a class="headerlink" href="#sample-output-all-strategies" title="Permanent link">&para;</a></h3>
+<p>Without <code>--strategy</code>, an extra <strong>Strategy</strong> column is added and the latest <code>--limit</code> entries are shown:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>=== Optimization History: all strategies (12 records) ===
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>Timestamp         Strategy                  Symbol       Metric          Score   Key Parameters
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>─────────────────────────────────────────────────────────────────────────────────────────────────
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>20260515_120030   usdjpy_sma_v1            USDJPY=X    sharpe_ratio    1.8721  fast=10, slow=40
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>20260514_181522   spy_rsi_v2               SPY         sharpe_ratio    1.5210  rsi_period=14
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>...
 </code></pre></div>
 <p>When no history files are found:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>No optimization history found: my_v1
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>  Search path: data/results/optimize_my_v1_*.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>No optimization history found: (all strategies)
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>  Search path: data/results/optimize_*.json
 </code></pre></div>
 <hr />
 <h2 id="alpha-forge-optimize-grid">alpha-forge optimize grid<a class="headerlink" href="#alpha-forge-optimize-grid" title="Permanent link">&para;</a></h2>
 <p>Run an exhaustive Cartesian Grid Search over all parameter combinations defined in <code>optimizer_config.param_ranges</code>. Skips Optuna sampling and evaluates the full grid, then displays / saves the Top-K rows.</p>
 <h3 id="synopsis_8">Synopsis<a class="headerlink" href="#synopsis_8" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>grid<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>alpha-forge<span class="w"> </span>optimize<span class="w"> </span>grid<span class="w"> </span>&lt;SYMBOL&gt;<span class="w"> </span>--strategy<span class="w"> </span>&lt;ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_7">Arguments and options<a class="headerlink" href="#arguments-and-options_7" title="Permanent link">&para;</a></h3>
 <table>
@@ -4111,28 +4192,28 @@
 <li><strong>Footer</strong>: total number of failed trials (<code>Failures: N</code>)</li>
 </ul>
 <p>The dashboard is rendered on <strong>stderr</strong>. With <code>--json</code>, the dashboard still appears when stderr is a TTY while stdout receives only the pure Top-K JSON (for CI/pipeline use). When stderr is not a TTY (CI, pipes, redirected files), the dashboard is automatically suppressed. When trials fail mid-run, the run continues; the Current row is repainted in red while the Failures counter advances.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>╰──────────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>╭───────────────────────────── Scoreboard ─────────────────────────────╮
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>│            Trial #   Score        Parameters                         │
-<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>│ Current        234   1.4537       fast_period=14  slow_period=55     │
-<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
-<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>╰──────────────────────────────────────────────────────────────────────╯
-<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>Failures: 0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>╭───────────────────────── AlphaForge Grid Search ─────────────────────────╮
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>│ Strategy: my_v1  Symbol: SPY  Metric: sharpe_ratio (↑)  Trials: 1500  Chunk: 100 │
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>╰──────────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>Grid Search 実行中...  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  234/1500 (15%)  0:00:42  0:04:33
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>╭───────────────────────────── Scoreboard ─────────────────────────────╮
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>│            Trial #   Score        Parameters                         │
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>│ Current        234   1.4537       fast_period=14  slow_period=55     │
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>│ BEST ★         198   1.6072       fast_period=12  slow_period=50     │
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>╰──────────────────────────────────────────────────────────────────────╯
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>Failures: 0
 </code></pre></div>
 <h3 id="sample-output-top-k-table-after-completion">Sample output (Top-K table after completion)<a class="headerlink" href="#sample-output-top-k-table-after-completion" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>... (Rich dashboard streaming) ...
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
-<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>-----------------------------------------------------------------------
-<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>         12           50           1.45              -16.8         18
-<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>         14           55           1.41              -17.2         16
-<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>         ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Grid size: 1500 trials (chunk_size=100, max_memory_mb=None)
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>Grid size 12000 exceeds --max-trials 10000. Continue? [y/N]: y
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>... (Rich dashboard streaming) ...
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>=== Grid Search Top-20: my_v1 / SPY (metric=sharpe_ratio) ===
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>fast_period  slow_period   sharpe_ratio   max_drawdown_pct   n_trades
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>-----------------------------------------------------------------------
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>         12           50           1.45              -16.8         18
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>         14           55           1.41              -17.2         16
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>         ...
 </code></pre></div>
 <h3 id="common-errors_4">Common errors<a class="headerlink" href="#common-errors_4" title="Permanent link">&para;</a></h3>
 <table>

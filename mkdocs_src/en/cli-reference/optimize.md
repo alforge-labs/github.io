@@ -62,13 +62,29 @@ A live dashboard is shown in your terminal during optimization. Single-objective
 
 ### Sample output (text)
 
+For strategies without an `optimizer_config`, the built-in default search ranges are displayed on stderr at startup (F-404):
+
+```text
+Search params (built-in default ranges):
+  - sma_fast.length: [5, 25] step=5
+  - sma_slow.length: [20, 60] step=5
+  trials=200, metric=sharpe_ratio
+```
+
+When a strategy JSON defines `optimizer_config.param_ranges`, the header changes to `(from strategy JSON)`.
+
+Human-readable summary after optimization completes:
+
 ```text
 ✅ Optimization complete
 Best score (sharpe_ratio): 1.32
 Best parameters: {'fast_period': 12, 'slow_period': 50}
+💾 Result file: data/results/optimize_my_v1_20260415_103021.json
+   Next: forge optimize apply data/results/optimize_my_v1_20260415_103021.json --to-strategy my_v1_optimized
 DB saved: run_id=opt_20260415_103021
-✅ Optimization results saved: data/results/optimize_my_v1_20260415_103021.json
 ```
+
+With `--save`, the absolute path to the result JSON and the next step (`forge optimize apply ...`) are printed (F-401).
 
 With `--apply` (no prompt when `my_v1_optimized` does not yet exist):
 
@@ -88,9 +104,22 @@ If `my_v1_optimized` already exists, an overwrite confirmation appears:
 ```json
 {
   "best_metric": 1.32,
-  "best_params": { "fast_period": 12, "slow_period": 50 }
+  "best_params": { "fast_period": 12, "slow_period": 50 },
+  "freemium_limit_notices": [],
+  "param_ranges_effective": {
+    "sma_fast.length": { "min": 5, "max": 25, "step": 5 },
+    "sma_slow.length": { "min": 20, "max": 60, "step": 5 }
+  },
+  "param_ranges_source": "default",
+  "saved_path": "/abs/path/data/results/optimize_my_v1_20260415_103021.json"
 }
 ```
+
+| Field | Meaning |
+|-------|---------|
+| `param_ranges_effective` | Effective range dict actually searched (from strategy JSON or built-in default) |
+| `param_ranges_source` | `"strategy"` (from JSON) or `"default"` (built-in) |
+| `saved_path` | Absolute path of the saved JSON when `--save` is used. Can be passed straight to `forge optimize apply` |
 
 ### Common errors
 
@@ -414,11 +443,15 @@ slow_period                      50       75.3%  1.05 1.21 1.38 1.45 1.39 1.18 0
 
 ## alpha-forge optimize history
 
-List previously saved `optimize_<strategy>_*.json` and `optimize_cross_<strategy>_*.json` files for a given strategy.
+List previously saved `optimize_*.json` files in a scoreboard. When `--strategy` is omitted, the most recent `--limit` entries **across all strategies** are shown (F-402).
 
 ### Synopsis
 
 ```bash
+# All strategies, most recent 20 (default)
+alpha-forge optimize history
+
+# Filter by strategy
 alpha-forge optimize history --strategy <ID> [OPTIONS]
 ```
 
@@ -426,11 +459,12 @@ alpha-forge optimize history --strategy <ID> [OPTIONS]
 
 | Name | Kind | Default | Description |
 |------|------|---------|-------------|
-| `--strategy` | required | - | Strategy name |
+| `--strategy` | optional | - | Strategy name (omit to show all strategies in mtime-desc order) |
+| `--limit` | int | `20` | Max rows to display when `--strategy` is omitted |
 | `--json` | flag | false | Output results as JSON |
 | `--sort` | choice | `score` | Sort order (`score` / `date`) |
 
-### Sample output
+### Sample output (with `--strategy`)
 
 ```text
 === Optimization History: my_v1 (3 records) ===
@@ -445,11 +479,25 @@ Best: sharpe_ratio=1.4523  (20260415_103021)
       Parameters: {'fast_period': 12, 'slow_period': 50}
 ```
 
+### Sample output (all strategies)
+
+Without `--strategy`, an extra **Strategy** column is added and the latest `--limit` entries are shown:
+
+```text
+=== Optimization History: all strategies (12 records) ===
+
+Timestamp         Strategy                  Symbol       Metric          Score   Key Parameters
+─────────────────────────────────────────────────────────────────────────────────────────────────
+20260515_120030   usdjpy_sma_v1            USDJPY=X    sharpe_ratio    1.8721  fast=10, slow=40
+20260514_181522   spy_rsi_v2               SPY         sharpe_ratio    1.5210  rsi_period=14
+...
+```
+
 When no history files are found:
 
 ```text
-No optimization history found: my_v1
-  Search path: data/results/optimize_my_v1_*.json
+No optimization history found: (all strategies)
+  Search path: data/results/optimize_*.json
 ```
 
 ---
