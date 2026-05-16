@@ -60,7 +60,7 @@ Create a strategy JSON file from a built-in template. **Does not register the st
 ### Synopsis
 
 ```bash
-forge strategy create --template <NAME> --out <FILE>
+forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
 ```
 
 ### Arguments and options
@@ -69,6 +69,19 @@ forge strategy create --template <NAME> --out <FILE>
 |------|------|---------|-------------|
 | `--template` | required | - | Built-in template name to use as base |
 | `--out` | required | - | Output JSON file path |
+| `--strategy-id` | optional | auto-derived from `--out` basename (without extension) | Override `strategy_id` in the generated JSON |
+
+!!! info "Auto-derived `strategy_id` (v0.5.4+)"
+    With `--out my_usdjpy_v1.json`, the generated JSON's `strategy_id` is
+    automatically set to `my_usdjpy_v1`. This addresses F-301: before v0.5.4,
+    `strategy_id` was left as the template name (e.g., `sma_crossover_v1`),
+    which collided with the built-in template on `forge strategy save`.
+
+    - **Explicit override**: pass `--strategy-id usdjpy_sma_v1`
+    - **Filename equals template name** (e.g., `--out sma_crossover_v1.json`):
+      a warning is printed and the template ID is preserved as-is for backward
+      compatibility. Manual edit is required before `save`.
+    - **`--strategy-id ""` (empty)**: exits with code 2.
 
 ### Available templates
 

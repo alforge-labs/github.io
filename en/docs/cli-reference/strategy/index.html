@@ -3302,7 +3302,7 @@
 <h2 id="forge-strategy-create">forge strategy create<a class="headerlink" href="#forge-strategy-create" title="Permanent link">&para;</a></h2>
 <p>Create a strategy JSON file from a built-in template. <strong>Does not register the strategy</strong> — edit the file and then call <a href="#forge-strategy-save"><code>forge strategy save</code></a>.</p>
 <h3 id="synopsis_1">Synopsis<a class="headerlink" href="#synopsis_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span>--out<span class="w"> </span>&lt;FILE&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>forge<span class="w"> </span>strategy<span class="w"> </span>create<span class="w"> </span>--template<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span>--out<span class="w"> </span>&lt;FILE&gt;<span class="w"> </span><span class="o">[</span>--strategy-id<span class="w"> </span>&lt;ID&gt;<span class="o">]</span>
 </code></pre></div>
 <h3 id="arguments-and-options_1">Arguments and options<a class="headerlink" href="#arguments-and-options_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -3327,8 +3327,28 @@
 <td>-</td>
 <td>Output JSON file path</td>
 </tr>
+<tr>
+<td><code>--strategy-id</code></td>
+<td>optional</td>
+<td>auto-derived from <code>--out</code> basename (without extension)</td>
+<td>Override <code>strategy_id</code> in the generated JSON</td>
+</tr>
 </tbody>
 </table>
+<div class="admonition info">
+<p class="admonition-title">Auto-derived <code>strategy_id</code> (v0.5.4+)</p>
+<p>With <code>--out my_usdjpy_v1.json</code>, the generated JSON's <code>strategy_id</code> is
+automatically set to <code>my_usdjpy_v1</code>. This addresses F-301: before v0.5.4,
+<code>strategy_id</code> was left as the template name (e.g., <code>sma_crossover_v1</code>),
+which collided with the built-in template on <code>forge strategy save</code>.</p>
+<ul>
+<li><strong>Explicit override</strong>: pass <code>--strategy-id usdjpy_sma_v1</code></li>
+<li><strong>Filename equals template name</strong> (e.g., <code>--out sma_crossover_v1.json</code>):
+  a warning is printed and the template ID is preserved as-is for backward
+  compatibility. Manual edit is required before <code>save</code>.</li>
+<li><strong><code>--strategy-id ""</code> (empty)</strong>: exits with code 2.</li>
+</ul>
+</div>
 <h3 id="available-templates">Available templates<a class="headerlink" href="#available-templates" title="Permanent link">&para;</a></h3>
 <p>Built-in templates from <code>alpha-forge/src/alpha_forge/strategy/templates.py</code> (<code>_TEMPLATE_REGISTRY</code>):</p>
 <p>AlphaForge ships a curated set of templates so users can focus on building their own strategies. The distributed binary includes <strong>4 basic templates + 1 range strategy + 2 advanced-indicator references = 7 templates total</strong>. The 27 specialized templates that shipped through v0.3.5 (KAMA + RSI trailing variants, FX 1h ports, Connors / TSI / OU stat-arb, etc.) were removed in v0.4.0 and archived under <code>alpha-strategies/legacy_templates/</code> for internal reference.</p>

@@ -60,7 +60,7 @@ gc_hmm_macd_ema_v1                       GC HMM × MACD × EMA v1         1.0.0 
 ### 構文
 
 ```bash
-forge strategy create --template <NAME> --out <FILE>
+forge strategy create --template <NAME> --out <FILE> [--strategy-id <ID>]
 ```
 
 ### 引数とオプション
@@ -69,6 +69,20 @@ forge strategy create --template <NAME> --out <FILE>
 |------|------|----------|------|
 | `--template` | 必須 | - | ベースとするテンプレート名 |
 | `--out` | 必須 | - | 出力先の JSON ファイルパス |
+| `--strategy-id` | オプション | `--out` のファイル名（拡張子除く）から自動派生 | 生成 JSON の `strategy_id` を明示指定する |
+
+!!! info "strategy_id の自動派生（v0.5.4+）"
+    `--out my_usdjpy_v1.json` のように指定すると、生成 JSON の `strategy_id` は
+    自動的に `my_usdjpy_v1` になります。これは v0.5.3 以前のように
+    `strategy_id` がテンプレート名（例: `sma_crossover_v1`）のまま生成され、
+    `forge strategy save` で**ビルトインテンプレートと衝突するエラー**を起こす
+    問題（F-301）への対応です。
+
+    - **明示指定したい場合**: `--strategy-id usdjpy_sma_v1` を渡す
+    - **ファイル名がテンプレート名と同じ場合**（例: `--out sma_crossover_v1.json`）:
+      警告を出してテンプレート ID をそのまま残します（後方互換）。`save` 前に
+      手動編集が必要です。
+    - **`--strategy-id ""`（空文字）**: 終了コード 2 のエラーで停止します。
 
 ### 利用可能なテンプレート
 
