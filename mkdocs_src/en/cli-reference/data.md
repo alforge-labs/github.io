@@ -335,6 +335,114 @@ Provider-specific symbol notation is documented in `alpha-forge/src/alpha_forge/
 
 ---
 
+## alpha-forge data tv-mcp
+
+Drive a TradingView MCP server for chart snapshots and ad-hoc tool calls (issue #523).
+
+## alpha-forge data tv-mcp chart
+
+Capture a TradingView chart snapshot as a PNG (Phase 1.5d).
+
+```bash
+alpha-forge data tv-mcp chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
+```
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `SYMBOL` | argument (required) | - | TV symbol |
+| `--interval` | option | `D` | Timeframe (`1`, `5`, `60`, `D`, `W`, `M`) |
+| `--width` / `--height` | int | from `forge.yaml` (`tv_mcp.chart_snapshot`) | Image dimensions |
+| `--theme` | choice | from `forge.yaml` | `light` / `dark` |
+| `--output` | file | - | PNG output path. When omitted, only the cache path is printed |
+| `--mcp-server` | option | - | MCP server (defaults to `tv_mcp.chart_snapshot.endpoint`) |
+| `--mock` | flag | false | Mock MCP (CI) |
+| `--no-cache` | flag | false | Bypass cache |
+| `--md-output` | file | - | Append a Markdown image link (requires `--output`) |
+| `--md-alt` | option | - | Markdown image alt text (default: `SYMBOL Interval`) |
+
+Example:
+
+```bash
+alpha-forge data tv-mcp chart SPY --interval D --output charts/spy_d.png \
+  --mcp-server "python /opt/tv-mcp-chart/server.py"
+```
+
+## alpha-forge data tv-mcp inspect
+
+Invoke any MCP tool and print the JSON response (Phase 1.5c-α). Handy for poking at a new MCP server or discovering the available tools.
+
+```bash
+alpha-forge data tv-mcp inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
+```
+
+| Name | Kind | Default | Description |
+|------|------|---------|-------------|
+| `TOOL_NAME` | argument (required) | - | MCP tool name |
+| `--server-type` | choice | `pine` | Endpoint default selector (`pine` = `tv_mcp.pine_verify`, `chart` = `tv_mcp.chart_snapshot`) |
+| `--mcp-server` | option | - | Server command override |
+| `--mock` | flag | false | Static mock response (CI) |
+| `--arg` | repeatable | - | Tool arg `key=value` (value is JSON-parsed when possible) |
+| `--args-json` | option | - | Tool args as a JSON object (mutually exclusive with `--arg`) |
+| `--output` | file | - | JSON output destination |
+| `--pretty` / `--compact` | flag | `--pretty` | Indented vs single-line JSON |
+
+Examples:
+
+```bash
+# Tool listing (depends on the server implementation)
+alpha-forge data tv-mcp inspect list_tools --server-type pine \
+  --mcp-server "node /opt/tv-mcp/server.js"
+
+# Try data_get_ohlcv
+alpha-forge data tv-mcp inspect data_get_ohlcv \
+  --arg symbol=SPY --arg interval=D --arg bars=10
+```
+
+---
+
+## alpha-forge data alt
+
+Fetch and manage alternative data (sentiment, macro indicators, etc.). Stored under `config.data.alt_storage_path` and referenceable from strategy JSON via the `ALTDATA` indicator type.
+
+## alpha-forge data alt fetch
+
+```bash
+alpha-forge data alt fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
+```
+
+| Name | Kind | Description |
+|------|------|-------------|
+| `SOURCE_KEY` | argument (required) | Provider-specific data source key |
+| `--start` | required | Fetch start date |
+| `--end` | required | Fetch end date |
+
+Output: `✅ <SOURCE_KEY>: saved <N> rows`. Unregistered providers raise `ClickException`.
+
+## alpha-forge data alt list
+
+```bash
+alpha-forge data alt list
+```
+
+Sample output:
+
+```text
+Stored alternative data count: 2
+SOURCE_KEY                INTERVAL   ROWS         START           END
+fear_greed_index          1d          1525   2020-01-01   2025-12-31
+vix_termstructure         1d          1530   2020-01-01   2025-12-31
+```
+
+## alpha-forge data alt info
+
+```bash
+alpha-forge data alt info <SOURCE_KEY>
+```
+
+Shows source key, interval, row count, start / end dates, columns, file path, and file size. If data is missing, raises `ClickException`.
+
+---
+
 ## Common behavior
 
 - **Storage format**: Parquet (`config.data.storage_path / <SYMBOL>_<interval>.parquet`)

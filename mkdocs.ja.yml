@@ -86,13 +86,21 @@ nav:
           - v0.2.0 (2026-05-11): alpha-visualizer/release-0.2.0.md
   - CLI リファレンス:
       - 概要: cli-reference/index.md
-      - backtest: cli-reference/backtest.md
-      - optimize: cli-reference/optimize.md
-      - strategy: cli-reference/strategy.md
-      - data: cli-reference/data.md
-      - journal: cli-reference/journal.md
-      - live: cli-reference/live.md
-      - その他コマンド: cli-reference/other.md
+      - コアコマンド:
+          - strategy: cli-reference/strategy.md
+          - backtest: cli-reference/backtest.md
+          - optimize: cli-reference/optimize.md
+          - explore: cli-reference/explore.md
+          - live: cli-reference/live.md
+          - pine: cli-reference/pine.md
+          - journal: cli-reference/journal.md
+          - idea: cli-reference/idea.md
+          - data: cli-reference/data.md
+      - 補助コマンド:
+          - analyze: cli-reference/analyze.md
+          - system: cli-reference/system.md
+      - メタコマンド:
+          - self: cli-reference/self.md
   - 利用規約と免責:
       - 信頼・安全・制限: legal/trust-safety-limits.md
       - 免責事項: legal/disclaimers.md

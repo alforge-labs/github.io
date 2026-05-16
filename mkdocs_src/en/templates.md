@@ -19,7 +19,7 @@ These go one step beyond the built-in `hmm_bb_pipeline_v1` (HMM example) and `do
 
 ## Strategy JSON basics
 
-Every strategy follows the same Pydantic schema. Indicator details are available via [`alpha-forge analyze indicator list`](cli-reference/other.md#analyze-indicator).
+Every strategy follows the same Pydantic schema. Indicator details are available via [`alpha-forge analyze indicator list`](cli-reference/analyze.md#alpha-forge-analyze-indicator-list).
 
 ```text
 {

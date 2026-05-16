@@ -642,7 +642,7 @@ Trigger conditions and behavior:
   - mid-range (10% < rate < 50%) → conservatively treated as `escalation: true` / `"scaffold_degradation"`
 - Fewer than 5 trials in the DB (shallow history) → observe-only, never blocks
 
-When `escalation: true` fires the command exits with code `1`, and the skill stops the loop and surfaces `recommended_actions` to the human operator. With `warning: true` (agent_selection_bias) the command still exits `0`; the skill prints `recommended_actions` and the agent is expected to **pick a different indicator combo** in the next iteration (the `recent_selections` diversity guard then auto-resolves the warning). `escalation_type` tells you whether to investigate scaffold (alpha-forge) or adjust agent behavior (alpha-forge issues #436 / #467). See the [`alpha-forge explore health` reference](../cli-reference/other.md#alpha-forge-explore-health) for full details.
+When `escalation: true` fires the command exits with code `1`, and the skill stops the loop and surfaces `recommended_actions` to the human operator. With `warning: true` (agent_selection_bias) the command still exits `0`; the skill prints `recommended_actions` and the agent is expected to **pick a different indicator combo** in the next iteration (the `recent_selections` diversity guard then auto-resolves the warning). `escalation_type` tells you whether to investigate scaffold (alpha-forge) or adjust agent behavior (alpha-forge issues #436 / #467). See the [`alpha-forge explore health` reference](../cli-reference/explore.md#alpha-forge-explore-health) for full details.
 
 ---
 

@@ -335,6 +335,114 @@ data:
 
 ---
 
+## alpha-forge data tv-mcp
+
+TradingView MCP server を介したチャート取得・任意ツール呼び出しを行うコマンドグループ（issue #523）。
+
+## alpha-forge data tv-mcp chart
+
+TradingView チャートのスナップショット PNG を取得します（Phase 1.5d）。
+
+```bash
+alpha-forge data tv-mcp chart <SYMBOL> [--interval D] [--width W] [--height H] [--theme light|dark] [--output <PNG>] [--mcp-server <CMD>]
+```
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `SYMBOL` | 引数（必須） | - | TV シンボル |
+| `--interval` | オプション | `D` | タイムフレーム（`1`, `5`, `60`, `D`, `W`, `M`） |
+| `--width` / `--height` | int | `forge.yaml` の `tv_mcp.chart_snapshot` | 画像サイズ |
+| `--theme` | choice | `forge.yaml` 既定 | `light` / `dark` |
+| `--output` | ファイル | - | 出力 PNG パス。省略時はキャッシュパスのみ表示 |
+| `--mcp-server` | オプション | - | MCP サーバー（省略時 `tv_mcp.chart_snapshot.endpoint`） |
+| `--mock` | フラグ | false | Mock MCP（CI 用） |
+| `--no-cache` | フラグ | false | キャッシュを無視 |
+| `--md-output` | ファイル | - | Markdown ファイルに画像リンクを追記（`--output` 必須） |
+| `--md-alt` | オプション | - | Markdown 画像 alt（既定: `SYMBOL Interval`） |
+
+実行例：
+
+```bash
+alpha-forge data tv-mcp chart SPY --interval D --output charts/spy_d.png \
+  --mcp-server "python /opt/tv-mcp-chart/server.py"
+```
+
+## alpha-forge data tv-mcp inspect
+
+任意の MCP tool を呼び出して JSON でレスポンスを表示します（Phase 1.5c-α）。新しい MCP server の挙動確認や、サポートされているツール一覧の探索に使います。
+
+```bash
+alpha-forge data tv-mcp inspect <TOOL_NAME> [--server-type pine|chart] [--mcp-server <CMD>] [--arg key=value ...] [--args-json '{...}'] [--output <JSON>] [--pretty|--compact]
+```
+
+| 名前 | 種別 | デフォルト | 説明 |
+|------|------|----------|------|
+| `TOOL_NAME` | 引数（必須） | - | 呼び出す MCP tool 名 |
+| `--server-type` | choice | `pine` | endpoint 既定値の選択（`pine` = `tv_mcp.pine_verify`、`chart` = `tv_mcp.chart_snapshot`） |
+| `--mcp-server` | オプション | - | 直接サーバーコマンドを指定 |
+| `--mock` | フラグ | false | 固定 Mock レスポンス（CI 用） |
+| `--arg` | 複数指定可 | - | tool 引数 `key=value`（値は JSON として解釈試行） |
+| `--args-json` | オプション | - | tool 引数を JSON オブジェクトで指定（`--arg` と排他） |
+| `--output` | ファイル | - | JSON 出力先 |
+| `--pretty` / `--compact` | フラグ | `--pretty` | 整形 / 1 行 JSON |
+
+実行例：
+
+```bash
+# tool 一覧（実装に依存）
+alpha-forge data tv-mcp inspect list_tools --server-type pine \
+  --mcp-server "node /opt/tv-mcp/server.js"
+
+# data_get_ohlcv を試す
+alpha-forge data tv-mcp inspect data_get_ohlcv \
+  --arg symbol=SPY --arg interval=D --arg bars=10
+```
+
+---
+
+## alpha-forge data alt
+
+代替データ（センチメント、マクロ指標等）の取得・管理。`config.data.alt_storage_path` 配下に保存され、戦略 JSON では `ALTDATA` 指標タイプで参照できます。
+
+## alpha-forge data alt fetch
+
+```bash
+alpha-forge data alt fetch <SOURCE_KEY> --start <YYYY-MM-DD> --end <YYYY-MM-DD>
+```
+
+| 名前 | 種別 | 説明 |
+|------|------|------|
+| `SOURCE_KEY` | 引数（必須） | データソースキー（プロバイダー固有） |
+| `--start` | 必須 | 取得開始日 |
+| `--end` | 必須 | 取得終了日 |
+
+出力: `✅ <SOURCE_KEY>: <N>行を保存しました`。プロバイダー未登録時は `ClickException`。
+
+## alpha-forge data alt list
+
+```bash
+alpha-forge data alt list
+```
+
+サンプル出力：
+
+```text
+保存済み代替データ件数: 2
+SOURCE_KEY                INTERVAL   ROWS         START           END
+fear_greed_index          1d          1525   2020-01-01   2025-12-31
+vix_termstructure         1d          1530   2020-01-01   2025-12-31
+```
+
+## alpha-forge data alt info
+
+```bash
+alpha-forge data alt info <SOURCE_KEY>
+```
+
+ソースキー、時間足、行数、開始日・終了日、カラム、ファイルパス、ファイルサイズを表示。データ未取得時は `ClickException`。
+
+---
+
 ## 共通の挙動
 
 - **保存形式**: Parquet（`config.data.storage_path / <SYMBOL>_<interval>.parquet`）

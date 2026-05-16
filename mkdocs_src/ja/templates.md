@@ -19,7 +19,7 @@ AlphaForge は **「ユーザー自身が戦略を作って育てる」開発・
 
 ## 戦略 JSON の基本構造
 
-すべての戦略は同じ Pydantic スキーマに従います。詳細は [`alpha-forge analyze indicator list`](cli-reference/other.md#analyze-indicator) で確認できます。
+すべての戦略は同じ Pydantic スキーマに従います。詳細は [`alpha-forge analyze indicator list`](cli-reference/analyze.md#alpha-forge-analyze-indicator-list) で確認できます。
 
 ```text
 {
