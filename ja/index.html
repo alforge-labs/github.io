@@ -666,8 +666,8 @@
       color: var(--text3); max-width: 1040px;
     }
 
-    /* ── FREE BANNER ── */
-    .free-banner {
+    /* ── TRIAL BANNER ── */
+    .trial-banner {
       margin-top: 2rem;
       border: 1px dashed rgba(0,228,154,0.35);
       border-radius: var(--r);
@@ -675,37 +675,37 @@
       padding: 1.1rem 1.4rem;
       display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
     }
-    .free-banner-icon { font-size: 1.5rem; flex-shrink: 0; }
-    .free-banner-body { flex: 1; min-width: 200px; }
-    .free-banner-title {
+    .trial-banner-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .trial-banner-body { flex: 1; min-width: 200px; }
+    .trial-banner-title {
       font-size: 0.95rem; font-weight: 600;
       display: flex; align-items: center; gap: 0.5rem;
     }
-    .free-badge {
+    .trial-badge {
       font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em;
       text-transform: uppercase;
       background: rgba(0,228,154,0.12); color: var(--accent);
       border: 1px solid rgba(0,228,154,0.25); border-radius: 4px; padding: 1px 6px;
     }
-    .free-banner-desc {
+    .trial-banner-desc {
       margin-top: 0.3rem; color: var(--text2);
       font-size: 0.82rem; line-height: 1.5;
     }
-    .free-banner-pills {
+    .trial-banner-pills {
       margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem;
     }
-    .free-pill {
+    .trial-pill {
       font-size: 0.68rem; padding: 2px 8px; border-radius: 20px;
       border: 1px solid var(--border); color: var(--text2);
     }
-    .free-pill-ok    { border-color: rgba(0,228,154,0.3); color: var(--accent); }
-    .free-pill-limit { border-color: rgba(245,166,35,0.3); color: var(--amber); }
-    .free-pill-no    { border-color: rgba(255,255,255,0.1); color: var(--text3); text-decoration: line-through; }
-    .free-banner-cta { flex-shrink: 0; min-width: 140px; text-align: center; }
-    .free-banner-cta .btn-secondary {
+    .trial-pill-ok    { border-color: rgba(0,228,154,0.3); color: var(--accent); }
+    .trial-pill-limit { border-color: rgba(245,166,35,0.3); color: var(--amber); }
+    .trial-pill-no    { border-color: rgba(255,255,255,0.1); color: var(--text3); text-decoration: line-through; }
+    .trial-banner-cta { flex-shrink: 0; min-width: 140px; text-align: center; }
+    .trial-banner-cta .btn-secondary {
       width: 100%; justify-content: center;
     }
-    .free-banner-status {
+    .trial-banner-status {
       margin-top: 0.35rem;
       color: var(--text3);
       font-family: var(--mono);
@@ -729,11 +729,11 @@
     }
     .comparison-table thead tr { border-bottom: 1px solid var(--border); }
     .comparison-th-feature { padding: 0.5rem 0.75rem; text-align: left; font-weight: 600; font-size: 0.78rem; width: 48%; }
-    .comparison-th-free    { padding: 0.5rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.78rem; width: 22%; color: var(--text2); }
-    .comparison-th-paid    { padding: 0.5rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.78rem; width: 30%; color: var(--accent); }
+    .comparison-th-trial    { padding: 0.5rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.78rem; width: 22%; color: var(--text2); }
+    .comparison-th-lifetime    { padding: 0.5rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.78rem; width: 30%; color: var(--accent); }
     .comparison-td-feature { padding: 0.5rem 0.75rem; color: var(--text2); border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .comparison-td-free    { padding: 0.5rem 0.75rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .comparison-td-paid    { padding: 0.5rem 0.75rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .comparison-td-trial    { padding: 0.5rem 0.75rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .comparison-td-lifetime    { padding: 0.5rem 0.75rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .comparison-table tbody tr:last-child td { border-bottom: none; }
     .comparison-table tbody tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
     .cmp-ok    { color: var(--accent); }
@@ -1052,9 +1052,9 @@
         text-align: center;
       }
       .trial-start-link { width: fit-content; }
-      .free-banner { flex-direction: column; align-items: flex-start; }
-      .free-banner-cta { width: 100%; }
-      .free-banner-cta .btn-secondary { width: 100%; }
+      .trial-banner { flex-direction: column; align-items: flex-start; }
+      .trial-banner-cta { width: 100%; }
+      .trial-banner-cta .btn-secondary { width: 100%; }
       .nav-page-link { padding: 0 0.55rem; }
       .lang-btn { padding: 0 0.55rem; }
       .follow-btn-nav {
