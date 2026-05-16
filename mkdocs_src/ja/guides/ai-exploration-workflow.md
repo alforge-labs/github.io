@@ -3,7 +3,41 @@
 Claude Code・Codex などの AI コーディングエージェントを「頭脳」として AlphaForge と組み合わせると、戦略の **着想 → 実装 → バックテスト → 最適化 → 検証 → 運用調整** を自律的に進められます。
 
 !!! info "前提"
-    本ページのコマンド例とフローは `alpha-trade` モノレポ（`alpha-forge` + `alpha-strategies` の組み合わせ）における運用パターンです。**バイナリ版** ユーザーは `op run --env-file=...` などの内部コマンドを `forge` に読み替えてください。
+    本ページのコマンド例とフローは `alpha-trade` モノレポ（`alpha-forge` + `alpha-strategies` の組み合わせ）における運用パターンです。**バイナリ版** ユーザーは下の「バイナリ版ユーザー向け最短セットアップ」を先に実施してください。
+
+## バイナリ版ユーザー向け最短セットアップ {#binary-user-setup}
+
+[インストールガイド](../getting-started.md) でバイナリ版を入れたユーザーが、本ページの `/explore-strategies` を **追加コマンド 3 つ** で動かせる手順です。
+
+```bash
+# 1. 任意の作業ディレクトリを作って AlphaForge を初期化
+mkdir my-strategies && cd my-strategies
+alpha-forge system init
+
+# 2. 以降のコマンドが作業ディレクトリの forge.yaml を参照するよう環境変数を設定
+#    （~/.zshrc や ~/.bashrc に追加してシェル再起動でも OK）
+export FORGE_CONFIG=$(pwd)/forge.yaml
+
+# 3. Claude Code（または Codex）でこのディレクトリを開く
+claude .       # Claude Code
+codex .        # Codex CLI
+```
+
+`alpha-forge system init` を実行すると以下が生成されます（v0.5.4 以降）：
+
+| パス | 役割 |
+|------|------|
+| `forge.yaml` | 設定ファイル（データプロバイダ・出力先など） |
+| `data/strategies/`, `data/results/`, `data/historical/` 等 | 戦略・結果・データ保存先 |
+| `data/explorer/goals/default/goals.yaml` | **AI 探索のデフォルトゴール定義（必須）** |
+| `data/explorer/goals/default/reports/` | `/explore-strategies` の日次レポート保存先 |
+| `.claude/commands/{explore-strategies,analyze-exploration,grid-tune,tune-live-strategies,update-market-data}.md` | Claude Code 用スラッシュコマンド |
+| `.agents/skills/.../SKILL.md` | Codex 用スキル |
+| `docs/{quick-start,user-guide}.{ja,en}.md` | バイナリ同梱ドキュメント |
+
+`goals/default/goals.yaml` を編集して、対象銘柄（`exploration.assets`）や合格基準（`target_metrics`）を自分の戦略開発方針に合わせて調整してください。複数のゴール（例: `goals/crypto/goals.yaml`、`goals/fx/goals.yaml`）を追加すれば、`/explore-strategies --goal <name>` で切り替えながら並列に探索できます。
+
+その後は本ページの「全体フロー」セクション以降と Step 1〜4 をそのまま実行できます。モノレポ前提で書かれている `uv --directory alpha-forge run forge` や `op run --env-file=...` は、バイナリ版では単に `alpha-forge`（または PATH を通した `forge`）に読み替えて構いません。
 
 ## なぜ AI エージェント × AlphaForge か
 
@@ -156,7 +190,7 @@ codex exec \
 
 ---
 
-## 全体フロー
+## 全体フロー {#overall-flow}
 
 ```
 準備: /update-market-data でデータを最新化
